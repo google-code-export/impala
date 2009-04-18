@@ -39,40 +39,40 @@ import org.springframework.web.context.support.ServletContextResource;
  */
 public class ServletContextModuleLocationResolver implements ModuleLocationResolver, ServletContextAware, InitializingBean {
 
-	private String applicationVersion;
+    private String applicationVersion;
 
-	private String relativeModuleRootLocation = "/WEB-INF/modules";
+    private String relativeModuleRootLocation = "/WEB-INF/modules";
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(relativeModuleRootLocation);
-	}
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(relativeModuleRootLocation);
+    }
 
-	public Resource getRootDirectory() {
-		return new ServletContextResource(servletContext, relativeModuleRootLocation);
-	}
-	
-	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		String applicationVersionString = StringUtils.hasText(applicationVersion) ? "-" + applicationVersion : "";
-		String fullResourceName = relativeModuleRootLocation + "/" + moduleName + applicationVersionString + ".jar";
-		Resource servletContextResource = new ServletContextResource(servletContext, fullResourceName);
-		return Collections.singletonList(servletContextResource);
-	}
+    public Resource getRootDirectory() {
+        return new ServletContextResource(servletContext, relativeModuleRootLocation);
+    }
+    
+    public List<Resource> getApplicationModuleClassLocations(String moduleName) {
+        String applicationVersionString = StringUtils.hasText(applicationVersion) ? "-" + applicationVersion : "";
+        String fullResourceName = relativeModuleRootLocation + "/" + moduleName + applicationVersionString + ".jar";
+        Resource servletContextResource = new ServletContextResource(servletContext, fullResourceName);
+        return Collections.singletonList(servletContextResource);
+    }
 
-	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		throw new UnsupportedOperationException();
-	}
+    public List<Resource> getModuleTestClassLocations(String moduleName) {
+        throw new UnsupportedOperationException();
+    }
 
-	public void setApplicationVersion(String applicationVersion) {
-		this.applicationVersion = applicationVersion;
-	}
+    public void setApplicationVersion(String applicationVersion) {
+        this.applicationVersion = applicationVersion;
+    }
 
-	public void setRelativeModuleRootLocation(String relativeModuleRootLocation) {
-		this.relativeModuleRootLocation = relativeModuleRootLocation;
-	}
+    public void setRelativeModuleRootLocation(String relativeModuleRootLocation) {
+        this.relativeModuleRootLocation = relativeModuleRootLocation;
+    }
 
-	public void setServletContext(ServletContext servletContext) {
-		this.servletContext = servletContext;
-	}
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
 }

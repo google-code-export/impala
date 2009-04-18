@@ -17,7 +17,7 @@ package org.impalaframework.interactive.testrun;
 import junit.framework.TestCase;
 
 public class BaseTest extends TestCase {
-	public void superMethod() {
-		System.out.println("Done in super again method");
-	}
+    public void superMethod() {
+        System.out.println("Done in super again method");
+    }
 }

@@ -19,10 +19,10 @@ import org.impalaframework.interactive.InteractiveTestRunner;
 import junit.framework.TestCase;
 
 public class ManualInteractiveTestRunnerTest extends TestCase {
-	
-	public final void testExecute() {
-		new InteractiveTestRunner().start(Test1.class);
-	}
+    
+    public final void testExecute() {
+        new InteractiveTestRunner().start(Test1.class);
+    }
 
-	
+    
 }

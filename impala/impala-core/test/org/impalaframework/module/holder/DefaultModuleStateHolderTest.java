@@ -18,36 +18,36 @@ import junit.framework.TestCase;
 
 public class DefaultModuleStateHolderTest extends TestCase {
 
-	public void testLock() throws Exception {
-		final DefaultModuleStateHolder holder = new DefaultModuleStateHolder();
-		
-		holder.lock();
-		assertTrue(holder.isAvailable());
-		
-		//call a second time
-		holder.lock();
-		assertTrue(holder.isAvailable());
-		
-		checkAvailability(holder, false);
-		holder.unlock();
-		holder.unlock();
-		
-		checkAvailability(holder, true);
-		assertTrue(holder.isAvailable());
-	}
+    public void testLock() throws Exception {
+        final DefaultModuleStateHolder holder = new DefaultModuleStateHolder();
+        
+        holder.lock();
+        assertTrue(holder.isAvailable());
+        
+        //call a second time
+        holder.lock();
+        assertTrue(holder.isAvailable());
+        
+        checkAvailability(holder, false);
+        holder.unlock();
+        holder.unlock();
+        
+        checkAvailability(holder, true);
+        assertTrue(holder.isAvailable());
+    }
 
-	private void checkAvailability(final DefaultModuleStateHolder holder, final boolean expectToBeAvailable) throws InterruptedException {
-		Runnable r = new Runnable() {
-			public void run() {
-				if (expectToBeAvailable) assertTrue(holder.isAvailable());
-				else assertFalse(holder.isAvailable());
-				System.out.println("Proved available: " + expectToBeAvailable);
-			}
-		};
-		
-		final Thread thread = new Thread(r);
-		thread.start();
-		thread.join();
-	}
-	
+    private void checkAvailability(final DefaultModuleStateHolder holder, final boolean expectToBeAvailable) throws InterruptedException {
+        Runnable r = new Runnable() {
+            public void run() {
+                if (expectToBeAvailable) assertTrue(holder.isAvailable());
+                else assertFalse(holder.isAvailable());
+                System.out.println("Proved available: " + expectToBeAvailable);
+            }
+        };
+        
+        final Thread thread = new Thread(r);
+        thread.start();
+        thread.join();
+    }
+    
 }

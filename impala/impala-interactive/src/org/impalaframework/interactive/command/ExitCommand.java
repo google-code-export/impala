@@ -22,21 +22,21 @@ import org.impalaframework.facade.Impala;
 
 public class ExitCommand implements Command {
 
-	public boolean execute(CommandState commandState) {
+    public boolean execute(CommandState commandState) {
 
-		System.out.println("Exiting application");
-		
-		try {
-			Impala.unloadRootModule();
-		}
-		catch (RuntimeException e) {
-		}		
-		
-		throw new TerminatedApplicationException();
-	}
+        System.out.println("Exiting application");
+        
+        try {
+            Impala.unloadRootModule();
+        }
+        catch (RuntimeException e) {
+        }       
+        
+        throw new TerminatedApplicationException();
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Shuts down modules and exits application");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Shuts down modules and exits application");
+    }
 
 }

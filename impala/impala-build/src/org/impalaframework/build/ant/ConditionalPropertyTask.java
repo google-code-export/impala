@@ -25,42 +25,42 @@ import org.apache.tools.ant.taskdefs.Sequential;
  * @author Phil Zoio
  */
 public abstract class ConditionalPropertyTask extends Sequential implements TaskContainer {
-	
-	private String property;
-	private String equals;
-
-	protected abstract boolean shouldExecute(boolean isTrue);
     
-	@Override
-	public void execute() throws BuildException {
-		if (property == null) {
-			throw new BuildException("Property 'property' has not been specified.", getLocation());
-		}
-		
-		boolean isTrue = false;
-		
-		final String propertyValue = getProject().getProperty(property);
-		if (equals == null) {
-			isTrue = (propertyValue != null);
-		} else {
-			isTrue = (equals.equals(propertyValue));
-		}
-		
-		boolean execute = shouldExecute(isTrue);
-		
-		if (execute) {
-			super.execute();
-		}
-	}
+    private String property;
+    private String equals;
+
+    protected abstract boolean shouldExecute(boolean isTrue);
+    
+    @Override
+    public void execute() throws BuildException {
+        if (property == null) {
+            throw new BuildException("Property 'property' has not been specified.", getLocation());
+        }
+        
+        boolean isTrue = false;
+        
+        final String propertyValue = getProject().getProperty(property);
+        if (equals == null) {
+            isTrue = (propertyValue != null);
+        } else {
+            isTrue = (equals.equals(propertyValue));
+        }
+        
+        boolean execute = shouldExecute(isTrue);
+        
+        if (execute) {
+            super.execute();
+        }
+    }
     
     /* ******************** injected properties ********************* */
 
-	public void setProperty(String property) {
-		this.property = property;
-	}
+    public void setProperty(String property) {
+        this.property = property;
+    }
 
-	public void setEquals(String equals) {
-		this.equals = equals;
-	}
+    public void setEquals(String equals) {
+        this.equals = equals;
+    }
 
 }

@@ -26,42 +26,42 @@ import org.springframework.core.io.ClassPathResource;
  * @author Phil Zoio
  */
 public class PropertyUtilsTest extends TestCase {
-	
-	private ClassPathResource resource;
+    
+    private ClassPathResource resource;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resource = new ClassPathResource("reload/reloadable.properties");
-	}
-	
-	public void testResourceLoadProperties() throws Exception {
-		Properties props = PropertyUtils.loadProperties(resource);
-		assertNotNull(props.getProperty("property1"));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resource = new ClassPathResource("reload/reloadable.properties");
+    }
+    
+    public void testResourceLoadProperties() throws Exception {
+        Properties props = PropertyUtils.loadProperties(resource);
+        assertNotNull(props.getProperty("property1"));
+    }
 
-	public void testResourceLoadDuffProperties() throws Exception {
-		try {
-			ClassPathResource resource = new ClassPathResource("propertiesthatdontexist");
-			PropertyUtils.loadProperties(resource);
-		}
-		catch (ExecutionException e) {
-			assertEquals("Unable to load properties file class path resource [propertiesthatdontexist]", e.getMessage());
-		}
-	}
-	
-	public void testURLLoadProperties() throws Exception {
-		Properties props = PropertyUtils.loadProperties(resource.getURL());
-		assertNotNull(props.getProperty("property1"));
-	}
+    public void testResourceLoadDuffProperties() throws Exception {
+        try {
+            ClassPathResource resource = new ClassPathResource("propertiesthatdontexist");
+            PropertyUtils.loadProperties(resource);
+        }
+        catch (ExecutionException e) {
+            assertEquals("Unable to load properties file class path resource [propertiesthatdontexist]", e.getMessage());
+        }
+    }
+    
+    public void testURLLoadProperties() throws Exception {
+        Properties props = PropertyUtils.loadProperties(resource.getURL());
+        assertNotNull(props.getProperty("property1"));
+    }
 
-	public void notestURLLoadDuffProperties() throws Exception {
-		try {
-			URL resource = new URL("http://dontexist.com");
-			PropertyUtils.loadProperties(resource);
-		}
-		catch (ExecutionException e) {
-			assertEquals("Unable to load properties file http://dontexist.com", e.getMessage());
-		}
-	}
+    public void notestURLLoadDuffProperties() throws Exception {
+        try {
+            URL resource = new URL("http://dontexist.com");
+            PropertyUtils.loadProperties(resource);
+        }
+        catch (ExecutionException e) {
+            assertEquals("Unable to load properties file http://dontexist.com", e.getMessage());
+        }
+    }
 }

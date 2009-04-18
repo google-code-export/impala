@@ -27,50 +27,50 @@ import org.impalaframework.module.spi.TransitionProcessor;
 
 public class LoadTransitionProcessor implements TransitionProcessor {
 
-	private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
+    private static final Log logger = LogFactory.getLog(LoadTransitionProcessor.class);
 
-	private ModuleRuntimeManager moduleRuntimeManager;
+    private ModuleRuntimeManager moduleRuntimeManager;
 
-	public LoadTransitionProcessor() {
-		super();
-	}
+    public LoadTransitionProcessor() {
+        super();
+    }
 
-	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
 
-		final String definitionName = currentDefinition.getName();
-		logger.info("Loading definition " + definitionName);
-		
-		if (ModuleState.DEPENDENCY_FAILED.equals(currentDefinition.getState()))
-		{
-			logger.info("Not loading module '" + definitionName + "' as one or more of its dependencies failed to load.");
-			return false;
-		}
+        final String definitionName = currentDefinition.getName();
+        logger.info("Loading definition " + definitionName);
+        
+        if (ModuleState.DEPENDENCY_FAILED.equals(currentDefinition.getState()))
+        {
+            logger.info("Not loading module '" + definitionName + "' as one or more of its dependencies failed to load.");
+            return false;
+        }
 
-		boolean success = moduleRuntimeManager.initModule(currentDefinition);
-		
-		if (!success) {
+        boolean success = moduleRuntimeManager.initModule(currentDefinition);
+        
+        if (!success) {
 
-			currentDefinition.setState(ModuleState.ERROR);
-			
-			final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
-			
-				for (ModuleDefinition moduleDefinition : dependents) {				if (logger.isDebugEnabled()) {
-					logger.debug("Marking '" + moduleDefinition.getName() + "' to state " + ModuleState.DEPENDENCY_FAILED);
-				}
-				moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
-			}
-		} else {
-			currentDefinition.setState(ModuleState.LOADED);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
-		}
-		return success;
-	}
+            currentDefinition.setState(ModuleState.ERROR);
+            
+            final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
+            
+                for (ModuleDefinition moduleDefinition : dependents) {              if (logger.isDebugEnabled()) {
+                    logger.debug("Marking '" + moduleDefinition.getName() + "' to state " + ModuleState.DEPENDENCY_FAILED);
+                }
+                moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
+            }
+        } else {
+            currentDefinition.setState(ModuleState.LOADED);
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
+        }
+        return success;
+    }
 
-	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
-		this.moduleRuntimeManager = moduleRuntimeManager;
-	}
+    public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+        this.moduleRuntimeManager = moduleRuntimeManager;
+    }
 
 }

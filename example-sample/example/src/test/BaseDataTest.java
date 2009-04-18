@@ -26,19 +26,19 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 public abstract class BaseDataTest extends BaseIntegrationTest implements ModuleDefinitionSource {
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		final DataSource dataSource = Impala.getBean("dataSource", DataSource.class);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        final DataSource dataSource = Impala.getBean("dataSource", DataSource.class);
 
-		try {
-		new TransactionTemplate(Impala.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
+        try {
+        new TransactionTemplate(Impala.getBean("transactionManager", PlatformTransactionManager.class)).execute(new TransactionCallback() {
 
-			public Object doInTransaction(TransactionStatus status) {
-				new JdbcTemplate(dataSource).execute("delete from example_entry");
-				return status;
-			}
-		}); } catch (Exception e) {}
-	}
+            public Object doInTransaction(TransactionStatus status) {
+                new JdbcTemplate(dataSource).execute("delete from example_entry");
+                return status;
+            }
+        }); } catch (Exception e) {}
+    }
 }

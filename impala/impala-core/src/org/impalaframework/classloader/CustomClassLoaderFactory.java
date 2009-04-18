@@ -29,45 +29,45 @@ import org.apache.commons.logging.LogFactory;
  * @author Phil Zoio
  */
 public class CustomClassLoaderFactory extends BaseModuleClassLoaderFactory {
-	
-	private static final Log logger = LogFactory.getLog(CustomClassLoaderFactory.class);
-	
-	private boolean parentClassLoaderFirst;
+    
+    private static final Log logger = LogFactory.getLog(CustomClassLoaderFactory.class);
+    
+    private boolean parentClassLoaderFirst;
 
-	public ClassLoader newClassLoader(ClassLoader parent, File[] files) {
-		ClassLoader classLoader = null;
-		if (parentClassLoaderFirst) { 
-			classLoader =  new ParentClassLoader(parent, files);
-		}
-		else {
-			classLoader = new ModuleClassLoader(parent, files);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Returning class loader " + classLoader + " for files " + Arrays.asList(files));
-		}
-		
-		return classLoader;
-	}
+    public ClassLoader newClassLoader(ClassLoader parent, File[] files) {
+        ClassLoader classLoader = null;
+        if (parentClassLoaderFirst) { 
+            classLoader =  new ParentClassLoader(parent, files);
+        }
+        else {
+            classLoader = new ModuleClassLoader(parent, files);
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning class loader " + classLoader + " for files " + Arrays.asList(files));
+        }
+        
+        return classLoader;
+    }
 
-	public ClassLoader newClassLoader(ClassLoader parent, URL[] urls) {
-		ClassLoader classLoader = null;
-		if (parentClassLoaderFirst) { 
-			classLoader =  new ParentClassLoader(parent, urls);
-		}
-		else {
-			classLoader = new ModuleClassLoader(parent, urls);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Returning class loader " + classLoader + " for urls " + Arrays.asList(urls));
-		}
-		
-		return classLoader;
-	}
+    public ClassLoader newClassLoader(ClassLoader parent, URL[] urls) {
+        ClassLoader classLoader = null;
+        if (parentClassLoaderFirst) { 
+            classLoader =  new ParentClassLoader(parent, urls);
+        }
+        else {
+            classLoader = new ModuleClassLoader(parent, urls);
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning class loader " + classLoader + " for urls " + Arrays.asList(urls));
+        }
+        
+        return classLoader;
+    }
 
-	public void setParentClassLoaderFirst(boolean loadParentFirst) {
-		this.parentClassLoaderFirst = loadParentFirst;
-	}
+    public void setParentClassLoaderFirst(boolean loadParentFirst) {
+        this.parentClassLoaderFirst = loadParentFirst;
+    }
 
 }

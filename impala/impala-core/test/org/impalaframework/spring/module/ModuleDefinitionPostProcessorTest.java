@@ -23,27 +23,27 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 
 public class ModuleDefinitionPostProcessorTest extends TestCase {
 
-	public final void testPostProcessBeforeInitialization() {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
-		ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(rootDefinition);
-		TestSpecAware testAware = new TestSpecAware();
-		postProcessor.postProcessBeforeInitialization(testAware, null);
-		assertSame(rootDefinition, testAware.getModuleDefinition());
-		
-		assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
-	}
+    public final void testPostProcessBeforeInitialization() {
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
+        ModuleDefinitionPostProcessor postProcessor = new ModuleDefinitionPostProcessor(rootDefinition);
+        TestSpecAware testAware = new TestSpecAware();
+        postProcessor.postProcessBeforeInitialization(testAware, null);
+        assertSame(rootDefinition, testAware.getModuleDefinition());
+        
+        assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
+    }
 }
 
 class TestSpecAware implements ModuleDefinitionAware {
 
-	private ModuleDefinition moduleDefinition;
+    private ModuleDefinition moduleDefinition;
 
-	public ModuleDefinition getModuleDefinition() {
-		return moduleDefinition;
-	}
+    public ModuleDefinition getModuleDefinition() {
+        return moduleDefinition;
+    }
 
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefinition = moduleDefinition;
-	}
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefinition = moduleDefinition;
+    }
 
 }

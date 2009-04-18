@@ -24,27 +24,27 @@ import org.impalaframework.interactive.command.LoadDefinitionFromClassCommand;
 
 public class LoadDefinitionCommandTest extends TestCase {
 
-	private LoadDefinitionFromClassCommand command;
+    private LoadDefinitionFromClassCommand command;
 
-	private CommandState commandState;
+    private CommandState commandState;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Impala.clear();
-		GlobalCommandState.getInstance().reset();
-		command = new LoadDefinitionFromClassCommand();
-		commandState = new CommandState();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Impala.clear();
+        GlobalCommandState.getInstance().reset();
+        command = new LoadDefinitionFromClassCommand();
+        commandState = new CommandState();
+    }
 
-	public void testClassNotSet() {
-		assertFalse(command.execute(commandState));
-	}
-	
-	public void testClassIsSet() {
-		GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, Test1.class);
-		assertTrue(command.execute(commandState));
-		assertNotNull(GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS_NAME));
-	}
+    public void testClassNotSet() {
+        assertFalse(command.execute(commandState));
+    }
+    
+    public void testClassIsSet() {
+        GlobalCommandState.getInstance().addValue(CommandStateConstants.TEST_CLASS, Test1.class);
+        assertTrue(command.execute(commandState));
+        assertNotNull(GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_CLASS_NAME));
+    }
 
 }

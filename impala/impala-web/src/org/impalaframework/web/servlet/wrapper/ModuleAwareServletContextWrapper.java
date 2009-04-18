@@ -27,22 +27,22 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
-	
-	private boolean enablePartitionedServletContext;
+    
+    private boolean enablePartitionedServletContext;
 
-	public ServletContext wrapServletContext(ServletContext servletContext,
-			ModuleDefinition moduleDefinition, 
-			ClassLoader classLoader) {
-		
-		if (enablePartitionedServletContext) {
-			Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-			return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
-		}
-		return servletContext;
-	}
+    public ServletContext wrapServletContext(ServletContext servletContext,
+            ModuleDefinition moduleDefinition, 
+            ClassLoader classLoader) {
+        
+        if (enablePartitionedServletContext) {
+            Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
+            return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
+        }
+        return servletContext;
+    }
 
-	public void setEnablePartitionedServletContext(boolean enablePartitionedServletContext) {
-		this.enablePartitionedServletContext = enablePartitionedServletContext;
-	}
+    public void setEnablePartitionedServletContext(boolean enablePartitionedServletContext) {
+        this.enablePartitionedServletContext = enablePartitionedServletContext;
+    }
 
 }

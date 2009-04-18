@@ -18,8 +18,8 @@ import org.impalaframework.service.ServiceRegistryReference;
 
 public class ServiceAddedEvent extends BaseServiceRegistryEvent {
 
-	public ServiceAddedEvent(ServiceRegistryReference serviceReference) {
-		super(serviceReference);
-	}
+    public ServiceAddedEvent(ServiceRegistryReference serviceReference) {
+        super(serviceReference);
+    }
 
 }

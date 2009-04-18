@@ -31,63 +31,63 @@ import junit.framework.TestCase;
 
 public class FilterFactoryBeanTest extends TestCase {
 
-	private HttpServletRequest request;
-	private ServletContext context;
-	private FilterFactoryBean factoryBean;
+    private HttpServletRequest request;
+    private ServletContext context;
+    private FilterFactoryBean factoryBean;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		request = createMock(HttpServletRequest.class);
-		context = createMock(ServletContext.class);
-		factoryBean = new FilterFactoryBean();
-		factoryBean.setInitParameters(null);
-		factoryBean.setFilterName("myfilter");
-		factoryBean.setFilterClass(TestFilter.class);
-		factoryBean.setServletContext(context);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        request = createMock(HttpServletRequest.class);
+        context = createMock(ServletContext.class);
+        factoryBean = new FilterFactoryBean();
+        factoryBean.setInitParameters(null);
+        factoryBean.setFilterName("myfilter");
+        factoryBean.setFilterClass(TestFilter.class);
+        factoryBean.setServletContext(context);
+    }
 
-	public void testGetObject() throws Exception {
+    public void testGetObject() throws Exception {
 
-		assertTrue(factoryBean.isSingleton());
-		assertEquals(Filter.class, factoryBean.getObjectType());
-		
-		factoryBean.afterPropertiesSet();
+        assertTrue(factoryBean.isSingleton());
+        assertEquals(Filter.class, factoryBean.getObjectType());
+        
+        factoryBean.afterPropertiesSet();
 
-		final TestFilter testFilter = (TestFilter) factoryBean.getObject();
-		assertTrue(testFilter.isInitialized());
-		
-		testFilter.doFilter(request, null, null);
-		
-		factoryBean.destroy();
-		assertTrue(testFilter.isDestroyed());
-	}
+        final TestFilter testFilter = (TestFilter) factoryBean.getObject();
+        assertTrue(testFilter.isInitialized());
+        
+        testFilter.doFilter(request, null, null);
+        
+        factoryBean.destroy();
+        assertTrue(testFilter.isDestroyed());
+    }
 
 }
 
 class TestFilter implements Filter {
 
-	private boolean initialized = false;
-	private boolean destroyed = false;
+    private boolean initialized = false;
+    private boolean destroyed = false;
 
-	public void destroy() {
-		destroyed = true;
-	}
+    public void destroy() {
+        destroyed = true;
+    }
 
-	public void doFilter(ServletRequest request, ServletResponse response,
-			FilterChain chain) throws IOException, ServletException {
-	}
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+    }
 
-	public void init(FilterConfig config) throws ServletException {
-		initialized = true;
-	}
+    public void init(FilterConfig config) throws ServletException {
+        initialized = true;
+    }
 
-	boolean isInitialized() {
-		return initialized;
-	}
+    boolean isInitialized() {
+        return initialized;
+    }
 
-	boolean isDestroyed() {
-		return destroyed;
-	}
+    boolean isDestroyed() {
+        return destroyed;
+    }
 
 }

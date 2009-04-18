@@ -22,10 +22,10 @@ package org.impalaframework.exception;
  */
 public class CallStackException extends java.lang.RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public CallStackException() {
-		super("Not an error. Exception generated purely to demonstrate call stack");
-	}
+    public CallStackException() {
+        super("Not an error. Exception generated purely to demonstrate call stack");
+    }
 
 }

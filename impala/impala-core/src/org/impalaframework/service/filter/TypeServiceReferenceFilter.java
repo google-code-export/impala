@@ -23,41 +23,41 @@ import org.impalaframework.service.ServiceRegistryReference;
 
 public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
 
-	private Collection<Class<?>> types;
-	private boolean matchAny;
-	
-	public boolean matches(ServiceRegistryReference reference) {
-		Object bean = reference.getBean();
-		
-		if (types == null || types.isEmpty()) {
-			return false;
-		}
-		
-		for (Class<?> type : types) {	
-			if (type.isAssignableFrom(bean.getClass())) {
-				if (matchAny)
-					return true;
-			} else {
-				if (!matchAny) {
-					return false;
-				}
-			}
-		}
-		return true;
-	}
+    private Collection<Class<?>> types;
+    private boolean matchAny;
+    
+    public boolean matches(ServiceRegistryReference reference) {
+        Object bean = reference.getBean();
+        
+        if (types == null || types.isEmpty()) {
+            return false;
+        }
+        
+        for (Class<?> type : types) {   
+            if (type.isAssignableFrom(bean.getClass())) {
+                if (matchAny)
+                    return true;
+            } else {
+                if (!matchAny) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 
-	public void setType(Class<?> type) {
-		List<Class<?>> list = new LinkedList<Class<?>>();
-		list.add(type);
-		this.types = list;
-	}
+    public void setType(Class<?> type) {
+        List<Class<?>> list = new LinkedList<Class<?>>();
+        list.add(type);
+        this.types = list;
+    }
 
-	public void setTypes(Collection<Class<?>> types) {
-		this.types = types;
-	}
+    public void setTypes(Collection<Class<?>> types) {
+        this.types = types;
+    }
 
-	public void setMatchAny(boolean matchAny) {
-		this.matchAny = matchAny;
-	}
+    public void setMatchAny(boolean matchAny) {
+        this.matchAny = matchAny;
+    }
 
 }

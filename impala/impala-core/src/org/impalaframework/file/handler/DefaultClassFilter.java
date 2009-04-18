@@ -23,21 +23,21 @@ import org.impalaframework.file.RootPathAwareFileFilter;
  */
 public class DefaultClassFilter implements RootPathAwareFileFilter {
 
-	public boolean accept(File file) {
-		if (file.getName().startsWith("."))
-			return false;
-		if (file.getName().contains("$"))
-			return false; // ignore inner classes
-		if (file.isHidden())
-			return false;
-		if (file.isDirectory())
-			return true;
-		if (file.getName().endsWith(".class"))
-			return true;
-		return false;
-	}
+    public boolean accept(File file) {
+        if (file.getName().startsWith("."))
+            return false;
+        if (file.getName().contains("$"))
+            return false; // ignore inner classes
+        if (file.isHidden())
+            return false;
+        if (file.isDirectory())
+            return true;
+        if (file.getName().endsWith(".class"))
+            return true;
+        return false;
+    }
 
-	public void setRootPath(File file) {
-	}
+    public void setRootPath(File file) {
+    }
 
 }

@@ -15,5 +15,5 @@
 package org.impalaframework.module.spi;
 
 public enum ModificationExtractorType {
-	STICKY, STRICT, REPAIR;
+    STICKY, STRICT, REPAIR;
 }

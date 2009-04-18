@@ -17,7 +17,7 @@ package org.impalaframework.module.spi;
 
 public interface Transition {
 
-	String LOADED_TO_UNLOADED = "LOADED_TO_UNLOADED";
-	String UNLOADED_TO_LOADED = "UNLOADED_TO_LOADED";
+    String LOADED_TO_UNLOADED = "LOADED_TO_UNLOADED";
+    String UNLOADED_TO_LOADED = "UNLOADED_TO_LOADED";
 
 }

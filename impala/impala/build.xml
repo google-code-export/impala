@@ -68,6 +68,11 @@
 		</ant>
 	</target>
 	
+	<target name = "fixcrlf" 
+		depends = "shared:fixcrlf"
+		description="Fixes carriage returns and line feeds, using Unix line endings">
+	</target>
+	
 	<target name = "tohome" 
 		depends = "all, copytohome, publishlocal"
 		description="Builds Impala directly into the IMPALA_HOME location">

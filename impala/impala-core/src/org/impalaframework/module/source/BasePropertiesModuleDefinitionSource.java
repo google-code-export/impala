@@ -32,67 +32,67 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BasePropertiesModuleDefinitionSource implements ModuleDefinitionSource {
-	
-	private Map<String, Properties> moduleProperties;
-	private TypeReaderRegistry typeReadeRegistry;
-	
-	BasePropertiesModuleDefinitionSource() {
-		this.typeReadeRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
-	}
-	
-	/**
-	 * Constructor
-	 * @param moduleProperties a mapping of module names to module {@link Properties}
-	 * @param typeReaderRegistry a registry of {@link TypeReader}s
-	 */
-	public BasePropertiesModuleDefinitionSource(Map<String, Properties> moduleProperties, TypeReaderRegistry typeReaderRegistry) {
-		super();
-		Assert.notNull(moduleProperties, "moduleProperties cannot be null");
-		Assert.notNull(typeReaderRegistry, "typeReadeRegistry cannot be null");
-		this.moduleProperties = moduleProperties;
-		this.typeReadeRegistry = typeReaderRegistry;
-	}
+    
+    private Map<String, Properties> moduleProperties;
+    private TypeReaderRegistry typeReadeRegistry;
+    
+    BasePropertiesModuleDefinitionSource() {
+        this.typeReadeRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
+    }
+    
+    /**
+     * Constructor
+     * @param moduleProperties a mapping of module names to module {@link Properties}
+     * @param typeReaderRegistry a registry of {@link TypeReader}s
+     */
+    public BasePropertiesModuleDefinitionSource(Map<String, Properties> moduleProperties, TypeReaderRegistry typeReaderRegistry) {
+        super();
+        Assert.notNull(moduleProperties, "moduleProperties cannot be null");
+        Assert.notNull(typeReaderRegistry, "typeReadeRegistry cannot be null");
+        this.moduleProperties = moduleProperties;
+        this.typeReadeRegistry = typeReaderRegistry;
+    }
 
-	/**
-	 * Uses the {@link TypeReader} for the specified module to build a {@link ModuleDefinition}
-	 * instance from a set of module {@link Properties}.
-	 */
-	protected ModuleDefinition buildModuleDefinition(
-			ModuleDefinition parentDefinition, String moduleName) {
-		Properties properties = moduleProperties.get(moduleName);
-		String type = getType(properties);
-		TypeReader reader = typeReadeRegistry.getTypeReader(type);
-		ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
-		definition.setParentDefinition(parentDefinition);
-		return definition;
-	}
+    /**
+     * Uses the {@link TypeReader} for the specified module to build a {@link ModuleDefinition}
+     * instance from a set of module {@link Properties}.
+     */
+    protected ModuleDefinition buildModuleDefinition(
+            ModuleDefinition parentDefinition, String moduleName) {
+        Properties properties = moduleProperties.get(moduleName);
+        String type = getType(properties);
+        TypeReader reader = typeReadeRegistry.getTypeReader(type);
+        ModuleDefinition definition = reader.readModuleDefinition(parentDefinition, moduleName, properties);
+        definition.setParentDefinition(parentDefinition);
+        return definition;
+    }
 
-	/**
-	 * Utility method to extract the module type from the module properties.
-	 * Assumes the element {@link ModuleElementNames#TYPE_ELEMENT} is used.
-	 * Defaults to {@link ModuleTypes#APPLICATION}.
-	 */
-	protected String getType(Properties properties) {
-		String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
-		if (type == null) {
-			type = ModuleTypes.APPLICATION;
-		}
-		return type;
-	}
+    /**
+     * Utility method to extract the module type from the module properties.
+     * Assumes the element {@link ModuleElementNames#TYPE_ELEMENT} is used.
+     * Defaults to {@link ModuleTypes#APPLICATION}.
+     */
+    protected String getType(Properties properties) {
+        String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
+        if (type == null) {
+            type = ModuleTypes.APPLICATION;
+        }
+        return type;
+    }
 
-	/**
-	 * Utility method to extract the module {@link Properties} for a particular module.
-	 * Throws {@link IllegalArgumentException} if no properties are present for the named
-	 * module.
-	 */
-	protected Properties getPropertiesForModule(String moduleName) {
-		Properties properties = moduleProperties.get(moduleName);
-		Assert.notNull(properties, "Properties for module '" + moduleName + "' cannot be null");
-		return properties;
-	}
+    /**
+     * Utility method to extract the module {@link Properties} for a particular module.
+     * Throws {@link IllegalArgumentException} if no properties are present for the named
+     * module.
+     */
+    protected Properties getPropertiesForModule(String moduleName) {
+        Properties properties = moduleProperties.get(moduleName);
+        Assert.notNull(properties, "Properties for module '" + moduleName + "' cannot be null");
+        return properties;
+    }
 
-	protected TypeReaderRegistry getTypeReadeRegistry() {
-		return typeReadeRegistry;
-	}
-	
+    protected TypeReaderRegistry getTypeReadeRegistry() {
+        return typeReadeRegistry;
+    }
+    
 }

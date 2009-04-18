@@ -15,5 +15,5 @@
 package org.impalaframework.service.event;
 
 public interface ServiceRegistryEventListener {
-	void handleServiceRegistryEvent(ServiceRegistryEvent event);
+    void handleServiceRegistryEvent(ServiceRegistryEvent event);
 }

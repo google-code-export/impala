@@ -29,90 +29,90 @@ import org.springframework.util.ClassUtils;
  */
 public class ContributionProxyFactoryBeanTest extends TestCase {
 
-	private ContributionProxyFactoryBean bean;
-	private ServiceRegistryImpl serviceRegistry;
-	private ClassLoader classLoader;
-	private DynamicServiceProxyFactoryCreator proxyFactoryCreator;
+    private ContributionProxyFactoryBean bean;
+    private ServiceRegistryImpl serviceRegistry;
+    private ClassLoader classLoader;
+    private DynamicServiceProxyFactoryCreator proxyFactoryCreator;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		bean = new ContributionProxyFactoryBean();
-		serviceRegistry = new ServiceRegistryImpl();
-		
-		proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
-		bean.setServiceRegistry(serviceRegistry);
-		proxyFactoryCreator.setServiceRegistry(serviceRegistry);
-		
-		classLoader = ClassUtils.getDefaultClassLoader();
-	}
-	
-	public void testWithBeanName() throws Exception {
-		bean.setProxyInterfaces(new Class[] { Child.class });
-		bean.setBeanName("someBean");
-		bean.afterPropertiesSet();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        bean = new ContributionProxyFactoryBean();
+        serviceRegistry = new ServiceRegistryImpl();
+        
+        proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+        bean.setServiceRegistry(serviceRegistry);
+        proxyFactoryCreator.setServiceRegistry(serviceRegistry);
+        
+        classLoader = ClassUtils.getDefaultClassLoader();
+    }
+    
+    public void testWithBeanName() throws Exception {
+        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setBeanName("someBean");
+        bean.afterPropertiesSet();
 
-		Child child = (Child) bean.getObject();
+        Child child = (Child) bean.getObject();
 
-		try {
-			child.childMethod();
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
 
-		Child newChild = newChild();
-		bean.registerTarget("pluginName", newChild);
-		serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
-		child.childMethod();
-	}	
-	
-	public void testWithExportName() throws Exception {
-		bean.setProxyInterfaces(new Class[] { Child.class });
-		bean.setBeanName("someBean");
-		bean.setExportedBeanName("exportBean");
-		bean.afterPropertiesSet();
+        Child newChild = newChild();
+        bean.registerTarget("pluginName", newChild);
+        serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
+        child.childMethod();
+    }   
+    
+    public void testWithExportName() throws Exception {
+        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setBeanName("someBean");
+        bean.setExportedBeanName("exportBean");
+        bean.afterPropertiesSet();
 
-		Child child = (Child) bean.getObject();
+        Child child = (Child) bean.getObject();
 
-		try {
-			child.childMethod();
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
 
-		Child newChild = newChild();
-		bean.registerTarget("pluginName", newChild);
-		serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
-		child.childMethod();
-	}
-	
-	public void testAllowNoService() throws Exception {
-		bean.setProxyInterfaces(new Class[] { Child.class });
-		bean.setBeanName("someBean");
-		proxyFactoryCreator.setAllowNoService(true);
-		bean.setProxyFactoryCreator(proxyFactoryCreator);
-		
-		bean.afterPropertiesSet();
+        Child newChild = newChild();
+        bean.registerTarget("pluginName", newChild);
+        serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
+        child.childMethod();
+    }
+    
+    public void testAllowNoService() throws Exception {
+        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setBeanName("someBean");
+        proxyFactoryCreator.setAllowNoService(true);
+        bean.setProxyFactoryCreator(proxyFactoryCreator);
+        
+        bean.afterPropertiesSet();
 
-		Child child = (Child) bean.getObject();
-		child.childMethod();
+        Child child = (Child) bean.getObject();
+        child.childMethod();
 
-		bean.registerTarget("pluginName", newChild());
+        bean.registerTarget("pluginName", newChild());
 
-		child.childMethod();
-	}
+        child.childMethod();
+    }
 
-	private Child newChild() {
-		return new Child() {
-			public void childMethod() {
-			}
+    private Child newChild() {
+        return new Child() {
+            public void childMethod() {
+            }
 
-			public Parent tryGetParent() {
-				return null;
-			}
-		};
-	}
+            public Parent tryGetParent() {
+                return null;
+            }
+        };
+    }
 
 }

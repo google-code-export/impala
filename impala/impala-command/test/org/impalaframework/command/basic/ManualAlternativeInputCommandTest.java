@@ -20,29 +20,29 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 
 public class ManualAlternativeInputCommandTest extends TestCase {
-	
-	public void testAlternativeInputCommand() throws Exception {
-		AlternativeInputCommand command = new AlternativeInputCommand(new String[] { "one", "two" });
-		doTest(command);
-	}
+    
+    public void testAlternativeInputCommand() throws Exception {
+        AlternativeInputCommand command = new AlternativeInputCommand(new String[] { "one", "two" });
+        doTest(command);
+    }
 
-	private void doTest(AlternativeInputCommand command) throws ClassNotFoundException {
+    private void doTest(AlternativeInputCommand command) throws ClassNotFoundException {
 
-		System.out.println("----");
-		// now need to capture
-		CommandState commandState = new CommandState();
+        System.out.println("----");
+        // now need to capture
+        CommandState commandState = new CommandState();
 
-		CommandLineInputCapturer inputCapturer = getInputCapturer();
-		commandState.setInputCapturer(inputCapturer);
+        CommandLineInputCapturer inputCapturer = getInputCapturer();
+        commandState.setInputCapturer(inputCapturer);
 
-		commandState.capture(command);
-		command.execute(commandState);
-		
-		System.out.println("Selected alternative: " + command.getSelectedAlternative());
-	}
-	
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
-		return inputCapturer;
-	}
+        commandState.capture(command);
+        command.execute(commandState);
+        
+        System.out.println("Selected alternative: " + command.getSelectedAlternative());
+    }
+    
+    protected CommandLineInputCapturer getInputCapturer() {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+        return inputCapturer;
+    }
 }

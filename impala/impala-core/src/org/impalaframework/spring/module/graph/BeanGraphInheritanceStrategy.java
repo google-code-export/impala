@@ -25,8 +25,8 @@ import org.springframework.context.ApplicationContext;
  * @author Phil Zoio
  */
 public interface BeanGraphInheritanceStrategy {
-	public ApplicationContext getParentApplicationContext(
-			GraphModuleStateHolder graphModuleStateHolder,
-			ApplicationContext parentApplicationContext,
-			ModuleDefinition definition);
+    public ApplicationContext getParentApplicationContext(
+            GraphModuleStateHolder graphModuleStateHolder,
+            ApplicationContext parentApplicationContext,
+            ModuleDefinition definition);
 }

@@ -31,122 +31,122 @@ import org.springframework.core.io.Resource;
  */
 public class StandaloneModuleLocationResolverTest extends TestCase {
 
-	private Properties props;
+    private Properties props;
 
-	private StandaloneModuleLocationResolver resolver;
+    private StandaloneModuleLocationResolver resolver;
 
-	@Override
-	protected void setUp() throws Exception {
-		props = new Properties();
-		super.setUp();
-		System.clearProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
-		System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
-		System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
-		System.clearProperty(LocationConstants.APPLICATION_VERSION);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        props = new Properties();
+        super.setUp();
+        System.clearProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
+        System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
+        System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
+        System.clearProperty(LocationConstants.APPLICATION_VERSION);
+    }
 
-	public void testGetPluginClassLocations() throws IOException {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("module.class.dir", "deploy/classes");
-		resolver = new StandaloneModuleLocationResolver(props);
-		Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
-		Resource actual = locations[0];
-		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes");
-		assertEquals(expected.getFile(), actual.getFile());
-	}
+    public void testGetPluginClassLocations() throws IOException {
+        props.put("workspace.root", System.getProperty("java.io.tmpdir"));
+        props.put("module.class.dir", "deploy/classes");
+        resolver = new StandaloneModuleLocationResolver(props);
+        Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
+        Resource actual = locations[0];
+        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes");
+        assertEquals(expected.getFile(), actual.getFile());
+    }
 
-	public void testGetModuleTestLocations() throws IOException {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		props.put("module.test.dir", "deploy/testclasses");
-		resolver = new StandaloneModuleLocationResolver(props);
-		Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
-		Resource actual = locations[0];
-		Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses");
-		assertEquals(expected.getFile(), actual.getFile());
-	}
+    public void testGetModuleTestLocations() throws IOException {
+        props.put("workspace.root", System.getProperty("java.io.tmpdir"));
+        props.put("module.test.dir", "deploy/testclasses");
+        resolver = new StandaloneModuleLocationResolver(props);
+        Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
+        Resource actual = locations[0];
+        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses");
+        assertEquals(expected.getFile(), actual.getFile());
+    }
 
-	public void testDefaultRootProperty() {
-		resolver = new StandaloneModuleLocationResolver(props);
-		FileSystemResource file = new FileSystemResource("../");
-		assertEquals(file, resolver.getRootDirectory());
-	}
+    public void testDefaultRootProperty() {
+        resolver = new StandaloneModuleLocationResolver(props);
+        FileSystemResource file = new FileSystemResource("../");
+        assertEquals(file, resolver.getRootDirectory());
+    }
 
-	public void testValidRootDirectory() throws IOException {
-		props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-		resolver = new StandaloneModuleLocationResolver(props);
-		FileSystemResource file = new FileSystemResource(System.getProperty("java.io.tmpdir"));
-		assertEquals(file.getFile().
-				getPath(), resolver.getRootDirectory().getFile().getPath());
-	}
+    public void testValidRootDirectory() throws IOException {
+        props.put("workspace.root", System.getProperty("java.io.tmpdir"));
+        resolver = new StandaloneModuleLocationResolver(props);
+        FileSystemResource file = new FileSystemResource(System.getProperty("java.io.tmpdir"));
+        assertEquals(file.getFile().
+                getPath(), resolver.getRootDirectory().getFile().getPath());
+    }
 
-	public void testRootDirectoryNotFile() {
-		props.put("workspace.root", ".classpath");
-		resolver = new StandaloneModuleLocationResolver(props);
+    public void testRootDirectoryNotFile() {
+        props.put("workspace.root", ".classpath");
+        resolver = new StandaloneModuleLocationResolver(props);
 
-		expectIllegalState("'workspace.root' (.classpath) is not a directory");
-	}
+        expectIllegalState("'workspace.root' (.classpath) is not a directory");
+    }
 
-	public void testRootDirectoryNotExists() {
-		props.put("workspace.root", "a file that does not exist");
-		resolver = new StandaloneModuleLocationResolver(props);
+    public void testRootDirectoryNotExists() {
+        props.put("workspace.root", "a file that does not exist");
+        resolver = new StandaloneModuleLocationResolver(props);
 
-		expectIllegalState("'workspace.root' (a file that does not exist) does not exist");
-	}
+        expectIllegalState("'workspace.root' (a file that does not exist) does not exist");
+    }
 
-	public void testMergePropertyDefault() {
-		resolver = new StandaloneModuleLocationResolver(props);
-		resolver.mergeProperty("property.name", "default property value", null);
-		assertEquals("default property value", resolver.getProperty("property.name"));
-	}
+    public void testMergePropertyDefault() {
+        resolver = new StandaloneModuleLocationResolver(props);
+        resolver.mergeProperty("property.name", "default property value", null);
+        assertEquals("default property value", resolver.getProperty("property.name"));
+    }
 
-	public void testMergePropertySupplied() {
-		props.put("property.name", "supplied property value");
-		resolver = new StandaloneModuleLocationResolver(props);
-		resolver.mergeProperty("property.name", "supplied property value", null);
-		assertEquals("supplied property value", resolver.getProperty("property.name"));
-	}
+    public void testMergePropertySupplied() {
+        props.put("property.name", "supplied property value");
+        resolver = new StandaloneModuleLocationResolver(props);
+        resolver.mergeProperty("property.name", "supplied property value", null);
+        assertEquals("supplied property value", resolver.getProperty("property.name"));
+    }
 
-	public void testMergePropertySystem() {
-		props.put("property.name", "supplied property value");
-		try {
-			System.setProperty("property.name", "system property value");
-			resolver = new StandaloneModuleLocationResolver(props);
-			resolver.mergeProperty("property.name", "system property value", null);
-			assertEquals("system property value", resolver.getProperty("property.name"));
-		}
-		finally {
-			System.clearProperty("property.name");
-		}
-	}
+    public void testMergePropertySystem() {
+        props.put("property.name", "supplied property value");
+        try {
+            System.setProperty("property.name", "system property value");
+            resolver = new StandaloneModuleLocationResolver(props);
+            resolver.mergeProperty("property.name", "system property value", null);
+            assertEquals("system property value", resolver.getProperty("property.name"));
+        }
+        finally {
+            System.clearProperty("property.name");
+        }
+    }
 
-	public void testMergePropertyAddSuffix() {
-		props.put("property.name", "supplied property value");
-		resolver = new StandaloneModuleLocationResolver(props);
-		resolver.mergeProperty("property.name", "supplied property value-", "-");
-		assertEquals("supplied property value-", resolver.getProperty("property.name"));
-	}
+    public void testMergePropertyAddSuffix() {
+        props.put("property.name", "supplied property value");
+        resolver = new StandaloneModuleLocationResolver(props);
+        resolver.mergeProperty("property.name", "supplied property value-", "-");
+        assertEquals("supplied property value-", resolver.getProperty("property.name"));
+    }
 
-	public void testInit() {
-		resolver = new StandaloneModuleLocationResolver(props);
-		assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
-		assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
-	}
+    public void testInit() {
+        resolver = new StandaloneModuleLocationResolver(props);
+        assertNotNull(resolver.getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY));
+        assertNotNull(resolver.getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
+    }
 
-	private void expectIllegalState(String expected) {
-		try {
-			resolver.getRootDirectory();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			try {
-				assertTrue(e.getMessage().contains(expected));
-			}
-			catch (AssertionFailedError ee) {
-				System.out.println("Actual: " + e.getMessage());
-				System.out.println("Expected: " + expected);
-				throw ee;
-			}
-		}
-	}
+    private void expectIllegalState(String expected) {
+        try {
+            resolver.getRootDirectory();
+            fail();
+        }
+        catch (ConfigurationException e) {
+            try {
+                assertTrue(e.getMessage().contains(expected));
+            }
+            catch (AssertionFailedError ee) {
+                System.out.println("Actual: " + e.getMessage());
+                System.out.println("Expected: " + expected);
+                throw ee;
+            }
+        }
+    }
 
 }

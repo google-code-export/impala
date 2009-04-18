@@ -27,12 +27,12 @@ import org.impalaframework.module.spi.ModificationExtractorType;
  */
 public class IncrementalUpdateRootModuleOperation extends ReloadRootModuleOperation {
 
-	protected IncrementalUpdateRootModuleOperation() {
-		super();
-	}
+    protected IncrementalUpdateRootModuleOperation() {
+        super();
+    }
 
-	protected ModificationExtractorType getModificationExtractorType() {
-		return ModificationExtractorType.STICKY;
-	}
+    protected ModificationExtractorType getModificationExtractorType() {
+        return ModificationExtractorType.STICKY;
+    }
 
 }

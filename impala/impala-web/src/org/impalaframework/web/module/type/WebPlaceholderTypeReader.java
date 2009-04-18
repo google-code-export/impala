@@ -23,18 +23,18 @@ import org.w3c.dom.Element;
 
 public class WebPlaceholderTypeReader implements TypeReader {
 
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
-			String moduleName, Properties properties) {
-		return new WebPlaceholderModuleDefinition(parent, moduleName);
-	}
+    public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
+            String moduleName, Properties properties) {
+        return new WebPlaceholderModuleDefinition(parent, moduleName);
+    }
 
-	public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
-			String moduleName, Element definitionElement) {
-		return new WebPlaceholderModuleDefinition(parent, moduleName);
-	}
+    public ModuleDefinition readModuleDefinition(ModuleDefinition parent,
+            String moduleName, Element definitionElement) {
+        return new WebPlaceholderModuleDefinition(parent, moduleName);
+    }
 
-	public void readModuleDefinitionProperties(Properties properties, String moduleName,
-			Element definitionElement) {
-	}
+    public void readModuleDefinitionProperties(Properties properties, String moduleName,
+            Element definitionElement) {
+    }
 
 }

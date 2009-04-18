@@ -29,39 +29,39 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class FileFetcher {
-	
-	private String repositoryRootDirectory;
-	private String[] repositoryFolders;
+    
+    private String repositoryRootDirectory;
+    private String[] repositoryFolders;
 
-	/**
-	 * @param repositoryRootDirectory the root directory
-	 * @param repositoryFolders folder in which to find file references
-	 */
-	public FileFetcher(String repositoryRootDirectory, String[] repositoryFolders) {
-		super();
-		Assert.notNull(repositoryRootDirectory);
-		Assert.notNull(repositoryFolders);
-		
-		this.repositoryRootDirectory = repositoryRootDirectory;
-		this.repositoryFolders = repositoryFolders;
-	}
+    /**
+     * @param repositoryRootDirectory the root directory
+     * @param repositoryFolders folder in which to find file references
+     */
+    public FileFetcher(String repositoryRootDirectory, String[] repositoryFolders) {
+        super();
+        Assert.notNull(repositoryRootDirectory);
+        Assert.notNull(repositoryFolders);
+        
+        this.repositoryRootDirectory = repositoryRootDirectory;
+        this.repositoryFolders = repositoryFolders;
+    }
 
-	public List<Resource> getResources(FileFilter filter) {
-		
-		List<Resource> resources = new ArrayList<Resource>();
-		
-		for (String folder : this.repositoryFolders) {
-			String directory = PathUtils.getPath(repositoryRootDirectory, folder);
-			File fileFolder = new File(directory);
-			File[] files = fileFolder.listFiles(filter);
-			
-			for (File file : files) {
-				resources.add(new FileSystemResource(file));
-			}
-		}
-		
-		return resources;
-	}
-	
+    public List<Resource> getResources(FileFilter filter) {
+        
+        List<Resource> resources = new ArrayList<Resource>();
+        
+        for (String folder : this.repositoryFolders) {
+            String directory = PathUtils.getPath(repositoryRootDirectory, folder);
+            File fileFolder = new File(directory);
+            File[] files = fileFolder.listFiles(filter);
+            
+            for (File file : files) {
+                resources.add(new FileSystemResource(file));
+            }
+        }
+        
+        return resources;
+    }
+    
 }
 

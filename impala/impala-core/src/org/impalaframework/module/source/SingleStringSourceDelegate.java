@@ -25,83 +25,83 @@ import org.springframework.util.StringUtils;
 
 class SingleStringSourceDelegate  {
 
-	private ModuleDefinition moduleDefinition;
+    private ModuleDefinition moduleDefinition;
 
-	private String definitionString;
+    private String definitionString;
 
-	SingleStringSourceDelegate(ModuleDefinition moduleDefinition, String definitionString) {
-		super();
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(definitionString);
-		this.moduleDefinition = moduleDefinition;
-		this.definitionString = definitionString;
-	}
+    SingleStringSourceDelegate(ModuleDefinition moduleDefinition, String definitionString) {
+        super();
+        Assert.notNull(moduleDefinition);
+        Assert.notNull(definitionString);
+        this.moduleDefinition = moduleDefinition;
+        this.definitionString = definitionString;
+    }
 
-	ModuleDefinition getModuleDefinition() {
-		if (StringUtils.hasText(definitionString)) {
-			String[] moduleNames = doDefinitionSplit();
+    ModuleDefinition getModuleDefinition() {
+        if (StringUtils.hasText(definitionString)) {
+            String[] moduleNames = doDefinitionSplit();
 
-			for (String moduleName : moduleNames) {
-				new SimpleModuleDefinition(moduleDefinition, moduleName);
-			}
-		}
-		return moduleDefinition;
-	}
+            for (String moduleName : moduleNames) {
+                new SimpleModuleDefinition(moduleDefinition, moduleName);
+            }
+        }
+        return moduleDefinition;
+    }
 
-	String[] doDefinitionSplit() {
+    String[] doDefinitionSplit() {
 
-		List<Integer> indexes = new LinkedList<Integer>();
+        List<Integer> indexes = new LinkedList<Integer>();
 
-		char[] chars = definitionString.toCharArray();
+        char[] chars = definitionString.toCharArray();
 
-		boolean inOverrides = false;
+        boolean inOverrides = false;
 
-		indexes.add(-1);
+        indexes.add(-1);
 
-		for (int i = 0; i < chars.length; i++) {
-			if (chars[i] == '(') {
-				if (inOverrides) {
-					invalidChar(chars, i);
-				}
-				inOverrides = true;
-			}
-			if (chars[i] == ')') {
-				if (!inOverrides) {
-					invalidChar(chars, i);
-				}
-				inOverrides = false;
-			}
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] == '(') {
+                if (inOverrides) {
+                    invalidChar(chars, i);
+                }
+                inOverrides = true;
+            }
+            if (chars[i] == ')') {
+                if (!inOverrides) {
+                    invalidChar(chars, i);
+                }
+                inOverrides = false;
+            }
 
-			if (chars[i] == ',') {
-				if (!inOverrides) {
-					indexes.add(i);
-				}
-			}
-		}
+            if (chars[i] == ',') {
+                if (!inOverrides) {
+                    indexes.add(i);
+                }
+            }
+        }
 
-		// add the length as the last index
-		indexes.add(definitionString.length());
+        // add the length as the last index
+        indexes.add(definitionString.length());
 
-		List<String> segments = new LinkedList<String>();
-		String moduleString = this.definitionString;
+        List<String> segments = new LinkedList<String>();
+        String moduleString = this.definitionString;
 
-		for (int i = 1; i < indexes.size(); i++) {
-			segments.add(moduleString.substring(indexes.get(i - 1) + 1, indexes.get(i)));
-		}
+        for (int i = 1; i < indexes.size(); i++) {
+            segments.add(moduleString.substring(indexes.get(i - 1) + 1, indexes.get(i)));
+        }
 
-		// convert to array
-		String[] moduleNames = segments.toArray(new String[segments.size()]);
+        // convert to array
+        String[] moduleNames = segments.toArray(new String[segments.size()]);
 
-		// trim
-		for (int i = 0; i < moduleNames.length; i++) {
-			moduleNames[i] = moduleNames[i].trim();
-		}
-		return moduleNames;
-	}
+        // trim
+        for (int i = 0; i < moduleNames.length; i++) {
+            moduleNames[i] = moduleNames[i].trim();
+        }
+        return moduleNames;
+    }
 
-	private void invalidChar(char[] chars, int i) {
-		throw new ConfigurationException("Invalid definition string " + definitionString + ". Invalid character '" + chars[i]
-				+ "' at column " + (i + 1));
-	}
+    private void invalidChar(char[] chars, int i) {
+        throw new ConfigurationException("Invalid definition string " + definitionString + ". Invalid character '" + chars[i]
+                + "' at column " + (i + 1));
+    }
 
 }

@@ -22,48 +22,48 @@ package org.impalaframework.service.filter.ldap;
  */
 abstract class BaseNode implements FilterNode {
 
-	private String key;
+    private String key;
 
-	protected BaseNode(String key) {
-		super();
-		this.key = key;
-	}	
-	
-	String getKey() {
-		return key;
-	}
-	
-	protected static String wrapBrackets(String string) {
-		return "(" + string + ")";
-	}
+    protected BaseNode(String key) {
+        super();
+        this.key = key;
+    }   
+    
+    String getKey() {
+        return key;
+    }
+    
+    protected static String wrapBrackets(String string) {
+        return "(" + string + ")";
+    }
 
-	static String getEncodedValue(String storedValue) {
-		StringBuffer buffer = new StringBuffer(storedValue.length() + 5);
-		
-		char[] chars = storedValue.toCharArray();
-		int length = chars.length;
-		int position = 0;
-		while (position < length) {
-			char c = chars[position];
-			
-			switch (c) {
+    static String getEncodedValue(String storedValue) {
+        StringBuffer buffer = new StringBuffer(storedValue.length() + 5);
+        
+        char[] chars = storedValue.toCharArray();
+        int length = chars.length;
+        int position = 0;
+        while (position < length) {
+            char c = chars[position];
+            
+            switch (c) {
 
-				case ')':
-				case '(':
-				case '*':
-				case '\\': {
-					buffer.append('\\');
-				}
-				default: {
-					buffer.append(c);
-					break;
-				}
-			}
-			position++;
-		}
-		
-		return buffer.toString();
-	}
-	
-	public abstract String toString();
+                case ')':
+                case '(':
+                case '*':
+                case '\\': {
+                    buffer.append('\\');
+                }
+                default: {
+                    buffer.append(c);
+                    break;
+                }
+            }
+            position++;
+        }
+        
+        return buffer.toString();
+    }
+    
+    public abstract String toString();
 }

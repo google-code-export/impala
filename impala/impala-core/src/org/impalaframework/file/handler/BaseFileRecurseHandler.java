@@ -25,14 +25,14 @@ import org.impalaframework.file.FileRecurseHandler;
  */
 public abstract class BaseFileRecurseHandler implements FileRecurseHandler {
 
-	public FileFilter getDirectoryFilter() {
-		return null;
-	}
+    public FileFilter getDirectoryFilter() {
+        return null;
+    }
 
-	public void handleDirectory(File directory) {
-	}
+    public void handleDirectory(File directory) {
+    }
 
-	public void handleFile(File file) {
-	}
+    public void handleFile(File file) {
+    }
 
 }

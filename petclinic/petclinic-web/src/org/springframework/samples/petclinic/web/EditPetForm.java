@@ -19,38 +19,38 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class EditPetForm extends AbstractClinicForm {
 
-	public EditPetForm() {
-		setCommandName("pet");
-		// need a session to hold the formBackingObject
-		setSessionForm(true);
-		// initialize the form from the formBackingObject
-		setBindOnNewForm(true);
-	}
+    public EditPetForm() {
+        setCommandName("pet");
+        // need a session to hold the formBackingObject
+        setSessionForm(true);
+        // initialize the form from the formBackingObject
+        setBindOnNewForm(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		Map refData = new HashMap();
-		refData.put("types", getClinic().getPetTypes());
-		return refData;
-	}
+    @SuppressWarnings("unchecked")
+    protected Map referenceData(HttpServletRequest request) throws ServletException {
+        Map refData = new HashMap();
+        refData.put("types", getClinic().getPetTypes());
+        return refData;
+    }
 
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		// get the Pet referred to by id in the request
-		return getClinic().loadPet(ServletRequestUtils.getRequiredIntParameter(request, "petId"));
-	}
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        // get the Pet referred to by id in the request
+        return getClinic().loadPet(ServletRequestUtils.getRequiredIntParameter(request, "petId"));
+    }
 
-	protected void onBind(HttpServletRequest request, Object command) throws ServletException {
-		Pet pet = (Pet) command;
-		int typeId = ServletRequestUtils.getRequiredIntParameter(request, "typeId");
-		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
-	}
+    protected void onBind(HttpServletRequest request, Object command) throws ServletException {
+        Pet pet = (Pet) command;
+        int typeId = ServletRequestUtils.getRequiredIntParameter(request, "typeId");
+        pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
+    }
 
-	/** Method updates an existing Pet */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Pet pet = (Pet) command;
-		// delegate the update to the business layer
-		getClinic().storePet(pet);
-		return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner().getId());
-	}
+    /** Method updates an existing Pet */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Pet pet = (Pet) command;
+        // delegate the update to the business layer
+        getClinic().storePet(pet);
+        return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner().getId());
+    }
 
 }

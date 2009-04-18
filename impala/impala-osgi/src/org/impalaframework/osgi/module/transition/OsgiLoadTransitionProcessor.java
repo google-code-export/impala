@@ -35,64 +35,64 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor implements BundleContextAware {
-	
-	private BundleContext bundleContext;
-	
-	private ModuleLoaderRegistry moduleLoaderRegistry;
+    
+    private BundleContext bundleContext;
+    
+    private ModuleLoaderRegistry moduleLoaderRegistry;
 
-	public OsgiLoadTransitionProcessor() {
-		super();
-	}
+    public OsgiLoadTransitionProcessor() {
+        super();
+    }
 
-	@Override
-	public boolean process(RootModuleDefinition newRootDefinition,
-			ModuleDefinition currentDefinition) {
-		
-		findAndStartBundle(currentDefinition);
-		return super.process(newRootDefinition, currentDefinition);
-	}
+    @Override
+    public boolean process(RootModuleDefinition newRootDefinition,
+            ModuleDefinition currentDefinition) {
+        
+        findAndStartBundle(currentDefinition);
+        return super.process(newRootDefinition, currentDefinition);
+    }
 
-	void findAndStartBundle(ModuleDefinition currentDefinition) {
-		Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
-				
-		//install if not present
-		final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(currentDefinition));
-		final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);		
+    void findAndStartBundle(ModuleDefinition currentDefinition) {
+        Assert.notNull(currentDefinition, "moduleDefinition cannot be null");
+                
+        //install if not present
+        final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(currentDefinition));
+        final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);       
 
-		//find bundle with name
-		Bundle bundle = findBundle(currentDefinition);
+        //find bundle with name
+        Bundle bundle = findBundle(currentDefinition);
 
-		if (bundleLocations == null || bundleLocations.length == 0) {
-			throw new InvalidStateException("Module loader '" + moduleLoader.getClass().getName() 
-					+ "' returned " + (bundleLocations != null ? "empty": "null") + 
-					" bundle class locations. Cannot install bundle for module '" 
-					+ currentDefinition.getName() + "'");
-		}
+        if (bundleLocations == null || bundleLocations.length == 0) {
+            throw new InvalidStateException("Module loader '" + moduleLoader.getClass().getName() 
+                    + "' returned " + (bundleLocations != null ? "empty": "null") + 
+                    " bundle class locations. Cannot install bundle for module '" 
+                    + currentDefinition.getName() + "'");
+        }
 
-		//if bundle is not present, then install otherwise update
-		if (bundle == null) {
-			bundle = OsgiUtils.installBundle(bundleContext, bundleLocations[0]);
-		} else {
-			OsgiUtils.updateBundle(bundle, bundleLocations[0]);
-		}
-		
-		final int bundleState = bundle.getState();
-		if (bundleState != Bundle.ACTIVE) {
-			OsgiUtils.startBundle(bundle);
-		}
-	}
+        //if bundle is not present, then install otherwise update
+        if (bundle == null) {
+            bundle = OsgiUtils.installBundle(bundleContext, bundleLocations[0]);
+        } else {
+            OsgiUtils.updateBundle(bundle, bundleLocations[0]);
+        }
+        
+        final int bundleState = bundle.getState();
+        if (bundleState != Bundle.ACTIVE) {
+            OsgiUtils.startBundle(bundle);
+        }
+    }
 
-	Bundle findBundle(ModuleDefinition currentDefinition) {
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
-		return bundle;
-	}
+    Bundle findBundle(ModuleDefinition currentDefinition) {
+        Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+        return bundle;
+    }
 
-	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
-		this.moduleLoaderRegistry = moduleLoaderRegistry;
-	}
+    public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+        this.moduleLoaderRegistry = moduleLoaderRegistry;
+    }
 
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
 }

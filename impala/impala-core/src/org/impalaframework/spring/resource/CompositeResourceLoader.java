@@ -27,23 +27,23 @@ import org.springframework.util.Assert;
  */
 public class CompositeResourceLoader implements ResourceLoader {
 
-	private Collection<ResourceLoader> resourceLoaders;
+    private Collection<ResourceLoader> resourceLoaders;
 
-	public CompositeResourceLoader(Collection<ResourceLoader> resourceLoaders) {
-		super();
-		Assert.notNull(resourceLoaders);
-		this.resourceLoaders = resourceLoaders;
-	}
+    public CompositeResourceLoader(Collection<ResourceLoader> resourceLoaders) {
+        super();
+        Assert.notNull(resourceLoaders);
+        this.resourceLoaders = resourceLoaders;
+    }
 
-	public Resource getResource(String location, ClassLoader classLoader) {
-		Resource resource = null;
-		for (ResourceLoader resourceLoader : resourceLoaders) {
-			resource = resourceLoader.getResource(location, classLoader);
-			if (resource != null && resource.exists()) {
-				return resource;
-			}
-		}
-		return null;
-	}
+    public Resource getResource(String location, ClassLoader classLoader) {
+        Resource resource = null;
+        for (ResourceLoader resourceLoader : resourceLoaders) {
+            resource = resourceLoader.getResource(location, classLoader);
+            if (resource != null && resource.exists()) {
+                return resource;
+            }
+        }
+        return null;
+    }
 
 }

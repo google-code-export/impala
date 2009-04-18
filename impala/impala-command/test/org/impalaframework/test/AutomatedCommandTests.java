@@ -29,18 +29,18 @@ import org.impalaframework.command.framework.CommandTest;
 
 public class AutomatedCommandTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		
-		suite.addTestSuite(AlternativeInputCommandTest.class);
-		suite.addTestSuite(ClassFindCommandTest.class);
-		suite.addTestSuite(ClassFindFileRecurseHandlerTest.class);
-		suite.addTestSuite(CommandTest.class);
-		suite.addTestSuite(CommandStateTest.class);
-		suite.addTestSuite(FileFilterHandlerTest.class);
-		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
-		suite.addTestSuite(SearchClassCommandTest.class);
-		suite.addTestSuite(SelectMethodCommandTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        
+        suite.addTestSuite(AlternativeInputCommandTest.class);
+        suite.addTestSuite(ClassFindCommandTest.class);
+        suite.addTestSuite(ClassFindFileRecurseHandlerTest.class);
+        suite.addTestSuite(CommandTest.class);
+        suite.addTestSuite(CommandStateTest.class);
+        suite.addTestSuite(FileFilterHandlerTest.class);
+        suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
+        suite.addTestSuite(SearchClassCommandTest.class);
+        suite.addTestSuite(SelectMethodCommandTest.class);
+        return suite;
+    }
 }

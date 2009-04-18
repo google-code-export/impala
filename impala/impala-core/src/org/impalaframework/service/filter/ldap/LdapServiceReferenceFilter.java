@@ -29,25 +29,25 @@ import org.impalaframework.service.ServiceRegistryReference;
  * @author Phil Zoio
  */
 public class LdapServiceReferenceFilter implements ServiceReferenceFilter {
-	
-	private String expression;
-	
-	private FilterNode rootNode;
+    
+    private String expression;
+    
+    private FilterNode rootNode;
 
-	public LdapServiceReferenceFilter(String expression) {
-		super();
-		this.expression = expression;
-		
-		FilterParser filterParser = new FilterParser(this.expression);
-		rootNode = filterParser.parse();
-	}
+    public LdapServiceReferenceFilter(String expression) {
+        super();
+        this.expression = expression;
+        
+        FilterParser filterParser = new FilterParser(this.expression);
+        rootNode = filterParser.parse();
+    }
 
-	public boolean matches(ServiceRegistryReference reference) {
-		final Map<String, ?> attributes = reference.getAttributes();
-		if (attributes == null) {
-			return false;
-		}
-		return rootNode.match(attributes);
-	}
+    public boolean matches(ServiceRegistryReference reference) {
+        final Map<String, ?> attributes = reference.getAttributes();
+        if (attributes == null) {
+            return false;
+        }
+        return rootNode.match(attributes);
+    }
 
 }

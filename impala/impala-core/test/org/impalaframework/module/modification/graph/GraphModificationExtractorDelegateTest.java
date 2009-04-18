@@ -22,24 +22,24 @@ import org.impalaframework.module.spi.TransitionSet;
 
 public class GraphModificationExtractorDelegateTest extends TestCase {
 
-	public void testGetTransitions() {
-		GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
-		SimpleRootModuleDefinition rootDefinitionOld = rootDefinition("orig");
-		SimpleRootModuleDefinition rootDefinitionNew = rootDefinition("new");
-		TransitionSet transitions = delegate.getTransitions(rootDefinitionOld, rootDefinitionNew);
-		assertEquals(2, transitions.getModuleTransitions().size());
-		
-		assertNotNull(delegate.getNewDependencyManager());
-		assertNotNull(delegate.getOldDependencyManager());
-	}
+    public void testGetTransitions() {
+        GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
+        SimpleRootModuleDefinition rootDefinitionOld = rootDefinition("orig");
+        SimpleRootModuleDefinition rootDefinitionNew = rootDefinition("new");
+        TransitionSet transitions = delegate.getTransitions(rootDefinitionOld, rootDefinitionNew);
+        assertEquals(2, transitions.getModuleTransitions().size());
+        
+        assertNotNull(delegate.getNewDependencyManager());
+        assertNotNull(delegate.getOldDependencyManager());
+    }
 
-	private SimpleRootModuleDefinition rootDefinition(String name) {
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(name, 
-				new String[] {"context.xml"}, 
-				new String[0], 
-				null,
-				new ModuleDefinition[0], null);
-		return rootDefinition;
-	}
+    private SimpleRootModuleDefinition rootDefinition(String name) {
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition(name, 
+                new String[] {"context.xml"}, 
+                new String[0], 
+                null,
+                new ModuleDefinition[0], null);
+        return rootDefinition;
+    }
 
 }

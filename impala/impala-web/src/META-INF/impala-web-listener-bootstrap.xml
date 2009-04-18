@@ -1,76 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="useTouchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="use.touch.file"/>
-		 <property name="defaultValue" value="false"/>
+    <bean id="useTouchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+         <property name="propertySource" ref="propertySource"/>
+         <property name="name" value="use.touch.file"/>
+         <property name="defaultValue" value="false"/>
     </bean>
 
-	<bean id="touchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="touch.file"/>
-		 <property name="defaultValue" value="/WEB-INF/modules/touch.txt"/>
+    <bean id="touchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+         <property name="propertySource" ref="propertySource"/>
+         <property name="name" value="touch.file"/>
+         <property name="defaultValue" value="/WEB-INF/modules/touch.txt"/>
     </bean>
 
-	<bean id="autoDeployCheckInterval" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="auto.reload.check.interval"/>
-		 <property name="defaultValue" value="2"/>
+    <bean id="autoDeployCheckInterval" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+         <property name="propertySource" ref="propertySource"/>
+         <property name="name" value="auto.reload.check.interval"/>
+         <property name="defaultValue" value="2"/>
     </bean>
 
-	<bean id="autoDeployCheckDelay" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="auto.reload.check.delay"/>
-		 <property name="defaultValue" value="10"/>
+    <bean id="autoDeployCheckDelay" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+         <property name="propertySource" ref="propertySource"/>
+         <property name="name" value="auto.reload.check.delay"/>
+         <property name="defaultValue" value="10"/>
     </bean>
 
-	<bean id="autoDeployMonitoringType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-		 <property name="propertySource" ref="propertySource"/>
-		 <property name="name" value="auto.reload.monitoring.type"/>
-		 <property name="defaultValue" value="default"/>
+    <bean id="autoDeployMonitoringType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
+         <property name="propertySource" ref="propertySource"/>
+         <property name="name" value="auto.reload.monitoring.type"/>
+         <property name="defaultValue" value="default"/>
     </bean>
         
-	<bean id="scheduledModuleChangeMonitor"
-		class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
-		<property name="modificationListeners">
-			<list>
-				<bean
-					class="org.impalaframework.web.module.listener.WebModuleChangeListener" />
-			</list>
-		</property>
-		<property name="useTouchFile" ref="useTouchFile" />
-		<property name="touchFile" ref="touchFile" />
-		<property name="checkInterval" ref="autoDeployCheckInterval" />
-		<property name="initialDelay" ref="autoDeployCheckDelay" />
-	</bean>
-	
-	<bean id="defaultModuleRuntimeMonitor" 
-		class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
-		<property name="moduleLocationResolver" ref="moduleLocationResolver" />
-		<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
-	</bean>
-	
-	<bean id="tmpfileModuleRuntimeMonitor" 
-		class="org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitor">
-		<property name="moduleLocationResolver" ref="moduleLocationResolver" />
-		<property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
-	</bean>
-	
-	<bean id="moduleRuntimeMonitor" 
-		class="org.impalaframework.spring.bean.NamedFactoryBean">
-		<property name="beanName" ref="autoDeployMonitoringType" />
-		<property name="suffix" value="ModuleRuntimeMonitor" />
-	</bean>	
-	
-	<bean id="baseModuleRuntime" abstract="true">
-		<property name="moduleRuntimeMonitor" ref="moduleRuntimeMonitor" />
-		<property name="classLoaderRegistry" ref="classLoaderRegistry" />
-		<property name="moduleStateHolder" ref="moduleStateHolder" />
-	</bean>
+    <bean id="scheduledModuleChangeMonitor"
+        class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
+        <property name="modificationListeners">
+            <list>
+                <bean
+                    class="org.impalaframework.web.module.listener.WebModuleChangeListener" />
+            </list>
+        </property>
+        <property name="useTouchFile" ref="useTouchFile" />
+        <property name="touchFile" ref="touchFile" />
+        <property name="checkInterval" ref="autoDeployCheckInterval" />
+        <property name="initialDelay" ref="autoDeployCheckDelay" />
+    </bean>
+    
+    <bean id="defaultModuleRuntimeMonitor" 
+        class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+    </bean>
+    
+    <bean id="tmpfileModuleRuntimeMonitor" 
+        class="org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+    </bean>
+    
+    <bean id="moduleRuntimeMonitor" 
+        class="org.impalaframework.spring.bean.NamedFactoryBean">
+        <property name="beanName" ref="autoDeployMonitoringType" />
+        <property name="suffix" value="ModuleRuntimeMonitor" />
+    </bean> 
+    
+    <bean id="baseModuleRuntime" abstract="true">
+        <property name="moduleRuntimeMonitor" ref="moduleRuntimeMonitor" />
+        <property name="classLoaderRegistry" ref="classLoaderRegistry" />
+        <property name="moduleStateHolder" ref="moduleStateHolder" />
+    </bean>
 
 </beans>

@@ -22,18 +22,18 @@ import org.impalaframework.module.ModuleDefinition;
  * @author Phil Zoio
  */
 public class ModuleFreezeCallback implements ModuleDefinitionCallback {
-	
-	private boolean freeze;
-	
-	public ModuleFreezeCallback(boolean freeze) {
-		super();
-		this.freeze = freeze;
-	}
-	
-	public boolean matches(ModuleDefinition moduleDefinition) {
-		if (freeze) moduleDefinition.freeze();
-		else moduleDefinition.unfreeze();
-		return false;
-	}
+    
+    private boolean freeze;
+    
+    public ModuleFreezeCallback(boolean freeze) {
+        super();
+        this.freeze = freeze;
+    }
+    
+    public boolean matches(ModuleDefinition moduleDefinition) {
+        if (freeze) moduleDefinition.freeze();
+        else moduleDefinition.unfreeze();
+        return false;
+    }
 
 }

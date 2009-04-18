@@ -37,88 +37,88 @@ import org.impalaframework.web.module.jmx.WebModuleReloader;
 
 public class WebModuleReloaderTest extends TestCase {
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	private WebModuleReloader reloader;
+    private WebModuleReloader reloader;
 
-	private ModuleManagementFacade impalaBootstrapFactory;
-	
-	private ModuleOperationRegistry moduleOperationRegistry;
+    private ModuleManagementFacade impalaBootstrapFactory;
+    
+    private ModuleOperationRegistry moduleOperationRegistry;
 
-	private ModuleOperation moduleOperation;
+    private ModuleOperation moduleOperation;
 
-	private ModuleDefinitionSource moduleDefinitionSource;
+    private ModuleDefinitionSource moduleDefinitionSource;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servletContext = createMock(ServletContext.class);
-		impalaBootstrapFactory = createMock(ModuleManagementFacade.class);
-		moduleDefinitionSource = createMock(ModuleDefinitionSource.class);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = createMock(ServletContext.class);
+        impalaBootstrapFactory = createMock(ModuleManagementFacade.class);
+        moduleDefinitionSource = createMock(ModuleDefinitionSource.class);
 
-		reloader = new WebModuleReloader();
-		reloader.setServletContext(servletContext);
+        reloader = new WebModuleReloader();
+        reloader.setServletContext(servletContext);
 
-		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
-		moduleOperation = createMock(ModuleOperation.class);
-	}
+        moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+        moduleOperation = createMock(ModuleOperation.class);
+    }
 
-	public final void testReloadModules() {
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
-		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
-		
-		expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
-	
-		replayMocks();
-		reloader.reloadModules();
-		verifyMocks();
-	}
+    public final void testReloadModules() {
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
+        expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
+        
+        expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
+    
+        replayMocks();
+        reloader.reloadModules();
+        verifyMocks();
+    }
 
-	public final void testNoFactory() {
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
+    public final void testNoFactory() {
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
 
-		replayMocks();
-		try {
-			reloader.reloadModules();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("No instance of org.impalaframework.facade.ModuleManagementFacade found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
-		}
-		verifyMocks();
-	}
+        replayMocks();
+        try {
+            reloader.reloadModules();
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("No instance of org.impalaframework.facade.ModuleManagementFacade found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE", e.getMessage());
+        }
+        verifyMocks();
+    }
 
-	public final void testNoModuleDefinitionSource() {
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
-		expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(null);
+    public final void testNoModuleDefinitionSource() {
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
+        expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(null);
 
-		replayMocks();
-		try {
-			reloader.reloadModules();
-			fail();
-		}
-		catch (ConfigurationException e) {
-			assertEquals("No instance of org.impalaframework.module.ModuleDefinitionSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
-		}
-		verifyMocks();
-	}
+        replayMocks();
+        try {
+            reloader.reloadModules();
+            fail();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("No instance of org.impalaframework.module.ModuleDefinitionSource found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE", e.getMessage());
+        }
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(servletContext);
-		verify(moduleDefinitionSource);
-		verify(impalaBootstrapFactory);
-		verify(moduleOperationRegistry);
-		verify(moduleOperation);
-	}
+    private void verifyMocks() {
+        verify(servletContext);
+        verify(moduleDefinitionSource);
+        verify(impalaBootstrapFactory);
+        verify(moduleOperationRegistry);
+        verify(moduleOperation);
+    }
 
-	private void replayMocks() {
-		replay(servletContext);
-		replay(moduleDefinitionSource);
-		replay(impalaBootstrapFactory);
-		replay(moduleOperationRegistry);
-		replay(moduleOperation);
-	}
+    private void replayMocks() {
+        replay(servletContext);
+        replay(moduleDefinitionSource);
+        replay(impalaBootstrapFactory);
+        replay(moduleOperationRegistry);
+        replay(moduleOperation);
+    }
 
 }

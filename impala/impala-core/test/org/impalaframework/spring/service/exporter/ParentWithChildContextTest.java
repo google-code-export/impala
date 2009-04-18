@@ -33,70 +33,70 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  */
 public class ParentWithChildContextTest extends TestCase {
 
-	private ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		serviceRegistry = new ServiceRegistryImpl();
-	}
-	
-	public void testContexts() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        serviceRegistry = new ServiceRegistryImpl();
+    }
+    
+    public void testContexts() {
 
-		ClassPathXmlApplicationContext parentContext = new ClassPathXmlApplicationContext(
-				"childcontainer/parent-with-child-context.xml"){
-			 @Override
-			protected DefaultListableBeanFactory createBeanFactory() {
-				DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-				beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-				return beanFactory;
-			}
-		};
-		
-		parentContext.getBean("parent");
-		
-		Parent parentBean = (Parent) parentContext.getBean("parent");
-		Child child = parentBean.tryGetChild();
+        ClassPathXmlApplicationContext parentContext = new ClassPathXmlApplicationContext(
+                "childcontainer/parent-with-child-context.xml"){
+             @Override
+            protected DefaultListableBeanFactory createBeanFactory() {
+                DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+                beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+                return beanFactory;
+            }
+        };
+        
+        parentContext.getBean("parent");
+        
+        Parent parentBean = (Parent) parentContext.getBean("parent");
+        Child child = parentBean.tryGetChild();
 
-		try {
-			child.childMethod();
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
 
-		// now create child appliction context
-		ClassPathXmlApplicationContext childContext = new ClassPathXmlApplicationContext(
-				new String[] { "childcontainer/child-context.xml" }, parentContext){
-			 @Override
-				protected DefaultListableBeanFactory createBeanFactory() {
-					DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-					beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-					beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(new SimpleModuleDefinition("module1")));
-					return beanFactory;
-				}
-		};
+        // now create child appliction context
+        ClassPathXmlApplicationContext childContext = new ClassPathXmlApplicationContext(
+                new String[] { "childcontainer/child-context.xml" }, parentContext){
+             @Override
+                protected DefaultListableBeanFactory createBeanFactory() {
+                    DefaultListableBeanFactory beanFactory = super.createBeanFactory();
+                    beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+                    beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(new SimpleModuleDefinition("module1")));
+                    return beanFactory;
+                }
+        };
 
-		// bingo, child.childMethod does nto throw NoServiceException
-		child.childMethod();
+        // bingo, child.childMethod does nto throw NoServiceException
+        child.childMethod();
 
-		// now create another context which depends only on the parent
-		ApplicationContext another = childContext;
+        // now create another context which depends only on the parent
+        ApplicationContext another = childContext;
 
-		// call method from child
-		Child anotherChild = (Child) another.getBean("child");
-		anotherChild.childMethod();
+        // call method from child
+        Child anotherChild = (Child) another.getBean("child");
+        anotherChild.childMethod();
 
-		// shutdown the child context
-		childContext.close();
+        // shutdown the child context
+        childContext.close();
 
-		// should go back to what it was doing before
-		try {
-			child.childMethod();
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
+        // should go back to what it was doing before
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
 
-	}
+    }
 }

@@ -25,31 +25,31 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class InternalFrameworkIntegrationFilterFactoryBean extends
-		FilterFactoryBean {
+        FilterFactoryBean {
 
-	private Filter delegateFilter;
-	
-	public Class<?> getObjectType() {
-		return InternalFrameworkIntegrationFilter.class;
-	}
-	
-	@Override
-	protected void initFilterProperties(Filter filter) {
-		super.initFilterProperties(filter);
-		Assert.notNull(delegateFilter, "delegateFilter cannot be null");
-		
-		if (!(filter instanceof InternalFrameworkIntegrationFilter)) {
-			throw new ConfigurationException(filter + " must be an instanceof " + InternalFrameworkIntegrationFilter.class.getName());
-		}
-		
-		InternalFrameworkIntegrationFilter integrationServlet = (InternalFrameworkIntegrationFilter) filter;
-		integrationServlet.setDelegateFilter(delegateFilter);
-	}
-	
-	/* *************** Injected setters ***************** */
+    private Filter delegateFilter;
+    
+    public Class<?> getObjectType() {
+        return InternalFrameworkIntegrationFilter.class;
+    }
+    
+    @Override
+    protected void initFilterProperties(Filter filter) {
+        super.initFilterProperties(filter);
+        Assert.notNull(delegateFilter, "delegateFilter cannot be null");
+        
+        if (!(filter instanceof InternalFrameworkIntegrationFilter)) {
+            throw new ConfigurationException(filter + " must be an instanceof " + InternalFrameworkIntegrationFilter.class.getName());
+        }
+        
+        InternalFrameworkIntegrationFilter integrationServlet = (InternalFrameworkIntegrationFilter) filter;
+        integrationServlet.setDelegateFilter(delegateFilter);
+    }
+    
+    /* *************** Injected setters ***************** */
 
-	public void setDelegateFilter(Filter filter) {
-		this.delegateFilter = filter;
-	}
+    public void setDelegateFilter(Filter filter) {
+        this.delegateFilter = filter;
+    }
 
 }

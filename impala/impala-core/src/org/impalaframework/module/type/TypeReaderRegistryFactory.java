@@ -21,17 +21,17 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.spi.TypeReader;
 
 public class TypeReaderRegistryFactory {
-	public static Map<String, TypeReader> getTypeReaders() {
-		Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
-		typeReaders.put(ModuleTypes.ROOT.toLowerCase(), new RootModuleTypeReader());
-		typeReaders.put(ModuleTypes.APPLICATION.toLowerCase(), new ApplicationModuleTypeReader());
-		return typeReaders;
-	}
-	
-	public static TypeReaderRegistry getTypeReaderRegistry() {
-		final Map<String, TypeReader> typeReaders = getTypeReaders();
-		final TypeReaderRegistry registry = new TypeReaderRegistry();
-		registry.setTypeReaders(typeReaders);
-		return registry;
-	}
+    public static Map<String, TypeReader> getTypeReaders() {
+        Map<String, TypeReader> typeReaders = new HashMap<String, TypeReader>();
+        typeReaders.put(ModuleTypes.ROOT.toLowerCase(), new RootModuleTypeReader());
+        typeReaders.put(ModuleTypes.APPLICATION.toLowerCase(), new ApplicationModuleTypeReader());
+        return typeReaders;
+    }
+    
+    public static TypeReaderRegistry getTypeReaderRegistry() {
+        final Map<String, TypeReader> typeReaders = getTypeReaders();
+        final TypeReaderRegistry registry = new TypeReaderRegistry();
+        registry.setTypeReaders(typeReaders);
+        return registry;
+    }
 }

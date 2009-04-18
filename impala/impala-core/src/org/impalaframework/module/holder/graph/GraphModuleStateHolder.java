@@ -23,14 +23,14 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
  */
 public class GraphModuleStateHolder extends DefaultModuleStateHolder {
 
-	private DependencyManager dependencyManager;
+    private DependencyManager dependencyManager;
 
-	public void setDependencyManager(DependencyManager dependencyManager) {
-		this.dependencyManager = dependencyManager;
-	}
+    public void setDependencyManager(DependencyManager dependencyManager) {
+        this.dependencyManager = dependencyManager;
+    }
 
-	public DependencyManager getDependencyManager() {
-		return dependencyManager;
-	}
+    public DependencyManager getDependencyManager() {
+        return dependencyManager;
+    }
 
 }

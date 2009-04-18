@@ -24,20 +24,20 @@ import java.util.Enumeration;
  * @author Phil Zoio
  */
 public interface ClassRetriever {
-	
-	/**
-	 * Returns the bytes for a particular named class
-	 */
-	byte[] getClassBytes(String className);
-	
-	/**
-	 * Returns a URL representing a particular resource
-	 */
-	URL findResource(String resourceName);
-	
-	/**
-	 * Returns a URL representing a particular resource
-	 */
-	Enumeration<URL> findResources(String resourceName);
-	
+    
+    /**
+     * Returns the bytes for a particular named class
+     */
+    byte[] getClassBytes(String className);
+    
+    /**
+     * Returns a URL representing a particular resource
+     */
+    URL findResource(String resourceName);
+    
+    /**
+     * Returns a URL representing a particular resource
+     */
+    Enumeration<URL> findResources(String resourceName);
+    
 }

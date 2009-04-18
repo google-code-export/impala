@@ -20,50 +20,50 @@ import junit.framework.TestCase;
 
 public class URLClassRetrieverTest extends TestCase {
 
-	private URLClassRetriever retriever;
+    private URLClassRetriever retriever;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-	
-	public void testToString() {
-		File file1 = new File("../impala-core/files/MyTestClass.jar");
-		File file2 = new File("../impala-core/files/impala-classloader/module-a/bin");
-		retriever = new URLClassRetriever(new File[]{ file1, file2 });
-		System.out.println(retriever);
-	}
-	
-	public void testFindBytesFromJar() {
-		File file = new File("../impala-core/files/MyTestClass.jar");
-		retriever = new URLClassRetriever(new File[]{ file });
-		
-		assertNull(retriever.getClassBytes("duffclass"));
-		assertNotNull(retriever.getClassBytes("example.test.MyTestClass"));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
+    
+    public void testToString() {
+        File file1 = new File("../impala-core/files/MyTestClass.jar");
+        File file2 = new File("../impala-core/files/impala-classloader/module-a/bin");
+        retriever = new URLClassRetriever(new File[]{ file1, file2 });
+        System.out.println(retriever);
+    }
+    
+    public void testFindBytesFromJar() {
+        File file = new File("../impala-core/files/MyTestClass.jar");
+        retriever = new URLClassRetriever(new File[]{ file });
+        
+        assertNull(retriever.getClassBytes("duffclass"));
+        assertNotNull(retriever.getClassBytes("example.test.MyTestClass"));
+    }
 
-	public void testFindResourceFromJar() {
-		File file = new File("../impala-core/files/MyTestClass.jar");
-		retriever = new URLClassRetriever(new File[]{ file });
+    public void testFindResourceFromJar() {
+        File file = new File("../impala-core/files/MyTestClass.jar");
+        retriever = new URLClassRetriever(new File[]{ file });
 
-		assertNull(retriever.findResource("duffclass"));
-		assertNotNull(retriever.findResource("example/test/MyTestClass.class"));
-	}
-	
-	public void testFindBytesFromDirectory() {
-		File file = new File("../impala-core/files/impala-classloader/module-a/bin");
-		retriever = new URLClassRetriever(new File[]{ file });
-		
-		assertNull(retriever.getClassBytes("duff"));
-		assertNotNull(retriever.getClassBytes("A"));
-	}
+        assertNull(retriever.findResource("duffclass"));
+        assertNotNull(retriever.findResource("example/test/MyTestClass.class"));
+    }
+    
+    public void testFindBytesFromDirectory() {
+        File file = new File("../impala-core/files/impala-classloader/module-a/bin");
+        retriever = new URLClassRetriever(new File[]{ file });
+        
+        assertNull(retriever.getClassBytes("duff"));
+        assertNotNull(retriever.getClassBytes("A"));
+    }
 
-	public void testFindResourceFromDirectory() {
-		File file = new File("../impala-core/files/impala-classloader/module-a/bin");
-		retriever = new URLClassRetriever(new File[]{ file });
+    public void testFindResourceFromDirectory() {
+        File file = new File("../impala-core/files/impala-classloader/module-a/bin");
+        retriever = new URLClassRetriever(new File[]{ file });
 
-		assertNull(retriever.findResource("duff"));
-		assertNotNull(retriever.findResource("A.class"));
-	}
+        assertNull(retriever.findResource("duff"));
+        assertNotNull(retriever.findResource("A.class"));
+    }
 
 }

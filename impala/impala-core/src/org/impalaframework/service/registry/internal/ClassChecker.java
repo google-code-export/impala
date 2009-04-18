@@ -25,63 +25,63 @@ import org.impalaframework.service.ServiceRegistryReference;
  */
 class ClassChecker {
 
-	void checkClasses(ServiceRegistryReference reference) {
+    void checkClasses(ServiceRegistryReference reference) {
 
-		final List<Class<?>> exportedTypes = reference.getExportedTypes();
-		
-		if (!exportedTypes.isEmpty()) {	
-			checkClassesForClassLoader(exportedTypes, reference);
-			checkClassesForImplements(exportedTypes, reference);
-		}
-	}
+        final List<Class<?>> exportedTypes = reference.getExportedTypes();
+        
+        if (!exportedTypes.isEmpty()) { 
+            checkClassesForClassLoader(exportedTypes, reference);
+            checkClassesForImplements(exportedTypes, reference);
+        }
+    }
 
-	/**
-	 * Checks that the class loader and classes are compatible. In other words, it must be possible to load each of the classes
-	 * using the supplied class loader.
-	 */
-	private void checkClassesForClassLoader(List<Class<?>> classes,	ServiceRegistryReference reference) {
-		
-		final ClassLoader classLoader = reference.getBeanClassLoader();
-		
-		//check that classes are valid
-		for (Class<?> clz : classes) {
-			try {
-				final Class<?> loaded = Class.forName(clz.getName(), false, classLoader);
-				if (loaded != clz) {
-					throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
-							+ " contributed from module '" + reference.getContributingModule() + "'"
-							+ " with bean name '" + reference.getBeanName() + "'"
-							+ " is incompatible with class loader " + classLoader);
-				}
-			} catch (ClassNotFoundException e) {
-				throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
-						+ " contributed from module '" + reference.getContributingModule() + "'"
-						+ " with bean name '" + reference.getBeanName() + "'"
-						+ " could not be found using class loader " + classLoader);
-			}
-		}
-	}
+    /**
+     * Checks that the class loader and classes are compatible. In other words, it must be possible to load each of the classes
+     * using the supplied class loader.
+     */
+    private void checkClassesForClassLoader(List<Class<?>> classes, ServiceRegistryReference reference) {
+        
+        final ClassLoader classLoader = reference.getBeanClassLoader();
+        
+        //check that classes are valid
+        for (Class<?> clz : classes) {
+            try {
+                final Class<?> loaded = Class.forName(clz.getName(), false, classLoader);
+                if (loaded != clz) {
+                    throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
+                            + " contributed from module '" + reference.getContributingModule() + "'"
+                            + " with bean name '" + reference.getBeanName() + "'"
+                            + " is incompatible with class loader " + classLoader);
+                }
+            } catch (ClassNotFoundException e) {
+                throw new InvalidStateException("Class entry '" + clz.getName() + "'" 
+                        + " contributed from module '" + reference.getContributingModule() + "'"
+                        + " with bean name '" + reference.getBeanName() + "'"
+                        + " could not be found using class loader " + classLoader);
+            }
+        }
+    }
 
-	/**
-	 * Checks that the class of the service is assignable to 
-	 * @param classes
-	 * @param reference
-	 */
-	private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryReference reference) {
-		
-		Object service = ServiceRegistryUtils.getTargetInstance(reference);
-		
-		//check that classes are valid
-		for (Class<?> clz : classes) {
-			Class<?> serviceClass = service.getClass();
-			
-			if (!clz.isAssignableFrom(serviceClass)) {
-				throw new InvalidStateException("Service class '" + serviceClass.getName() 
-						+ " contributed from module '" + reference.getContributingModule() + "'"
-						+ " with bean name '" + reference.getBeanName() + "'"
-						+ " is not assignable declared export type " + clz.getName());
-			}			
-		}
-	}
+    /**
+     * Checks that the class of the service is assignable to 
+     * @param classes
+     * @param reference
+     */
+    private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryReference reference) {
+        
+        Object service = ServiceRegistryUtils.getTargetInstance(reference);
+        
+        //check that classes are valid
+        for (Class<?> clz : classes) {
+            Class<?> serviceClass = service.getClass();
+            
+            if (!clz.isAssignableFrom(serviceClass)) {
+                throw new InvalidStateException("Service class '" + serviceClass.getName() 
+                        + " contributed from module '" + reference.getContributingModule() + "'"
+                        + " with bean name '" + reference.getBeanName() + "'"
+                        + " is not assignable declared export type " + clz.getName());
+            }           
+        }
+    }
 
 }

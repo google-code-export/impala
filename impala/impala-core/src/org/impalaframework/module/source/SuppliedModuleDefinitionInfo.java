@@ -17,37 +17,37 @@ package org.impalaframework.module.source;
 import java.util.List;
 
 public class SuppliedModuleDefinitionInfo {
-	private final String name;
+    private final String name;
 
-	private final List<String> configLocations;
+    private final List<String> configLocations;
 
-	private final String overrides;
+    private final String overrides;
 
-	private final String type;
+    private final String type;
 
-	public SuppliedModuleDefinitionInfo(final String name, final List<String> configLocations, final String overrides,
-			final String type) {
-		super();
-		this.name = name;
-		this.configLocations = configLocations;
-		this.overrides = overrides;
-		this.type = type;
-	}
+    public SuppliedModuleDefinitionInfo(final String name, final List<String> configLocations, final String overrides,
+            final String type) {
+        super();
+        this.name = name;
+        this.configLocations = configLocations;
+        this.overrides = overrides;
+        this.type = type;
+    }
 
-	public List<String> getContextLocations() {
-		return configLocations;
-	}
+    public List<String> getContextLocations() {
+        return configLocations;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public String getOverrides() {
-		return overrides;
-	}
+    public String getOverrides() {
+        return overrides;
+    }
 
 }

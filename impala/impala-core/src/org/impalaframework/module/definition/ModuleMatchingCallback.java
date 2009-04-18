@@ -19,27 +19,27 @@ import org.springframework.util.Assert;
 
 public class ModuleMatchingCallback implements ModuleDefinitionCallback {
 
-	private final String value;
-	private final boolean exact;
-	
-	public ModuleMatchingCallback(String value, boolean exact) {
-		super();
-		Assert.notNull(value);
-		this.value = value;
-		this.exact = exact;
-	}
-	
-	public boolean matches(ModuleDefinition moduleDefinition) {
-		if (exact) {
-			if (moduleDefinition.getName().equals(value)) {
-				return true;
-			}
-		} else {
-			if (moduleDefinition.getName().contains(value)) {
-				return true;
-			}
-		}
-		return false;
-	}
+    private final String value;
+    private final boolean exact;
+    
+    public ModuleMatchingCallback(String value, boolean exact) {
+        super();
+        Assert.notNull(value);
+        this.value = value;
+        this.exact = exact;
+    }
+    
+    public boolean matches(ModuleDefinition moduleDefinition) {
+        if (exact) {
+            if (moduleDefinition.getName().equals(value)) {
+                return true;
+            }
+        } else {
+            if (moduleDefinition.getName().contains(value)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
 }

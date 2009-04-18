@@ -32,44 +32,44 @@ import org.springframework.util.FileCopyUtils;
  */
 public class FileUtils {
 
-	public static byte[] getBytes(File file) throws IOException {
-		if (file == null)
-			throw new IllegalArgumentException("File is null");
+    public static byte[] getBytes(File file) throws IOException {
+        if (file == null)
+            throw new IllegalArgumentException("File is null");
 
-		if (!file.exists())
-			throw new InvalidStateException("File " + file + " does not exist");
+        if (!file.exists())
+            throw new InvalidStateException("File " + file + " does not exist");
 
-		return FileCopyUtils.copyToByteArray(file);
-	}
+        return FileCopyUtils.copyToByteArray(file);
+    }
 
-	public static byte[] getBytes(Resource resource) throws IOException {
-		InputStream inputStream = null;
-		try {
-			 inputStream = resource.getInputStream();
-			return FileCopyUtils.copyToByteArray(inputStream);
-		}
-		finally {
-			try {
-				inputStream.close();
-			}
-			catch (Exception e) {
-			}
-		}
-	}
-	
-	public static List<String> readLines(Reader reader) {
-		try {
-			List<String> lines = new ArrayList<String>();
-			BufferedReader bufferedReader = new BufferedReader(reader);
-			String readLine = null;
-			while ((readLine = bufferedReader.readLine()) != null) {
-				lines.add(readLine);
-			}
-			return lines;
-		}
-		catch (IOException e) {
-			throw new ExecutionException("Error reading lines using reader " + reader, e);
-		}
-	}
+    public static byte[] getBytes(Resource resource) throws IOException {
+        InputStream inputStream = null;
+        try {
+             inputStream = resource.getInputStream();
+            return FileCopyUtils.copyToByteArray(inputStream);
+        }
+        finally {
+            try {
+                inputStream.close();
+            }
+            catch (Exception e) {
+            }
+        }
+    }
+    
+    public static List<String> readLines(Reader reader) {
+        try {
+            List<String> lines = new ArrayList<String>();
+            BufferedReader bufferedReader = new BufferedReader(reader);
+            String readLine = null;
+            while ((readLine = bufferedReader.readLine()) != null) {
+                lines.add(readLine);
+            }
+            return lines;
+        }
+        catch (IOException e) {
+            throw new ExecutionException("Error reading lines using reader " + reader, e);
+        }
+    }
 
 }

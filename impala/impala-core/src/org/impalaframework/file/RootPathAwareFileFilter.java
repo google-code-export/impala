@@ -23,5 +23,5 @@ import java.io.FileFilter;
  * @author Phil Zoio
  */
 public interface RootPathAwareFileFilter extends FileFilter {
-	public void setRootPath(File file);
+    public void setRootPath(File file);
 }

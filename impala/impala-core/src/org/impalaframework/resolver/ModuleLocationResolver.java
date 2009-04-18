@@ -33,15 +33,15 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface ModuleLocationResolver {
-	
-	/**
-	 * Returns the directory locations for test classes for a parent project
-	 */
-	public List<Resource> getModuleTestClassLocations(String moduleName);
+    
+    /**
+     * Returns the directory locations for test classes for a parent project
+     */
+    public List<Resource> getModuleTestClassLocations(String moduleName);
 
-	/**
-	 * Returns the directory locations for module classes
-	 */
-	public List<Resource> getApplicationModuleClassLocations(String moduleName);
+    /**
+     * Returns the directory locations for module classes
+     */
+    public List<Resource> getApplicationModuleClassLocations(String moduleName);
 
 }

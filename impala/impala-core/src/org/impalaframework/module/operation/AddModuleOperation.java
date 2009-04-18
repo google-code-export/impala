@@ -30,57 +30,57 @@ import org.springframework.util.Assert;
  */
 public class AddModuleOperation extends BaseModuleOperation {
 
-	protected AddModuleOperation() {
-		super();
-	}
+    protected AddModuleOperation() {
+        super();
+    }
 
-	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
-		
-		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
-		Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
-		
-		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
-		ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
-		
-		addModule(moduleStateHolder, calculator, moduleToAdd);
-		return new ModuleOperationResult(true);
-	}
-	
-	protected void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
-			ModuleDefinition moduleDefinition) {
+    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+        
+        Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+        ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
+        Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
+        
+        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
+        
+        addModule(moduleStateHolder, calculator, moduleToAdd);
+        return new ModuleOperationResult(true);
+    }
+    
+    protected void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+            ModuleDefinition moduleDefinition) {
 
-		RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
-		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+        RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+        RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModuleDefinition parent = moduleDefinition.getParentDefinition();
-		
-		if (moduleDefinition instanceof RootModuleDefinition) {
-			newRootDefinition = (RootModuleDefinition) moduleDefinition;
-		}
-		else {
+        ModuleDefinition parent = moduleDefinition.getParentDefinition();
+        
+        if (moduleDefinition instanceof RootModuleDefinition) {
+            newRootDefinition = (RootModuleDefinition) moduleDefinition;
+        }
+        else {
 
-			ModuleDefinition newParent = null;
+            ModuleDefinition newParent = null;
 
-			if (parent == null) {
-				newParent = newRootDefinition;
-			}
-			else {
-				String parentName = parent.getName();
-				newParent = newRootDefinition.findChildDefinition(parentName, true);
+            if (parent == null) {
+                newParent = newRootDefinition;
+            }
+            else {
+                String parentName = parent.getName();
+                newParent = newRootDefinition.findChildDefinition(parentName, true);
 
-				if (newParent == null) {
-					throw new InvalidStateException("Unable to find parent module '" + parentName + "' in " + newRootDefinition);
-				}
-			}
+                if (newParent == null) {
+                    throw new InvalidStateException("Unable to find parent module '" + parentName + "' in " + newRootDefinition);
+                }
+            }
 
-			newParent.addChildModuleDefinition(moduleDefinition);
-			
-			moduleDefinition.setParentDefinition(newParent);
-		}
+            newParent.addChildModuleDefinition(moduleDefinition);
+            
+            moduleDefinition.setParentDefinition(newParent);
+        }
 
-		TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-		moduleStateHolder.processTransitions(transitions);
-	}	
-	
+        TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
+        moduleStateHolder.processTransitions(transitions);
+    }   
+    
 }

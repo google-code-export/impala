@@ -20,16 +20,16 @@ import org.springframework.beans.factory.FactoryBean;
 
 public class ModuleDefinitionFactoryBean implements FactoryBean {
 
-	public Object getObject() throws Exception {
-		return new SimpleModuleDefinition("mybean");
-	}
+    public Object getObject() throws Exception {
+        return new SimpleModuleDefinition("mybean");
+    }
 
-	public Class<?> getObjectType() {
-		return ModuleDefinition.class;
-	}
+    public Class<?> getObjectType() {
+        return ModuleDefinition.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
 }

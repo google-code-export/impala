@@ -25,23 +25,23 @@ import java.io.File;
  */
 public class FileRecurser {
 
-	public void recurse(FileRecurseHandler handler, File file) {
-		if (file.isDirectory()) {
-			handler.handleDirectory(file);
+    public void recurse(FileRecurseHandler handler, File file) {
+        if (file.isDirectory()) {
+            handler.handleDirectory(file);
 
-			File[] files = file.listFiles(handler.getDirectoryFilter());
-			for (File subfile : files) {
-				if (subfile.isFile()) {
-					handler.handleFile(subfile);
-				}
-				else if (subfile.isDirectory()) {
-					recurse(handler, subfile);
-				}
-			}
-		}
-		else {
-			handler.handleFile(file);
-		}
-	}
+            File[] files = file.listFiles(handler.getDirectoryFilter());
+            for (File subfile : files) {
+                if (subfile.isFile()) {
+                    handler.handleFile(subfile);
+                }
+                else if (subfile.isDirectory()) {
+                    recurse(handler, subfile);
+                }
+            }
+        }
+        else {
+            handler.handleFile(file);
+        }
+    }
 
 }

@@ -25,12 +25,12 @@ import org.w3c.dom.Document;
  */
 public class XMLModulelDefinitionDocumentLoader {
 
-	protected Document loadDocument(Resource resource) {
-		try {
-			return XMLDomUtils.loadDocument(resource);
-		} catch (Exception e) {
-			throw new ConfigurationException("Unable to load XML module definition document from resource " + resource, e);
-		}
-	}
+    protected Document loadDocument(Resource resource) {
+        try {
+            return XMLDomUtils.loadDocument(resource);
+        } catch (Exception e) {
+            throw new ConfigurationException("Unable to load XML module definition document from resource " + resource, e);
+        }
+    }
 
 }

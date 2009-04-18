@@ -15,8 +15,8 @@ package org.impalaframework.command.framework;
 
 public interface Command {
 
-	public CommandDefinition getCommandDefinition();
+    public CommandDefinition getCommandDefinition();
 
-	boolean execute(CommandState commandState);
+    boolean execute(CommandState commandState);
 
 }

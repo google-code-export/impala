@@ -31,17 +31,17 @@ import junit.framework.TestSuite;
  */
 public class AutomatedBuildTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(AntForeachTaskTest.class);
-		suite.addTestSuite(ConditionalPropertyTaskTest.class);
-		suite.addTestSuite(CopyPackageMapperTest.class);
-		suite.addTestSuite(DownloadTaskTest.class);
-		suite.addTestSuite(GetTaskTest.class);
-		suite.addTestSuite(GetTaskResultTest.class);
-		suite.addTestSuite(MavenPublishTaskTest.class);
-		suite.addTestSuite(SVNRevisionTaskTest.class);
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(AntForeachTaskTest.class);
+        suite.addTestSuite(ConditionalPropertyTaskTest.class);
+        suite.addTestSuite(CopyPackageMapperTest.class);
+        suite.addTestSuite(DownloadTaskTest.class);
+        suite.addTestSuite(GetTaskTest.class);
+        suite.addTestSuite(GetTaskResultTest.class);
+        suite.addTestSuite(MavenPublishTaskTest.class);
+        suite.addTestSuite(SVNRevisionTaskTest.class);
 
-		return suite;
-	}
+        return suite;
+    }
 }

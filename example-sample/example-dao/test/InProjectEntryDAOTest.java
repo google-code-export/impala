@@ -27,36 +27,36 @@ import classes.EntryDAOImpl;
 
 public class InProjectEntryDAOTest extends BaseDataTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(InProjectEntryDAOTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(InProjectEntryDAOTest.class);
+    }
 
-	public void testDAO() {		
-		EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
+    public void testDAO() {     
+        EntryDAO dao = Impala.getBean("entryDAO", EntryDAO.class);
 
-		//this relies on setting SuiteOperationFacade when running as JUnit test
-		EntryDAOImpl impl = Impala.getModuleBean("example-dao", "entryDAO", EntryDAOImpl.class);
-		System.out.println(impl.getHibernateTemplate());
-		
-		Entry entry = new Entry();
-		entry.setTitle("Cabernet");
-		entry.setCount(1996);
-		dao.save(entry);
+        //this relies on setting SuiteOperationFacade when running as JUnit test
+        EntryDAOImpl impl = Impala.getModuleBean("example-dao", "entryDAO", EntryDAOImpl.class);
+        System.out.println(impl.getHibernateTemplate());
+        
+        Entry entry = new Entry();
+        entry.setTitle("Cabernet");
+        entry.setCount(1996);
+        dao.save(entry);
 
-		Collection<Entry> entriesOfVintage = dao.getEntriesWithCount(1996);
-		System.out.println("Entries of count 1996: " + entriesOfVintage.size());
-		assertEquals(1, entriesOfVintage.size());
+        Collection<Entry> entriesOfVintage = dao.getEntriesWithCount(1996);
+        System.out.println("Entries of count 1996: " + entriesOfVintage.size());
+        assertEquals(1, entriesOfVintage.size());
 
-		entry.setCount(2000);
-		dao.update(entry);
+        entry.setCount(2000);
+        dao.update(entry);
 
-		Entry updated = dao.findById(entry.getId());
-		assertEquals(2000, updated.getCount());
+        Entry updated = dao.findById(entry.getId());
+        assertEquals(2000, updated.getCount());
 
-	}
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		return new TestDefinitionSource("example-dao", "example-hibernate").getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        return new TestDefinitionSource("example-dao", "example-hibernate").getModuleDefinition();
+    }
 
 }

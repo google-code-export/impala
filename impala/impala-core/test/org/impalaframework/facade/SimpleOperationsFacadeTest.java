@@ -24,18 +24,18 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class SimpleOperationsFacadeTest extends TestCase {
 
-	public void testSimpleOperationsFacade() {
-		
-		ModuleManagementFacade managementFacade = createMock(ModuleManagementFacade.class);
-		
-		expect(managementFacade.getModuleStateHolder()).andReturn(createMock(ModuleStateHolder.class));
-		replay(managementFacade);
-		
-		SimpleOperationsFacade facade = new SimpleOperationsFacade(managementFacade);
-		assertNotNull(facade.getModuleStateHolder());
-		assertNotNull(facade.getModuleManagementFacade());
-		
-		verify(managementFacade);
-	}
+    public void testSimpleOperationsFacade() {
+        
+        ModuleManagementFacade managementFacade = createMock(ModuleManagementFacade.class);
+        
+        expect(managementFacade.getModuleStateHolder()).andReturn(createMock(ModuleStateHolder.class));
+        replay(managementFacade);
+        
+        SimpleOperationsFacade facade = new SimpleOperationsFacade(managementFacade);
+        assertNotNull(facade.getModuleStateHolder());
+        assertNotNull(facade.getModuleManagementFacade());
+        
+        verify(managementFacade);
+    }
 
 }

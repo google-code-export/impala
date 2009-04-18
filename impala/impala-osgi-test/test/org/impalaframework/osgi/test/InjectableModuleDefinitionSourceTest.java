@@ -30,68 +30,68 @@ import org.osgi.framework.BundleContext;
 
 public class InjectableModuleDefinitionSourceTest extends TestCase {
 
-	private BundleContext bundleContext;
-	private Bundle bundle;
-	private SimpleRootModuleDefinition moduleDefinition;
-	private InjectableModuleDefinitionSource source;
+    private BundleContext bundleContext;
+    private Bundle bundle;
+    private SimpleRootModuleDefinition moduleDefinition;
+    private InjectableModuleDefinitionSource source;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		bundleContext = createMock(BundleContext.class);
-		bundle = createMock(Bundle.class);
-		moduleDefinition = new SimpleRootModuleDefinition("root", "root.xml");
-		source = new InjectableModuleDefinitionSource(bundleContext);
-	}	
-	
-	public void testInjectNull() {
-		replayMocks();
-		source.inject(null);
-		
-		assertNull(source.getModuleDefinition());
-		verifyMocks();
-	}
-	
-	public void testInjectNotSerializable() {
-		replayMocks();
-		
-		try {
-			source.inject(new Object());
-			fail();
-		} catch (InvalidStateException e) {
-			assertEquals("Attempting to inject non-serializable module definition class 'java.lang.Object'", e.getMessage());
-		}
-		verifyMocks();
-	}
-	
-	public void testInjectSource() throws Exception {
-		InjectableModuleDefinitionSource source = new InjectableModuleDefinitionSource(bundleContext) {
-			
-			@Override
-			SerializationStreamFactory newStreamFactory(ClassLoader classLoader) {
-				return new DefaultSerializationStreamFactory();
-			}
-		};
-		
-		expect(bundleContext.getBundle()).andReturn(bundle);
-		
-		replayMocks();
-		source.inject(moduleDefinition);
-		
-		final RootModuleDefinition sourceModuleDefinition = source.getModuleDefinition();
-		assertFalse(moduleDefinition == sourceModuleDefinition);
-		assertEquals(moduleDefinition.getClass(), sourceModuleDefinition.getClass());
-		verifyMocks();
-	}
-	
-	private void replayMocks() {
-		replay(bundleContext);
-		replay(bundle);
-	}
-	
-	private void verifyMocks() {
-		verify(bundleContext);
-		verify(bundle);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        bundleContext = createMock(BundleContext.class);
+        bundle = createMock(Bundle.class);
+        moduleDefinition = new SimpleRootModuleDefinition("root", "root.xml");
+        source = new InjectableModuleDefinitionSource(bundleContext);
+    }   
+    
+    public void testInjectNull() {
+        replayMocks();
+        source.inject(null);
+        
+        assertNull(source.getModuleDefinition());
+        verifyMocks();
+    }
+    
+    public void testInjectNotSerializable() {
+        replayMocks();
+        
+        try {
+            source.inject(new Object());
+            fail();
+        } catch (InvalidStateException e) {
+            assertEquals("Attempting to inject non-serializable module definition class 'java.lang.Object'", e.getMessage());
+        }
+        verifyMocks();
+    }
+    
+    public void testInjectSource() throws Exception {
+        InjectableModuleDefinitionSource source = new InjectableModuleDefinitionSource(bundleContext) {
+            
+            @Override
+            SerializationStreamFactory newStreamFactory(ClassLoader classLoader) {
+                return new DefaultSerializationStreamFactory();
+            }
+        };
+        
+        expect(bundleContext.getBundle()).andReturn(bundle);
+        
+        replayMocks();
+        source.inject(moduleDefinition);
+        
+        final RootModuleDefinition sourceModuleDefinition = source.getModuleDefinition();
+        assertFalse(moduleDefinition == sourceModuleDefinition);
+        assertEquals(moduleDefinition.getClass(), sourceModuleDefinition.getClass());
+        verifyMocks();
+    }
+    
+    private void replayMocks() {
+        replay(bundleContext);
+        replay(bundle);
+    }
+    
+    private void verifyMocks() {
+        verify(bundleContext);
+        verify(bundle);
+    }
 
 }

@@ -22,15 +22,15 @@ import org.springframework.core.io.Resource;
 
 public class TestEnabledModuleLocationResolver extends CascadingModuleLocationResolver {
 
-	private List<ModuleResourceFinder> testResourceFinders;
-	
-	@Override
-	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		return super.getResources(moduleName, testResourceFinders);
-	}
+    private List<ModuleResourceFinder> testResourceFinders;
+    
+    @Override
+    public List<Resource> getModuleTestClassLocations(String moduleName) {
+        return super.getResources(moduleName, testResourceFinders);
+    }
 
-	public void setTestResourceFinders(List<ModuleResourceFinder> testResourceFinders) {
-		this.testResourceFinders = testResourceFinders;
-	}
+    public void setTestResourceFinders(List<ModuleResourceFinder> testResourceFinders) {
+        this.testResourceFinders = testResourceFinders;
+    }
 
 }

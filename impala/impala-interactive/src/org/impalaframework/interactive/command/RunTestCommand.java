@@ -20,24 +20,24 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class RunTestCommand extends BaseRunTestCommand {
 
-	public RunTestCommand() {
-		super();
-	}
+    public RunTestCommand() {
+        super();
+    }
 
-	protected RunTestCommand(ModuleLocationResolver moduleLocationResolver) {
-		super(moduleLocationResolver);
-	}
+    protected RunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+        super(moduleLocationResolver);
+    }
 
-	protected String getMethodName(CommandState commandState, Class<?> testClass) {
-		SelectMethodCommand command = new SelectMethodCommand(testClass);
-		command.execute(commandState);
-		String methodName = command.getMethodName();
-		
-		if (methodName == null) {
-			System.out.println("No matching test method found.");
-		}
-		
-		return methodName;
-	}
+    protected String getMethodName(CommandState commandState, Class<?> testClass) {
+        SelectMethodCommand command = new SelectMethodCommand(testClass);
+        command.execute(commandState);
+        String methodName = command.getMethodName();
+        
+        if (methodName == null) {
+            System.out.println("No matching test method found.");
+        }
+        
+        return methodName;
+    }
 
 }

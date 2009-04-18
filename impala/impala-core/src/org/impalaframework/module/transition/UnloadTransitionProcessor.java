@@ -24,31 +24,31 @@ import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
 public class UnloadTransitionProcessor implements TransitionProcessor {
-	
-	private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
+    
+    private static final Log logger = LogFactory.getLog(UnloadTransitionProcessor.class);
 
-	private ModuleRuntimeManager moduleRuntimeManager;	
-	
-	public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
-		
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(moduleRuntimeManager);
-		boolean closeModule = moduleRuntimeManager.closeModule(moduleDefinition);
-		
-		if (closeModule) {
-			moduleDefinition.setState(ModuleState.UNLOADED);
-		} else {
-			moduleDefinition.setState(ModuleState.UNKNOWN);
-		}
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Marked '" + moduleDefinition.getName() + "' to state " + moduleDefinition.getState());
-		}
-		
-		return closeModule;
-	}
+    private ModuleRuntimeManager moduleRuntimeManager;  
+    
+    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
+        
+        Assert.notNull(moduleDefinition);
+        Assert.notNull(moduleRuntimeManager);
+        boolean closeModule = moduleRuntimeManager.closeModule(moduleDefinition);
+        
+        if (closeModule) {
+            moduleDefinition.setState(ModuleState.UNLOADED);
+        } else {
+            moduleDefinition.setState(ModuleState.UNKNOWN);
+        }
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Marked '" + moduleDefinition.getName() + "' to state " + moduleDefinition.getState());
+        }
+        
+        return closeModule;
+    }
 
-	public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
-		this.moduleRuntimeManager = moduleRuntimeManager;
-	}
+    public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
+        this.moduleRuntimeManager = moduleRuntimeManager;
+    }
 }

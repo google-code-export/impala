@@ -22,33 +22,33 @@ import junit.framework.TestCase;
  */
 public class PathUtilsTest extends TestCase {
 
-	public void testGetCurrentDirectoryName() {
-		try {
-			assertEquals("impala-core", PathUtils.getCurrentDirectoryName());
-		}
-		catch (AssertionFailedError e) {
-			assertEquals("tests", PathUtils.getCurrentDirectoryName());
-		}
-	}
+    public void testGetCurrentDirectoryName() {
+        try {
+            assertEquals("impala-core", PathUtils.getCurrentDirectoryName());
+        }
+        catch (AssertionFailedError e) {
+            assertEquals("tests", PathUtils.getCurrentDirectoryName());
+        }
+    }
 
-	public void testGetPath() {
-		assertEquals("/", PathUtils.getPath("", ""));
-		assertEquals("/", PathUtils.getPath("/", ""));
-		assertEquals("/", PathUtils.getPath(null, null));
-		assertEquals("/", PathUtils.getPath("", null));
-		assertEquals("/", PathUtils.getPath(null, ""));
-		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "deploy/classes"));
-		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "/deploy/classes"));
-		assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix/", "/deploy/classes"));
-	}
-	
-	public void testTrimPrefix() throws Exception {
+    public void testGetPath() {
+        assertEquals("/", PathUtils.getPath("", ""));
+        assertEquals("/", PathUtils.getPath("/", ""));
+        assertEquals("/", PathUtils.getPath(null, null));
+        assertEquals("/", PathUtils.getPath("", null));
+        assertEquals("/", PathUtils.getPath(null, ""));
+        assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "deploy/classes"));
+        assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix", "/deploy/classes"));
+        assertEquals("/myprefix/deploy/classes", PathUtils.getPath("/myprefix/", "/deploy/classes"));
+    }
+    
+    public void testTrimPrefix() throws Exception {
 
-		assertEquals(null, PathUtils.trimPrefix(null, "/myprefix"));
-		assertEquals("", PathUtils.trimPrefix("", "/myprefix"));
-		assertEquals("", PathUtils.trimPrefix("/myprefix", "/myprefix"));
-		assertEquals("/extra", PathUtils.trimPrefix("/myprefix/extra", "/myprefix"));
-		assertEquals("/myprefix", PathUtils.trimPrefix("/myprefix", "/myprefix/extra"));
-	}
+        assertEquals(null, PathUtils.trimPrefix(null, "/myprefix"));
+        assertEquals("", PathUtils.trimPrefix("", "/myprefix"));
+        assertEquals("", PathUtils.trimPrefix("/myprefix", "/myprefix"));
+        assertEquals("/extra", PathUtils.trimPrefix("/myprefix/extra", "/myprefix"));
+        assertEquals("/myprefix", PathUtils.trimPrefix("/myprefix", "/myprefix/extra"));
+    }
 
 }

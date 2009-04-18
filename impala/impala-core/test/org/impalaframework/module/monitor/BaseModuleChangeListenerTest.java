@@ -28,20 +28,20 @@ import junit.framework.TestCase;
  */
 public class BaseModuleChangeListenerTest extends TestCase {
 
-	public final void testGetModifiedModules() {
-		BaseModuleChangeListener listener = new BaseModuleChangeListener();
-		ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
-		ModuleChangeEvent event = new ModuleChangeEvent(info);
-		assertTrue(listener.getModifiedModules(event).isEmpty());
-		
-		info.add(new ModuleChangeInfo("p1"));
-		info.add(new ModuleChangeInfo("p2"));
-		info.add(new ModuleChangeInfo("p2"));
-		
-		event = new ModuleChangeEvent(info);
-		Set<String> modifiedModules = listener.getModifiedModules(event);
-		assertEquals(2, modifiedModules.size());
-		assertTrue(modifiedModules.contains("p1"));
-	}
+    public final void testGetModifiedModules() {
+        BaseModuleChangeListener listener = new BaseModuleChangeListener();
+        ArrayList<ModuleChangeInfo> info = new ArrayList<ModuleChangeInfo>();
+        ModuleChangeEvent event = new ModuleChangeEvent(info);
+        assertTrue(listener.getModifiedModules(event).isEmpty());
+        
+        info.add(new ModuleChangeInfo("p1"));
+        info.add(new ModuleChangeInfo("p2"));
+        info.add(new ModuleChangeInfo("p2"));
+        
+        event = new ModuleChangeEvent(info);
+        Set<String> modifiedModules = listener.getModifiedModules(event);
+        assertEquals(2, modifiedModules.size());
+        assertTrue(modifiedModules.contains("p1"));
+    }
 
 }

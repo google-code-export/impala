@@ -15,20 +15,20 @@ import org.springframework.validation.Validator;
 @SuppressWarnings("unchecked")
 public class PetValidator implements Validator {
 
-	public boolean supports(Class clazz) {
-		return Pet.class.isAssignableFrom(clazz);
-	}
+    public boolean supports(Class clazz) {
+        return Pet.class.isAssignableFrom(clazz);
+    }
 
-	public void validate(Object obj, Errors errors) {
-		Pet pet = (Pet) obj;
+    public void validate(Object obj, Errors errors) {
+        Pet pet = (Pet) obj;
 
-		String name = pet.getName();
-		if (!StringUtils.hasLength(name)) {
-			errors.rejectValue("name", "required", "required");
-		}
-		else if (pet.isNew() && pet.getOwner().getPet(name, true) != null) {
-			errors.rejectValue("name", "duplicate", "already exists");
-		}
-	}
+        String name = pet.getName();
+        if (!StringUtils.hasLength(name)) {
+            errors.rejectValue("name", "required", "required");
+        }
+        else if (pet.isNew() && pet.getOwner().getPet(name, true) != null) {
+            errors.rejectValue("name", "duplicate", "already exists");
+        }
+    }
 
 }

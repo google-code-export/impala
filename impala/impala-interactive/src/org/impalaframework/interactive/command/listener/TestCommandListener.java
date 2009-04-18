@@ -17,6 +17,6 @@ package org.impalaframework.interactive.command.listener;
 
 public interface TestCommandListener {
 
-	void commandExecuted(String commandText);
+    void commandExecuted(String commandText);
 
 }

@@ -27,69 +27,69 @@ import org.springframework.util.Assert;
  */
 public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, InitializingBean {
 
-	private BeanFactory beanFactory;
+    private BeanFactory beanFactory;
 
-	private String beanName;
-	
-	private String suffix;
+    private String beanName;
+    
+    private String suffix;
 
-	private Class<?> objectType;
+    private Class<?> objectType;
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(beanName);
-	}
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(beanName);
+    }
 
-	public Object getObject() throws Exception {
-		String fullBeanName = beanName + (suffix != null ? suffix : "");
-		if (objectType != null) {
-		// beanFactory won't permit invalid type to be returned
-			return beanFactory.getBean(fullBeanName, objectType);
-		}
-		else {
-			return beanFactory.getBean(fullBeanName);
-		}
-	}
+    public Object getObject() throws Exception {
+        String fullBeanName = beanName + (suffix != null ? suffix : "");
+        if (objectType != null) {
+        // beanFactory won't permit invalid type to be returned
+            return beanFactory.getBean(fullBeanName, objectType);
+        }
+        else {
+            return beanFactory.getBean(fullBeanName);
+        }
+    }
 
-	public Class<?> getObjectType() {
-		return objectType;
-	}
+    public Class<?> getObjectType() {
+        return objectType;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
-	
-	/* ************* BeanFactoryAware implementation ************ */
+    public boolean isSingleton() {
+        return true;
+    }
+    
+    /* ************* BeanFactoryAware implementation ************ */
 
-	/**
-	 * Sets the <code>BeanFactory</code> from which the bean is returned.
-	 * Implementation method of the <code>BeanFactoryAware</code> interface.
-	 */
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}
+    /**
+     * Sets the <code>BeanFactory</code> from which the bean is returned.
+     * Implementation method of the <code>BeanFactoryAware</code> interface.
+     */
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
 
-	/* ************* injected types ************ */
+    /* ************* injected types ************ */
 
-	/**
-	 * Injection property, setting the name of the bean to be returned using <code>getObject()</code>. Required.
-	 */
-	public void setBeanName(String beanName) {
-		this.beanName = beanName;
-	}
-	
-	/**
-	 * Used to add suffix to the bean name. Allows suffix portion of bean name to be static, with <code>beanName</code>
-	 * being injected dynamically, for example, using {@link StringFactoryBean}
-	 */
-	public void setSuffix(String suffix) {
-		this.suffix = suffix;
-	}
+    /**
+     * Injection property, setting the name of the bean to be returned using <code>getObject()</code>. Required.
+     */
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
+    
+    /**
+     * Used to add suffix to the bean name. Allows suffix portion of bean name to be static, with <code>beanName</code>
+     * being injected dynamically, for example, using {@link StringFactoryBean}
+     */
+    public void setSuffix(String suffix) {
+        this.suffix = suffix;
+    }
 
-	/**
-	 * Injection property, setting the type of the bean to be returned using <code>getObjectType()</code>. Required.
-	 */
-	public void setObjectType(Class<?> objectType) {
-		this.objectType = objectType;
-	}
+    /**
+     * Injection property, setting the type of the bean to be returned using <code>getObjectType()</code>. Required.
+     */
+    public void setObjectType(Class<?> objectType) {
+        this.objectType = objectType;
+    }
 
 }

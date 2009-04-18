@@ -15,10 +15,10 @@ package org.impalaframework.command.framework;
 
 public interface InputCapturer {
 
-	String capture(CommandInfo info);
+    String capture(CommandInfo info);
 
-	String recapture(CommandInfo info);
+    String recapture(CommandInfo info);
 
-	void displayValidationMessage(String validationMessage);
+    void displayValidationMessage(String validationMessage);
 
 }

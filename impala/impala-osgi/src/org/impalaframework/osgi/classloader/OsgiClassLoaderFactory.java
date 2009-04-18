@@ -28,28 +28,28 @@ import org.springframework.osgi.util.BundleDelegatingClassLoader;
  * @author Phil Zoio
  */
 public class OsgiClassLoaderFactory implements ClassLoaderFactory, BundleContextAware {
-	
-	private BundleContext bundleContext;
+    
+    private BundleContext bundleContext;
 
-	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
-		
-		Bundle bundle = findAndCheckBundle(moduleDefinition);
-		return BundleDelegatingClassLoader.createBundleClassLoaderFor(bundle);
-	}
-	
-	Bundle findBundle(ModuleDefinition moduleDefinition) {
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
-		return bundle;
-	}
+    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+        
+        Bundle bundle = findAndCheckBundle(moduleDefinition);
+        return BundleDelegatingClassLoader.createBundleClassLoaderFor(bundle);
+    }
+    
+    Bundle findBundle(ModuleDefinition moduleDefinition) {
+        Bundle bundle = OsgiUtils.findBundle(bundleContext, moduleDefinition.getName());
+        return bundle;
+    }
 
-	private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
-		Bundle bundle = findBundle(moduleDefinition);
-		OsgiUtils.checkBundle(moduleDefinition, bundle);
-		return bundle;
-	}
+    private Bundle findAndCheckBundle(ModuleDefinition moduleDefinition) {
+        Bundle bundle = findBundle(moduleDefinition);
+        OsgiUtils.checkBundle(moduleDefinition, bundle);
+        return bundle;
+    }
 
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
 }

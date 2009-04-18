@@ -23,11 +23,11 @@ import javax.servlet.http.HttpServletRequest;
  * @author Phil Zoio
  */
 public interface RequestModuleMapper {
-	
-	void init(ServletConfig servletConfig);
-	
-	void init(FilterConfig filterConfig);
+    
+    void init(ServletConfig servletConfig);
+    
+    void init(FilterConfig filterConfig);
 
-	String getModuleForRequest(HttpServletRequest request);
-	
+    String getModuleForRequest(HttpServletRequest request);
+    
 }

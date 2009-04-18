@@ -22,45 +22,45 @@ import org.impalaframework.classloader.BaseURLClassLoader;
 
 public class TestClassLoader extends BaseURLClassLoader {
 
-	private static final Log logger = LogFactory.getLog(TestClassLoader.class);
+    private static final Log logger = LogFactory.getLog(TestClassLoader.class);
 
-	private String testClassName;
+    private String testClassName;
 
-	public TestClassLoader(File[] locations, String testClassName) {
-		super(locations);
-		this.testClassName = testClassName;
-	}
+    public TestClassLoader(File[] locations, String testClassName) {
+        super(locations);
+        this.testClassName = testClassName;
+    }
 
-	public TestClassLoader(ClassLoader parent, File[] locations, String testClassName) {
-		super(parent, locations);
-		this.testClassName = testClassName;
-	}
+    public TestClassLoader(ClassLoader parent, File[] locations, String testClassName) {
+        super(parent, locations);
+        this.testClassName = testClassName;
+    }
 
-	public Class<?> loadClass(String className) throws ClassNotFoundException {
+    public Class<?> loadClass(String className) throws ClassNotFoundException {
 
-		Class<?> toReturn = null;
+        Class<?> toReturn = null;
 
-		if (!className.contains(testClassName)) {
-			toReturn = loadParentClass(className);
-			if (toReturn == null) {
-				toReturn = getAlreadyLoadedClass(className);
-			}
-		}
+        if (!className.contains(testClassName)) {
+            toReturn = loadParentClass(className);
+            if (toReturn == null) {
+                toReturn = getAlreadyLoadedClass(className);
+            }
+        }
 
-		if (toReturn == null) {
-			toReturn = loadCustomClass(className);
-		}
+        if (toReturn == null) {
+            toReturn = loadCustomClass(className);
+        }
 
-		if (toReturn == null) {
-			if (logger.isDebugEnabled())
-				logger.debug("Class not found: " + className);
-			throw new ClassNotFoundException(className);
-		}
+        if (toReturn == null) {
+            if (logger.isDebugEnabled())
+                logger.debug("Class not found: " + className);
+            throw new ClassNotFoundException(className);
+        }
 
-		// System.out.println("TestClassLoader: " + className + " loaded by " +
-		// toReturn.getClassLoader());
-		return toReturn;
-		
-	}
+        // System.out.println("TestClassLoader: " + className + " loaded by " +
+        // toReturn.getClassLoader());
+        return toReturn;
+        
+    }
 
 }

@@ -33,22 +33,22 @@ import org.impalaframework.interactive.command.ShowModulesCommandTest;
 
 public class AutomatedInteractiveTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		
-		suite.addTestSuite(ExitCommandTest.class);
-		suite.addTestSuite(InitContextCommandTest.class);
-		suite.addTestSuite(InteractiveCommandUtilsTest.class);
-		suite.addTestSuite(InteractiveTestCommandTest.class);
-		suite.addTestSuite(LoadDefinitionCommandTest.class);
-		suite.addTestSuite(LoadDefinitionFromClassCommandTest.class);
-		suite.addTestSuite(LoadTestClassContextCommandTest.class);
-		suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
-		suite.addTestSuite(ReloadCommandTest.class);
-		suite.addTestSuite(RunTestCommandTest.class);
-		suite.addTestSuite(ShowModulesCommandTest.class);
-		suite.addTestSuite(TestClassLoaderTest.class);
-		suite.addTestSuite(TestContextLocationResolverTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        
+        suite.addTestSuite(ExitCommandTest.class);
+        suite.addTestSuite(InitContextCommandTest.class);
+        suite.addTestSuite(InteractiveCommandUtilsTest.class);
+        suite.addTestSuite(InteractiveTestCommandTest.class);
+        suite.addTestSuite(LoadDefinitionCommandTest.class);
+        suite.addTestSuite(LoadDefinitionFromClassCommandTest.class);
+        suite.addTestSuite(LoadTestClassContextCommandTest.class);
+        suite.addTestSuite(ModuleDefinitionAwareClassFilterTest.class);
+        suite.addTestSuite(ReloadCommandTest.class);
+        suite.addTestSuite(RunTestCommandTest.class);
+        suite.addTestSuite(ShowModulesCommandTest.class);
+        suite.addTestSuite(TestClassLoaderTest.class);
+        suite.addTestSuite(TestContextLocationResolverTest.class);
+        return suite;
+    }
 }

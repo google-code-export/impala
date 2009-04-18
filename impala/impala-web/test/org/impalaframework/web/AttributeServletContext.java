@@ -30,111 +30,111 @@ import javax.servlet.ServletException;
 
 public class AttributeServletContext implements ServletContext {
 
-	private Map<String,Object> attributes = new HashMap<String, Object>();
-	
-	public AttributeServletContext() {
-		super();
-	}
+    private Map<String,Object> attributes = new HashMap<String, Object>();
+    
+    public AttributeServletContext() {
+        super();
+    }
 
-	public Object getAttribute(String name) {
-		return attributes.get(name);
-	}
+    public Object getAttribute(String name) {
+        return attributes.get(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Enumeration getAttributeNames() {
-		return Collections.enumeration(attributes.keySet());
-	}
+    @SuppressWarnings("unchecked")
+    public Enumeration getAttributeNames() {
+        return Collections.enumeration(attributes.keySet());
+    }
 
-	public ServletContext getContext(String uriPath) {
-		return null;
-	}
-	
-	public String getContextPath() {
-		return null;
-	}
+    public ServletContext getContext(String uriPath) {
+        return null;
+    }
+    
+    public String getContextPath() {
+        return null;
+    }
 
 
-	public String getInitParameter(String name) {
-		return null;
-	}
+    public String getInitParameter(String name) {
+        return null;
+    }
 
-	@SuppressWarnings("unchecked")
-	public Enumeration getInitParameterNames() {
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+    public Enumeration getInitParameterNames() {
+        return null;
+    }
 
-	public int getMajorVersion() {
-		return 0;
-	}
+    public int getMajorVersion() {
+        return 0;
+    }
 
-	public String getMimeType(String file) {
-		return null;
-	}
+    public String getMimeType(String file) {
+        return null;
+    }
 
-	public int getMinorVersion() {
-		return 0;
-	}
+    public int getMinorVersion() {
+        return 0;
+    }
 
-	public RequestDispatcher getNamedDispatcher(String name) {
-		return null;
-	}
+    public RequestDispatcher getNamedDispatcher(String name) {
+        return null;
+    }
 
-	public String getRealPath(String path) {
-		return null;
-	}
+    public String getRealPath(String path) {
+        return null;
+    }
 
-	public RequestDispatcher getRequestDispatcher(String path) {
-		return null;
-	}
+    public RequestDispatcher getRequestDispatcher(String path) {
+        return null;
+    }
 
-	public URL getResource(String path) throws MalformedURLException {
-		return null;
-	}
+    public URL getResource(String path) throws MalformedURLException {
+        return null;
+    }
 
-	public InputStream getResourceAsStream(String path) {
-		return null;
-	}
+    public InputStream getResourceAsStream(String path) {
+        return null;
+    }
 
-	@SuppressWarnings("unchecked")
-	public Set getResourcePaths(String path) {
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+    public Set getResourcePaths(String path) {
+        return null;
+    }
 
-	public String getServerInfo() {
-		return null;
-	}
+    public String getServerInfo() {
+        return null;
+    }
 
-	public Servlet getServlet(String name) throws ServletException {
-		return null;
-	}
+    public Servlet getServlet(String name) throws ServletException {
+        return null;
+    }
 
-	public String getServletContextName() {
-		return null;
-	}
+    public String getServletContextName() {
+        return null;
+    }
 
-	public Enumeration<?> getServletNames() {
-		return null;
-	}
+    public Enumeration<?> getServletNames() {
+        return null;
+    }
 
-	public Enumeration<?> getServlets() {
-		return null;
-	}
+    public Enumeration<?> getServlets() {
+        return null;
+    }
 
-	public void log(String message) {
-	}
+    public void log(String message) {
+    }
 
-	public void log(Exception exception, String message) {
-	}
+    public void log(Exception exception, String message) {
+    }
 
-	public void log(String message, Throwable throwable) {
-	}
+    public void log(String message, Throwable throwable) {
+    }
 
-	public void removeAttribute(String name) {
-		attributes.remove(name);
-	}
+    public void removeAttribute(String name) {
+        attributes.remove(name);
+    }
 
-	public void setAttribute(String name, Object value) {
-		attributes.put(name, value);
-	}
+    public void setAttribute(String name, Object value) {
+        attributes.put(name, value);
+    }
 
 }

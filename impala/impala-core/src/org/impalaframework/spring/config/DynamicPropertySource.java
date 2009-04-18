@@ -37,83 +37,83 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable, DisposableBean {
-	
-	private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);	
-	
-	private int reloadInterval = 100;
-	
-	private int reloadInitialDelay = 10;
+    
+    private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);   
+    
+    private int reloadInterval = 100;
+    
+    private int reloadInitialDelay = 10;
 
-	private Properties properties;
-	
-	private DynamicPropertiesFactoryBean factoryBean;
+    private Properties properties;
+    
+    private DynamicPropertiesFactoryBean factoryBean;
 
-	private ScheduledExecutorService executorService;
-	
-	public synchronized String getValue(String name) {
-		return properties.getProperty(name);
-	}
-	
-	/* ********************* initializing bean implementation ******************** */
+    private ScheduledExecutorService executorService;
+    
+    public synchronized String getValue(String name) {
+        return properties.getProperty(name);
+    }
+    
+    /* ********************* initializing bean implementation ******************** */
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(factoryBean);
-		
-		run();
-		
-		//if we don't already have an executor service, create a single threaded executor
-		if (executorService == null) {
-			logger.info("No executor service wired in for '" + factoryBean + "'. Creating new single threaded executor");
-			executorService = Executors.newSingleThreadScheduledExecutor();
-		}
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(factoryBean);
+        
+        run();
+        
+        //if we don't already have an executor service, create a single threaded executor
+        if (executorService == null) {
+            logger.info("No executor service wired in for '" + factoryBean + "'. Creating new single threaded executor");
+            executorService = Executors.newSingleThreadScheduledExecutor();
+        }
 
-		logger.info("Starting executor service for for '" + factoryBean + "'. Initial delay: " + reloadInitialDelay + " seconds, interval: " + reloadInterval + " seconds");
-		executorService.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
-	}
-	
-	/* ********************* disposable bean implementation ******************** */
+        logger.info("Starting executor service for for '" + factoryBean + "'. Initial delay: " + reloadInitialDelay + " seconds, interval: " + reloadInterval + " seconds");
+        executorService.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
+    }
+    
+    /* ********************* disposable bean implementation ******************** */
 
-	public void destroy() throws Exception {
-		try {
-			logger.info("Shutting down executor service for " + factoryBean);
-			executorService.shutdown();
-		} catch (RuntimeException e) {
-			logger.error("Error shutting down service for " + factoryBean + ": " + e.getMessage(), e);
-		}
-	}
-	
-	public void run() {
-		update();
-	}
+    public void destroy() throws Exception {
+        try {
+            logger.info("Shutting down executor service for " + factoryBean);
+            executorService.shutdown();
+        } catch (RuntimeException e) {
+            logger.error("Error shutting down service for " + factoryBean + ": " + e.getMessage(), e);
+        }
+    }
+    
+    public void run() {
+        update();
+    }
 
-	public synchronized void update() {
-		if (properties != null) {
-			logger.info("Checking for updates to properties from " + factoryBean);
-		}
-		try {
-			Properties props = (Properties) factoryBean.getObject();
-			properties = props;
-		} catch (IOException e) {
-			if (properties != null) {
-				throw new ExecutionException("Unable to load properties from " + factoryBean, e);
-			}
-		}
-	}
+    public synchronized void update() {
+        if (properties != null) {
+            logger.info("Checking for updates to properties from " + factoryBean);
+        }
+        try {
+            Properties props = (Properties) factoryBean.getObject();
+            properties = props;
+        } catch (IOException e) {
+            if (properties != null) {
+                throw new ExecutionException("Unable to load properties from " + factoryBean, e);
+            }
+        }
+    }
 
-	public void setReloadInterval(int reloadInterval) {
-		this.reloadInterval = reloadInterval;
-	}
+    public void setReloadInterval(int reloadInterval) {
+        this.reloadInterval = reloadInterval;
+    }
 
-	public void setReloadInitialDelay(int reloadInitialDelay) {
-		this.reloadInitialDelay = reloadInitialDelay;
-	}
+    public void setReloadInitialDelay(int reloadInitialDelay) {
+        this.reloadInitialDelay = reloadInitialDelay;
+    }
 
-	public void setFactoryBean(DynamicPropertiesFactoryBean factoryBean) {
-		this.factoryBean = factoryBean;
-	}
+    public void setFactoryBean(DynamicPropertiesFactoryBean factoryBean) {
+        this.factoryBean = factoryBean;
+    }
 
-	public void setExecutorService(ScheduledExecutorService executorService) {
-		this.executorService = executorService;
-	}	
+    public void setExecutorService(ScheduledExecutorService executorService) {
+        this.executorService = executorService;
+    }   
 
 }

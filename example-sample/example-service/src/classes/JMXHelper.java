@@ -20,10 +20,10 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 @ManagedResource(objectName = "example:name=JMXHelper", description = "Example MBean")
 public class JMXHelper {
 
-	@ManagedOperation(description = "Example operation")
-	public String exampleOperation() {
-		String message = ">>>>>>>>>>>>>>>>>>>>>>>>>>>> Executing managed operation";
-		System.out.println(message);
-		return message;
-	}
+    @ManagedOperation(description = "Example operation")
+    public String exampleOperation() {
+        String message = ">>>>>>>>>>>>>>>>>>>>>>>>>>>> Executing managed operation";
+        System.out.println(message);
+        return message;
+    }
 }

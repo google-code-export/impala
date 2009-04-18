@@ -34,75 +34,75 @@ import org.impalaframework.module.spi.TransitionSet;
 
 public class ModuleManagementOperationsTest extends TestCase {
 
-	private ModuleOperationRegistry moduleOperationRegistry;
-	
-	private ModuleOperation moduleOperation;
+    private ModuleOperationRegistry moduleOperationRegistry;
+    
+    private ModuleOperation moduleOperation;
 
-	private ModuleManagementOperations operations;
+    private ModuleManagementOperations operations;
 
-	private RootModuleDefinition rootModuleDefinition;
-	
-	private TransitionSet moduleModificationSet;
+    private RootModuleDefinition rootModuleDefinition;
+    
+    private TransitionSet moduleModificationSet;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		operations = new ModuleManagementOperations();
-		moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
-		moduleOperation = createMock(ModuleOperation.class);
-		rootModuleDefinition = createMock(RootModuleDefinition.class);
-		moduleModificationSet = createMock(TransitionSet.class);
-		operations.setModuleOperationRegistry(moduleOperationRegistry);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        operations = new ModuleManagementOperations();
+        moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
+        moduleOperation = createMock(ModuleOperation.class);
+        rootModuleDefinition = createMock(RootModuleDefinition.class);
+        moduleModificationSet = createMock(TransitionSet.class);
+        operations.setModuleOperationRegistry(moduleOperationRegistry);
+    }
 
-	public void testReload() {
+    public void testReload() {
 
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("moduleName", "somePlugin");
-		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(true, resultMap));
-		replayMocks();
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("moduleName", "somePlugin");
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(true, resultMap));
+        replayMocks();
 
-		assertEquals("Successfully reloaded somePlugin", operations.reloadModule("someplugin"));
+        assertEquals("Successfully reloaded somePlugin", operations.reloadModule("someplugin"));
 
-		verifyMocks();
-	}
-	
-	public void testModuleNotFound() {
-		
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(false));
+        verifyMocks();
+    }
+    
+    public void testModuleNotFound() {
+        
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(false));
 
-		replayMocks();
+        replayMocks();
 
-		assertEquals("Could not find module someplugin", operations.reloadModule("someplugin"));
+        assertEquals("Could not find module someplugin", operations.reloadModule("someplugin"));
 
-		verifyMocks();
-	}
-	
-	public void testThrowException() {
+        verifyMocks();
+    }
+    
+    public void testThrowException() {
 
-		expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-		expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andThrow(new IllegalStateException());
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andThrow(new IllegalStateException());
 
-		replayMocks();
+        replayMocks();
 
-		assertTrue(operations.reloadModule("someplugin").contains("IllegalStateException"));
+        assertTrue(operations.reloadModule("someplugin").contains("IllegalStateException"));
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private void replayMocks() {
-		replay(rootModuleDefinition);
-		replay(moduleModificationSet);
-		replay(moduleOperationRegistry);
-		replay(moduleOperation);
-	}
+    private void replayMocks() {
+        replay(rootModuleDefinition);
+        replay(moduleModificationSet);
+        replay(moduleOperationRegistry);
+        replay(moduleOperation);
+    }
 
-	private void verifyMocks() {
-		verify(moduleModificationSet);
-		verify(moduleOperationRegistry);
-		verify(moduleOperation);
-		verify(rootModuleDefinition);
-	}
+    private void verifyMocks() {
+        verify(moduleModificationSet);
+        verify(moduleOperationRegistry);
+        verify(moduleOperation);
+        verify(rootModuleDefinition);
+    }
 }

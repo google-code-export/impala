@@ -23,12 +23,12 @@ import org.impalaframework.module.ModuleDefinitionSource;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
 
-	private static final Log logger = LogFactory.getLog(BaseIntegrationTest.class);	
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Impala.init(this);
-		logger.info("Setting up " + this.getClass().getSimpleName());
-	}
+    private static final Log logger = LogFactory.getLog(BaseIntegrationTest.class); 
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Impala.init(this);
+        logger.info("Setting up " + this.getClass().getSimpleName());
+    }
 }

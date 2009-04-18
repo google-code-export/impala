@@ -16,6 +16,6 @@ package org.impalaframework.spring.module.registry;
 
 public interface RegistryContributor {
 
-	public void doContributions();
+    public void doContributions();
 
 }

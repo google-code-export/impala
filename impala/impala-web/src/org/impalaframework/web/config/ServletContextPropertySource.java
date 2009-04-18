@@ -27,16 +27,16 @@ import org.springframework.util.Assert;
  */
 public class ServletContextPropertySource implements PropertySource {
 
-	private final ServletContext servletContext;
-		
-	public ServletContextPropertySource(ServletContext servletContext) {
-		super();
-		Assert.notNull(servletContext, "servletContext cannot be null");
-		this.servletContext = servletContext;
-	}
+    private final ServletContext servletContext;
+        
+    public ServletContextPropertySource(ServletContext servletContext) {
+        super();
+        Assert.notNull(servletContext, "servletContext cannot be null");
+        this.servletContext = servletContext;
+    }
 
-	public String getValue(String name) {
-		return servletContext.getInitParameter(name);
-	}
+    public String getValue(String name) {
+        return servletContext.getInitParameter(name);
+    }
 
 }

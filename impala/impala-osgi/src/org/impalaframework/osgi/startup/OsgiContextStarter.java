@@ -34,62 +34,62 @@ import org.springframework.util.Assert;
  * an OSGi environment. 
  */
 public class OsgiContextStarter implements ContextStarter, BundleContextAware {
-	
-	private BundleContext bundleContext;
+    
+    private BundleContext bundleContext;
 
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
-	/**
-	 * Finds bundle resources corresponding with the specified location list.
-	 * Unlike {@link OsgiBundleXmlApplicationContext}, finds resources not just in the host
-	 * bundle but in any bundle which contains the locations. Uses the host bundle's class
-	 * loader as the Thread's context class loader during the {@link ApplicationContext} 
-	 * startup cycle.
-	 */
-	public ApplicationContext startContext(List<String> locations) {
+    /**
+     * Finds bundle resources corresponding with the specified location list.
+     * Unlike {@link OsgiBundleXmlApplicationContext}, finds resources not just in the host
+     * bundle but in any bundle which contains the locations. Uses the host bundle's class
+     * loader as the Thread's context class loader during the {@link ApplicationContext} 
+     * startup cycle.
+     */
+    public ApplicationContext startContext(List<String> locations) {
 
-		Assert.notNull(locations);
-		
-		Thread currentThread = Thread.currentThread();
-		ClassLoader oldTCCL = currentThread.getContextClassLoader();
+        Assert.notNull(locations);
+        
+        Thread currentThread = Thread.currentThread();
+        ClassLoader oldTCCL = currentThread.getContextClassLoader();
 
-		try {
-			ClassLoader classLoader = 
-				BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
-			currentThread.setContextClassLoader(classLoader);
+        try {
+            ClassLoader classLoader = 
+                BundleDelegatingClassLoader.createBundleClassLoaderFor(bundleContext.getBundle());
+            currentThread.setContextClassLoader(classLoader);
 
-			final Resource[] resources = getResourcesForLocations(locations);
+            final Resource[] resources = getResourcesForLocations(locations);
 
-			return newApplicationContext(resources);
-			
-		} finally {
-			currentThread.setContextClassLoader(oldTCCL);
-		}
-	}
+            return newApplicationContext(resources);
+            
+        } finally {
+            currentThread.setContextClassLoader(oldTCCL);
+        }
+    }
 
-	private Resource[] getResourcesForLocations(List<String> locations) {
-		//should cycle through bundles in reverse, so that most recently 
-		//loaded bundles are encountered first. However, does
-		//not guarantee that any resource is loaded from any particular bundle.
-		//Instead, relies on sensible naming conventions for Impala bootstrap bundles.
-		URL[] urls = OsgiUtils.findResources(bundleContext, locations.toArray(new String[locations.size()]));
-		
-		Resource[] resources = new Resource[urls.length];
-		for (int i = 0; i < resources.length; i++) {
-			resources[i] = new UrlResource(urls[i]);
-		}
-		
-		return resources;
-	}
+    private Resource[] getResourcesForLocations(List<String> locations) {
+        //should cycle through bundles in reverse, so that most recently 
+        //loaded bundles are encountered first. However, does
+        //not guarantee that any resource is loaded from any particular bundle.
+        //Instead, relies on sensible naming conventions for Impala bootstrap bundles.
+        URL[] urls = OsgiUtils.findResources(bundleContext, locations.toArray(new String[locations.size()]));
+        
+        Resource[] resources = new Resource[urls.length];
+        for (int i = 0; i < resources.length; i++) {
+            resources[i] = new UrlResource(urls[i]);
+        }
+        
+        return resources;
+    }
 
-	private ApplicationContext newApplicationContext(Resource[] resources) {
-		ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext();
-		applicationContext.setConfigResources(resources);
-		applicationContext.setBundleContext(bundleContext);
-		applicationContext.refresh();
-		return applicationContext;
-	}
+    private ApplicationContext newApplicationContext(Resource[] resources) {
+        ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext();
+        applicationContext.setConfigResources(resources);
+        applicationContext.setBundleContext(bundleContext);
+        applicationContext.refresh();
+        return applicationContext;
+    }
 
 }

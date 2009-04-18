@@ -19,21 +19,21 @@ import org.impalaframework.exception.NoServiceException;
 import junit.framework.TestCase;
 
 public class ImpalaInitClearTest extends TestCase {
-	
-	public void testInitClear() {
-		Impala.init();
-		InternalOperationsFacade facade = Impala.getFacade();
-		assertNotNull(facade);
-		
-		//now clear
-		Impala.clear();
-		try {
-			Impala.getFacade();
-			fail();
-		} catch (NoServiceException e) {
-		}	
-		
-		Impala.init(facade);
-		assertSame(facade, Impala.getFacade());
-	}
+    
+    public void testInitClear() {
+        Impala.init();
+        InternalOperationsFacade facade = Impala.getFacade();
+        assertNotNull(facade);
+        
+        //now clear
+        Impala.clear();
+        try {
+            Impala.getFacade();
+            fail();
+        } catch (NoServiceException e) {
+        }   
+        
+        Impala.init(facade);
+        assertSame(facade, Impala.getFacade());
+    }
 }

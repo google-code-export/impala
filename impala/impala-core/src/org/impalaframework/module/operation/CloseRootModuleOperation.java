@@ -31,29 +31,29 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CloseRootModuleOperation extends BaseModuleOperation {
 
-	private static final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
+    private static final Log logger = LogFactory.getLog(CloseRootModuleOperation.class);
 
-	protected CloseRootModuleOperation() {
-		super();
-	}
+    protected CloseRootModuleOperation() {
+        super();
+    }
 
-	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
-		
-		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
-		ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();
-		ModificationExtractor calculator = modificationExtractorRegistry
-				.getModificationExtractor(ModificationExtractorType.STRICT);
-		RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
-		
-		if (rootModuleDefinition != null) {
-			logger.info("Shutting down application context");
-			TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
-			moduleStateHolder.processTransitions(transitions);
-			return ModuleOperationResult.TRUE;
-		}
-		else {
-			return ModuleOperationResult.FALSE;
-		}
-	}
+    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+        
+        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();
+        ModificationExtractor calculator = modificationExtractorRegistry
+                .getModificationExtractor(ModificationExtractorType.STRICT);
+        RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
+        
+        if (rootModuleDefinition != null) {
+            logger.info("Shutting down application context");
+            TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
+            moduleStateHolder.processTransitions(transitions);
+            return ModuleOperationResult.TRUE;
+        }
+        else {
+            return ModuleOperationResult.FALSE;
+        }
+    }
 
 }

@@ -21,12 +21,12 @@ import junit.framework.TestCase;
 
 public class ShowModulesCommandTest extends TestCase {
 
-	public void testPrintModuleInfo() {
-		ShowModulesCommand commands = new ShowModulesCommand();
-		commands.printModuleInfo(null);
-		
-		final SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("rootproject", "location.xml");
-		commands.printModuleInfo(simpleRootModuleDefinition);
-	}
+    public void testPrintModuleInfo() {
+        ShowModulesCommand commands = new ShowModulesCommand();
+        commands.printModuleInfo(null);
+        
+        final SimpleRootModuleDefinition simpleRootModuleDefinition = new SimpleRootModuleDefinition("rootproject", "location.xml");
+        commands.printModuleInfo(simpleRootModuleDefinition);
+    }
 
 }

@@ -26,44 +26,44 @@ import org.springframework.context.ApplicationContext;
 
 public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInheritanceStrategy {
 
-	public ApplicationContext getParentApplicationContext(
-			GraphModuleStateHolder graphModuleStateHolder,
-			ApplicationContext parentApplicationContext,
-			ModuleDefinition definition) {
-		List<ApplicationContext> nonAncestorDependentContexts = getDependentApplicationContexts(definition, parentApplicationContext, graphModuleStateHolder);		
-		final boolean b = getDelegateGetBeanCallsToParent();
-		return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts, b);
-	}
+    public ApplicationContext getParentApplicationContext(
+            GraphModuleStateHolder graphModuleStateHolder,
+            ApplicationContext parentApplicationContext,
+            ModuleDefinition definition) {
+        List<ApplicationContext> nonAncestorDependentContexts = getDependentApplicationContexts(definition, parentApplicationContext, graphModuleStateHolder);      
+        final boolean b = getDelegateGetBeanCallsToParent();
+        return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts, b);
+    }
 
-	protected abstract boolean getDelegateGetBeanCallsToParent();
+    protected abstract boolean getDelegateGetBeanCallsToParent();
 
-	protected abstract List<ApplicationContext> getDependentApplicationContexts(
-			ModuleDefinition definition,
-			ApplicationContext parentApplicationContext,
-			GraphModuleStateHolder graphModuleStateHolder);
+    protected abstract List<ApplicationContext> getDependentApplicationContexts(
+            ModuleDefinition definition,
+            ApplicationContext parentApplicationContext,
+            GraphModuleStateHolder graphModuleStateHolder);
 
-	protected List<ApplicationContext> getDependentApplicationContexts(
-			ModuleDefinition definition,
-			GraphModuleStateHolder graphModuleStateHolder) {
-		DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
-		
-		//get the dependencies in correct order
-		final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());	
-		
-		//remove the current definition from this list
-		dependencies.remove(definition);
-		
-		final List<ApplicationContext> applicationContexts = new ArrayList<ApplicationContext>();
-		
-		for (ModuleDefinition moduleDefinition : dependencies) {
-			
-			final String currentName = moduleDefinition.getName();
-			final RuntimeModule runtimeModule = graphModuleStateHolder.getModule(currentName);
-			if (runtimeModule instanceof SpringRuntimeModule) {
-				SpringRuntimeModule spr = (SpringRuntimeModule) runtimeModule;
-				applicationContexts.add(spr.getApplicationContext());
-			}
-		}
-		return applicationContexts;
-	}
+    protected List<ApplicationContext> getDependentApplicationContexts(
+            ModuleDefinition definition,
+            GraphModuleStateHolder graphModuleStateHolder) {
+        DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
+        
+        //get the dependencies in correct order
+        final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());   
+        
+        //remove the current definition from this list
+        dependencies.remove(definition);
+        
+        final List<ApplicationContext> applicationContexts = new ArrayList<ApplicationContext>();
+        
+        for (ModuleDefinition moduleDefinition : dependencies) {
+            
+            final String currentName = moduleDefinition.getName();
+            final RuntimeModule runtimeModule = graphModuleStateHolder.getModule(currentName);
+            if (runtimeModule instanceof SpringRuntimeModule) {
+                SpringRuntimeModule spr = (SpringRuntimeModule) runtimeModule;
+                applicationContexts.add(spr.getApplicationContext());
+            }
+        }
+        return applicationContexts;
+    }
 }

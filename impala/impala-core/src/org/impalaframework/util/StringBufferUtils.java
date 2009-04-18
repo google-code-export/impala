@@ -19,14 +19,14 @@ package org.impalaframework.util;
  * @author Phil Zoio
  */
 public class StringBufferUtils {
-	
-	/**
-	 * Lobs the last <code>chars</code> off the {@link StringBuffer}
-	 * @param buffer the current StringBuffer, which may be modified
-	 * @param chars number of characters to remove
-	 */
-	public static void chop(StringBuffer buffer, int chars) {
-		int numberToChop = Math.min(buffer.length(), chars);
-		buffer.delete(buffer.length()-numberToChop, buffer.length());
-	}
+    
+    /**
+     * Lobs the last <code>chars</code> off the {@link StringBuffer}
+     * @param buffer the current StringBuffer, which may be modified
+     * @param chars number of characters to remove
+     */
+    public static void chop(StringBuffer buffer, int chars) {
+        int numberToChop = Math.min(buffer.length(), chars);
+        buffer.delete(buffer.length()-numberToChop, buffer.length());
+    }
 }

@@ -19,10 +19,10 @@ import org.impalaframework.module.holder.DefaultModuleStateHolder;
 
 class TestModuleStateHolder extends DefaultModuleStateHolder {
 
-	@Override
-	protected void setRootModuleDefinition(
-			RootModuleDefinition rootModuleDefinition) {
-		super.setRootModuleDefinition(rootModuleDefinition);
-	}
-	
+    @Override
+    protected void setRootModuleDefinition(
+            RootModuleDefinition rootModuleDefinition) {
+        super.setRootModuleDefinition(rootModuleDefinition);
+    }
+    
 }

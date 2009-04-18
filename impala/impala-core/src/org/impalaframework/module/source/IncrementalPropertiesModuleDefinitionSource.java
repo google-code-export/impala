@@ -29,49 +29,49 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class IncrementalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource implements ModuleDefinitionSource {
-	
-	private RootModuleDefinition rootModuleDefinition;
-	private ModuleDefinition parentDefinition;
-	private List<String> modulesToLoad;
-	
-	public IncrementalPropertiesModuleDefinitionSource(
-			TypeReaderRegistry typeReaderRegistry, 
-			RootModuleDefinition rootModuleDefinition, 
-			ModuleDefinition parentDefinition, 
-			Map<String, Properties> moduleProperties, 
-			List<String> modulesToLoad) {
-		super(moduleProperties, typeReaderRegistry);
-		Assert.notNull(rootModuleDefinition, "rootModuleDefinition cannot be null");
-		Assert.notNull(modulesToLoad, "modulesToLoad cannot be null");
-		Assert.isTrue(!modulesToLoad.isEmpty(), "modulesToLoad cannot be empty");
-		
-		//note parentDefinition will be null if root definition of modules to load is 
-		
-		this.rootModuleDefinition = rootModuleDefinition;
-		this.parentDefinition = parentDefinition;
-		this.modulesToLoad = modulesToLoad;
-	}
+    
+    private RootModuleDefinition rootModuleDefinition;
+    private ModuleDefinition parentDefinition;
+    private List<String> modulesToLoad;
+    
+    public IncrementalPropertiesModuleDefinitionSource(
+            TypeReaderRegistry typeReaderRegistry, 
+            RootModuleDefinition rootModuleDefinition, 
+            ModuleDefinition parentDefinition, 
+            Map<String, Properties> moduleProperties, 
+            List<String> modulesToLoad) {
+        super(moduleProperties, typeReaderRegistry);
+        Assert.notNull(rootModuleDefinition, "rootModuleDefinition cannot be null");
+        Assert.notNull(modulesToLoad, "modulesToLoad cannot be null");
+        Assert.isTrue(!modulesToLoad.isEmpty(), "modulesToLoad cannot be empty");
+        
+        //note parentDefinition will be null if root definition of modules to load is 
+        
+        this.rootModuleDefinition = rootModuleDefinition;
+        this.parentDefinition = parentDefinition;
+        this.modulesToLoad = modulesToLoad;
+    }
 
-	/**
-	 * For each supplied {@link #modulesToLoad} element, loads the module definition using the mechanism 
-	 * supported by the {@link BasePropertiesModuleDefinitionSource#buildModuleDefinition(ModuleDefinition, String)}
-	 * implementation. If no parent definition is available, the built {@link ModuleDefinition} instance
-	 * is added as a sibling to the {@link RootModuleDefinition}.
-	 */
-	public RootModuleDefinition getModuleDefinition() {
-		
-		ModuleDefinition currentParentDefinition = parentDefinition;
-		for (String moduleName : modulesToLoad) {
-			ModuleDefinition definition = buildModuleDefinition(currentParentDefinition, moduleName);
-			
-			if (currentParentDefinition == null) {
-				Assert.isTrue(!definition.getName().equals(rootModuleDefinition.getName()), "Module definition with no parent cannot be the root module definition");
-				rootModuleDefinition.addSibling(definition);
-			}
-			
-			currentParentDefinition = definition;
-		}
-		return rootModuleDefinition;
-	}
-	
+    /**
+     * For each supplied {@link #modulesToLoad} element, loads the module definition using the mechanism 
+     * supported by the {@link BasePropertiesModuleDefinitionSource#buildModuleDefinition(ModuleDefinition, String)}
+     * implementation. If no parent definition is available, the built {@link ModuleDefinition} instance
+     * is added as a sibling to the {@link RootModuleDefinition}.
+     */
+    public RootModuleDefinition getModuleDefinition() {
+        
+        ModuleDefinition currentParentDefinition = parentDefinition;
+        for (String moduleName : modulesToLoad) {
+            ModuleDefinition definition = buildModuleDefinition(currentParentDefinition, moduleName);
+            
+            if (currentParentDefinition == null) {
+                Assert.isTrue(!definition.getName().equals(rootModuleDefinition.getName()), "Module definition with no parent cannot be the root module definition");
+                rootModuleDefinition.addSibling(definition);
+            }
+            
+            currentParentDefinition = definition;
+        }
+        return rootModuleDefinition;
+    }
+    
 }

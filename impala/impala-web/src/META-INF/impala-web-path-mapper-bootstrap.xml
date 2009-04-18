@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
@@ -8,33 +8,33 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <!-- ############## Path mapper definitions ############### -->
  
  <bean id="webModulePrefix" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="web.module.prefix"/>
-	 <property name="defaultValue" value=""/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="web.module.prefix"/>
+     <property name="defaultValue" value=""/>
  </bean>
  
  <bean id="topLevelModuleSuffixes" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-	 <property name="propertySource" ref="propertySource"/>
-	 <property name="name" value="top.level.module.suffixes"/>
-	 <property name="defaultValue" value=""/>
+     <property name="propertySource" ref="propertySource"/>
+     <property name="name" value="top.level.module.suffixes"/>
+     <property name="defaultValue" value=""/>
  </bean>
  
  <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.ServletPathRequestModuleMapper">
-	 <property name = "prefix" ref = "webModulePrefix"/>
+     <property name = "prefix" ref = "webModulePrefix"/>
  </bean>
  
  <bean id="topLevelPathContainsModuleMapper" class="org.impalaframework.web.integration.TopLevelPathContainsModuleMapper">
-	 <property name = "prefix" ref = "webModulePrefix"/>
-	 <property name = "moduleNames" ref = "topLevelModuleSuffixes"/>
+     <property name = "prefix" ref = "webModulePrefix"/>
+     <property name = "moduleNames" ref = "topLevelModuleSuffixes"/>
  </bean>
  
  <bean id="requestModuleMapper" class="org.impalaframework.web.integration.CompositeRequestModuleMapper">
-	<property name="requestModuleMappers">  
-    	<list> 
-    		<ref local = "servletPathRequestModuleMapper"/>
-    		<ref local = "topLevelPathContainsModuleMapper"/>
-    	</list>  
-	</property> 
+    <property name="requestModuleMappers">  
+        <list> 
+            <ref local = "servletPathRequestModuleMapper"/>
+            <ref local = "topLevelPathContainsModuleMapper"/>
+        </list>  
+    </property> 
  </bean>
  
 </beans>

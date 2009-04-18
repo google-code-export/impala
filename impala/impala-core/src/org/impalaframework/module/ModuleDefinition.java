@@ -36,78 +36,78 @@ import java.util.Map;
  */
 public interface ModuleDefinition extends Freezable, ModuleContainer {
 
-	/**
-	 * Returns the type of the module. By default this will be 'application'
-	 */
-	String getType();
+    /**
+     * Returns the type of the module. By default this will be 'application'
+     */
+    String getType();
 
-	/**
-	 * Returns the name of the module, which is ordinarily the same as the
-	 * project containing the module.
-	 */
-	String getName();
+    /**
+     * Returns the name of the module, which is ordinarily the same as the
+     * project containing the module.
+     */
+    String getName();
 
-	/**
-	 * Returns the name of the runtime framework backing the module. By default
-	 * this is 'spring'
-	 */
-	String getRuntimeFramework();
+    /**
+     * Returns the name of the runtime framework backing the module. By default
+     * this is 'spring'
+     */
+    String getRuntimeFramework();
 
-	/**
-	 * Returns a list of config locations for the module. For example, for
-	 * spring modules, these will be the class path locations of the Spring XML
-	 * configuration files. Again, in this example, the default will be
-	 * ${modulename}-context.xml.
-	 */
-	List<String> getConfigLocations();
+    /**
+     * Returns a list of config locations for the module. For example, for
+     * spring modules, these will be the class path locations of the Spring XML
+     * configuration files. Again, in this example, the default will be
+     * ${modulename}-context.xml.
+     */
+    List<String> getConfigLocations();
 
-	/**
-	 * Returns the module definition of the parent module.
-	 */
-	ModuleDefinition getParentDefinition();
+    /**
+     * Returns the module definition of the parent module.
+     */
+    ModuleDefinition getParentDefinition();
 
-	/**
-	 * Can be used to find module definitions of child modules. If exactMatch is
-	 * true, then an exact match of the module name is required. If false, then
-	 * the first module found whose name contains the supplied moduleName
-	 * argument will be returned.
-	 */
-	ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
+    /**
+     * Can be used to find module definitions of child modules. If exactMatch is
+     * true, then an exact match of the module name is required. If false, then
+     * the first module found whose name contains the supplied moduleName
+     * argument will be returned.
+     */
+    ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 
-	/**
-	 * Returns a list of modules on which the current module depends. If the
-	 * name of the parent module is not specified, then it will automatically be
-	 * added to the head of this list. If it is specified, then it will remain
-	 * in the specified position in this list. By default, classes contained in
-	 * dependent modules will be visible to the current module.
-	 */
-	List<String> getDependentModuleNames();
+    /**
+     * Returns a list of modules on which the current module depends. If the
+     * name of the parent module is not specified, then it will automatically be
+     * added to the head of this list. If it is specified, then it will remain
+     * in the specified position in this list. By default, classes contained in
+     * dependent modules will be visible to the current module.
+     */
+    List<String> getDependentModuleNames();
 
-	/**
-	 * Used to modify the parent module. This method is not designed for
-	 * clients, and cannot be called if the module has been frozen using the
-	 * {@link #freeze()} call.
-	 */
-	void setParentDefinition(ModuleDefinition moduleDefinition);
+    /**
+     * Used to modify the parent module. This method is not designed for
+     * clients, and cannot be called if the module has been frozen using the
+     * {@link #freeze()} call.
+     */
+    void setParentDefinition(ModuleDefinition moduleDefinition);
 
-	/**
-	 * Used to set the module state flag. Typically used to mark a module as
-	 * stale.
-	 */
-	void setState(String state);
+    /**
+     * Used to set the module state flag. Typically used to mark a module as
+     * stale.
+     */
+    void setState(String state);
 
-	/**
-	 * Gets the current state indicator for the module.
-	 */
-	String getState();
+    /**
+     * Gets the current state indicator for the module.
+     */
+    String getState();
 
-	/**
-	 * Gets the set of attributes specified for the module. By default, any
-	 * attribute which is found in module.properties which does not have a
-	 * specific meaning in terms of the standard module definition reading
-	 * mechanism is added as an attribute, accessible via this method. Provides
-	 * a configuration hook for custom module types.
-	 */
-	Map<String, String> getAttributes();
+    /**
+     * Gets the set of attributes specified for the module. By default, any
+     * attribute which is found in module.properties which does not have a
+     * specific meaning in terms of the standard module definition reading
+     * mechanism is added as an attribute, accessible via this method. Provides
+     * a configuration hook for custom module types.
+     */
+    Map<String, String> getAttributes();
 
 }

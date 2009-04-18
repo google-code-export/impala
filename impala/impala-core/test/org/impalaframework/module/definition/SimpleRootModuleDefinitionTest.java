@@ -24,57 +24,57 @@ import junit.framework.TestCase;
  */
 public class SimpleRootModuleDefinitionTest extends TestCase {
 
-	private String rootModuleName = "project1";
-	
-	public void testParent() {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		assertEquals("project1", definition.getName());
-		assertNull(definition.getParentDefinition());
-		
-		SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
-		SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
-		assertTrue(definition.hasChildModuleDefinition("c1"));
-		assertTrue(definition.hasChildModuleDefinition("c2"));
-		assertEquals(2, definition.getChildModuleDefinitions().size());
-		assertEquals(2, definition.getChildModuleDefinitions().size());
-		
-		assertSame(child1, definition.getChildModuleDefinition("c1"));
-		assertSame(child2, definition.getChildModuleDefinition("c2"));
-	}
-	
-	public void testAttributes() throws Exception {
-		SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, Collections.singletonMap("name", "value"), null, null);
-		final Map<String, String> attributes = definition.getAttributes();
-		assertEquals(1, attributes.size());
-	}
-	
-	public void testDefaultContextLocations() {
-		assertTrue(new SimpleRootModuleDefinition(rootModuleName, new String[0]).getConfigLocations().isEmpty());
-	}
+    private String rootModuleName = "project1";
+    
+    public void testParent() {
+        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
+        assertEquals("project1", definition.getName());
+        assertNull(definition.getParentDefinition());
+        
+        SimpleModuleDefinition child1 = new SimpleModuleDefinition(definition, "c1");
+        SimpleModuleDefinition child2 = new SimpleModuleDefinition(definition, "c2");
+        assertTrue(definition.hasChildModuleDefinition("c1"));
+        assertTrue(definition.hasChildModuleDefinition("c2"));
+        assertEquals(2, definition.getChildModuleDefinitions().size());
+        assertEquals(2, definition.getChildModuleDefinitions().size());
+        
+        assertSame(child1, definition.getChildModuleDefinition("c1"));
+        assertSame(child2, definition.getChildModuleDefinition("c2"));
+    }
+    
+    public void testAttributes() throws Exception {
+        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, Collections.singletonMap("name", "value"), null, null);
+        final Map<String, String> attributes = definition.getAttributes();
+        assertEquals(1, attributes.size());
+    }
+    
+    public void testDefaultContextLocations() {
+        assertTrue(new SimpleRootModuleDefinition(rootModuleName, new String[0]).getConfigLocations().isEmpty());
+    }
 
-	public void testEquals() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
-		assertEquals(spec1, spec2);
-		SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
-		SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
-		assertFalse(spec1.equals(spec3));
-		assertFalse(spec1.equals(spec4));
-		
-		SimpleRootModuleDefinition spec5 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null);
-		SimpleRootModuleDefinition spec6 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null);
-		assertEquals(spec5, spec6);
-		SimpleRootModuleDefinition spec7 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"}, new String[]{"dep1"}, null, null, null);
-		SimpleRootModuleDefinition spec8 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"}, new String[]{"dep2"}, null, null, null);
-		assertFalse(spec5.equals(spec7));
-		assertFalse(spec5.equals(spec8));
-	}
-	
-	public void testAddSibling() {
-		SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
-		spec1.addSibling(new SimpleModuleDefinition("sibling1"));
-		assertNotNull(spec1.findChildDefinition("sibling1", true));
-		assertNotNull(spec1.getSiblingModule("sibling1"));
-	}
+    public void testEquals() {
+        SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
+        SimpleRootModuleDefinition spec2 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"});
+        assertEquals(spec1, spec2);
+        SimpleRootModuleDefinition spec3 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+        SimpleRootModuleDefinition spec4 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"});
+        assertFalse(spec1.equals(spec3));
+        assertFalse(spec1.equals(spec4));
+        
+        SimpleRootModuleDefinition spec5 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null);
+        SimpleRootModuleDefinition spec6 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null);
+        assertEquals(spec5, spec6);
+        SimpleRootModuleDefinition spec7 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"}, new String[]{"dep1"}, null, null, null);
+        SimpleRootModuleDefinition spec8 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"}, new String[]{"dep2"}, null, null, null);
+        assertFalse(spec5.equals(spec7));
+        assertFalse(spec5.equals(spec8));
+    }
+    
+    public void testAddSibling() {
+        SimpleRootModuleDefinition spec1 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"});
+        spec1.addSibling(new SimpleModuleDefinition("sibling1"));
+        assertNotNull(spec1.findChildDefinition("sibling1", true));
+        assertNotNull(spec1.getSiblingModule("sibling1"));
+    }
 
 }

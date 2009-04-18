@@ -29,34 +29,34 @@ import org.springframework.core.io.Resource;
  */
 public class OptionalPropertiesFactoryBean extends PropertiesFactoryBean {
 
-	private Log logger = LogFactory.getLog(OptionalPropertiesFactoryBean.class);
+    private Log logger = LogFactory.getLog(OptionalPropertiesFactoryBean.class);
 
-	@Override
-	public void setLocation(Resource location) {
-		if (location.exists())
-			super.setLocations(new Resource[] { location });
-		else {
-			logger.info("Unable to locate resource location with location " + location);
-		}
-	}
+    @Override
+    public void setLocation(Resource location) {
+        if (location.exists())
+            super.setLocations(new Resource[] { location });
+        else {
+            logger.info("Unable to locate resource location with location " + location);
+        }
+    }
 
-	@Override
-	public void setLocations(Resource[] locations) {
-		List<Resource> resources = new ArrayList<Resource>();
-		for (int i = 0; i < locations.length; i++) {
-			final Resource resource = locations[i];
-			if (resource.exists()) {
-				resources.add(resource);
-				if (logger.isDebugEnabled())
-					logger.debug("Extracting properties from resource " + resource.getDescription());
-			}
-			else {
-				logger.info("Not extracting properties from resource " + resource.getDescription()
-						+ " as this resource does not exist");
-			}
-		}
-		Resource[] existingArray = new Resource[resources.size()];
-		resources.toArray(existingArray);
-		super.setLocations(existingArray);
-	}
+    @Override
+    public void setLocations(Resource[] locations) {
+        List<Resource> resources = new ArrayList<Resource>();
+        for (int i = 0; i < locations.length; i++) {
+            final Resource resource = locations[i];
+            if (resource.exists()) {
+                resources.add(resource);
+                if (logger.isDebugEnabled())
+                    logger.debug("Extracting properties from resource " + resource.getDescription());
+            }
+            else {
+                logger.info("Not extracting properties from resource " + resource.getDescription()
+                        + " as this resource does not exist");
+            }
+        }
+        Resource[] existingArray = new Resource[resources.size()];
+        resources.toArray(existingArray);
+        super.setLocations(existingArray);
+    }
 }

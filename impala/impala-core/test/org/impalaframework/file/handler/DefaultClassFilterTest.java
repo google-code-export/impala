@@ -23,19 +23,19 @@ import junit.framework.TestCase;
  */
 public class DefaultClassFilterTest extends TestCase {
 
-	public void testAccept() {
-		DefaultClassFilter test = new DefaultClassFilter();
-		check(test, "AClass.class", true);
-		check(test, "AClass.txt", false);
-		check(test, "AClass$WithInnerClass.class", false);
-		check(test, "apackage/AClass.class", true);
-		//a directory
-		check(test, "src", true);
-		check(test, ".hidden", false);
-	}
+    public void testAccept() {
+        DefaultClassFilter test = new DefaultClassFilter();
+        check(test, "AClass.class", true);
+        check(test, "AClass.txt", false);
+        check(test, "AClass$WithInnerClass.class", false);
+        check(test, "apackage/AClass.class", true);
+        //a directory
+        check(test, "src", true);
+        check(test, ".hidden", false);
+    }
 
-	private void check(DefaultClassFilter test, String fileName, boolean expected) {
-		assertTrue(test.accept(new File(fileName)) == expected);
-	}
+    private void check(DefaultClassFilter test, String fileName, boolean expected) {
+        assertTrue(test.accept(new File(fileName)) == expected);
+    }
 
 }

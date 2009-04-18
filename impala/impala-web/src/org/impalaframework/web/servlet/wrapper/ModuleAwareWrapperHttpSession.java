@@ -35,22 +35,22 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession {
-	
-	private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpSession.class);
+    
+    private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpSession.class);
 
-	private final ClassLoader moduleClassLoader;
+    private final ClassLoader moduleClassLoader;
 
-	public ModuleAwareWrapperHttpSession(HttpSession realSession,
-			ClassLoader moduleClassLoader) {
-		super(realSession);
-		Assert.notNull(moduleClassLoader);
-		this.moduleClassLoader = moduleClassLoader;
-	}
+    public ModuleAwareWrapperHttpSession(HttpSession realSession,
+            ClassLoader moduleClassLoader) {
+        super(realSession);
+        Assert.notNull(moduleClassLoader);
+        this.moduleClassLoader = moduleClassLoader;
+    }
 
-	/**
-	 * <code>getAttribute</code> detects attempts to access items from session
-	 * using an "old" class loader. In this case, instances which can be
-	 * serialized can be cloned and "read-in" using the new module's class
+    /**
+     * <code>getAttribute</code> detects attempts to access items from session
+     * using an "old" class loader. In this case, instances which can be
+     * serialized can be cloned and "read-in" using the new module's class
 	 * loader, and "recovered" in this way. Non-serializable class instances
 	 * cannot be recovered. In this case, the session attribute is discarded and
 	 * a message is logged.

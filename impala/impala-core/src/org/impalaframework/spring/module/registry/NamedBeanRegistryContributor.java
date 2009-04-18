@@ -28,64 +28,64 @@ import org.springframework.util.Assert;
 
 public class NamedBeanRegistryContributor implements RegistryContributor, BeanFactoryAware, Ordered {
 
-	private String registryBeanName;
-	
-	private Map<String, String> contributions;
+    private String registryBeanName;
+    
+    private Map<String, String> contributions;
 
-	private BeanFactory beanFactory;
-	
-	private int order;
-	
-	/* ********** RegistryContributor implementation ********* */
+    private BeanFactory beanFactory;
+    
+    private int order;
+    
+    /* ********** RegistryContributor implementation ********* */
 
-	@SuppressWarnings("unchecked")
-	public void doContributions() {
-		Assert.notNull(beanFactory, "beanFactory cannot be null");
-		Assert.notNull(contributions, "contributions cannot be null");
-		
-		Object registryBean = beanFactory.getBean(registryBeanName);
-	
-		final Registry registry = ObjectUtils.cast(registryBean, Registry.class);
-		final Set<String> keys = contributions.keySet();
-		
-		for (String key : keys) {
-				final String registrationKey = contributions.get(key);
-				final Object bean = beanFactory.getBean(key);
-				if (bean != null) {
-					try {
-						registry.addItem(registrationKey, bean);
-					} catch (ClassCastException e) {
-						throw new ConfigurationException("Bean '" + key + "' is not type compatible with " +
-								"registry bean '" + registryBeanName + "'");
-					}
-				}
-		}
-	}
-	
-	/* ********** Order implementation ********* */
+    @SuppressWarnings("unchecked")
+    public void doContributions() {
+        Assert.notNull(beanFactory, "beanFactory cannot be null");
+        Assert.notNull(contributions, "contributions cannot be null");
+        
+        Object registryBean = beanFactory.getBean(registryBeanName);
+    
+        final Registry registry = ObjectUtils.cast(registryBean, Registry.class);
+        final Set<String> keys = contributions.keySet();
+        
+        for (String key : keys) {
+                final String registrationKey = contributions.get(key);
+                final Object bean = beanFactory.getBean(key);
+                if (bean != null) {
+                    try {
+                        registry.addItem(registrationKey, bean);
+                    } catch (ClassCastException e) {
+                        throw new ConfigurationException("Bean '" + key + "' is not type compatible with " +
+                                "registry bean '" + registryBeanName + "'");
+                    }
+                }
+        }
+    }
+    
+    /* ********** Order implementation ********* */
 
-	public int getOrder() {
-		return order;
-	}
+    public int getOrder() {
+        return order;
+    }
 
-	/* ********** BeanFactoryAware implementation ********* */
-	
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}
+    /* ********** BeanFactoryAware implementation ********* */
+    
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
 
-	/* ********** Injection setters ********* */
-	
-	public void setRegistryBeanName(String registryBeanName) {
-		this.registryBeanName = registryBeanName;
-	}
+    /* ********** Injection setters ********* */
+    
+    public void setRegistryBeanName(String registryBeanName) {
+        this.registryBeanName = registryBeanName;
+    }
 
-	public void setContributions(Map<String, String> contributions) {
-		this.contributions = contributions;
-	}
+    public void setContributions(Map<String, String> contributions) {
+        this.contributions = contributions;
+    }
 
-	public void setOrder(int order) {
-		this.order = order;
-	}
+    public void setOrder(int order) {
+        this.order = order;
+    }
 
 }

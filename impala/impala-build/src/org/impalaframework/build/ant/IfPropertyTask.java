@@ -46,9 +46,9 @@ package org.impalaframework.build.ant;
  */
 public class IfPropertyTask extends ConditionalPropertyTask {
 
-	@Override
-	protected boolean shouldExecute(boolean isTrue) {
-		return isTrue;
-	}
+    @Override
+    protected boolean shouldExecute(boolean isTrue) {
+        return isTrue;
+    }
 
 }

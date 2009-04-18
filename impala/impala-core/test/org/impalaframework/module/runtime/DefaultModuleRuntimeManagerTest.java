@@ -32,101 +32,101 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class DefaultModuleRuntimeManagerTest extends TestCase {
 
-	private ModuleStateHolder moduleStateHolder;
-	
-	private ModuleRuntime moduleRuntime;
-	
-	private RuntimeModule runtimeModule;
-	
-	private ModuleDefinition moduleDefinition;
+    private ModuleStateHolder moduleStateHolder;
+    
+    private ModuleRuntime moduleRuntime;
+    
+    private RuntimeModule runtimeModule;
+    
+    private ModuleDefinition moduleDefinition;
 
-	private DefaultModuleRuntimeManager manager;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-		moduleRuntime = createMock(ModuleRuntime.class);
-		moduleDefinition = createMock(ModuleDefinition.class);
-		runtimeModule = createMock(RuntimeModule.class);
-		
-		manager = new DefaultModuleRuntimeManager();
-		manager.setModuleStateHolder(moduleStateHolder);
-		Map<String, ModuleRuntime> singletonMap = Collections.singletonMap("spring", moduleRuntime);
-		manager.setModuleRuntimes(singletonMap);
-	}
-	
-	public void testInitModuleAlreadyPresent() {
-		
-		expect(moduleDefinition.getName()).andReturn("mymodule");
-		//return existing module
-		expect(moduleStateHolder.getModule("mymodule")).andReturn(runtimeModule);
-		
-		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-		
-		assertFalse(manager.initModule(moduleDefinition));
-		
-		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-	}
-	
-	public void testInitCreateNewModule() {
-		
-		expect(moduleDefinition.getName()).andReturn("mymodule");
-		expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
-		expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
-		
-		//create new runtime module
-		expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andReturn(runtimeModule);
-		moduleStateHolder.putModule("mymodule", runtimeModule);
-		
-		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-		
-		assertTrue(manager.initModule(moduleDefinition));
-		
-		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-	}
-	
-	public void testGetRuntimeFramework() {
-		
-		expect(moduleDefinition.getRuntimeFramework()).andReturn("duff");
-		
-		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-		
-		try {
-			manager.getModuleRuntime(moduleDefinition);
-			fail();
-		} catch (NoServiceException e) {
-			assertEquals("No instance of org.impalaframework.module.spi.ModuleRuntime available for key 'duff'. Available entries: [spring]", e.getMessage());
-		}
-		
-		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-	}
-	
-	public void testCloseModuleNull() {
-		
-		expect(moduleDefinition.getName()).andReturn("mymodule");
-		//no module apparently present
-		expect(moduleStateHolder.removeModule("mymodule")).andReturn(null);
-		
-		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-		
-		assertTrue(manager.closeModule(moduleDefinition));
-		
-		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-	}
-	
-	public void testCloseModuleNotNull() {
-		
-		expect(moduleDefinition.getName()).andReturn("mymodule");
-		expect(moduleStateHolder.removeModule("mymodule")).andReturn(runtimeModule);
-		expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
-		moduleRuntime.closeModule(runtimeModule);
-		
-		replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-		
-		assertTrue(manager.closeModule(moduleDefinition));
-		
-		verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
-	}
+    private DefaultModuleRuntimeManager manager;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        moduleStateHolder = createMock(ModuleStateHolder.class);
+        moduleRuntime = createMock(ModuleRuntime.class);
+        moduleDefinition = createMock(ModuleDefinition.class);
+        runtimeModule = createMock(RuntimeModule.class);
+        
+        manager = new DefaultModuleRuntimeManager();
+        manager.setModuleStateHolder(moduleStateHolder);
+        Map<String, ModuleRuntime> singletonMap = Collections.singletonMap("spring", moduleRuntime);
+        manager.setModuleRuntimes(singletonMap);
+    }
+    
+    public void testInitModuleAlreadyPresent() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        //return existing module
+        expect(moduleStateHolder.getModule("mymodule")).andReturn(runtimeModule);
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        assertFalse(manager.initModule(moduleDefinition));
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
+    
+    public void testInitCreateNewModule() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
+        expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
+        
+        //create new runtime module
+        expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andReturn(runtimeModule);
+        moduleStateHolder.putModule("mymodule", runtimeModule);
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        assertTrue(manager.initModule(moduleDefinition));
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
+    
+    public void testGetRuntimeFramework() {
+        
+        expect(moduleDefinition.getRuntimeFramework()).andReturn("duff");
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        try {
+            manager.getModuleRuntime(moduleDefinition);
+            fail();
+        } catch (NoServiceException e) {
+            assertEquals("No instance of org.impalaframework.module.spi.ModuleRuntime available for key 'duff'. Available entries: [spring]", e.getMessage());
+        }
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
+    
+    public void testCloseModuleNull() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        //no module apparently present
+        expect(moduleStateHolder.removeModule("mymodule")).andReturn(null);
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        assertTrue(manager.closeModule(moduleDefinition));
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
+    
+    public void testCloseModuleNotNull() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        expect(moduleStateHolder.removeModule("mymodule")).andReturn(runtimeModule);
+        expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
+        moduleRuntime.closeModule(runtimeModule);
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        assertTrue(manager.closeModule(moduleDefinition));
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
 
 }

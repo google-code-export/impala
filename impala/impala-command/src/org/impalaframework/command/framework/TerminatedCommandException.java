@@ -22,10 +22,10 @@ package org.impalaframework.command.framework;
  */
 public class TerminatedCommandException extends RuntimeException {
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
-	public TerminatedCommandException() {
-		super();
-	}
+    public TerminatedCommandException() {
+        super();
+    }
 
 }

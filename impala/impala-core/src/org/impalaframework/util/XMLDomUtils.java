@@ -43,68 +43,68 @@ import org.xml.sax.InputSource;
 
 public class XMLDomUtils {
 
-	private static Log logger = LogFactory.getLog(XMLDomUtils.class);
-	
-	public static String readOptionalElementText(Element definitionElement, String elementName) {
-		Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
-		String text = null;
-		if (element != null)
-			text = DomUtils.getTextValue(element);
-		return text;
-	}
-	
-	public static Document newDocument() {
-	    DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		DocumentBuilder docBuilder = null;
-		try {
-			docBuilder = factory.newDocumentBuilder();
-		} catch (ParserConfigurationException e) {
-			throw new ExecutionException("Error in parser configuration", e);
-		}
-		Document doc = docBuilder.newDocument();
-		return doc;
-	}
+    private static Log logger = LogFactory.getLog(XMLDomUtils.class);
+    
+    public static String readOptionalElementText(Element definitionElement, String elementName) {
+        Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
+        String text = null;
+        if (element != null)
+            text = DomUtils.getTextValue(element);
+        return text;
+    }
+    
+    public static Document newDocument() {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder docBuilder = null;
+        try {
+            docBuilder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
+            throw new ExecutionException("Error in parser configuration", e);
+        }
+        Document doc = docBuilder.newDocument();
+        return doc;
+    }
 
-	public static void output(Writer writer, Document document) {
-	    try {
-	        Source source = new DOMSource(document);
-	        Result result = new StreamResult(writer);
-	        Transformer xformer = TransformerFactory.newInstance().newTransformer();
-	        xformer.transform(source, result);
-	      } catch (Exception e) {
-	        throw new ExecutionException("Failed outputting XML document", e);
-	      }
+    public static void output(Writer writer, Document document) {
+        try {
+            Source source = new DOMSource(document);
+            Result result = new StreamResult(writer);
+            Transformer xformer = TransformerFactory.newInstance().newTransformer();
+            xformer.transform(source, result);
+          } catch (Exception e) {
+            throw new ExecutionException("Failed outputting XML document", e);
+          }
 
-	}
+    }
 
-	public static Document loadDocument(Resource resource) {
+    public static Document loadDocument(Resource resource) {
 
-		Assert.notNull(resource);
-		Reader reader = ResourceUtils.getReaderForResource(resource);
-		
-		return loadDocument(reader, resource.getDescription());
-	}
+        Assert.notNull(resource);
+        Reader reader = ResourceUtils.getReaderForResource(resource);
+        
+        return loadDocument(reader, resource.getDescription());
+    }
 
-	public static Document loadDocument(Reader reader, String description) {
-		Document document = null;
-		DefaultDocumentLoader loader = new DefaultDocumentLoader();
-		try {
-			InputSource inputSource = new InputSource(reader);
-			document = loader.loadDocument(inputSource, null, new SimpleSaxErrorHandler(logger),
-					XmlBeanDefinitionReader.VALIDATION_NONE, false);
-		}
-		catch (Exception e) {
-			throw new ExecutionException("Unable to load XML document from resource " + description, e);
-		}
-		finally {
-	        try {
-	            if (reader != null) {
-	                reader.close();
-	            }
-	        } catch (IOException e) {
-	        }
-		}
-		return document;
-	}
-	
+    public static Document loadDocument(Reader reader, String description) {
+        Document document = null;
+        DefaultDocumentLoader loader = new DefaultDocumentLoader();
+        try {
+            InputSource inputSource = new InputSource(reader);
+            document = loader.loadDocument(inputSource, null, new SimpleSaxErrorHandler(logger),
+                    XmlBeanDefinitionReader.VALIDATION_NONE, false);
+        }
+        catch (Exception e) {
+            throw new ExecutionException("Unable to load XML document from resource " + description, e);
+        }
+        finally {
+            try {
+                if (reader != null) {
+                    reader.close();
+                }
+            } catch (IOException e) {
+            }
+        }
+        return document;
+    }
+    
 }

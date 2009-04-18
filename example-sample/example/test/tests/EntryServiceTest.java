@@ -27,33 +27,33 @@ import classes.Entry;
 
 public class EntryServiceTest extends BaseExampleTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(EntryServiceTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(EntryServiceTest.class);
+    }
 
-	public void testService() {
+    public void testService() {
 
-		baseClassOperation();
-		
-		EntryService merchant = Impala.getBean("entryService", EntryService.class);
+        baseClassOperation();
+        
+        EntryService merchant = Impala.getBean("entryService", EntryService.class);
 
-		Entry entry = new Entry();
-		entry.setId(1L);
-		entry.setTitle("Cabernet");
-		entry.setCount(1996);
-		merchant.addEntry(entry);
+        Entry entry = new Entry();
+        entry.setId(1L);
+        entry.setTitle("Cabernet");
+        entry.setCount(1996);
+        merchant.addEntry(entry);
 
-		Collection<Entry> entries = merchant.getEntriesOfCount(1996);
-		assertEquals(1, entries.size());
+        Collection<Entry> entries = merchant.getEntriesOfCount(1996);
+        assertEquals(1, entries.size());
 
-	}
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
-						new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
-						"example-hibernate", "example-dao", "example-service"});
-		
-		return definition.getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
+                        new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
+                        "example-hibernate", "example-dao", "example-service"});
+        
+        return definition.getModuleDefinition();
+    }
 
 }

@@ -26,44 +26,44 @@ import org.springframework.util.Assert;
 
 public class ModuleLocationsResourceLoader implements SpringLocationsResourceLoader {
 
-	private ResourceLoader resourceLoader;
+    private ResourceLoader resourceLoader;
 
-	public ModuleLocationsResourceLoader() {
-		super();
-	}
+    public ModuleLocationsResourceLoader() {
+        super();
+    }
 
-	public Resource[] getSpringLocations(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(resourceLoader);
+    public Resource[] getSpringLocations(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+        Assert.notNull(moduleDefinition);
+        Assert.notNull(resourceLoader);
 
-		List<String> configLocations = moduleDefinition.getConfigLocations();
-		if (configLocations.isEmpty()) {
-			configLocations = ModuleDefinitionUtils.defaultContextLocations(moduleDefinition.getName());
-		}
-		
-		List<Resource> resourceList = new ArrayList<Resource>();
-		for (String location : configLocations) {
-			Resource resource = resourceLoader.getResource(location, classLoader);
-			checkResource(resource, location, moduleDefinition);
+        List<String> configLocations = moduleDefinition.getConfigLocations();
+        if (configLocations.isEmpty()) {
+            configLocations = ModuleDefinitionUtils.defaultContextLocations(moduleDefinition.getName());
+        }
+        
+        List<Resource> resourceList = new ArrayList<Resource>();
+        for (String location : configLocations) {
+            Resource resource = resourceLoader.getResource(location, classLoader);
+            checkResource(resource, location, moduleDefinition);
 
-			if (resource != null) {
-				resourceList.add(resource);
-			}
-		}
-		Resource[] resources = new Resource[resourceList.size()];
-		resources = resourceList.toArray(resources);
+            if (resource != null) {
+                resourceList.add(resource);
+            }
+        }
+        Resource[] resources = new Resource[resourceList.size()];
+        resources = resourceList.toArray(resources);
 
-		return resources;
-	}
+        return resources;
+    }
 
-	protected void checkResource(Resource resource, String location, ModuleDefinition moduleDefinition) {
-		if (resource == null || !resource.exists())
-			throw new ConfigurationException("Unable to load resource from location '" + location
-					+ "' for module definition '" + moduleDefinition.getName() + "'");
-	}
+    protected void checkResource(Resource resource, String location, ModuleDefinition moduleDefinition) {
+        if (resource == null || !resource.exists())
+            throw new ConfigurationException("Unable to load resource from location '" + location
+                    + "' for module definition '" + moduleDefinition.getName() + "'");
+    }
 
-	public void setResourceLoader(ResourceLoader resourceLoader) {
-		this.resourceLoader = resourceLoader;
-	}
+    public void setResourceLoader(ResourceLoader resourceLoader) {
+        this.resourceLoader = resourceLoader;
+    }
 
 }

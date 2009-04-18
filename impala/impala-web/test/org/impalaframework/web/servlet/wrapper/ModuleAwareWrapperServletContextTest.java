@@ -27,66 +27,66 @@ import junit.framework.TestCase;
 
 public class ModuleAwareWrapperServletContextTest extends TestCase {
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	public void testGetResourceOnClassPath() throws MalformedURLException {
-		servletContext = createMock(ServletContext.class);
-		ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-		
-		replay(servletContext);
-		
-		//in both cases the item is found on the classpath, so no call to underlying servletContext is made
-		assertNotNull(wrapperContext.getResource("parentTestContext.xml"));
-		assertNotNull(wrapperContext.getResource("/parentTestContext.xml"));
-		
-		verify(servletContext);
-	}
-	
+    public void testGetResourceOnClassPath() throws MalformedURLException {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        
+        replay(servletContext);
+        
+        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
+        assertNotNull(wrapperContext.getResource("parentTestContext.xml"));
+        assertNotNull(wrapperContext.getResource("/parentTestContext.xml"));
+        
+        verify(servletContext);
+    }
+    
 
-	public void testGetResourceNotClassPath() throws MalformedURLException {
-		servletContext = createMock(ServletContext.class);
-		ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-		
-		expect(servletContext.getResource("nopresent.xml")).andReturn(null);
-		expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
-		
-		replay(servletContext);
-		
-		//in both cases the item is found on the classpath, so no call to underlying servletContext is made
-		wrapperContext.getResource("nopresent.xml");
-		wrapperContext.getResource("/nopresent.xml");
-		
-		verify(servletContext);
-	}
-	
-	public void testGetResourceAsStreamOnClassPath() throws MalformedURLException {
-		servletContext = createMock(ServletContext.class);
-		ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-		
-		replay(servletContext);
-		
-		//in both cases the item is found on the classpath, so no call to underlying servletContext is made
-		assertNotNull(wrapperContext.getResourceAsStream("parentTestContext.xml"));
-		assertNotNull(wrapperContext.getResourceAsStream("/parentTestContext.xml"));
-		
-		verify(servletContext);
-	}
-	
+    public void testGetResourceNotClassPath() throws MalformedURLException {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        
+        expect(servletContext.getResource("nopresent.xml")).andReturn(null);
+        expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
+        
+        replay(servletContext);
+        
+        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
+        wrapperContext.getResource("nopresent.xml");
+        wrapperContext.getResource("/nopresent.xml");
+        
+        verify(servletContext);
+    }
+    
+    public void testGetResourceAsStreamOnClassPath() throws MalformedURLException {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        
+        replay(servletContext);
+        
+        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
+        assertNotNull(wrapperContext.getResourceAsStream("parentTestContext.xml"));
+        assertNotNull(wrapperContext.getResourceAsStream("/parentTestContext.xml"));
+        
+        verify(servletContext);
+    }
+    
 
-	public void testGetResourceAsStreamNotClassPath() throws MalformedURLException {
-		servletContext = createMock(ServletContext.class);
-		ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-		
-		expect(servletContext.getResource("nopresent.xml")).andReturn(null);
-		expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
-		
-		replay(servletContext);
-		
-		//in both cases the item is found on the classpath, so no call to underlying servletContext is made
-		wrapperContext.getResourceAsStream("nopresent.xml");
-		wrapperContext.getResourceAsStream("/nopresent.xml");
-		
-		verify(servletContext);
-	}
+    public void testGetResourceAsStreamNotClassPath() throws MalformedURLException {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        
+        expect(servletContext.getResource("nopresent.xml")).andReturn(null);
+        expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
+        
+        replay(servletContext);
+        
+        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
+        wrapperContext.getResourceAsStream("nopresent.xml");
+        wrapperContext.getResourceAsStream("/nopresent.xml");
+        
+        verify(servletContext);
+    }
 
 }

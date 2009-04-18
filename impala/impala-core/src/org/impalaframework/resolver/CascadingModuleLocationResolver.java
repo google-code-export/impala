@@ -27,44 +27,44 @@ import org.springframework.util.Assert;
  */
 public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 
-	private List<ModuleResourceFinder> classResourceFinders;
-	
-	private String applicationVersion;
+    private List<ModuleResourceFinder> classResourceFinders;
+    
+    private String applicationVersion;
 
-	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		return getResources(moduleName, this.classResourceFinders);
-	}
+    public List<Resource> getApplicationModuleClassLocations(String moduleName) {
+        return getResources(moduleName, this.classResourceFinders);
+    }
 
-	protected List<Resource> getResources(String moduleName,
-			List<ModuleResourceFinder> resourceFinders) {
-		Assert.notNull(resourceFinders);
+    protected List<Resource> getResources(String moduleName,
+            List<ModuleResourceFinder> resourceFinders) {
+        Assert.notNull(resourceFinders);
 
-		String[] rootPaths = getWorkspaceRoots();	
-		
-		List<Resource> resources = null;
-		
-		for (String rootPath : rootPaths) {		
-			for (ModuleResourceFinder moduleResourceFinder : resourceFinders) {
-				resources = moduleResourceFinder.findResources(rootPath, moduleName, applicationVersion);
-				if (!resources.isEmpty()) break;
-			}
-		}
-		checkResources(resources, moduleName, applicationVersion, Arrays.toString(rootPaths), "application class");
-		return resources;
-	}
-	
-	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		throw new UnsupportedOperationException();
-	}
+        String[] rootPaths = getWorkspaceRoots();   
+        
+        List<Resource> resources = null;
+        
+        for (String rootPath : rootPaths) {     
+            for (ModuleResourceFinder moduleResourceFinder : resourceFinders) {
+                resources = moduleResourceFinder.findResources(rootPath, moduleName, applicationVersion);
+                if (!resources.isEmpty()) break;
+            }
+        }
+        checkResources(resources, moduleName, applicationVersion, Arrays.toString(rootPaths), "application class");
+        return resources;
+    }
+    
+    public List<Resource> getModuleTestClassLocations(String moduleName) {
+        throw new UnsupportedOperationException();
+    }
 
-	/* ********************* Spring setters ********************* */
-	
-	public void setApplicationVersion(String applicationVersion) {
-		this.applicationVersion = applicationVersion;
-	}
+    /* ********************* Spring setters ********************* */
+    
+    public void setApplicationVersion(String applicationVersion) {
+        this.applicationVersion = applicationVersion;
+    }
 
-	public void setClassResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
-		this.classResourceFinders = moduleResourceFinders;
-	}
+    public void setClassResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
+        this.classResourceFinders = moduleResourceFinders;
+    }
 
 }

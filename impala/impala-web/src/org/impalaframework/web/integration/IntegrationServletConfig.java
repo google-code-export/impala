@@ -27,13 +27,13 @@ import javax.servlet.ServletContext;
  * @author Phil Zoio
  */
 public class IntegrationServletConfig extends BaseIntegrationConfig implements ServletConfig {
-	
-	public IntegrationServletConfig(Map<String, String> initParameterMap, ServletContext servletContext, String servletName) {
-		super(initParameterMap, servletContext, servletName);
-	}
+    
+    public IntegrationServletConfig(Map<String, String> initParameterMap, ServletContext servletContext, String servletName) {
+        super(initParameterMap, servletContext, servletName);
+    }
 
-	public String getServletName() {
-		return super.getName();
-	}
+    public String getServletName() {
+        return super.getName();
+    }
 
 }

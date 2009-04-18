@@ -21,43 +21,43 @@ import org.springframework.web.servlet.ModelAndView;
  */
 public class AddPetForm extends AbstractClinicForm {
 
-	public AddPetForm() {
-		setCommandName("pet");
-		// need a session to hold the formBackingObject
-		setSessionForm(true);
-	}
+    public AddPetForm() {
+        setCommandName("pet");
+        // need a session to hold the formBackingObject
+        setSessionForm(true);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected Map referenceData(HttpServletRequest request) throws ServletException {
-		Map refData = new HashMap();
-		refData.put("types", getClinic().getPetTypes());
-		return refData;
-	}
+    @SuppressWarnings("unchecked")
+    protected Map referenceData(HttpServletRequest request) throws ServletException {
+        Map refData = new HashMap();
+        refData.put("types", getClinic().getPetTypes());
+        return refData;
+    }
 
-	protected Object formBackingObject(HttpServletRequest request) throws ServletException {
-		Owner owner = getClinic().loadOwner(ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
-		Pet pet = new Pet();
-		owner.addPet(pet);
-		return pet;
-	}
+    protected Object formBackingObject(HttpServletRequest request) throws ServletException {
+        Owner owner = getClinic().loadOwner(ServletRequestUtils.getRequiredIntParameter(request, "ownerId"));
+        Pet pet = new Pet();
+        owner.addPet(pet);
+        return pet;
+    }
 
-	protected void onBind(HttpServletRequest request, Object command) {
-		Pet pet = (Pet) command;
-		int typeId = Integer.parseInt(request.getParameter("typeId"));
-		pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
-	}
+    protected void onBind(HttpServletRequest request, Object command) {
+        Pet pet = (Pet) command;
+        int typeId = Integer.parseInt(request.getParameter("typeId"));
+        pet.setType((PetType) EntityUtils.getById(getClinic().getPetTypes(), PetType.class, typeId));
+    }
 
-	/** Method inserts a new Pet */
-	protected ModelAndView onSubmit(Object command) throws ServletException {
-		Pet pet = (Pet) command;
-		// delegate the insert to the Business layer
-		getClinic().storePet(pet);
-		return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner().getId());
-	}
+    /** Method inserts a new Pet */
+    protected ModelAndView onSubmit(Object command) throws ServletException {
+        Pet pet = (Pet) command;
+        // delegate the insert to the Business layer
+        getClinic().storePet(pet);
+        return new ModelAndView(getSuccessView(), "ownerId", pet.getOwner().getId());
+    }
 
-	protected ModelAndView handleInvalidSubmit(HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		return disallowDuplicateFormSubmission(request, response);
-	}
+    protected ModelAndView handleInvalidSubmit(HttpServletRequest request, HttpServletResponse response)
+            throws Exception {
+        return disallowDuplicateFormSubmission(request, response);
+    }
 
 }

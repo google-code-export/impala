@@ -19,11 +19,11 @@ import org.springframework.beans.factory.InitializingBean;
 
 public class WebScheduledModuleChangeMonitorBean extends WebScheduledModuleChangeMonitor implements InitializingBean, DisposableBean {
 
-	public void afterPropertiesSet() throws Exception {
-		this.start();
-	}
+    public void afterPropertiesSet() throws Exception {
+        this.start();
+    }
 
-	public void destroy() throws Exception {
-		this.stop();
-	}
+    public void destroy() throws Exception {
+        this.stop();
+    }
 }

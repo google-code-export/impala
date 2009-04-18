@@ -27,23 +27,23 @@ import org.impalaframework.file.handler.BaseFileRecurseHandler;
  * @author Phil Zoio
  */
 public class FileMonitorRecurserHandler extends BaseFileRecurseHandler {
-	
-	long date = 0L;
-	
-	public FileFilter getDirectoryFilter() {
-		return null;
-	}
+    
+    long date = 0L;
+    
+    public FileFilter getDirectoryFilter() {
+        return null;
+    }
 
-	public void handleFile(File subfile) {
-		date = Math.max(date, subfile.lastModified());
-	}
+    public void handleFile(File subfile) {
+        date = Math.max(date, subfile.lastModified());
+    }
 
-	public void handleDirectory(File directory) {
-		date = Math.max(date, directory.lastModified());
-	}
+    public void handleDirectory(File directory) {
+        date = Math.max(date, directory.lastModified());
+    }
 
-	public long getLastModified() {
-		return date;
-	}
+    public long getLastModified() {
+        return date;
+    }
 
 }

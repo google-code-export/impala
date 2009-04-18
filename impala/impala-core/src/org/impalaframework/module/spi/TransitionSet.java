@@ -22,25 +22,25 @@ import org.springframework.util.Assert;
 
 public class TransitionSet {
 
-	private Collection<? extends ModuleStateChange> moduleTransitions = new ArrayList<ModuleStateChange>();
+    private Collection<? extends ModuleStateChange> moduleTransitions = new ArrayList<ModuleStateChange>();
 
-	private RootModuleDefinition newDefinition;
+    private RootModuleDefinition newDefinition;
 
-	public TransitionSet(Collection<? extends ModuleStateChange> transitions, RootModuleDefinition newDefinition) {
-		super();
-		this.moduleTransitions = transitions;
-		this.newDefinition = newDefinition;
-		if (this.newDefinition != null) {
-			Assert.isTrue(newDefinition.isFrozen());
-		}
-	}
+    public TransitionSet(Collection<? extends ModuleStateChange> transitions, RootModuleDefinition newDefinition) {
+        super();
+        this.moduleTransitions = transitions;
+        this.newDefinition = newDefinition;
+        if (this.newDefinition != null) {
+            Assert.isTrue(newDefinition.isFrozen());
+        }
+    }
 
-	public RootModuleDefinition getNewRootModuleDefinition() {
-		return newDefinition;
-	}
+    public RootModuleDefinition getNewRootModuleDefinition() {
+        return newDefinition;
+    }
 
-	public Collection<? extends ModuleStateChange> getModuleTransitions() {
-		return moduleTransitions;
-	}
+    public Collection<? extends ModuleStateChange> getModuleTransitions() {
+        return moduleTransitions;
+    }
 
 }

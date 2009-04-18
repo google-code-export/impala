@@ -32,21 +32,21 @@ import org.impalaframework.config.SystemPropertiesPropertySource;
  * @author Phil Zoio
  */
 public class SimpleLocationsRetriever extends BaseLocationsRetriever {
-	
-	public SimpleLocationsRetriever(ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
-		super(delegate, propertiesLoader);
-	}
+    
+    public SimpleLocationsRetriever(ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
+        super(delegate, propertiesLoader);
+    }
 
-	protected List<PropertySource> getPropertySources(Properties properties) {
-		List<PropertySource> propertySources = new ArrayList<PropertySource>();
-		
-		//property value sought first in system property
-		propertySources.add(new SystemPropertiesPropertySource());
-		
-		//then in impala properties file
-		propertySources.add(new StaticPropertiesPropertySource(properties));
-		
-		return propertySources;
-	}
+    protected List<PropertySource> getPropertySources(Properties properties) {
+        List<PropertySource> propertySources = new ArrayList<PropertySource>();
+        
+        //property value sought first in system property
+        propertySources.add(new SystemPropertiesPropertySource());
+        
+        //then in impala properties file
+        propertySources.add(new StaticPropertiesPropertySource(properties));
+        
+        return propertySources;
+    }
 
 }

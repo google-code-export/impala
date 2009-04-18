@@ -27,36 +27,36 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseIntegrationConfig {
-	
-	private Map<String,String> initParameterMap;
-	private ServletContext servletContext;
-	private String name;
-	
-	public BaseIntegrationConfig(Map<String, String> initParameterMap, ServletContext servletContext, String servletName) {
-		super();
-		Assert.notNull(initParameterMap);
-		Assert.notNull(servletContext);
-		Assert.notNull(servletName);
-		this.initParameterMap = initParameterMap;
-		this.servletContext = servletContext;
-		this.name = servletName;
-	}
+    
+    private Map<String,String> initParameterMap;
+    private ServletContext servletContext;
+    private String name;
+    
+    public BaseIntegrationConfig(Map<String, String> initParameterMap, ServletContext servletContext, String servletName) {
+        super();
+        Assert.notNull(initParameterMap);
+        Assert.notNull(servletContext);
+        Assert.notNull(servletName);
+        this.initParameterMap = initParameterMap;
+        this.servletContext = servletContext;
+        this.name = servletName;
+    }
 
-	public String getInitParameter(String name) {
-		return initParameterMap.get(name);
-	}
+    public String getInitParameter(String name) {
+        return initParameterMap.get(name);
+    }
 
-	public Enumeration<?> getInitParameterNames() {
-		Hashtable<String, String> hashtable = new Hashtable<String, String>(this.initParameterMap);
-		return hashtable.keys();
-	}
+    public Enumeration<?> getInitParameterNames() {
+        Hashtable<String, String> hashtable = new Hashtable<String, String>(this.initParameterMap);
+        return hashtable.keys();
+    }
 
-	public ServletContext getServletContext() {
-		return this.servletContext;
-	}
+    public ServletContext getServletContext() {
+        return this.servletContext;
+    }
 
-	public String getName() {
-		return this.name;
-	}
+    public String getName() {
+        return this.name;
+    }
 
 }

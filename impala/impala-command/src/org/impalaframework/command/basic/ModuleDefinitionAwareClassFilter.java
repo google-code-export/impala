@@ -30,81 +30,81 @@ import org.springframework.util.Assert;
 
 public class ModuleDefinitionAwareClassFilter extends DefaultClassFilter implements FileFilter {
 
-	private static final Log logger = LogFactory.getLog(ModuleDefinitionAwareClassFilter.class);
+    private static final Log logger = LogFactory.getLog(ModuleDefinitionAwareClassFilter.class);
 
-	@Override
-	public void setRootPath(File file) {
-		Assert.notNull(file);
-		try {
-			this.rootFile = file;
-			this.rootCanonicalPath = file.getCanonicalPath();
-		}
-		catch (IOException e) {
-			throw new ExecutionException("Unable to obtain canonical path for file " + file);
-		}
-	}
+    @Override
+    public void setRootPath(File file) {
+        Assert.notNull(file);
+        try {
+            this.rootFile = file;
+            this.rootCanonicalPath = file.getCanonicalPath();
+        }
+        catch (IOException e) {
+            throw new ExecutionException("Unable to obtain canonical path for file " + file);
+        }
+    }
 
-	private File rootFile;
-	private String rootCanonicalPath;
+    private File rootFile;
+    private String rootCanonicalPath;
 
-	public ModuleDefinitionAwareClassFilter() {
-	}
+    public ModuleDefinitionAwareClassFilter() {
+    }
 
-	public boolean accept(File pathname) {
-		if (!super.accept(pathname)) {
-			return false;
-		}
+    public boolean accept(File pathname) {
+        if (!super.accept(pathname)) {
+            return false;
+        }
 
-		if (pathname.isDirectory()) {
-			return true;
-		}
+        if (pathname.isDirectory()) {
+            return true;
+        }
 
-		if (rootCanonicalPath == null) {
-			throw new ConfigurationException("root canonical path not set");
-		}
+        if (rootCanonicalPath == null) {
+            throw new ConfigurationException("root canonical path not set");
+        }
 
-		String canonicalPath = null;
-		try {
-			canonicalPath = pathname.getCanonicalPath();
-		}
-		catch (IOException e) {
-			logger.error("Could not read canonical path for " + pathname, e);
-			return false;
-		}
-		String relativePath = canonicalPath.substring(rootCanonicalPath.length());
+        String canonicalPath = null;
+        try {
+            canonicalPath = pathname.getCanonicalPath();
+        }
+        catch (IOException e) {
+            logger.error("Could not read canonical path for " + pathname, e);
+            return false;
+        }
+        String relativePath = canonicalPath.substring(rootCanonicalPath.length());
 
-		relativePath = relativePath.replace(File.separator, ".");
-		relativePath = relativePath.replace("/", ".");
-		relativePath = relativePath.substring(0, relativePath.length() - ".class".length());
-		if (relativePath.startsWith(".")) {
-			relativePath = relativePath.substring(1);
-		}
-		
-		//create a classloader pointing to the supplied root file location
-		ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{ this.rootFile });
-		
-		Class<?> forName = null;
-		try {
-			forName = Class.forName(relativePath, false, classLoader);
-			if (forName.isInterface()) {
-				return false;
-			}
+        relativePath = relativePath.replace(File.separator, ".");
+        relativePath = relativePath.replace("/", ".");
+        relativePath = relativePath.substring(0, relativePath.length() - ".class".length());
+        if (relativePath.startsWith(".")) {
+            relativePath = relativePath.substring(1);
+        }
+        
+        //create a classloader pointing to the supplied root file location
+        ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{ this.rootFile });
+        
+        Class<?> forName = null;
+        try {
+            forName = Class.forName(relativePath, false, classLoader);
+            if (forName.isInterface()) {
+                return false;
+            }
 
-			int mods = forName.getModifiers();
-			if (Modifier.isAbstract(mods)) {
-				return false;
-			}
+            int mods = forName.getModifiers();
+            if (Modifier.isAbstract(mods)) {
+                return false;
+            }
 
-			if (ModuleDefinitionSource.class.isAssignableFrom(forName)) {
-				return true;
-			}
-		}
-		catch (ClassNotFoundException e) {
-			logger.error("Unable to resolve class associated with path " + pathname, e);
-		}
+            if (ModuleDefinitionSource.class.isAssignableFrom(forName)) {
+                return true;
+            }
+        }
+        catch (ClassNotFoundException e) {
+            logger.error("Unable to resolve class associated with path " + pathname, e);
+        }
 
-		return false;
+        return false;
 
-	}
+    }
 
 }

@@ -23,59 +23,59 @@ import org.impalaframework.exception.InvalidStateException;
 import org.springframework.core.io.Resource;
 
 public class CascadingModuleLocationResolverTest extends TestCase {
-	
-	private CascadingModuleLocationResolver resolver;
-	private FileModuleResourceFinder fileFinder;
+    
+    private CascadingModuleLocationResolver resolver;
+    private FileModuleResourceFinder fileFinder;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		resolver = new CascadingModuleLocationResolver();
-		resolver.setWorkspaceRoot("../impala-core/files/impala-classloader");
-		
-		fileFinder = new FileModuleResourceFinder();
-		fileFinder.setClassDirectory("bin");
-		JarModuleResourceFinder jarFinder = new JarModuleResourceFinder();
-		
-		List<ModuleResourceFinder> resourceFinders = new ArrayList<ModuleResourceFinder>();
-		resourceFinders.add(fileFinder);
-		resourceFinders.add(jarFinder);
-		
-		resolver.setClassResourceFinders(resourceFinders);
-		resolver.setApplicationVersion("1.0");
-		
-		resolver.init();
-	}
-	
-	public void testMultipleRoots() {
-		resolver.setWorkspaceRoot("../impala-interactive,../impala-core/files/impala-classloader");
-	}
-	
-	public void testResourceDir() {
-		fileFinder.setClassDirectory("duff");
-		fileFinder.setResourceDirectory("bin");
-		final List<ModuleResourceFinder> singletonList = new ArrayList<ModuleResourceFinder>();
-		singletonList.add(fileFinder);
-		resolver.setClassResourceFinders(singletonList);
-		final List<Resource> moduleLocations = resolver.getApplicationModuleClassLocations("module-a");
-		System.out.println(moduleLocations);
-	}
-	
-	public void testGetApplicationModuleClassLocations() {
-		doTests();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        resolver = new CascadingModuleLocationResolver();
+        resolver.setWorkspaceRoot("../impala-core/files/impala-classloader");
+        
+        fileFinder = new FileModuleResourceFinder();
+        fileFinder.setClassDirectory("bin");
+        JarModuleResourceFinder jarFinder = new JarModuleResourceFinder();
+        
+        List<ModuleResourceFinder> resourceFinders = new ArrayList<ModuleResourceFinder>();
+        resourceFinders.add(fileFinder);
+        resourceFinders.add(jarFinder);
+        
+        resolver.setClassResourceFinders(resourceFinders);
+        resolver.setApplicationVersion("1.0");
+        
+        resolver.init();
+    }
+    
+    public void testMultipleRoots() {
+        resolver.setWorkspaceRoot("../impala-interactive,../impala-core/files/impala-classloader");
+    }
+    
+    public void testResourceDir() {
+        fileFinder.setClassDirectory("duff");
+        fileFinder.setResourceDirectory("bin");
+        final List<ModuleResourceFinder> singletonList = new ArrayList<ModuleResourceFinder>();
+        singletonList.add(fileFinder);
+        resolver.setClassResourceFinders(singletonList);
+        final List<Resource> moduleLocations = resolver.getApplicationModuleClassLocations("module-a");
+        System.out.println(moduleLocations);
+    }
+    
+    public void testGetApplicationModuleClassLocations() {
+        doTests();
+    }
 
-	private void doTests() {
-		assertFalse(resolver.getApplicationModuleClassLocations("module-a").isEmpty());
-		assertFalse(resolver.getApplicationModuleClassLocations("module-i").isEmpty());
-		assertFalse(resolver.getApplicationModuleClassLocations("module-h").isEmpty());
-		
-		try {
-			resolver.getApplicationModuleClassLocations("module-k").isEmpty();
-			fail();
-		} catch (InvalidStateException e) {
-			System.out.println(e.getMessage());
-		}
-	}
+    private void doTests() {
+        assertFalse(resolver.getApplicationModuleClassLocations("module-a").isEmpty());
+        assertFalse(resolver.getApplicationModuleClassLocations("module-i").isEmpty());
+        assertFalse(resolver.getApplicationModuleClassLocations("module-h").isEmpty());
+        
+        try {
+            resolver.getApplicationModuleClassLocations("module-k").isEmpty();
+            fail();
+        } catch (InvalidStateException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }

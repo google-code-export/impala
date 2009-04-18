@@ -28,6 +28,6 @@ import org.impalaframework.module.ModuleDefinition;
  */
 public interface ModuleDefinitionCallback {
 
-	boolean matches(ModuleDefinition moduleDefinition);
+    boolean matches(ModuleDefinition moduleDefinition);
 
 }

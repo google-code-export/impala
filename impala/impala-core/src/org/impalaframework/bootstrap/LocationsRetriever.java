@@ -22,5 +22,5 @@ import java.util.List;
  * @author Phil Zoio
  */
 public interface LocationsRetriever {
-	public List<String> getContextLocations();
+    public List<String> getContextLocations();
 }

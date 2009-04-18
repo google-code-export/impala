@@ -26,27 +26,27 @@ import org.springframework.core.OrderComparator;
 
 public class RegistryContributionProcessor implements InitializingBean, ApplicationContextAware {
 
-	private ApplicationContext applicationContext;
-	
-	@SuppressWarnings("unchecked")
-	public void afterPropertiesSet() throws Exception {
-		final Map<String,RegistryContributor> beansOfType = applicationContext.getBeansOfType(RegistryContributor.class);
-		final List<RegistryContributor> values = new ArrayList<RegistryContributor>(beansOfType.values());
-		sort(values);
-		
-		for (RegistryContributor registryContributor : values) {
-			registryContributor.doContributions();
-		}
-	}
+    private ApplicationContext applicationContext;
+    
+    @SuppressWarnings("unchecked")
+    public void afterPropertiesSet() throws Exception {
+        final Map<String,RegistryContributor> beansOfType = applicationContext.getBeansOfType(RegistryContributor.class);
+        final List<RegistryContributor> values = new ArrayList<RegistryContributor>(beansOfType.values());
+        sort(values);
+        
+        for (RegistryContributor registryContributor : values) {
+            registryContributor.doContributions();
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	void sort(final List<RegistryContributor> values) {
-		OrderComparator comparator = new OrderComparator();
-		Collections.sort(values, comparator);
-	}
-	
-	public void setApplicationContext(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+    @SuppressWarnings("unchecked")
+    void sort(final List<RegistryContributor> values) {
+        OrderComparator comparator = new OrderComparator();
+        Collections.sort(values, comparator);
+    }
+    
+    public void setApplicationContext(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
 }

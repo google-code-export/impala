@@ -31,33 +31,33 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
 public class BaseSpringModuleLoaderTest extends TestCase {
-	
-	public void testNewBeanDefinitionReader() throws Exception {
-		
-		BaseSpringModuleLoader loader = new ApplicationModuleLoader();
-		loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
-		GenericApplicationContext context = new GenericApplicationContext();
-		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
-		assertSame(context.getBeanFactory(), reader.getBeanFactory());
-	}
+    
+    public void testNewBeanDefinitionReader() throws Exception {
+        
+        BaseSpringModuleLoader loader = new ApplicationModuleLoader();
+        loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
+        GenericApplicationContext context = new GenericApplicationContext();
+        XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
+        assertSame(context.getBeanFactory(), reader.getBeanFactory());
+    }
 
-	public void testNewApplicationContext() throws Exception {
-		BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
+    public void testNewApplicationContext() throws Exception {
+        BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
 
-			public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-				return null;
-			}
+            public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+                return null;
+            }
 
-			public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-				return null;
-			}
-		};
-		
-		GenericApplicationContext parentContext = new GenericApplicationContext();
-		SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
-		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-		GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
+            public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+                return null;
+            }
+        };
+        
+        GenericApplicationContext parentContext = new GenericApplicationContext();
+        SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
+        ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+        GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
 
-		ModuleTestUtils.checkHasPostProcessor(false, context, ModuleDefinitionPostProcessor.class);
-	}
+        ModuleTestUtils.checkHasPostProcessor(false, context, ModuleDefinitionPostProcessor.class);
+    }
 }

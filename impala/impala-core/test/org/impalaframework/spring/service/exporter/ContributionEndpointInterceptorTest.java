@@ -33,86 +33,86 @@ import org.springframework.util.ReflectionUtils;
 
 public class ContributionEndpointInterceptorTest extends TestCase {
 
-	private ContributionEndpointTargetSource targetSource;
+    private ContributionEndpointTargetSource targetSource;
 
-	private ContributionEndpointInterceptor interceptor;
+    private ContributionEndpointInterceptor interceptor;
 
-	private MethodInvocation invocation;
+    private MethodInvocation invocation;
 
-	private Method method;
+    private Method method;
 
-	private ServiceRegistryReference serviceRegistryReference;
+    private ServiceRegistryReference serviceRegistryReference;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		targetSource = createMock(ContributionEndpointTargetSource.class);
-		serviceRegistryReference = createMock(ServiceRegistryReference.class);
-		interceptor = new ContributionEndpointInterceptor(targetSource, "myBean");
-		method = ReflectionUtils.findMethod(String.class, "toString", new Class[] {});
-		assertNotNull(method);
-		invocation = createMock(MethodInvocation.class);
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        targetSource = createMock(ContributionEndpointTargetSource.class);
+        serviceRegistryReference = createMock(ServiceRegistryReference.class);
+        interceptor = new ContributionEndpointInterceptor(targetSource, "myBean");
+        method = ReflectionUtils.findMethod(String.class, "toString", new Class[] {});
+        assertNotNull(method);
+        invocation = createMock(MethodInvocation.class);
 
-	}
+    }
 
-	public final void testInvoke() throws Throwable {
-		interceptor.setSetContextClassLoader(true);
-		Object result = new Object();
-		expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
-		expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
-		expect(invocation.proceed()).andReturn(result);
+    public final void testInvoke() throws Throwable {
+        interceptor.setSetContextClassLoader(true);
+        Object result = new Object();
+        expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
+        expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
+        expect(invocation.proceed()).andReturn(result);
 
-		replayMocks();
-		assertSame(result, interceptor.invoke(invocation));
-		verifyMocks();
-	}
-	
-	public final void testInvokeNoSetContextClassLoader() throws Throwable {
-		interceptor.setSetContextClassLoader(false);
-		expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
-		Object result = new Object();
-		expect(invocation.proceed()).andReturn(result);
+        replayMocks();
+        assertSame(result, interceptor.invoke(invocation));
+        verifyMocks();
+    }
+    
+    public final void testInvokeNoSetContextClassLoader() throws Throwable {
+        interceptor.setSetContextClassLoader(false);
+        expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
+        Object result = new Object();
+        expect(invocation.proceed()).andReturn(result);
 
-		replayMocks();
-		assertSame(result, interceptor.invoke(invocation));
-		verifyMocks();
-	}
+        replayMocks();
+        assertSame(result, interceptor.invoke(invocation));
+        verifyMocks();
+    }
 
-	public final void testInvokeNoService() throws Throwable {
-		expect(targetSource.getServiceRegistryReference()).andReturn(null);
+    public final void testInvokeNoService() throws Throwable {
+        expect(targetSource.getServiceRegistryReference()).andReturn(null);
 
-		replayMocks();
-		try {
-			interceptor.invoke(invocation);
-			fail();
-		}
-		catch (NoServiceException e) {
-		}
-		verifyMocks();
-	}
+        replayMocks();
+        try {
+            interceptor.invoke(invocation);
+            fail();
+        }
+        catch (NoServiceException e) {
+        }
+        verifyMocks();
+    }
 
-	public final void testInvokeDummy() throws Throwable {
-		interceptor.setProceedWithNoService(true);
-		interceptor.setLogWarningNoService(true);
+    public final void testInvokeDummy() throws Throwable {
+        interceptor.setProceedWithNoService(true);
+        interceptor.setLogWarningNoService(true);
 
-		expect(targetSource.getServiceRegistryReference()).andReturn(null);
-		expect(invocation.getMethod()).andReturn(method);
+        expect(targetSource.getServiceRegistryReference()).andReturn(null);
+        expect(invocation.getMethod()).andReturn(method);
 
-		replayMocks();
-		assertNull(interceptor.invoke(invocation));
-		verifyMocks();
-	}
+        replayMocks();
+        assertNull(interceptor.invoke(invocation));
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(targetSource);
-		verify(invocation);
-		verify(serviceRegistryReference);
-	}
+    private void verifyMocks() {
+        verify(targetSource);
+        verify(invocation);
+        verify(serviceRegistryReference);
+    }
 
-	private void replayMocks() {
-		replay(targetSource);
-		replay(invocation);
-		replay(serviceRegistryReference);
-	}
+    private void replayMocks() {
+        replay(targetSource);
+        replay(invocation);
+        replay(serviceRegistryReference);
+    }
 
 }

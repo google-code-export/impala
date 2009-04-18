@@ -17,6 +17,6 @@ package org.impalaframework.module.spi;
 import org.impalaframework.module.ModuleDefinition;
 
 public interface ModuleRuntimeManager {
-	public boolean initModule(ModuleDefinition moduleDefinition);
-	public boolean closeModule(ModuleDefinition moduleDefinition);
+    public boolean initModule(ModuleDefinition moduleDefinition);
+    public boolean closeModule(ModuleDefinition moduleDefinition);
 }

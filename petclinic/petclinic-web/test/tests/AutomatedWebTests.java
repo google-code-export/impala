@@ -19,8 +19,8 @@ import junit.framework.TestSuite;
 
 public class AutomatedWebTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        return suite;
+    }
 }

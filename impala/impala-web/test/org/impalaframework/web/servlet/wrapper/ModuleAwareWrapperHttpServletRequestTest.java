@@ -35,70 +35,70 @@ import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
 
-	private HttpServletRequest request;
-	private HttpSession session;
-	private ServletContext servletContext;
-	private ModuleAwareWrapperHttpServletRequest wrapperRequest;
-	private ModuleManagementFacade moduleManagementFacade;
-	private ModuleStateHolder moduleStateHolder;
-	private SpringRuntimeModule springRuntimeModule;
+    private HttpServletRequest request;
+    private HttpSession session;
+    private ServletContext servletContext;
+    private ModuleAwareWrapperHttpServletRequest wrapperRequest;
+    private ModuleManagementFacade moduleManagementFacade;
+    private ModuleStateHolder moduleStateHolder;
+    private SpringRuntimeModule springRuntimeModule;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		request = createMock(HttpServletRequest.class);
-		servletContext = createMock(ServletContext.class);
-		session = createMock(HttpSession.class);
-		moduleManagementFacade = createMock(ModuleManagementFacade.class);
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-		springRuntimeModule = createMock(SpringRuntimeModule.class);
-		wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, "mymodule", servletContext );
-	}
-	
-	public void testGetSession() {
-	
-		expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
-		expect(moduleManagementFacade.getModuleStateHolder()).andReturn(moduleStateHolder);
-		expect(moduleStateHolder.getModule("mymodule")).andReturn(springRuntimeModule);
-		
-		replayMocks();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        request = createMock(HttpServletRequest.class);
+        servletContext = createMock(ServletContext.class);
+        session = createMock(HttpSession.class);
+        moduleManagementFacade = createMock(ModuleManagementFacade.class);
+        moduleStateHolder = createMock(ModuleStateHolder.class);
+        springRuntimeModule = createMock(SpringRuntimeModule.class);
+        wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, "mymodule", servletContext );
+    }
+    
+    public void testGetSession() {
+    
+        expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
+        expect(moduleManagementFacade.getModuleStateHolder()).andReturn(moduleStateHolder);
+        expect(moduleStateHolder.getModule("mymodule")).andReturn(springRuntimeModule);
+        
+        replayMocks();
 
-		HttpSession wrappedSession = wrapperRequest.wrapSession(session);
-		assertTrue(wrappedSession instanceof ModuleAwareWrapperHttpSession);
-		ModuleAwareWrapperHttpSession moduleAwareSession = (ModuleAwareWrapperHttpSession) wrappedSession;
-		assertNotNull(moduleAwareSession.getModuleClassLoader());
-		assertSame(session, moduleAwareSession.getRealSession());
+        HttpSession wrappedSession = wrapperRequest.wrapSession(session);
+        assertTrue(wrappedSession instanceof ModuleAwareWrapperHttpSession);
+        ModuleAwareWrapperHttpSession moduleAwareSession = (ModuleAwareWrapperHttpSession) wrappedSession;
+        assertNotNull(moduleAwareSession.getModuleClassLoader());
+        assertSame(session, moduleAwareSession.getRealSession());
 
-		verifyMocks();
-	}
-	
-	public void testGetSessionNoFactoryAvailable() {
-		
-		expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
-		
-		replayMocks();
+        verifyMocks();
+    }
+    
+    public void testGetSessionNoFactoryAvailable() {
+        
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
+        
+        replayMocks();
 
-		HttpSession wrappedSession = wrapperRequest.wrapSession(session);
-		assertSame(session, wrappedSession);
+        HttpSession wrappedSession = wrapperRequest.wrapSession(session);
+        assertSame(session, wrappedSession);
 
-		verifyMocks();
-	}
+        verifyMocks();
+    }
 
-	private void verifyMocks() {
-		verify(request);
-		verify(servletContext);
-		verify(moduleManagementFacade);
-		verify(moduleStateHolder);
-		verify(springRuntimeModule);
-	}
+    private void verifyMocks() {
+        verify(request);
+        verify(servletContext);
+        verify(moduleManagementFacade);
+        verify(moduleStateHolder);
+        verify(springRuntimeModule);
+    }
 
-	private void replayMocks() {
-		replay(request);
-		replay(servletContext);
-		replay(moduleManagementFacade);
-		replay(moduleStateHolder);
-		replay(springRuntimeModule);
-	}
+    private void replayMocks() {
+        replay(request);
+        replay(servletContext);
+        replay(moduleManagementFacade);
+        replay(moduleStateHolder);
+        replay(springRuntimeModule);
+    }
 
 }

@@ -33,76 +33,76 @@ import org.impalaframework.web.spring.loader.ExternalModuleContextLoader;
 
 public class ExternalModuleContextLoaderTest extends TestCase {
 
-	private ExternalModuleContextLoader loader;
+    private ExternalModuleContextLoader loader;
 
-	private ServletContext servletContext;
+    private ServletContext servletContext;
 
-	private ModuleManagementFacade factory;
+    private ModuleManagementFacade factory;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		loader = new ExternalModuleContextLoader();
-		servletContext = createMock(ServletContext.class);
-		factory = createMock(ModuleManagementFacade.class);
-		System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        loader = new ExternalModuleContextLoader();
+        servletContext = createMock(ServletContext.class);
+        factory = createMock(ModuleManagementFacade.class);
+        System.clearProperty(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+    }
 
-	public final void testNoParameterResourceSpecified() {
-		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
+    public final void testNoParameterResourceSpecified() {
+        expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
 
-		replay(servletContext);
-		replay(factory);
-		
-		try {
-			loader.getModuleDefinitionSource(servletContext, factory);
-		}
-		catch (ConfigurationException e) {
-			assertEquals(
-					"Module definition XML resource 'class path resource [duffresource]' does not exist",
-					e.getMessage());
-		}
-		
-		verify(servletContext);
-		verify(factory);
-	}
+        replay(servletContext);
+        replay(factory);
+        
+        try {
+            loader.getModuleDefinitionSource(servletContext, factory);
+        }
+        catch (ConfigurationException e) {
+            assertEquals(
+                    "Module definition XML resource 'class path resource [duffresource]' does not exist",
+                    e.getMessage());
+        }
+        
+        verify(servletContext);
+        verify(factory);
+    }
 
-	public final void testResourceNotPresent() {
-		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
-		
-		replay(servletContext);
-		replay(factory);
-		
-		try {
-			loader.getModuleDefinitionSource(servletContext, factory);
-		}
-		catch (ConfigurationException e) {
-			assertEquals("Module definition XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
-		}
+    public final void testResourceNotPresent() {
+        expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
+        
+        replay(servletContext);
+        replay(factory);
+        
+        try {
+            loader.getModuleDefinitionSource(servletContext, factory);
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Module definition XML resource 'class path resource [notpresent]' does not exist", e.getMessage());
+        }
 
-		verify(servletContext);
-		verify(factory);
-	}
+        verify(servletContext);
+        verify(factory);
+    }
 
-	public final void testGetModuleDefinition() {
-		doSucceedingTest("xmlspec/webspec.xml");
-		doSucceedingTest("classpath:xmlspec/webspec.xml");
-	}
+    public final void testGetModuleDefinition() {
+        doSucceedingTest("xmlspec/webspec.xml");
+        doSucceedingTest("classpath:xmlspec/webspec.xml");
+    }
 
-	private void doSucceedingTest(String resourceName) {
-		expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
-		expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
-		expect(factory.getTypeReaderRegistry()).andReturn(TypeReaderRegistryFactory.getTypeReaderRegistry());
+    private void doSucceedingTest(String resourceName) {
+        expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
+        expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
+        expect(factory.getTypeReaderRegistry()).andReturn(TypeReaderRegistryFactory.getTypeReaderRegistry());
 
-		replay(servletContext);
-		replay(factory);
+        replay(servletContext);
+        replay(factory);
 
-		assertNotNull(loader.getModuleDefinitionSource(servletContext, factory));
+        assertNotNull(loader.getModuleDefinitionSource(servletContext, factory));
 
-		verify(servletContext);
-		verify(factory);
-		
-		reset(servletContext);
-		reset(factory);
-	}
+        verify(servletContext);
+        verify(factory);
+        
+        reset(servletContext);
+        reset(factory);
+    }
 }

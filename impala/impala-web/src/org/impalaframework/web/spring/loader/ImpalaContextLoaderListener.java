@@ -34,51 +34,51 @@ import org.springframework.web.context.ContextLoaderListener;
  * @author Phil Zoio
  */
 public class ImpalaContextLoaderListener extends ContextLoaderListener {
-	
-	private ContextLoader contextLoader;
-	
-	private Class<? extends ContextLoader> defaultContextLoaderClass = ExternalModuleContextLoader.class;
+    
+    private ContextLoader contextLoader;
+    
+    private Class<? extends ContextLoader> defaultContextLoaderClass = ExternalModuleContextLoader.class;
 
-	public void contextInitialized(ServletContextEvent event) {
-		ServletContext servletContext = event.getServletContext();
-		contextLoader = createContextLoader(servletContext);
-		contextLoader.initWebApplicationContext(servletContext);
-	}
+    public void contextInitialized(ServletContextEvent event) {
+        ServletContext servletContext = event.getServletContext();
+        contextLoader = createContextLoader(servletContext);
+        contextLoader.initWebApplicationContext(servletContext);
+    }
 
-	@SuppressWarnings("unchecked")
-	protected ContextLoader createContextLoader(ServletContext servletContext) {
-		String contextLoaderClassName = servletContext.getInitParameter(WebConstants.CONTEXT_LOADER_CLASS_NAME);
-		
-		Class<? extends ContextLoader> contextLoaderClass = defaultContextLoaderClass;
-		
-		if (contextLoaderClassName != null) {
-			try {
-				contextLoaderClass = ClassUtils.forName(contextLoaderClassName);
-			}
-			catch (Throwable e) {
-				throw new ConfigurationException("Unable to instantiate context loader class " + contextLoaderClassName);
-			}
-		}
-		
-		ContextLoader contextLoader = null;
-		try {
-			contextLoader = contextLoaderClass.newInstance();
-		}
-		catch (Exception e) {
-			throw new ExecutionException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);
-		}
-		
-		return contextLoader;
-	}
+    @SuppressWarnings("unchecked")
+    protected ContextLoader createContextLoader(ServletContext servletContext) {
+        String contextLoaderClassName = servletContext.getInitParameter(WebConstants.CONTEXT_LOADER_CLASS_NAME);
+        
+        Class<? extends ContextLoader> contextLoaderClass = defaultContextLoaderClass;
+        
+        if (contextLoaderClassName != null) {
+            try {
+                contextLoaderClass = ClassUtils.forName(contextLoaderClassName);
+            }
+            catch (Throwable e) {
+                throw new ConfigurationException("Unable to instantiate context loader class " + contextLoaderClassName);
+            }
+        }
+        
+        ContextLoader contextLoader = null;
+        try {
+            contextLoader = contextLoaderClass.newInstance();
+        }
+        catch (Exception e) {
+            throw new ExecutionException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);
+        }
+        
+        return contextLoader;
+    }
 
-	public ContextLoader getContextLoader() {
-		return contextLoader;
-	}
+    public ContextLoader getContextLoader() {
+        return contextLoader;
+    }
 
-	public void contextDestroyed(ServletContextEvent event) {
-		if (contextLoader != null) {
-			contextLoader.closeWebApplicationContext(event.getServletContext());
-		}
-	}
+    public void contextDestroyed(ServletContextEvent event) {
+        if (contextLoader != null) {
+            contextLoader.closeWebApplicationContext(event.getServletContext());
+        }
+    }
 
 }

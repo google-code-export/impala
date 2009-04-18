@@ -27,19 +27,19 @@ package org.impalaframework.module;
  */
 public interface Freezable {
 
-	/**
-	 * Freezes state of object so that it is regarded as effectively immutable.
-	 */
-	void freeze();
+    /**
+     * Freezes state of object so that it is regarded as effectively immutable.
+     */
+    void freeze();
 
-	/**
-	 * Unfreezes state of object.
-	 */
-	void unfreeze();
+    /**
+     * Unfreezes state of object.
+     */
+    void unfreeze();
 
-	/**
-	 * Returns true if frozen has been called on object.
-	 */
-	boolean isFrozen();
+    /**
+     * Returns true if frozen has been called on object.
+     */
+    boolean isFrozen();
 
 }

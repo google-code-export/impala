@@ -22,38 +22,38 @@ import org.impalaframework.module.ModuleDefinition;
  * @author Phil Zoio
  */
 public class SimpleModuleDefinition extends BaseModuleDefinition {
-	
-	private static final long serialVersionUID = 1L;
+    
+    private static final long serialVersionUID = 1L;
 
-	/* ********************* constructors ******************** */
+    /* ********************* constructors ******************** */
 
-	public SimpleModuleDefinition(String name) {
-		this(null, name, null);
-	}
+    public SimpleModuleDefinition(String name) {
+        this(null, name, null);
+    }
 
-	public SimpleModuleDefinition(ModuleDefinition parent, String name) {
-		this(parent, name, null);
-	}
+    public SimpleModuleDefinition(ModuleDefinition parent, String name) {
+        this(parent, name, null);
+    }
 
-	public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
-		this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null);
-	}
-	
-	public SimpleModuleDefinition(
-			ModuleDefinition parent, 
-			String name, 
-			String type, 
-			String[] configLocations, 
-			String[] dependencies, 
-			Map<String, String> attributes, 
-			String runtime) {
-		super(parent, name, type, dependencies, configLocations, attributes, runtime);
-	}
+    public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
+        this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null);
+    }
+    
+    public SimpleModuleDefinition(
+            ModuleDefinition parent, 
+            String name, 
+            String type, 
+            String[] configLocations, 
+            String[] dependencies, 
+            Map<String, String> attributes, 
+            String runtime) {
+        super(parent, name, type, dependencies, configLocations, attributes, runtime);
+    }
 
-	/* ********************* read-only methods ******************** */
+    /* ********************* read-only methods ******************** */
 
-	public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
-		return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
-	}
-	
+    public ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch) {
+        return ModuleDefinitionWalker.walkModuleDefinition(this, new ModuleMatchingCallback(moduleName, exactMatch));
+    }
+    
 }

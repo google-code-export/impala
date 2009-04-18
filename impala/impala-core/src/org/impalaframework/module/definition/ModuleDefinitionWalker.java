@@ -25,58 +25,58 @@ import org.impalaframework.module.RootModuleDefinition;
  * @author Phil Zoio
  */
 public class ModuleDefinitionWalker {
-	
-	/**
-	 * Walks the root definition, beginning by calling {@link #walkModuleDefinition(ModuleDefinition, ModuleDefinitionCallback)}
-	 * for the root definition itself, then for each of its siblings
-	 * @param root a {@link RootModuleDefinition} instance
-	 * @param callback a {@link ModuleDefinitionCallback} instance, to handle any per-module processing
-	 * @return {@link ModuleDefinition}, at the first point at which {@link ModuleDefinitionCallback#matches(ModuleDefinition)}
-	 * returns true. If this does not happen, then null is returned. 
-	 */
-	public static ModuleDefinition walkRootDefinition(RootModuleDefinition root, ModuleDefinitionCallback callback) {
-		
-		ModuleDefinition child = walkModuleDefinition(root,callback);
-		
-		if (child != null)	
-			return child;
-		
-		List<ModuleDefinition> siblings = root.getSiblings();
-		
-		for (ModuleDefinition moduleDefinition : siblings) {
-			child = walkModuleDefinition(moduleDefinition, callback);
-			if (child != null) {
-				return child;
-			}
-		}
-		return null;		
-	}
-	
-	public static ModuleDefinition walkModuleDefinition(ModuleDefinition moduleDefinition, ModuleDefinitionCallback callback) {
+    
+    /**
+     * Walks the root definition, beginning by calling {@link #walkModuleDefinition(ModuleDefinition, ModuleDefinitionCallback)}
+     * for the root definition itself, then for each of its siblings
+     * @param root a {@link RootModuleDefinition} instance
+     * @param callback a {@link ModuleDefinitionCallback} instance, to handle any per-module processing
+     * @return {@link ModuleDefinition}, at the first point at which {@link ModuleDefinitionCallback#matches(ModuleDefinition)}
+     * returns true. If this does not happen, then null is returned. 
+     */
+    public static ModuleDefinition walkRootDefinition(RootModuleDefinition root, ModuleDefinitionCallback callback) {
+        
+        ModuleDefinition child = walkModuleDefinition(root,callback);
+        
+        if (child != null)  
+            return child;
+        
+        List<ModuleDefinition> siblings = root.getSiblings();
+        
+        for (ModuleDefinition moduleDefinition : siblings) {
+            child = walkModuleDefinition(moduleDefinition, callback);
+            if (child != null) {
+                return child;
+            }
+        }
+        return null;        
+    }
+    
+    public static ModuleDefinition walkModuleDefinition(ModuleDefinition moduleDefinition, ModuleDefinitionCallback callback) {
 
-		if (callback.matches(moduleDefinition)) {
-			return moduleDefinition;
-		}
+        if (callback.matches(moduleDefinition)) {
+            return moduleDefinition;
+        }
 
-		final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildModuleDefinitions();
-		for (ModuleDefinition childDefinition : childDefinitions) {
-			
-			if (callback instanceof ChildModuleDefinitionCallback) {
-				ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
-				childCallBack.beforeChild(moduleDefinition);
-			}
-			
-			final ModuleDefinition found = walkModuleDefinition(childDefinition, callback);
-			if (found != null) {
-				return found;
-			}
-			
-			if (callback instanceof ChildModuleDefinitionCallback) {
-				ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
-				childCallBack.afterChild(moduleDefinition);
-			}
-		}
-		return null;
-	}
-	
+        final Collection<ModuleDefinition> childDefinitions = moduleDefinition.getChildModuleDefinitions();
+        for (ModuleDefinition childDefinition : childDefinitions) {
+            
+            if (callback instanceof ChildModuleDefinitionCallback) {
+                ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
+                childCallBack.beforeChild(moduleDefinition);
+            }
+            
+            final ModuleDefinition found = walkModuleDefinition(childDefinition, callback);
+            if (found != null) {
+                return found;
+            }
+            
+            if (callback instanceof ChildModuleDefinitionCallback) {
+                ChildModuleDefinitionCallback childCallBack = (ChildModuleDefinitionCallback) callback;
+                childCallBack.afterChild(moduleDefinition);
+            }
+        }
+        return null;
+    }
+    
 }

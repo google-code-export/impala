@@ -17,20 +17,20 @@ package org.impalaframework.spring;
 
 public class SystemPropertyBasedPlaceholderConfigurer extends ExtendedPropertyPlaceholderConfigurer {
 
-	private String propertyFolderSystemProperty;
+    private String propertyFolderSystemProperty;
 
-	public static final String DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY = "property.folder";
+    public static final String DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY = "property.folder";
 
-	protected String getAlternativeFolderLocation() {
-		if (propertyFolderSystemProperty == null) {
-			propertyFolderSystemProperty = DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY;
-		}
+    protected String getAlternativeFolderLocation() {
+        if (propertyFolderSystemProperty == null) {
+            propertyFolderSystemProperty = DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY;
+        }
 
-		String folderLocation = System.getProperty(propertyFolderSystemProperty);
-		return folderLocation;
-	}
-	
-	public void setPropertyFolderSystemProperty(String systemPropertyName) {
-		this.propertyFolderSystemProperty = systemPropertyName;
-	}
+        String folderLocation = System.getProperty(propertyFolderSystemProperty);
+        return folderLocation;
+    }
+    
+    public void setPropertyFolderSystemProperty(String systemPropertyName) {
+        this.propertyFolderSystemProperty = systemPropertyName;
+    }
 }

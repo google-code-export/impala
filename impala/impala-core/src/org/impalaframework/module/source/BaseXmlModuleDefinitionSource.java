@@ -32,57 +32,57 @@ import org.w3c.dom.Element;
  */
 public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionSource {
 
-	private Resource resource;
-	
-	private XMLModulelDefinitionDocumentLoader xmlDefinitionLoader;
+    private Resource resource;
+    
+    private XMLModulelDefinitionDocumentLoader xmlDefinitionLoader;
 
-	public BaseXmlModuleDefinitionSource() {
-		this.xmlDefinitionLoader = new XMLModulelDefinitionDocumentLoader();
-	}
+    public BaseXmlModuleDefinitionSource() {
+        this.xmlDefinitionLoader = new XMLModulelDefinitionDocumentLoader();
+    }
 
-	/**
-	 * Returns a reference for the root element from the {@link Resource}
-	 * from which the module definition is being loaded.
-	 * @return an instance of {@link Element}
-	 */
-	protected Element getRootElement() {
-		Assert.notNull(resource, "resource cannot be null");
-		Document document = xmlDefinitionLoader.loadDocument(resource);
+    /**
+     * Returns a reference for the root element from the {@link Resource}
+     * from which the module definition is being loaded.
+     * @return an instance of {@link Element}
+     */
+    protected Element getRootElement() {
+        Assert.notNull(resource, "resource cannot be null");
+        Document document = xmlDefinitionLoader.loadDocument(resource);
 
-		Element root = document.getDocumentElement();
-		return root;
-	}
+        Element root = document.getDocumentElement();
+        return root;
+    }
 
-	/**
-	 * Utility method to read the module type from the supplied {@link Element}.
-	 * Looks for the value enclosed by a {@link ModuleElementNames#TYPE_ELEMENT} subelement of the 
-	 * supplied element. If none is found, the defaults to {@link ModuleTypes#APPLICATION}.
-	 */
-	protected String getType(Element definitionElement) {
-		String type = XMLDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
-		if (type == null) {
-			type = ModuleTypes.APPLICATION;
-		}
-		return type;
-	}
+    /**
+     * Utility method to read the module type from the supplied {@link Element}.
+     * Looks for the value enclosed by a {@link ModuleElementNames#TYPE_ELEMENT} subelement of the 
+     * supplied element. If none is found, the defaults to {@link ModuleTypes#APPLICATION}.
+     */
+    protected String getType(Element definitionElement) {
+        String type = XMLDomUtils.readOptionalElementText(definitionElement, ModuleElementNames.TYPE_ELEMENT);
+        if (type == null) {
+            type = ModuleTypes.APPLICATION;
+        }
+        return type;
+    }
 
-	/**
-	 * Returns the value of the <code>name</code> subelement of the supplied element.
-	 * Throws {@link IllegalArgumentException} if no value is found.
-	 */
-	protected String getName(Element definitionElement) {
-		Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
-		String name = DomUtils.getTextValue(nameElement);
-		Assert.notNull(nameElement, ModuleElementNames.MODULE_ELEMENT + " must contain an element: " + ModuleElementNames.NAME_ELEMENT);
-		return name;
-	}
+    /**
+     * Returns the value of the <code>name</code> subelement of the supplied element.
+     * Throws {@link IllegalArgumentException} if no value is found.
+     */
+    protected String getName(Element definitionElement) {
+        Element nameElement = DomUtils.getChildElementByTagName(definitionElement, ModuleElementNames.NAME_ELEMENT);
+        String name = DomUtils.getTextValue(nameElement);
+        Assert.notNull(nameElement, ModuleElementNames.MODULE_ELEMENT + " must contain an element: " + ModuleElementNames.NAME_ELEMENT);
+        return name;
+    }
 
-	protected Resource getResource() {
-		return resource;
-	}
+    protected Resource getResource() {
+        return resource;
+    }
 
-	public void setResource(Resource resource) {
-		this.resource = resource;
-	}
+    public void setResource(Resource resource) {
+        this.resource = resource;
+    }
 
 }

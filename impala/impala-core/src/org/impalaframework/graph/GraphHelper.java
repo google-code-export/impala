@@ -59,14 +59,14 @@ public class GraphHelper
     }
     
     public static List<Vertex> list(Vertex vertex)
-    throws CyclicDependencyException	{
-	    // We need a list of vertices that contains the entire graph, so build it.
-	    List<Vertex> vertices = new ArrayList<Vertex>();
-	    addDependencies( vertex, vertices );
-	    
-	    topologicalSort( vertices );
-	    return vertices;
-	}
+    throws CyclicDependencyException    {
+        // We need a list of vertices that contains the entire graph, so build it.
+        List<Vertex> vertices = new ArrayList<Vertex>();
+        addDependencies( vertex, vertices );
+        
+        topologicalSort( vertices );
+        return vertices;
+    }
     
     /**
      * Recursively add a vertex and all of its dependencies to a list of
@@ -171,13 +171,13 @@ public class GraphHelper
         }
     }
 
-	public static List<String> getModuleNamesFromCollection(Collection<Vertex>  vertices)  {
-		Assert.notNull(vertices);
-		List<String> names = new ArrayList<String>();
-		for (Vertex moduleDefinition : vertices) {
-			names.add(moduleDefinition.getName());
-		}
-		return names;
-	}
-	
+    public static List<String> getModuleNamesFromCollection(Collection<Vertex>  vertices)  {
+        Assert.notNull(vertices);
+        List<String> names = new ArrayList<String>();
+        for (Vertex moduleDefinition : vertices) {
+            names.add(moduleDefinition.getName());
+        }
+        return names;
+    }
+    
 }

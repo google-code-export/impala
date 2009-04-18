@@ -33,86 +33,86 @@ import org.springframework.util.ClassUtils;
  */
 public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
 
-	private static final long serialVersionUID = 1L;
-	
-	private ServiceProxyFactoryCreator proxyFactoryCreator;
+    private static final long serialVersionUID = 1L;
+    
+    private ServiceProxyFactoryCreator proxyFactoryCreator;
 
-	private Class<?>[] interfaces;
+    private Class<?>[] interfaces;
 
-	private String beanName;
-	
-	private String exportedBeanName;
+    private String beanName;
+    
+    private String exportedBeanName;
 
-	private ProxyFactory proxyFactory;
+    private ProxyFactory proxyFactory;
 
-	private ClassLoader beanClassLoader;
-	
-	private ServiceRegistry serviceRegistry;
+    private ClassLoader beanClassLoader;
+    
+    private ServiceRegistry serviceRegistry;
 
-	/* *************** BeanNameAware implementation method ************** */
+    /* *************** BeanNameAware implementation method ************** */
 
-	public void setBeanName(String name) {
-		this.beanName = name;
-	}
+    public void setBeanName(String name) {
+        this.beanName = name;
+    }
 
-	/* *************** InitializingBean implementation method ************** */
+    /* *************** InitializingBean implementation method ************** */
 
-	public void afterPropertiesSet() throws Exception {
-		
-		if (this.proxyFactoryCreator == null) {
-			this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
-			this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
-		}
-		
-		String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
-		this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(interfaces, registryKeyName);
-	}
+    public void afterPropertiesSet() throws Exception {
+        
+        if (this.proxyFactoryCreator == null) {
+            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+            this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
+        }
+        
+        String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
+        this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(interfaces, registryKeyName);
+    }
 
-	/* *************** FactoryBean implementation methods ************** */
+    /* *************** FactoryBean implementation methods ************** */
 
-	public Object getObject() throws Exception {
-		return proxyFactory.getProxy(beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
-	}
+    public Object getObject() throws Exception {
+        return proxyFactory.getProxy(beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
+    }
 
-	@SuppressWarnings("unchecked")
-	public Class getObjectType() {
-		// no specific awareness of object type, so return null
-		return null;
-	}
+    @SuppressWarnings("unchecked")
+    public Class getObjectType() {
+        // no specific awareness of object type, so return null
+        return null;
+    }
 
-	public boolean isSingleton() {
-		// prototype currently not supported
-		return true;
-	}
-	
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public boolean isSingleton() {
+        // prototype currently not supported
+        return true;
+    }
+    
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
-	/* *************** dependency injection setters ************** */
+    /* *************** dependency injection setters ************** */
 
-	public void setProxyInterfaces(Class<?>[] interfaces) {
-		this.interfaces = interfaces;
-	}
+    public void setProxyInterfaces(Class<?>[] interfaces) {
+        this.interfaces = interfaces;
+    }
 
-	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.beanClassLoader = classLoader;
-	}
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.beanClassLoader = classLoader;
+    }
 
-	public void setExportedBeanName(String exportedBeanName) {
-		this.exportedBeanName = exportedBeanName;
-	}
+    public void setExportedBeanName(String exportedBeanName) {
+        this.exportedBeanName = exportedBeanName;
+    }
 
-	public void setProxyFactoryCreator(ServiceProxyFactoryCreator proxyFactoryCreator) {
-		this.proxyFactoryCreator = proxyFactoryCreator;
-	}
+    public void setProxyFactoryCreator(ServiceProxyFactoryCreator proxyFactoryCreator) {
+        this.proxyFactoryCreator = proxyFactoryCreator;
+    }
 
-	/* *************** ContributionEndpointTargetSource delegates ************** */
+    /* *************** ContributionEndpointTargetSource delegates ************** */
 
-	public void registerTarget(String moduleName, Object bean) {
-	}
+    public void registerTarget(String moduleName, Object bean) {
+    }
 
-	public void deregisterTarget(Object bean) {
-	}
+    public void deregisterTarget(Object bean) {
+    }
 
 }

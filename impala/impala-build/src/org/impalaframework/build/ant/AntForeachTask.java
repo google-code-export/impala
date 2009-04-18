@@ -26,72 +26,72 @@ import org.apache.tools.ant.taskdefs.Ant;
  */
 public class AntForeachTask extends Ant {
 
-	private File dir;
+    private File dir;
 
-	private String projects;
+    private String projects;
 
-	public void setDir(File dir) {
-		this.dir = dir;
-	}
+    public void setDir(File dir) {
+        this.dir = dir;
+    }
 
-	@Override
-	public void execute() throws BuildException {
+    @Override
+    public void execute() throws BuildException {
 
-		checkArgs();
+        checkArgs();
 
-		List<File> subdirectories = getSubdirectories();
-		
-		//now execute task
-		for (File file : subdirectories) {
-			init();
-			super.setDir(file);
-			super.execute();
-		}
-	}
+        List<File> subdirectories = getSubdirectories();
+        
+        //now execute task
+        for (File file : subdirectories) {
+            init();
+            super.setDir(file);
+            super.execute();
+        }
+    }
 
-	List<File> getSubdirectories() {
-		String[] valueList = projects.split(",");
-		
-		List<File> subdirectories = new ArrayList<File>();
+    List<File> getSubdirectories() {
+        String[] valueList = projects.split(",");
+        
+        List<File> subdirectories = new ArrayList<File>();
 
-		for (String directory : valueList) {
-			directory = directory.trim();
-			if (directory.length() > 0) {
-				File subdir = new File(dir, directory);
-				if (!subdir.exists()) {
-					throw new BuildException("Subdirectory for ANT task does not exist: " + subdir, getLocation());
-				}
-				
-				if (!subdir.exists()) {
-					throw new BuildException("Subdirectory for ANT task does not exist: " + subdir, getLocation());
-				}
-				
-				subdirectories.add(subdir);
-			}
-		}
-		return subdirectories;
-	}
+        for (String directory : valueList) {
+            directory = directory.trim();
+            if (directory.length() > 0) {
+                File subdir = new File(dir, directory);
+                if (!subdir.exists()) {
+                    throw new BuildException("Subdirectory for ANT task does not exist: " + subdir, getLocation());
+                }
+                
+                if (!subdir.exists()) {
+                    throw new BuildException("Subdirectory for ANT task does not exist: " + subdir, getLocation());
+                }
+                
+                subdirectories.add(subdir);
+            }
+        }
+        return subdirectories;
+    }
 
-	void checkArgs() {
-		if (projects == null) {
-			throw new BuildException("'values' property not specified", getLocation());
-		}
+    void checkArgs() {
+        if (projects == null) {
+            throw new BuildException("'values' property not specified", getLocation());
+        }
 
-		if (dir == null) {
-			throw new BuildException("'dir' property not specified", getLocation());
-		}
-		
-		if (!dir.exists()) {
-			throw new BuildException("'dir' does not exist", getLocation());
-		}
-		
-		if (!dir.isDirectory()) {
-			throw new BuildException("'dir' must be a directory", getLocation());
-		}
-	}
+        if (dir == null) {
+            throw new BuildException("'dir' property not specified", getLocation());
+        }
+        
+        if (!dir.exists()) {
+            throw new BuildException("'dir' does not exist", getLocation());
+        }
+        
+        if (!dir.isDirectory()) {
+            throw new BuildException("'dir' must be a directory", getLocation());
+        }
+    }
 
-	public void setProjects(String values) {
-		this.projects = values;
-	}
+    public void setProjects(String values) {
+        this.projects = values;
+    }
 
 }

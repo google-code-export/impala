@@ -20,12 +20,12 @@ import org.impalaframework.module.source.SingleStringModuleDefinitionSource;
 
 public class ModificationTestUtils {
 
-	static RootModuleDefinition spec(String contextString, String definitionString) {
-		String[] locations = contextString.split(",");
-		SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(new SimpleRootModuleDefinition("project1", locations),
-				definitionString);
-		RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
-		return rootModuleDefinition;
-	}
+    static RootModuleDefinition spec(String contextString, String definitionString) {
+        String[] locations = contextString.split(",");
+        SingleStringModuleDefinitionSource builder = new SingleStringModuleDefinitionSource(new SimpleRootModuleDefinition("project1", locations),
+                definitionString);
+        RootModuleDefinition rootModuleDefinition = builder.getModuleDefinition();
+        return rootModuleDefinition;
+    }
 
 }

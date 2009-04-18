@@ -20,17 +20,17 @@ import org.impalaframework.interactive.bootstrap.TestContextLocationResolver;
 
 public class InteractiveOperationsFacade extends BootstrappingOperationFacade {
 
-	public InteractiveOperationsFacade() {
-		super();
-	}
+    public InteractiveOperationsFacade() {
+        super();
+    }
 
-	@Override
-	protected String getContextLocationResolverClassName() {
-		return TestContextLocationResolver.class.getName();
-	}
+    @Override
+    protected String getContextLocationResolverClassName() {
+        return TestContextLocationResolver.class.getName();
+    }
 
-	@Override
-	protected String getDefaultResourceName() {
-		return super.getDefaultResourceName();
-	}
+    @Override
+    protected String getDefaultResourceName() {
+        return super.getDefaultResourceName();
+    }
 }

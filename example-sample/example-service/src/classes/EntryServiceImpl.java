@@ -23,19 +23,19 @@ import org.springframework.transaction.annotation.Transactional;
 
 public class EntryServiceImpl implements EntryService {
 
-	private EntryDAO entryDAO;
+    private EntryDAO entryDAO;
 
-	@Transactional()
-	public void addEntry(Entry entry) {
-		entryDAO.save(entry);
-	}
+    @Transactional()
+    public void addEntry(Entry entry) {
+        entryDAO.save(entry);
+    }
 
-	public Collection<Entry> getEntriesOfCount(int count) {
-		return entryDAO.getEntriesWithCount(count);
-	}
+    public Collection<Entry> getEntriesOfCount(int count) {
+        return entryDAO.getEntriesWithCount(count);
+    }
 
-	public void setEntryDAO(EntryDAO entryDAO) {
-		this.entryDAO = entryDAO;
-	}
+    public void setEntryDAO(EntryDAO entryDAO) {
+        this.entryDAO = entryDAO;
+    }
 
 }

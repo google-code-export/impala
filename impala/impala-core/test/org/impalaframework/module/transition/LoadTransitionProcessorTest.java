@@ -33,47 +33,47 @@ import org.impalaframework.module.spi.ModuleRuntimeManager;
 
 public class LoadTransitionProcessorTest extends TestCase {
 
-	private LoadTransitionProcessor processor;
-	private ModuleRuntimeManager moduleRuntimeManager;
+    private LoadTransitionProcessor processor;
+    private ModuleRuntimeManager moduleRuntimeManager;
 
-	public void setUp() {
-		processor = new LoadTransitionProcessor();
-		moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
-		processor.setModuleRuntimeManager(moduleRuntimeManager);
-	}
-	
-	public void testProcess() {
-		
-		SimpleRootModuleDefinition a = new SimpleRootModuleDefinition("a", (String)null);
-		ModuleDefinition a1 = newDefinition(a, "a1", null);
-		ModuleDefinition a2 = newDefinition(a1, "a2", null);
-		ModuleDefinition a3 = newDefinition(a2, "a3", null);
-		ModuleDefinition a4 = newDefinition(a3, "a4", null);
-		
-		Collection<ModuleDefinition> modules = ModuleDefinitionUtils.getDependentModules(a, "a");
-		
-		expect(moduleRuntimeManager.initModule(a1)).andReturn(true);
-		expect(moduleRuntimeManager.initModule(a2)).andReturn(false);
-		
-		replay(moduleRuntimeManager);
-		
-		for (ModuleDefinition moduleDefinition : modules) {
-			processor.process(a, moduleDefinition);
-		}
-		
-		verify(moduleRuntimeManager);
-		
-		assertEquals(ModuleState.LOADED, a1.getState());
-		assertEquals(ModuleState.ERROR, a2.getState());
-		assertEquals(ModuleState.DEPENDENCY_FAILED, a3.getState());
-		assertEquals(ModuleState.DEPENDENCY_FAILED, a4.getState());
-		
-	}
-	
-	private ModuleDefinition newDefinition(ModuleDefinition parent, final String name, String dependencies) {
-		ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, dependencies == null ? new String[0] : dependencies.split("'"), null, null);
-		definition.setState(ModuleState.LOADING);
-		return definition;
-	}
+    public void setUp() {
+        processor = new LoadTransitionProcessor();
+        moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
+        processor.setModuleRuntimeManager(moduleRuntimeManager);
+    }
+    
+    public void testProcess() {
+        
+        SimpleRootModuleDefinition a = new SimpleRootModuleDefinition("a", (String)null);
+        ModuleDefinition a1 = newDefinition(a, "a1", null);
+        ModuleDefinition a2 = newDefinition(a1, "a2", null);
+        ModuleDefinition a3 = newDefinition(a2, "a3", null);
+        ModuleDefinition a4 = newDefinition(a3, "a4", null);
+        
+        Collection<ModuleDefinition> modules = ModuleDefinitionUtils.getDependentModules(a, "a");
+        
+        expect(moduleRuntimeManager.initModule(a1)).andReturn(true);
+        expect(moduleRuntimeManager.initModule(a2)).andReturn(false);
+        
+        replay(moduleRuntimeManager);
+        
+        for (ModuleDefinition moduleDefinition : modules) {
+            processor.process(a, moduleDefinition);
+        }
+        
+        verify(moduleRuntimeManager);
+        
+        assertEquals(ModuleState.LOADED, a1.getState());
+        assertEquals(ModuleState.ERROR, a2.getState());
+        assertEquals(ModuleState.DEPENDENCY_FAILED, a3.getState());
+        assertEquals(ModuleState.DEPENDENCY_FAILED, a4.getState());
+        
+    }
+    
+    private ModuleDefinition newDefinition(ModuleDefinition parent, final String name, String dependencies) {
+        ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, dependencies == null ? new String[0] : dependencies.split("'"), null, null);
+        definition.setState(ModuleState.LOADING);
+        return definition;
+    }
 
 }

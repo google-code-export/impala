@@ -31,32 +31,32 @@ import org.springframework.util.ResourceUtils;
  */
 public class DirectoryResource extends FileSystemResource {
 
-	public DirectoryResource(String path) {
-		super(path);
-		checkIsDirectory();
-	}
+    public DirectoryResource(String path) {
+        super(path);
+        checkIsDirectory();
+    }
 
-	public DirectoryResource(File file) {
-		super(file);
-		checkIsDirectory();
-	}
+    public DirectoryResource(File file) {
+        super(file);
+        checkIsDirectory();
+    }
 
-	/**
-	 * This implementation returns a URL for the underlying file, with the
-	 * assumption that the underlying file is a directory.
-	 * @see java.io.File#getAbsolutePath()
-	 */
-	@Override
-	public URL getURL() throws IOException {
-		File directory = getFile();
-		return new URL(ResourceUtils.FILE_URL_PREFIX + directory.getAbsolutePath() + "/");
-	}
+    /**
+     * This implementation returns a URL for the underlying file, with the
+     * assumption that the underlying file is a directory.
+     * @see java.io.File#getAbsolutePath()
+     */
+    @Override
+    public URL getURL() throws IOException {
+        File directory = getFile();
+        return new URL(ResourceUtils.FILE_URL_PREFIX + directory.getAbsolutePath() + "/");
+    }
 
-	private void checkIsDirectory() {
-		File dir = getFile();
-		if (dir.exists()) {
-			Assert.isTrue(dir.isDirectory(), "Supplied file '" + dir.getAbsolutePath() + "' is not a directory");
-		}
-	}
+    private void checkIsDirectory() {
+        File dir = getFile();
+        if (dir.exists()) {
+            Assert.isTrue(dir.isDirectory(), "Supplied file '" + dir.getAbsolutePath() + "' is not a directory");
+        }
+    }
 
 }

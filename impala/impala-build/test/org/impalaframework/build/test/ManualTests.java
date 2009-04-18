@@ -26,12 +26,12 @@ import junit.framework.TestSuite;
  */
 public class ManualTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(GetTaskManualTest.class);
-		suite.addTestSuite(DownloadTaskManualTest.class);
-		suite.addTestSuite(SVNRevisionTaskManualTest.class);
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(GetTaskManualTest.class);
+        suite.addTestSuite(DownloadTaskManualTest.class);
+        suite.addTestSuite(SVNRevisionTaskManualTest.class);
 
-		return suite;
-	}
+        return suite;
+    }
 }

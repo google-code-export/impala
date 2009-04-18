@@ -22,33 +22,33 @@ import junit.framework.TestCase;
 
 public class ServletContextPropertySourceTest extends TestCase {
 
-	private ServletContext servletContext;
-	private ServletContextPropertySource source;
+    private ServletContext servletContext;
+    private ServletContextPropertySource source;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servletContext = createMock(ServletContext.class);
-		source = new ServletContextPropertySource(servletContext);
-	}
-	
-	public void testNull() throws Exception {
-		
-		expect(servletContext.getInitParameter("name")).andReturn(null);
-		replay(servletContext);
-		
-		assertNull(source.getValue("name"));
-		
-		verify(servletContext);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = createMock(ServletContext.class);
+        source = new ServletContextPropertySource(servletContext);
+    }
+    
+    public void testNull() throws Exception {
+        
+        expect(servletContext.getInitParameter("name")).andReturn(null);
+        replay(servletContext);
+        
+        assertNull(source.getValue("name"));
+        
+        verify(servletContext);
+    }
 
-	public void testNotNull() throws Exception {
-		
-		expect(servletContext.getInitParameter("name")).andReturn("value");
-		replay(servletContext);
-		
-		assertEquals("value", source.getValue("name"));
-		
-		verify(servletContext);
-	}
+    public void testNotNull() throws Exception {
+        
+        expect(servletContext.getInitParameter("name")).andReturn("value");
+        replay(servletContext);
+        
+        assertEquals("value", source.getValue("name"));
+        
+        verify(servletContext);
+    }
 }

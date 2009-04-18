@@ -25,55 +25,55 @@ import junit.framework.TestCase;
 
 public class CompositeRequestModuleMapperTest extends TestCase {
 
-	private CompositeRequestModuleMapper mapper;
-	private RequestModuleMapper requestModuleMapper1;
-	private RequestModuleMapper requestModuleMapper2;
-	private HttpServletRequest request;
+    private CompositeRequestModuleMapper mapper;
+    private RequestModuleMapper requestModuleMapper1;
+    private RequestModuleMapper requestModuleMapper2;
+    private HttpServletRequest request;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		mapper = new CompositeRequestModuleMapper();
-		
-		List<RequestModuleMapper> mappers = new ArrayList<RequestModuleMapper>();
-		requestModuleMapper1 = createMock(RequestModuleMapper.class);
-		requestModuleMapper2 = createMock(RequestModuleMapper.class);
-		request = createMock(HttpServletRequest.class);
-		mappers.add(requestModuleMapper1);
-		mappers.add(requestModuleMapper2);
-		
-		mapper.setRequestModuleMappers(mappers);
-	}
-	
-	public void testGetModuleNull() {
-		expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
-		expect(requestModuleMapper2.getModuleForRequest(request)).andReturn(null);
-		
-		replay(requestModuleMapper1, requestModuleMapper2, request);
-		
-		assertNull(mapper.getModuleForRequest(request));
-		
-		verify(requestModuleMapper1, requestModuleMapper2, request); 
-	}
-	
-	public void testGetModuleOne() {
-		expect(requestModuleMapper1.getModuleForRequest(request)).andReturn("one");
-		replay(requestModuleMapper1, requestModuleMapper2, request);
-		
-		assertEquals("one", mapper.getModuleForRequest(request));
-		
-		verify(requestModuleMapper1, requestModuleMapper2, request); 
-	}
-	
-	public void testGetModuleTwo() {
-		expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
-		expect(requestModuleMapper2.getModuleForRequest(request)).andReturn("two");
-		
-		replay(requestModuleMapper1, requestModuleMapper2, request);
-		
-		assertEquals("two", mapper.getModuleForRequest(request));
-		
-		verify(requestModuleMapper1, requestModuleMapper2, request); 
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        mapper = new CompositeRequestModuleMapper();
+        
+        List<RequestModuleMapper> mappers = new ArrayList<RequestModuleMapper>();
+        requestModuleMapper1 = createMock(RequestModuleMapper.class);
+        requestModuleMapper2 = createMock(RequestModuleMapper.class);
+        request = createMock(HttpServletRequest.class);
+        mappers.add(requestModuleMapper1);
+        mappers.add(requestModuleMapper2);
+        
+        mapper.setRequestModuleMappers(mappers);
+    }
+    
+    public void testGetModuleNull() {
+        expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
+        expect(requestModuleMapper2.getModuleForRequest(request)).andReturn(null);
+        
+        replay(requestModuleMapper1, requestModuleMapper2, request);
+        
+        assertNull(mapper.getModuleForRequest(request));
+        
+        verify(requestModuleMapper1, requestModuleMapper2, request); 
+    }
+    
+    public void testGetModuleOne() {
+        expect(requestModuleMapper1.getModuleForRequest(request)).andReturn("one");
+        replay(requestModuleMapper1, requestModuleMapper2, request);
+        
+        assertEquals("one", mapper.getModuleForRequest(request));
+        
+        verify(requestModuleMapper1, requestModuleMapper2, request); 
+    }
+    
+    public void testGetModuleTwo() {
+        expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
+        expect(requestModuleMapper2.getModuleForRequest(request)).andReturn("two");
+        
+        replay(requestModuleMapper1, requestModuleMapper2, request);
+        
+        assertEquals("two", mapper.getModuleForRequest(request));
+        
+        verify(requestModuleMapper1, requestModuleMapper2, request); 
+    }
 
 }

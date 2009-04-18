@@ -29,21 +29,21 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
  */
 public class SharedClassLoaderFactory implements ClassLoaderFactory, BeanClassLoaderAware {
 
-	private static Log logger = LogFactory.getLog(SharedClassLoaderFactory.class);
-	
-	private ClassLoader classLoader;
-	
-	public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Returning shared class loader " + classLoader);
-		}
-		
-		return classLoader;
-	}
+    private static Log logger = LogFactory.getLog(SharedClassLoaderFactory.class);
+    
+    private ClassLoader classLoader;
+    
+    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning shared class loader " + classLoader);
+        }
+        
+        return classLoader;
+    }
 
-	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.classLoader = classLoader;
-	}
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
 
 }

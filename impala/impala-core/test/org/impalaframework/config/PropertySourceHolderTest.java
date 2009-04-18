@@ -19,20 +19,20 @@ import java.util.Properties;
 import junit.framework.TestCase;
 
 public class PropertySourceHolderTest extends TestCase {
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		PropertySourceHolder.getInstance().clearPropertySource();
-	}
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        PropertySourceHolder.getInstance().clearPropertySource();
+    }
 
-	public void testPropertiesHolder() throws Exception {
-		assertNull(PropertySourceHolder.getInstance().getPropertySource());
+    public void testPropertiesHolder() throws Exception {
+        assertNull(PropertySourceHolder.getInstance().getPropertySource());
 
-		final Properties properties = new Properties();
-		final StaticPropertiesPropertySource propertySource = new StaticPropertiesPropertySource(properties);
-		PropertySourceHolder.getInstance().setPropertySource(propertySource);
-		
-		assertSame(propertySource, PropertySourceHolder.getInstance().getPropertySource());
-	}
+        final Properties properties = new Properties();
+        final StaticPropertiesPropertySource propertySource = new StaticPropertiesPropertySource(properties);
+        PropertySourceHolder.getInstance().setPropertySource(propertySource);
+        
+        assertSame(propertySource, PropertySourceHolder.getInstance().getPropertySource());
+    }
 }

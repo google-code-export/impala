@@ -35,94 +35,94 @@ import org.springframework.util.ClassUtils;
  */
 public class ModuleContributionPostProcessorTest extends TestCase {
 
-	private ModuleContributionPostProcessor p;
-	private DefaultListableBeanFactory beanFactory;
-	private DefaultListableBeanFactory parentBeanFactory;
-	private ContributionEndpoint endPoint;
-	private FactoryBean factoryBean;
-	private ServiceRegistry serviceRegistry;
-	private Class<?>[] classes;
+    private ModuleContributionPostProcessor p;
+    private DefaultListableBeanFactory beanFactory;
+    private DefaultListableBeanFactory parentBeanFactory;
+    private ContributionEndpoint endPoint;
+    private FactoryBean factoryBean;
+    private ServiceRegistry serviceRegistry;
+    private Class<?>[] classes;
 
-	public void setUp()
-	{
-		classes = new Class[]{Object.class};
-		p = new ModuleContributionPostProcessor();
-		beanFactory = createMock(DefaultListableBeanFactory.class);
-		parentBeanFactory = createMock(DefaultListableBeanFactory.class);
-		endPoint = createMock(ContributionProxyFactoryBean.class);
-		factoryBean = createMock(FactoryBean.class);
-		serviceRegistry = new ServiceRegistryImpl();
-		p.setBeanFactory(beanFactory);
-		p.setServiceRegistry(serviceRegistry);
-		p.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
-	}
-	
-	public void testNull() {
-		p.setBeanFactory(null);
-		p.postProcessAfterInitialization(new Object(), "mybean");
-		ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean");
-	}
-	
-	public void testPostProcessAfterInitialization() {
-		expectFactoryBean();
-		Object object = new Object();
-		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-		
-		//this is the method we are expecting to be called
-		//endPoint.registerTarget("pluginName", object);
-		
-		replay(beanFactory);
-		replay(parentBeanFactory);
-		replay(endPoint);
-		assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
-		verify(beanFactory);
-		verify(parentBeanFactory);
-		verify(endPoint);
-		
-		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
-		assertSame(object, service.getBean());
-	}
-	
-	public void testPostProcessAfterInitializationFactoryBean() throws Exception {
-		expectFactoryBean();
-		expect(factoryBean.getObject()).andReturn("value");
+    public void setUp()
+    {
+        classes = new Class[]{Object.class};
+        p = new ModuleContributionPostProcessor();
+        beanFactory = createMock(DefaultListableBeanFactory.class);
+        parentBeanFactory = createMock(DefaultListableBeanFactory.class);
+        endPoint = createMock(ContributionProxyFactoryBean.class);
+        factoryBean = createMock(FactoryBean.class);
+        serviceRegistry = new ServiceRegistryImpl();
+        p.setBeanFactory(beanFactory);
+        p.setServiceRegistry(serviceRegistry);
+        p.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
+    }
+    
+    public void testNull() {
+        p.setBeanFactory(null);
+        p.postProcessAfterInitialization(new Object(), "mybean");
+        ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean");
+    }
+    
+    public void testPostProcessAfterInitialization() {
+        expectFactoryBean();
+        Object object = new Object();
+        p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
+        
+        //this is the method we are expecting to be called
+        //endPoint.registerTarget("pluginName", object);
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        
+        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
+        assertSame(object, service.getBean());
+    }
+    
+    public void testPostProcessAfterInitializationFactoryBean() throws Exception {
+        expectFactoryBean();
+        expect(factoryBean.getObject()).andReturn("value");
 
-		//verify that if the object is a factory bean
-		//then the registered object is the factoryBean.getObject()
-		p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-		
-		//endPoint.registerTarget("pluginName", object);
-		
-		replay(beanFactory);
-		replay(parentBeanFactory);
-		replay(endPoint);
-		replay(factoryBean);
-		assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
+        //verify that if the object is a factory bean
+        //then the registered object is the factoryBean.getObject()
+        p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
+        
+        //endPoint.registerTarget("pluginName", object);
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        replay(factoryBean);
+        assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
 
-		ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
-		assertNotNull(service.getBean());
-		
-		verify(beanFactory);
-		verify(parentBeanFactory);
-		verify(endPoint);
-		verify(factoryBean);
-	}
-	
-	
-	public void testFindFactoryBean() {
-		expectFactoryBean();
-		
-		replay(beanFactory);
-		replay(parentBeanFactory);
-		assertEquals(endPoint, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
-		verify(beanFactory);
-		verify(parentBeanFactory);
-	}
+        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
+        assertNotNull(service.getBean());
+        
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        verify(factoryBean);
+    }
+    
+    
+    public void testFindFactoryBean() {
+        expectFactoryBean();
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        assertEquals(endPoint, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
+        verify(beanFactory);
+        verify(parentBeanFactory);
+    }
 
-	private void expectFactoryBean() {
-		expect(beanFactory.getParentBeanFactory()).andReturn(parentBeanFactory);
-		expect(parentBeanFactory.containsBean("&mybean")).andReturn(true);
-		expect(parentBeanFactory.getBean("&mybean")).andReturn(endPoint);
-	}
+    private void expectFactoryBean() {
+        expect(beanFactory.getParentBeanFactory()).andReturn(parentBeanFactory);
+        expect(parentBeanFactory.containsBean("&mybean")).andReturn(true);
+        expect(parentBeanFactory.getBean("&mybean")).andReturn(endPoint);
+    }
 
 }

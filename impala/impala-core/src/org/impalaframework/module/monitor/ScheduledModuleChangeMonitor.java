@@ -41,162 +41,162 @@ import org.springframework.core.io.Resource;
  */
 public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
-	private static final Log logger = LogFactory.getLog(ScheduledModuleChangeMonitor.class);
-	
-	private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
+    private static final Log logger = LogFactory.getLog(ScheduledModuleChangeMonitor.class);
+    
+    private static final int DEFAULT_INITIAL_DELAY_SECONDS = 10;
 
-	private static final int DEFAULT_INTERVAL_SECONDS = 2;
+    private static final int DEFAULT_INTERVAL_SECONDS = 2;
 
-	private int initialDelay = DEFAULT_INTERVAL_SECONDS;
+    private int initialDelay = DEFAULT_INTERVAL_SECONDS;
 
-	private int checkInterval = DEFAULT_INITIAL_DELAY_SECONDS;
+    private int checkInterval = DEFAULT_INITIAL_DELAY_SECONDS;
 
-	private FileMonitor fileMonitor;
+    private FileMonitor fileMonitor;
 
-	private ScheduledExecutorService executor;
+    private ScheduledExecutorService executor;
 
-	public ScheduledModuleChangeMonitor() {
-		super();
-	}	
+    public ScheduledModuleChangeMonitor() {
+        super();
+    }   
 
-	private List<ModuleContentChangeListener> modificationListeners = new ArrayList<ModuleContentChangeListener>();
+    private List<ModuleContentChangeListener> modificationListeners = new ArrayList<ModuleContentChangeListener>();
 
-	private Map<String, ResourceInfo> resourcesToMonitor = new ConcurrentHashMap<String, ResourceInfo>();
-	
-	/* ************************* ModuleChangeMonitor methods ************************** */
+    private Map<String, ResourceInfo> resourcesToMonitor = new ConcurrentHashMap<String, ResourceInfo>();
+    
+    /* ************************* ModuleChangeMonitor methods ************************** */
 
-	/**
-	 * Adds {@link ModuleContentChangeListener}
-	 */
-	public void addModificationListener(ModuleContentChangeListener listener) {
-		modificationListeners.add(listener);
-	}
+    /**
+     * Adds {@link ModuleContentChangeListener}
+     */
+    public void addModificationListener(ModuleContentChangeListener listener) {
+        modificationListeners.add(listener);
+    }
 
-	/**
-	 * Wires in the {@link Resource} instances which should be monitored on behalf of individual modules
-	 */
-	public void setResourcesToMonitor(String moduleName, Resource[] resources) {
-		if (resources != null && resources.length > 0) {
-			logger.info("Monitoring for changes in module " + moduleName + ": " + Arrays.toString(resources));
-			resourcesToMonitor.put(moduleName, new ResourceInfo(System.currentTimeMillis(), resources));
-		}
-		else {
-			logger.info("No resources to monitor for module " + moduleName);
-		}
-	}
+    /**
+     * Wires in the {@link Resource} instances which should be monitored on behalf of individual modules
+     */
+    public void setResourcesToMonitor(String moduleName, Resource[] resources) {
+        if (resources != null && resources.length > 0) {
+            logger.info("Monitoring for changes in module " + moduleName + ": " + Arrays.toString(resources));
+            resourcesToMonitor.put(moduleName, new ResourceInfo(System.currentTimeMillis(), resources));
+        }
+        else {
+            logger.info("No resources to monitor for module " + moduleName);
+        }
+    }
 
-	/**
-	 * Starts the {@link ScheduledExecutorService}, settings off a task which periodically 
-	 * checks the monitorable resources and potentially initiates a module reload when necessary, by sending a 
-	 * {@link ModuleChangeEvent} to registered {@link ModuleContentChangeListener}s.
-	 */
-	public void start() {
+    /**
+     * Starts the {@link ScheduledExecutorService}, settings off a task which periodically 
+     * checks the monitorable resources and potentially initiates a module reload when necessary, by sending a 
+     * {@link ModuleChangeEvent} to registered {@link ModuleContentChangeListener}s.
+     */
+    public void start() {
 
-		logger.info("Starting " + this.getClass().getName() + " with fixed delay of "  + initialDelay + " and interval of " + checkInterval);
-		
-		setDefaultsIfNecessary();
-		executor.scheduleWithFixedDelay(new Runnable() {
+        logger.info("Starting " + this.getClass().getName() + " with fixed delay of "  + initialDelay + " and interval of " + checkInterval);
+        
+        setDefaultsIfNecessary();
+        executor.scheduleWithFixedDelay(new Runnable() {
 
-			public void run() {
+            public void run() {
 
-				try {
-					
-					if (!checkForChanges()) {
-						return;
-					}
+                try {
+                    
+                    if (!checkForChanges()) {
+                        return;
+                    }
 
-					List<ModuleChangeInfo> modified = new LinkedList<ModuleChangeInfo>();
+                    List<ModuleChangeInfo> modified = new LinkedList<ModuleChangeInfo>();
 
-					final Set<String> moduleNames = resourcesToMonitor.keySet();
-					
-					for (String moduleName : moduleNames) {
-						
-						ResourceInfo ri = resourcesToMonitor.get(moduleName);
-						if (ri != null) {
-							// should be null except for case where item is
-							// removed
-							File[] files = ResourceUtils.getFiles(ri.resources);
-							long lastModified = fileMonitor.lastModified(files);
+                    final Set<String> moduleNames = resourcesToMonitor.keySet();
+                    
+                    for (String moduleName : moduleNames) {
+                        
+                        ResourceInfo ri = resourcesToMonitor.get(moduleName);
+                        if (ri != null) {
+                            // should be null except for case where item is
+                            // removed
+                            File[] files = ResourceUtils.getFiles(ri.resources);
+                            long lastModified = fileMonitor.lastModified(files);
 
-							if (lastModified > ri.lastModified) {
-								// add to the list of modified modules
-								modified.add(new ModuleChangeInfo(moduleName));
-								// set the ResourceInfo object
-								ri.lastModified = lastModified;
-							}
-						}
-					}
+                            if (lastModified > ri.lastModified) {
+                                // add to the list of modified modules
+                                modified.add(new ModuleChangeInfo(moduleName));
+                                // set the ResourceInfo object
+                                ri.lastModified = lastModified;
+                            }
+                        }
+                    }
 
-					if (!modified.isEmpty()) {
-						logger.info("Found modified modules: " + modified);
-						final ModuleChangeEvent event = new ModuleChangeEvent(modified);
-						for (ModuleContentChangeListener listener : modificationListeners) {
-							listener.moduleContentsModified(event);
-						}
-					}
-					else {
-						if (logger.isDebugEnabled()) logger.debug("Completed check for modified modules. No modified module contents found");
-					}
+                    if (!modified.isEmpty()) {
+                        logger.info("Found modified modules: " + modified);
+                        final ModuleChangeEvent event = new ModuleChangeEvent(modified);
+                        for (ModuleContentChangeListener listener : modificationListeners) {
+                            listener.moduleContentsModified(event);
+                        }
+                    }
+                    else {
+                        if (logger.isDebugEnabled()) logger.debug("Completed check for modified modules. No modified module contents found");
+                    }
 
-				}
-				catch (Exception e) {
-					logger.error("Error invoking module content change listeners: " + e.getMessage(), e);
-				}
-			}
-		}, initialDelay, checkInterval, TimeUnit.SECONDS);
-	}
+                }
+                catch (Exception e) {
+                    logger.error("Error invoking module content change listeners: " + e.getMessage(), e);
+                }
+            }
+        }, initialDelay, checkInterval, TimeUnit.SECONDS);
+    }
 
-	public void stop() {
-		executor.shutdown();
-	}
+    public void stop() {
+        executor.shutdown();
+    }
 
-	/* ************************* Helper methods ************************** */
-	
-	void setDefaultsIfNecessary() {
-		if (fileMonitor == null) {
-			fileMonitor = new FileMonitorImpl();
-		}
+    /* ************************* Helper methods ************************** */
+    
+    void setDefaultsIfNecessary() {
+        if (fileMonitor == null) {
+            fileMonitor = new FileMonitorImpl();
+        }
 
-		if (executor == null)
-			executor = Executors.newSingleThreadScheduledExecutor();
-	}
+        if (executor == null)
+            executor = Executors.newSingleThreadScheduledExecutor();
+    }
 
-	/* ************************* Protected methods ************************** */
-	
-	/**
-	 * Simply returns true. More sophisticated implementations can implement other strategies for determining whether to 
-	 * initiate a module reload, such as by inspecting a touch file.
-	 */
-	protected boolean checkForChanges() {
-		return true;
-	}
+    /* ************************* Protected methods ************************** */
+    
+    /**
+     * Simply returns true. More sophisticated implementations can implement other strategies for determining whether to 
+     * initiate a module reload, such as by inspecting a touch file.
+     */
+    protected boolean checkForChanges() {
+        return true;
+    }
 
-	/* ************************* Dependency injection setters ************************** */
-	
-	public void setModificationListeners(List<ModuleContentChangeListener> modificationListeners) {
-		this.modificationListeners.clear();
-		this.modificationListeners.addAll(modificationListeners);
-	}
+    /* ************************* Dependency injection setters ************************** */
+    
+    public void setModificationListeners(List<ModuleContentChangeListener> modificationListeners) {
+        this.modificationListeners.clear();
+        this.modificationListeners.addAll(modificationListeners);
+    }
 
-	public void setInitialDelay(int initialDelay) {
-		this.initialDelay = initialDelay;
-	}
+    public void setInitialDelay(int initialDelay) {
+        this.initialDelay = initialDelay;
+    }
 
-	public void setCheckInterval(int interval) {
-		this.checkInterval = interval;
-	}
+    public void setCheckInterval(int interval) {
+        this.checkInterval = interval;
+    }
 
-	/* ************************* ResourceInfo private class ************************** */
-	
-	private class ResourceInfo {
-		private long lastModified;
+    /* ************************* ResourceInfo private class ************************** */
+    
+    private class ResourceInfo {
+        private long lastModified;
 
-		private Resource[] resources;
+        private Resource[] resources;
 
-		public ResourceInfo(long lastModified, Resource[] resources) {
-			super();
-			this.lastModified = lastModified;
-			this.resources = resources;
-		}
-	}
+        public ResourceInfo(long lastModified, Resource[] resources) {
+            super();
+            this.lastModified = lastModified;
+            this.resources = resources;
+        }
+    }
 }

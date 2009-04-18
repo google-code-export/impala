@@ -18,9 +18,9 @@ import org.impalaframework.module.ModuleDefinition;
 
 public class ModuleRuntimeUtils {
 
-	public static String getModuleLoaderKey(ModuleDefinition newRootDefinition) {
-		String key = newRootDefinition.getRuntimeFramework() + "-" + newRootDefinition.getType();
-		return key;
-	}
+    public static String getModuleLoaderKey(ModuleDefinition newRootDefinition) {
+        String key = newRootDefinition.getRuntimeFramework() + "-" + newRootDefinition.getType();
+        return key;
+    }
 
 }

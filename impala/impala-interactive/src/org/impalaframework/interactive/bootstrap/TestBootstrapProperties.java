@@ -18,5 +18,5 @@ import org.impalaframework.constants.LocationConstants;
 
 public interface TestBootstrapProperties {
 
-	String MODULE_TEST_DIRECTORY = LocationConstants.MODULE_TEST_DIR_PROPERTY;
+    String MODULE_TEST_DIRECTORY = LocationConstants.MODULE_TEST_DIR_PROPERTY;
 }

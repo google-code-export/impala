@@ -20,14 +20,14 @@ import org.springframework.context.ApplicationContextAware;
 
 public class ParentBean implements ApplicationContextAware, Parent {
 
-	private ApplicationContext context;
+    private ApplicationContext context;
 
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.context = applicationContext;
-	}
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.context = applicationContext;
+    }
 
-	public Child tryGetChild() {
-		return (Child) context.getBean("child");
-	}
+    public Child tryGetChild() {
+        return (Child) context.getBean("child");
+    }
 
 }

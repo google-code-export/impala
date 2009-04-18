@@ -23,20 +23,20 @@ import org.impalaframework.interactive.facade.InteractiveOperationsFacade;
 
 public class InitRunnerCommand implements Command {
 
-	public boolean execute(CommandState commandState) {
-		// only set this if not set
-		if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
-			System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveOperationsFacade.class.getName());
-		} 
-		System.out.println("Using facade class: " + System.getProperty(FacadeConstants.FACADE_CLASS_NAME));
-		Impala.init();
+    public boolean execute(CommandState commandState) {
+        // only set this if not set
+        if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
+            System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveOperationsFacade.class.getName());
+        } 
+        System.out.println("Using facade class: " + System.getProperty(FacadeConstants.FACADE_CLASS_NAME));
+        Impala.init();
 
-		LoadDefinitionFromClassCommand command = new LoadDefinitionFromClassCommand();
-		return command.execute(commandState);
-	}
+        LoadDefinitionFromClassCommand command = new LoadDefinitionFromClassCommand();
+        return command.execute(commandState);
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition();
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition();
+    }
 
 }

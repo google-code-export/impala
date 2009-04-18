@@ -62,210 +62,210 @@ import org.springframework.core.io.UrlResource;
  */
 public class ImpalaActivator implements BundleActivator {
 
-	private static Log logger = LogFactory.getLog(ImpalaActivator.class);
-	
-	private InternalOperationsFacade operations;
-	
-	private static final String[] DEFAULT_LOCATIONS = new String[] {
-			"META-INF/impala-bootstrap.xml",
-			"META-INF/impala-graph-bootstrap.xml",
-			"META-INF/impala-osgi-bootstrap.xml"
-	};
+    private static Log logger = LogFactory.getLog(ImpalaActivator.class);
+    
+    private InternalOperationsFacade operations;
+    
+    private static final String[] DEFAULT_LOCATIONS = new String[] {
+            "META-INF/impala-bootstrap.xml",
+            "META-INF/impala-graph-bootstrap.xml",
+            "META-INF/impala-osgi-bootstrap.xml"
+    };
 
-	public void start(BundleContext bundleContext) throws Exception {
+    public void start(BundleContext bundleContext) throws Exception {
 
-		String[] locations = getBootstrapLocations(bundleContext);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Called start for bundle context from bundle '" + bundleContext.getBundle() + "'. Activator class: " + this.getClass().getName());
-		}
-	
-		ImpalaOsgiApplicationContext applicationContext = startContext(bundleContext, locations);
-		
-		if (applicationContext != null) {
-			
-			logger.info("Started Impala application context for bundle '" + bundleContext.getBundle() + "': " + applicationContext);
-			initApplicationContext(bundleContext, applicationContext);
-			
-		} else {
-			logger.warn("No Impala application context started for bundle '" + bundleContext.getBundle() + "'");
-		}
-			
-	}
+        String[] locations = getBootstrapLocations(bundleContext);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Called start for bundle context from bundle '" + bundleContext.getBundle() + "'. Activator class: " + this.getClass().getName());
+        }
+    
+        ImpalaOsgiApplicationContext applicationContext = startContext(bundleContext, locations);
+        
+        if (applicationContext != null) {
+            
+            logger.info("Started Impala application context for bundle '" + bundleContext.getBundle() + "': " + applicationContext);
+            initApplicationContext(bundleContext, applicationContext);
+            
+        } else {
+            logger.warn("No Impala application context started for bundle '" + bundleContext.getBundle() + "'");
+        }
+            
+    }
 
     void initApplicationContext(BundleContext bundleContext, ApplicationContext applicationContext) {
-	   
-	   	//TODO introduce constants for bean names
-		ModuleManagementFacade facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
-				ModuleManagementFacade.class);
-		
-		if (facade == null) {
-			throw new InvalidStateException("Application context '" + applicationContext.getDisplayName() 
-					+ "' does not contain bean named 'moduleManagementFacade'");
-		}
-		
-		setNewOperationsFacade(facade);
-		bundleContext.registerService(OperationsFacade.class.getName(), operations, null);
-		
-		ModuleDefinitionSource moduleDefinitionSource = maybeGetModuleDefinitionSource(bundleContext, facade);
-		
-		if (moduleDefinitionSource != null) {
-			
-			logger.info("Found module definition source for bootstrapping Impala modules: " + moduleDefinitionSource);
-			operations.init(moduleDefinitionSource);
-			
-		} else {
-			
-			logger.info("No module definition source found for bootstrapping Impala modules. No modules loaded");
-		}
-		
-	}
+       
+        //TODO introduce constants for bean names
+        ModuleManagementFacade facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
+                ModuleManagementFacade.class);
+        
+        if (facade == null) {
+            throw new InvalidStateException("Application context '" + applicationContext.getDisplayName() 
+                    + "' does not contain bean named 'moduleManagementFacade'");
+        }
+        
+        setNewOperationsFacade(facade);
+        bundleContext.registerService(OperationsFacade.class.getName(), operations, null);
+        
+        ModuleDefinitionSource moduleDefinitionSource = maybeGetModuleDefinitionSource(bundleContext, facade);
+        
+        if (moduleDefinitionSource != null) {
+            
+            logger.info("Found module definition source for bootstrapping Impala modules: " + moduleDefinitionSource);
+            operations.init(moduleDefinitionSource);
+            
+        } else {
+            
+            logger.info("No module definition source found for bootstrapping Impala modules. No modules loaded");
+        }
+        
+    }
 
-	void setNewOperationsFacade(ModuleManagementFacade facade) {
-		operations = newOperationsFacade(facade);
-		Impala.init(operations);
-	}
+    void setNewOperationsFacade(ModuleManagementFacade facade) {
+        operations = newOperationsFacade(facade);
+        Impala.init(operations);
+    }
 
-	InternalOperationsFacade newOperationsFacade(ModuleManagementFacade facade) {
-		return new SimpleOperationsFacade(facade);
-	}
+    InternalOperationsFacade newOperationsFacade(ModuleManagementFacade facade) {
+        return new SimpleOperationsFacade(facade);
+    }
 
-	ModuleDefinitionSource maybeGetModuleDefinitionSource(BundleContext bundleContext, ModuleManagementFacade facade) {
-		
-		ModuleDefinitionSource moduleDefinitionSource = null;
-		
-		//TODO use dictionary property to distinguish between possible different services with the same interface
-		ServiceReference serviceReference = bundleContext.getServiceReference(ModuleDefinitionSource.class.getName());
-		
-		if (serviceReference != null) {
-			Object service = bundleContext.getService(serviceReference);
-			moduleDefinitionSource = ObjectUtils.cast(service, ModuleDefinitionSource.class);
-		
-			if (logger.isDebugEnabled()) {
-				logger.debug("Found module definitionSource injected into OSGi service registry: " + moduleDefinitionSource);
-			}
-		} else {
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("No module definitionSource injected into OSGi service registry.");
-			}
-		}
-		
-		if (moduleDefinitionSource == null) {
-			//TODO test this with a real example
-			moduleDefinitionSource = maybeLoadXmlResource(bundleContext, facade);
-		}
-		return moduleDefinitionSource;
-	}
+    ModuleDefinitionSource maybeGetModuleDefinitionSource(BundleContext bundleContext, ModuleManagementFacade facade) {
+        
+        ModuleDefinitionSource moduleDefinitionSource = null;
+        
+        //TODO use dictionary property to distinguish between possible different services with the same interface
+        ServiceReference serviceReference = bundleContext.getServiceReference(ModuleDefinitionSource.class.getName());
+        
+        if (serviceReference != null) {
+            Object service = bundleContext.getService(serviceReference);
+            moduleDefinitionSource = ObjectUtils.cast(service, ModuleDefinitionSource.class);
+        
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found module definitionSource injected into OSGi service registry: " + moduleDefinitionSource);
+            }
+        } else {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("No module definitionSource injected into OSGi service registry.");
+            }
+        }
+        
+        if (moduleDefinitionSource == null) {
+            //TODO test this with a real example
+            moduleDefinitionSource = maybeLoadXmlResource(bundleContext, facade);
+        }
+        return moduleDefinitionSource;
+    }
 
-	ModuleDefinitionSource maybeLoadXmlResource(BundleContext bundleContext, ModuleManagementFacade facade) {
-		
-		URL moduleDefinitionResourceURL = getModuleDefinitionsResourceURL(bundleContext);
-		if (moduleDefinitionResourceURL != null) {
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Found module definition reource URL from bundle context: " + moduleDefinitionResourceURL);
-			}
-			
-			InternalXmlModuleDefinitionSource source = new InternalXmlModuleDefinitionSource(facade.getModuleLocationResolver(), facade.getTypeReaderRegistry());
-			source.setResource(new UrlResource(moduleDefinitionResourceURL));
-			return source;
-		} else {
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("No module definition reource URL from bundle context");
-			}
-		}
-		
-		return null;
-	}
+    ModuleDefinitionSource maybeLoadXmlResource(BundleContext bundleContext, ModuleManagementFacade facade) {
+        
+        URL moduleDefinitionResourceURL = getModuleDefinitionsResourceURL(bundleContext);
+        if (moduleDefinitionResourceURL != null) {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found module definition reource URL from bundle context: " + moduleDefinitionResourceURL);
+            }
+            
+            InternalXmlModuleDefinitionSource source = new InternalXmlModuleDefinitionSource(facade.getModuleLocationResolver(), facade.getTypeReaderRegistry());
+            source.setResource(new UrlResource(moduleDefinitionResourceURL));
+            return source;
+        } else {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("No module definition reource URL from bundle context");
+            }
+        }
+        
+        return null;
+    }
 
-	ImpalaOsgiApplicationContext startContext(BundleContext bundleContext, String[] locations) {
-		
-		OsgiContextStarter contextStarter = newContextStarter();
-		contextStarter.setBundleContext(bundleContext);
-		
-		ApplicationContext context = contextStarter.startContext(Arrays.asList(locations));
-		ImpalaOsgiApplicationContext applicationContext = ObjectUtils.cast(context, ImpalaOsgiApplicationContext.class);
-		return applicationContext;
-	}
+    ImpalaOsgiApplicationContext startContext(BundleContext bundleContext, String[] locations) {
+        
+        OsgiContextStarter contextStarter = newContextStarter();
+        contextStarter.setBundleContext(bundleContext);
+        
+        ApplicationContext context = contextStarter.startContext(Arrays.asList(locations));
+        ImpalaOsgiApplicationContext applicationContext = ObjectUtils.cast(context, ImpalaOsgiApplicationContext.class);
+        return applicationContext;
+    }
 
-	OsgiContextStarter newContextStarter() {
-		
-		OsgiContextStarter contextStarter = new OsgiContextStarter();
-		return contextStarter;
-	}
+    OsgiContextStarter newContextStarter() {
+        
+        OsgiContextStarter contextStarter = new OsgiContextStarter();
+        return contextStarter;
+    }
 
-	String[] getBootstrapLocations(BundleContext bundleContext) {
-		
-		URL bootstrapLocationsResource = getBootstrapLocationsResourceURL(bundleContext);
-		
-		String[] locations = null;
-		
-		if (bootstrapLocationsResource != null) {
-			
-			try {
-				final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
-				
-				//FIXME use PropertiesLoader implementation
-				
-				List<PropertySource> propertySources = new ArrayList<PropertySource>();
-				
-				//property value sought first in system property
-				propertySources.add(new SystemPropertiesPropertySource());
-				
-				//then in impala properties file
-				propertySources.add(new StaticPropertiesPropertySource(resourceProperties));
+    String[] getBootstrapLocations(BundleContext bundleContext) {
+        
+        URL bootstrapLocationsResource = getBootstrapLocationsResourceURL(bundleContext);
+        
+        String[] locations = null;
+        
+        if (bootstrapLocationsResource != null) {
+            
+            try {
+                final Properties resourceProperties = PropertyUtils.loadProperties(bootstrapLocationsResource);
+                
+                //FIXME use PropertiesLoader implementation
+                
+                List<PropertySource> propertySources = new ArrayList<PropertySource>();
+                
+                //property value sought first in system property
+                propertySources.add(new SystemPropertiesPropertySource());
+                
+                //then in impala properties file
+                propertySources.add(new StaticPropertiesPropertySource(resourceProperties));
 
-				PrefixedCompositePropertySource propertySource = new PrefixedCompositePropertySource("impala.", propertySources);
-				
-				PropertySourceHolder.getInstance().setPropertySource(propertySource);				
-				
-				String locationString = resourceProperties.getProperty("bootstrapLocations");
-				
-				if (locationString != null) {
-					locations = locationString.split(",");
-				}		
-				
-				if (logger.isDebugEnabled()) {
-					logger.debug("Using Impala bootstrap locations found from resource '" + bootstrapLocationsResource + ": " + Arrays.toString(locations));
-				}
-			} catch (ExecutionException e) {
-				logger.error("Unable to load Impala bootstrap resource from specified location: " + e.getMessage(), e);
-				throw e;
-			}
-		}
-		
-		if (locations == null) {
-			locations = DEFAULT_LOCATIONS;
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Using default Impala bootstrap locations: " + Arrays.toString(locations));
-			}
-		}
-		
-		return locations;
-	}
+                PrefixedCompositePropertySource propertySource = new PrefixedCompositePropertySource("impala.", propertySources);
+                
+                PropertySourceHolder.getInstance().setPropertySource(propertySource);               
+                
+                String locationString = resourceProperties.getProperty("bootstrapLocations");
+                
+                if (locationString != null) {
+                    locations = locationString.split(",");
+                }       
+                
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Using Impala bootstrap locations found from resource '" + bootstrapLocationsResource + ": " + Arrays.toString(locations));
+                }
+            } catch (ExecutionException e) {
+                logger.error("Unable to load Impala bootstrap resource from specified location: " + e.getMessage(), e);
+                throw e;
+            }
+        }
+        
+        if (locations == null) {
+            locations = DEFAULT_LOCATIONS;
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Using default Impala bootstrap locations: " + Arrays.toString(locations));
+            }
+        }
+        
+        return locations;
+    }
 
-	protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
-		//TODO allow this location to be overridden using System property
-		return OsgiUtils.findResource(bundleContext, "impala.properties");
-	}
-	
-	protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
-		//TODO allow this location to be overridden using System property
-		return OsgiUtils.findResource(bundleContext, "moduledefinitions.xml");
-	}
+    protected URL getBootstrapLocationsResourceURL(BundleContext bundleContext) {
+        //TODO allow this location to be overridden using System property
+        return OsgiUtils.findResource(bundleContext, "impala.properties");
+    }
+    
+    protected URL getModuleDefinitionsResourceURL(BundleContext bundleContext) {
+        //TODO allow this location to be overridden using System property
+        return OsgiUtils.findResource(bundleContext, "moduledefinitions.xml");
+    }
 
-	/**
-	 * Unloads Impala modules and shuts down Impala's {@link ApplicationContext}.
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		
-		if (operations != null) {		
-			operations.unloadRootModule();
-			operations.getModuleManagementFacade().close();
-		}
-	}
+    /**
+     * Unloads Impala modules and shuts down Impala's {@link ApplicationContext}.
+     */
+    public void stop(BundleContext bundleContext) throws Exception {
+        
+        if (operations != null) {       
+            operations.unloadRootModule();
+            operations.getModuleManagementFacade().close();
+        }
+    }
 }
 

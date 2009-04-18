@@ -22,61 +22,61 @@ import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class SharedModuleDefinitionSources {
 
-	public static final String plugin1 = "sample-module1";
+    public static final String plugin1 = "sample-module1";
 
-	public static final String plugin2 = "sample-module2";
+    public static final String plugin2 = "sample-module2";
 
-	public static final String plugin3 = "sample-module3";
-	
-	public static final String rootProjectName = "impala";
+    public static final String plugin3 = "sample-module3";
+    
+    public static final String rootProjectName = "impala";
 
-	public static ModuleDefinitionSource newTest1() {
-		return new Test1();
-	}
+    public static ModuleDefinitionSource newTest1() {
+        return new Test1();
+    }
 
-	public static ModuleDefinitionSource newTest1a() {
-		return new Test1a();
-	}
+    public static ModuleDefinitionSource newTest1a() {
+        return new Test1a();
+    }
 
-	public static ModuleDefinitionSource newTest2() {
-		return new Test2();
-	}
+    public static ModuleDefinitionSource newTest2() {
+        return new Test2();
+    }
 
-	public static class Test1 implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
+    public static class Test1 implements ModuleDefinitionSource {
+        ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
-		public Test1() {
-		}
+        public Test1() {
+        }
 
-		public RootModuleDefinition getModuleDefinition() {
-			return definitionSource.getModuleDefinition();
-		}
-	}
+        public RootModuleDefinition getModuleDefinition() {
+            return definitionSource.getModuleDefinition();
+        }
+    }
 
-	public static class Test1a implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml",
-						"extra-context.xml" }, new String[] { plugin1, plugin2 });
+    public static class Test1a implements ModuleDefinitionSource {
+        ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml",
+                        "extra-context.xml" }, new String[] { plugin1, plugin2 });
 
-		public Test1a() {
-		}
+        public Test1a() {
+        }
 
-		public RootModuleDefinition getModuleDefinition() {
-			return definitionSource.getModuleDefinition();
-		}
-	}
+        public RootModuleDefinition getModuleDefinition() {
+            return definitionSource.getModuleDefinition();
+        }
+    }
 
-	static class Test2 implements ModuleDefinitionSource {
-		ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
+    static class Test2 implements ModuleDefinitionSource {
+        ModuleDefinitionSource definitionSource = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
 
-		public Test2() {
+        public Test2() {
 
-			ModuleDefinition p2 = definitionSource.getModuleDefinition().getChildModuleDefinition(plugin2);
-			new SimpleModuleDefinition(p2, plugin3);
-		}
+            ModuleDefinition p2 = definitionSource.getModuleDefinition().getChildModuleDefinition(plugin2);
+            new SimpleModuleDefinition(p2, plugin3);
+        }
 
-		public RootModuleDefinition getModuleDefinition() {
-			return definitionSource.getModuleDefinition();
-		}
-	}
+        public RootModuleDefinition getModuleDefinition() {
+            return definitionSource.getModuleDefinition();
+        }
+    }
 
 }

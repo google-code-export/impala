@@ -34,26 +34,26 @@ import org.springframework.beans.factory.BeanFactory;
  */
 public interface ModuleManagementFacade extends BeanFactory {
 
-	ModuleLocationResolver getModuleLocationResolver();
+    ModuleLocationResolver getModuleLocationResolver();
 
-	ModuleLoaderRegistry getModuleLoaderRegistry();
+    ModuleLoaderRegistry getModuleLoaderRegistry();
 
-	ModificationExtractorRegistry getModificationExtractorRegistry();
+    ModificationExtractorRegistry getModificationExtractorRegistry();
 
-	TransitionProcessorRegistry getTransitionProcessorRegistry();
+    TransitionProcessorRegistry getTransitionProcessorRegistry();
 
-	ModuleStateHolder getModuleStateHolder();
+    ModuleStateHolder getModuleStateHolder();
 
-	ModuleOperationRegistry getModuleOperationRegistry();
+    ModuleOperationRegistry getModuleOperationRegistry();
 
-	ModuleStateChangeNotifier getModuleStateChangeNotifier();
+    ModuleStateChangeNotifier getModuleStateChangeNotifier();
 
-	TypeReaderRegistry getTypeReaderRegistry();
-	
-	ModuleRuntimeManager getModuleRuntimeManager();
-	
-	FrameworkLockHolder getFrameworkLockHolder();
+    TypeReaderRegistry getTypeReaderRegistry();
+    
+    ModuleRuntimeManager getModuleRuntimeManager();
+    
+    FrameworkLockHolder getFrameworkLockHolder();
 
-	void close();
+    void close();
 
 }

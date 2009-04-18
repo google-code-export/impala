@@ -35,56 +35,56 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperHttpServletRequest extends
-		HttpServletRequestWrapper {
+        HttpServletRequestWrapper {
 
-	private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpServletRequest.class);
+    private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpServletRequest.class);
 
-	private final String moduleName;
-	private final ServletContext servletContext;
+    private final String moduleName;
+    private final ServletContext servletContext;
 
-	public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, String moduleName,
-			ServletContext servletContext) {
-		super(request);
-		Assert.notNull(request);
-		Assert.notNull(moduleName);
-		Assert.notNull(servletContext);
-		this.moduleName = moduleName;
-		this.servletContext = servletContext;
-	}
+    public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, String moduleName,
+            ServletContext servletContext) {
+        super(request);
+        Assert.notNull(request);
+        Assert.notNull(moduleName);
+        Assert.notNull(servletContext);
+        this.moduleName = moduleName;
+        this.servletContext = servletContext;
+    }
 
-	@Override
-	public HttpSession getSession() {
-		
-		HttpSession session = super.getSession();
-		return wrapSession(session);
-	}
+    @Override
+    public HttpSession getSession() {
+        
+        HttpSession session = super.getSession();
+        return wrapSession(session);
+    }
 
-	@Override
-	public HttpSession getSession(boolean create) {
-		
-		HttpSession session = super.getSession(create);
-		return wrapSession(session);
-	}
-	
-	/* ****************** Helper methods ****************** */
+    @Override
+    public HttpSession getSession(boolean create) {
+        
+        HttpSession session = super.getSession(create);
+        return wrapSession(session);
+    }
+    
+    /* ****************** Helper methods ****************** */
 
 
-	HttpSession wrapSession(HttpSession session) {
-		if (session == null) {
-			return null;
-		}
-		ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
-		if (moduleManagementFacade != null) {
-			RuntimeModule currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
-			
-			if (currentModuleContext != null) {
-				return new ModuleAwareWrapperHttpSession(session, currentModuleContext.getClassLoader());
-			} else {
-				logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
-				return session;
-			}
-		}
-		return session;
-	}	
+    HttpSession wrapSession(HttpSession session) {
+        if (session == null) {
+            return null;
+        }
+        ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
+        if (moduleManagementFacade != null) {
+            RuntimeModule currentModuleContext = moduleManagementFacade.getModuleStateHolder().getModule(moduleName);
+            
+            if (currentModuleContext != null) {
+                return new ModuleAwareWrapperHttpSession(session, currentModuleContext.getClassLoader());
+            } else {
+                logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
+                return session;
+            }
+        }
+        return session;
+    }   
 
 }

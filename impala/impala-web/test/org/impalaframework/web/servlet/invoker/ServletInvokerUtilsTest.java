@@ -29,89 +29,89 @@ import junit.framework.TestCase;
 
 public class ServletInvokerUtilsTest extends TestCase {
 
-	private HttpServiceInvoker invoker;
-	private HttpServlet servlet;
-	private HttpServletRequest request;
-	private HttpServletResponse response;
-	private Filter filter;
-	private FilterChain filterChain;
+    private HttpServiceInvoker invoker;
+    private HttpServlet servlet;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private Filter filter;
+    private FilterChain filterChain;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		invoker = createMock(HttpServiceInvoker.class);
-		servlet = createMock(HttpServlet.class);
-		request = createMock(HttpServletRequest.class);
-		response = createMock(HttpServletResponse.class);
-		filter = createMock(Filter.class);
-		filterChain = createMock(FilterChain.class);
-	}
-	
-	public void testWithInvoker() throws Exception {
-		invoker.invoke(request, response, null);
-		
-		replayMocks();
-		
-		ServletInvokerUtils.invoke(invoker, request, response, null);
-		
-		verifyMocks();
-	}
-	
-	public void testWithServlet() throws Exception {
-		servlet.service(request, response);
-		
-		replayMocks();
-		
-		ServletInvokerUtils.invoke(servlet, request, response, null);
-		
-		verifyMocks();
-	}
-	
-	public void testWithFilter() throws Exception {
-		filter.doFilter(request, response, filterChain);
-		
-		replayMocks();
-		
-		ServletInvokerUtils.invoke(filter, request, response, filterChain);
-		
-		verifyMocks();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        invoker = createMock(HttpServiceInvoker.class);
+        servlet = createMock(HttpServlet.class);
+        request = createMock(HttpServletRequest.class);
+        response = createMock(HttpServletResponse.class);
+        filter = createMock(Filter.class);
+        filterChain = createMock(FilterChain.class);
+    }
+    
+    public void testWithInvoker() throws Exception {
+        invoker.invoke(request, response, null);
+        
+        replayMocks();
+        
+        ServletInvokerUtils.invoke(invoker, request, response, null);
+        
+        verifyMocks();
+    }
+    
+    public void testWithServlet() throws Exception {
+        servlet.service(request, response);
+        
+        replayMocks();
+        
+        ServletInvokerUtils.invoke(servlet, request, response, null);
+        
+        verifyMocks();
+    }
+    
+    public void testWithFilter() throws Exception {
+        filter.doFilter(request, response, filterChain);
+        
+        replayMocks();
+        
+        ServletInvokerUtils.invoke(filter, request, response, filterChain);
+        
+        verifyMocks();
+    }
 
-	public void testWithNull() throws Exception {
-		
-		replayMocks();
-		
-		ServletInvokerUtils.invoke(null, request, response, filterChain);
-		
-		verifyMocks();
-	}
-	
-	public void testWithAnotherType() throws Exception {
-		
-		replayMocks();
-		
-		ServletInvokerUtils.invoke("Just a string - not a valid arg", request, response, filterChain);
-		
-		verifyMocks();
-	}
-	
-	private void replayMocks() {
-		replay(invoker);
-		replay(servlet);
-		replay(filter);
-		replay(request);
-		replay(response);
-		replay(filterChain);
-	}
+    public void testWithNull() throws Exception {
+        
+        replayMocks();
+        
+        ServletInvokerUtils.invoke(null, request, response, filterChain);
+        
+        verifyMocks();
+    }
+    
+    public void testWithAnotherType() throws Exception {
+        
+        replayMocks();
+        
+        ServletInvokerUtils.invoke("Just a string - not a valid arg", request, response, filterChain);
+        
+        verifyMocks();
+    }
+    
+    private void replayMocks() {
+        replay(invoker);
+        replay(servlet);
+        replay(filter);
+        replay(request);
+        replay(response);
+        replay(filterChain);
+    }
 
-	private void verifyMocks() {
-		verify(invoker);
-		verify(servlet);
-		verify(filter);
-		verify(request);
-		verify(response);
-		verify(filterChain);
-	}
+    private void verifyMocks() {
+        verify(invoker);
+        verify(servlet);
+        verify(filter);
+        verify(request);
+        verify(response);
+        verify(filterChain);
+    }
 
 
 }

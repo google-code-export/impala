@@ -29,61 +29,61 @@ import org.springframework.util.Assert;
  */
 public class BasicServiceRegistryReference implements ServiceRegistryReference {
 
-	private final Object bean;
-	private final String beanName;
-	private final String contributingModule;
-	private final Map<String, ?> attributes;
-	private final ClassLoader beanClassLoader;
-	private List<Class<?>> exportedTypes;
+    private final Object bean;
+    private final String beanName;
+    private final String contributingModule;
+    private final Map<String, ?> attributes;
+    private final ClassLoader beanClassLoader;
+    private List<Class<?>> exportedTypes;
 
-	@SuppressWarnings("unchecked")
-	public BasicServiceRegistryReference(Object bean, 
-			String beanName,
-			String contributingModule, 
-			ClassLoader classLoader) {
-		this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP, classLoader);
-	}
+    @SuppressWarnings("unchecked")
+    public BasicServiceRegistryReference(Object bean, 
+            String beanName,
+            String contributingModule, 
+            ClassLoader classLoader) {
+        this(bean, beanName, contributingModule, null, Collections.EMPTY_MAP, classLoader);
+    }
 
-	@SuppressWarnings("unchecked")
-	public BasicServiceRegistryReference(Object bean, 
-			String beanName,
-			String contributingModule, 
-			List<Class<?>> exportedTypes,
-			Map<String, ?> attributes, ClassLoader classLoader) {
-		super();
-		Assert.notNull(bean, "service instance cannot be null");
-		Assert.notNull(contributingModule, "contributingModule cannot be null");
-		Assert.notNull(classLoader, "classLoader cannot be null");
-		this.bean = bean;
-		this.beanName = beanName;
-		this.contributingModule = contributingModule;
-		this.exportedTypes = (exportedTypes != null ? new LinkedList<Class<?>>(exportedTypes) : Collections.EMPTY_LIST);
-		this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
-		this.beanClassLoader = classLoader;
-	}
+    @SuppressWarnings("unchecked")
+    public BasicServiceRegistryReference(Object bean, 
+            String beanName,
+            String contributingModule, 
+            List<Class<?>> exportedTypes,
+            Map<String, ?> attributes, ClassLoader classLoader) {
+        super();
+        Assert.notNull(bean, "service instance cannot be null");
+        Assert.notNull(contributingModule, "contributingModule cannot be null");
+        Assert.notNull(classLoader, "classLoader cannot be null");
+        this.bean = bean;
+        this.beanName = beanName;
+        this.contributingModule = contributingModule;
+        this.exportedTypes = (exportedTypes != null ? new LinkedList<Class<?>>(exportedTypes) : Collections.EMPTY_LIST);
+        this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
+        this.beanClassLoader = classLoader;
+    }
 
-	public final Object getBean() {
-		return bean;
-	}
-	
-	public List<Class<?>> getExportedTypes() {
-		return exportedTypes;
-	}
+    public final Object getBean() {
+        return bean;
+    }
+    
+    public List<Class<?>> getExportedTypes() {
+        return exportedTypes;
+    }
 
-	public final String getBeanName() {
-		return beanName;
-	}
+    public final String getBeanName() {
+        return beanName;
+    }
 
-	public final String getContributingModule() {
-		return contributingModule;
-	}
+    public final String getContributingModule() {
+        return contributingModule;
+    }
 
-	public final Map<String, ?> getAttributes() {
-		return attributes;
-	}
+    public final Map<String, ?> getAttributes() {
+        return attributes;
+    }
 
-	public final ClassLoader getBeanClassLoader() {
-		return beanClassLoader;
-	}
+    public final ClassLoader getBeanClassLoader() {
+        return beanClassLoader;
+    }
 
 }

@@ -1,13 +1,13 @@
 <root>
-	<names>
-		impala-core
-		sample-module1
-		sample-module3
-		sample-module4
-	</names>
-	<modules>
-		<module>
-			<name>sample-module4</name>ß
-		</module>
-	</modules>
+    <names>
+        impala-core
+        sample-module1
+        sample-module3
+        sample-module4
+    </names>
+    <modules>
+        <module>
+            <name>sample-module4</name>ß
+        </module>
+    </modules>
 </root>

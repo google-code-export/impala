@@ -28,14 +28,14 @@ import org.impalaframework.web.integration.RequestModuleMapper;
  */
 public class ModuleProxyFilter extends org.impalaframework.web.integration.ModuleProxyFilter {
 
-	@Override
-	protected RequestModuleMapper newRequestModuleMapper(FilterConfig config) {
-		final ServletContext servletContext = config.getServletContext();
+    @Override
+    protected RequestModuleMapper newRequestModuleMapper(FilterConfig config) {
+        final ServletContext servletContext = config.getServletContext();
 
-		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
-		if (facade.containsBean("requestModuleMapper")) {
-			return ObjectUtils.cast(facade.getBean("requestModuleMapper"), RequestModuleMapper.class);
-		}
-		return super.newRequestModuleMapper(config);
-	}
+        ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+        if (facade.containsBean("requestModuleMapper")) {
+            return ObjectUtils.cast(facade.getBean("requestModuleMapper"), RequestModuleMapper.class);
+        }
+        return super.newRequestModuleMapper(config);
+    }
 }

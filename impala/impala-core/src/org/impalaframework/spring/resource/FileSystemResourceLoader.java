@@ -37,26 +37,26 @@ import org.springframework.core.io.Resource;
 
 public class FileSystemResourceLoader extends PathBasedResourceLoader {
 
-	@Override
-	protected Resource getResourceForPath(String prefix, String location, ClassLoader classLoader) {
-		return getResourceByPath(prefix + location);
-	}
+    @Override
+    protected Resource getResourceForPath(String prefix, String location, ClassLoader classLoader) {
+        return getResourceByPath(prefix + location);
+    }
 
-	/**
-	 * Resolve resource paths as file system paths.
-	 * <p>
-	 * Note: Even if a given path starts with a slash, it will get interpreted
-	 * as relative to the current VM working directory.
-	 * @param path path to the resource
-	 * @return Resource handle
-	 * @see FileSystemResource
-	 * @see org.springframework.web.context.support.ServletContextResourceLoader#getResourceByPath
-	 */
-	protected Resource getResourceByPath(String path) {
-		if (path != null && path.startsWith("/")) {
-			path = path.substring(1);
-		}
-		return new FileSystemResource(path);
-	}
+    /**
+     * Resolve resource paths as file system paths.
+     * <p>
+     * Note: Even if a given path starts with a slash, it will get interpreted
+     * as relative to the current VM working directory.
+     * @param path path to the resource
+     * @return Resource handle
+     * @see FileSystemResource
+     * @see org.springframework.web.context.support.ServletContextResourceLoader#getResourceByPath
+     */
+    protected Resource getResourceByPath(String path) {
+        if (path != null && path.startsWith("/")) {
+            path = path.substring(1);
+        }
+        return new FileSystemResource(path);
+    }
 
 }

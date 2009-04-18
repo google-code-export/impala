@@ -15,37 +15,37 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryMap extends	BaseServiceRegistryMap
-		implements InitializingBean {
+public class ServiceRegistryMap extends BaseServiceRegistryMap
+        implements InitializingBean {
 
-	private ServiceProxyFactoryCreator proxyFactoryCreator;
-	private Class<?>[] proxyInterfaces;
+    private ServiceProxyFactoryCreator proxyFactoryCreator;
+    private Class<?>[] proxyInterfaces;
 
-	public void afterPropertiesSet() throws Exception {
-		
-		//FIXME test
-		if (this.proxyFactoryCreator == null) {
-			this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
-			this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
-		}
-		
-		//call the superclass's init method
-		super.init();
-	}
-	
-	@Override
-	public void init() {
-		//no op - uses the afterPropertiesSet method instead
-		//FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
-	}
+    public void afterPropertiesSet() throws Exception {
+        
+        //FIXME test
+        if (this.proxyFactoryCreator == null) {
+            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+            this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
+        }
+        
+        //call the superclass's init method
+        super.init();
+    }
+    
+    @Override
+    public void init() {
+        //no op - uses the afterPropertiesSet method instead
+        //FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
+    }
 
-	protected Object maybeGetProxy(ServiceRegistryReference reference) {
-		final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(proxyInterfaces, reference);
-		return proxyFactory.getProxy();
-	}
-	
-	public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-		this.proxyInterfaces = proxyInterfaces;
-	}
+    protected Object maybeGetProxy(ServiceRegistryReference reference) {
+        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(proxyInterfaces, reference);
+        return proxyFactory.getProxy();
+    }
+    
+    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
+        this.proxyInterfaces = proxyInterfaces;
+    }
 
 }

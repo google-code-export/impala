@@ -20,58 +20,58 @@ import org.springframework.beans.support.PropertyComparator;
 @SuppressWarnings("unchecked")
 public class Pet extends NamedEntity {
 
-	private Date birthDate;
+    private Date birthDate;
 
-	private PetType type;
+    private PetType type;
 
-	private Owner owner;
+    private Owner owner;
 
-	private Set visits;
+    private Set visits;
 
-	public void setBirthDate(Date birthDate) {
-		this.birthDate = birthDate;
-	}
+    public void setBirthDate(Date birthDate) {
+        this.birthDate = birthDate;
+    }
 
-	public Date getBirthDate() {
-		return this.birthDate;
-	}
+    public Date getBirthDate() {
+        return this.birthDate;
+    }
 
-	public void setType(PetType type) {
-		this.type = type;
-	}
+    public void setType(PetType type) {
+        this.type = type;
+    }
 
-	public PetType getType() {
-		return type;
-	}
+    public PetType getType() {
+        return type;
+    }
 
-	protected void setOwner(Owner owner) {
-		this.owner = owner;
-	}
+    protected void setOwner(Owner owner) {
+        this.owner = owner;
+    }
 
-	public Owner getOwner() {
-		return owner;
-	}
+    public Owner getOwner() {
+        return owner;
+    }
 
-	protected void setVisitsInternal(Set visits) {
-		this.visits = visits;
-	}
+    protected void setVisitsInternal(Set visits) {
+        this.visits = visits;
+    }
 
-	protected Set getVisitsInternal() {
-		if (this.visits == null) {
-			this.visits = new HashSet();
-		}
-		return this.visits;
-	}
+    protected Set getVisitsInternal() {
+        if (this.visits == null) {
+            this.visits = new HashSet();
+        }
+        return this.visits;
+    }
 
-	public List getVisits() {
-		List sortedVisits = new ArrayList(getVisitsInternal());
-		PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
-		return Collections.unmodifiableList(sortedVisits);
-	}
+    public List getVisits() {
+        List sortedVisits = new ArrayList(getVisitsInternal());
+        PropertyComparator.sort(sortedVisits, new MutableSortDefinition("date", false, false));
+        return Collections.unmodifiableList(sortedVisits);
+    }
 
-	public void addVisit(Visit visit) {
-		getVisitsInternal().add(visit);
-		visit.setPet(this);
-	}
+    public void addVisit(Visit visit) {
+        getVisitsInternal().add(visit);
+        visit.setPet(this);
+    }
 
 }

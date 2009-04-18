@@ -28,35 +28,35 @@ import org.springframework.util.Assert;
  */
 public class StaticPropertiesPropertySource implements PropertySource {
 
-	private static final Log logger = LogFactory.getLog(StaticPropertiesPropertySource.class);
-	
-	private Properties properties;
-	
-	public StaticPropertiesPropertySource() {
-		super();
-	}
-	
-	public StaticPropertiesPropertySource(Properties properties) {
-		super();
-		Assert.notNull(properties, "properties cannot be null");
-		this.properties = properties;
-	}
+    private static final Log logger = LogFactory.getLog(StaticPropertiesPropertySource.class);
+    
+    private Properties properties;
+    
+    public StaticPropertiesPropertySource() {
+        super();
+    }
+    
+    public StaticPropertiesPropertySource(Properties properties) {
+        super();
+        Assert.notNull(properties, "properties cannot be null");
+        this.properties = properties;
+    }
 
-	public String getValue(String name) {
-		Assert.notNull(name, "name cannot be null");
-		if (properties == null) {
-			logger.warn("Properties is null for property keyed by name '" + name + "'");
-			return null;
-		}
-		return properties.getProperty(name);
-	}
+    public String getValue(String name) {
+        Assert.notNull(name, "name cannot be null");
+        if (properties == null) {
+            logger.warn("Properties is null for property keyed by name '" + name + "'");
+            return null;
+        }
+        return properties.getProperty(name);
+    }
 
-	public void setProperties(Properties properties) {
-		this.properties = properties;
-	}
+    public void setProperties(Properties properties) {
+        this.properties = properties;
+    }
 
-	public Properties getProperties() {
-		return properties;
-	}
+    public Properties getProperties() {
+        return properties;
+    }
 
 }

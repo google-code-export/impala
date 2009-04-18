@@ -28,89 +28,89 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringModuleRuntimeTest extends TestCase {
 
-	private SpringModuleRuntime moduleRuntime;
-	private ModuleStateHolder moduleStateHolder;
-	private ConfigurableApplicationContext applicationContext;
-	private ModuleDefinition definition1;
-	private ModuleDefinition definition2;
-	private ModuleDefinition definition3;
+    private SpringModuleRuntime moduleRuntime;
+    private ModuleStateHolder moduleStateHolder;
+    private ConfigurableApplicationContext applicationContext;
+    private ModuleDefinition definition1;
+    private ModuleDefinition definition2;
+    private ModuleDefinition definition3;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		moduleRuntime = new SpringModuleRuntime();
-		moduleStateHolder = createMock(ModuleStateHolder.class);
-		moduleRuntime.setModuleStateHolder(moduleStateHolder);
-		moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
-		
-		applicationContext = createMock(ConfigurableApplicationContext.class);
-		
-		definition1 = createMock(ModuleDefinition.class);
-		definition2 = createMock(ModuleDefinition.class);
-		definition3 = createMock(ModuleDefinition.class);
-	}
-	
-	public void testGetParentApplicationContextWithNonSpringModule() throws Exception {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        moduleRuntime = new SpringModuleRuntime();
+        moduleStateHolder = createMock(ModuleStateHolder.class);
+        moduleRuntime.setModuleStateHolder(moduleStateHolder);
+        moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
+        
+        applicationContext = createMock(ConfigurableApplicationContext.class);
+        
+        definition1 = createMock(ModuleDefinition.class);
+        definition2 = createMock(ModuleDefinition.class);
+        definition3 = createMock(ModuleDefinition.class);
+    }
+    
+    public void testGetParentApplicationContextWithNonSpringModule() throws Exception {
 
-		SpringRuntimeModule module1 = createMock(SpringRuntimeModule.class);
-		RuntimeModule module2 = createMock(RuntimeModule.class);
-		SpringRuntimeModule module3 = createMock(SpringRuntimeModule.class);
-		
-		expect(definition3.getParentDefinition()).andReturn(definition2);
-		expect(definition2.getName()).andReturn("definition2");
-		expect(moduleStateHolder.getModule("definition2")).andReturn(module2);
-		
-		//this is not a SpringRuntimeModule, so go to the next one
-		expect(definition2.getParentDefinition()).andReturn(definition1);
-		expect(definition1.getName()).andReturn("definition1");
-		expect(moduleStateHolder.getModule("definition1")).andReturn(module1);
-		expect(module1.getApplicationContext()).andReturn(applicationContext);
-		
-		replay(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
-		
-		assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
-		
-		verify(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
-	}
-	
-	public void testGetParentApplicationContext() throws Exception {
-		
-		SpringRuntimeModule module1 = createMock(SpringRuntimeModule.class);
-		SpringRuntimeModule module3 = createMock(SpringRuntimeModule.class);
-		
-		expect(definition3.getParentDefinition()).andReturn(definition1);
-		expect(definition1.getName()).andReturn("definition1");
-		expect(moduleStateHolder.getModule("definition1")).andReturn(module1);
-		expect(module1.getApplicationContext()).andReturn(applicationContext);
-		
-		replay(definition1, definition2, definition3, module1, module3, moduleStateHolder);
-		
-		assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
-		
-		verify(definition1, definition2, definition3, module1, module3, moduleStateHolder);
-	}
-	
-	public void testClose() throws Exception {
-		expect(definition1.getName()).andReturn("definition1");
-		applicationContext.close();
-		
-		replay(definition1, applicationContext);
-		
-		moduleRuntime.closeModule(new DefaultSpringRuntimeModule(definition1, applicationContext));
-		
-		verify(definition1, applicationContext);
-	}
-	
-	public void testGetParentApplicationContextNull() throws Exception {
-		
-		expect(definition3.getParentDefinition()).andReturn(null);
-		
-		replay(definition1, definition2, definition3, moduleStateHolder);
-		
-		assertNull(moduleRuntime.getParentApplicationContext(definition3));
-		
-		verify(definition1, definition2, definition3, moduleStateHolder);
-	}
-	
+        SpringRuntimeModule module1 = createMock(SpringRuntimeModule.class);
+        RuntimeModule module2 = createMock(RuntimeModule.class);
+        SpringRuntimeModule module3 = createMock(SpringRuntimeModule.class);
+        
+        expect(definition3.getParentDefinition()).andReturn(definition2);
+        expect(definition2.getName()).andReturn("definition2");
+        expect(moduleStateHolder.getModule("definition2")).andReturn(module2);
+        
+        //this is not a SpringRuntimeModule, so go to the next one
+        expect(definition2.getParentDefinition()).andReturn(definition1);
+        expect(definition1.getName()).andReturn("definition1");
+        expect(moduleStateHolder.getModule("definition1")).andReturn(module1);
+        expect(module1.getApplicationContext()).andReturn(applicationContext);
+        
+        replay(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
+        
+        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
+        
+        verify(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
+    }
+    
+    public void testGetParentApplicationContext() throws Exception {
+        
+        SpringRuntimeModule module1 = createMock(SpringRuntimeModule.class);
+        SpringRuntimeModule module3 = createMock(SpringRuntimeModule.class);
+        
+        expect(definition3.getParentDefinition()).andReturn(definition1);
+        expect(definition1.getName()).andReturn("definition1");
+        expect(moduleStateHolder.getModule("definition1")).andReturn(module1);
+        expect(module1.getApplicationContext()).andReturn(applicationContext);
+        
+        replay(definition1, definition2, definition3, module1, module3, moduleStateHolder);
+        
+        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
+        
+        verify(definition1, definition2, definition3, module1, module3, moduleStateHolder);
+    }
+    
+    public void testClose() throws Exception {
+        expect(definition1.getName()).andReturn("definition1");
+        applicationContext.close();
+        
+        replay(definition1, applicationContext);
+        
+        moduleRuntime.closeModule(new DefaultSpringRuntimeModule(definition1, applicationContext));
+        
+        verify(definition1, applicationContext);
+    }
+    
+    public void testGetParentApplicationContextNull() throws Exception {
+        
+        expect(definition3.getParentDefinition()).andReturn(null);
+        
+        replay(definition1, definition2, definition3, moduleStateHolder);
+        
+        assertNull(moduleRuntime.getParentApplicationContext(definition3));
+        
+        verify(definition1, definition2, definition3, moduleStateHolder);
+    }
+    
 }

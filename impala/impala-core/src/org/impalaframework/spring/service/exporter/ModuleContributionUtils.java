@@ -30,73 +30,73 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
  */
 public abstract class ModuleContributionUtils {
 
-	static ContributionEndpoint findContributionEndPoint(BeanFactory beanFactory, String beanName) {
+    static ContributionEndpoint findContributionEndPoint(BeanFactory beanFactory, String beanName) {
 
-		ContributionEndpoint factoryBean = null;
-		if (beanFactory instanceof HierarchicalBeanFactory) {
+        ContributionEndpoint factoryBean = null;
+        if (beanFactory instanceof HierarchicalBeanFactory) {
 
-			HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
-			BeanFactory parentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();
+            HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
+            BeanFactory parentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();
 
-			if (parentBeanFactory != null) {
+            if (parentBeanFactory != null) {
 
-				String parentFactoryBeanName = "&" + beanName;
+                String parentFactoryBeanName = "&" + beanName;
 
-				try {
+                try {
 
-					if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
-						Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-						if (o instanceof ContributionEndpoint) {
-							factoryBean = (ContributionEndpoint) o;
-						}
-					}
-				}
-				catch (BeanIsNotAFactoryException e) {
-					// This is check is only present due to a bug in an early
-					// 2.0
-					// release, which was fixed certainly before 2.0.6
-					// ordinarily, this exception will never be thrown
-				}
-			}
-		}
-		return factoryBean;
-	}
+                    if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
+                        Object o = parentBeanFactory.getBean(parentFactoryBeanName);
+                        if (o instanceof ContributionEndpoint) {
+                            factoryBean = (ContributionEndpoint) o;
+                        }
+                    }
+                }
+                catch (BeanIsNotAFactoryException e) {
+                    // This is check is only present due to a bug in an early
+                    // 2.0
+                    // release, which was fixed certainly before 2.0.6
+                    // ordinarily, this exception will never be thrown
+                }
+            }
+        }
+        return factoryBean;
+    }
 
-	static Object getTarget(Object bean, String beanName) {
-		
-		Object target = null;
-		if (bean instanceof FactoryBean) {
-			FactoryBean factoryBean = (FactoryBean) bean;
-			try {
-				target = factoryBean.getObject();
-			}
-			catch (Exception e) {
-				String errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name "
-						+ beanName;
-				throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
-			}
-		}
-		else {
-			target = bean;
-		}
-		return target;
-	}
+    static Object getTarget(Object bean, String beanName) {
+        
+        Object target = null;
+        if (bean instanceof FactoryBean) {
+            FactoryBean factoryBean = (FactoryBean) bean;
+            try {
+                target = factoryBean.getObject();
+            }
+            catch (Exception e) {
+                String errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name "
+                        + beanName;
+                throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
+            }
+        }
+        else {
+            target = bean;
+        }
+        return target;
+    }
 
-	static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
-		
-		if (!(beanFactory instanceof HierarchicalBeanFactory)) {
-			throw new ExecutionException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
-					+ beanFactory.getClass().getName() + ", which is not an instance of "
-					+ HierarchicalBeanFactory.class.getName());
-		}
+    static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
+        
+        if (!(beanFactory instanceof HierarchicalBeanFactory)) {
+            throw new ExecutionException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
+                    + beanFactory.getClass().getName() + ", which is not an instance of "
+                    + HierarchicalBeanFactory.class.getName());
+        }
 
-		HierarchicalBeanFactory hierarchicalFactory = (HierarchicalBeanFactory) beanFactory;
-		BeanFactory parentBeanFactory = hierarchicalFactory.getParentBeanFactory();
+        HierarchicalBeanFactory hierarchicalFactory = (HierarchicalBeanFactory) beanFactory;
+        BeanFactory parentBeanFactory = hierarchicalFactory.getParentBeanFactory();
 
-		if (parentBeanFactory != null) {
-			beanFactory = getRootBeanFactory(parentBeanFactory);
-		}
-		return beanFactory;
-	}
+        if (parentBeanFactory != null) {
+            beanFactory = getRootBeanFactory(parentBeanFactory);
+        }
+        return beanFactory;
+    }
 
 }

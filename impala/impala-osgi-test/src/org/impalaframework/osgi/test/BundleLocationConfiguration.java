@@ -24,10 +24,10 @@ import org.springframework.osgi.test.provisioning.ArtifactLocator;
  */
 public interface BundleLocationConfiguration {
 
-	ArtifactLocator getArtifactLocator();
+    ArtifactLocator getArtifactLocator();
 
-	Resource[] getTestBundleLocations();
+    Resource[] getTestBundleLocations();
 
-	Resource[] getExtenderBundleLocations();
+    Resource[] getExtenderBundleLocations();
 
 }

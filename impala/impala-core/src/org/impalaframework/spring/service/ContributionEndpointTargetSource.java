@@ -24,10 +24,10 @@ import org.springframework.aop.TargetSource;
  */
 public interface ContributionEndpointTargetSource extends TargetSource {
 
-	/**
-	 * Returns the <code>ServiceRegistryReference</code> corresponding with the target object
-	 * @return
-	 */
-	public ServiceRegistryReference getServiceRegistryReference();
+    /**
+     * Returns the <code>ServiceRegistryReference</code> corresponding with the target object
+     * @return
+     */
+    public ServiceRegistryReference getServiceRegistryReference();
 
 }

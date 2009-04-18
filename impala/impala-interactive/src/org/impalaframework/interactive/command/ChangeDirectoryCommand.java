@@ -33,99 +33,99 @@ import org.springframework.util.Assert;
 
 public class ChangeDirectoryCommand implements TextParsingCommand {
 
-	static final String DIRECTORY_NAME = ChangeDirectoryCommand.class.getName() + ".directoryName";
+    static final String DIRECTORY_NAME = ChangeDirectoryCommand.class.getName() + ".directoryName";
 
-	private ModuleLocationResolver moduleLocationResolver;
+    private ModuleLocationResolver moduleLocationResolver;
 
-	public ChangeDirectoryCommand() {
-		super();
-		this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
-	}
-	
-	public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
-		super();
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public ChangeDirectoryCommand() {
+        super();
+        this.moduleLocationResolver = Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver();
+    }
+    
+    public ChangeDirectoryCommand(ModuleLocationResolver moduleLocationResolver) {
+        super();
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	public boolean execute(CommandState commandState) {
-		CommandPropertyValue suppliedValue = commandState.getProperties().get(DIRECTORY_NAME);
-		
-		//we can call this because the getCommandDefinition contract demands this
-		Assert.notNull(suppliedValue);
+    public boolean execute(CommandState commandState) {
+        CommandPropertyValue suppliedValue = commandState.getProperties().get(DIRECTORY_NAME);
+        
+        //we can call this because the getCommandDefinition contract demands this
+        Assert.notNull(suppliedValue);
 
-		String candidateValue = suppliedValue.getValue();
+        String candidateValue = suppliedValue.getValue();
 
-		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(candidateValue);
+        List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(candidateValue);
 
-		boolean exists = false;
+        boolean exists = false;
 
-		for (Resource resource : locations) {
-			if (!exists && resource.exists()) {
-				exists = true;
-			}
-		}
+        for (Resource resource : locations) {
+            if (!exists && resource.exists()) {
+                exists = true;
+            }
+        }
 
-		if (exists == false) {
-			System.out.println("No module locations corresponding to '" + candidateValue + "' exist");
-			return false;
-		}
-		else {
-		    try {		    	
-				Impala.getRuntimeModule(candidateValue);
-			} catch (NoServiceException e) {				
-				URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
-				
-				if (moduleProperties == null) {
-					System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded," +
-							"and no module.properties can be found in the classpath for this module .");
-					return false;
-				} else {
-					try {
-						
-						IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
-								Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
-								Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry(),
-								Impala.getRootModuleDefinition(), 
-								candidateValue);
-						Impala.init(definitionSource);
-						
-					} catch (Exception ee) {
-						ee.printStackTrace();
-						return false;
-					}
-				}
-			}
-		}
-		
-		GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, candidateValue);
-		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS);
-		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS_NAME);
-		GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_METHOD_NAME);
-		GlobalCommandState.getInstance().clearValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
-		
-		System.out.println("Current directory set to " + candidateValue);
-		return true;
-	}
+        if (exists == false) {
+            System.out.println("No module locations corresponding to '" + candidateValue + "' exist");
+            return false;
+        }
+        else {
+            try {               
+                Impala.getRuntimeModule(candidateValue);
+            } catch (NoServiceException e) {                
+                URL moduleProperties = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, candidateValue, "module.properties");
+                
+                if (moduleProperties == null) {
+                    System.out.println("Cannot change to directory '" + candidateValue + "' as it corresponds to a module which has not been loaded," +
+                            "and no module.properties can be found in the classpath for this module .");
+                    return false;
+                } else {
+                    try {
+                        
+                        IncrementalModuleDefinitionSource definitionSource = new IncrementalModuleDefinitionSource(
+                                Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(),
+                                Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry(),
+                                Impala.getRootModuleDefinition(), 
+                                candidateValue);
+                        Impala.init(definitionSource);
+                        
+                    } catch (Exception ee) {
+                        ee.printStackTrace();
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, candidateValue);
+        GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS);
+        GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_CLASS_NAME);
+        GlobalCommandState.getInstance().clearValue(CommandStateConstants.TEST_METHOD_NAME);
+        GlobalCommandState.getInstance().clearValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
+        
+        System.out.println("Current directory set to " + candidateValue);
+        return true;
+    }
 
-	public CommandDefinition getCommandDefinition() {
+    public CommandDefinition getCommandDefinition() {
 
-		// note that globalOverrides is true, so that the user will not be
-		// prompted for the module name if it already there
-		CommandInfo info = new CommandInfo(DIRECTORY_NAME, "Directory name",
-				"Please enter directory to use as current working directory.", null, null, false, false, true, false);
+        // note that globalOverrides is true, so that the user will not be
+        // prompted for the module name if it already there
+        CommandInfo info = new CommandInfo(DIRECTORY_NAME, "Directory name",
+                "Please enter directory to use as current working directory.", null, null, false, false, true, false);
 
-		CommandDefinition definition = new CommandDefinition("Changes working directory");
-		definition.add(info);
-		return definition;
-	}
+        CommandDefinition definition = new CommandDefinition("Changes working directory");
+        definition.add(info);
+        return definition;
+    }
 
-	public void extractText(String[] text, CommandState commandState) {
+    public void extractText(String[] text, CommandState commandState) {
 
-		if (text.length > 0) {
-			commandState.addProperty(DIRECTORY_NAME, new CommandPropertyValue(text[0]));
-		}
+        if (text.length > 0) {
+            commandState.addProperty(DIRECTORY_NAME, new CommandPropertyValue(text[0]));
+        }
 
-	}
+    }
 
 }

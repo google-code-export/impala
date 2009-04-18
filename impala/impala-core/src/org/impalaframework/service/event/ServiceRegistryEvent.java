@@ -17,5 +17,5 @@ package org.impalaframework.service.event;
 import org.impalaframework.service.ServiceRegistryReference;
 
 public interface ServiceRegistryEvent {
-	public ServiceRegistryReference getServiceReference();
+    public ServiceRegistryReference getServiceReference();
 }

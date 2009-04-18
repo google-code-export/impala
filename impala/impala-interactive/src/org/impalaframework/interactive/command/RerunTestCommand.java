@@ -20,20 +20,20 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class RerunTestCommand extends BaseRunTestCommand {
 
-	public RerunTestCommand() {
-		super();
-	}
+    public RerunTestCommand() {
+        super();
+    }
 
-	protected RerunTestCommand(ModuleLocationResolver moduleLocationResolver) {
-		super(moduleLocationResolver);
-	}
+    protected RerunTestCommand(ModuleLocationResolver moduleLocationResolver) {
+        super(moduleLocationResolver);
+    }
 
-	protected String getMethodName(CommandState commandState, Class<?> testClass) {
-		String methodName = (String) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_METHOD_NAME);
-		if (methodName == null) {
-			System.out.println("No test method has been set");
-		}
-		return methodName;
-	}
+    protected String getMethodName(CommandState commandState, Class<?> testClass) {
+        String methodName = (String) GlobalCommandState.getInstance().getValue(CommandStateConstants.TEST_METHOD_NAME);
+        if (methodName == null) {
+            System.out.println("No test method has been set");
+        }
+        return methodName;
+    }
 
 }

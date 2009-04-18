@@ -23,41 +23,41 @@ import java.util.List;
  */
 public class CommandDefinition {
 
-	private String description;
+    private String description;
 
-	private List<CommandInfo> commandInfos = new ArrayList<CommandInfo>();
+    private List<CommandInfo> commandInfos = new ArrayList<CommandInfo>();
 
-	public CommandDefinition() {
-		super();
-	}
+    public CommandDefinition() {
+        super();
+    }
 
-	public CommandDefinition(String description) {
-		super();
-		this.description = description;
-	}
+    public CommandDefinition(String description) {
+        super();
+        this.description = description;
+    }
 
-	public static final CommandDefinition EMPTY = new CommandDefinition() {
-		@Override
-		public final void add(CommandInfo commandInfo) {
-			throw new UnsupportedOperationException();
-		}
+    public static final CommandDefinition EMPTY = new CommandDefinition() {
+        @Override
+        public final void add(CommandInfo commandInfo) {
+            throw new UnsupportedOperationException();
+        }
 
-		@Override
-		public final List<CommandInfo> getCommandInfos() {
-			return Collections.emptyList();
-		}
-	};
+        @Override
+        public final List<CommandInfo> getCommandInfos() {
+            return Collections.emptyList();
+        }
+    };
 
-	public void add(CommandInfo commandInfo) {
-		commandInfos.add(commandInfo);
-	}
+    public void add(CommandInfo commandInfo) {
+        commandInfos.add(commandInfo);
+    }
 
-	public List<CommandInfo> getCommandInfos() {
-		return Collections.unmodifiableList(commandInfos);
-	}
+    public List<CommandInfo> getCommandInfos() {
+        return Collections.unmodifiableList(commandInfos);
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
 }

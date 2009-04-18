@@ -23,62 +23,62 @@ import junit.framework.TestCase;
 
 public class PrefixedCompositePropertySourceTest extends TestCase {
 
-	private PropertySource source1;
-	private PrefixedCompositePropertySource source;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		source1 = createMock(PropertySource.class);
-		List<PropertySource> list = new ArrayList<PropertySource>();
-		list.add(source1);
-		
-		source = new PrefixedCompositePropertySource("impala.", list);
-	}
+    private PropertySource source1;
+    private PrefixedCompositePropertySource source;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        source1 = createMock(PropertySource.class);
+        List<PropertySource> list = new ArrayList<PropertySource>();
+        list.add(source1);
+        
+        source = new PrefixedCompositePropertySource("impala.", list);
+    }
 
-	public void testGetValueNull() throws Exception {
+    public void testGetValueNull() throws Exception {
 
-		expect(source1.getValue("impala.name")).andReturn(null);
-		expect(source1.getValue("name")).andReturn(null);
-		
-		replay(source1);
-		
-		assertNull(source.getValue("name"));
-		
-		verify(source1);
-	}
+        expect(source1.getValue("impala.name")).andReturn(null);
+        expect(source1.getValue("name")).andReturn(null);
+        
+        replay(source1);
+        
+        assertNull(source.getValue("name"));
+        
+        verify(source1);
+    }
 
-	public void testNameAlreadyHasPrefix() throws Exception {
+    public void testNameAlreadyHasPrefix() throws Exception {
 
-		//don't call getValue("impala.impala.name");
-		expect(source1.getValue("impala.name")).andReturn(null);
-		replay(source1);
-		
-		assertNull(source.getValue("impala.name"));
-		
-		verify(source1);
-	}
-	
-	public void testGetValueImpalaNull() throws Exception {
+        //don't call getValue("impala.impala.name");
+        expect(source1.getValue("impala.name")).andReturn(null);
+        replay(source1);
+        
+        assertNull(source.getValue("impala.name"));
+        
+        verify(source1);
+    }
+    
+    public void testGetValueImpalaNull() throws Exception {
 
-		expect(source1.getValue("impala.name")).andReturn(null);
-		expect(source1.getValue("name")).andReturn("value");
-		
-		replay(source1);
-		
-		assertEquals("value", source.getValue("name"));
-		
-		verify(source1);
-	}
-	
-	public void testGetValueImpalaNotNull() throws Exception {
+        expect(source1.getValue("impala.name")).andReturn(null);
+        expect(source1.getValue("name")).andReturn("value");
+        
+        replay(source1);
+        
+        assertEquals("value", source.getValue("name"));
+        
+        verify(source1);
+    }
+    
+    public void testGetValueImpalaNotNull() throws Exception {
 
-		expect(source1.getValue("impala.name")).andReturn("impala.value");
-		
-		replay(source1);
-		
-		assertEquals("impala.value", source.getValue("name"));
-		
-		verify(source1);
-	}
+        expect(source1.getValue("impala.name")).andReturn("impala.value");
+        
+        replay(source1);
+        
+        assertEquals("impala.value", source.getValue("name"));
+        
+        verify(source1);
+    }
 }

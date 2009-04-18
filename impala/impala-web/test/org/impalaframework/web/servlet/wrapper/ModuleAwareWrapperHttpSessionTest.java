@@ -41,118 +41,118 @@ import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpSessionTest extends TestCase {
 
-	private HttpSession session;
+    private HttpSession session;
 
-	public void testGetAttributeNoWrapping() {
-		//test the case where the classloader is compatible
-		
-		session = createMock(HttpSession.class);
-		ValueHolder valueHolder = new ValueHolder();
-		expect(session.getAttribute("myAttribute")).andReturn(valueHolder);
-		
-		replay(session);
+    public void testGetAttributeNoWrapping() {
+        //test the case where the classloader is compatible
+        
+        session = createMock(HttpSession.class);
+        ValueHolder valueHolder = new ValueHolder();
+        expect(session.getAttribute("myAttribute")).andReturn(valueHolder);
+        
+        replay(session);
 
-		ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, ClassUtils.getDefaultClassLoader());
-		assertSame(valueHolder, wrappedSession.getAttribute("myAttribute"));
-		verify(session);
-	}
-	
+        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, ClassUtils.getDefaultClassLoader());
+        assertSame(valueHolder, wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }
+    
 
-	public void testGetAttributeWrappingSerializableValueHolder() {
-		//test the case where the classloader is compatible
-		
-		session = createMock(HttpSession.class);
-		SerializableValueHolder valueHolder = new SerializableValueHolder();
-		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
-		
-		Object clonedObject = helper.clone(valueHolder);
-		expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
-		session.setAttribute(eq("myAttribute"), EasyMock.anyObject());
-		
-		replay(session);
+    public void testGetAttributeWrappingSerializableValueHolder() {
+        //test the case where the classloader is compatible
+        
+        session = createMock(HttpSession.class);
+        SerializableValueHolder valueHolder = new SerializableValueHolder();
+        SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
+        
+        Object clonedObject = helper.clone(valueHolder);
+        expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
+        session.setAttribute(eq("myAttribute"), EasyMock.anyObject());
+        
+        replay(session);
 
-		ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
-		assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
-		verify(session);
-	}
-	
-	public void testGetAttributeWrappingWithFailedSerialization() {
-		//test the case where the classloader is compatible
-		
-		session = createMock(HttpSession.class);
-		SerializableValueHolder valueHolder = new SerializableValueHolder();
-		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
-		
-		Object clonedObject = helper.clone(valueHolder);
-		expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
-		session.removeAttribute("myAttribute");
-		
-		replay(session);
+        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
+        assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }
+    
+    public void testGetAttributeWrappingWithFailedSerialization() {
+        //test the case where the classloader is compatible
+        
+        session = createMock(HttpSession.class);
+        SerializableValueHolder valueHolder = new SerializableValueHolder();
+        SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
+        
+        Object clonedObject = helper.clone(valueHolder);
+        expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
+        session.removeAttribute("myAttribute");
+        
+        replay(session);
 
-		ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
-		assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
-		verify(session);
-	}
-	
-	
-	public void testGetAttributeWrappingWithSessionNoPreserved() {
-		Properties properties = new Properties();
-		properties.setProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, "false");
-		PropertySource source = new StaticPropertiesPropertySource(properties);
-		
-		PropertySourceHolder.getInstance().setPropertySource(source);
-		
-		session = createMock(HttpSession.class);
-		SerializableValueHolder valueHolder = new SerializableValueHolder();
-		SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
-		
-		Object clonedObject = helper.clone(valueHolder);
-		expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
-		
-		//note the call to invalidate
-		session.invalidate();
-		
-		replay(session);
+        ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
+        assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }
+    
+    
+    public void testGetAttributeWrappingWithSessionNoPreserved() {
+        Properties properties = new Properties();
+        properties.setProperty(WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, "false");
+        PropertySource source = new StaticPropertiesPropertySource(properties);
+        
+        PropertySourceHolder.getInstance().setPropertySource(source);
+        
+        session = createMock(HttpSession.class);
+        SerializableValueHolder valueHolder = new SerializableValueHolder();
+        SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(newModuleClassLoader()));
+        
+        Object clonedObject = helper.clone(valueHolder);
+        expect(session.getAttribute("myAttribute")).andReturn(clonedObject);
+        
+        //note the call to invalidate
+        session.invalidate();
+        
+        replay(session);
 
-		ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
-		assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
-		verify(session);
-	}
-	
-	
-	private ModuleAwareWrapperHttpSession cloneFailingSession() {
-		ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader()){
+        ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
+        assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }
+    
+    
+    private ModuleAwareWrapperHttpSession cloneFailingSession() {
+        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader()){
 
-			@Override
-			Object clone(Object attribute, SerializationHelper helper) {
-				throw new RuntimeException();
-			}
-			
-		};
-		return wrappedSession;
-	}
+            @Override
+            Object clone(Object attribute, SerializationHelper helper) {
+                throw new RuntimeException();
+            }
+            
+        };
+        return wrappedSession;
+    }
 
-	public void testGetAttributeWrappingValueHolder() {
-		//test the case where the classloader is incompatible
-		//in this case the object is removed from the session and getAttribute returns null
-		
-		session = createMock(HttpSession.class);
-	
-		Object attribute = InstantiationUtils.instantiate(ValueHolder.class.getName(), newModuleClassLoader());
-		expect(session.getAttribute("myAttribute")).andReturn(attribute);
-		session.removeAttribute("myAttribute");
-		
-		replay(session);
+    public void testGetAttributeWrappingValueHolder() {
+        //test the case where the classloader is incompatible
+        //in this case the object is removed from the session and getAttribute returns null
+        
+        session = createMock(HttpSession.class);
+    
+        Object attribute = InstantiationUtils.instantiate(ValueHolder.class.getName(), newModuleClassLoader());
+        expect(session.getAttribute("myAttribute")).andReturn(attribute);
+        session.removeAttribute("myAttribute");
+        
+        replay(session);
 
-		ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
-		assertNull(wrappedSession.getAttribute("myAttribute"));
-		verify(session);
-	}
+        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
+        assertNull(wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }
 
 
-	private ModuleClassLoader newModuleClassLoader() {
-		ModuleClassLoader moduleClassLoader = new ModuleClassLoader(new File[]{ new File("../impala-web/bin")});
-		return moduleClassLoader;
-	}
+    private ModuleClassLoader newModuleClassLoader() {
+        ModuleClassLoader moduleClassLoader = new ModuleClassLoader(new File[]{ new File("../impala-web/bin")});
+        return moduleClassLoader;
+    }
 
 }

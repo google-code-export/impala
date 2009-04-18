@@ -16,12 +16,12 @@ package org.impalaframework.jmx.spring;
 
 public class ManualJMXBootstrapContextTest extends JMXBootstrapContextTest {
 
-	@Override
-	public void testBootstrapContext() throws Exception {
-		super.testBootstrapContext();
-		
-		System.out.println("Enter to finish");
-		System.in.read();
-	}
+    @Override
+    public void testBootstrapContext() throws Exception {
+        super.testBootstrapContext();
+        
+        System.out.println("Enter to finish");
+        System.in.read();
+    }
 
 }

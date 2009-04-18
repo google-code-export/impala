@@ -26,32 +26,32 @@ import java.util.Properties;
  * @author Phil Zoio
  */
 public final class PropertiesHolder {
-	
-	private static final PropertiesHolder instance = new PropertiesHolder();
-	
-	private Properties properties;
+    
+    private static final PropertiesHolder instance = new PropertiesHolder();
+    
+    private Properties properties;
 
-	/**
-	 * Private constructor to enforce constructor
-	 */
-	private PropertiesHolder() {
-		super();
-	}
+    /**
+     * Private constructor to enforce constructor
+     */
+    private PropertiesHolder() {
+        super();
+    }
 
-	public synchronized Properties getProperties() {
-		return properties;
-	}
+    public synchronized Properties getProperties() {
+        return properties;
+    }
 
-	public synchronized void setProperties(Properties properties) {
-		this.properties = properties;
-	}
+    public synchronized void setProperties(Properties properties) {
+        this.properties = properties;
+    }
 
-	public static PropertiesHolder getInstance() {
-		return instance;
-	}
+    public static PropertiesHolder getInstance() {
+        return instance;
+    }
 
-	public void clearProperties() {
-		this.setProperties(null);
-	}
+    public void clearProperties() {
+        this.setProperties(null);
+    }
 
 }

@@ -60,8 +60,8 @@ import org.impalaframework.exception.ExecutionException;
  */
 public class SerializationHelper {
     
-	private SerializationStreamFactory factory;
-	
+    private SerializationStreamFactory factory;
+    
     /**
      * <p>Default constructor, which internally use an instance of <code>DefaultSerializationStreamFactory</code> </p>
      */
@@ -71,9 +71,9 @@ public class SerializationHelper {
     }
 
     public SerializationHelper(SerializationStreamFactory factory) {
-		super();
-		this.factory = factory;
-	}
+        super();
+        this.factory = factory;
+    }
 
     public Object clone(Serializable object) {
         return deserialize(serialize(object));

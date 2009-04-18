@@ -18,28 +18,28 @@ import junit.framework.TestCase;
 
 public class SystemPropertiesPropertySourceTest extends TestCase {
 
-	private SystemPropertiesPropertySource source;
+    private SystemPropertiesPropertySource source;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		source = new SystemPropertiesPropertySource();
-		System.clearProperty(SystemPropertiesPropertySourceTest.class.getSimpleName());
-	}
-	
-	@Override
-	protected void tearDown() throws Exception {
-		super.tearDown();
-		System.clearProperty(SystemPropertiesPropertySourceTest.class.getSimpleName());
-	}
-	
-	public void testGetValueNull() {
-		assertNull(source.getValue(SystemPropertiesPropertySourceTest.class.getSimpleName()));
-	}
-	
-	public void testGetValue() {
-		System.setProperty(SystemPropertiesPropertySourceTest.class.getSimpleName(), "testvalue");
-		assertEquals("testvalue", source.getValue(SystemPropertiesPropertySourceTest.class.getSimpleName()));
-	}
-	
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        source = new SystemPropertiesPropertySource();
+        System.clearProperty(SystemPropertiesPropertySourceTest.class.getSimpleName());
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.clearProperty(SystemPropertiesPropertySourceTest.class.getSimpleName());
+    }
+    
+    public void testGetValueNull() {
+        assertNull(source.getValue(SystemPropertiesPropertySourceTest.class.getSimpleName()));
+    }
+    
+    public void testGetValue() {
+        System.setProperty(SystemPropertiesPropertySourceTest.class.getSimpleName(), "testvalue");
+        assertEquals("testvalue", source.getValue(SystemPropertiesPropertySourceTest.class.getSimpleName()));
+    }
+    
 }

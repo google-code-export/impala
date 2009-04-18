@@ -33,30 +33,30 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
-	
-	private final ServletContext servletContext;
-	
-	public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
-		super(delegate, propertiesLoader);
-		Assert.notNull(servletContext, "servletContext cannot be null");
-		this.servletContext = servletContext;
-	}
+    
+    private final ServletContext servletContext;
+    
+    public ServletContextLocationsRetriever(ServletContext servletContext, ContextLocationResolver delegate, PropertiesLoader propertiesLoader) {
+        super(delegate, propertiesLoader);
+        Assert.notNull(servletContext, "servletContext cannot be null");
+        this.servletContext = servletContext;
+    }
 
-	protected List<PropertySource> getPropertySources(Properties properties) {
-		List<PropertySource> propertySources = new ArrayList<PropertySource>();
-		
-		//property value sought first in system property
-		propertySources.add(new SystemPropertiesPropertySource());
-		
-		//then in impala properties file
-		propertySources.add(new StaticPropertiesPropertySource(properties));
-		
-		//then as servlet context init param
-		propertySources.add(new ServletContextPropertySource(servletContext));
-		return propertySources;
-	}
+    protected List<PropertySource> getPropertySources(Properties properties) {
+        List<PropertySource> propertySources = new ArrayList<PropertySource>();
+        
+        //property value sought first in system property
+        propertySources.add(new SystemPropertiesPropertySource());
+        
+        //then in impala properties file
+        propertySources.add(new StaticPropertiesPropertySource(properties));
+        
+        //then as servlet context init param
+        propertySources.add(new ServletContextPropertySource(servletContext));
+        return propertySources;
+    }
 
-	protected Properties getProperties() {
-		return super.getProperties();
-	}
+    protected Properties getProperties() {
+        return super.getProperties();
+    }
 }

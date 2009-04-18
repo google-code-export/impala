@@ -20,25 +20,25 @@ import junit.framework.TestCase;
 
 public class TypeReaderRegistryTest extends TestCase {
 
-	private TypeReaderRegistry registry;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		registry = new TypeReaderRegistry();
-	}
+    private TypeReaderRegistry registry;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        registry = new TypeReaderRegistry();
+    }
 
-	public void testGetTypeReader() {
-		try {
-			registry.getTypeReader("mytype");
-			fail();
-		} catch (ConfigurationException e) {
-			assertEquals("No type reader available for module type 'mytype', and no default module type reader has been set", e.getMessage());
-		}
-		
-		final ApplicationModuleTypeReader typeReader = new ApplicationModuleTypeReader();
-		registry.setDefaultTypeReader(typeReader);
-		assertSame(typeReader, registry.getTypeReader("mytype"));
-	}
+    public void testGetTypeReader() {
+        try {
+            registry.getTypeReader("mytype");
+            fail();
+        } catch (ConfigurationException e) {
+            assertEquals("No type reader available for module type 'mytype', and no default module type reader has been set", e.getMessage());
+        }
+        
+        final ApplicationModuleTypeReader typeReader = new ApplicationModuleTypeReader();
+        registry.setDefaultTypeReader(typeReader);
+        assertSame(typeReader, registry.getTypeReader("mytype"));
+    }
 
 }

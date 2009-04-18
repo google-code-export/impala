@@ -24,24 +24,24 @@ import org.springframework.core.io.ResourceLoader;
 import org.springframework.util.Assert;
 
 public class ServletContextPropertiesLoader extends SimplePropertiesLoader {
-	
-	private final ServletContext servletContext;
-	
-	public ServletContextPropertiesLoader(
-			ServletContext servletContext,
-			String defaultBootstrapResource) {
-		super(defaultBootstrapResource);
-		Assert.notNull(servletContext, "servletContext cannot be null");
-		this.servletContext = servletContext;
-	}
+    
+    private final ServletContext servletContext;
+    
+    public ServletContextPropertiesLoader(
+            ServletContext servletContext,
+            String defaultBootstrapResource) {
+        super(defaultBootstrapResource);
+        Assert.notNull(servletContext, "servletContext cannot be null");
+        this.servletContext = servletContext;
+    }
 
-	protected String getResourceName() {
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
-				LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		return bootstrapLocationsResource;
-	}
-	
-	protected ResourceLoader getResourceLoader() {
-		return new DefaultResourceLoader();
-	}
+    protected String getResourceName() {
+        String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
+                LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+        return bootstrapLocationsResource;
+    }
+    
+    protected ResourceLoader getResourceLoader() {
+        return new DefaultResourceLoader();
+    }
 }

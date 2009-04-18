@@ -30,99 +30,99 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public class WebScheduledModuleChangeMonitor extends ScheduledModuleChangeMonitor {
-	
-	private static final Log logger = LogFactory.getLog(WebScheduledModuleChangeMonitor.class);
-	
-	private boolean useTouchFile;
-	
-	private Resource touchFile;
-	
-	private AtomicLong timestamp = new AtomicLong();
+    
+    private static final Log logger = LogFactory.getLog(WebScheduledModuleChangeMonitor.class);
+    
+    private boolean useTouchFile;
+    
+    private Resource touchFile;
+    
+    private AtomicLong timestamp = new AtomicLong();
 
-	/**
-	 * Sets the last modified timestamp if the resource is available.
-	 */
-	@Override
-	public void start() {
-		
-		if (!useTouchFile) {
+    /**
+     * Sets the last modified timestamp if the resource is available.
+     */
+    @Override
+    public void start() {
+        
+        if (!useTouchFile) {
 
-			if (logger.isDebugEnabled()) {
-				logger.debug("Not using touch file");
-			}
-		} else {
-			if (logger.isDebugEnabled()) {
-				logger.debug("Starting " + WebScheduledModuleChangeMonitor.class.getName() + " with touch file " + touchFile + ". File exists: " + touchFile.exists());
-			}
-			
-			long lastModified = getLastModified();
-			timestamp.set(lastModified);
-		}
-		super.start();
-	}
+            if (logger.isDebugEnabled()) {
+                logger.debug("Not using touch file");
+            }
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("Starting " + WebScheduledModuleChangeMonitor.class.getName() + " with touch file " + touchFile + ". File exists: " + touchFile.exists());
+            }
+            
+            long lastModified = getLastModified();
+            timestamp.set(lastModified);
+        }
+        super.start();
+    }
 
-	/**
-	 * If touchFile is null then returns null.
-	 * If touchFile is not null but is not present, then returns false.
-	 * If touchFile is not null and is present, then return false if the touchFile's timestamp has been updated.
-	 * Updates the {@link #timestamp} property only if a later timestamp is retrieved.
-	 */
-	@Override
-	protected boolean checkForChanges() {
-		if (touchFile == null || !useTouchFile) {
-			return super.checkForChanges();
-		} 
-		
-		final long currentModified = timestamp.get();
-		final long newModified = getLastModified();
-		
-		if (newModified > currentModified) {
-			timestamp.set(newModified);
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("New timestamp for touch file '" + touchFile + "': " + new Date(newModified));
-			}
-			return true;
-		} else {
-			return false;
-		}
-	}
-	
-	/**
-	 * Returns the last modified of the touch file. If the touch file is null or does not exist, return 0
-	 * @return
-	 */
-	long getLastModified() {
-		long lastModified = 0L;
-		
-		if (touchFile != null && touchFile.exists()) {
-			
-			File file;
-			try {
-				file = touchFile.getFile();
-				lastModified = file.lastModified();
+    /**
+     * If touchFile is null then returns null.
+     * If touchFile is not null but is not present, then returns false.
+     * If touchFile is not null and is present, then return false if the touchFile's timestamp has been updated.
+     * Updates the {@link #timestamp} property only if a later timestamp is retrieved.
+     */
+    @Override
+    protected boolean checkForChanges() {
+        if (touchFile == null || !useTouchFile) {
+            return super.checkForChanges();
+        } 
+        
+        final long currentModified = timestamp.get();
+        final long newModified = getLastModified();
+        
+        if (newModified > currentModified) {
+            timestamp.set(newModified);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("New timestamp for touch file '" + touchFile + "': " + new Date(newModified));
+            }
+            return true;
+        } else {
+            return false;
+        }
+    }
+    
+    /**
+     * Returns the last modified of the touch file. If the touch file is null or does not exist, return 0
+     * @return
+     */
+    long getLastModified() {
+        long lastModified = 0L;
+        
+        if (touchFile != null && touchFile.exists()) {
+            
+            File file;
+            try {
+                file = touchFile.getFile();
+                lastModified = file.lastModified();
 
-				if (logger.isDebugEnabled()) {
-					logger.debug("Last modified for touch file '" + touchFile + "': " + new Date(lastModified));
-				}
-			} catch (IOException e) {
-			}
-		} else {
-			if (logger.isDebugEnabled()) {
-				logger.debug("No valid touch file to get last modified " + touchFile);
-			}
-		}
-		return lastModified;
-	}
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Last modified for touch file '" + touchFile + "': " + new Date(lastModified));
+                }
+            } catch (IOException e) {
+            }
+        } else {
+            if (logger.isDebugEnabled()) {
+                logger.debug("No valid touch file to get last modified " + touchFile);
+            }
+        }
+        return lastModified;
+    }
 
-	/**
-	 * @param touchFile the touch file, which can be null
-	 */
-	public void setTouchFile(Resource touchFile) {
-		this.touchFile = touchFile;
-	}
+    /**
+     * @param touchFile the touch file, which can be null
+     */
+    public void setTouchFile(Resource touchFile) {
+        this.touchFile = touchFile;
+    }
 
-	public void setUseTouchFile(boolean useTouchFile) {
-		this.useTouchFile = useTouchFile;
-	}
+    public void setUseTouchFile(boolean useTouchFile) {
+        this.useTouchFile = useTouchFile;
+    }
 }

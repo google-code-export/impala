@@ -27,56 +27,56 @@ import org.springframework.util.Assert;
 
 public class SimplePropertiesLoader implements PropertiesLoader {
 
-	private static final Log logger = LogFactory.getLog(SimplePropertiesLoader.class);
-	
-	private String defaultBootstrapResource;
-	
-	public SimplePropertiesLoader(String defaultBootstrapResource) {
-		super();
-		Assert.notNull(defaultBootstrapResource, "defaultBootstrapResource cannot be null");
-		this.defaultBootstrapResource = defaultBootstrapResource;
-	}
+    private static final Log logger = LogFactory.getLog(SimplePropertiesLoader.class);
+    
+    private String defaultBootstrapResource;
+    
+    public SimplePropertiesLoader(String defaultBootstrapResource) {
+        super();
+        Assert.notNull(defaultBootstrapResource, "defaultBootstrapResource cannot be null");
+        this.defaultBootstrapResource = defaultBootstrapResource;
+    }
 
-	public Properties loadProperties() {
-		return getProperties();
-	}
-	
-	protected Properties getProperties() {
-		
-		String bootstrapLocationsResource = getResourceName();
+    public Properties loadProperties() {
+        return getProperties();
+    }
+    
+    protected Properties getProperties() {
+        
+        String bootstrapLocationsResource = getResourceName();
 
-		ResourceLoader resourceLoader = getResourceLoader();
-		Resource bootStrapResource = null;
-		
-		if (bootstrapLocationsResource == null) {
-			bootStrapResource = resourceLoader.getResource(defaultBootstrapResource);
-		}
-		else {
-			// figure out which resource loader to use
-			bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
-		}
-		Properties properties = null;
-		if (bootStrapResource == null || !bootStrapResource.exists()) {
-			logger.info("Unable to load locations resource from " + bootstrapLocationsResource + ".");
-			properties = new Properties();
-		} else { 
-			properties = PropertyUtils.loadProperties(bootStrapResource);
-		}
-		
-		return properties;
-	}
+        ResourceLoader resourceLoader = getResourceLoader();
+        Resource bootStrapResource = null;
+        
+        if (bootstrapLocationsResource == null) {
+            bootStrapResource = resourceLoader.getResource(defaultBootstrapResource);
+        }
+        else {
+            // figure out which resource loader to use
+            bootStrapResource = resourceLoader.getResource(bootstrapLocationsResource);
+        }
+        Properties properties = null;
+        if (bootStrapResource == null || !bootStrapResource.exists()) {
+            logger.info("Unable to load locations resource from " + bootstrapLocationsResource + ".");
+            properties = new Properties();
+        } else { 
+            properties = PropertyUtils.loadProperties(bootStrapResource);
+        }
+        
+        return properties;
+    }
 
-	protected String getResourceName() {
-		String bootstrapLocationsResource = System.getProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		return bootstrapLocationsResource;
-	}
-	
-	protected ResourceLoader getResourceLoader() {
-		return new DefaultResourceLoader();
-	}
+    protected String getResourceName() {
+        String bootstrapLocationsResource = System.getProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+        return bootstrapLocationsResource;
+    }
+    
+    protected ResourceLoader getResourceLoader() {
+        return new DefaultResourceLoader();
+    }
 
-	public void setDefaultBootstrapResource(String defaultResource) {
-		Assert.notNull(defaultResource);
-		this.defaultBootstrapResource = defaultResource;
-	}
+    public void setDefaultBootstrapResource(String defaultResource) {
+        Assert.notNull(defaultResource);
+        this.defaultBootstrapResource = defaultResource;
+    }
 }

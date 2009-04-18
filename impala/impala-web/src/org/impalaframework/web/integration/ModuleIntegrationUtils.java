@@ -25,22 +25,22 @@ import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtils {
 
-	public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
-			ServletContext servletContext, String moduleName) {
-		final ModuleManagementFacade moduleManagementFactory = WebServletUtils.getModuleManagementFacade(servletContext);
-		HttpServletRequest wrappedRequest = null;
-		
-		if (moduleManagementFactory != null) {
-			HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
-			if (factory != null) {
-				wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleName);
-			} else {
-				wrappedRequest = request;
-			}
-		} else {
-			wrappedRequest = request;
-		}
-		return wrappedRequest;
-	}
+    public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
+            ServletContext servletContext, String moduleName) {
+        final ModuleManagementFacade moduleManagementFactory = WebServletUtils.getModuleManagementFacade(servletContext);
+        HttpServletRequest wrappedRequest = null;
+        
+        if (moduleManagementFactory != null) {
+            HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
+            if (factory != null) {
+                wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleName);
+            } else {
+                wrappedRequest = request;
+            }
+        } else {
+            wrappedRequest = request;
+        }
+        return wrappedRequest;
+    }
 
 }

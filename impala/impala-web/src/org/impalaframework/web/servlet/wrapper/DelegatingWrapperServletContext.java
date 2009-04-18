@@ -37,125 +37,125 @@ import org.springframework.util.Assert;
  */
 public class DelegatingWrapperServletContext implements ServletContext {
 
-	private ServletContext realContext;
+    private ServletContext realContext;
 
-	public DelegatingWrapperServletContext(ServletContext realContext) {
-		super();
-		Assert.notNull(realContext);
-		this.realContext = realContext;
-	}
+    public DelegatingWrapperServletContext(ServletContext realContext) {
+        super();
+        Assert.notNull(realContext);
+        this.realContext = realContext;
+    }
 
-	public Object getAttribute(String name) {
-		return realContext.getAttribute(name);
-	}
+    public Object getAttribute(String name) {
+        return realContext.getAttribute(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Enumeration getAttributeNames() {
-		return realContext.getAttributeNames();
-	}
+    @SuppressWarnings("unchecked")
+    public Enumeration getAttributeNames() {
+        return realContext.getAttributeNames();
+    }
 
-	public ServletContext getContext(String uriPath) {
-		return realContext.getContext(uriPath);
-	}
-	
-	public String getContextPath() {
-		//attempt to invoke by reflection as this is new in the Servlet 2.5 API
-		return (String) ReflectionUtils.invokeMethod(realContext, "getContextPath", new Object[0]);
-	}
+    public ServletContext getContext(String uriPath) {
+        return realContext.getContext(uriPath);
+    }
+    
+    public String getContextPath() {
+        //attempt to invoke by reflection as this is new in the Servlet 2.5 API
+        return (String) ReflectionUtils.invokeMethod(realContext, "getContextPath", new Object[0]);
+    }
 
 
-	public String getInitParameter(String name) {
-		return realContext.getInitParameter(name);
-	}
+    public String getInitParameter(String name) {
+        return realContext.getInitParameter(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Enumeration getInitParameterNames() {
-		return realContext.getInitParameterNames();
-	}
+    @SuppressWarnings("unchecked")
+    public Enumeration getInitParameterNames() {
+        return realContext.getInitParameterNames();
+    }
 
-	public int getMajorVersion() {
-		return realContext.getMajorVersion();
-	}
+    public int getMajorVersion() {
+        return realContext.getMajorVersion();
+    }
 
-	public String getMimeType(String file) {
-		return realContext.getMimeType(file);
-	}
+    public String getMimeType(String file) {
+        return realContext.getMimeType(file);
+    }
 
-	public int getMinorVersion() {
-		return realContext.getMinorVersion();
-	}
+    public int getMinorVersion() {
+        return realContext.getMinorVersion();
+    }
 
-	public RequestDispatcher getNamedDispatcher(String name) {
-		return realContext.getNamedDispatcher(name);
-	}
+    public RequestDispatcher getNamedDispatcher(String name) {
+        return realContext.getNamedDispatcher(name);
+    }
 
-	public String getRealPath(String path) {
-		return realContext.getRealPath(path);
-	}
+    public String getRealPath(String path) {
+        return realContext.getRealPath(path);
+    }
 
-	public RequestDispatcher getRequestDispatcher(String path) {
-		return realContext.getRequestDispatcher(path);
-	}
+    public RequestDispatcher getRequestDispatcher(String path) {
+        return realContext.getRequestDispatcher(path);
+    }
 
-	public URL getResource(String path) throws MalformedURLException {
-		return realContext.getResource(path);
-	}
+    public URL getResource(String path) throws MalformedURLException {
+        return realContext.getResource(path);
+    }
 
-	public InputStream getResourceAsStream(String path) {
-		return realContext.getResourceAsStream(path);
-	}
+    public InputStream getResourceAsStream(String path) {
+        return realContext.getResourceAsStream(path);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Set getResourcePaths(String path) {
-		return realContext.getResourcePaths(path);
-	}
+    @SuppressWarnings("unchecked")
+    public Set getResourcePaths(String path) {
+        return realContext.getResourcePaths(path);
+    }
 
-	public String getServerInfo() {
-		return realContext.getServerInfo();
-	}
+    public String getServerInfo() {
+        return realContext.getServerInfo();
+    }
 
-	@SuppressWarnings("deprecation")
-	public Servlet getServlet(String name) throws ServletException {
-		return realContext.getServlet(name);
-	}
+    @SuppressWarnings("deprecation")
+    public Servlet getServlet(String name) throws ServletException {
+        return realContext.getServlet(name);
+    }
 
-	public String getServletContextName() {
-		return realContext.getServletContextName();
-	}
+    public String getServletContextName() {
+        return realContext.getServletContextName();
+    }
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public Enumeration getServletNames() {
-		return realContext.getServletNames();
-	}
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    public Enumeration getServletNames() {
+        return realContext.getServletNames();
+    }
 
-	@SuppressWarnings({ "deprecation", "unchecked" })
-	public Enumeration getServlets() {
-		return realContext.getServlets();
-	}
+    @SuppressWarnings({ "deprecation", "unchecked" })
+    public Enumeration getServlets() {
+        return realContext.getServlets();
+    }
 
-	public void log(String message) {
-		realContext.log(message);
-	}
+    public void log(String message) {
+        realContext.log(message);
+    }
 
-	@SuppressWarnings("deprecation")
-	public void log(Exception exception, String message) {
-		realContext.log(exception, message);
-	}
+    @SuppressWarnings("deprecation")
+    public void log(Exception exception, String message) {
+        realContext.log(exception, message);
+    }
 
-	public void log(String message, Throwable throwable) {
-		realContext.log(message, throwable);
-	}
+    public void log(String message, Throwable throwable) {
+        realContext.log(message, throwable);
+    }
 
-	public void removeAttribute(String name) {
-		realContext.removeAttribute(name);
-	}
+    public void removeAttribute(String name) {
+        realContext.removeAttribute(name);
+    }
 
-	public void setAttribute(String name, Object value) {
-		realContext.setAttribute(name, value);
-	}
+    public void setAttribute(String name, Object value) {
+        realContext.setAttribute(name, value);
+    }
 
-	protected ServletContext getRealContext() {
-		return realContext;
-	}
-	
+    protected ServletContext getRealContext() {
+        return realContext;
+    }
+    
 }

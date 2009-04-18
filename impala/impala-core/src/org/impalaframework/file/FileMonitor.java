@@ -23,6 +23,6 @@ import java.io.File;
  * @author Phil Zoio
  */
 public interface FileMonitor {
-	long lastModified(File file);
-	long lastModified(File[] file);
+    long lastModified(File file);
+    long lastModified(File[] file);
 }

@@ -23,26 +23,26 @@ import org.springframework.util.ClassUtils;
 import junit.framework.TestCase;
 
 public class ModuleAwareServletContextWrapperTest extends TestCase {
-	
-	private ModuleAwareServletContextWrapper wrapper;
-	private ServletContext servletContext;
+    
+    private ModuleAwareServletContextWrapper wrapper;
+    private ServletContext servletContext;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		wrapper = new ModuleAwareServletContextWrapper();
-		servletContext = EasyMock.createMock(ServletContext.class);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        wrapper = new ModuleAwareServletContextWrapper();
+        servletContext = EasyMock.createMock(ServletContext.class);
+    }
 
-	public void testIdentityWraper() {
-		assertSame(servletContext, wrapper.wrapServletContext(servletContext, null, null));
-	}
+    public void testIdentityWraper() {
+        assertSame(servletContext, wrapper.wrapServletContext(servletContext, null, null));
+    }
 
-	public void testPartitionedContext() {
-		wrapper.setEnablePartitionedServletContext(true);
-		final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
-		assertTrue(wrappedContext instanceof ModuleAwareWrapperServletContext);
-	}
+    public void testPartitionedContext() {
+        wrapper.setEnablePartitionedServletContext(true);
+        final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
+        assertTrue(wrappedContext instanceof ModuleAwareWrapperServletContext);
+    }
 
 }

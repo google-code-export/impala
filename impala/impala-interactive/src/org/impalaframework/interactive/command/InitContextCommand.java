@@ -23,22 +23,22 @@ import org.impalaframework.module.ModuleDefinitionSource;
 
 public class InitContextCommand implements Command {
 
-	public boolean execute(CommandState commandState) {
-		Impala.init();
-		
-		ModuleDefinitionSource moduleDefinitionSource = (ModuleDefinitionSource) GlobalCommandState.getInstance()
-				.getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
-		if (moduleDefinitionSource == null) {
-			System.out.println("Cannot initialize, as no module definition has been loaded.");
-			return false;
-		}
+    public boolean execute(CommandState commandState) {
+        Impala.init();
+        
+        ModuleDefinitionSource moduleDefinitionSource = (ModuleDefinitionSource) GlobalCommandState.getInstance()
+                .getValue(CommandStateConstants.MODULE_DEFINITION_SOURCE);
+        if (moduleDefinitionSource == null) {
+            System.out.println("Cannot initialize, as no module definition has been loaded.");
+            return false;
+        }
 
-		Impala.init(moduleDefinitionSource);
-		return true;
-	}
+        Impala.init(moduleDefinitionSource);
+        return true;
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition();
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition();
+    }
 
 }

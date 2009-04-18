@@ -24,18 +24,18 @@ import org.impalaframework.web.module.WebModuleTypes;
 import org.impalaframework.web.module.type.WebPlaceholderTypeReader;
 
 public class WebTypeReaderRegistryFactory {
-	public static Map<String, TypeReader> getTypeReaders() {
-		Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.getTypeReaders();
-		typeReaders.put(WebModuleTypes.WEB_ROOT.toLowerCase(), new ApplicationModuleTypeReader());
-		typeReaders.put(WebModuleTypes.SERVLET.toLowerCase(), new ApplicationModuleTypeReader());
-		typeReaders.put(WebModuleTypes.WEB_PLACEHOLDER.toLowerCase(), new WebPlaceholderTypeReader());
-		return typeReaders;
-	}
+    public static Map<String, TypeReader> getTypeReaders() {
+        Map<String, TypeReader> typeReaders = TypeReaderRegistryFactory.getTypeReaders();
+        typeReaders.put(WebModuleTypes.WEB_ROOT.toLowerCase(), new ApplicationModuleTypeReader());
+        typeReaders.put(WebModuleTypes.SERVLET.toLowerCase(), new ApplicationModuleTypeReader());
+        typeReaders.put(WebModuleTypes.WEB_PLACEHOLDER.toLowerCase(), new WebPlaceholderTypeReader());
+        return typeReaders;
+    }
 
-	public static TypeReaderRegistry getTypeReaderRegistry() {
-		final Map<String, TypeReader> typeReaders = getTypeReaders();
-		final TypeReaderRegistry registry = new TypeReaderRegistry();
-		registry.setTypeReaders(typeReaders);
-		return registry;
-	}
+    public static TypeReaderRegistry getTypeReaderRegistry() {
+        final Map<String, TypeReader> typeReaders = getTypeReaders();
+        final TypeReaderRegistry registry = new TypeReaderRegistry();
+        registry.setTypeReaders(typeReaders);
+        return registry;
+    }
 }

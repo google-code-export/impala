@@ -120,34 +120,34 @@ public class GraphHelperTest extends TestCase
     }
         
     public void testSortDAG() throws Exception {
-		Vertex a = new Vertex("a");
-		Vertex b = new Vertex("b");
-		Vertex c = new Vertex("c");
-		Vertex d = new Vertex("d");
-		Vertex e = new Vertex("e");
-		Vertex f = new Vertex("f");
-		Vertex g = new Vertex("g");
+        Vertex a = new Vertex("a");
+        Vertex b = new Vertex("b");
+        Vertex c = new Vertex("c");
+        Vertex d = new Vertex("d");
+        Vertex e = new Vertex("e");
+        Vertex f = new Vertex("f");
+        Vertex g = new Vertex("g");
 
-		List<Vertex> vertices = new ArrayList<Vertex>();
-		vertices.add(a);
-		vertices.add(b);
-		vertices.add(c);
-		vertices.add(d);
-		vertices.add(e);
-		vertices.add(f);
-		vertices.add(g);
-		
-		b.addDependency(a);
-		d.addDependency(b);
-		e.addDependency(c);
-		e.addDependency(d);
-		f.addDependency(b);
-		f.addDependency(e);
-		g.addDependency(c);
-		g.addDependency(d);
-		g.addDependency(f);
-		
-		/*
+        List<Vertex> vertices = new ArrayList<Vertex>();
+        vertices.add(a);
+        vertices.add(b);
+        vertices.add(c);
+        vertices.add(d);
+        vertices.add(e);
+        vertices.add(f);
+        vertices.add(g);
+        
+        b.addDependency(a);
+        d.addDependency(b);
+        e.addDependency(c);
+        e.addDependency(d);
+        f.addDependency(b);
+        f.addDependency(e);
+        g.addDependency(c);
+        g.addDependency(d);
+        g.addDependency(f);
+        
+        /*
 a
 b depends on a
 c
@@ -155,29 +155,29 @@ d depends on b
 e depends on c, d
 f depends on b, e
 g on c, d, f
-		 */
-		
-		Collections.shuffle(vertices);
+         */
+        
+        Collections.shuffle(vertices);
 
-		System.out.println("----- Before sorting ----");
-		printVertices(vertices);
+        System.out.println("----- Before sorting ----");
+        printVertices(vertices);
 
-		GraphHelper.topologicalSort(vertices);
-		
-		System.out.println("----- After sorting ----");
-		printVertices(vertices);
+        GraphHelper.topologicalSort(vertices);
+        
+        System.out.println("----- After sorting ----");
+        printVertices(vertices);
 
-		System.out.println("----- e list ----");
-		final List<Vertex> eList = GraphHelper.list(e);
-		printVertices(eList);
-		
-	}
+        System.out.println("----- e list ----");
+        final List<Vertex> eList = GraphHelper.list(e);
+        printVertices(eList);
+        
+    }
 
-	private void printVertices(List<Vertex> vertices) {
-		for (Vertex v : vertices) {
-			System.out.println(v.getName());
-		}
-	}
+    private void printVertices(List<Vertex> vertices) {
+        for (Vertex v : vertices) {
+            System.out.println(v.getName());
+        }
+    }
     
     
     public void testVerifySortDAG() throws Exception

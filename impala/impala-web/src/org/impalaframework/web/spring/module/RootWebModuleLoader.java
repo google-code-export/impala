@@ -37,16 +37,16 @@ import org.springframework.web.context.WebApplicationContext;
  */
 public class RootWebModuleLoader extends WebModuleLoader {
 
-	private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
+    private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 
-	@Override
-	public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
-		
-		Object existingRoot = getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-		if (existingRoot != null) {
-			logger.info("Republishing root web application context using key: " + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-			getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
-		}
-	}
-	
+    @Override
+    public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
+        
+        Object existingRoot = getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        if (existingRoot != null) {
+            logger.info("Republishing root web application context using key: " + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+            getServletContext().setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, context);
+        }
+    }
+    
 }

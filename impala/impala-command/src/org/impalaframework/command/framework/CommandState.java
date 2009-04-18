@@ -25,122 +25,122 @@ import java.util.Map;
  */
 public class CommandState {
 
-	// capture the commandinfo
-	InputCapturer inputCapturer = new CommandLineInputCapturer();
+    // capture the commandinfo
+    InputCapturer inputCapturer = new CommandLineInputCapturer();
 
-	private Map<String, CommandPropertyValue> properties = new HashMap<String, CommandPropertyValue>();
+    private Map<String, CommandPropertyValue> properties = new HashMap<String, CommandPropertyValue>();
 
-	private GlobalCommandState globalStateHolder = GlobalCommandState.getInstance();
+    private GlobalCommandState globalStateHolder = GlobalCommandState.getInstance();
 
-	public CommandInput capture(Command command) {
-		properties.clear();
-		return captureInput(command);
-	}
+    public CommandInput capture(Command command) {
+        properties.clear();
+        return captureInput(command);
+    }
 
-	public CommandInput captureInput(Command command) {
-		CommandDefinition commandDefinition = command.getCommandDefinition();
+    public CommandInput captureInput(Command command) {
+        CommandDefinition commandDefinition = command.getCommandDefinition();
 
-		if (commandDefinition == null) {
-			throw new IllegalArgumentException("Command cannot have null commandDefinition");
-		}
+        if (commandDefinition == null) {
+            throw new IllegalArgumentException("Command cannot have null commandDefinition");
+        }
 
-		List<CommandInfo> commandInfos = commandDefinition.getCommandInfos();
-		for (CommandInfo info : commandInfos) {
+        List<CommandInfo> commandInfos = commandDefinition.getCommandInfos();
+        for (CommandInfo info : commandInfos) {
 
-			CommandPropertyValue existingLocal = getProperties().get(info.getPropertyName());
-			CommandPropertyValue existingGlobal = globalStateHolder.getProperty(info.getPropertyName());
+            CommandPropertyValue existingLocal = getProperties().get(info.getPropertyName());
+            CommandPropertyValue existingGlobal = globalStateHolder.getProperty(info.getPropertyName());
 
-			boolean invalid = false;
-			boolean ok = false;
-			String value = null;
+            boolean invalid = false;
+            boolean ok = false;
+            String value = null;
 
-			while (!ok) {
+            while (!ok) {
 
-				String input = null;
+                String input = null;
 
-				input = existingLocal != null ? existingLocal.getValue() : null;
+                input = existingLocal != null ? existingLocal.getValue() : null;
 
-				if (input == null && info.isGlobalOverride())
-					input = existingGlobal != null ? existingGlobal.getValue() : null;
-					
-				boolean recapture = false;
+                if (input == null && info.isGlobalOverride())
+                    input = existingGlobal != null ? existingGlobal.getValue() : null;
+                    
+                boolean recapture = false;
 
-				if (invalid) {
-					invalid = false;
-					recapture = true;
-				}
+                if (invalid) {
+                    invalid = false;
+                    recapture = true;
+                }
 
-				if (recapture)
-					input = inputCapturer.recapture(info);
-				else if (input == null)
-					input = inputCapturer.capture(info);
+                if (recapture)
+                    input = inputCapturer.recapture(info);
+                else if (input == null)
+                    input = inputCapturer.capture(info);
 
-				if (input != null && input.trim().length() > 0) {
+                if (input != null && input.trim().length() > 0) {
 
-					value = input.trim();
+                    value = input.trim();
 
-					if (value.equalsIgnoreCase("back")) {
-						return new CommandInput(true);
-					}
+                    if (value.equalsIgnoreCase("back")) {
+                        return new CommandInput(true);
+                    }
 
-					if (value.equalsIgnoreCase("quit")) {
-						throw new TerminatedCommandException();
-					}
+                    if (value.equalsIgnoreCase("quit")) {
+                        throw new TerminatedCommandException();
+                    }
 
-					String validate = info.validate(value);
-					if (validate != null) {
-						inputCapturer.displayValidationMessage(validate);
-						invalid = true;
-					}
-				}
+                    String validate = info.validate(value);
+                    if (validate != null) {
+                        inputCapturer.displayValidationMessage(validate);
+                        invalid = true;
+                    }
+                }
 
-				if (invalid)
-					continue;
+                if (invalid)
+                    continue;
 
-				if (value == null) {
-					if (!info.isIsolated() && existingGlobal != null) {
-						value = existingGlobal.getValue();
-					}
-				}
+                if (value == null) {
+                    if (!info.isIsolated() && existingGlobal != null) {
+                        value = existingGlobal.getValue();
+                    }
+                }
 
-				if (value == null) {
-					value = info.getDefaultValue();
-				}
+                if (value == null) {
+                    value = info.getDefaultValue();
+                }
 
-				if (value != null) {
-					CommandPropertyValue cpv = new CommandPropertyValue(value, info.getDescription());
-					properties.put(info.getPropertyName(), cpv);
+                if (value != null) {
+                    CommandPropertyValue cpv = new CommandPropertyValue(value, info.getDescription());
+                    properties.put(info.getPropertyName(), cpv);
 
-					if (info.isShared()) {
-						globalStateHolder.addProperty(info.getPropertyName(), cpv);
-					} else {
-						globalStateHolder.clearProperty(info.getPropertyName());
-					}
+                    if (info.isShared()) {
+                        globalStateHolder.addProperty(info.getPropertyName(), cpv);
+                    } else {
+                        globalStateHolder.clearProperty(info.getPropertyName());
+                    }
 
-					ok = true;
-				}
-				else if (info.isOptional()) {
-					ok = true;
-				}
-			}
-		}
-		return new CommandInput(Collections.unmodifiableMap(properties));
-	}
+                    ok = true;
+                }
+                else if (info.isOptional()) {
+                    ok = true;
+                }
+            }
+        }
+        return new CommandInput(Collections.unmodifiableMap(properties));
+    }
 
-	public Map<String, CommandPropertyValue> getProperties() {
-		return Collections.unmodifiableMap(properties);
-	}
+    public Map<String, CommandPropertyValue> getProperties() {
+        return Collections.unmodifiableMap(properties);
+    }
 
-	public void addProperty(String propertyName, CommandPropertyValue propertyValue) {
-		properties.put(propertyName, propertyValue);
-	}
+    public void addProperty(String propertyName, CommandPropertyValue propertyValue) {
+        properties.put(propertyName, propertyValue);
+    }
 
-	public GlobalCommandState getGlobalStateHolder() {
-		return globalStateHolder;
-	}
+    public GlobalCommandState getGlobalStateHolder() {
+        return globalStateHolder;
+    }
 
-	public void setInputCapturer(InputCapturer inputCapturer) {
-		this.inputCapturer = inputCapturer;
-	}
+    public void setInputCapturer(InputCapturer inputCapturer) {
+        this.inputCapturer = inputCapturer;
+    }
 
 }

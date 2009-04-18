@@ -28,51 +28,51 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
  */
 public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
 
-	private static Log logger = LogFactory.getLog(DefaultFrameworkLockHolder.class);
-	
-	private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
-	private final Lock r = rwl.readLock();
-	private final Lock w = rwl.writeLock();
+    private static Log logger = LogFactory.getLog(DefaultFrameworkLockHolder.class);
+    
+    private final ReentrantReadWriteLock rwl = new ReentrantReadWriteLock();
+    private final Lock r = rwl.readLock();
+    private final Lock w = rwl.writeLock();
 
-	public DefaultFrameworkLockHolder() {
-		super();
-	}
-	
-	public void writeLock() {
-		this.w.lock();
-	}
-	
-	public void writeUnlock() {
-		this.w.unlock();
-	}
-	
-	public void readLock() {
-		this.r.lock();
-	}
-	
-	public void readUnlock() {
-		this.r.unlock();
-	}
-	
-	public boolean isAvailable() {
-		
-		//FIXME check the semantics of this - want to robustify operations on service registry and
-		//also on proxies
-		if (this.rwl.isWriteLocked()) {
-			if (!this.rwl.isWriteLockedByCurrentThread()) {
-			
-				if (logger.isDebugEnabled()) {
-					logger.debug("Module is unavailable with hold count of " + rwl.getWriteHoldCount() + " but not held by current thread");
-				}
-				return false;
-			}
-			return true;
-		}
-		return true;
-	}
+    public DefaultFrameworkLockHolder() {
+        super();
+    }
+    
+    public void writeLock() {
+        this.w.lock();
+    }
+    
+    public void writeUnlock() {
+        this.w.unlock();
+    }
+    
+    public void readLock() {
+        this.r.lock();
+    }
+    
+    public void readUnlock() {
+        this.r.unlock();
+    }
+    
+    public boolean isAvailable() {
+        
+        //FIXME check the semantics of this - want to robustify operations on service registry and
+        //also on proxies
+        if (this.rwl.isWriteLocked()) {
+            if (!this.rwl.isWriteLockedByCurrentThread()) {
+            
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Module is unavailable with hold count of " + rwl.getWriteHoldCount() + " but not held by current thread");
+                }
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 
-	public boolean hasLock() {
-		return this.rwl.isWriteLockedByCurrentThread();
-	}
+    public boolean hasLock() {
+        return this.rwl.isWriteLockedByCurrentThread();
+    }
 
 }

@@ -22,22 +22,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class EntryServiceMock implements EntryService {
-	private Map<Long, Entry> entries = new HashMap<Long, Entry>();
+    private Map<Long, Entry> entries = new HashMap<Long, Entry>();
 
-	public void addEntry(Entry entry) {
-		entries.put(entry.getId(), entry);
-	}
+    public void addEntry(Entry entry) {
+        entries.put(entry.getId(), entry);
+    }
 
-	public Collection<Entry> getEntriesOfCount(int count) {
-		ArrayList<Entry> list = new ArrayList<Entry>();
+    public Collection<Entry> getEntriesOfCount(int count) {
+        ArrayList<Entry> list = new ArrayList<Entry>();
 
-		Collection<Entry> values = entries.values();
-		for (Entry entry : values) {
-			if (entry.getCount() == count) {
-				list.add(entry);
-			}
-		}
+        Collection<Entry> values = entries.values();
+        for (Entry entry : values) {
+            if (entry.getCount() == count) {
+                list.add(entry);
+            }
+        }
 
-		return list;
-	}
+        return list;
+    }
 }

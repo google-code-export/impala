@@ -24,29 +24,29 @@ import org.impalaframework.interactive.command.InitContextCommand;
 
 public class InitContextCommandTest extends TestCase {
 
-	private InitContextCommand command;
+    private InitContextCommand command;
 
-	public void setUp() {
-		GlobalCommandState.getInstance().reset();
-		Impala.clear();
-		command = new InitContextCommand();
-	}
+    public void setUp() {
+        GlobalCommandState.getInstance().reset();
+        Impala.clear();
+        command = new InitContextCommand();
+    }
 
-	public final void testExecuteNoModuleDefinitionSource() {
-		command.execute(null);
-		try {
-			Impala.getRootRuntimeModule();
-			fail();
-		}
-		catch (NoServiceException e) {
-			assertEquals("No root application has been loaded", e.getMessage());
-		}
-	}
+    public final void testExecuteNoModuleDefinitionSource() {
+        command.execute(null);
+        try {
+            Impala.getRootRuntimeModule();
+            fail();
+        }
+        catch (NoServiceException e) {
+            assertEquals("No root application has been loaded", e.getMessage());
+        }
+    }
 
-	public final void testExecuteWithModuleDefinitionSource() {
-		GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
-		command.execute(null);
-		assertNotNull(Impala.getRootRuntimeModule());
+    public final void testExecuteWithModuleDefinitionSource() {
+        GlobalCommandState.getInstance().addValue(CommandStateConstants.MODULE_DEFINITION_SOURCE, new Test1());
+        command.execute(null);
+        assertNotNull(Impala.getRootRuntimeModule());
 
-	}
+    }
 }

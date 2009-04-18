@@ -43,35 +43,35 @@ import org.impalaframework.module.spi.Transition;
 
 abstract class GraphModificationTestUtils {
 
-	static Collection<? extends ModuleStateChange> assertTransitions(GraphModificationExtractorDelegate graphModificationExtractor, SimpleRootModuleDefinition root1,
-			SimpleRootModuleDefinition root2, String expectedUnloads, String expectedLoads) {
-		final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions();
-		
-		List<String> loads = new ArrayList<String>();
-		List<String> unloads = new ArrayList<String>();
-		for (ModuleStateChange moduleStateChange : transitions) {
-			if (moduleStateChange.getTransition().equals(Transition.UNLOADED_TO_LOADED)) loads.add(moduleStateChange.getModuleDefinition().getName());
-			if (moduleStateChange.getTransition().equals(Transition.LOADED_TO_UNLOADED)) unloads.add(moduleStateChange.getModuleDefinition().getName());
-		}
-	
-		printTransitions(transitions);
-		
-		//now do expectations
-		if (expectedUnloads != null) {
-			List<String> expectedUnLoadsList = Arrays.asList(expectedUnloads.split(","));
-			Assert.assertEquals("Failure comparing expected unload ordering", expectedUnLoadsList, unloads);
-		} else {
-			Assert.assertTrue("Unloads expected to be empty", unloads.isEmpty());
-		}
-		
-		if (expectedLoads != null) {
-			List<String> expectedLoadsList = Arrays.asList(expectedLoads.split(","));
-			Assert.assertEquals("Failure comparing expected unload ordering", expectedLoadsList, loads);
-		} else {
-			Assert.assertTrue("Loads expected to be empty", loads.isEmpty());
-		}
-		
-		return transitions;
-	}
+    static Collection<? extends ModuleStateChange> assertTransitions(GraphModificationExtractorDelegate graphModificationExtractor, SimpleRootModuleDefinition root1,
+            SimpleRootModuleDefinition root2, String expectedUnloads, String expectedLoads) {
+        final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions();
+        
+        List<String> loads = new ArrayList<String>();
+        List<String> unloads = new ArrayList<String>();
+        for (ModuleStateChange moduleStateChange : transitions) {
+            if (moduleStateChange.getTransition().equals(Transition.UNLOADED_TO_LOADED)) loads.add(moduleStateChange.getModuleDefinition().getName());
+            if (moduleStateChange.getTransition().equals(Transition.LOADED_TO_UNLOADED)) unloads.add(moduleStateChange.getModuleDefinition().getName());
+        }
+    
+        printTransitions(transitions);
+        
+        //now do expectations
+        if (expectedUnloads != null) {
+            List<String> expectedUnLoadsList = Arrays.asList(expectedUnloads.split(","));
+            Assert.assertEquals("Failure comparing expected unload ordering", expectedUnLoadsList, unloads);
+        } else {
+            Assert.assertTrue("Unloads expected to be empty", unloads.isEmpty());
+        }
+        
+        if (expectedLoads != null) {
+            List<String> expectedLoadsList = Arrays.asList(expectedLoads.split(","));
+            Assert.assertEquals("Failure comparing expected unload ordering", expectedLoadsList, loads);
+        } else {
+            Assert.assertTrue("Loads expected to be empty", loads.isEmpty());
+        }
+        
+        return transitions;
+    }
 
 }

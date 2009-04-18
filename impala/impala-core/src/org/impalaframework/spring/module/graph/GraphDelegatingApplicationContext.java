@@ -42,235 +42,235 @@ import org.springframework.util.ObjectUtils;
  */
 public class GraphDelegatingApplicationContext implements ApplicationContext {
 
-	private static Log logger = LogFactory.getLog(GraphDelegatingApplicationContext.class);
-	
-	private final ApplicationContext parent;
-	private final long startupDate;
-	private String id = ObjectUtils.identityToString(this);
-	private String displayName;
-	private final List<ApplicationContext> nonAncestorDependentContexts;
-	private boolean parentGetBean;
+    private static Log logger = LogFactory.getLog(GraphDelegatingApplicationContext.class);
+    
+    private final ApplicationContext parent;
+    private final long startupDate;
+    private String id = ObjectUtils.identityToString(this);
+    private String displayName;
+    private final List<ApplicationContext> nonAncestorDependentContexts;
+    private boolean parentGetBean;
 
-	public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts, boolean parentGetBean) {
-		super();
-		Assert.notNull(parent, "parent ApplicationContext cannot be null");
-		Assert.notNull(nonAncestorDependentContexts, "nonAncestorDependentContexts ApplicationContext cannot be null");
-		this.parent = parent;
-		this.startupDate = System.currentTimeMillis();
-		this.nonAncestorDependentContexts = nonAncestorDependentContexts;
-		this.parentGetBean = parentGetBean;
-	}
+    public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts, boolean parentGetBean) {
+        super();
+        Assert.notNull(parent, "parent ApplicationContext cannot be null");
+        Assert.notNull(nonAncestorDependentContexts, "nonAncestorDependentContexts ApplicationContext cannot be null");
+        this.parent = parent;
+        this.startupDate = System.currentTimeMillis();
+        this.nonAncestorDependentContexts = nonAncestorDependentContexts;
+        this.parentGetBean = parentGetBean;
+    }
 
-	/* ***************** Methods with non-trivial separate implementation ***************** */	
-	
-	public String getDisplayName() {
-		return displayName;
-	}
+    /* ***************** Methods with non-trivial separate implementation ***************** */  
+    
+    public String getDisplayName() {
+        return displayName;
+    }
 
-	public String getId() {
-		return id;
-	}
-	
-	/* ***************** Methods which will also search nonAncestorDependentContexts  ***************** */
+    public String getId() {
+        return id;
+    }
+    
+    /* ***************** Methods which will also search nonAncestorDependentContexts  ***************** */
 
-	public Object getBean(String name) throws BeansException {
-		
-		if (parentGetBean && parent.containsBean(name)) {
-			
-			if (logger.isDebugEnabled()) {
-				logger.debug("Returning bean for bean name from parent application context " + parent.getDisplayName());
-			}
-			
-			return parent.getBean(name);
-		}
-		
-		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
-			
-			if (containsBeanDefintion(applicationContext, name)) {
-				return applicationContext.getBean(name);
-			}
-		}
-		
-		throw new NoSuchBeanDefinitionException(name);
-	}
-	
-	@SuppressWarnings("unchecked")
-	public Object getBean(String name, Class requiredType) throws BeansException {
-		
-		if (parentGetBean && parent.containsBean(name)) {
-			maybeLogGetParentBean(name);
-			return parent.getBean(name, requiredType);
-		}
-		
-		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
-			
-			if (containsBeanDefintion(applicationContext, name)) {
-				
-				maybeLogGetDependentBean(name, applicationContext);
-				return applicationContext.getBean(name, requiredType);
-			}
-		}
+    public Object getBean(String name) throws BeansException {
+        
+        if (parentGetBean && parent.containsBean(name)) {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Returning bean for bean name from parent application context " + parent.getDisplayName());
+            }
+            
+            return parent.getBean(name);
+        }
+        
+        for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+            
+            if (containsBeanDefintion(applicationContext, name)) {
+                return applicationContext.getBean(name);
+            }
+        }
+        
+        throw new NoSuchBeanDefinitionException(name);
+    }
+    
+    @SuppressWarnings("unchecked")
+    public Object getBean(String name, Class requiredType) throws BeansException {
+        
+        if (parentGetBean && parent.containsBean(name)) {
+            maybeLogGetParentBean(name);
+            return parent.getBean(name, requiredType);
+        }
+        
+        for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+            
+            if (containsBeanDefintion(applicationContext, name)) {
+                
+                maybeLogGetDependentBean(name, applicationContext);
+                return applicationContext.getBean(name, requiredType);
+            }
+        }
 
-		throw new NoSuchBeanDefinitionException(name);
-	}
-	
-	public Object getBean(String name, Object[] args) throws BeansException {
-		
-		if (parentGetBean && parent.containsBean(name)) {
-			maybeLogGetParentBean(name);
-			return parent.getBean(name, args);
-		}
-		
-		for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
-			
-			if (containsBeanDefintion(applicationContext, name)) {		
-				
-				maybeLogGetDependentBean(name, applicationContext);				
-				return applicationContext.getBean(name, args);
-			}
-		}
+        throw new NoSuchBeanDefinitionException(name);
+    }
+    
+    public Object getBean(String name, Object[] args) throws BeansException {
+        
+        if (parentGetBean && parent.containsBean(name)) {
+            maybeLogGetParentBean(name);
+            return parent.getBean(name, args);
+        }
+        
+        for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+            
+            if (containsBeanDefintion(applicationContext, name)) {      
+                
+                maybeLogGetDependentBean(name, applicationContext);             
+                return applicationContext.getBean(name, args);
+            }
+        }
 
-		throw new NoSuchBeanDefinitionException(name);
-	}
+        throw new NoSuchBeanDefinitionException(name);
+    }
 
-	private boolean containsBeanDefintion(ApplicationContext applicationContext, String name) {
-		boolean containsBeanDefinition = applicationContext.containsBeanDefinition(maybeDeferenceFactoryBean(name));
-		return containsBeanDefinition;
-	}
+    private boolean containsBeanDefintion(ApplicationContext applicationContext, String name) {
+        boolean containsBeanDefinition = applicationContext.containsBeanDefinition(maybeDeferenceFactoryBean(name));
+        return containsBeanDefinition;
+    }
 
-	private String maybeDeferenceFactoryBean(String name) {
-		return name.startsWith("&") ? name.substring(1): name;
-	}
+    private String maybeDeferenceFactoryBean(String name) {
+        return name.startsWith("&") ? name.substring(1): name;
+    }
 
-	private void maybeLogGetDependentBean(String name, ApplicationContext applicationContext) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Returning bean for bean name " + name +
-					" from dependent application context " + applicationContext.getDisplayName());
-		}
-	}
+    private void maybeLogGetDependentBean(String name, ApplicationContext applicationContext) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning bean for bean name " + name +
+                    " from dependent application context " + applicationContext.getDisplayName());
+        }
+    }
 
-	private void maybeLogGetParentBean(String name) {
-		if (logger.isDebugEnabled()) {
-			logger.debug("Returning bean for bean name " + name +
-					" from parent application context " + parent.getDisplayName());
-		}
-	}
-	
-	/* ***************** Methods simply delegating to parent ***************** */
-	
-	public boolean containsBean(String name) {
-		return parent.containsBean(name);
-	}
-	
-	public ApplicationContext getParent() {
-		return parent;
-	}
+    private void maybeLogGetParentBean(String name) {
+        if (logger.isDebugEnabled()) {
+            logger.debug("Returning bean for bean name " + name +
+                    " from parent application context " + parent.getDisplayName());
+        }
+    }
+    
+    /* ***************** Methods simply delegating to parent ***************** */
+    
+    public boolean containsBean(String name) {
+        return parent.containsBean(name);
+    }
+    
+    public ApplicationContext getParent() {
+        return parent;
+    }
 
-	public long getStartupDate() {
-		return startupDate;
-	}
+    public long getStartupDate() {
+        return startupDate;
+    }
 
-	public boolean containsBeanDefinition(String beanName) {
-		return parent.containsBeanDefinition(beanName);
-	}
+    public boolean containsBeanDefinition(String beanName) {
+        return parent.containsBeanDefinition(beanName);
+    }
 
-	public int getBeanDefinitionCount() {
-		return parent.getBeanDefinitionCount();
-	}
+    public int getBeanDefinitionCount() {
+        return parent.getBeanDefinitionCount();
+    }
 
-	public String[] getBeanDefinitionNames() {
-		return parent.getBeanDefinitionNames();
-	}
+    public String[] getBeanDefinitionNames() {
+        return parent.getBeanDefinitionNames();
+    }
 
-	@SuppressWarnings("unchecked")
-	public String[] getBeanNamesForType(Class type) {
-		return parent.getBeanNamesForType(type);
-	}
+    @SuppressWarnings("unchecked")
+    public String[] getBeanNamesForType(Class type) {
+        return parent.getBeanNamesForType(type);
+    }
 
-	@SuppressWarnings("unchecked")
-	public String[] getBeanNamesForType(Class type,	boolean includeNonSingletons, boolean allowEagerInit) {
-		return parent.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
-	}
+    @SuppressWarnings("unchecked")
+    public String[] getBeanNamesForType(Class type, boolean includeNonSingletons, boolean allowEagerInit) {
+        return parent.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Map getBeansOfType(Class type) throws BeansException {
-		return parent.getBeansOfType(type);
-	}
+    @SuppressWarnings("unchecked")
+    public Map getBeansOfType(Class type) throws BeansException {
+        return parent.getBeansOfType(type);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Map getBeansOfType(Class type, boolean includeNonSingletons,	boolean allowEagerInit) throws BeansException {
-		return parent.getBeansOfType(type);
-	}
+    @SuppressWarnings("unchecked")
+    public Map getBeansOfType(Class type, boolean includeNonSingletons, boolean allowEagerInit) throws BeansException {
+        return parent.getBeansOfType(type);
+    }
 
-	public String[] getAliases(String name) {
-		return parent.getAliases(name);
-	}
+    public String[] getAliases(String name) {
+        return parent.getAliases(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Class getType(String name) throws NoSuchBeanDefinitionException {
-		return parent.getType(name);
-	}
+    @SuppressWarnings("unchecked")
+    public Class getType(String name) throws NoSuchBeanDefinitionException {
+        return parent.getType(name);
+    }
 
-	public boolean isPrototype(String name)
-			throws NoSuchBeanDefinitionException {
-		return parent.isPrototype(name);
-	}
+    public boolean isPrototype(String name)
+            throws NoSuchBeanDefinitionException {
+        return parent.isPrototype(name);
+    }
 
-	public boolean isSingleton(String name)
-			throws NoSuchBeanDefinitionException {
-		return parent.isSingleton(name);
-	}
+    public boolean isSingleton(String name)
+            throws NoSuchBeanDefinitionException {
+        return parent.isSingleton(name);
+    }
 
-	@SuppressWarnings("unchecked")
-	public boolean isTypeMatch(String name, Class targetType)
-			throws NoSuchBeanDefinitionException {
-		return parent.isTypeMatch(name, targetType);
-	}
+    @SuppressWarnings("unchecked")
+    public boolean isTypeMatch(String name, Class targetType)
+            throws NoSuchBeanDefinitionException {
+        return parent.isTypeMatch(name, targetType);
+    }
 
-	public boolean containsLocalBean(String name) {
-		return parent.containsLocalBean(name);
-	}
+    public boolean containsLocalBean(String name) {
+        return parent.containsLocalBean(name);
+    }
 
-	public BeanFactory getParentBeanFactory() {
-		return parent.getParentBeanFactory();
-	}
+    public BeanFactory getParentBeanFactory() {
+        return parent.getParentBeanFactory();
+    }
 
-	public String getMessage(MessageSourceResolvable resolvable, Locale locale)	throws NoSuchMessageException {
-		return parent.getMessage(resolvable, locale);
-	}
+    public String getMessage(MessageSourceResolvable resolvable, Locale locale) throws NoSuchMessageException {
+        return parent.getMessage(resolvable, locale);
+    }
 
-	public String getMessage(String code, Object[] args, Locale locale)	throws NoSuchMessageException {
-		return parent.getMessage(code, args, locale);
-	}
+    public String getMessage(String code, Object[] args, Locale locale) throws NoSuchMessageException {
+        return parent.getMessage(code, args, locale);
+    }
 
-	public String getMessage(String code, Object[] args, String defaultMessage,	Locale locale) {
-		return parent.getMessage(code, args, defaultMessage, locale);
-	}
+    public String getMessage(String code, Object[] args, String defaultMessage, Locale locale) {
+        return parent.getMessage(code, args, defaultMessage, locale);
+    }
 
-	public void publishEvent(ApplicationEvent event) {
-		parent.publishEvent(event);
-	}
+    public void publishEvent(ApplicationEvent event) {
+        parent.publishEvent(event);
+    }
 
-	public Resource[] getResources(String locationPattern) throws IOException {
-		return parent.getResources(locationPattern);
-	}
+    public Resource[] getResources(String locationPattern) throws IOException {
+        return parent.getResources(locationPattern);
+    }
 
-	public Resource getResource(String location) {
-		return parent.getResource(location);
-	}	
+    public Resource getResource(String location) {
+        return parent.getResource(location);
+    }   
 
-	public ClassLoader getClassLoader() {
-		return parent.getClassLoader();
-	}
-	
-	public AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException {
-		return parent.getAutowireCapableBeanFactory();
-	}
-	
-	/* ********************* wired in setters ********************* */
+    public ClassLoader getClassLoader() {
+        return parent.getClassLoader();
+    }
+    
+    public AutowireCapableBeanFactory getAutowireCapableBeanFactory() throws IllegalStateException {
+        return parent.getAutowireCapableBeanFactory();
+    }
+    
+    /* ********************* wired in setters ********************* */
 
-	public void setDisplayName(String displayName) {
-		this.displayName = displayName;
-	}
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
 
 }

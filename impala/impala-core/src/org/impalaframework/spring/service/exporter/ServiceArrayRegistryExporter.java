@@ -28,71 +28,71 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ServiceArrayRegistryExporter 
-	implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
+    implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
 
-	private String[] beanNames;
-	
-	private String[] exportNames;
-	
-	private ModuleDefinition moduleDefinition;
-	
-	private ServiceRegistry serviceRegistry;
+    private String[] beanNames;
+    
+    private String[] exportNames;
+    
+    private ModuleDefinition moduleDefinition;
+    
+    private ServiceRegistry serviceRegistry;
 
-	private BeanFactory beanFactory;
-	
-	private Set<ServiceRegistryReference> services = new HashSet<ServiceRegistryReference>();
+    private BeanFactory beanFactory;
+    
+    private Set<ServiceRegistryReference> services = new HashSet<ServiceRegistryReference>();
 
-	private ClassLoader beanClassLoader;
-	
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(beanNames, "beanNames cannot be null");
-		Assert.notNull(serviceRegistry);
-		Assert.notNull(beanFactory);
-		Assert.notNull(moduleDefinition);
-		
-		if (exportNames == null) {
-			exportNames = beanNames;
-		} else {
-			if (exportNames.length != beanNames.length) {
-				throw new ConfigurationException("beanNames array length [" + beanNames.length + "] is not the same length as exportNames array [" + exportNames.length + "]");
-			}
-		}
-		
-		for (int i = 0; i < beanNames.length; i++) {
-			Object service = beanFactory.getBean(beanNames[i]);
-			final ServiceRegistryReference serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
-			services.add(serviceReference);
-		}
-	}
-	
-	public void destroy() throws Exception {
-		for (ServiceRegistryReference service : services) {
-			serviceRegistry.remove(service);
-		}
-	}
+    private ClassLoader beanClassLoader;
+    
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(beanNames, "beanNames cannot be null");
+        Assert.notNull(serviceRegistry);
+        Assert.notNull(beanFactory);
+        Assert.notNull(moduleDefinition);
+        
+        if (exportNames == null) {
+            exportNames = beanNames;
+        } else {
+            if (exportNames.length != beanNames.length) {
+                throw new ConfigurationException("beanNames array length [" + beanNames.length + "] is not the same length as exportNames array [" + exportNames.length + "]");
+            }
+        }
+        
+        for (int i = 0; i < beanNames.length; i++) {
+            Object service = beanFactory.getBean(beanNames[i]);
+            final ServiceRegistryReference serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
+            services.add(serviceReference);
+        }
+    }
+    
+    public void destroy() throws Exception {
+        for (ServiceRegistryReference service : services) {
+            serviceRegistry.remove(service);
+        }
+    }
 
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
-	public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-		this.beanFactory = beanFactory;
-	}		
-	
-	public void setBeanClassLoader(ClassLoader classLoader) {
-		this.beanClassLoader = classLoader;
-	}
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }       
+    
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        this.beanClassLoader = classLoader;
+    }
 
-	public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-		this.moduleDefinition = moduleDefinition;
-	}
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefinition = moduleDefinition;
+    }
 
-	public void setBeanNames(String[] beanNames) {
-		this.beanNames = beanNames;
-	}
+    public void setBeanNames(String[] beanNames) {
+        this.beanNames = beanNames;
+    }
 
-	public void setExportNames(String[] exportNames) {
-		this.exportNames = exportNames;
-	}
+    public void setExportNames(String[] exportNames) {
+        this.exportNames = exportNames;
+    }
 
 }

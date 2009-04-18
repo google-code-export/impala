@@ -19,12 +19,12 @@ import org.springframework.context.ApplicationContext;
 
 public class ModuleLoaderUtils {
 
-	public static String getDisplayName(ModuleDefinition definition, ApplicationContext context) {
-		
-		return "Application context " 
-				+ context.getClass().getSimpleName() + " for " 
-				+ definition.getType() + " module '" 
-				+ definition.getName() + "'";
-	}
+    public static String getDisplayName(ModuleDefinition definition, ApplicationContext context) {
+        
+        return "Application context " 
+                + context.getClass().getSimpleName() + " for " 
+                + definition.getType() + " module '" 
+                + definition.getName() + "'";
+    }
 
 }

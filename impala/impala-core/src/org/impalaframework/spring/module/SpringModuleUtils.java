@@ -22,31 +22,31 @@ import org.springframework.util.Assert;
 
 public abstract class SpringModuleUtils {
 
-	public static ConfigurableApplicationContext getRootSpringContext(ModuleStateHolder moduleStateHolder) {
+    public static ConfigurableApplicationContext getRootSpringContext(ModuleStateHolder moduleStateHolder) {
 
-		Assert.notNull(moduleStateHolder);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
-		return getModuleSpringContext(runtimeModule);
-	}
-	
-	public static ConfigurableApplicationContext getModuleSpringContext(ModuleStateHolder moduleStateHolder, String moduleName) {
+        Assert.notNull(moduleStateHolder);
+        
+        final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
+        return getModuleSpringContext(runtimeModule);
+    }
+    
+    public static ConfigurableApplicationContext getModuleSpringContext(ModuleStateHolder moduleStateHolder, String moduleName) {
 
-		Assert.notNull(moduleStateHolder);
-		Assert.notNull(moduleName);
-		
-		final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
-		return getModuleSpringContext(runtimeModule);
-	}
+        Assert.notNull(moduleStateHolder);
+        Assert.notNull(moduleName);
+        
+        final RuntimeModule runtimeModule = moduleStateHolder.getModule(moduleName);
+        return getModuleSpringContext(runtimeModule);
+    }
 
 
-	public static ConfigurableApplicationContext getModuleSpringContext(final RuntimeModule runtimeModule) {
-		if (runtimeModule == null) {
-			return null;
-		}
-		ConfigurableApplicationContext context = ObjectUtils.cast(
-				runtimeModule, SpringRuntimeModule.class)
-				.getApplicationContext();
-		return context;
-	}
+    public static ConfigurableApplicationContext getModuleSpringContext(final RuntimeModule runtimeModule) {
+        if (runtimeModule == null) {
+            return null;
+        }
+        ConfigurableApplicationContext context = ObjectUtils.cast(
+                runtimeModule, SpringRuntimeModule.class)
+                .getApplicationContext();
+        return context;
+    }
 }

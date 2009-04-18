@@ -32,82 +32,82 @@ import org.springframework.web.servlet.FrameworkServlet;
  * @author Phil Zoio
  */
 public abstract class ImpalaServletUtils {
-	
-	public static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
+    
+    public static final Log logger = LogFactory.getLog(ImpalaServletUtils.class);
 
-	public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
-		if (!(applicationContext instanceof WebApplicationContext)) {
-			throw new ConfigurationException("Servlet '" + servletName + "' is not backed by an application context of type " + WebApplicationContext.class.getName() + ": " + applicationContext);
-		}
-		return (WebApplicationContext) applicationContext;
-	}
-	
-	public static void publishWebApplicationContext(WebApplicationContext wac, FrameworkServlet servlet) {
+    public static WebApplicationContext checkIsWebApplicationContext(String servletName, ApplicationContext applicationContext) {
+        if (!(applicationContext instanceof WebApplicationContext)) {
+            throw new ConfigurationException("Servlet '" + servletName + "' is not backed by an application context of type " + WebApplicationContext.class.getName() + ": " + applicationContext);
+        }
+        return (WebApplicationContext) applicationContext;
+    }
+    
+    public static void publishWebApplicationContext(WebApplicationContext wac, FrameworkServlet servlet) {
 
-		String attrName = servlet.getServletContextAttributeName();
-		servlet.getServletContext().setAttribute(attrName, wac);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Published WebApplicationContext of servlet '" + servlet.getServletName()
-					+ "' as ServletContext attribute with name [" + attrName + "]");
-		}
-	}
-	
-	public static void unpublishWebApplicationContext(FrameworkServlet servlet) {
+        String attrName = servlet.getServletContextAttributeName();
+        servlet.getServletContext().setAttribute(attrName, wac);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Published WebApplicationContext of servlet '" + servlet.getServletName()
+                    + "' as ServletContext attribute with name [" + attrName + "]");
+        }
+    }
+    
+    public static void unpublishWebApplicationContext(FrameworkServlet servlet) {
 
-		String attrName = servlet.getServletContextAttributeName();
-		servlet.getServletContext().removeAttribute(attrName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Removed WebApplicationContext of servlet '" + servlet.getServletName()
-					+ "' as ServletContext attribute with name [" + attrName + "]");
-		}
-	}
+        String attrName = servlet.getServletContextAttributeName();
+        servlet.getServletContext().removeAttribute(attrName);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Removed WebApplicationContext of servlet '" + servlet.getServletName()
+                    + "' as ServletContext attribute with name [" + attrName + "]");
+        }
+    }
 
-	public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
-		
-		String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-		servletContext.setAttribute(moduleServletContextKey, applicationContext);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Published application context for '" + servletName
-					+ "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
-		}
-	}
+    public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
+        
+        String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        servletContext.setAttribute(moduleServletContextKey, applicationContext);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Published application context for '" + servletName
+                    + "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
+        }
+    }
 
-	public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
+    public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-		servletContext.removeAttribute(moduleServletContextKey);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Published application context for '" + servletName
-					+ "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
-		}
-	}
-	
-	public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
+        String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        servletContext.removeAttribute(moduleServletContextKey);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Published application context for '" + servletName
+                    + "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
+        }
+    }
+    
+    public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
 
-		String attributeName = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-		final Object attribute = servletContext.getAttribute(attributeName);
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("Retrieved application context for '" + servletName + "' as ServletContext attribute with name [" + attributeName + "]: " +
-					attribute);
-		}
-		
-		return ObjectUtils.cast(attribute, ApplicationContext.class);
-	}
+        String attributeName = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        final Object attribute = servletContext.getAttribute(attributeName);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Retrieved application context for '" + servletName + "' as ServletContext attribute with name [" + attributeName + "]: " +
+                    attribute);
+        }
+        
+        return ObjectUtils.cast(attribute, ApplicationContext.class);
+    }
 
-	public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
-		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
-	
-		if (facade == null) {
-			throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
-					+ " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
-					+ "' has been set up. Have you set up your Impala ContextLoader correctly?");
-		}
-		return facade;
-	}
-	
+    public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
+        ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+    
+        if (facade == null) {
+            throw new ConfigurationException("Unable to load " + FrameworkServletContextCreator.class.getName()
+                    + " as no attribute '" + WebConstants.IMPALA_FACTORY_ATTRIBUTE
+                    + "' has been set up. Have you set up your Impala ContextLoader correctly?");
+        }
+        return facade;
+    }
+    
 }

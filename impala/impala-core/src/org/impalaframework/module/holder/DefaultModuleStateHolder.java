@@ -39,130 +39,130 @@ import org.springframework.util.Assert;
  */
 public class DefaultModuleStateHolder implements ModuleStateHolder {
 
-	private static Log logger = LogFactory.getLog(DefaultModuleStateHolder.class);
-	
-	private RootModuleDefinition rootModuleDefinition;
+    private static Log logger = LogFactory.getLog(DefaultModuleStateHolder.class);
+    
+    private RootModuleDefinition rootModuleDefinition;
 
-	private TransitionProcessorRegistry transitionProcessorRegistry;
-	
-	private ModuleStateChangeNotifier moduleStateChangeNotifier;
+    private TransitionProcessorRegistry transitionProcessorRegistry;
+    
+    private ModuleStateChangeNotifier moduleStateChangeNotifier;
 
-	private ReentrantLock lock = new ReentrantLock();
-	
-	private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
+    private ReentrantLock lock = new ReentrantLock();
+    
+    private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
 
-	public DefaultModuleStateHolder() {
-		super();
-	}
+    public DefaultModuleStateHolder() {
+        super();
+    }
 
-	public void processTransitions(TransitionSet transitions) {
-		
-		try {
-			Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
+    public void processTransitions(TransitionSet transitions) {
+        
+        try {
+            Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
-			Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
+            Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
 
-			for (ModuleStateChange change : changes) {
-				String transition = change.getTransition();
-				ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
+            for (ModuleStateChange change : changes) {
+                String transition = change.getTransition();
+                ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
 
-				TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-				transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
-			
-				if (moduleStateChangeNotifier != null) {
-					moduleStateChangeNotifier.notify(this, change);
-				}
-			}
-		} finally {
-			rootModuleDefinition = transitions.getNewRootModuleDefinition();
-		}
-	}
+                TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
+                transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+            
+                if (moduleStateChangeNotifier != null) {
+                    moduleStateChangeNotifier.notify(this, change);
+                }
+            }
+        } finally {
+            rootModuleDefinition = transitions.getNewRootModuleDefinition();
+        }
+    }
 
-	public RuntimeModule getRootModule() {
-		if (rootModuleDefinition == null) return null;
-		return runtimeModules.get(rootModuleDefinition.getName());
-	}
+    public RuntimeModule getRootModule() {
+        if (rootModuleDefinition == null) return null;
+        return runtimeModules.get(rootModuleDefinition.getName());
+    }
 
-	public RuntimeModule getModule(String moduleName) {
-		return runtimeModules.get(moduleName);
-	}
+    public RuntimeModule getModule(String moduleName) {
+        return runtimeModules.get(moduleName);
+    }
 
-	public RootModuleDefinition getRootModuleDefinition() {
-		return rootModuleDefinition;
-	}
+    public RootModuleDefinition getRootModuleDefinition() {
+        return rootModuleDefinition;
+    }
 
-	public RootModuleDefinition cloneRootModuleDefinition() {
-		RootModuleDefinition newDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(rootModuleDefinition);
-		return newDefinition;
-	}
+    public RootModuleDefinition cloneRootModuleDefinition() {
+        RootModuleDefinition newDefinition = ModuleDefinitionUtils.cloneAndUnfreeze(rootModuleDefinition);
+        return newDefinition;
+    }
 
-	public boolean hasModule(String moduleName) {
-		return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
-	}
+    public boolean hasModule(String moduleName) {
+        return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
+    }
 
-	public boolean hasRootModuleDefinition() {
-		return getRootModuleDefinition() != null;
-	}
+    public boolean hasRootModuleDefinition() {
+        return getRootModuleDefinition() != null;
+    }
 
-	public Map<String, RuntimeModule> getRuntimeModules() {
-		return Collections.unmodifiableMap(runtimeModules);
-	}
-	
-	public void putModule(String name, RuntimeModule context) {
-		runtimeModules.put(name, context);
-	}
+    public Map<String, RuntimeModule> getRuntimeModules() {
+        return Collections.unmodifiableMap(runtimeModules);
+    }
+    
+    public void putModule(String name, RuntimeModule context) {
+        runtimeModules.put(name, context);
+    }
 
-	public RuntimeModule removeModule(String moduleName) {
-		return runtimeModules.remove(moduleName);
-	}
-	
-	public RootModuleDefinition getModuleDefinition() {
-		return getRootModuleDefinition();
-	}	
-	
-	public void lock() {
-		this.lock.lock();
-	}
-	
-	public void unlock() {
-		this.lock.unlock();
-	}
-	
-	public boolean isAvailable() {
-		
-		//FIXME check the semantics of this - want to robustify operations on service registry and
-		//also on proxies
-		if (this.lock.isLocked()) {
-			if (!this.lock.isHeldByCurrentThread()) {
-			
-				if (logger.isDebugEnabled()) {
-					logger.debug("Module is unavailable with hold count of " + lock.getHoldCount() + " but not held by current thread");
-				}
-				return false;
-			}
-			return true;
-		}
-		return true;
-	}
+    public RuntimeModule removeModule(String moduleName) {
+        return runtimeModules.remove(moduleName);
+    }
+    
+    public RootModuleDefinition getModuleDefinition() {
+        return getRootModuleDefinition();
+    }   
+    
+    public void lock() {
+        this.lock.lock();
+    }
+    
+    public void unlock() {
+        this.lock.unlock();
+    }
+    
+    public boolean isAvailable() {
+        
+        //FIXME check the semantics of this - want to robustify operations on service registry and
+        //also on proxies
+        if (this.lock.isLocked()) {
+            if (!this.lock.isHeldByCurrentThread()) {
+            
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Module is unavailable with hold count of " + lock.getHoldCount() + " but not held by current thread");
+                }
+                return false;
+            }
+            return true;
+        }
+        return true;
+    }
 
-	public boolean hasLock() {
-		return this.lock.isHeldByCurrentThread();
-	}
+    public boolean hasLock() {
+        return this.lock.isHeldByCurrentThread();
+    }
 
-	/* ************************* protected methods ************************* */
+    /* ************************* protected methods ************************* */
 
-	protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
-		this.rootModuleDefinition = rootModuleDefinition;
-	}
+    protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
+        this.rootModuleDefinition = rootModuleDefinition;
+    }
 
-	/* ******************** injected setters ******************** */
-	
-	public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
-		this.transitionProcessorRegistry = transitionProcessorRegistry;
-	}
+    /* ******************** injected setters ******************** */
+    
+    public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
+        this.transitionProcessorRegistry = transitionProcessorRegistry;
+    }
 
-	public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
-		this.moduleStateChangeNotifier = moduleStateChangeNotifier;
-	}
+    public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
+        this.moduleStateChangeNotifier = moduleStateChangeNotifier;
+    }
 
 }

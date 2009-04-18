@@ -25,52 +25,52 @@ import org.impalaframework.module.spi.ModificationExtractor;
 
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
-	protected LockingModuleOperation getOperation() {
-		UpdateRootModuleOperation operation = new UpdateRootModuleOperation();
-		operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-		operation.setModuleStateHolder(moduleStateHolder);
-		operation.setFrameworkLockHolder(frameworkLockHolder);
-		return operation;
-	}
+    protected LockingModuleOperation getOperation() {
+        UpdateRootModuleOperation operation = new UpdateRootModuleOperation();
+        operation.setModificationExtractorRegistry(modificationExtractorRegistry);
+        operation.setModuleStateHolder(moduleStateHolder);
+        operation.setFrameworkLockHolder(frameworkLockHolder);
+        return operation;
+    }
 
-	protected ModificationExtractor getModificationExtractor() {
-		return stickyModificationExtractor;
-	}
+    protected ModificationExtractor getModificationExtractor() {
+        return stickyModificationExtractor;
+    }
 
-	protected RootModuleDefinition getExistingDefinition() {
-		return null;
-	}
-	
-	public final void testInvalidArgs() {
-		try {
-			operation.execute(new ModuleOperationInput(null, null, null));
-		}
-		catch (IllegalArgumentException e) {
-			assertEquals("moduleDefinitionSource is required as it specifies the new module definition to apply in org.impalaframework.module.operation.UpdateRootModuleOperation", e.getMessage());
-		}
-	}
-	
-	public final void testExecute() {
+    protected RootModuleDefinition getExistingDefinition() {
+        return null;
+    }
+    
+    public final void testInvalidArgs() {
+        try {
+            operation.execute(new ModuleOperationInput(null, null, null));
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("moduleDefinitionSource is required as it specifies the new module definition to apply in org.impalaframework.module.operation.UpdateRootModuleOperation", e.getMessage());
+        }
+    }
+    
+    public final void testExecute() {
 
-		ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
-		
-		expect(moduleDefinitionSource.getModuleDefinition()).andReturn(newDefinition);
-		
-		ModificationExtractor modificationExtractor = getModificationExtractor();
-		expect(modificationExtractor.getTransitions(null, newDefinition)).andReturn(transitionSet);
-		
-		RootModuleDefinition existingDefinition = getExistingDefinition();
-		expect(strictModificationExtractor.getTransitions(existingDefinition, newDefinition)).andReturn(transitionSet);
+        ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
+        
+        expect(moduleDefinitionSource.getModuleDefinition()).andReturn(newDefinition);
+        
+        ModificationExtractor modificationExtractor = getModificationExtractor();
+        expect(modificationExtractor.getTransitions(null, newDefinition)).andReturn(transitionSet);
+        
+        RootModuleDefinition existingDefinition = getExistingDefinition();
+        expect(strictModificationExtractor.getTransitions(existingDefinition, newDefinition)).andReturn(transitionSet);
 
-		moduleStateHolder.processTransitions(transitionSet);
-		
-		replayMocks();
-		replay(moduleDefinitionSource);
+        moduleStateHolder.processTransitions(transitionSet);
+        
+        replayMocks();
+        replay(moduleDefinitionSource);
 
-		assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
-		
-		verifyMocks();
-		verify(moduleDefinitionSource);
-	}
+        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        
+        verifyMocks();
+        verify(moduleDefinitionSource);
+    }
 
 }

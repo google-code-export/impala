@@ -38,156 +38,156 @@ import org.springframework.util.StringUtils;
  * @author Phil Zoio
  */
 public abstract class BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
-	
-	private static Log logger = LogFactory.getLog(BaseInternalModuleDefinitionSource.class);	
-	
-	private static final String PARENT_PROPERTY = "parent";
-	
-	private static final String DEPENDS_ON_PROPERTY = "depends-on";
+    
+    private static Log logger = LogFactory.getLog(BaseInternalModuleDefinitionSource.class);    
+    
+    private static final String PARENT_PROPERTY = "parent";
+    
+    private static final String DEPENDS_ON_PROPERTY = "depends-on";
 
-	private static final String MODULE_PROPERTIES = "module.properties";
+    private static final String MODULE_PROPERTIES = "module.properties";
 
-	private boolean loadDependendentModules;
-	
-	private Map<String, Properties> moduleProperties;
-	
-	private Map<String, String> parents;
-	
-	private Map<String, Set<String>> children;
-	
-	private Set<String> orphans;
-	
-	private ModuleLocationResolver moduleLocationResolver;
+    private boolean loadDependendentModules;
+    
+    private Map<String, Properties> moduleProperties;
+    
+    private Map<String, String> parents;
+    
+    private Map<String, Set<String>> children;
+    
+    private Set<String> orphans;
+    
+    private ModuleLocationResolver moduleLocationResolver;
 
-	public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver) {
-		this(resolver, true);
-	}
+    public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver) {
+        this(resolver, true);
+    }
 
-	public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver, boolean loadDependendentModules) {
-		super();
-		this.moduleLocationResolver = resolver;
-		this.loadDependendentModules = loadDependendentModules;
-		this.moduleProperties = new HashMap<String, Properties>();
-		this.parents = new HashMap<String, String>();
-		this.children = new HashMap<String, Set<String>>();
-		this.orphans = new LinkedHashSet<String>();
-	}
+    public BaseInternalModuleDefinitionSource(ModuleLocationResolver resolver, boolean loadDependendentModules) {
+        super();
+        this.moduleLocationResolver = resolver;
+        this.loadDependendentModules = loadDependendentModules;
+        this.moduleProperties = new HashMap<String, Properties>();
+        this.parents = new HashMap<String, String>();
+        this.children = new HashMap<String, Set<String>>();
+        this.orphans = new LinkedHashSet<String>();
+    }
 
-	String[] buildMissingModules() {
-		List<String> missing = new ArrayList<String>();
-		//go through and check that all modules have children but not parents
-		for (String moduleName : children.keySet()) {
-			
-			if (!parents.containsKey(moduleName)) {
-				if (!loadDependendentModules) {
-					throw new ConfigurationException("Module '" + moduleName + "' has not been explicitly mentioned, but loadDependentModules has been set to false");
-				}
-				missing.add(moduleName);
-			}
-		}
-		return missing.toArray(new String[0]);
-	}
+    String[] buildMissingModules() {
+        List<String> missing = new ArrayList<String>();
+        //go through and check that all modules have children but not parents
+        for (String moduleName : children.keySet()) {
+            
+            if (!parents.containsKey(moduleName)) {
+                if (!loadDependendentModules) {
+                    throw new ConfigurationException("Module '" + moduleName + "' has not been explicitly mentioned, but loadDependentModules has been set to false");
+                }
+                missing.add(moduleName);
+            }
+        }
+        return missing.toArray(new String[0]);
+    }
 
-	void extractParentsAndChildren(String[] moduleNames) {
-		for (String moduleName : moduleNames) {
-			Properties properties = moduleProperties.get(moduleName);
-			
-			String parent = properties.getProperty(PARENT_PROPERTY);
-			if (parent != null) {
-				parent = parent.trim();
-				checkParent(parent, moduleName);
-				Set<String> currentChildren = children.get(parent);
-				if (currentChildren == null) {
-					currentChildren = new LinkedHashSet<String>();
-					children.put(parent, currentChildren);
-				}
-				currentChildren.add(moduleName);
-			} else {
-				//orphans are any modules with no parents
-				orphans.add(moduleName);
-			}
-			parents.put(moduleName, parent);
-			
-		}
-	}
+    void extractParentsAndChildren(String[] moduleNames) {
+        for (String moduleName : moduleNames) {
+            Properties properties = moduleProperties.get(moduleName);
+            
+            String parent = properties.getProperty(PARENT_PROPERTY);
+            if (parent != null) {
+                parent = parent.trim();
+                checkParent(parent, moduleName);
+                Set<String> currentChildren = children.get(parent);
+                if (currentChildren == null) {
+                    currentChildren = new LinkedHashSet<String>();
+                    children.put(parent, currentChildren);
+                }
+                currentChildren.add(moduleName);
+            } else {
+                //orphans are any modules with no parents
+                orphans.add(moduleName);
+            }
+            parents.put(moduleName, parent);
+            
+        }
+    }
 
-	void checkParent(String parent, String moduleName) {
-		if (moduleName.equals(parent)){
-			throw new ConfigurationException("Module '" + moduleName + "' illegally declares itself as parent in " + MODULE_PROPERTIES);
-		}
-	}
+    void checkParent(String parent, String moduleName) {
+        if (moduleName.equals(parent)){
+            throw new ConfigurationException("Module '" + moduleName + "' illegally declares itself as parent in " + MODULE_PROPERTIES);
+        }
+    }
 
-	void loadProperties(String[] moduleNames) {
-		for (String moduleName : moduleNames) {
-			Properties properties = getPropertiesForModule(moduleName);
-			moduleProperties.put(moduleName, properties);
-		}
-	}
-	
-	String[] addDependentModuleProperties(String[] moduleNames) {
-		List<String> added = new ArrayList<String>();
-		for (String moduleName : moduleNames) {
-			final Properties properties = moduleProperties.get(moduleName);
-			
-			addDependentModuleProperties(moduleName, properties, added);
-		}
-		return added.toArray(new String[0]);
-	}
+    void loadProperties(String[] moduleNames) {
+        for (String moduleName : moduleNames) {
+            Properties properties = getPropertiesForModule(moduleName);
+            moduleProperties.put(moduleName, properties);
+        }
+    }
+    
+    String[] addDependentModuleProperties(String[] moduleNames) {
+        List<String> added = new ArrayList<String>();
+        for (String moduleName : moduleNames) {
+            final Properties properties = moduleProperties.get(moduleName);
+            
+            addDependentModuleProperties(moduleName, properties, added);
+        }
+        return added.toArray(new String[0]);
+    }
 
 
-	private void addDependentModuleProperties(String moduleName,
-			Properties properties, List<String> added) {
-		String dependsOnString = properties.getProperty(DEPENDS_ON_PROPERTY);
-		if (StringUtils.hasText(dependsOnString)) {
-			String[] dependents = StringUtils.tokenizeToStringArray(dependsOnString, " ,");
-			for (String dependent : dependents) {
-				if (!moduleProperties.containsKey(dependent)) {
-					Properties dependentProperties = getPropertiesForModule(dependent);
-					moduleProperties.put(dependent, dependentProperties);
-					added.add(dependent);
-				}
-			}
-		}
-	}
+    private void addDependentModuleProperties(String moduleName,
+            Properties properties, List<String> added) {
+        String dependsOnString = properties.getProperty(DEPENDS_ON_PROPERTY);
+        if (StringUtils.hasText(dependsOnString)) {
+            String[] dependents = StringUtils.tokenizeToStringArray(dependsOnString, " ,");
+            for (String dependent : dependents) {
+                if (!moduleProperties.containsKey(dependent)) {
+                    Properties dependentProperties = getPropertiesForModule(dependent);
+                    moduleProperties.put(dependent, dependentProperties);
+                    added.add(dependent);
+                }
+            }
+        }
+    }
 
-	protected Properties getPropertiesForModule(String moduleName) {
-		URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
-		return PropertyUtils.loadProperties(resource);
-	}
+    protected Properties getPropertiesForModule(String moduleName) {
+        URL resource = getResourceForModule(moduleName, MODULE_PROPERTIES);
+        return PropertyUtils.loadProperties(resource);
+    }
 
-	URL getResourceForModule(String moduleName, String resourceName) {
-		URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
-		
-		if (resource == null) {
-			final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
-			
-			logger.error("Problem location resources for module: " + moduleName + ". Locations being searched are " + (classLocations.isEmpty() ? "empty": "listed next:"));
-			for (Resource classLocation : classLocations) {
-				logger.error(classLocation.getDescription() + (classLocation.exists() ? ": is present on file system": " cannot be found"));
-			}
-			
-			throw new ConfigurationException("Application is using internally defined module structure, but no " 
-					+ MODULE_PROPERTIES + 
-					" file is present on the classpath for module '" + moduleName 
-					+ "'. It must exist in one of the following locations: " + classLocations);
-		}
-		return resource;
-	}
+    URL getResourceForModule(String moduleName, String resourceName) {
+        URL resource = ModuleResourceUtils.loadModuleResource(moduleLocationResolver, moduleName, resourceName);
+        
+        if (resource == null) {
+            final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
+            
+            logger.error("Problem location resources for module: " + moduleName + ". Locations being searched are " + (classLocations.isEmpty() ? "empty": "listed next:"));
+            for (Resource classLocation : classLocations) {
+                logger.error(classLocation.getDescription() + (classLocation.exists() ? ": is present on file system": " cannot be found"));
+            }
+            
+            throw new ConfigurationException("Application is using internally defined module structure, but no " 
+                    + MODULE_PROPERTIES + 
+                    " file is present on the classpath for module '" + moduleName 
+                    + "'. It must exist in one of the following locations: " + classLocations);
+        }
+        return resource;
+    }
 
-	protected Map<String, String> getParents() {
-		return parents;
-	}
+    protected Map<String, String> getParents() {
+        return parents;
+    }
 
-	protected Map<String, Properties> getModuleProperties() {
-		return moduleProperties;
-	}
+    protected Map<String, Properties> getModuleProperties() {
+        return moduleProperties;
+    }
 
-	protected Map<String, Set<String>> getChildren() {
-		return children;
-	}
+    protected Map<String, Set<String>> getChildren() {
+        return children;
+    }
 
-	protected Set<String> getOrphans() {
-		return orphans;
-	}
+    protected Set<String> getOrphans() {
+        return orphans;
+    }
 
 }

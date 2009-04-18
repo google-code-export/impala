@@ -27,12 +27,12 @@ import org.impalaframework.osgi.test.RepositoryArtifactLocatorTest;
  */
 public class AutomatedOsgiTestTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		suite.addTestSuite(ConfigurableFileFilterTest.class);
-		suite.addTestSuite(FileFetcherTest.class);
-		suite.addTestSuite(InjectableModuleDefinitionSourceTest.class);
-		suite.addTestSuite(RepositoryArtifactLocatorTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        suite.addTestSuite(ConfigurableFileFilterTest.class);
+        suite.addTestSuite(FileFetcherTest.class);
+        suite.addTestSuite(InjectableModuleDefinitionSourceTest.class);
+        suite.addTestSuite(RepositoryArtifactLocatorTest.class);
+        return suite;
+    }
 }

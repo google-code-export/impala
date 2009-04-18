@@ -36,23 +36,23 @@ import org.impalaframework.module.spi.TransitionSet;
  */
 public class RepairModificationExtractor implements ModificationExtractor {
 
-	public TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
+    public TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
 
-		List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
-		
-		RootModuleDefinition copy = ModuleDefinitionUtils.cloneAndUnfreeze(originalDefinition);
-		DependencyManager dependencyManager = new DependencyManager(copy);
-		Collection<ModuleDefinition> sortedModules = dependencyManager.getAllModules();
-		
-		for (ModuleDefinition moduleDefinition : sortedModules) {
-			if (ModuleState.ERROR.equals(moduleDefinition.getState()) || ModuleState.DEPENDENCY_FAILED.equals(moduleDefinition.getState())) {
-				transitions.add(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, moduleDefinition));
-				moduleDefinition.setState(ModuleState.LOADING);
-			}
-		}
-		
-		copy.freeze();
-		return new TransitionSet(transitions, copy);
-	}
+        List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
+        
+        RootModuleDefinition copy = ModuleDefinitionUtils.cloneAndUnfreeze(originalDefinition);
+        DependencyManager dependencyManager = new DependencyManager(copy);
+        Collection<ModuleDefinition> sortedModules = dependencyManager.getAllModules();
+        
+        for (ModuleDefinition moduleDefinition : sortedModules) {
+            if (ModuleState.ERROR.equals(moduleDefinition.getState()) || ModuleState.DEPENDENCY_FAILED.equals(moduleDefinition.getState())) {
+                transitions.add(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, moduleDefinition));
+                moduleDefinition.setState(ModuleState.LOADING);
+            }
+        }
+        
+        copy.freeze();
+        return new TransitionSet(transitions, copy);
+    }
 
 }

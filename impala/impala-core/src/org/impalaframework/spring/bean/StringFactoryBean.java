@@ -23,25 +23,25 @@ import org.springframework.beans.factory.FactoryBean;
  */
 public class StringFactoryBean implements FactoryBean {
 
-	private String value;
+    private String value;
 
-	public Object getObject() throws Exception {
-		return value;
-	}
+    public Object getObject() throws Exception {
+        return value;
+    }
 
-	public Class<?> getObjectType() {
-		return String.class;
-	}
+    public Class<?> getObjectType() {
+        return String.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
-	/**
-	 * Sets the value of the String to be returned
-	 * @param value the value returned using <code>getObject()</code>
-	 */
-	public void setValue(String value) {
-		this.value = value;
-	}
+    /**
+     * Sets the value of the String to be returned
+     * @param value the value returned using <code>getObject()</code>
+     */
+    public void setValue(String value) {
+        this.value = value;
+    }
 }

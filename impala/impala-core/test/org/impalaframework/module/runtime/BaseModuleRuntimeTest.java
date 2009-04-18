@@ -37,90 +37,90 @@ import org.springframework.util.ClassUtils;
 
 public class BaseModuleRuntimeTest extends TestCase {
 
-	private TestModuleRuntime moduleRuntime;
-	private ModuleDefinition definition1;
-	private ModuleChangeMonitor monitor;
-	private ModuleLocationResolver moduleLocationResolver;
-	private List<Resource> resources;
-	private ModuleClassLoaderRegistry classLoaderRegistry;
+    private TestModuleRuntime moduleRuntime;
+    private ModuleDefinition definition1;
+    private ModuleChangeMonitor monitor;
+    private ModuleLocationResolver moduleLocationResolver;
+    private List<Resource> resources;
+    private ModuleClassLoaderRegistry classLoaderRegistry;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
 
-		classLoaderRegistry = new ModuleClassLoaderRegistry();
-		moduleRuntime = new TestModuleRuntime();	
-		moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
-		
-		definition1 = createMock(ModuleDefinition.class);
-		monitor = createMock(ModuleChangeMonitor.class);
-		moduleLocationResolver = createMock(ModuleLocationResolver.class);
-		resources = new ArrayList<Resource>();
-	}
-	
-	public void testAfterModuleLoadedNull() throws Exception {
-		moduleRuntime.afterModuleLoaded(definition1);
-	}
-	
-	public void testWithModuleLoader() throws Exception {
+        classLoaderRegistry = new ModuleClassLoaderRegistry();
+        moduleRuntime = new TestModuleRuntime();    
+        moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
+        
+        definition1 = createMock(ModuleDefinition.class);
+        monitor = createMock(ModuleChangeMonitor.class);
+        moduleLocationResolver = createMock(ModuleLocationResolver.class);
+        resources = new ArrayList<Resource>();
+    }
+    
+    public void testAfterModuleLoadedNull() throws Exception {
+        moduleRuntime.afterModuleLoaded(definition1);
+    }
+    
+    public void testWithModuleLoader() throws Exception {
 
-		DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
-		runtimeMonitor.setModuleChangeMonitor(monitor);
-		runtimeMonitor.setModuleLocationResolver(moduleLocationResolver);
-		moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
+        DefaultModuleRuntimeMonitor runtimeMonitor = new DefaultModuleRuntimeMonitor();
+        runtimeMonitor.setModuleChangeMonitor(monitor);
+        runtimeMonitor.setModuleLocationResolver(moduleLocationResolver);
+        moduleRuntime.setModuleRuntimeMonitor(runtimeMonitor);
 
-		expect(definition1.getName()).andReturn("myName");
-		expect(moduleLocationResolver.getApplicationModuleClassLocations("myName")).andReturn(resources);
-		this.monitor.setResourcesToMonitor(eq("myName"), aryEq(resources.toArray(new Resource[0])));
-		
-		replay(definition1, monitor, moduleLocationResolver);
-		
-		moduleRuntime.afterModuleLoaded(definition1);
-		
-		verify(definition1, monitor, moduleLocationResolver);
-	}
-	
-	public void testLoad() throws Exception {
-		
-		expect(definition1.getName()).andReturn("myName");
-		
-		replay(definition1, monitor, moduleLocationResolver);
-		
-		final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(definition1);
-		assertTrue(runtimeModule instanceof SimpleRuntimeModule);
-		assertEquals(definition1, runtimeModule.getModuleDefinition());
-		assertEquals(ClassUtils.getDefaultClassLoader(), classLoaderRegistry.getClassLoader("myName"));
-		
-		verify(definition1, monitor, moduleLocationResolver);
-	}
-	
-	public void testClose() throws Exception {
-		
-		expect(definition1.getName()).andReturn("myName");
+        expect(definition1.getName()).andReturn("myName");
+        expect(moduleLocationResolver.getApplicationModuleClassLocations("myName")).andReturn(resources);
+        this.monitor.setResourcesToMonitor(eq("myName"), aryEq(resources.toArray(new Resource[0])));
+        
+        replay(definition1, monitor, moduleLocationResolver);
+        
+        moduleRuntime.afterModuleLoaded(definition1);
+        
+        verify(definition1, monitor, moduleLocationResolver);
+    }
+    
+    public void testLoad() throws Exception {
+        
+        expect(definition1.getName()).andReturn("myName");
+        
+        replay(definition1, monitor, moduleLocationResolver);
+        
+        final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(definition1);
+        assertTrue(runtimeModule instanceof SimpleRuntimeModule);
+        assertEquals(definition1, runtimeModule.getModuleDefinition());
+        assertEquals(ClassUtils.getDefaultClassLoader(), classLoaderRegistry.getClassLoader("myName"));
+        
+        verify(definition1, monitor, moduleLocationResolver);
+    }
+    
+    public void testClose() throws Exception {
+        
+        expect(definition1.getName()).andReturn("myName");
 
-		replay(definition1, monitor, moduleLocationResolver);
+        replay(definition1, monitor, moduleLocationResolver);
 
-		final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-		classLoaderRegistry.addClassLoader("myName", classLoader);
-		moduleRuntime.closeModule(new SimpleRuntimeModule(classLoader, definition1));
-		assertNull(classLoaderRegistry.getClassLoader("myName"));
-		
-		verify(definition1, monitor, moduleLocationResolver);
-	}
+        final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+        classLoaderRegistry.addClassLoader("myName", classLoader);
+        moduleRuntime.closeModule(new SimpleRuntimeModule(classLoader, definition1));
+        assertNull(classLoaderRegistry.getClassLoader("myName"));
+        
+        verify(definition1, monitor, moduleLocationResolver);
+    }
 }
 
 class TestModuleRuntime extends BaseModuleRuntime {
 
-	@Override
-	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
-		return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
-	}
+    @Override
+    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+        return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
+    }
 
-	public void doCloseModule(RuntimeModule runtimeModule) {
-	}
+    public void doCloseModule(RuntimeModule runtimeModule) {
+    }
 
-	public String getRuntimeName() {
-		return null;
-	}
-	
+    public String getRuntimeName() {
+        return null;
+    }
+    
 }

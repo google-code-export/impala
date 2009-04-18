@@ -34,68 +34,68 @@ import org.springframework.osgi.test.provisioning.ArtifactLocator;
  */
 public abstract class OsgiIntegrationTest extends AbstractConfigurableBundleCreatorTests implements ModuleDefinitionSource {
 
-	private BundleLocationConfiguration locationConfiguration;
+    private BundleLocationConfiguration locationConfiguration;
 
-	public OsgiIntegrationTest() {
-		super();
-	}
-	
-	protected final BundleLocationConfiguration getBundleLocationConfiguration() {
-		if (this.locationConfiguration == null) {
-			this.locationConfiguration = newBundleLocationConfiguration();
-		}
-		return this.locationConfiguration;
-	}
-	
-	protected abstract BundleLocationConfiguration newBundleLocationConfiguration();
+    public OsgiIntegrationTest() {
+        super();
+    }
+    
+    protected final BundleLocationConfiguration getBundleLocationConfiguration() {
+        if (this.locationConfiguration == null) {
+            this.locationConfiguration = newBundleLocationConfiguration();
+        }
+        return this.locationConfiguration;
+    }
+    
+    protected abstract BundleLocationConfiguration newBundleLocationConfiguration();
 
-	/* ********************** Test bundle names ********************* */
-	
-	@Override
-	protected Resource[] getTestBundles() {
-		return getBundleLocationConfiguration().getTestBundleLocations();
-	}
-	
-	protected void postProcessBundleContext(BundleContext context) throws Exception {
-		
-		Impala.init();
-		RootModuleDefinition definition = getModuleDefinition();
-		
-		ServiceReference serviceReference = context.getServiceReference(ModuleDefinitionSource.class.getName());
-		
-		Object service = context.getService(serviceReference);
-		
-		Method method = ReflectionUtils.findMethod(service.getClass(), "inject", new Class[]{Object.class});
-		ReflectionUtils.invokeMethod(method, service, new Object[]{definition});
-		
-		//now fire up extender bundle
-		Resource[] addResources = getBundleLocationConfiguration().getExtenderBundleLocations();
-		
-		for (Resource resource : addResources) {
-			Bundle bundle = OsgiUtils.installBundle(context, resource);
-			OsgiUtils.startBundle(bundle);
-		}
-		
-		super.postProcessBundleContext(context);
-	}
+    /* ********************** Test bundle names ********************* */
+    
+    @Override
+    protected Resource[] getTestBundles() {
+        return getBundleLocationConfiguration().getTestBundleLocations();
+    }
+    
+    protected void postProcessBundleContext(BundleContext context) throws Exception {
+        
+        Impala.init();
+        RootModuleDefinition definition = getModuleDefinition();
+        
+        ServiceReference serviceReference = context.getServiceReference(ModuleDefinitionSource.class.getName());
+        
+        Object service = context.getService(serviceReference);
+        
+        Method method = ReflectionUtils.findMethod(service.getClass(), "inject", new Class[]{Object.class});
+        ReflectionUtils.invokeMethod(method, service, new Object[]{definition});
+        
+        //now fire up extender bundle
+        Resource[] addResources = getBundleLocationConfiguration().getExtenderBundleLocations();
+        
+        for (Resource resource : addResources) {
+            Bundle bundle = OsgiUtils.installBundle(context, resource);
+            OsgiUtils.startBundle(bundle);
+        }
+        
+        super.postProcessBundleContext(context);
+    }
 
-	protected String[] getTestFrameworkBundlesNames() {
-		String[] testFrameworkBundlesNames = super.getTestFrameworkBundlesNames();
-		for (int i = 0; i < testFrameworkBundlesNames.length; i++) {
-			String bundle = testFrameworkBundlesNames[i];
-			
-			if (bundle.equals("org.springframework.osgi,log4j.osgi,1.2.15-SNAPSHOT")) {
-				bundle = bundle.replace("log4j.osgi,1.2.15-SNAPSHOT", "com.springsource.org.apache.log4j,1.2.15");
-				testFrameworkBundlesNames[i] = bundle;
-			}
-			
-		}
-		return testFrameworkBundlesNames;
-	}
-	
-	protected ArtifactLocator getLocator() {
-		return getBundleLocationConfiguration().getArtifactLocator();
-	}
-	
+    protected String[] getTestFrameworkBundlesNames() {
+        String[] testFrameworkBundlesNames = super.getTestFrameworkBundlesNames();
+        for (int i = 0; i < testFrameworkBundlesNames.length; i++) {
+            String bundle = testFrameworkBundlesNames[i];
+            
+            if (bundle.equals("org.springframework.osgi,log4j.osgi,1.2.15-SNAPSHOT")) {
+                bundle = bundle.replace("log4j.osgi,1.2.15-SNAPSHOT", "com.springsource.org.apache.log4j,1.2.15");
+                testFrameworkBundlesNames[i] = bundle;
+            }
+            
+        }
+        return testFrameworkBundlesNames;
+    }
+    
+    protected ArtifactLocator getLocator() {
+        return getBundleLocationConfiguration().getArtifactLocator();
+    }
+    
 }
 

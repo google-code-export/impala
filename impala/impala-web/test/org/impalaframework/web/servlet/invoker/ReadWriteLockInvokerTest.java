@@ -28,22 +28,22 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 
 public class ReadWriteLockInvokerTest extends TestCase {
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-	}
-	
-	public void testInvoke() throws Exception {
-		HttpServlet servlet = new HttpServlet() {
-			private static final long serialVersionUID = 1L;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+    }
+    
+    public void testInvoke() throws Exception {
+        HttpServlet servlet = new HttpServlet() {
+            private static final long serialVersionUID = 1L;
 
-			public void service(HttpServletRequest req, HttpServletResponse res)
-					throws ServletException, IOException {
-				
-			}
-		};
-		ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(servlet, EasyMock.createMock(FrameworkLockHolder.class));
-		invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class), null);
-	}
+            public void service(HttpServletRequest req, HttpServletResponse res)
+                    throws ServletException, IOException {
+                
+            }
+        };
+        ReadWriteLockingInvoker invoker = new ReadWriteLockingInvoker(servlet, EasyMock.createMock(FrameworkLockHolder.class));
+        invoker.invoke(EasyMock.createMock(HttpServletRequest.class), EasyMock.createMock(HttpServletResponse.class), null);
+    }
 }

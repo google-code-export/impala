@@ -27,166 +27,166 @@ import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 
 public class ReflectionUtils {
-	
-	/**
-	 * Finds the constructor corresponding with the given parameter types
-	 * @param c the class to check
-	 * @param parameterTypes the parameters to check
-	 * @return a constructor, if one can be found
-	 */
-	public static Constructor<?> findConstructor(Class<?> c, Class<?>[] parameterTypes) {
-		try {
-			final Constructor<?> constructor = c.getConstructor(parameterTypes);
-			return constructor;
-		} catch (NoSuchMethodException e) {
-			return null;
-		}
-	}
-	
-	/**
-	 * Invokes the supplied constructor to instantiate an object
-	 * @param constructor the constructor to invoke
-	 * @param args arguments to supply to the constructor
-	 * @param makeAccessible if true then allows private constructor to be invoked
-	 * @return the instantiated object
-	 */
-	public static Object invokeConstructor(final Constructor<?> constructor, Object[] args, boolean makeAccessible) {
-		try {
-			if (!constructor.isAccessible()) {
-				AccessController.doPrivileged(new PrivilegedAction<Object>(){
-					
-					public Object run() {
-						constructor.setAccessible(true);
-						return null;
-					}
-				});
-			}
-			return constructor.newInstance(args);
-		} catch (Exception e) {
-			return rethrowConstructorException(e, constructor, args);
-		}
-	}
-	
-	/**
-	 * Returns the interfaces of an object's class as a {@link Class} array.
-	 */
-	public static Class<?>[] findInterfaces(Object o) {
-		
-		List<Class<?>> interfaceList = findInterfaceList(o);	
-		return interfaceList.toArray(new Class<?>[0]);
-	}
+    
+    /**
+     * Finds the constructor corresponding with the given parameter types
+     * @param c the class to check
+     * @param parameterTypes the parameters to check
+     * @return a constructor, if one can be found
+     */
+    public static Constructor<?> findConstructor(Class<?> c, Class<?>[] parameterTypes) {
+        try {
+            final Constructor<?> constructor = c.getConstructor(parameterTypes);
+            return constructor;
+        } catch (NoSuchMethodException e) {
+            return null;
+        }
+    }
+    
+    /**
+     * Invokes the supplied constructor to instantiate an object
+     * @param constructor the constructor to invoke
+     * @param args arguments to supply to the constructor
+     * @param makeAccessible if true then allows private constructor to be invoked
+     * @return the instantiated object
+     */
+    public static Object invokeConstructor(final Constructor<?> constructor, Object[] args, boolean makeAccessible) {
+        try {
+            if (!constructor.isAccessible()) {
+                AccessController.doPrivileged(new PrivilegedAction<Object>(){
+                    
+                    public Object run() {
+                        constructor.setAccessible(true);
+                        return null;
+                    }
+                });
+            }
+            return constructor.newInstance(args);
+        } catch (Exception e) {
+            return rethrowConstructorException(e, constructor, args);
+        }
+    }
+    
+    /**
+     * Returns the interfaces of an object's class as a {@link Class} array.
+     */
+    public static Class<?>[] findInterfaces(Object o) {
+        
+        List<Class<?>> interfaceList = findInterfaceList(o);    
+        return interfaceList.toArray(new Class<?>[0]);
+    }
 
-	/**
-	 * Returns the interfaces of an object's class as a {@link List} of {@link Class} objects
-	 */
-	public static List<Class<?>> findInterfaceList(Object o) {
-		Assert.notNull(o);
-		List<Class<?>> interfaceList = new ArrayList<Class<?>>();
-		
-		Class<?> c = o.getClass();
-		
-		while (c != null) {
-			Class<?>[] interfaces = c.getInterfaces();
-			interfaceList.addAll(Arrays.asList(interfaces));
-			c = c.getSuperclass();
-		}
-		return interfaceList;
-	}
-	
-	/**
-	 * Invokes the named method on the target
-	 * @param target the target of the method invocation
-	 * @param methodName the name of the method
-	 * @param args the arguments to the method call
-	 * @return the result of the method call
-	 */
-	public static Object invokeMethod(Object target, String methodName, Object... args) {
+    /**
+     * Returns the interfaces of an object's class as a {@link List} of {@link Class} objects
+     */
+    public static List<Class<?>> findInterfaceList(Object o) {
+        Assert.notNull(o);
+        List<Class<?>> interfaceList = new ArrayList<Class<?>>();
+        
+        Class<?> c = o.getClass();
+        
+        while (c != null) {
+            Class<?>[] interfaces = c.getInterfaces();
+            interfaceList.addAll(Arrays.asList(interfaces));
+            c = c.getSuperclass();
+        }
+        return interfaceList;
+    }
+    
+    /**
+     * Invokes the named method on the target
+     * @param target the target of the method invocation
+     * @param methodName the name of the method
+     * @param args the arguments to the method call
+     * @return the result of the method call
+     */
+    public static Object invokeMethod(Object target, String methodName, Object... args) {
 
-		Class<?>[] paramTypes = new Class[args.length];
-		for (int i = 0; i < paramTypes.length; i++) {
-			paramTypes[i] = args[i].getClass();
-		}
+        Class<?>[] paramTypes = new Class[args.length];
+        for (int i = 0; i < paramTypes.length; i++) {
+            paramTypes[i] = args[i].getClass();
+        }
 
-		Method findMethod = findMethod(target.getClass(), methodName, paramTypes);
-		if (findMethod == null) {
-			throw new UnsupportedOperationException("No method compatible with method: " + methodName + ", args: "
-					+ Arrays.toString(args));
-		}
+        Method findMethod = findMethod(target.getClass(), methodName, paramTypes);
+        if (findMethod == null) {
+            throw new UnsupportedOperationException("No method compatible with method: " + methodName + ", args: "
+                    + Arrays.toString(args));
+        }
 
-		return invokeMethod(findMethod, target, args);
-	}
+        return invokeMethod(findMethod, target, args);
+    }
 
-	/**
-	 * Invokes the method on the target object
-	 * @param method the method to invoke
-	 * @param target the target object to invoke the method on
-	 * @param args the arguments to the method call
-	 * @return the result of the method call
-	 */
-	public static Object invokeMethod(final Method method, Object target, Object... args) {
-		try {
-			if (!method.isAccessible()) {
-				AccessController.doPrivileged(new PrivilegedAction<Object>(){
-					
-					public Object run() {
-						method.setAccessible(true);
-						return null;
-					}
-				});
-			}
-			return method.invoke(target, args);
-		}
-		catch (InvocationTargetException e) {
-			if (e.getCause() instanceof RuntimeException) {
-				throw (RuntimeException) e.getCause();
-			}
-			throw rethrowMethodException(e, method.getName(), args);
-		}
-		catch (Exception e) {
-			throw rethrowMethodException(e, method.getName(), args);
-		}
-	}
+    /**
+     * Invokes the method on the target object
+     * @param method the method to invoke
+     * @param target the target object to invoke the method on
+     * @param args the arguments to the method call
+     * @return the result of the method call
+     */
+    public static Object invokeMethod(final Method method, Object target, Object... args) {
+        try {
+            if (!method.isAccessible()) {
+                AccessController.doPrivileged(new PrivilegedAction<Object>(){
+                    
+                    public Object run() {
+                        method.setAccessible(true);
+                        return null;
+                    }
+                });
+            }
+            return method.invoke(target, args);
+        }
+        catch (InvocationTargetException e) {
+            if (e.getCause() instanceof RuntimeException) {
+                throw (RuntimeException) e.getCause();
+            }
+            throw rethrowMethodException(e, method.getName(), args);
+        }
+        catch (Exception e) {
+            throw rethrowMethodException(e, method.getName(), args);
+        }
+    }
 
-	/**
-	 * Returns the named methods with the corresponding parameter types
-	 * @param clazz the class from which to find the method
-	 * @param name the name of the method
-	 * @param paramTypes the parameter types for the method call
-	 * @return the {@link Method} corresponding with the parameters, or null if none is found
-	 */
-	public static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {
-		Assert.notNull(clazz, "Class must not be null");
-		Assert.notNull(name, "Method name must not be null");
-		Class<?> searchType = clazz;
-		while (!Object.class.equals(searchType) && searchType != null) {
-			Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods());
-			for (int i = 0; i < methods.length; i++) {
-				Method method = methods[i];
-				if (name.equals(method.getName()) && (paramTypes.length == method.getParameterTypes().length)) {
+    /**
+     * Returns the named methods with the corresponding parameter types
+     * @param clazz the class from which to find the method
+     * @param name the name of the method
+     * @param paramTypes the parameter types for the method call
+     * @return the {@link Method} corresponding with the parameters, or null if none is found
+     */
+    public static Method findMethod(Class<?> clazz, String name, Class<?>[] paramTypes) {
+        Assert.notNull(clazz, "Class must not be null");
+        Assert.notNull(name, "Method name must not be null");
+        Class<?> searchType = clazz;
+        while (!Object.class.equals(searchType) && searchType != null) {
+            Method[] methods = (searchType.isInterface() ? searchType.getMethods() : searchType.getDeclaredMethods());
+            for (int i = 0; i < methods.length; i++) {
+                Method method = methods[i];
+                if (name.equals(method.getName()) && (paramTypes.length == method.getParameterTypes().length)) {
 
-					boolean found = true;
-					Class<?>[] methodParameterTypes = method.getParameterTypes();
+                    boolean found = true;
+                    Class<?>[] methodParameterTypes = method.getParameterTypes();
 
-					for (int j = 0; j < methodParameterTypes.length; j++) {
-						found = methodParameterTypes[j].isAssignableFrom(paramTypes[j]);
-						if (!found)
-							break;
-					}
+                    for (int j = 0; j < methodParameterTypes.length; j++) {
+                        found = methodParameterTypes[j].isAssignableFrom(paramTypes[j]);
+                        if (!found)
+                            break;
+                    }
 
-					if (found)
-						return method;
-				}
-			}
-			searchType = searchType.getSuperclass();
-		}
-		return null;
-	}
+                    if (found)
+                        return method;
+                }
+            }
+            searchType = searchType.getSuperclass();
+        }
+        return null;
+    }
 
-	private static ExecutionException rethrowMethodException(Exception e, String methodName, Object... args) {
-		return new ExecutionException("Unable to execute method: " + methodName + ", args: " + Arrays.toString(args), e);
-	}
+    private static ExecutionException rethrowMethodException(Exception e, String methodName, Object... args) {
+        return new ExecutionException("Unable to execute method: " + methodName + ", args: " + Arrays.toString(args), e);
+    }
 
-	private static ExecutionException rethrowConstructorException(Exception e, Constructor<?> constructor, Object... args) {
-		return new ExecutionException("Unable to instantiate object using constructor '" + constructor + "', args: " + Arrays.toString(args), e);
-	}
+    private static ExecutionException rethrowConstructorException(Exception e, Constructor<?> constructor, Object... args) {
+        return new ExecutionException("Unable to instantiate object using constructor '" + constructor + "', args: " + Arrays.toString(args), e);
+    }
 }

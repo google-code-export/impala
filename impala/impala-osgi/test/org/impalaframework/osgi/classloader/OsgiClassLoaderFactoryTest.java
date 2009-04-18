@@ -24,24 +24,24 @@ import org.springframework.util.ClassUtils;
 
 public class OsgiClassLoaderFactoryTest extends TestCase {
 
-	private OsgiClassLoaderFactory factory;
+    private OsgiClassLoaderFactory factory;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		factory = new OsgiClassLoaderFactory() {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        factory = new OsgiClassLoaderFactory() {
 
-			@Override
-			Bundle findBundle(ModuleDefinition moduleDefinition) {
-				return EasyMock.createMock(Bundle.class);
-			}
-			
-		};
-	}
-	
-	public void testNewClassLoader() throws Exception {
-		final ClassLoader classLoader = factory.newClassLoader(ClassUtils.getDefaultClassLoader(), EasyMock.createMock(ModuleDefinition.class));
-		assertTrue(classLoader instanceof BundleDelegatingClassLoader);
-	}
+            @Override
+            Bundle findBundle(ModuleDefinition moduleDefinition) {
+                return EasyMock.createMock(Bundle.class);
+            }
+            
+        };
+    }
+    
+    public void testNewClassLoader() throws Exception {
+        final ClassLoader classLoader = factory.newClassLoader(ClassUtils.getDefaultClassLoader(), EasyMock.createMock(ModuleDefinition.class));
+        assertTrue(classLoader instanceof BundleDelegatingClassLoader);
+    }
 
 }

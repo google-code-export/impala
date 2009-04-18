@@ -10,26 +10,26 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class HibernateMappingsDAOTest extends TestCase implements
-		ModuleDefinitionSource {
+        ModuleDefinitionSource {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(HibernateMappingsDAOTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(HibernateMappingsDAOTest.class);
+    }
 
-	public void setUp() throws Exception {
-		super.setUp();
-		Impala.init(this);
-	}
-	
-	public void testMappings() throws Exception {
-		System.out.println("Session factory: " + Impala.getBean("sessionFactory", SessionFactory.class));
-	}
+    public void setUp() throws Exception {
+        super.setUp();
+        Impala.init(this);
+    }
+    
+    public void testMappings() throws Exception {
+        System.out.println("Session factory: " + Impala.getBean("sessionFactory", SessionFactory.class));
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
+    public RootModuleDefinition getModuleDefinition() {
 
-		return new SimpleModuleDefinitionSource("petclinic",
-				new String[] { "petclinic-context.xml" },
-				new String[] { "petclinic-hibernate" }).getModuleDefinition();
-	}
+        return new SimpleModuleDefinitionSource("petclinic",
+                new String[] { "petclinic-context.xml" },
+                new String[] { "petclinic-hibernate" }).getModuleDefinition();
+    }
 
 }

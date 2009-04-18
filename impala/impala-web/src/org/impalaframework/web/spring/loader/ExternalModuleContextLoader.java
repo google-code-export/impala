@@ -37,41 +37,41 @@ import org.springframework.core.io.ResourceLoader;
  * @author Phil Zoio
  */
 public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
-	
-	private static final String defaultModuleResourceName = "moduledefinitions.xml";	
-	
-	@Override
-	public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
+    
+    private static final String defaultModuleResourceName = "moduledefinitions.xml";    
+    
+    @Override
+    public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 
-		String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
-				LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+        String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
+                LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
-		if (locationsResourceName == null) {
-			locationsResourceName = defaultModuleResourceName;
-		}
+        if (locationsResourceName == null) {
+            locationsResourceName = defaultModuleResourceName;
+        }
 
-		ResourceLoader resourceLoader = getResourceLoader();
-		Resource resource = resourceLoader.getResource(locationsResourceName);
+        ResourceLoader resourceLoader = getResourceLoader();
+        Resource resource = resourceLoader.getResource(locationsResourceName);
 
-		if (!resource.exists()) {
-			throw new ConfigurationException("Module definition XML resource '" + resource.getDescription()
-					+ "' does not exist");
-		}
+        if (!resource.exists()) {
+            throw new ConfigurationException("Module definition XML resource '" + resource.getDescription()
+                    + "' does not exist");
+        }
 
-		return newModuleDefinitionSource(resource, factory);
-	}
+        return newModuleDefinitionSource(resource, factory);
+    }
 
-	protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFacade factory) {
-		InternalWebXmlModuleDefinitionSource moduleDefinitionSource = new InternalWebXmlModuleDefinitionSource(
-				factory.getModuleLocationResolver(), 
-				factory.getTypeReaderRegistry());
-		
-		moduleDefinitionSource.setResource(resource);
-		return moduleDefinitionSource;
-	}
+    protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFacade factory) {
+        InternalWebXmlModuleDefinitionSource moduleDefinitionSource = new InternalWebXmlModuleDefinitionSource(
+                factory.getModuleLocationResolver(), 
+                factory.getTypeReaderRegistry());
+        
+        moduleDefinitionSource.setResource(resource);
+        return moduleDefinitionSource;
+    }
 
-	protected ResourceLoader getResourceLoader() {
-		return new DefaultResourceLoader();
-	}
+    protected ResourceLoader getResourceLoader() {
+        return new DefaultResourceLoader();
+    }
 
 }

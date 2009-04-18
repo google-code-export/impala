@@ -22,19 +22,19 @@ import org.impalaframework.config.PropertiesHolder;
 
 public class PropertiesHolderFactoryBeanTest extends TestCase {
 
-	public void testBasicMethods() throws Exception {
-		PropertiesHolderFactoryBean bean = new PropertiesHolderFactoryBean();
-		assertEquals(Properties.class, bean.getObjectType());
-		assertEquals(true, bean.isSingleton());
-		assertEquals(new Properties(), bean.getObject());
-	}
+    public void testBasicMethods() throws Exception {
+        PropertiesHolderFactoryBean bean = new PropertiesHolderFactoryBean();
+        assertEquals(Properties.class, bean.getObjectType());
+        assertEquals(true, bean.isSingleton());
+        assertEquals(new Properties(), bean.getObject());
+    }
 
-	public void testSetProperties() throws Exception {
-		final Properties properties = new Properties();
-		PropertiesHolder.getInstance().setProperties(properties);
-		
-		PropertiesHolderFactoryBean bean = new PropertiesHolderFactoryBean();
-		assertSame(properties, bean.getObject());
-	}
-	
+    public void testSetProperties() throws Exception {
+        final Properties properties = new Properties();
+        PropertiesHolder.getInstance().setProperties(properties);
+        
+        PropertiesHolderFactoryBean bean = new PropertiesHolderFactoryBean();
+        assertSame(properties, bean.getObject());
+    }
+    
 }

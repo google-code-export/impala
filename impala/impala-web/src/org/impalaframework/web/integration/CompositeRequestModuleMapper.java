@@ -29,27 +29,27 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class CompositeRequestModuleMapper implements RequestModuleMapper {
-	
-	private List<RequestModuleMapper> requestModuleMappers;
+    
+    private List<RequestModuleMapper> requestModuleMappers;
 
-	public void init(ServletConfig servletConfig) {
-	}
+    public void init(ServletConfig servletConfig) {
+    }
 
-	public void init(FilterConfig filterConfig) {
-	}
-	
-	public String getModuleForRequest(HttpServletRequest request) {
-		Assert.notNull(requestModuleMappers, "requestModuleMappers cannot be null");
-		Assert.notEmpty(requestModuleMappers, "requestModuleMappers cannot be empty");
-		for (RequestModuleMapper requestModuleMapper : requestModuleMappers) {
-			final String module = requestModuleMapper.getModuleForRequest(request);
-			if (module != null) return module;
-		}
-		return null;
-	}
+    public void init(FilterConfig filterConfig) {
+    }
+    
+    public String getModuleForRequest(HttpServletRequest request) {
+        Assert.notNull(requestModuleMappers, "requestModuleMappers cannot be null");
+        Assert.notEmpty(requestModuleMappers, "requestModuleMappers cannot be empty");
+        for (RequestModuleMapper requestModuleMapper : requestModuleMappers) {
+            final String module = requestModuleMapper.getModuleForRequest(request);
+            if (module != null) return module;
+        }
+        return null;
+    }
 
-	public void setRequestModuleMappers(List<RequestModuleMapper> requestModuleMappers) {
-		this.requestModuleMappers = requestModuleMappers;
-	}
+    public void setRequestModuleMappers(List<RequestModuleMapper> requestModuleMappers) {
+        this.requestModuleMappers = requestModuleMappers;
+    }
 
 }

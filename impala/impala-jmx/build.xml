@@ -1,9 +1,9 @@
 <?xml version="1.0"?>
 <project name="Impala JMX Main Build" basedir=".">
 
-	<property file = "build.properties"/>
-	
-	<import file = "../impala/project-build.xml"/>
-	<import file = "../impala/download-build.xml"/>
-	
+    <property file = "build.properties"/>
+    
+    <import file = "../impala/project-build.xml"/>
+    <import file = "../impala/download-build.xml"/>
+    
 </project>

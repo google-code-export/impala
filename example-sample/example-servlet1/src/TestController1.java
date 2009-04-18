@@ -25,25 +25,25 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class TestController1 extends MultiActionController {
 
-	private EntryService entryService;
-	
-	private FloatPropertyValue magicNumber;
+    private EntryService entryService;
+    
+    private FloatPropertyValue magicNumber;
 
-	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("staticparam", ""+magicNumber.getValue());
-		map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
+    public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("staticparam", ""+magicNumber.getValue());
+        map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
-		ModelAndView mav = new ModelAndView("test", map);
-		return mav;
-	}
+        ModelAndView mav = new ModelAndView("test", map);
+        return mav;
+    }
 
-	public void setEntryService(EntryService entryService) {
-		this.entryService = entryService;
-	}
+    public void setEntryService(EntryService entryService) {
+        this.entryService = entryService;
+    }
 
-	public void setMagicNumber(FloatPropertyValue magicNumber) {
-		this.magicNumber = magicNumber;
-	}
+    public void setMagicNumber(FloatPropertyValue magicNumber) {
+        this.magicNumber = magicNumber;
+    }
 
 }

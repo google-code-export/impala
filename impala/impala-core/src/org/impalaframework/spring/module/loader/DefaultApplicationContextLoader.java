@@ -25,18 +25,18 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  */
 public class DefaultApplicationContextLoader extends BaseApplicationContextLoader {
 
-	private ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;
 
-	public DefaultApplicationContextLoader() {
-	}
-	
-	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
-		beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
-		beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
-	}
-	
-	public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-		this.serviceRegistry = serviceRegistry;
-	}
+    public DefaultApplicationContextLoader() {
+    }
+    
+    protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+        beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+        beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
+    }
+    
+    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
+        this.serviceRegistry = serviceRegistry;
+    }
 
 }

@@ -40,64 +40,64 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
-		BeanClassLoaderAware {
+        BeanClassLoaderAware {
 
-	private Map<String, String> contributions;
+    private Map<String, String> contributions;
 
-	public void afterPropertiesSet() throws Exception {
-		Assert.notNull(contributions, "contributions cannot be null");
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(contributions, "contributions cannot be null");
 
-		Set<String> beanNames = contributions.keySet();
-		processContributions(beanNames);
-	}
+        Set<String> beanNames = contributions.keySet();
+        processContributions(beanNames);
+    }
 
-	protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
-		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(getBeanFactory(), beanName);
+    protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
+        ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(getBeanFactory(), beanName);
 
-		if (endPoint == null) {
-			String contributionClassNames = contributions.get(beanName);
-			checkContributionClasses(bean, beanName, contributionClassNames);
-			
-			RootBeanDefinition beanDefinition = new RootBeanDefinition(ContributionProxyFactoryBean.class);
-			beanDefinition.getPropertyValues().addPropertyValue("proxyInterfaces", contributionClassNames);
-			
-			BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
+        if (endPoint == null) {
+            String contributionClassNames = contributions.get(beanName);
+            checkContributionClasses(bean, beanName, contributionClassNames);
+            
+            RootBeanDefinition beanDefinition = new RootBeanDefinition(ContributionProxyFactoryBean.class);
+            beanDefinition.getPropertyValues().addPropertyValue("proxyInterfaces", contributionClassNames);
+            
+            BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
 
-			BeanDefinitionRegistry registry = getBeanDefinitionRegistry(rootBeanFactory);
-			registry.registerBeanDefinition(beanName, beanDefinition);
+            BeanDefinitionRegistry registry = getBeanDefinitionRegistry(rootBeanFactory);
+            registry.registerBeanDefinition(beanName, beanDefinition);
 
-			endPoint = (ContributionEndpoint) rootBeanFactory.getBean("&" + beanName,ContributionEndpoint.class);
-		}
+            endPoint = (ContributionEndpoint) rootBeanFactory.getBean("&" + beanName,ContributionEndpoint.class);
+        }
 
-		return endPoint;
-	}
+        return endPoint;
+    }
 
-	BeanDefinitionRegistry getBeanDefinitionRegistry(BeanFactory rootBeanFactory) {
-		if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
-			throw new ExecutionException("Cannot use " + this.getClass().getName() + " with bean factory which does not implement " + BeanDefinitionRegistry.class.getName());
-		}
-		BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
-		return registry;
-	}
+    BeanDefinitionRegistry getBeanDefinitionRegistry(BeanFactory rootBeanFactory) {
+        if (!(rootBeanFactory instanceof BeanDefinitionRegistry)) {
+            throw new ExecutionException("Cannot use " + this.getClass().getName() + " with bean factory which does not implement " + BeanDefinitionRegistry.class.getName());
+        }
+        BeanDefinitionRegistry registry = (BeanDefinitionRegistry) rootBeanFactory;
+        return registry;
+    }
 
-	@SuppressWarnings("unchecked")
-	void checkContributionClasses(Object bean, String beanName, String typeList) {
-		String[] interfaces = typeList.split(",");
+    @SuppressWarnings("unchecked")
+    void checkContributionClasses(Object bean, String beanName, String typeList) {
+        String[] interfaces = typeList.split(",");
 
-		List<Class> interfaceClasses = new ArrayList<Class>();
-		for (String interfaceClass : interfaces) {
-			Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), getBeanClassLoader());
+        List<Class> interfaceClasses = new ArrayList<Class>();
+        for (String interfaceClass : interfaces) {
+            Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), getBeanClassLoader());
 
-			if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
-				throw new ExecutionException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
-			}
+            if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
+                throw new ExecutionException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
+            }
 
-			interfaceClasses.add(resolvedClassName);
-		}
-	}
+            interfaceClasses.add(resolvedClassName);
+        }
+    }
 
-	public void setContributions(Map<String, String> contributions) {
-		this.contributions = contributions;
-	}
+    public void setContributions(Map<String, String> contributions) {
+        this.contributions = contributions;
+    }
 
 }

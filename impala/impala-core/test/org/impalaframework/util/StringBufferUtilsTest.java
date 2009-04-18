@@ -21,16 +21,16 @@ import junit.framework.TestCase;
 
 public class StringBufferUtilsTest extends TestCase {
 
-	public void testChop() {
-		doChop("", 5, "");
-		doChop("12345", 5, "");
-		doChop("123456", 5, "1");
-	}
+    public void testChop() {
+        doChop("", 5, "");
+        doChop("12345", 5, "");
+        doChop("123456", 5, "1");
+    }
 
-	private void doChop(String input, int i, String value) {
-		StringBuffer buffer = new StringBuffer(input);
-		StringBufferUtils.chop(buffer, i);
-		assertEquals(value, buffer.toString());
-	}
+    private void doChop(String input, int i, String value) {
+        StringBuffer buffer = new StringBuffer(input);
+        StringBufferUtils.chop(buffer, i);
+        assertEquals(value, buffer.toString());
+    }
 
 }

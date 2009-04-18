@@ -28,43 +28,43 @@ import org.springframework.osgi.context.BundleContextAware;
  * @author Phil Zoio
  */
 public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor implements BundleContextAware {
-	
-	private BundleContext bundleContext;
+    
+    private BundleContext bundleContext;
 
-	public OsgiUnloadTransitionProcessor() {
-		super();
-	}
+    public OsgiUnloadTransitionProcessor() {
+        super();
+    }
 
-	@Override
-	public boolean process(RootModuleDefinition newRootDefinition,
-			ModuleDefinition currentDefinition) {
-		
-		boolean process = super.process(newRootDefinition, currentDefinition);
-		
-		boolean unload = findAndUnloadBundle(currentDefinition);
-		return (process & unload);
-	}
+    @Override
+    public boolean process(RootModuleDefinition newRootDefinition,
+            ModuleDefinition currentDefinition) {
+        
+        boolean process = super.process(newRootDefinition, currentDefinition);
+        
+        boolean unload = findAndUnloadBundle(currentDefinition);
+        return (process & unload);
+    }
 
-	boolean findAndUnloadBundle(ModuleDefinition currentDefinition) {
-		boolean process = true;
-		
-		//find bundle with name
-		Bundle bundle = findBundle(currentDefinition);
-		
-		if (bundle != null) {
-			process = OsgiUtils.stopBundle(bundle);
-		}
-		
-		return process;
-	}
+    boolean findAndUnloadBundle(ModuleDefinition currentDefinition) {
+        boolean process = true;
+        
+        //find bundle with name
+        Bundle bundle = findBundle(currentDefinition);
+        
+        if (bundle != null) {
+            process = OsgiUtils.stopBundle(bundle);
+        }
+        
+        return process;
+    }
 
-	Bundle findBundle(ModuleDefinition currentDefinition) {
-		Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
-		return bundle;
-	}
+    Bundle findBundle(ModuleDefinition currentDefinition) {
+        Bundle bundle = OsgiUtils.findBundle(bundleContext, currentDefinition.getName());
+        return bundle;
+    }
 
-	public void setBundleContext(BundleContext bundleContext) {
-		this.bundleContext = bundleContext;
-	}
+    public void setBundleContext(BundleContext bundleContext) {
+        this.bundleContext = bundleContext;
+    }
 
 }

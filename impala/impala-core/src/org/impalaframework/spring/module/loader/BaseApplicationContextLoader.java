@@ -38,106 +38,106 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class BaseApplicationContextLoader implements ApplicationContextLoader {
-	
-	private static Log logger = LogFactory.getLog(BaseApplicationContextLoader.class);
-	
-	private ModuleLoaderRegistry moduleLoaderRegistry;
-	
-	private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
+    
+    private static Log logger = LogFactory.getLog(BaseApplicationContextLoader.class);
+    
+    private ModuleLoaderRegistry moduleLoaderRegistry;
+    
+    private DelegatingContextLoaderRegistry delegatingContextLoaderRegistry;
 
-	public BaseApplicationContextLoader() {
-	}
+    public BaseApplicationContextLoader() {
+    }
 
-	public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
+    public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
 
-		Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
-		Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
-		ConfigurableApplicationContext context = null;
-		
-		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(definition), false);
-		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
-		
-		final DelegatingContextLoader delegatingLoader = delegatingContextLoaderRegistry.getDelegatingLoader(definition.getType());
+        Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
+        Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
+        ConfigurableApplicationContext context = null;
+        
+        final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(definition), false);
+        final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
+        
+        final DelegatingContextLoader delegatingLoader = delegatingContextLoaderRegistry.getDelegatingLoader(definition.getType());
 
-		try {
+        try {
 
-			if (moduleLoader != null) {
-				if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
-				context = loadApplicationContext(moduleLoader, parent, definition);
-				moduleLoader.afterRefresh(context, definition);
-			}
-			else if (delegatingLoader != null) {
-				if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using DelegatingContextLoader " + moduleLoader);
-				context = delegatingLoader.loadApplicationContext(parent, definition);
-			}
-			else {
-				throw new ConfigurationException("No " + ModuleLoader.class.getName() + " or "
-						+ DelegatingContextLoader.class.getName() + " specified for module definition type " + definition.getType());
-			}
+            if (moduleLoader != null) {
+                if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
+                context = loadApplicationContext(moduleLoader, parent, definition);
+                moduleLoader.afterRefresh(context, definition);
+            }
+            else if (delegatingLoader != null) {
+                if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using DelegatingContextLoader " + moduleLoader);
+                context = delegatingLoader.loadApplicationContext(parent, definition);
+            }
+            else {
+                throw new ConfigurationException("No " + ModuleLoader.class.getName() + " or "
+                        + DelegatingContextLoader.class.getName() + " specified for module definition type " + definition.getType());
+            }
 
-		}
-		finally {
-			if (moduleLoader != null) {
-				afterContextLoaded(definition, moduleLoader);
-			}
-		}
+        }
+        finally {
+            if (moduleLoader != null) {
+                afterContextLoaded(definition, moduleLoader);
+            }
+        }
 
-		return context;
-	}
+        return context;
+    }
 
-	protected void afterContextLoaded(ModuleDefinition definition,
-			final ModuleLoader moduleLoader) {
-	}
+    protected void afterContextLoaded(ModuleDefinition definition,
+            final ModuleLoader moduleLoader) {
+    }
 
-	private ConfigurableApplicationContext loadApplicationContext(final SpringModuleLoader moduleLoader,
-			ApplicationContext parent, ModuleDefinition definition) {
+    private ConfigurableApplicationContext loadApplicationContext(final SpringModuleLoader moduleLoader,
+            ApplicationContext parent, ModuleDefinition definition) {
 
-		ClassLoader existing = ClassUtils.getDefaultClassLoader();
+        ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
-		// note that existing class loader is not used to figure out parent
-		ClassLoader classLoader = moduleLoader.newClassLoader(definition, parent);
+        // note that existing class loader is not used to figure out parent
+        ClassLoader classLoader = moduleLoader.newClassLoader(definition, parent);
 
-		try {
-			Thread.currentThread().setContextClassLoader(classLoader);
-			
-			if (logger.isDebugEnabled()) logger.debug("Setting class loader to " + classLoader);
+        try {
+            Thread.currentThread().setContextClassLoader(classLoader);
+            
+            if (logger.isDebugEnabled()) logger.debug("Setting class loader to " + classLoader);
 
-			ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
-			ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-			addBeanPostProcessors(definition, beanFactory);
-			
-			BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
+            ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
+            ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
+            addBeanPostProcessors(definition, beanFactory);
+            
+            BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
-			if (reader != null) {
-				//if this is null, then we assume moduleLoader or refresh takes care of this
-				
-				if (reader instanceof AbstractBeanDefinitionReader) {
-					((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
-				}
-	
-				final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
-				reader.loadBeanDefinitions(resources);
-			}
+            if (reader != null) {
+                //if this is null, then we assume moduleLoader or refresh takes care of this
+                
+                if (reader instanceof AbstractBeanDefinitionReader) {
+                    ((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
+                }
+    
+                final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
+                reader.loadBeanDefinitions(resources);
+            }
 
-			moduleLoader.handleRefresh(context);
-			return context;
-		}
-		finally {
-			Thread.currentThread().setContextClassLoader(existing);
-		}
-	}
+            moduleLoader.handleRefresh(context);
+            return context;
+        }
+        finally {
+            Thread.currentThread().setContextClassLoader(existing);
+        }
+    }
 
-	protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
-	}
-	
-	/* **************************** injected setters ************************** */
+    protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+    }
+    
+    /* **************************** injected setters ************************** */
 
-	public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
-		this.moduleLoaderRegistry = moduleLoaderRegistry;
-	}
+    public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
+        this.moduleLoaderRegistry = moduleLoaderRegistry;
+    }
 
-	public void setDelegatingContextLoaderRegistry(DelegatingContextLoaderRegistry delegatingContextLoaderRegistry) {
-		this.delegatingContextLoaderRegistry = delegatingContextLoaderRegistry;
-	}
+    public void setDelegatingContextLoaderRegistry(DelegatingContextLoaderRegistry delegatingContextLoaderRegistry) {
+        this.delegatingContextLoaderRegistry = delegatingContextLoaderRegistry;
+    }
 
 }

@@ -25,21 +25,21 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
  */
 public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
-	private final String beanName;
-	private final ServiceRegistry serviceRegistry;
-	private final Class<?>[] interfaces;
+    private final String beanName;
+    private final ServiceRegistry serviceRegistry;
+    private final Class<?>[] interfaces;
 
-	public DynamicServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
-		super();
-		this.beanName = beanName;
-		this.serviceRegistry = serviceRegistry;
-		this.interfaces = interfaces;
-	}
-	
-	/* *************** ContributionEndpointTargetSource implementation ************** */
+    public DynamicServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
+        super();
+        this.beanName = beanName;
+        this.serviceRegistry = serviceRegistry;
+        this.interfaces = interfaces;
+    }
+    
+    /* *************** ContributionEndpointTargetSource implementation ************** */
 
-	public ServiceRegistryReference getServiceRegistryReference() {
-		return serviceRegistry.getService(beanName, interfaces);
-	}
+    public ServiceRegistryReference getServiceRegistryReference() {
+        return serviceRegistry.getService(beanName, interfaces);
+    }
 
 }

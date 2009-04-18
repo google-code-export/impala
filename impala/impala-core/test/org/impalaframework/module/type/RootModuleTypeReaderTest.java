@@ -28,75 +28,75 @@ import org.w3c.dom.Element;
 
 public class RootModuleTypeReaderTest extends TestCase {
 
-	private RootModuleTypeReader reader;
+    private RootModuleTypeReader reader;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		reader = new RootModuleTypeReader();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        reader = new RootModuleTypeReader();
+    }
 
-	public void testReadModuleDefinitionDefaults() {
-		Properties properties = new Properties();
-		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
-		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
-		assertTrue(definition.getConfigLocations().isEmpty());
-	}
+    public void testReadModuleDefinitionDefaults() {
+        Properties properties = new Properties();
+        ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
+        SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
+        assertTrue(definition.getConfigLocations().isEmpty());
+    }
 
-	public void testReadModuleDefinition() {
-		Properties properties = new Properties();
-		properties.setProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1,loc2");
-		properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
-	
-		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
-		SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
-		assertEquals(Arrays.asList(new String[]{"loc1", "loc2"}), definition.getConfigLocations());
-		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
-	}
-	
-	public void testReadModuleDefinitionProperties() throws Exception {
-	    Document document = XMLDomUtils.newDocument();
-	    Element root = document.createElement("root");
-	    document.appendChild(root);
-	    
-		Element locations = document.createElement("config-locations");
-	    root.appendChild(locations);
-	    
-	    Element location1 = document.createElement("config-location");
-	    location1.setTextContent("location1");
-	    locations.appendChild(location1);
-	    
-	    Element location2 = document.createElement("config-location");
-	    location2.setTextContent("location2");
-	    locations.appendChild(location2);
-	    
-	    Element dependsOn = document.createElement("depends-on");
-	    dependsOn.setTextContent("module1,module2, module3 , module4 module5");
-	    root.appendChild(dependsOn);	    
-	    
-		Properties properties = new Properties();
-		reader.readModuleDefinitionProperties(properties, "mymodule", root);
-		System.out.println(properties);
-		assertEquals("location1,location2", properties.get("config-locations"));
-		assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
-		
-		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
-		assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
-		assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
-	}
-	
-	
-	public void testReadNoLocations() throws Exception {
-	    Document document = XMLDomUtils.newDocument();
-	    Element root = document.createElement("root");
-	    document.appendChild(root);
-	    
-		Properties properties = new Properties();
-		reader.readModuleDefinitionProperties(properties, "mymodule", root);
-		assertEquals("", properties.get("config-locations"));
-		
-		ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
-		assertTrue(moduleDefinition.getConfigLocations().isEmpty());
-	}
+    public void testReadModuleDefinition() {
+        Properties properties = new Properties();
+        properties.setProperty(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1,loc2");
+        properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
+    
+        ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
+        SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
+        assertEquals(Arrays.asList(new String[]{"loc1", "loc2"}), definition.getConfigLocations());
+        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+    }
+    
+    public void testReadModuleDefinitionProperties() throws Exception {
+        Document document = XMLDomUtils.newDocument();
+        Element root = document.createElement("root");
+        document.appendChild(root);
+        
+        Element locations = document.createElement("config-locations");
+        root.appendChild(locations);
+        
+        Element location1 = document.createElement("config-location");
+        location1.setTextContent("location1");
+        locations.appendChild(location1);
+        
+        Element location2 = document.createElement("config-location");
+        location2.setTextContent("location2");
+        locations.appendChild(location2);
+        
+        Element dependsOn = document.createElement("depends-on");
+        dependsOn.setTextContent("module1,module2, module3 , module4 module5");
+        root.appendChild(dependsOn);        
+        
+        Properties properties = new Properties();
+        reader.readModuleDefinitionProperties(properties, "mymodule", root);
+        System.out.println(properties);
+        assertEquals("location1,location2", properties.get("config-locations"));
+        assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
+        
+        ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
+        assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
+        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+    }
+    
+    
+    public void testReadNoLocations() throws Exception {
+        Document document = XMLDomUtils.newDocument();
+        Element root = document.createElement("root");
+        document.appendChild(root);
+        
+        Properties properties = new Properties();
+        reader.readModuleDefinitionProperties(properties, "mymodule", root);
+        assertEquals("", properties.get("config-locations"));
+        
+        ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
+        assertTrue(moduleDefinition.getConfigLocations().isEmpty());
+    }
 
 }

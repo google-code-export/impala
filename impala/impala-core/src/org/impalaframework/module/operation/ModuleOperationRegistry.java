@@ -27,26 +27,26 @@ import org.impalaframework.registry.RegistrySupport;
  */
 public class ModuleOperationRegistry extends RegistrySupport implements Registry<ModuleOperation> {
 
-	protected ModuleOperationRegistry() {
-		super();
-	}
+    protected ModuleOperationRegistry() {
+        super();
+    }
 
-	public void addItem(String operationName, ModuleOperation operation) {
-		super.addRegistryItem(operationName, operation);
-	}
+    public void addItem(String operationName, ModuleOperation operation) {
+        super.addRegistryItem(operationName, operation);
+    }
 
-	public void setOperations(Map<String, ModuleOperation> operations) {
-		super.setEntries(operations);
-	}
+    public void setOperations(Map<String, ModuleOperation> operations) {
+        super.setEntries(operations);
+    }
 
-	public ModuleOperation getOperation(String name) {
-		return super.getEntry(name, ModuleOperation.class);
-	}
+    public ModuleOperation getOperation(String name) {
+        return super.getEntry(name, ModuleOperation.class);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Map<String, ModuleOperation> getOperations() {
-		final Map entries = super.getEntries();
-		return entries;
-	}
+    @SuppressWarnings("unchecked")
+    public Map<String, ModuleOperation> getOperations() {
+        final Map entries = super.getEntries();
+        return entries;
+    }
 
 }

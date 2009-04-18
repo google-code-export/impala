@@ -19,56 +19,56 @@ import java.io.InputStreamReader;
 
 public class CommandLineInputCapturer implements InputCapturer {
 
-	public String capture(CommandInfo info) {
+    public String capture(CommandInfo info) {
 
-		String commandString = null;
-		System.out.println();
+        String commandString = null;
+        System.out.println();
 
-		System.out.println(info.getRequestString());
-		
-		String[] extraLines = info.getExtraLines();
-		if (extraLines != null && extraLines.length > 0)
-		{
-			System.out.println();
-			for (int i = 0; i < extraLines.length; i++) {
-				System.out.println(extraLines[i]);
-			}
-		}
+        System.out.println(info.getRequestString());
+        
+        String[] extraLines = info.getExtraLines();
+        if (extraLines != null && extraLines.length > 0)
+        {
+            System.out.println();
+            for (int i = 0; i < extraLines.length; i++) {
+                System.out.println(extraLines[i]);
+            }
+        }
 
-		System.out.print(">");
-		
-		try {
-			commandString = printInput();
-		}
-		catch (Exception e) {
-		}
-		return commandString;
-	}
-	
-	public String recapture(CommandInfo info) {
+        System.out.print(">");
+        
+        try {
+            commandString = printInput();
+        }
+        catch (Exception e) {
+        }
+        return commandString;
+    }
+    
+    public String recapture(CommandInfo info) {
 
-		String commandString = null;
-		System.out.println();
-		System.out.println(info.getRequestString());
-		System.out.print(">");
-		
-		try {
-			commandString = printInput();
-		}
-		catch (Exception e) {
-		}
-		return commandString;
-	}
-	
+        String commandString = null;
+        System.out.println();
+        System.out.println(info.getRequestString());
+        System.out.print(">");
+        
+        try {
+            commandString = printInput();
+        }
+        catch (Exception e) {
+        }
+        return commandString;
+    }
+    
 
-	public static String printInput() throws IOException {
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		String input = in.readLine();
-		return input;
-	}
+    public static String printInput() throws IOException {
+        BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
+        String input = in.readLine();
+        return input;
+    }
 
-	public void displayValidationMessage(String validationMessage) {
-		System.out.println(validationMessage);
-	}
+    public void displayValidationMessage(String validationMessage) {
+        System.out.println(validationMessage);
+    }
 
 }

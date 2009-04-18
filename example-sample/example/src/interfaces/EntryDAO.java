@@ -20,12 +20,12 @@ import classes.Entry;
 
 public interface EntryDAO {
 
-	public void save(Entry entry);
+    public void save(Entry entry);
 
-	public Collection<Entry> getEntriesWithCount(int count);
+    public Collection<Entry> getEntriesWithCount(int count);
 
-	public void update(Entry entry);
+    public void update(Entry entry);
 
-	public Entry findById(long id);
+    public Entry findById(long id);
 
 }

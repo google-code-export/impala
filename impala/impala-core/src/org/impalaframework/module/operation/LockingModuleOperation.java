@@ -30,40 +30,40 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class LockingModuleOperation implements ModuleOperation {
-	
-	private FrameworkLockHolder frameworkLockHolder;
+    
+    private FrameworkLockHolder frameworkLockHolder;
 
-	private ModuleStateHolder moduleStateHolder;
+    private ModuleStateHolder moduleStateHolder;
 
-	public ModuleOperationResult execute(
-			ModuleOperationInput moduleOperationInput) {
-		
-		Assert.notNull(moduleStateHolder);
-		Assert.notNull(frameworkLockHolder);
-		
-		ModuleOperationResult execute = null;
-		try {
-			frameworkLockHolder.writeLock();
-			execute = doExecute(moduleOperationInput);
-		} finally {
-			frameworkLockHolder.writeUnlock();
-		}
-		return execute;
-	}
+    public ModuleOperationResult execute(
+            ModuleOperationInput moduleOperationInput) {
+        
+        Assert.notNull(moduleStateHolder);
+        Assert.notNull(frameworkLockHolder);
+        
+        ModuleOperationResult execute = null;
+        try {
+            frameworkLockHolder.writeLock();
+            execute = doExecute(moduleOperationInput);
+        } finally {
+            frameworkLockHolder.writeUnlock();
+        }
+        return execute;
+    }
 
-	protected abstract ModuleOperationResult doExecute(
-			ModuleOperationInput moduleOperationInput);
+    protected abstract ModuleOperationResult doExecute(
+            ModuleOperationInput moduleOperationInput);
 
-	protected ModuleStateHolder getModuleStateHolder() {
-		return moduleStateHolder;
-	}
+    protected ModuleStateHolder getModuleStateHolder() {
+        return moduleStateHolder;
+    }
 
-	public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-		this.moduleStateHolder = moduleStateHolder;
-	}
+    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
+        this.moduleStateHolder = moduleStateHolder;
+    }
 
-	public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
-		this.frameworkLockHolder = frameworkLockHolder;
-	}
+    public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
+        this.frameworkLockHolder = frameworkLockHolder;
+    }
 
 }

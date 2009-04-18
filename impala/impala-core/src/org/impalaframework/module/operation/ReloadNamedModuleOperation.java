@@ -35,37 +35,37 @@ import org.springframework.util.Assert;
  */
 public class ReloadNamedModuleOperation  extends BaseModuleOperation {
 
-	protected ReloadNamedModuleOperation() {
-		super();
-	}
+    protected ReloadNamedModuleOperation() {
+        super();
+    }
 
-	public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
 
-		Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-		String moduleToReload = moduleOperationInput.getModuleName();
-		Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in "
-				+ this.getClass().getName());
+        Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
+        String moduleToReload = moduleOperationInput.getModuleName();
+        Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in "
+                + this.getClass().getName());
 
-		ModuleStateHolder moduleStateHolder = getModuleStateHolder();
-		RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
-		RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
+        RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
-		ModificationExtractorRegistry modificationExtractor = getModificationExtractorRegistry();
-		ModificationExtractor calculator = modificationExtractor
-				.getModificationExtractor(ModificationExtractorType.STRICT);
+        ModificationExtractorRegistry modificationExtractor = getModificationExtractorRegistry();
+        ModificationExtractor calculator = modificationExtractor
+                .getModificationExtractor(ModificationExtractorType.STRICT);
 
-		ModuleDefinition childDefinition = newRootDefinition.findChildDefinition(moduleToReload, true);
+        ModuleDefinition childDefinition = newRootDefinition.findChildDefinition(moduleToReload, true);
 
-		if (childDefinition != null) {
-			childDefinition.setState(ModuleState.STALE);
+        if (childDefinition != null) {
+            childDefinition.setState(ModuleState.STALE);
 
-			TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-			moduleStateHolder.processTransitions(transitions);
+            TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
+            moduleStateHolder.processTransitions(transitions);
 
-			boolean result = !transitions.getModuleTransitions().isEmpty();
-			return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
-		}
-		
-		return ModuleOperationResult.FALSE;
-	}
+            boolean result = !transitions.getModuleTransitions().isEmpty();
+            return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
+        }
+        
+        return ModuleOperationResult.FALSE;
+    }
 }

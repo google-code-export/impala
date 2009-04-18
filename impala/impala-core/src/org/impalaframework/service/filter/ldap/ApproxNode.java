@@ -23,41 +23,41 @@ package org.impalaframework.service.filter.ldap;
  */
 class ApproxNode extends EqualsNode {
 
-	ApproxNode(String key, String value) {
-		super(key, value);
-	}
+    ApproxNode(String key, String value) {
+        super(key, value);
+    }
 
-	@Override
-	public String toString() {
-		return wrapBrackets(getKey() + "~=" + getEncodedValue());
-	}
+    @Override
+    public String toString() {
+        return wrapBrackets(getKey() + "~=" + getEncodedValue());
+    }
 
-	@Override
-	protected boolean matchString(String external) {
-		final String value = getValue();
-		
-		String canonicalValue = approx(value);
-		String canonicalExternal = approx(external);
-		
-		return canonicalValue.equals(canonicalExternal);
-	}
+    @Override
+    protected boolean matchString(String external) {
+        final String value = getValue();
+        
+        String canonicalValue = approx(value);
+        String canonicalExternal = approx(external);
+        
+        return canonicalValue.equals(canonicalExternal);
+    }
 
-	static String approx(String value) {
-		boolean modified = false;
-		value = value.toLowerCase();
-		char[] chars = value.toCharArray();
-		int position = 0;
+    static String approx(String value) {
+        boolean modified = false;
+        value = value.toLowerCase();
+        char[] chars = value.toCharArray();
+        int position = 0;
 
-		for (int i = 0; i < chars.length; i++) {
-			char c = chars[i];
-			if (Character.isWhitespace(c)) {
-				modified = true;
-				continue;
-			}
-			chars[position] = c;
-			position++;
-		}
-		return (modified? new String(chars, 0, position) : value);
-	}
+        for (int i = 0; i < chars.length; i++) {
+            char c = chars[i];
+            if (Character.isWhitespace(c)) {
+                modified = true;
+                continue;
+            }
+            chars[position] = c;
+            position++;
+        }
+        return (modified? new String(chars, 0, position) : value);
+    }
 
 }

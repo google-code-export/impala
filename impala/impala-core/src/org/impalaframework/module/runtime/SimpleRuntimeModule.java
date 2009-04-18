@@ -19,30 +19,30 @@ import org.impalaframework.module.RuntimeModule;
 import org.springframework.util.Assert;
 
 public class SimpleRuntimeModule implements RuntimeModule {
-	
-	private final ClassLoader classLoader;
-	private final ModuleDefinition moduleDefinition;
+    
+    private final ClassLoader classLoader;
+    private final ModuleDefinition moduleDefinition;
 
-	public SimpleRuntimeModule(ClassLoader classLoader,
-			ModuleDefinition moduleDefinition) {
-		super();
-		Assert.notNull(classLoader);
-		Assert.notNull(moduleDefinition);
-	
-		this.classLoader = classLoader;
-		this.moduleDefinition = moduleDefinition;
-	}
+    public SimpleRuntimeModule(ClassLoader classLoader,
+            ModuleDefinition moduleDefinition) {
+        super();
+        Assert.notNull(classLoader);
+        Assert.notNull(moduleDefinition);
+    
+        this.classLoader = classLoader;
+        this.moduleDefinition = moduleDefinition;
+    }
 
-	public Object getBean(String beanName) {
-		return null;
-	}
+    public Object getBean(String beanName) {
+        return null;
+    }
 
-	public ClassLoader getClassLoader() {
-		return classLoader;
-	}
+    public ClassLoader getClassLoader() {
+        return classLoader;
+    }
 
-	public ModuleDefinition getModuleDefinition() {
-		return moduleDefinition;
-	}
+    public ModuleDefinition getModuleDefinition() {
+        return moduleDefinition;
+    }
 
 }

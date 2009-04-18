@@ -26,37 +26,37 @@ import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.helper.WebServletUtils;
 
 public class WebServletUtilsTest extends TestCase {
-	
-	private ServletContext servletContext;
+    
+    private ServletContext servletContext;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		servletContext = new AttributeServletContext();
-	}
-	
-	public void testGetModuleServletContextKey() throws Exception {
-		assertEquals("module_moduleName:attributeName", WebServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = new AttributeServletContext();
+    }
+    
+    public void testGetModuleServletContextKey() throws Exception {
+        assertEquals("module_moduleName:attributeName", WebServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
+    }
 
-	public void testPublishFilter() throws Exception {
-		final Filter filter = createMock(Filter.class);
-		WebServletUtils.publishFilter(servletContext, "myfilter", filter);
-		
-		assertSame(filter, WebServletUtils.getModuleFilter(servletContext, "myfilter"));
-		
-		WebServletUtils.unpublishFilter(servletContext, "myfilter");
-		assertNull(WebServletUtils.getModuleFilter(servletContext, "myfilter"));
-	}
-	
-	public void testPublishServlet() throws Exception {
-		final HttpServlet servlet = createMock(HttpServlet.class);
-		WebServletUtils.publishServlet(servletContext, "myservlet", servlet);
-		
-		assertSame(servlet, WebServletUtils.getModuleServlet(servletContext, "myservlet"));
-		
-		WebServletUtils.unpublishServlet(servletContext, "myservlet");
-		assertNull(WebServletUtils.getModuleServlet(servletContext, "myservlet"));
-	}
+    public void testPublishFilter() throws Exception {
+        final Filter filter = createMock(Filter.class);
+        WebServletUtils.publishFilter(servletContext, "myfilter", filter);
+        
+        assertSame(filter, WebServletUtils.getModuleFilter(servletContext, "myfilter"));
+        
+        WebServletUtils.unpublishFilter(servletContext, "myfilter");
+        assertNull(WebServletUtils.getModuleFilter(servletContext, "myfilter"));
+    }
+    
+    public void testPublishServlet() throws Exception {
+        final HttpServlet servlet = createMock(HttpServlet.class);
+        WebServletUtils.publishServlet(servletContext, "myservlet", servlet);
+        
+        assertSame(servlet, WebServletUtils.getModuleServlet(servletContext, "myservlet"));
+        
+        WebServletUtils.unpublishServlet(servletContext, "myservlet");
+        assertNull(WebServletUtils.getModuleServlet(servletContext, "myservlet"));
+    }
 
 }

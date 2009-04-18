@@ -22,10 +22,10 @@ package org.impalaframework.exception;
  */
 public class NoServiceException extends RuntimeException {
 
-	public NoServiceException(String message) {
-		super(message);
-	}
+    public NoServiceException(String message) {
+        super(message);
+    }
 
-	private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 1L;
 
 }

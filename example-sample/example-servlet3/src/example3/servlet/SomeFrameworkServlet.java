@@ -16,32 +16,32 @@ import org.springframework.web.servlet.mvc.Controller;
 
 public class SomeFrameworkServlet extends HttpServlet {
 
-	private static final long serialVersionUID = 1L;
-	private String controllerClassName;
-	private Controller instance;
-	private ServletContext servletContext;
-	
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		controllerClassName = config.getInitParameter("controllerClassName");
-		servletContext = config.getServletContext();
-	}
+    private static final long serialVersionUID = 1L;
+    private String controllerClassName;
+    private Controller instance;
+    private ServletContext servletContext;
+    
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        controllerClassName = config.getInitParameter("controllerClassName");
+        servletContext = config.getServletContext();
+    }
 
-	@Override
-	protected void service(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		if (instance == null) {
-			//instantiate, using the ContextClassLoader
-			instance = InstantiationUtils.instantiate(controllerClassName);
-		}
-		try {
-			ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
-			request.setAttribute("spring.context", context);
-			instance.handleRequest(request, response);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
+    @Override
+    protected void service(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if (instance == null) {
+            //instantiate, using the ContextClassLoader
+            instance = InstantiationUtils.instantiate(controllerClassName);
+        }
+        try {
+            ApplicationContext context = WebApplicationContextUtils.getRequiredWebApplicationContext(servletContext);
+            request.setAttribute("spring.context", context);
+            instance.handleRequest(request, response);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
 }

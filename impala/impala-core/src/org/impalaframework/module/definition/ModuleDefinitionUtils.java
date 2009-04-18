@@ -28,63 +28,63 @@ import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
 
 public class ModuleDefinitionUtils {
-	
-	public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
-		
-		Assert.notNull(moduleDefinitions);
-		Assert.notNull(name);
-		
-		for (ModuleDefinition moduleDefinition : moduleDefinitions) {
-			if (name.equals(moduleDefinition.getName())) return moduleDefinition;
-		}
-		return null;
-	}
-	
-	public static Collection<ModuleDefinition> getDependentModules(RootModuleDefinition root, String name) {
-		
-		DependencyManager manager  = new DependencyManager(root);
-		Collection<ModuleDefinition> directDependants = manager.getOrderedModuleDependants(name);
-		return new LinkedList<ModuleDefinition>(directDependants).subList(1, directDependants.size());
-	}
+    
+    public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
+        
+        Assert.notNull(moduleDefinitions);
+        Assert.notNull(name);
+        
+        for (ModuleDefinition moduleDefinition : moduleDefinitions) {
+            if (name.equals(moduleDefinition.getName())) return moduleDefinition;
+        }
+        return null;
+    }
+    
+    public static Collection<ModuleDefinition> getDependentModules(RootModuleDefinition root, String name) {
+        
+        DependencyManager manager  = new DependencyManager(root);
+        Collection<ModuleDefinition> directDependants = manager.getOrderedModuleDependants(name);
+        return new LinkedList<ModuleDefinition>(directDependants).subList(1, directDependants.size());
+    }
 
-	public static List<String> getModuleNamesFromCollection(Collection<ModuleDefinition> moduleDefinitions) {
-		Assert.notNull(moduleDefinitions);
-		List<String> names = new ArrayList<String>();
-		for (ModuleDefinition moduleDefinition : moduleDefinitions) {
-			names.add(moduleDefinition.getName());
-		}
-		return names;
-	}
-	
-	public static RootModuleDefinition cloneAndUnfreeze(RootModuleDefinition definition) {
-		if (definition == null) {
-			return null;
-		}
-		RootModuleDefinition newDefinition = (RootModuleDefinition) SerializationUtils.clone(definition);
-		unfreeze(newDefinition);
-		return newDefinition;
-	}
-	
-	public static void ensureNotFrozen(Freezable freezable) {
-		Assert.notNull(freezable);
-		if (freezable.isFrozen()) {
-			throw new InvalidStateException("Cannot change object '" + freezable + "' as this has been frozen");
-		}
-	}
-	
-	public static void freeze(RootModuleDefinition definition) {
-		if (definition != null) {
-			ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(true));
-		}
-	}
-	
-	private static void unfreeze(RootModuleDefinition definition) {
-		if (definition != null) {
-			ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(false));
-		}
-	}
+    public static List<String> getModuleNamesFromCollection(Collection<ModuleDefinition> moduleDefinitions) {
+        Assert.notNull(moduleDefinitions);
+        List<String> names = new ArrayList<String>();
+        for (ModuleDefinition moduleDefinition : moduleDefinitions) {
+            names.add(moduleDefinition.getName());
+        }
+        return names;
+    }
+    
+    public static RootModuleDefinition cloneAndUnfreeze(RootModuleDefinition definition) {
+        if (definition == null) {
+            return null;
+        }
+        RootModuleDefinition newDefinition = (RootModuleDefinition) SerializationUtils.clone(definition);
+        unfreeze(newDefinition);
+        return newDefinition;
+    }
+    
+    public static void ensureNotFrozen(Freezable freezable) {
+        Assert.notNull(freezable);
+        if (freezable.isFrozen()) {
+            throw new InvalidStateException("Cannot change object '" + freezable + "' as this has been frozen");
+        }
+    }
+    
+    public static void freeze(RootModuleDefinition definition) {
+        if (definition != null) {
+            ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(true));
+        }
+    }
+    
+    private static void unfreeze(RootModuleDefinition definition) {
+        if (definition != null) {
+            ModuleDefinitionWalker.walkRootDefinition(definition, new ModuleFreezeCallback(false));
+        }
+    }
 
-	public static List<String> defaultContextLocations(String name) {
-		return Collections.singletonList(name + "-context.xml");
-	}
+    public static List<String> defaultContextLocations(String name) {
+        return Collections.singletonList(name + "-context.xml");
+    }
 }

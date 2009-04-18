@@ -29,36 +29,36 @@ import org.springframework.beans.factory.FactoryBean;
  * @author Phil Zoio
  */
 public class PropertySourceHolderFactoryBean implements FactoryBean {
-	
-	private static Log logger = LogFactory.getLog(PropertySourceHolderFactoryBean.class);
+    
+    private static Log logger = LogFactory.getLog(PropertySourceHolderFactoryBean.class);
 
-	/**
-	 * Returns {@link Properties} instance held by {@link Properties} holder.
-	 * Otherwise, returns empty {@link Properties} instance.
-	 */
-	public Object getObject() throws Exception {
-		PropertySource source = PropertySourceHolder.getInstance().getPropertySource();
-		
-		if (source != null) {	
-			if (logger.isDebugEnabled()) {
-				logger.debug("Returning PropertySource bound to PropertySourceHolder singleton: " + source);
-			}
-			return source;
-		} 
-		
-		if (logger.isDebugEnabled()) {
-			logger.debug("No PropertySource bound to PropertySourceHolder singleton");
-		}
-		
-		return new StaticPropertiesPropertySource(new Properties());
-	}
+    /**
+     * Returns {@link Properties} instance held by {@link Properties} holder.
+     * Otherwise, returns empty {@link Properties} instance.
+     */
+    public Object getObject() throws Exception {
+        PropertySource source = PropertySourceHolder.getInstance().getPropertySource();
+        
+        if (source != null) {   
+            if (logger.isDebugEnabled()) {
+                logger.debug("Returning PropertySource bound to PropertySourceHolder singleton: " + source);
+            }
+            return source;
+        } 
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("No PropertySource bound to PropertySourceHolder singleton");
+        }
+        
+        return new StaticPropertiesPropertySource(new Properties());
+    }
 
-	public Class<?> getObjectType() {
-		return PropertySource.class;
-	}
+    public Class<?> getObjectType() {
+        return PropertySource.class;
+    }
 
-	public boolean isSingleton() {
-		return true;
-	}
+    public boolean isSingleton() {
+        return true;
+    }
 
 }

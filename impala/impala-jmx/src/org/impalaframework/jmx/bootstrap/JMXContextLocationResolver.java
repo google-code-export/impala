@@ -23,67 +23,67 @@ import org.impalaframework.config.PropertySource;
 
 public class JMXContextLocationResolver implements ContextLocationResolver {
 
-	private static Log logger = LogFactory.getLog(JMXContextLocationResolver.class);
-	
-	public boolean addContextLocations(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
+    private static Log logger = LogFactory.getLog(JMXContextLocationResolver.class);
+    
+    public boolean addContextLocations(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
 
-		//add jmx operartions
-		addJmxOperations(configSettings, propertySource);
-		
-		//whether to add mx4j adaptor
-		addMx4jAdaptorContext(configSettings, propertySource);
-		
-		return false;
-	}
+        //add jmx operartions
+        addJmxOperations(configSettings, propertySource);
+        
+        //whether to add mx4j adaptor
+        addMx4jAdaptorContext(configSettings, propertySource);
+        
+        return false;
+    }
 
-	void addMx4jAdaptorContext(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
-		
-		BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, false);
-		configSettings.addProperty(JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, exposeMx4jAdaptor);
+    void addMx4jAdaptorContext(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        
+        BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, false);
+        configSettings.addProperty(JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, exposeMx4jAdaptor);
 
-		if (exposeMx4jAdaptor.getValue()) {
-			
-			if (configSettings.getContextLocations().contains("META-INF/impala-jmx-bootstrap.xml")) {
+        if (exposeMx4jAdaptor.getValue()) {
+            
+            if (configSettings.getContextLocations().contains("META-INF/impala-jmx-bootstrap.xml")) {
 
-				boolean mx4jPresent = isMX4JPresent();
+                boolean mx4jPresent = isMX4JPresent();
 
-				if (mx4jPresent) {
-					configSettings.add("META-INF/impala-jmx-adaptor-bootstrap.xml");
-				} else {
-					logger.warn("'expose.mx4j.adaptor' set to true MX4J classes not present. Not exposing Mx4j adaptor");
-				}
-			} else {
-				logger.warn("'expose.mx4j.adaptor' set to true but 'expose.jmx.operations' set to false. Not exposing Mx4j adaptor");
-			}
-		}
-	}
-	
-	protected void addJmxOperations(ConfigurationSettings configSettings,
-			PropertySource propertySource) {
-		BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
-		configSettings.addProperty(JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, exposeJmx);
+                if (mx4jPresent) {
+                    configSettings.add("META-INF/impala-jmx-adaptor-bootstrap.xml");
+                } else {
+                    logger.warn("'expose.mx4j.adaptor' set to true MX4J classes not present. Not exposing Mx4j adaptor");
+                }
+            } else {
+                logger.warn("'expose.mx4j.adaptor' set to true but 'expose.jmx.operations' set to false. Not exposing Mx4j adaptor");
+            }
+        }
+    }
+    
+    protected void addJmxOperations(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
+        configSettings.addProperty(JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, exposeJmx);
 
-		BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, false);
-		configSettings.addProperty(JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, locateExistingMbeanServer);
-		
-		if (exposeJmx.getValue()) {
-			configSettings.add("META-INF/impala-jmx-bootstrap.xml");
-		}
-	}
+        BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, false);
+        configSettings.addProperty(JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, locateExistingMbeanServer);
+        
+        if (exposeJmx.getValue()) {
+            configSettings.add("META-INF/impala-jmx-bootstrap.xml");
+        }
+    }
 
-	boolean isMX4JPresent() {
-		boolean mx4jPresent = false;
-		
-		//Check for presence of MX4J packages
-		try {
-			Class.forName("mx4j.tools.adaptor.http.XSLTProcessor");
-			mx4jPresent = true;
-		} catch (ClassNotFoundException e) {
-			mx4jPresent = false;
-		}
-		return mx4jPresent;
-	}
+    boolean isMX4JPresent() {
+        boolean mx4jPresent = false;
+        
+        //Check for presence of MX4J packages
+        try {
+            Class.forName("mx4j.tools.adaptor.http.XSLTProcessor");
+            mx4jPresent = true;
+        } catch (ClassNotFoundException e) {
+            mx4jPresent = false;
+        }
+        return mx4jPresent;
+    }
 
 }

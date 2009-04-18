@@ -60,121 +60,121 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  */
 public abstract class BaseImpalaContextLoader extends ContextLoader implements ServletModuleDefinitionSource {
 
-	private static final Log logger = LogFactory.getLog(BaseImpalaContextLoader.class);
+    private static final Log logger = LogFactory.getLog(BaseImpalaContextLoader.class);
 
-	/* ************************* Overridden superclass methods ******************** */
+    /* ************************* Overridden superclass methods ******************** */
 
-	@Override
-	public WebApplicationContext initWebApplicationContext(
-			ServletContext servletContext) throws IllegalStateException,
-			BeansException {
-		return super.initWebApplicationContext(servletContext);
-	}
-	
-	/**
-	 * Creates the <code>WebApplicationContext</code> by bootstrapping Impala, retrieving the <code>ModuleDefinitionSource</code>
-	 * for loading the module metadata. It then instantiates the application context and returns it for further processing by
-	 * <code>ContextLoader</code>.
-	 */
-	@Override
-	protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
-			throws BeansException {
+    @Override
+    public WebApplicationContext initWebApplicationContext(
+            ServletContext servletContext) throws IllegalStateException,
+            BeansException {
+        return super.initWebApplicationContext(servletContext);
+    }
+    
+    /**
+     * Creates the <code>WebApplicationContext</code> by bootstrapping Impala, retrieving the <code>ModuleDefinitionSource</code>
+     * for loading the module metadata. It then instantiates the application context and returns it for further processing by
+     * <code>ContextLoader</code>.
+     */
+    @Override
+    protected WebApplicationContext createWebApplicationContext(ServletContext servletContext, ApplicationContext parent)
+            throws BeansException {
 
-		ModuleManagementFacade facade = createModuleManagementFacade(servletContext);
+        ModuleManagementFacade facade = createModuleManagementFacade(servletContext);
 
-		// load the parent context, which is web-independent
-		ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, facade);
+        // load the parent context, which is web-independent
+        ModuleDefinitionSource moduleDefinitionSource = getModuleDefinitionSource(servletContext, facade);
 
-		// add items to servlet context
-		servletContext.setAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE, moduleDefinitionSource);
-		servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, facade);
-		
-		ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
-		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);		
-		operation.execute(input);
+        // add items to servlet context
+        servletContext.setAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE, moduleDefinitionSource);
+        servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, facade);
+        
+        ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);       
+        operation.execute(input);
 
-		ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(facade.getModuleStateHolder());
+        ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(facade.getModuleStateHolder());
 
-		if (context == null) {
-			throw new InvalidStateException("Root application context is null");
-		}
-		
-		if (!(context instanceof WebApplicationContext)) {
-			throw new InvalidStateException("Application context " + context + " has class "
-					+ context.getClass().getName() + " which is not an instance of "
-					+ WebApplicationContext.class.getName());
-		}
+        if (context == null) {
+            throw new InvalidStateException("Root application context is null");
+        }
+        
+        if (!(context instanceof WebApplicationContext)) {
+            throw new InvalidStateException("Application context " + context + " has class "
+                    + context.getClass().getName() + " which is not an instance of "
+                    + WebApplicationContext.class.getName());
+        }
 
-		return (WebApplicationContext) context;
-	}
+        return (WebApplicationContext) context;
+    }
 
-	/**
-	 * Overrides <code>ContextLoader</code> superclass. First, the modules are shut down. 
-	 * The superclass <code>closeWebApplicationContext</code> is then called.
-	 * Finally Impala is shut down, in the form of the <code>ModuleManagementFacade.close()</code>
-	 */
-	@Override
-	public void closeWebApplicationContext(ServletContext servletContext) {
+    /**
+     * Overrides <code>ContextLoader</code> superclass. First, the modules are shut down. 
+     * The superclass <code>closeWebApplicationContext</code> is then called.
+     * Finally Impala is shut down, in the form of the <code>ModuleManagementFacade.close()</code>
+     */
+    @Override
+    public void closeWebApplicationContext(ServletContext servletContext) {
 
-		// the superclass closes the modules
-		ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
+        // the superclass closes the modules
+        ModuleManagementFacade facade = WebServletUtils.getModuleManagementFacade(servletContext);
 
-		if (facade != null) {
+        if (facade != null) {
 
-			servletContext.log("Closing modules and root application context hierarchy");
+            servletContext.log("Closing modules and root application context hierarchy");
 
-			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
-			boolean success = operation.execute(null).isSuccess();
+            ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+            boolean success = operation.execute(null).isSuccess();
 
-			if (!success) {
-				// this is the fallback in case the rootDefinition is null
-				super.closeWebApplicationContext(servletContext);
-			}
+            if (!success) {
+                // this is the fallback in case the rootDefinition is null
+                super.closeWebApplicationContext(servletContext);
+            }
 
-			// now close the bootstrap factory
-			facade.close();
-		}
-	}
+            // now close the bootstrap factory
+            facade.close();
+        }
+    }
 
-	public String[] getBootstrapContextLocations(ServletContext servletContext) {
+    public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
-		if (resourceName == null) {
-			resourceName = "impala.properties";
-		}
-		final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
-		final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
-		
-		final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
-		final String[] toReturn = resolver.getContextLocations().toArray(new String[0]);
-		logger.info("Impala context locations: " + Arrays.toString(toReturn));
-		
-		return toReturn;
-	}
-	
-	/* ************************* Internal helper methods ******************** */
+        String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+        if (resourceName == null) {
+            resourceName = "impala.properties";
+        }
+        final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
+        final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
+        
+        final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
+        final String[] toReturn = resolver.getContextLocations().toArray(new String[0]);
+        logger.info("Impala context locations: " + Arrays.toString(toReturn));
+        
+        return toReturn;
+    }
+    
+    /* ************************* Internal helper methods ******************** */
 
-	/**
-	 * Instantiates Impala in the form of a <code>ModuleManagementFacade</code> instance.
-	 */
-	protected ModuleManagementFacade createModuleManagementFacade(ServletContext servletContext) {
-		String[] locations = getBootstrapContextLocations(servletContext);
-		logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
+    /**
+     * Instantiates Impala in the form of a <code>ModuleManagementFacade</code> instance.
+     */
+    protected ModuleManagementFacade createModuleManagementFacade(ServletContext servletContext) {
+        String[] locations = getBootstrapContextLocations(servletContext);
+        logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
 
-		final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-		final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
-		applicationContext.setServletContext(servletContext);
+        final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+        final GenericWebApplicationContext applicationContext = new GenericWebApplicationContext(beanFactory);
+        applicationContext.setServletContext(servletContext);
 
-		XmlBeanDefinitionReader definitionReader = new XmlBeanDefinitionReader(beanFactory);
-		for (int i = 0; i < locations.length; i++) {
-			definitionReader.loadBeanDefinitions(new ClassPathResource(locations[i]));
-		}
-		applicationContext.refresh();
+        XmlBeanDefinitionReader definitionReader = new XmlBeanDefinitionReader(beanFactory);
+        for (int i = 0; i < locations.length; i++) {
+            definitionReader.loadBeanDefinitions(new ClassPathResource(locations[i]));
+        }
+        applicationContext.refresh();
 
-		return ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"), ModuleManagementFacade.class);
-	}
+        return ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"), ModuleManagementFacade.class);
+    }
 
-	public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory);
+    public abstract ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory);
 
 
 }

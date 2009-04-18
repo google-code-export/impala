@@ -27,17 +27,17 @@ import org.springframework.beans.factory.support.DefaultListableBeanFactory;
  * @author Phil Zoio
  */
 public class ModuleUtilsTest extends TestCase {
-	
-	public void testCastToBeanDefinitionRegistry() {
-		BeanDefinitionRegistry bdr = ModuleUtils.castToBeanDefinitionRegistry(new DefaultListableBeanFactory());
-		assertNotNull(bdr);
-	
-		try {
-			ModuleUtils.castToBeanDefinitionRegistry(EasyMock.createMock(ConfigurableListableBeanFactory.class));
-		}
-		catch (ExecutionException e) {
-			assertTrue(e.getMessage().contains("is not an instance of BeanDefinitionRegistry"));
-		}
-	}
+    
+    public void testCastToBeanDefinitionRegistry() {
+        BeanDefinitionRegistry bdr = ModuleUtils.castToBeanDefinitionRegistry(new DefaultListableBeanFactory());
+        assertNotNull(bdr);
+    
+        try {
+            ModuleUtils.castToBeanDefinitionRegistry(EasyMock.createMock(ConfigurableListableBeanFactory.class));
+        }
+        catch (ExecutionException e) {
+            assertTrue(e.getMessage().contains("is not an instance of BeanDefinitionRegistry"));
+        }
+    }
 
 }

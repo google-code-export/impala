@@ -24,20 +24,20 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 public class TestController extends MultiActionController {
 
-	private EntryService entryService;
+    private EntryService entryService;
 
-	public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
-		
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("staticparam", "1146");
-		map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
+    public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
+        
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("staticparam", "1146");
+        map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
-		ModelAndView mav = new ModelAndView("test", map);
-		return mav;
-	}
+        ModelAndView mav = new ModelAndView("test", map);
+        return mav;
+    }
 
-	public void setEntryService(EntryService entryService) {
-		this.entryService = entryService;
-	}
+    public void setEntryService(EntryService entryService) {
+        this.entryService = entryService;
+    }
 
 }

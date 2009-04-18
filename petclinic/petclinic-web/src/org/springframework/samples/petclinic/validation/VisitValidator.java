@@ -15,12 +15,12 @@ import org.springframework.validation.Validator;
 @SuppressWarnings("unchecked")
 public class VisitValidator implements Validator {
 
-	public boolean supports(Class clazz) {
-		return Visit.class.isAssignableFrom(clazz);
-	}
+    public boolean supports(Class clazz) {
+        return Visit.class.isAssignableFrom(clazz);
+    }
 
-	public void validate(Object obj, Errors errors) {
-		ValidationUtils.rejectIfEmpty(errors, "description", "required", "required");
-	}
+    public void validate(Object obj, Errors errors) {
+        ValidationUtils.rejectIfEmpty(errors, "description", "required", "required");
+    }
 
 }

@@ -36,83 +36,83 @@ import org.springframework.util.StringUtils;
  */
 public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver {
 
-	public StandaloneModuleLocationResolver() {
-		super();
-		init();
-	}
+    public StandaloneModuleLocationResolver() {
+        super();
+        init();
+    }
 
-	public StandaloneModuleLocationResolver(Properties properties) {
-		super(properties);
-		init();
-	}
-	
-	protected void init() {
-		super.init();
+    public StandaloneModuleLocationResolver(Properties properties) {
+        super(properties);
+        init();
+    }
+    
+    protected void init() {
+        super.init();
 
-		// the module directory which is expected to contain classes
-		mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
+        // the module directory which is expected to contain classes
+        mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, "bin", null);
 
-		// the parent directory in which tests are expected to be found
-		mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
-	}
+        // the parent directory in which tests are expected to be found
+        mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
+    }
 
-	public List<Resource> getModuleTestClassLocations(String moduleName) {
-		String classDir = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
-		return getResources(moduleName, classDir);
-	}
+    public List<Resource> getModuleTestClassLocations(String moduleName) {
+        String classDir = StringUtils.cleanPath(getProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY));
+        return getResources(moduleName, classDir);
+    }
 
-	public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-		String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
-		return getResources(moduleName, classDir);
-	}
-	
+    public List<Resource> getApplicationModuleClassLocations(String moduleName) {
+        String classDir = getProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY);
+        return getResources(moduleName, classDir);
+    }
+    
 
-	/**
-	 * Returns the file representing the workspace root as as a {@link FileSystemResource}
-	 * @throws ConfigurationException if workspace root resource location does not exist.
-	 * Uses abstract {@link #getWorkspaceRoot()} to determine what the workspace root location is.
-	 */
-	public Resource getRootDirectory() {
-		String workspace = getWorkspaceRoot();
-		if (workspace != null) {
-			File candidate = new File(workspace);
+    /**
+     * Returns the file representing the workspace root as as a {@link FileSystemResource}
+     * @throws ConfigurationException if workspace root resource location does not exist.
+     * Uses abstract {@link #getWorkspaceRoot()} to determine what the workspace root location is.
+     */
+    public Resource getRootDirectory() {
+        String workspace = getWorkspaceRoot();
+        if (workspace != null) {
+            File candidate = new File(workspace);
 
-			if (!candidate.exists()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
-			}
-			if (!candidate.isDirectory()) {
-				throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
-			}
-			return new FileSystemResource(candidate);
-		}
-		return new FileSystemResource("../");
-	}
+            if (!candidate.exists()) {
+                throw new ConfigurationException("'workspace.root' (" + workspace + ") does not exist");
+            }
+            if (!candidate.isDirectory()) {
+                throw new ConfigurationException("'workspace.root' (" + workspace + ") is not a directory");
+            }
+            return new FileSystemResource(candidate);
+        }
+        return new FileSystemResource("../");
+    }
 
-	/**
-	 * Returns the workspace root directory, determined from {@link #getRootDirectory()}, as an absolute path String
-	 */
-	protected String getRootDirectoryPath() {
-		Resource rootDirectory = getRootDirectory();
-		
-		if (rootDirectory == null) {
-			throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
-		}
-		
-		String absolutePath = null;
-		try {
-			absolutePath = rootDirectory.getFile().getAbsolutePath();
-		}
-		catch (IOException e) {
-			throw new ConfigurationException("Unable to obtain path for root directory: " + rootDirectory);
-		}
-		return StringUtils.cleanPath(absolutePath);
-	}
+    /**
+     * Returns the workspace root directory, determined from {@link #getRootDirectory()}, as an absolute path String
+     */
+    protected String getRootDirectoryPath() {
+        Resource rootDirectory = getRootDirectory();
+        
+        if (rootDirectory == null) {
+            throw new ConfigurationException("Unable to determine application's root directory. Has the property 'workspace.root' been set?");
+        }
+        
+        String absolutePath = null;
+        try {
+            absolutePath = rootDirectory.getFile().getAbsolutePath();
+        }
+        catch (IOException e) {
+            throw new ConfigurationException("Unable to obtain path for root directory: " + rootDirectory);
+        }
+        return StringUtils.cleanPath(absolutePath);
+    }
 
-	protected List<Resource> getResources(String moduleName, String classDir) {
-		String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
-		path = PathUtils.getPath(path, classDir);
-		Resource resource = new FileSystemResource(path);
-		return Collections.singletonList(resource);
-	}
+    protected List<Resource> getResources(String moduleName, String classDir) {
+        String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
+        path = PathUtils.getPath(path, classDir);
+        Resource resource = new FileSystemResource(path);
+        return Collections.singletonList(resource);
+    }
 
 }

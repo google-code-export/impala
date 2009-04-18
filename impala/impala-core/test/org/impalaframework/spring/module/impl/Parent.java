@@ -16,6 +16,6 @@ package org.impalaframework.spring.module.impl;
 
 public interface Parent {
 
-	Child tryGetChild();
+    Child tryGetChild();
 
 }

@@ -23,6 +23,6 @@ import java.util.List;
  */
 public interface BranchNode extends FilterNode {
 
-	public List<FilterNode> getChildren();
+    public List<FilterNode> getChildren();
 
 }

@@ -23,12 +23,12 @@ import org.impalaframework.command.basic.ManualSelectMethodCommandTest;
 
 public class ManualTests {
 
-	public static Test suite() {
-		TestSuite suite = new TestSuite();
-		
-		suite.addTestSuite(ManualClassFindCommandTest.class);
-		suite.addTestSuite(ManualSearchClassCommandTest.class);
-		suite.addTestSuite(ManualSelectMethodCommandTest.class);
-		return suite;
-	}
+    public static Test suite() {
+        TestSuite suite = new TestSuite();
+        
+        suite.addTestSuite(ManualClassFindCommandTest.class);
+        suite.addTestSuite(ManualSearchClassCommandTest.class);
+        suite.addTestSuite(ManualSelectMethodCommandTest.class);
+        return suite;
+    }
 }

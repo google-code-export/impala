@@ -16,14 +16,14 @@ package org.impalaframework.spring;
 
 public interface Collaborator {
 
-	public int doWithString(String text);
+    public int doWithString(String text);
 
-	public boolean doBoolean();
+    public boolean doBoolean();
 
-	public short doShort();
+    public short doShort();
 
-	public long doLong();
+    public long doLong();
 
-	public String doObject();
+    public String doObject();
 
 }

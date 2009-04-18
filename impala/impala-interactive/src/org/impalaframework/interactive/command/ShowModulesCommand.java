@@ -26,23 +26,23 @@ import org.impalaframework.module.RootModuleDefinition;
  */
 public class ShowModulesCommand implements Command {
 
-	public boolean execute(CommandState commandState) {
-		final RootModuleDefinition rootModuleDefinition = Impala.getRootModuleDefinition();
-		
-		printModuleInfo(rootModuleDefinition);
-		return false;
-	}
+    public boolean execute(CommandState commandState) {
+        final RootModuleDefinition rootModuleDefinition = Impala.getRootModuleDefinition();
+        
+        printModuleInfo(rootModuleDefinition);
+        return false;
+    }
 
-	void printModuleInfo(final RootModuleDefinition rootModuleDefinition) {
-		if (rootModuleDefinition != null) {
-			System.out.println(rootModuleDefinition.toString());
-		} else {
-			System.out.print("No modules loaded");
-		}
-	}
+    void printModuleInfo(final RootModuleDefinition rootModuleDefinition) {
+        if (rootModuleDefinition != null) {
+            System.out.println(rootModuleDefinition.toString());
+        } else {
+            System.out.print("No modules loaded");
+        }
+    }
 
-	public CommandDefinition getCommandDefinition() {
-		return new CommandDefinition("Displays metadata on loaded modules");
-	}
+    public CommandDefinition getCommandDefinition() {
+        return new CommandDefinition("Displays metadata on loaded modules");
+    }
 
 }

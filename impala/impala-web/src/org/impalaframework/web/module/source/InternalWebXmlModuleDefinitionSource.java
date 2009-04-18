@@ -21,13 +21,13 @@ import org.impalaframework.resolver.ModuleLocationResolver;
 
 public class InternalWebXmlModuleDefinitionSource extends InternalXmlModuleDefinitionSource {
 
-	public InternalWebXmlModuleDefinitionSource() {
-		super(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
-				Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
-	}
+    public InternalWebXmlModuleDefinitionSource() {
+        super(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
+                Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
+    }
 
-	public InternalWebXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
-		super(moduleLocationResolver, typeReaderRegistry);
-	}
+    public InternalWebXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
+        super(moduleLocationResolver, typeReaderRegistry);
+    }
 
 }

@@ -19,41 +19,41 @@ import org.springframework.beans.support.PropertyComparator;
 @SuppressWarnings("unchecked")
 public class Vet extends Person {
 
-	private Set specialties;
+    private Set specialties;
 
-	protected void setSpecialtiesInternal(Set specialties) {
-		this.specialties = specialties;
-	}
+    protected void setSpecialtiesInternal(Set specialties) {
+        this.specialties = specialties;
+    }
 
-	protected Set getSpecialtiesInternal() {
-		if (this.specialties == null) {
-			this.specialties = new HashSet();
-		}
-		return this.specialties;
-	}
-	
-	public List getSpecialties() {
-		List sortedSpecs = new ArrayList(getSpecialtiesInternal());
-		PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
-		return Collections.unmodifiableList(sortedSpecs);
-	}
+    protected Set getSpecialtiesInternal() {
+        if (this.specialties == null) {
+            this.specialties = new HashSet();
+        }
+        return this.specialties;
+    }
+    
+    public List getSpecialties() {
+        List sortedSpecs = new ArrayList(getSpecialtiesInternal());
+        PropertyComparator.sort(sortedSpecs, new MutableSortDefinition("name", true, true));
+        return Collections.unmodifiableList(sortedSpecs);
+    }
 
-	public int getNrOfSpecialties() {
-		return getSpecialtiesInternal().size();
-	}
-	
-	public void addSpecialty(Specialty specialty) {
-		getSpecialtiesInternal().add(specialty);
-	}
-	
-	private Surgery surgery;
+    public int getNrOfSpecialties() {
+        return getSpecialtiesInternal().size();
+    }
+    
+    public void addSpecialty(Specialty specialty) {
+        getSpecialtiesInternal().add(specialty);
+    }
+    
+    private Surgery surgery;
 
-	public Surgery getSurgery() {
-		return surgery;
-	}
+    public Surgery getSurgery() {
+        return surgery;
+    }
 
-	public void setSurgery(Surgery surgery) {
-		this.surgery = surgery;
-	}
+    public void setSurgery(Surgery surgery) {
+        this.surgery = surgery;
+    }
 
 }

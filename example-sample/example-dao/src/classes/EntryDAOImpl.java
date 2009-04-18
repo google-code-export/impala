@@ -22,21 +22,21 @@ import interfaces.EntryDAO;
 
 public class EntryDAOImpl extends HibernateDaoSupport implements EntryDAO {
 
-	public void save(Entry entry) {
-		getHibernateTemplate().save(entry);
-	}
+    public void save(Entry entry) {
+        getHibernateTemplate().save(entry);
+    }
 
-	@SuppressWarnings("unchecked")
-	public Collection<Entry> getEntriesWithCount(int count) {
-		return getHibernateTemplate().find("from Entry entry where entry.count = ?", count);
-	}
+    @SuppressWarnings("unchecked")
+    public Collection<Entry> getEntriesWithCount(int count) {
+        return getHibernateTemplate().find("from Entry entry where entry.count = ?", count);
+    }
 
-	public void update(Entry entry) {
-		getHibernateTemplate().update(entry);
-	}
+    public void update(Entry entry) {
+        getHibernateTemplate().update(entry);
+    }
 
-	public Entry findById(long id) {
-		return (Entry) getHibernateTemplate().get(Entry.class, id);
-	}
+    public Entry findById(long id) {
+        return (Entry) getHibernateTemplate().get(Entry.class, id);
+    }
 
 }

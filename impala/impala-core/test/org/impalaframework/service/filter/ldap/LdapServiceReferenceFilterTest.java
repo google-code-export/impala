@@ -23,31 +23,31 @@ import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 public class LdapServiceReferenceFilterTest extends TestCase {
-	
-	private LdapServiceReferenceFilter filter;
+    
+    private LdapServiceReferenceFilter filter;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		filter = new LdapServiceReferenceFilter("(name=value)");
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        filter = new LdapServiceReferenceFilter("(name=value)");
+    }
 
-	public void testMatchesNoAttributes() {
-		BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", ClassUtils.getDefaultClassLoader());
-		assertFalse(filter.matches(reference));
-	}
-	
-	public void testMatchesWithEmptyAttributes() {
-		
-		Map<String,Object> attributes = new HashMap<String, Object>();
-		BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
-		assertFalse(filter.matches(reference));
-		
-		attributes.put("name","anothervalue");	reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
-		assertFalse(filter.matches(reference));
-		
-		attributes.put("name","value");	reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
-		assertTrue(filter.matches(reference));
-	}
+    public void testMatchesNoAttributes() {
+        BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", ClassUtils.getDefaultClassLoader());
+        assertFalse(filter.matches(reference));
+    }
+    
+    public void testMatchesWithEmptyAttributes() {
+        
+        Map<String,Object> attributes = new HashMap<String, Object>();
+        BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        assertFalse(filter.matches(reference));
+        
+        attributes.put("name","anothervalue");  reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        assertFalse(filter.matches(reference));
+        
+        attributes.put("name","value"); reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        assertTrue(filter.matches(reference));
+    }
 
 }

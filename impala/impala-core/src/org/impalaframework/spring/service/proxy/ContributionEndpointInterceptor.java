@@ -28,94 +28,94 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
  */
 public class ContributionEndpointInterceptor implements MethodInterceptor {
 
-	final Log log = LogFactory.getLog(ContributionEndpointInterceptor.class);
+    final Log log = LogFactory.getLog(ContributionEndpointInterceptor.class);
 
-	private ContributionEndpointTargetSource targetSource;
+    private ContributionEndpointTargetSource targetSource;
 
-	private String beanName;
+    private String beanName;
 
-	private boolean proceedWithNoService;
+    private boolean proceedWithNoService;
 
-	private boolean logWarningNoService;
-	
-	private boolean setContextClassLoader;
+    private boolean logWarningNoService;
+    
+    private boolean setContextClassLoader;
 
-	public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
-		this.targetSource = targetSource;
-		this.beanName = beanName;
-	}
+    public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
+        this.targetSource = targetSource;
+        this.beanName = beanName;
+    }
 
-	public Object invoke(MethodInvocation invocation) throws Throwable {
-		final boolean setCCCL = setContextClassLoader;
-		ServiceRegistryReference serviceReference = targetSource.getServiceRegistryReference();
-		if (serviceReference != null) {
-			
-			Thread currentThread = Thread.currentThread();
-			ClassLoader existingClassLoader = currentThread.getContextClassLoader();
-			try {
-				if (setCCCL) {
-					currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
-				}
-				return invocation.proceed();
-				
-			} finally {
-				//reset the previous class loader
-				if (setCCCL) {
-					Thread.currentThread().setContextClassLoader(existingClassLoader);
-				}
-			}
-		}
-		else {
-			if (proceedWithNoService) {
+    public Object invoke(MethodInvocation invocation) throws Throwable {
+        final boolean setCCCL = setContextClassLoader;
+        ServiceRegistryReference serviceReference = targetSource.getServiceRegistryReference();
+        if (serviceReference != null) {
+            
+            Thread currentThread = Thread.currentThread();
+            ClassLoader existingClassLoader = currentThread.getContextClassLoader();
+            try {
+                if (setCCCL) {
+                    currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
+                }
+                return invocation.proceed();
+                
+            } finally {
+                //reset the previous class loader
+                if (setCCCL) {
+                    Thread.currentThread().setContextClassLoader(existingClassLoader);
+                }
+            }
+        }
+        else {
+            if (proceedWithNoService) {
 
-				if (logWarningNoService) {
-					log.warn("************************************************************************* ");
-					log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
-					log.warn("************************************************************************* ");
-				}
+                if (logWarningNoService) {
+                    log.warn("************************************************************************* ");
+                    log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
+                    log.warn("************************************************************************* ");
+                }
 
-				return invokeDummy(invocation);
-			}
-			else
-				throw new NoServiceException("No service available for bean " + beanName);
-		}
-	}
+                return invokeDummy(invocation);
+            }
+            else
+                throw new NoServiceException("No service available for bean " + beanName);
+        }
+    }
 
-	public Object invokeDummy(MethodInvocation invocation) throws Throwable {
+    public Object invokeDummy(MethodInvocation invocation) throws Throwable {
 
-		log.debug("Calling method " +  invocation);
-		Class<?> returnType = invocation.getMethod().getReturnType();
+        log.debug("Calling method " +  invocation);
+        Class<?> returnType = invocation.getMethod().getReturnType();
 
-		if (Void.TYPE.equals(returnType))
-			return null;
-		if (Byte.TYPE.equals(returnType))
-			return (byte) 0;
-		if (Short.TYPE.equals(returnType))
-			return (short) 0;
-		if (Integer.TYPE.equals(returnType))
-			return (int) 0;
-		if (Long.TYPE.equals(returnType))
-			return 0L;
-		if (Float.TYPE.equals(returnType))
-			return 0f;
-		if (Double.TYPE.equals(returnType))
-			return 0d;
-		if (Boolean.TYPE.equals(returnType))
-			return false;
+        if (Void.TYPE.equals(returnType))
+            return null;
+        if (Byte.TYPE.equals(returnType))
+            return (byte) 0;
+        if (Short.TYPE.equals(returnType))
+            return (short) 0;
+        if (Integer.TYPE.equals(returnType))
+            return (int) 0;
+        if (Long.TYPE.equals(returnType))
+            return 0L;
+        if (Float.TYPE.equals(returnType))
+            return 0f;
+        if (Double.TYPE.equals(returnType))
+            return 0d;
+        if (Boolean.TYPE.equals(returnType))
+            return false;
 
-		return null;
-	}
+        return null;
+    }
 
-	public void setProceedWithNoService(boolean proceedWithNoService) {
-		this.proceedWithNoService = proceedWithNoService;
-	}
+    public void setProceedWithNoService(boolean proceedWithNoService) {
+        this.proceedWithNoService = proceedWithNoService;
+    }
 
-	public void setLogWarningNoService(boolean logWarningNoService) {
-		this.logWarningNoService = logWarningNoService;
-	}
+    public void setLogWarningNoService(boolean logWarningNoService) {
+        this.logWarningNoService = logWarningNoService;
+    }
 
-	public void setSetContextClassLoader(boolean setContextClassLoader) {
-		this.setContextClassLoader = setContextClassLoader;
-	}
+    public void setSetContextClassLoader(boolean setContextClassLoader) {
+        this.setContextClassLoader = setContextClassLoader;
+    }
 
 }

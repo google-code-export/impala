@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:tx="http://www.springframework.org/schema/tx"
-	xsi:schemaLocation="
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"
+    xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
-	
-	<tx:annotation-driven transaction-manager="transactionManager"/>
-	
-	<bean class="org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
-	
-	<bean id="entryService" class="classes.EntryServiceImpl">
-		<property name="entryDAO" ref="entryDAO"/>
-	</bean>
-	
-	<!-- JXM beans -->
-	
-	<bean id="jmxHelper" class="classes.JMXHelper"/>
-	
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <bean class="org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+    
+    <bean id="entryService" class="classes.EntryServiceImpl">
+        <property name="entryDAO" ref="entryDAO"/>
+    </bean>
+    
+    <!-- JXM beans -->
+    
+    <bean id="jmxHelper" class="classes.JMXHelper"/>
+    
     <bean id="jmxAttributeSource"
           class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>
-	
+    
     <bean id="assembler"
           class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
         <property name="attributeSource" ref="jmxAttributeSource"/>
@@ -29,17 +29,17 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <bean id="namingStrategy"
           class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
         <property name="attributeSource" ref="jmxAttributeSource"/>
-    </bean>	
-	
-	<bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
-		<property name="assembler" ref="assembler"/>
-		<property name="namingStrategy" ref="namingStrategy"/>
-		<property name="beans">
-			<map>
-				<entry key="example:service=jmxHelper"
-					value-ref="jmxHelper"/>
-			</map>
-		</property>
-	</bean>
-	
+    </bean> 
+    
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="assembler" ref="assembler"/>
+        <property name="namingStrategy" ref="namingStrategy"/>
+        <property name="beans">
+            <map>
+                <entry key="example:service=jmxHelper"
+                    value-ref="jmxHelper"/>
+            </map>
+        </property>
+    </bean>
+    
 </beans>

@@ -20,34 +20,34 @@ import org.impalaframework.module.RuntimeModule;
 import org.springframework.util.Assert;
 
 public class SimpleModuleRuntime extends BaseModuleRuntime {
-	
-	private ClassLoaderFactory classLoaderFactory;
-	
-	@Override
-	protected RuntimeModule doLoadModule(ModuleDefinition definition) {
-		Assert.notNull(definition);
-		Assert.notNull(classLoaderFactory);
-		
-		ClassLoader parentClassLoader = null;
-		final ModuleDefinition parentDefinition = definition.getParentDefinition();
+    
+    private ClassLoaderFactory classLoaderFactory;
+    
+    @Override
+    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+        Assert.notNull(definition);
+        Assert.notNull(classLoaderFactory);
+        
+        ClassLoader parentClassLoader = null;
+        final ModuleDefinition parentDefinition = definition.getParentDefinition();
 
-		if (parentDefinition != null) {
-			parentClassLoader = getClassLoaderRegistry().getClassLoader(parentDefinition.getName());
-		}
-		final ClassLoader classLoader = classLoaderFactory.newClassLoader(parentClassLoader, definition);
-		return new SimpleRuntimeModule(classLoader, definition);
-	}
+        if (parentDefinition != null) {
+            parentClassLoader = getClassLoaderRegistry().getClassLoader(parentDefinition.getName());
+        }
+        final ClassLoader classLoader = classLoaderFactory.newClassLoader(parentClassLoader, definition);
+        return new SimpleRuntimeModule(classLoader, definition);
+    }
 
-	@Override
-	protected void doCloseModule(RuntimeModule runtimeModule) {
-	}
+    @Override
+    protected void doCloseModule(RuntimeModule runtimeModule) {
+    }
 
-	public String getRuntimeName() {
-		return "simple";
-	}
+    public String getRuntimeName() {
+        return "simple";
+    }
 
-	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
-		this.classLoaderFactory = classLoaderFactory;
-	}
+    public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
+        this.classLoaderFactory = classLoaderFactory;
+    }
 
 }

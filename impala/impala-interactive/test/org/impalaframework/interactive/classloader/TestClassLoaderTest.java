@@ -23,23 +23,23 @@ import junit.framework.TestCase;
 
 public class TestClassLoaderTest extends TestCase {
 
-	public void testLoadClassString() throws Exception {
-		TestClassLoader tcl = new TestClassLoader(new File[] {new File("../impala-interactive/bin")}, "org.impalaframework.interactive.testrun.AJUnitTest");
+    public void testLoadClassString() throws Exception {
+        TestClassLoader tcl = new TestClassLoader(new File[] {new File("../impala-interactive/bin")}, "org.impalaframework.interactive.testrun.AJUnitTest");
 
-		// check that this class loader loads the named class
-		Class<?> cls = Class.forName("org.impalaframework.interactive.testrun.AJUnitTest", false, tcl);
-		assertSame(cls.getClassLoader(), tcl);
+        // check that this class loader loads the named class
+        Class<?> cls = Class.forName("org.impalaframework.interactive.testrun.AJUnitTest", false, tcl);
+        assertSame(cls.getClassLoader(), tcl);
 
-		Map<String, Class<?>> loadedClasses = tcl.getLoadedClasses();
-		assertEquals(1, loadedClasses.size());
-		assertNotNull(loadedClasses.get("org.impalaframework.interactive.testrun.AJUnitTest"));
+        Map<String, Class<?>> loadedClasses = tcl.getLoadedClasses();
+        assertEquals(1, loadedClasses.size());
+        assertNotNull(loadedClasses.get("org.impalaframework.interactive.testrun.AJUnitTest"));
 
-		// but not a String
-		cls = Class.forName("java.lang.String", false, tcl);
-		assertNotSame(cls.getClassLoader(), tcl);
+        // but not a String
+        cls = Class.forName("java.lang.String", false, tcl);
+        assertNotSame(cls.getClassLoader(), tcl);
 
-		cls = Class.forName("org.impalaframework.interactive.testrun.BaseTest", false, tcl);
-		assertNotSame(cls.getClassLoader(), tcl);
-	}
+        cls = Class.forName("org.impalaframework.interactive.testrun.BaseTest", false, tcl);
+        assertNotSame(cls.getClassLoader(), tcl);
+    }
 
 }

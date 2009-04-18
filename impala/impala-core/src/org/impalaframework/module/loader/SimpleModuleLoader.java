@@ -34,60 +34,60 @@ import org.springframework.util.ClassUtils;
  */
 public class SimpleModuleLoader implements ModuleLoader {
 
-	private ClassLoaderFactory classLoaderFactory;
-	private ModuleLocationResolver moduleLocationResolver;
-	
-	public void init() {
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		Assert.notNull(classLoaderFactory, "classloader cannot be null");
-	}
-	
-	/**
-	 * Uses wired in {@link ClassLoaderFactory} to return new class loader instance.
-	 */
-	public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
-		ClassLoader classLoader = null;
-		if (parent != null) {
-			classLoader = parent.getClassLoader();
-		}
-		else {
-			classLoader = ClassUtils.getDefaultClassLoader();
-		}
-		return getClassLoaderFactory().newClassLoader(classLoader, moduleDefinition);
-	}
-	
-	/**
-	 * Used wired in {@link ModuleLocationResolver} to retrieve module class locations
-	 */
-	public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-		Assert.notNull(moduleDefinition);
-		Assert.notNull(moduleLocationResolver);
-		
-		List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-		return ResourceUtils.toArray(locations);
-	}
-	
-	/* ****************** protected methods ************** */
-	
-	protected ClassLoaderFactory getClassLoaderFactory() {
-		if (classLoaderFactory == null) {
-			throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
-		}
-		return classLoaderFactory;
-	}
+    private ClassLoaderFactory classLoaderFactory;
+    private ModuleLocationResolver moduleLocationResolver;
+    
+    public void init() {
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        Assert.notNull(classLoaderFactory, "classloader cannot be null");
+    }
+    
+    /**
+     * Uses wired in {@link ClassLoaderFactory} to return new class loader instance.
+     */
+    public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+        ClassLoader classLoader = null;
+        if (parent != null) {
+            classLoader = parent.getClassLoader();
+        }
+        else {
+            classLoader = ClassUtils.getDefaultClassLoader();
+        }
+        return getClassLoaderFactory().newClassLoader(classLoader, moduleDefinition);
+    }
+    
+    /**
+     * Used wired in {@link ModuleLocationResolver} to retrieve module class locations
+     */
+    public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+        Assert.notNull(moduleDefinition);
+        Assert.notNull(moduleLocationResolver);
+        
+        List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
+        return ResourceUtils.toArray(locations);
+    }
+    
+    /* ****************** protected methods ************** */
+    
+    protected ClassLoaderFactory getClassLoaderFactory() {
+        if (classLoaderFactory == null) {
+            throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
+        }
+        return classLoaderFactory;
+    }
 
-	protected ModuleLocationResolver getClassLocationResolver() {
-		return moduleLocationResolver;
-	}
-	
-	/* ****************** injection setter methods ************** */
+    protected ModuleLocationResolver getClassLocationResolver() {
+        return moduleLocationResolver;
+    }
+    
+    /* ****************** injection setter methods ************** */
 
-	public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
-		this.classLoaderFactory = classLoaderFactory;
-	}
+    public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
+        this.classLoaderFactory = classLoaderFactory;
+    }
 
-	public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
 }

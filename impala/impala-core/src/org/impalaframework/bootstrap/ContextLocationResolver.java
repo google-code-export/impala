@@ -24,5 +24,5 @@ import org.impalaframework.config.PropertySource;
  * @author Phil Zoio
  */
 public interface ContextLocationResolver {
-	public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource);
+    public boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource);
 }

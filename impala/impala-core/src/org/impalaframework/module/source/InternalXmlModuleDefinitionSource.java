@@ -31,76 +31,76 @@ import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
 public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
-	
-	private ModuleLocationResolver moduleLocationResolver;
-	
-	private TypeReaderRegistry typeReaderRegistry;
+    
+    private ModuleLocationResolver moduleLocationResolver;
+    
+    private TypeReaderRegistry typeReaderRegistry;
 
-	public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver) {
-		this(moduleLocationResolver, TypeReaderRegistryFactory.getTypeReaderRegistry());
-	}
+    public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver) {
+        this(moduleLocationResolver, TypeReaderRegistryFactory.getTypeReaderRegistry());
+    }
 
-	public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
-		super();
-		Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-		Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
-		this.typeReaderRegistry = typeReaderRegistry;
-		this.moduleLocationResolver = moduleLocationResolver;
-	}
+    public InternalXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
+        super();
+        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
+        this.typeReaderRegistry = typeReaderRegistry;
+        this.moduleLocationResolver = moduleLocationResolver;
+    }
 
-	public RootModuleDefinition getModuleDefinition() {
-		Element root = getRootElement();
-		String[] moduleNames = getModuleNames(root);
-		
-		InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(typeReaderRegistry, moduleLocationResolver, moduleNames);
-		
-		//now need to tweak properties with XML variants
-		internalModuleSource.inspectModules();
-		Map<String, Properties> moduleProperties = internalModuleSource.getModuleProperties();
-		readChildDefinitions(root, moduleProperties);
-		
-		return internalModuleSource.buildModules();
-	}
+    public RootModuleDefinition getModuleDefinition() {
+        Element root = getRootElement();
+        String[] moduleNames = getModuleNames(root);
+        
+        InternalModuleDefinitionSource internalModuleSource = new InternalModuleDefinitionSource(typeReaderRegistry, moduleLocationResolver, moduleNames);
+        
+        //now need to tweak properties with XML variants
+        internalModuleSource.inspectModules();
+        Map<String, Properties> moduleProperties = internalModuleSource.getModuleProperties();
+        readChildDefinitions(root, moduleProperties);
+        
+        return internalModuleSource.buildModules();
+    }
 
-	private String[] getModuleNames(Element root) {
-		Element namesElement = DomUtils.getChildElementByTagName(root, ModuleElementNames.NAMES_ELEMENT);
-		
-		if (namesElement == null) {
-			throw new ConfigurationException("Resource '" + getResource() + "' contains a non-empty '" + ModuleElementNames.NAMES_ELEMENT + "' element, which is illegal when using " + InternalModuleDefinitionSource.class.getSimpleName());
-		}
-		
-		String value = namesElement.getTextContent();
-		String[] moduleNames = StringUtils.tokenizeToStringArray(value, " ,\n\r", true, true);
-		return moduleNames;
-	}
-	
-	
-	private void readChildDefinitions(Element element, Map<String, Properties> moduleProperties) {
-		Element definitionsElement = DomUtils.getChildElementByTagName(element, ModuleElementNames.MODULES_ELEMENT);
-		if (definitionsElement != null) {
-			readDefinitions(definitionsElement, moduleProperties);
-		}
-	}
+    private String[] getModuleNames(Element root) {
+        Element namesElement = DomUtils.getChildElementByTagName(root, ModuleElementNames.NAMES_ELEMENT);
+        
+        if (namesElement == null) {
+            throw new ConfigurationException("Resource '" + getResource() + "' contains a non-empty '" + ModuleElementNames.NAMES_ELEMENT + "' element, which is illegal when using " + InternalModuleDefinitionSource.class.getSimpleName());
+        }
+        
+        String value = namesElement.getTextContent();
+        String[] moduleNames = StringUtils.tokenizeToStringArray(value, " ,\n\r", true, true);
+        return moduleNames;
+    }
+    
+    
+    private void readChildDefinitions(Element element, Map<String, Properties> moduleProperties) {
+        Element definitionsElement = DomUtils.getChildElementByTagName(element, ModuleElementNames.MODULES_ELEMENT);
+        if (definitionsElement != null) {
+            readDefinitions(definitionsElement, moduleProperties);
+        }
+    }
 
-	@SuppressWarnings("unchecked")
-	private void readDefinitions(Element definitionsElement, Map<String, Properties> moduleProperties) {
-		List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, ModuleElementNames.MODULE_ELEMENT);
+    @SuppressWarnings("unchecked")
+    private void readDefinitions(Element definitionsElement, Map<String, Properties> moduleProperties) {
+        List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, ModuleElementNames.MODULE_ELEMENT);
 
-		for (Element definitionElement : definitionElementList) {
-			
-			String name = getName(definitionElement);
-			String type = getType(definitionElement);
-		
-			Properties properties = moduleProperties.get(name);
-		
-			if (properties == null) {
-				throw new ConfigurationException("Resource '" + getResource() + "' contains no new properties for module '" + name + 
-						"'. Has this module been declared in the '" + ModuleElementNames.NAMES_ELEMENT + "' element?");
-			}
-			
-			TypeReader typeReader = typeReaderRegistry.getTypeReader(type);
-			typeReader.readModuleDefinitionProperties(properties, name, definitionElement);
-		}
-	}
+        for (Element definitionElement : definitionElementList) {
+            
+            String name = getName(definitionElement);
+            String type = getType(definitionElement);
+        
+            Properties properties = moduleProperties.get(name);
+        
+            if (properties == null) {
+                throw new ConfigurationException("Resource '" + getResource() + "' contains no new properties for module '" + name + 
+                        "'. Has this module been declared in the '" + ModuleElementNames.NAMES_ELEMENT + "' element?");
+            }
+            
+            TypeReader typeReader = typeReaderRegistry.getTypeReader(type);
+            typeReader.readModuleDefinitionProperties(properties, name, definitionElement);
+        }
+    }
 
 }

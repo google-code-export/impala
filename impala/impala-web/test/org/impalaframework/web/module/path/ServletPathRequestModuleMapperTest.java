@@ -28,52 +28,52 @@ import org.impalaframework.web.integration.ServletPathRequestModuleMapper;
 import junit.framework.TestCase;
 
 public class ServletPathRequestModuleMapperTest extends TestCase {
-	
-	private HashMap<String, String> initParameters;
-	private ServletContext servletContext;
-	private ServletPathRequestModuleMapper mapper;
-	private HttpServletRequest request;
+    
+    private HashMap<String, String> initParameters;
+    private ServletContext servletContext;
+    private ServletPathRequestModuleMapper mapper;
+    private HttpServletRequest request;
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		initParameters = new HashMap<String, String>();
-		servletContext = createMock(ServletContext.class);
-		mapper = new ServletPathRequestModuleMapper();
-		request = createMock(HttpServletRequest.class);
-	}
-	
-	public void testGetModuleForRequest() {
-		expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
-		mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
-		
-		replay(request);
-		assertEquals("mymodule", mapper.getModuleForRequest(request));
-		verify(request);
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        initParameters = new HashMap<String, String>();
+        servletContext = createMock(ServletContext.class);
+        mapper = new ServletPathRequestModuleMapper();
+        request = createMock(HttpServletRequest.class);
+    }
+    
+    public void testGetModuleForRequest() {
+        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
+        
+        replay(request);
+        assertEquals("mymodule", mapper.getModuleForRequest(request));
+        verify(request);
+    }
 
-	public void testGetModuleForRequestWithPrefix() {
-		initParameters.put("modulePrefix", "someprefix");
-		
-		expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
-		mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
-		
-		replay(request);
-		assertEquals("someprefixmymodule", mapper.getModuleForRequest(request));
-		verify(request);
-	}
-	
+    public void testGetModuleForRequestWithPrefix() {
+        initParameters.put("modulePrefix", "someprefix");
+        
+        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
+        
+        replay(request);
+        assertEquals("someprefixmymodule", mapper.getModuleForRequest(request));
+        verify(request);
+    }
+    
 
-	public void testGetModuleWithFilter() {
-		initParameters.put("modulePrefix", "anotherprefix");
-		mapper.init(new IntegrationFilterConfig(initParameters, servletContext, "filterServlet"));
-		
-		expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
-		mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
-		
-		replay(request);
-		assertEquals("anotherprefixmymodule", mapper.getModuleForRequest(request));
-		verify(request);
-	}
+    public void testGetModuleWithFilter() {
+        initParameters.put("modulePrefix", "anotherprefix");
+        mapper.init(new IntegrationFilterConfig(initParameters, servletContext, "filterServlet"));
+        
+        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
+        
+        replay(request);
+        assertEquals("anotherprefixmymodule", mapper.getModuleForRequest(request));
+        verify(request);
+    }
 
 }

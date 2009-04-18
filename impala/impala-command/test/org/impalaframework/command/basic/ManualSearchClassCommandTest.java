@@ -24,38 +24,38 @@ import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 
 public class ManualSearchClassCommandTest extends TestCase {
-	public void testAlternativeInputCommand() throws Exception {
-		SearchClassCommand command = getCommand();
-		doTest(command);
-	}
+    public void testAlternativeInputCommand() throws Exception {
+        SearchClassCommand command = getCommand();
+        doTest(command);
+    }
 
-	protected void doTest(SearchClassCommand command) throws ClassNotFoundException {
-		// now need to capture
-		CommandState commandState = new CommandState();
+    protected void doTest(SearchClassCommand command) throws ClassNotFoundException {
+        // now need to capture
+        CommandState commandState = new CommandState();
 
-		CommandLineInputCapturer inputCapturer = getInputCapturer();
-		commandState.setInputCapturer(inputCapturer);
+        CommandLineInputCapturer inputCapturer = getInputCapturer();
+        commandState.setInputCapturer(inputCapturer);
 
-		commandState.capture(command);
-		command.execute(commandState);
-		
-		System.out.println("Selected alternative: " + command.getClassName());
-	}
-	
-	protected CommandLineInputCapturer getInputCapturer() {
-		CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
-		return inputCapturer;
-	}
-	
-	protected SearchClassCommand getCommand() {
-		File mainSrc = new File("../impala-core/bin");
-		File mainTest = new File("../impala-web/bin");
-		List<File> classDirectories = new ArrayList<File>();
-		classDirectories.add(mainSrc);
-		classDirectories.add(mainTest);
+        commandState.capture(command);
+        command.execute(commandState);
+        
+        System.out.println("Selected alternative: " + command.getClassName());
+    }
+    
+    protected CommandLineInputCapturer getInputCapturer() {
+        CommandLineInputCapturer inputCapturer = new CommandLineInputCapturer();
+        return inputCapturer;
+    }
+    
+    protected SearchClassCommand getCommand() {
+        File mainSrc = new File("../impala-core/bin");
+        File mainTest = new File("../impala-web/bin");
+        List<File> classDirectories = new ArrayList<File>();
+        classDirectories.add(mainSrc);
+        classDirectories.add(mainTest);
 
-		SearchClassCommand command = new SearchClassCommand();
-		command.setClassDirectories(classDirectories);
-		return command;
-	}
+        SearchClassCommand command = new SearchClassCommand();
+        command.setClassDirectories(classDirectories);
+        return command;
+    }
 }

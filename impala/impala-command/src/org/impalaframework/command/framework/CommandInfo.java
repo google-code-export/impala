@@ -22,37 +22,37 @@ import org.springframework.util.Assert;
  */
 public class CommandInfo {
 
-	private String propertyName;
+    private String propertyName;
 
-	private String description;
+    private String description;
 
-	private String requestString;
+    private String requestString;
 
-	private String defaultValue;
+    private String defaultValue;
 
-	private String[] extraLines;
+    private String[] extraLines;
 
-	private boolean shared;
+    private boolean shared;
 
-	private boolean optional;
+    private boolean optional;
 
-	private boolean isolated;
+    private boolean isolated;
 
-	private boolean globalOverride;
+    private boolean globalOverride;
 
-	/**
-	 * Constructor for <code>CommandInfo</code>
-	 * @param propertyName the name of the property being extracted
-	 * @param description a description of the property being extracted
-	 * @param requestString the String used to prompt the user
-	 * @param defaultValue the defualt value for the property. Only used if the
-	 * property cannot be captured from user input, and if there is no property
-	 * value held in <code>GlobalCommandState</code>
-	 * @param extraLines extra lines used to prompt the user
-	 * @param shared if true, the captured value will be added to the
-	 * <code>GlobalCommandState</code> for subsequent use
-	 * @param optional if true, then a null or empty value is allowed - you
-	 * won't be continually prompted until you come up with a value
+    /**
+     * Constructor for <code>CommandInfo</code>
+     * @param propertyName the name of the property being extracted
+     * @param description a description of the property being extracted
+     * @param requestString the String used to prompt the user
+     * @param defaultValue the defualt value for the property. Only used if the
+     * property cannot be captured from user input, and if there is no property
+     * value held in <code>GlobalCommandState</code>
+     * @param extraLines extra lines used to prompt the user
+     * @param shared if true, the captured value will be added to the
+     * <code>GlobalCommandState</code> for subsequent use
+     * @param optional if true, then a null or empty value is allowed - you
+     * won't be continually prompted until you come up with a value
 	 * @param isolated if true, then the value held in
 	 * <code>GlobalCommandState</code> will not be used, even if it is
 	 * available

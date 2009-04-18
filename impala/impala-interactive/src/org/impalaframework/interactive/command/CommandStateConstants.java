@@ -16,13 +16,13 @@ package org.impalaframework.interactive.command;
 
 public interface CommandStateConstants {
 
-	String DEBUG_MODE = "debugMode";
-	String TEST_CLASS = "testClass";
-	String COMMAND_TEXT = "commandText";
-	String LAST_COMMAND = "lastCommand";
-	String TEST_CLASS_NAME = "testClassName";
-	String MODULE_DEFINITION_SOURCE = "moduleDefinitionSource";
-	String DIRECTORY_NAME = "directoryName";
-	String TEST_METHOD_NAME = "testMethodName";
+    String DEBUG_MODE = "debugMode";
+    String TEST_CLASS = "testClass";
+    String COMMAND_TEXT = "commandText";
+    String LAST_COMMAND = "lastCommand";
+    String TEST_CLASS_NAME = "testClassName";
+    String MODULE_DEFINITION_SOURCE = "moduleDefinitionSource";
+    String DIRECTORY_NAME = "directoryName";
+    String TEST_METHOD_NAME = "testMethodName";
 
 }

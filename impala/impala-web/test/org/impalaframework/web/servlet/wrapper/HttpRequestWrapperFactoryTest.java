@@ -26,24 +26,24 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequ
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
 
-	public void testIdentityWrapper() {
-		IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
-		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		assertSame(request, factory.getWrappedRequest(request, null, null));
-		
-		assertNull(factory.getWrappedRequest(null, null, null));
-	}
-	
-	public void testModuleWrapper() {
-		ModuleAwareRequestWrapperFactory factory = new ModuleAwareRequestWrapperFactory();
-		final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-		final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
-		
-		assertSame(request, factory.getWrappedRequest(request, servletContext, "myModule"));
-		
-		factory.setEnableModuleSessionProtection(true);
-		final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, "myModule");
-		assertTrue(wrappedRequest instanceof ModuleAwareWrapperHttpServletRequest);
-	}
+    public void testIdentityWrapper() {
+        IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
+        final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+        assertSame(request, factory.getWrappedRequest(request, null, null));
+        
+        assertNull(factory.getWrappedRequest(null, null, null));
+    }
+    
+    public void testModuleWrapper() {
+        ModuleAwareRequestWrapperFactory factory = new ModuleAwareRequestWrapperFactory();
+        final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
+        final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
+        
+        assertSame(request, factory.getWrappedRequest(request, servletContext, "myModule"));
+        
+        factory.setEnableModuleSessionProtection(true);
+        final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, "myModule");
+        assertTrue(wrappedRequest instanceof ModuleAwareWrapperHttpServletRequest);
+    }
 
 }

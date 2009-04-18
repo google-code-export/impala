@@ -24,31 +24,31 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 
 public class LockingModuleOperationTest extends TestCase {
 
-	public void testExecute() {
-		
-		LockingModuleOperation operation = new LockingModuleOperation(){
+    public void testExecute() {
+        
+        LockingModuleOperation operation = new LockingModuleOperation(){
 
-			@Override
-			protected ModuleOperationResult doExecute(
-					ModuleOperationInput moduleOperationInput) {
-				System.out.println("After locking, before unlocking");
-				return null;
-			}
-			
-		};
-		
-		FrameworkLockHolder moduleStateHolder = createMock(FrameworkLockHolder.class);
-		operation.setFrameworkLockHolder(moduleStateHolder);
-		operation.setModuleStateHolder(createMock(ModuleStateHolder.class));
-		
-		moduleStateHolder.writeLock();
-		moduleStateHolder.writeUnlock();
-		
-		replay(moduleStateHolder);
-		
-		operation.execute(null);
-		
-		verify(moduleStateHolder);
-	}
+            @Override
+            protected ModuleOperationResult doExecute(
+                    ModuleOperationInput moduleOperationInput) {
+                System.out.println("After locking, before unlocking");
+                return null;
+            }
+            
+        };
+        
+        FrameworkLockHolder moduleStateHolder = createMock(FrameworkLockHolder.class);
+        operation.setFrameworkLockHolder(moduleStateHolder);
+        operation.setModuleStateHolder(createMock(ModuleStateHolder.class));
+        
+        moduleStateHolder.writeLock();
+        moduleStateHolder.writeUnlock();
+        
+        replay(moduleStateHolder);
+        
+        operation.execute(null);
+        
+        verify(moduleStateHolder);
+    }
 
 }

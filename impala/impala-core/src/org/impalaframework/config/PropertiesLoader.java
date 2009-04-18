@@ -18,6 +18,6 @@ import java.util.Properties;
 
 public interface PropertiesLoader {
 
-	public Properties loadProperties();
-	
+    public Properties loadProperties();
+    
 }

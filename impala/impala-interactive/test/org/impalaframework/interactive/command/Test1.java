@@ -22,22 +22,22 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
 public class Test1 extends TestCase implements ModuleDefinitionSource {
-	
-	public static final String plugin1 = "sample-module1";
+    
+    public static final String plugin1 = "sample-module1";
 
-	ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
+    ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
 
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Impala.init(this);
-	}
-	
-	public void testMyMethod() throws Exception {
-		System.out.println("Running test method with " + Impala.getRootRuntimeModule());
-	}
-	
-	public RootModuleDefinition getModuleDefinition() {
-		return source.getModuleDefinition();
-	}
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Impala.init(this);
+    }
+    
+    public void testMyMethod() throws Exception {
+        System.out.println("Running test method with " + Impala.getRootRuntimeModule());
+    }
+    
+    public RootModuleDefinition getModuleDefinition() {
+        return source.getModuleDefinition();
+    }
 }
