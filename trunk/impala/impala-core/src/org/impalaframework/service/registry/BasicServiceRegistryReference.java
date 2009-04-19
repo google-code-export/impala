@@ -49,7 +49,8 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
             String beanName,
             String contributingModule, 
             List<Class<?>> exportedTypes,
-            Map<String, ?> attributes, ClassLoader classLoader) {
+            Map<String, ?> attributes, 
+            ClassLoader classLoader) {
         super();
         Assert.notNull(bean, "service instance cannot be null");
         Assert.notNull(contributingModule, "contributingModule cannot be null");

@@ -69,8 +69,9 @@ public interface ServiceRegistry {
     /**
      * Gets all services from the service registry which match the provided filter
      * @param filter a {@link ServiceReferenceFilter} instance
+     * @param exportTypes TODO
      * @return a list of service references.
      */
-    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter);
+    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] exportTypes);
 
 }

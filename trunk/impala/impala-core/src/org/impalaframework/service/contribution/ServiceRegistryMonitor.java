@@ -36,10 +36,11 @@ public class ServiceRegistryMonitor implements
     ServiceRegistryEventListener, 
     ServiceRegistryAware {
     
-    //FIXME test
     private ServiceRegistry serviceRegistry;
     
     private ServiceActivityNotifiable serviceActivityNotifiable;
+    
+    private Class<?>[] exportTypes;
     
     /* **************** ServiceRegistryEventListener implementation *************** */
 
@@ -59,7 +60,7 @@ public class ServiceRegistryMonitor implements
         Assert.notNull(serviceActivityNotifiable);
         
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter);
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, exportTypes);
         for (ServiceRegistryReference serviceReference : services) {
             serviceActivityNotifiable.add(serviceReference);
         }
@@ -74,14 +75,30 @@ public class ServiceRegistryMonitor implements
         serviceActivityNotifiable.remove(ref);
     }
 
-    private void handleEventAdded(ServiceRegistryEvent event) {
+    void handleEventAdded(ServiceRegistryEvent event) {
         ServiceRegistryReference ref = event.getServiceReference();
         handleEventAdded(ref);
     }
 
-    private void handleEventAdded(ServiceRegistryReference serviceReference) {
+    void handleEventAdded(ServiceRegistryReference serviceReference) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        if (filter.matches(serviceReference)) {
+        
+        boolean matchable = true;
+        
+        //check export types
+        if (exportTypes != null && exportTypes.length > 0) {
+
+    		Class<? extends Object> beanClass = serviceReference.getBean().getClass();
+        	for (int i = 0; i < exportTypes.length; i++) {
+				
+        		if (!exportTypes[i].isAssignableFrom(beanClass)) {
+        			matchable = false;
+        			break;
+				}
+			}
+        }
+        
+        if (matchable && filter.matches(serviceReference)) {
             serviceActivityNotifiable.add(serviceReference);
         }
     }
@@ -97,6 +114,10 @@ public class ServiceRegistryMonitor implements
     public void setServiceActivityNotifiable(ServiceActivityNotifiable serviceActivityNotifiable) {
         this.serviceActivityNotifiable = serviceActivityNotifiable;
     }
+
+	public void setExportTypes(Class<?>[] exportTypes) {
+		this.exportTypes = exportTypes;
+	}
 
     public void setServiceRegistry(ServiceRegistry serviceRegistry) {
         this.serviceRegistry = serviceRegistry;
