@@ -215,22 +215,21 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             
             invokeListeners(event);
         }
-        
-        //FIXME check the serviceReference to ServiceReferenceHolder instance for any uncleared references
-        //and make sure these are cleared before returning
     }
 
-    //FIXME add ServiceReferenceHolder interface, which should be passed in
-    //FIXME add unget method which will release any held reference
-    public ServiceRegistryReference getService(String beanName, Class<?>[] interfaces) {
+    /**
+     * Returns named service, which has to implement all of implemenation types specified
+     */
+    public ServiceRegistryReference getService(String beanName, Class<?>[] implementationTypes) {
         
         Assert.notNull(beanName, "beanName cannot be null");
-        Assert.notNull(beanName, "interfaces cannot be null");
-        return doGetService(beanName, interfaces);
+        return doGetService(beanName, implementationTypes);
     }
 
-
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] exportTypes) {
+    /**
+     * Returns filtered services, which has to implement all of implemenation types specified
+     */
+    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes) {
 
         Assert.notNull(filter, "filter cannot be null");
         
@@ -239,8 +238,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         //FIXME check semantics of using CopyOnWriteArraySet
         Collection<ServiceRegistryReference> values = services;
         
+        //FIXME should be looking only at export types here
         for (ServiceRegistryReference serviceReference : values) {
-            if (filter.matches(serviceReference)) {
+            if (matchesTypes(serviceReference, implementationTypes) && filter.matches(serviceReference)) {
                 serviceList.add(serviceReference);
             }
         }
@@ -307,19 +307,19 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     /* ************ helper methods * ************** */
     
-    ServiceRegistryReference doGetService(String beanName, Class<?>[] interfaces) {
+    ServiceRegistryReference doGetService(String beanName, Class<?>[] implementationTypes) {
         
         final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
         if (references == null || references.size() == 0) {
             return null;
         }
         
-        if (interfaces == null) {
+        if (implementationTypes == null) {
             return references.get(0);
         }
         
         for (int i = 0; i < references.size(); i++) {
-            final ServiceRegistryReference ref = get(references, beanName, interfaces, i);
+            final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
             if (ref != null) {
                 return ref;
             }
@@ -354,15 +354,31 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         removeListener(listener, listeners);
     }
 
-    private ServiceRegistryReference get(
-            final List<ServiceRegistryReference> list, String beanName,
-            Class<?>[] interfaces, int index) {
+    private ServiceRegistryReference getMatchingReference(
+            final List<ServiceRegistryReference> list, 
+            Class<?>[] implementationTypes,
+            int index) {
+    	
         final ServiceRegistryReference reference = list.get(index);
         if (reference == null) {
             return null;
         }
-        if (interfaces == null || interfaces.length == 0) {
-            return reference;
+        
+        if (matchesTypes(reference, implementationTypes)) {
+        	return reference;
+        } else {
+        	return null;
+        }
+    }
+
+	private boolean matchesTypes(
+			ServiceRegistryReference reference,
+			Class<?>[] implementationTypes) {
+		
+		boolean matches = true;
+        
+        if (implementationTypes == null || implementationTypes.length == 0) {
+            return matches;
         }
         
         Object target = ServiceRegistryUtils.getTargetInstance(reference);
@@ -370,17 +386,20 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         //check that the the target implements all the interfaces
         final Class<? extends Object> targetClass = target.getClass();
         
-        for (Class<?> clazz : interfaces) {
+        for (Class<?> clazz : implementationTypes) {
             if (!clazz.isAssignableFrom(targetClass)) {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Returning null for '" + beanName + "' as its target class " + targetClass + " cannot be assigned to " + clazz);
+                    logger.debug("Returning null for '" + reference.getBeanName() + 
+                    		"' from module '" + reference.getContributingModule() +
+                    		"' as its target class " + targetClass + " cannot be assigned to " + clazz);
                 }
-                return null;
+                return false;
             }
         }
-            
-        return reference;
-    }
+		return matches;
+	}
+    
+    
     private List<ServiceRegistryEventListener> getListeners() {
         return listeners;
     }
