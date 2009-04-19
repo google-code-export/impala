@@ -22,7 +22,7 @@ import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 
 /**
- * Supports retrieving of target object from service registry for filter
+ * Supports retrieving of target object from service registry for filter.
  * Implements {@link ContributionEndpointTargetSource}
  * @author Phil Zoio
  */

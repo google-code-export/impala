@@ -20,6 +20,7 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 
 /**
  * Supports retrieving of target object from service registry for particular bean name.
+ * 
  * Implements {@link ContributionEndpointTargetSource}
  * @author Phil Zoio
  */
