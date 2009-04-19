@@ -52,7 +52,13 @@ public abstract class BaseServiceRegistryTarget implements
      * Filter used to retrieve services which are eligible to be added
      * as a contribution to this map.
      */
-    private ServiceReferenceFilter filter;
+    private ServiceReferenceFilter filter;    
+    
+    /**
+     * Sets the implementation types which must be matched against before service can be 
+     * passed to {@link ServiceActivityNotifiable} instance.
+     */
+    private Class<?>[] implementationTypes;
     
     public BaseServiceRegistryTarget() {
         super();
@@ -79,6 +85,10 @@ public abstract class BaseServiceRegistryTarget implements
     public ServiceReferenceFilter getServiceReferenceFilter() {
         return filter;
     }
+
+	public Class<?>[] getImplementationTypes() {
+		return implementationTypes;
+	}
 
     /* ******************* Implementation of ServiceRegistryEventListener ******************** */
 
@@ -115,5 +125,9 @@ public abstract class BaseServiceRegistryTarget implements
     public void setServiceRegistryMonitor(ServiceRegistryMonitor serviceRegistryMonitor) {
         this.serviceRegistryMonitor = serviceRegistryMonitor;
     }
+
+	public void setImplementationTypes(Class<?>[] implementationTypes) {
+		this.implementationTypes = implementationTypes;
+	}
 
 }
