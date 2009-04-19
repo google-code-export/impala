@@ -38,9 +38,10 @@ public class ServiceRegistryMonitor implements
     
     private ServiceRegistry serviceRegistry;
     
+    /**
+     * Represents target which can be notified of service registry changes.
+     */
     private ServiceActivityNotifiable serviceActivityNotifiable;
-    
-    private Class<?>[] implementationTypes;
     
     /* **************** ServiceRegistryEventListener implementation *************** */
 
@@ -62,7 +63,7 @@ public class ServiceRegistryMonitor implements
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
         Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, null);
         for (ServiceRegistryReference serviceReference : services) {
-            if (matchesTypes(serviceReference)) {
+            if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
             	serviceActivityNotifiable.add(serviceReference);
             }
         }
@@ -85,14 +86,16 @@ public class ServiceRegistryMonitor implements
     void handleReferenceAdded(ServiceRegistryReference serviceReference) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
         
-        if (matchesTypes(serviceReference) && filter.matches(serviceReference)) {
+        if (matchesTypes(serviceActivityNotifiable, serviceReference) && filter.matches(serviceReference)) {
             serviceActivityNotifiable.add(serviceReference);
         }
     }
 
-	private boolean matchesTypes(ServiceRegistryReference serviceReference) {
+	private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
 		boolean matchable = true;
         
+		Class<?>[] implementationTypes = serviceActivityNotifiable.getImplementationTypes();
+		
         //check export types
         if (implementationTypes != null && implementationTypes.length > 0) {
 
@@ -119,11 +122,7 @@ public class ServiceRegistryMonitor implements
     public void setServiceActivityNotifiable(ServiceActivityNotifiable serviceActivityNotifiable) {
         this.serviceActivityNotifiable = serviceActivityNotifiable;
     }
-
-	public void setImplementationTypes(Class<?>[] implementationTypes) {
-		this.implementationTypes = implementationTypes;
-	}
-
+    
     public void setServiceRegistry(ServiceRegistry serviceRegistry) {
         this.serviceRegistry = serviceRegistry;
     }
