@@ -169,12 +169,12 @@ public class ServiceRegistryImplTest extends TestCase {
         assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
             public boolean matches(ServiceRegistryReference reference) {
                 return true;
-            }}).size());
+            }}, null).size());
         
         assertEquals(0, registry.getServices(new ServiceReferenceFilter(){
             public boolean matches(ServiceRegistryReference reference) {
                 return false;
-            }}).size());
+            }}, null).size());
     }
     
     public void testCheckClassesClassLoader() throws Exception {

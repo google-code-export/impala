@@ -99,6 +99,7 @@ import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.CascadingModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.service.contribution.ContributionMapTest;
+import org.impalaframework.service.contribution.ServiceRegistryMonitorTest;
 import org.impalaframework.service.filter.ldap.FilterParserTest;
 import org.impalaframework.service.filter.ldap.FilterTest;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilterTest;
@@ -278,6 +279,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ServiceRegistryExporterTest.class);
         suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
         suite.addTestSuite(DynamicServiceRegistryTargetSourceTest.class);
+        suite.addTestSuite(ServiceRegistryMonitorTest.class);
         suite.addTestSuite(SharedClassLoaderFactoryTest.class);
         suite.addTestSuite(SimpleContextLocationResolverTest.class);
         suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);

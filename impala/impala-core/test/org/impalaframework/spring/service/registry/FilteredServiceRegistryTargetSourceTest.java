@@ -35,7 +35,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
     
     public void testGetNull() {
         final List<ServiceRegistryReference> emptyList = Collections.emptyList();
-        expect(serviceRegistry.getServices(filter)).andReturn(emptyList);
+        expect(serviceRegistry.getServices(filter, null)).andReturn(emptyList);
         
         replay(serviceRegistry);
         
@@ -54,7 +54,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
         
         emptyList.add(ref1);
         emptyList.add(ref2);
-        expect(serviceRegistry.getServices(filter)).andReturn(emptyList);
+        expect(serviceRegistry.getServices(filter, null)).andReturn(emptyList);
         
         replay(serviceRegistry);
         
@@ -73,7 +73,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
         final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         
         emptyList.add(ref1);
-        expect(serviceRegistry.getServices(filter)).andReturn(emptyList);
+        expect(serviceRegistry.getServices(filter, null)).andReturn(emptyList);
         
         replay(serviceRegistry);
         

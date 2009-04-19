@@ -80,7 +80,7 @@ public class ModuleClassLoaderTest extends TestCase {
         
         InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
         String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
-        assertEquals("value2", text);
+        assertEquals("value2", text.trim());
     }
     
     public void testModule() throws Exception {
@@ -100,7 +100,7 @@ public class ModuleClassLoaderTest extends TestCase {
         
         InputStream stream = pcl2.getResourceAsStream("propsfile.properties");
         String text = FileCopyUtils.copyToString(new InputStreamReader(stream));
-        assertEquals("value2", text);
+        assertEquals("value2", text.trim());
     }
 
     

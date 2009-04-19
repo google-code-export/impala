@@ -230,7 +230,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     }
 
 
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter) {
+    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] exportTypes) {
 
         Assert.notNull(filter, "filter cannot be null");
         
