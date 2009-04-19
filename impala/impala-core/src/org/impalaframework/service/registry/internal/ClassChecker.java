@@ -16,6 +16,8 @@ package org.impalaframework.service.registry.internal;
 
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistryReference;
 
@@ -24,7 +26,9 @@ import org.impalaframework.service.ServiceRegistryReference;
  * @author Phil Zoio
  */
 class ClassChecker {
-
+	
+    private static Log logger = LogFactory.getLog(ClassChecker.class);
+    
     void checkClasses(ServiceRegistryReference reference) {
 
         final List<Class<?>> exportedTypes = reference.getExportedTypes();
@@ -83,5 +87,37 @@ class ClassChecker {
             }           
         }
     }
+    
+    /**
+     * Indicates whether a particular service reference is compatible with the array of implementation types.
+     * Used during the operation to retrieve service references, potentially filtered by implementation type.
+     */
+	boolean matchesTypes(
+			ServiceRegistryReference reference,
+			Class<?>[] implementationTypes) {
+		
+		boolean matches = true;
+        
+        if (implementationTypes == null || implementationTypes.length == 0) {
+            return matches;
+        }
+        
+        Object target = ServiceRegistryUtils.getTargetInstance(reference);
+
+        //check that the the target implements all the interfaces
+        final Class<? extends Object> targetClass = target.getClass();
+        
+        for (Class<?> clazz : implementationTypes) {
+            if (!clazz.isAssignableFrom(targetClass)) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Not matching '" + reference.getBeanName() + 
+                    		"' from module '" + reference.getContributingModule() +
+                    		"' as its target class " + targetClass + " cannot be assigned to " + clazz);
+                }
+                return false;
+            }
+        }
+		return matches;
+	}
 
 }
