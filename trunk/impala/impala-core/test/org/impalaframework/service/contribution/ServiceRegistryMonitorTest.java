@@ -45,7 +45,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 		serviceActivityNotifiable.add(ref);
 		
 		replay(serviceActivityNotifiable);
-		monitor.handleEventAdded(ref);
+		monitor.handleReferenceAdded(ref);
 		verify(serviceActivityNotifiable);
 	}
 
@@ -57,8 +57,8 @@ public class ServiceRegistryMonitorTest extends TestCase {
 		//no call to add
 		
 		replay(serviceActivityNotifiable);
-		monitor.setExportTypes(new Class<?>[] {Integer.class});
-		monitor.handleEventAdded(ref);
+		monitor.setImplementationTypes(new Class<?>[] {Integer.class});
+		monitor.handleReferenceAdded(ref);
 		verify(serviceActivityNotifiable);
 	}
 
@@ -69,7 +69,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 		expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
 		
 		replay(serviceActivityNotifiable);
-		monitor.handleEventAdded(ref);
+		monitor.handleReferenceAdded(ref);
 		verify(serviceActivityNotifiable);
 	}
 
