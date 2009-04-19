@@ -81,7 +81,10 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
                 logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + getFilter());
             }
         } else {
-            //FIXME log no mapKeyValue
+            logger.warn("Service with bean name " + ref.getBeanName() 
+            		+ " from contributing module " + ref.getContributingModule()
+            		+ " of class " + ref.getBean().getClass().getName() 
+            		+ " does not have a map key, so cannot be used in service registry map");
         }
     }
     
