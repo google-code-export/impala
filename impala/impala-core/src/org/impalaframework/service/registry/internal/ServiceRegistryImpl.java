@@ -68,6 +68,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     private Object registryLock = new Object();
     private Object listenersLock = new Object();
 
+    /* ************ registry service modification methods * ************** */
+
     public ServiceRegistryReference addService(
             String beanName, 
             String moduleName, 
@@ -216,6 +218,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             invokeListeners(event);
         }
     }
+    
+    /* ************ registry service accessor methods * ************** */
 
     /**
      * Returns named service, which has to implement all of implemenation types specified
@@ -224,6 +228,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         Assert.notNull(beanName, "beanName cannot be null");
         final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
+        
+        //FIXME should we be doing any sorting here in order to determine which reference to return
+        //FIXME should have option of looking for explicitly named export types rather than implementation types
+        
 		if (references == null || references.size() == 0) {
 		    return null;
 		}
@@ -248,6 +256,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes) {
 
         Assert.notNull(filter, "filter cannot be null");
+
+        //FIXME should have option of looking for explicitly named export types rather than implementation types
         
         List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
         
@@ -261,6 +271,42 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             }
         }
         return serviceList;
+    }
+    
+    /* ************ listener related methods * ************** */
+
+    /**
+     * Adds to global event listeners to which all service registry events will
+     * be broadcast. Note that a single event listener instance can only be added once.
+     * Any subsequent attempts to add this listener will not have any effect.
+     */
+    public void addEventListener(ServiceRegistryEventListener listener) {
+    	
+    	//FIXME this should be part of interface as should be remove method
+        Assert.notNull(listener);
+        
+        synchronized (listenersLock) {
+        	if (listeners.contains(listener)) {
+        		//FIXME log warning
+        	} else {
+        		listeners.add(listener);
+        	}
+        }
+        if (logger.isDebugEnabled()) {
+            logger.debug("Added service registry listener " + listener);
+        }
+    }
+    
+    /**
+     * Removes global event listeners to which all service registry events will
+     * be broadcast
+     * @return true if listener was removed.
+     */
+    public boolean removeEventListener(ServiceRegistryEventListener listener) {
+        List<ServiceRegistryEventListener> listeners = this.listeners;
+        
+        //FIXME add test for returning true/false
+        return removeListener(listener, listeners);
     }
     
     /* ************ registry collection accessor methods * ************** */
@@ -299,28 +345,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         return services.contains(serviceReference);
     }
     
-    /* ************ listener related methods * ************** */
-
-
-    public void setServices(Set<ServiceRegistryReference> services) {
-        this.services = services;
-    }
-
-    /**
-     * Adds to global event listeners to which all service registry events will
-     * be broadcast
-     */
-    public void addEventListener(ServiceRegistryEventListener listener) {
-        Assert.notNull(listener);
-        
-        synchronized (listenersLock) {
-            listeners.add(listener);
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug("Added service registry listener " + listener);
-        }
-    }
-    
     /* ************ helper methods * ************** */
     
     List<Class<?>> deriveExportTypes(Object service) {
@@ -338,15 +362,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     void checkClasses(ServiceRegistryReference serviceReference) {
         classChecker.checkClasses(serviceReference);
-    }
-    
-    /**
-     * Removes global event listeners to which all service registry events will
-     * be broadcast
-     */
-    void removeEventListener(ServiceRegistryEventListener listener) {
-        List<ServiceRegistryEventListener> listeners = this.listeners;
-        removeListener(listener, listeners);
     }
 
     private ServiceRegistryReference getMatchingReference(
@@ -380,7 +395,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         }
     }
 
-    private void removeListener(ServiceRegistryEventListener listener, List<ServiceRegistryEventListener> listeners) {
+    private boolean removeListener(ServiceRegistryEventListener listener, List<ServiceRegistryEventListener> listeners) {
         
         for (Iterator<ServiceRegistryEventListener> iterator = listeners.iterator(); iterator.hasNext();) {
             
@@ -390,8 +405,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 iterator.remove();
                 if (logger.isDebugEnabled())
                     logger.debug("Removed service registry listener " + listener);
+                return true;
             }
         }
+        return false;
     }
 
     @SuppressWarnings("unchecked")
