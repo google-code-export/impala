@@ -17,6 +17,8 @@ package org.impalaframework.service;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.service.event.ServiceRegistryEventListener;
+
 /**
  * Interface for shared registry for services used by Impala to share beans between modules.
  * 
@@ -60,8 +62,8 @@ public interface ServiceRegistry {
     /**
      * Retrieves a service from the service registry
      * @param beanName the name under which the service was registered
-     * @param implementationTypes the possible for the service. The service must be class compatible with all of these
-     * types to be returned.
+     * @param implementationTypes the possible for the service. 
+     * The service must be class compatible with all of these types to be returned.
      * @return a {@link ServiceRegistryReference} instance
      */
     ServiceRegistryReference getService(String beanName, Class<?>[] implementationTypes);
@@ -74,5 +76,17 @@ public interface ServiceRegistry {
      * @return a list of service references.
      */
     List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes);
+    
+    /**
+     * Adds global event listeners to which all service registry events will
+     * be broadcast
+     */
+    void addEventListener(ServiceRegistryEventListener listener);
+    
+    /**
+     * Removes global event listeners to which all service registry events will
+     * be broadcast. Returns true if listener was removed.
+     */
+    boolean removeEventListener(ServiceRegistryEventListener listener);
 
 }
