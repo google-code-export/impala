@@ -223,7 +223,23 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public ServiceRegistryReference getService(String beanName, Class<?>[] implementationTypes) {
         
         Assert.notNull(beanName, "beanName cannot be null");
-        return doGetService(beanName, implementationTypes);
+        final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
+		if (references == null || references.size() == 0) {
+		    return null;
+		}
+		
+		if (implementationTypes == null) {
+		    return references.get(0);
+		}
+		
+		for (int i = 0; i < references.size(); i++) {
+		    final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
+		    if (ref != null) {
+		        return ref;
+		    }
+		}
+		
+		return null;
     }
 
     /**
@@ -240,7 +256,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         //FIXME should be looking only at export types here
         for (ServiceRegistryReference serviceReference : values) {
-            if (matchesTypes(serviceReference, implementationTypes) && filter.matches(serviceReference)) {
+            if (classChecker.matchesTypes(serviceReference, implementationTypes) && filter.matches(serviceReference)) {
                 serviceList.add(serviceReference);
             }
         }
@@ -307,27 +323,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     /* ************ helper methods * ************** */
     
-    ServiceRegistryReference doGetService(String beanName, Class<?>[] implementationTypes) {
-        
-        final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
-        if (references == null || references.size() == 0) {
-            return null;
-        }
-        
-        if (implementationTypes == null) {
-            return references.get(0);
-        }
-        
-        for (int i = 0; i < references.size(); i++) {
-            final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
-            if (ref != null) {
-                return ref;
-            }
-        }
-        
-        return null;
-    }
-    
     List<Class<?>> deriveExportTypes(Object service) {
 
         //FIXME if classes are present then use all of these as keys in classes to services map
@@ -364,41 +359,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             return null;
         }
         
-        if (matchesTypes(reference, implementationTypes)) {
+        if (classChecker.matchesTypes(reference, implementationTypes)) {
         	return reference;
         } else {
         	return null;
         }
     }
-
-	private boolean matchesTypes(
-			ServiceRegistryReference reference,
-			Class<?>[] implementationTypes) {
-		
-		boolean matches = true;
-        
-        if (implementationTypes == null || implementationTypes.length == 0) {
-            return matches;
-        }
-        
-        Object target = ServiceRegistryUtils.getTargetInstance(reference);
-
-        //check that the the target implements all the interfaces
-        final Class<? extends Object> targetClass = target.getClass();
-        
-        for (Class<?> clazz : implementationTypes) {
-            if (!clazz.isAssignableFrom(targetClass)) {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Returning null for '" + reference.getBeanName() + 
-                    		"' from module '" + reference.getContributingModule() +
-                    		"' as its target class " + targetClass + " cannot be assigned to " + clazz);
-                }
-                return false;
-            }
-        }
-		return matches;
-	}
-    
     
     private List<ServiceRegistryEventListener> getListeners() {
         return listeners;
