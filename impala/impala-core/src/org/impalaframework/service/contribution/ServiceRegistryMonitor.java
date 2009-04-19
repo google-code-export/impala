@@ -40,7 +40,7 @@ public class ServiceRegistryMonitor implements
     
     private ServiceActivityNotifiable serviceActivityNotifiable;
     
-    private Class<?>[] exportTypes;
+    private Class<?>[] implementationTypes;
     
     /* **************** ServiceRegistryEventListener implementation *************** */
 
@@ -60,9 +60,11 @@ public class ServiceRegistryMonitor implements
         Assert.notNull(serviceActivityNotifiable);
         
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, exportTypes);
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, null);
         for (ServiceRegistryReference serviceReference : services) {
-            serviceActivityNotifiable.add(serviceReference);
+            if (matchesTypes(serviceReference)) {
+            	serviceActivityNotifiable.add(serviceReference);
+            }
         }
     }
     
@@ -77,31 +79,34 @@ public class ServiceRegistryMonitor implements
 
     void handleEventAdded(ServiceRegistryEvent event) {
         ServiceRegistryReference ref = event.getServiceReference();
-        handleEventAdded(ref);
+        handleReferenceAdded(ref);
     }
 
-    void handleEventAdded(ServiceRegistryReference serviceReference) {
+    void handleReferenceAdded(ServiceRegistryReference serviceReference) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
         
-        boolean matchable = true;
+        if (matchesTypes(serviceReference) && filter.matches(serviceReference)) {
+            serviceActivityNotifiable.add(serviceReference);
+        }
+    }
+
+	private boolean matchesTypes(ServiceRegistryReference serviceReference) {
+		boolean matchable = true;
         
         //check export types
-        if (exportTypes != null && exportTypes.length > 0) {
+        if (implementationTypes != null && implementationTypes.length > 0) {
 
     		Class<? extends Object> beanClass = serviceReference.getBean().getClass();
-        	for (int i = 0; i < exportTypes.length; i++) {
+        	for (int i = 0; i < implementationTypes.length; i++) {
 				
-        		if (!exportTypes[i].isAssignableFrom(beanClass)) {
+        		if (!implementationTypes[i].isAssignableFrom(beanClass)) {
         			matchable = false;
         			break;
 				}
 			}
         }
-        
-        if (matchable && filter.matches(serviceReference)) {
-            serviceActivityNotifiable.add(serviceReference);
-        }
-    }
+		return matchable;
+	}
 
     /* ******************* Protected getters ******************** */
     
@@ -115,8 +120,8 @@ public class ServiceRegistryMonitor implements
         this.serviceActivityNotifiable = serviceActivityNotifiable;
     }
 
-	public void setExportTypes(Class<?>[] exportTypes) {
-		this.exportTypes = exportTypes;
+	public void setImplementationTypes(Class<?>[] implementationTypes) {
+		this.implementationTypes = implementationTypes;
 	}
 
     public void setServiceRegistry(ServiceRegistry serviceRegistry) {
