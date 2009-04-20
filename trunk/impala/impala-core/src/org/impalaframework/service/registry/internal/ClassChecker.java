@@ -26,7 +26,7 @@ import org.impalaframework.service.ServiceRegistryReference;
  * @author Phil Zoio
  */
 class ClassChecker {
-	
+    
     private static Log logger = LogFactory.getLog(ClassChecker.class);
     
     void checkClasses(ServiceRegistryReference reference) {
@@ -92,11 +92,11 @@ class ClassChecker {
      * Indicates whether a particular service reference is compatible with the array of implementation types.
      * Used during the operation to retrieve service references, potentially filtered by implementation type.
      */
-	boolean matchesTypes(
-			ServiceRegistryReference reference,
-			Class<?>[] implementationTypes) {
-		
-		boolean matches = true;
+    boolean matchesTypes(
+            ServiceRegistryReference reference,
+            Class<?>[] implementationTypes) {
+        
+        boolean matches = true;
         
         if (implementationTypes == null || implementationTypes.length == 0) {
             return matches;
@@ -111,13 +111,13 @@ class ClassChecker {
             if (!clazz.isAssignableFrom(targetClass)) {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Not matching '" + reference.getBeanName() + 
-                    		"' from module '" + reference.getContributingModule() +
-                    		"' as its target class " + targetClass + " cannot be assigned to " + clazz);
+                            "' from module '" + reference.getContributingModule() +
+                            "' as its target class " + targetClass + " cannot be assigned to " + clazz);
                 }
                 return false;
             }
         }
-		return matches;
-	}
+        return matches;
+    }
 
 }

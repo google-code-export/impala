@@ -26,68 +26,68 @@ import junit.framework.TestCase;
 
 public class ServiceRegistryMonitorTest extends TestCase {
 
-	private ServiceActivityNotifiable serviceActivityNotifiable;
-	private ServiceRegistryMonitor monitor;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		monitor = new ServiceRegistryMonitor();
-		serviceActivityNotifiable = createMock(ServiceActivityNotifiable.class);
-		monitor.setServiceActivityNotifiable(serviceActivityNotifiable);
-	}
+    private ServiceActivityNotifiable serviceActivityNotifiable;
+    private ServiceRegistryMonitor monitor;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        monitor = new ServiceRegistryMonitor();
+        serviceActivityNotifiable = createMock(ServiceActivityNotifiable.class);
+        monitor.setServiceActivityNotifiable(serviceActivityNotifiable);
+    }
 
-	public void testHandleServiceNoTypes() {
-		
-		BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
-		
-		expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-		expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
-		
-		serviceActivityNotifiable.add(ref);
-		
-		replay(serviceActivityNotifiable);
-		monitor.handleReferenceAdded(ref);
-		verify(serviceActivityNotifiable);
-	}
+    public void testHandleServiceNoTypes() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
+        
+        serviceActivityNotifiable.add(ref);
+        
+        replay(serviceActivityNotifiable);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+    }
 
-	public void testHandleServiceWithCorrectTypes() {
-		
-		BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
-		
-		expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-		expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {String.class});
-		
-		serviceActivityNotifiable.add(ref);
-		
-		replay(serviceActivityNotifiable);
-		monitor.handleReferenceAdded(ref);
-		verify(serviceActivityNotifiable);
-	}
+    public void testHandleServiceWithCorrectTypes() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {String.class});
+        
+        serviceActivityNotifiable.add(ref);
+        
+        replay(serviceActivityNotifiable);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+    }
 
-	public void testTypeNotMatches() {
-		
-		BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
-		
-		expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-		expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {Integer.class});
-		//no call to add
-		
-		replay(serviceActivityNotifiable);
-		monitor.handleReferenceAdded(ref);
-		verify(serviceActivityNotifiable);
-	}
+    public void testTypeNotMatches() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {Integer.class});
+        //no call to add
+        
+        replay(serviceActivityNotifiable);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+    }
 
-	public void testHandleServiceNotMatches() {
-		
-		BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
-		
-		expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
-		expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
-		
-		replay(serviceActivityNotifiable);
-		monitor.handleReferenceAdded(ref);
-		verify(serviceActivityNotifiable);
-	}
+    public void testHandleServiceNotMatches() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
+        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
+        
+        replay(serviceActivityNotifiable);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+    }
 
 }

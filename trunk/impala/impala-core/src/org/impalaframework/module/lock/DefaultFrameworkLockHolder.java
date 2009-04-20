@@ -58,7 +58,7 @@ public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
      * Returns false if write lock is taken by another thread. Otherwise returns true.
      */
     public boolean isAvailable() {
-    	
+        
         if (this.rwl.isWriteLocked()) {
             if (!this.rwl.isWriteLockedByCurrentThread()) {
             
