@@ -78,10 +78,11 @@ public interface ServiceRegistry {
     List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes);
     
     /**
-     * Adds global event listeners to which all service registry events will
-     * be broadcast
-     */
-    void addEventListener(ServiceRegistryEventListener listener);
+	 * Adds global event listeners to which all service registry events will be
+	 * broadcast. Returns false if listener is already present in service
+	 * registry and therefore not added as part of this operation.
+	 */
+    boolean addEventListener(ServiceRegistryEventListener listener);
     
     /**
      * Removes global event listeners to which all service registry events will

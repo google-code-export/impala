@@ -141,8 +141,11 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testListener() {
         TestListener listener1 = new TestListener();
         TestListener listener2 = new TestListener();
-        registry.addEventListener(listener1);
-        registry.addEventListener(listener2);
+        assertTrue(registry.addEventListener(listener1));
+        assertTrue(registry.addEventListener(listener2));
+        
+        //attempting to add listener again has no effect
+        assertFalse(registry.addEventListener(listener2));
 
         String service1 = "some service1";
         String service2 = "some service2";
@@ -157,6 +160,17 @@ public class ServiceRegistryImplTest extends TestCase {
         assertTrue(listener2.getEvents().get(0) instanceof ServiceAddedEvent);
         assertTrue(listener1.getEvents().get(2) instanceof ServiceRemovedEvent);
         assertTrue(listener2.getEvents().get(2) instanceof ServiceRemovedEvent);
+
+        assertTrue(registry.removeEventListener(listener1));
+        listener1.reset();
+        listener2.reset();
+
+        String service3 = "some service3";
+        registry.addService("bean3", "module3", service3, classLoader);
+        assertEquals(0, listener1.getEvents().size());
+        assertEquals(1, listener2.getEvents().size());
+        
+        assertFalse(registry.removeEventListener(listener1));
     }
     
     public void testGetUsingFilter() {

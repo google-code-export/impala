@@ -14,10 +14,10 @@
 
 package org.impalaframework.service.registry.internal;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.IdentityHashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -39,6 +39,7 @@ import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Implementation of {@link ServiceRegistry}, which holds services which can be shared across modules
@@ -280,20 +281,20 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * be broadcast. Note that a single event listener instance can only be added once.
      * Any subsequent attempts to add this listener will not have any effect.
      */
-    public void addEventListener(ServiceRegistryEventListener listener) {
-    	
-    	//FIXME this should be part of interface as should be remove method
+    public boolean addEventListener(ServiceRegistryEventListener listener) {
         Assert.notNull(listener);
         
         synchronized (listenersLock) {
-        	if (listeners.contains(listener)) {
-        		//FIXME log warning
+        	if (this.listeners.contains(listener)) {
+        		logger.warn("Listener " + ObjectUtils.identityToString(listener) + " already a listener for this service registry");
+        		return false;
         	} else {
         		listeners.add(listener);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Added service registry listener " + listener);
+                }
+                return true;
         	}
-        }
-        if (logger.isDebugEnabled()) {
-            logger.debug("Added service registry listener " + listener);
         }
     }
     
@@ -303,9 +304,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * @return true if listener was removed.
      */
     public boolean removeEventListener(ServiceRegistryEventListener listener) {
-        List<ServiceRegistryEventListener> listeners = this.listeners;
+        List<ServiceRegistryEventListener> listeners = getCopyOfListeners();
         
-        //FIXME add test for returning true/false
         return removeListener(listener, listeners);
     }
     
@@ -381,13 +381,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         }
     }
     
-    private List<ServiceRegistryEventListener> getListeners() {
-        return listeners;
+    private List<ServiceRegistryEventListener> getCopyOfListeners() {
+        return new ArrayList<ServiceRegistryEventListener>(listeners);
     }
 
     private void invokeListeners(ServiceRegistryEvent event) {
         
-        List<ServiceRegistryEventListener> listeners = getListeners();
+        List<ServiceRegistryEventListener> listeners = getCopyOfListeners();
         
         //inform all listeners of service listener event
         for (ServiceRegistryEventListener listener : listeners) {
@@ -397,15 +397,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private boolean removeListener(ServiceRegistryEventListener listener, List<ServiceRegistryEventListener> listeners) {
         
-        for (Iterator<ServiceRegistryEventListener> iterator = listeners.iterator(); iterator.hasNext();) {
-            
-            ServiceRegistryEventListener currentListener = iterator.next();
+    	for (ServiceRegistryEventListener currentListener : listeners) {
             
             if (currentListener == listener) {
-                iterator.remove();
+                boolean removed = this.listeners.remove(currentListener);
                 if (logger.isDebugEnabled())
-                    logger.debug("Removed service registry listener " + listener);
-                return true;
+                    logger.debug("Removed service registry listener " + listener + ": " + removed);
+                return removed;
             }
         }
         return false;
