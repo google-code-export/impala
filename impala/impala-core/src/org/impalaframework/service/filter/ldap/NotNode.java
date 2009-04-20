@@ -37,8 +37,7 @@ class NotNode implements FilterNode {
     public String toString() {
         return "(!" + filterNode + ")";
     }
-
-    //FIXME test
+    
     public boolean match(Map<?, ?> data) {
         return !filterNode.match(data);
     }

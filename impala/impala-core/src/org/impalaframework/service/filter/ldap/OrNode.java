@@ -34,7 +34,6 @@ class OrNode extends BaseBranchNode {
         return "(|" + super.toString() + ")";
     }
 
-    //FIXME test
     public boolean match(Map<?, ?> data) {
         final List<FilterNode> children = getChildren();
         for (FilterNode filterNode : children) {
