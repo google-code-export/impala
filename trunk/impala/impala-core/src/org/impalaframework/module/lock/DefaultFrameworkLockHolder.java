@@ -54,10 +54,11 @@ public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
         this.r.unlock();
     }
     
+    /**
+     * Returns false if write lock is taken by another thread. Otherwise returns true.
+     */
     public boolean isAvailable() {
-        
-        //FIXME check the semantics of this - want to robustify operations on service registry and
-        //also on proxies
+    	
         if (this.rwl.isWriteLocked()) {
             if (!this.rwl.isWriteLockedByCurrentThread()) {
             
@@ -71,6 +72,9 @@ public class DefaultFrameworkLockHolder implements FrameworkLockHolder {
         return true;
     }
 
+    /**
+     * Returns true if write lock is currently held by current thread. Otherwise returns false
+     */
     public boolean hasLock() {
         return this.rwl.isWriteLockedByCurrentThread();
     }
