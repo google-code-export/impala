@@ -64,7 +64,7 @@ public class ServiceRegistryMonitor implements
         Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, null);
         for (ServiceRegistryReference serviceReference : services) {
             if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
-            	serviceActivityNotifiable.add(serviceReference);
+                serviceActivityNotifiable.add(serviceReference);
             }
         }
     }
@@ -91,25 +91,25 @@ public class ServiceRegistryMonitor implements
         }
     }
 
-	private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
-		boolean matchable = true;
+    private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
+        boolean matchable = true;
         
-		Class<?>[] implementationTypes = serviceActivityNotifiable.getImplementationTypes();
-		
+        Class<?>[] implementationTypes = serviceActivityNotifiable.getImplementationTypes();
+        
         //check export types
         if (implementationTypes != null && implementationTypes.length > 0) {
 
-    		Class<? extends Object> beanClass = serviceReference.getBean().getClass();
-        	for (int i = 0; i < implementationTypes.length; i++) {
-				
-        		if (!implementationTypes[i].isAssignableFrom(beanClass)) {
-        			matchable = false;
-        			break;
-				}
-			}
+            Class<? extends Object> beanClass = serviceReference.getBean().getClass();
+            for (int i = 0; i < implementationTypes.length; i++) {
+                
+                if (!implementationTypes[i].isAssignableFrom(beanClass)) {
+                    matchable = false;
+                    break;
+                }
+            }
         }
-		return matchable;
-	}
+        return matchable;
+    }
 
     /* ******************* Protected getters ******************** */
     

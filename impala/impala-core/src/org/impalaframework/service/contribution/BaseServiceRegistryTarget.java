@@ -86,9 +86,9 @@ public abstract class BaseServiceRegistryTarget implements
         return filter;
     }
 
-	public Class<?>[] getImplementationTypes() {
-		return implementationTypes;
-	}
+    public Class<?>[] getImplementationTypes() {
+        return implementationTypes;
+    }
 
     /* ******************* Implementation of ServiceRegistryEventListener ******************** */
 
@@ -126,8 +126,8 @@ public abstract class BaseServiceRegistryTarget implements
         this.serviceRegistryMonitor = serviceRegistryMonitor;
     }
 
-	public void setImplementationTypes(Class<?>[] implementationTypes) {
-		this.implementationTypes = implementationTypes;
-	}
+    public void setImplementationTypes(Class<?>[] implementationTypes) {
+        this.implementationTypes = implementationTypes;
+    }
 
 }

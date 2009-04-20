@@ -232,22 +232,22 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         //FIXME should we be doing any sorting here in order to determine which reference to return
         //FIXME should have option of looking for explicitly named export types rather than implementation types
         
-		if (references == null || references.size() == 0) {
-		    return null;
-		}
-		
-		if (implementationTypes == null) {
-		    return references.get(0);
-		}
-		
-		for (int i = 0; i < references.size(); i++) {
-		    final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
-		    if (ref != null) {
-		        return ref;
-		    }
-		}
-		
-		return null;
+        if (references == null || references.size() == 0) {
+            return null;
+        }
+        
+        if (implementationTypes == null) {
+            return references.get(0);
+        }
+        
+        for (int i = 0; i < references.size(); i++) {
+            final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
+            if (ref != null) {
+                return ref;
+            }
+        }
+        
+        return null;
     }
 
     /**
@@ -284,16 +284,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         Assert.notNull(listener);
         
         synchronized (listenersLock) {
-        	if (this.listeners.contains(listener)) {
-        		logger.warn("Listener " + ObjectUtils.identityToString(listener) + " already a listener for this service registry");
-        		return false;
-        	} else {
-        		listeners.add(listener);
+            if (this.listeners.contains(listener)) {
+                logger.warn("Listener " + ObjectUtils.identityToString(listener) + " already a listener for this service registry");
+                return false;
+            } else {
+                listeners.add(listener);
                 if (logger.isDebugEnabled()) {
                     logger.debug("Added service registry listener " + listener);
                 }
                 return true;
-        	}
+            }
         }
     }
     
@@ -367,16 +367,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             final List<ServiceRegistryReference> list, 
             Class<?>[] implementationTypes,
             int index) {
-    	
+        
         final ServiceRegistryReference reference = list.get(index);
         if (reference == null) {
             return null;
         }
         
         if (classChecker.matchesTypes(reference, implementationTypes)) {
-        	return reference;
+            return reference;
         } else {
-        	return null;
+            return null;
         }
     }
     
@@ -396,7 +396,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private boolean removeListener(ServiceRegistryEventListener listener, List<ServiceRegistryEventListener> listeners) {
         
-    	for (ServiceRegistryEventListener currentListener : listeners) {
+        for (ServiceRegistryEventListener currentListener : listeners) {
             
             if (currentListener == listener) {
                 boolean removed = this.listeners.remove(currentListener);
