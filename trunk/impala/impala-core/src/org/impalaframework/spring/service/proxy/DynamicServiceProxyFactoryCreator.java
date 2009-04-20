@@ -86,6 +86,9 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
         
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
+        Assert.notNull(interfaces, "interfaces cannot be null");
+        Assert.notEmpty(interfaces, "interfaces cannot be empty");
+        Assert.notNull(reference, "reference cannot be null");
         
         ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
         

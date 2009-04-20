@@ -8,6 +8,7 @@ import org.impalaframework.spring.service.proxy.DynamicServiceProxyFactoryCreato
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 /**
  * Spring-based service registry {@link Map} implementation which uses a possibly wired in 
@@ -23,7 +24,9 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
 
     public void afterPropertiesSet() throws Exception {
         
-        //FIXME test
+        Assert.notNull(proxyInterfaces, "proxyInterfaces cannot be null");
+        Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
+        
         if (this.proxyFactoryCreator == null) {
             this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
             this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
