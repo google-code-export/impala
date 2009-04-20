@@ -4,12 +4,12 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.build.ant.ArtifactDescription;
+import org.impalaframework.service.registry.BasicServiceRegistryReference;
 
 public class ToStringGenerator extends TestCase {
 
 	public void testToStringHelper() throws Exception {
-		ToStringHelper.getToString(ArtifactDescription.class);
+		ToStringHelper.getToString(BasicServiceRegistryReference.class);
 	}
 }
 

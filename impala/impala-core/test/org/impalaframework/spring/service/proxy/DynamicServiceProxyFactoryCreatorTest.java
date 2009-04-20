@@ -73,4 +73,35 @@ public class DynamicServiceProxyFactoryCreatorTest extends TestCase {
         verify(serviceRegistry);
     }
     
+    @SuppressWarnings("unchecked")
+    public void testStaticProxyFactoryWithNoInterfaces() throws Exception {
+        final List<String> list = new ArrayList<String>();
+        ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        
+        replay(serviceRegistry);
+        final ProxyFactory proxyFactory = creator.createStaticProxyFactory(null, ref);
+        
+        final List proxy = (List) proxyFactory.getProxy();
+        assertTrue(proxy instanceof ArrayList);
+        proxy.add("obj");
+        
+        verify(serviceRegistry);
+    }
+    
+    public void testWithFinalClass() throws Exception {
+        ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        
+        replay(serviceRegistry);
+        try {
+            creator.createStaticProxyFactory(null, ref);
+            fail();
+        }
+        catch (Exception e) {
+            System.out.println(e);
+            assertTrue(e.getMessage().endsWith("as no interfaces have been specified and the bean class is final, therefore cannot be proxied"));
+        }
+        
+        verify(serviceRegistry);
+    }
+    
 }
