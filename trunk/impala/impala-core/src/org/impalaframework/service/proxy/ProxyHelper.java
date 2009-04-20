@@ -76,7 +76,6 @@ public class ProxyHelper {
         return proxyObject;
     }
     
-    //FIXME move
     private static List<Class<?>> filterInterfaces(final List<Class<?>> interfaces, final Class<?>[] proxyInterfaces) {
         final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
         if (proxyInterfaces != null && proxyInterfaces.length > 0) {
