@@ -118,35 +118,6 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     
     public RootModuleDefinition getModuleDefinition() {
         return getRootModuleDefinition();
-    }   
-    
-    public void lock() {
-        this.lock.lock();
-    }
-    
-    public void unlock() {
-        this.lock.unlock();
-    }
-    
-    public boolean isAvailable() {
-        
-        //FIXME check the semantics of this - want to robustify operations on service registry and
-        //also on proxies
-        if (this.lock.isLocked()) {
-            if (!this.lock.isHeldByCurrentThread()) {
-            
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Module is unavailable with hold count of " + lock.getHoldCount() + " but not held by current thread");
-                }
-                return false;
-            }
-            return true;
-        }
-        return true;
-    }
-
-    public boolean hasLock() {
-        return this.lock.isHeldByCurrentThread();
     }
 
     /* ************************* protected methods ************************* */
