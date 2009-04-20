@@ -18,7 +18,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -46,8 +45,6 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     private TransitionProcessorRegistry transitionProcessorRegistry;
     
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
-
-    private ReentrantLock lock = new ReentrantLock();
     
     private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
 
@@ -63,6 +60,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
             Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
 
             for (ModuleStateChange change : changes) {
+                
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Processing module state change: " + change);
+                }
+                
                 String transition = change.getTransition();
                 ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
 
