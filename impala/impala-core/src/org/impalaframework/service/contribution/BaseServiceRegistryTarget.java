@@ -70,7 +70,7 @@ public abstract class BaseServiceRegistryTarget implements
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
 
         if (this.filter == null) {
-            Assert.notNull(this.filterExpression, "filterExpression and filte both cannot be null");
+            Assert.notNull(this.filterExpression, "filterExpression and filter both cannot be null");
             this.filter = new LdapServiceReferenceFilter(filterExpression);
         }
 

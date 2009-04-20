@@ -84,7 +84,8 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
             logger.warn("Service with bean name " + ref.getBeanName() 
                     + " from contributing module " + ref.getContributingModule()
                     + " of class " + ref.getBean().getClass().getName() 
-                    + " does not have a map key, so cannot be used in service registry map");
+                    + " does not have a '" + mapKey 
+                    + "' attribute, so cannot be used in service registry map");
         }
     }
     
