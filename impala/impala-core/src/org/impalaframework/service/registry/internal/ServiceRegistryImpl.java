@@ -54,7 +54,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
     private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
-    private Map<Class<?>, List<ServiceRegistryReference>> classNameToServices = new ConcurrentHashMap<Class<?>, List<ServiceRegistryReference>>();
+    private Map<String, List<ServiceRegistryReference>> classNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
     private Set<ServiceRegistryReference> services = new CopyOnWriteArraySet<ServiceRegistryReference>();
     
     /**
@@ -124,8 +124,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             addReferenceToMap(moduleNameToServices, moduleName, serviceReference);
             
             for (Class<?> exportType : classes) {
-                //FIXME check semantics of using class object as key
-                addReferenceToMap(classNameToServices, exportType, serviceReference);
+                addReferenceToMap(classNameToServices, exportType.getName(), serviceReference);
             }
             
             MapTargetInfo targetInfo = new MapTargetInfo(classes, beanName, moduleName);
@@ -197,7 +196,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 
                 final List<Class<?>> exportTypes = targetInfo.getExportTypes();
                 for (Class<?> exportType : exportTypes) {
-                    final List<ServiceRegistryReference> list = classNameToServices.get(exportType);
+                    final List<ServiceRegistryReference> list = classNameToServices.get(exportType.getName());
                     if (list != null) {
                         list.remove(serviceReference);
                     }
@@ -312,7 +311,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /* ************ registry collection accessor methods * ************** */
     
     List<ServiceRegistryReference> getClassReferences(Class<?> exportType) {
-        final List<ServiceRegistryReference> list = classNameToServices.get(exportType);
+        final List<ServiceRegistryReference> list = classNameToServices.get(exportType.getName());
         if (list == null) {
             return Collections.emptyList();
         } 
