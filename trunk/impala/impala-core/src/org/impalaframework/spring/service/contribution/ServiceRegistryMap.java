@@ -32,14 +32,20 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
             this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
         }
         
-        //call the superclass's init method
-        super.init();
+        this.init();
     }
     
     @Override
     public void init() {
-        //no op - uses the afterPropertiesSet method instead
-        //FIXME move from org.impalaframework.service.contribution.ServiceRegistryMap
+        Assert.notNull(proxyInterfaces, "proxyInterfaces cannot be null");
+        Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
+        
+        if (this.proxyFactoryCreator == null) {
+            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+            this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
+        }
+        
+        super.init();
     }
 
     protected Object maybeGetProxy(ServiceRegistryReference reference) {
