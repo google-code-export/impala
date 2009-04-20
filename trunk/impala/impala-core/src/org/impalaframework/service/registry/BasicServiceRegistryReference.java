@@ -86,5 +86,38 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
     public final ClassLoader getBeanClassLoader() {
         return beanClassLoader;
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer(500);
+        buffer.append(this.getClass().getName()).append(": ");
+        buffer.append("bean = ");
+        if ( this.bean!= null )
+        buffer.append(this.bean.toString());
+        else buffer.append("value is null"); 
+        buffer.append(", ");
+        buffer.append("beanName = ");
+        buffer.append(this.beanName);
+        buffer.append(", ");
+        buffer.append("contributingModule = ");
+        buffer.append(this.contributingModule);
+        buffer.append(", ");
+        buffer.append("attributes = ");
+        if ( this.attributes!= null )
+        buffer.append(this.attributes.toString());
+        else buffer.append("value is null"); 
+        buffer.append(", ");
+        buffer.append("beanClassLoader = ");
+        if ( this.beanClassLoader!= null )
+        buffer.append(this.beanClassLoader.toString());
+        else buffer.append("value is null"); 
+        buffer.append(", ");
+        buffer.append("exportedTypes = ");
+        if ( this.exportedTypes!= null )
+        buffer.append(this.exportedTypes.toString());
+        else buffer.append("value is null"); 
+        buffer.append("\n");
+        return  buffer.toString();
+    }
 
 }

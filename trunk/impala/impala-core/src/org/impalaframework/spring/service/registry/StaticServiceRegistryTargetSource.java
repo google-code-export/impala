@@ -29,6 +29,11 @@ public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTarget
         }
         return bean;
     }
+    
+    @Override
+    public Class<?> getTargetClass() {
+        return reference.getBean().getClass();
+    }
 
     public boolean isStatic() {
         //FIXME should this be false

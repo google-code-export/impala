@@ -14,8 +14,11 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import java.lang.reflect.Modifier;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -86,17 +89,22 @@ public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
         
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-        Assert.notNull(interfaces, "interfaces cannot be null");
-        Assert.notEmpty(interfaces, "interfaces cannot be empty");
         Assert.notNull(reference, "reference cannot be null");
         
         ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
         
         ProxyFactory proxyFactory = new ProxyFactory();
-        addInterfaces(proxyFactory, interfaces);
-        
+        if (interfaces != null && interfaces.length > 0) {
+            addInterfaces(proxyFactory, interfaces);
+        } else {
+            boolean isFinal = Modifier.isFinal(reference.getBean().getClass().getModifiers());
+            if (isFinal) {
+                throw new InvalidStateException("Cannot create proxy for service reference " + reference + " as no interfaces have been " +
+                		"specified and the bean class is final, therefore cannot be proxied");
+            }
+        }
         proxyFactory.setTargetSource(targetSource);
-        
+       
         final String registryKeyName = reference.getBeanName();
         ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
         
