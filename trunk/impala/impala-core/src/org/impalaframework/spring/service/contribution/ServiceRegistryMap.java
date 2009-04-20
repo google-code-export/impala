@@ -23,15 +23,6 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     private Class<?>[] proxyInterfaces;
 
     public void afterPropertiesSet() throws Exception {
-        
-        Assert.notNull(proxyInterfaces, "proxyInterfaces cannot be null");
-        Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
-        
-        if (this.proxyFactoryCreator == null) {
-            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
-            this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
-        }
-        
         this.init();
     }
     
