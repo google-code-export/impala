@@ -25,12 +25,18 @@
 	</target>
 	
 	<target name = "project:fixcrlf">
+		<property name = "fixcrlf.tab" value = "remove"/>
+		<property name = "fixcrlf.tablength" value = "4"/>
+		<property name = "fixcrlf.encoding" value = "UTF8"/>
+		<property name = "fixcrlf.eol" value = "lf"/>
+		<property name = "fixcrlf.eof" value = "remove"/>
+		
 		<fixcrlf srcdir="${project.dir}" includes="**/*.txt,**/*.xml,**/*.properties"
-				 tab="remove" tablength = "4" encoding = "UTF8"
-		         eol="lf" eof="remove" />
+				 tab="${fixcrlf.tab}" tablength = "${fixcrlf.tablength}" encoding = "${fixcrlf.encoding}"
+		         eol="${fixcrlf.eol}" eof="${fixcrlf.eof}" />
 		<fixcrlf srcdir="${project.dir}" includes="**/*.java"
-				 tab="remove" tablength = "4" javafiles="yes" encoding = "UTF8"
-		         eol="lf" eof="remove" />
+			 tab="${fixcrlf.tab}" tablength = "${fixcrlf.tablength}" encoding = "${fixcrlf.encoding}" javafiles="yes"
+	         eol="${fixcrlf.eol}" eof="${fixcrlf.eof}" />
 	</target>
 
 	<target 
