@@ -32,7 +32,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
     private ContributionProxyFactoryBean bean;
     private ServiceRegistryImpl serviceRegistry;
     private ClassLoader classLoader;
-    private DynamicServiceProxyFactoryCreator proxyFactoryCreator;
+    private DefaultServiceProxyFactoryCreator proxyFactoryCreator;
 
     @Override
     protected void setUp() throws Exception {
@@ -40,7 +40,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
         bean = new ContributionProxyFactoryBean();
         serviceRegistry = new ServiceRegistryImpl();
         
-        proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+        proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
         bean.setServiceRegistry(serviceRegistry);
         proxyFactoryCreator.setServiceRegistry(serviceRegistry);
         

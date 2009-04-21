@@ -60,7 +60,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
     public void afterPropertiesSet() throws Exception {
         
         if (this.proxyFactoryCreator == null) {
-            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+            this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
             this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
         }
         

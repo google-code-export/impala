@@ -4,7 +4,7 @@ import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.contribution.BaseServiceRegistryMap;
-import org.impalaframework.spring.service.proxy.DynamicServiceProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -30,7 +30,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
         //Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
         
         if (this.proxyFactoryCreator == null) {
-            this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
+            this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
             this.proxyFactoryCreator.setServiceRegistry(this.getServiceRegistry());
         }
         
