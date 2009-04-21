@@ -224,7 +224,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /**
      * Returns named service, which has to implement all of implemenation types specified
      */
-    public ServiceRegistryReference getService(String beanName, Class<?>[] implementationTypes) {
+    public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes) {
         
         Assert.notNull(beanName, "beanName cannot be null");
         final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
@@ -236,12 +236,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             return null;
         }
         
-        if (implementationTypes == null) {
+        if (supportedTypes == null) {
             return references.get(0);
         }
         
         for (int i = 0; i < references.size(); i++) {
-            final ServiceRegistryReference ref = getMatchingReference(references, implementationTypes, i);
+            final ServiceRegistryReference ref = getMatchingReference(references, supportedTypes, i);
             if (ref != null) {
                 return ref;
             }
@@ -253,7 +253,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /**
      * Returns filtered services, which has to implement all of implemenation types specified
      */
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes) {
+    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes) {
 
         Assert.notNull(filter, "filter cannot be null");
 
@@ -266,7 +266,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         //FIXME should be looking only at export types here
         for (ServiceRegistryReference serviceReference : values) {
-            if (classChecker.matchesTypes(serviceReference, implementationTypes) && filter.matches(serviceReference)) {
+            if (classChecker.matchesTypes(serviceReference, supportedTypes) && filter.matches(serviceReference)) {
                 serviceList.add(serviceReference);
             }
         }
@@ -365,7 +365,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private ServiceRegistryReference getMatchingReference(
             final List<ServiceRegistryReference> list, 
-            Class<?>[] implementationTypes,
+            Class<?>[] supportedTypes,
             int index) {
         
         final ServiceRegistryReference reference = list.get(index);
@@ -373,7 +373,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             return null;
         }
         
-        if (classChecker.matchesTypes(reference, implementationTypes)) {
+        if (classChecker.matchesTypes(reference, supportedTypes)) {
             return reference;
         } else {
             return null;
