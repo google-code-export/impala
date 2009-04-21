@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface ExportTypeDeriver {
     
-    public List<Class<?>> deriveExportTypes(Object service);
+    public List<Class<?>> deriveExportTypes(Object service, String beanName, List<Class<?>> classes);
 
 }

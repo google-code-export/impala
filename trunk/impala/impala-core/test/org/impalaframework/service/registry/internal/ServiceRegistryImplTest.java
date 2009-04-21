@@ -246,7 +246,7 @@ public class ServiceRegistryImplTest extends TestCase {
     }
     
     public void testDeriveExports() throws Exception {
-        assertTrue(registry.deriveExportTypes("service").isEmpty());
+        assertTrue(registry.deriveExportTypes("service", null, null).isEmpty());
     }
     
 }

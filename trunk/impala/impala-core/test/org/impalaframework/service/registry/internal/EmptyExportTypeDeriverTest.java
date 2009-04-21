@@ -14,18 +14,20 @@
 
 package org.impalaframework.service.registry.internal;
 
-import java.util.List;
+import junit.framework.TestCase;
 
-import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
+public class EmptyExportTypeDeriverTest extends TestCase {
 
-public class DefaultExportTypeDeriver implements ExportTypeDeriver {
+    private EmptyExportTypeDeriver deriver;
 
-    public List<Class<?>> deriveExportTypes(Object service) {        
-        //FIXME if classes are present then use all of these as keys in classes to services map
-        //if no classes are present, then find first matching interface, and use this as key in classes to services map
-        //if no bean name present, then at least one explicit class reference must be present
-        //if no classes are present, then bean name must be present
-        return null;
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        deriver = new EmptyExportTypeDeriver();
+    }
+    
+    public void testDeriveExportTypes() {
+        assertTrue(deriver.deriveExportTypes(null, null, null).isEmpty());
     }
 
 }
