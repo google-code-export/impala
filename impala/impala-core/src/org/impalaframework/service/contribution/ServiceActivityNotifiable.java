@@ -49,6 +49,6 @@ public interface ServiceActivityNotifiable {
     /**
      * Can be used by {@link ServiceActivityNotifiable} to optionally indicate which classes the service instances should be subtypes of.
      */
-    public Class<?>[] getImplementationTypes();
+    public Class<?>[] getSupportedTypes();
 
 }
