@@ -272,8 +272,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 serviceList.add(serviceReference);
             }
         }
-        //FIXME should allow to return existing object rather than create new one
-        return serviceReferenceSorter.sort(serviceList);
+        
+        //sort, reusing existing list
+        return serviceReferenceSorter.sort(serviceList, true);
     }
     
     /* ************ listener related methods * ************** */
