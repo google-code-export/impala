@@ -27,6 +27,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
@@ -85,4 +86,67 @@ public class ServiceRegistryMapTest extends TestCase {
         
         verify(serviceRegistry);
     }
+    
+    public void testWithNonFinalClass() throws Exception {
+        ValueClass service = new ValueClass();
+        
+        LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
+        map.setFilter(filter);
+        map.setProxyInterfaces(null);
+        map.setImplementationTypes(null);
+        
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("mapkey", "key");
+        ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
+        List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
+        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        
+        replay(serviceRegistry);
+        
+        map.afterPropertiesSet();
+        assertFalse(map.isEmpty());
+        
+        //map service is List but not same instance
+        Object storedValue = map.get("key");
+        assertTrue(storedValue instanceof ServiceRegistryMapTest.ValueClass);
+        assertFalse(map.get("key") == service);
+        
+        ValueClass vc = (ValueClass) storedValue;
+        vc.sayHello();
+        
+        verify(serviceRegistry);
+    }
+    
+    public void testWithFinalClass() throws Exception {
+        
+        LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
+        map.setFilter(filter);
+        map.setProxyInterfaces(null);
+        map.setImplementationTypes(null);
+        
+        Map<String, String> attributes = new HashMap<String, String>();
+        attributes.put("mapkey", "key");
+        ServiceRegistryReference ref = new BasicServiceRegistryReference("stringservice", "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
+        List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
+        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        
+        replay(serviceRegistry);
+        
+        try {
+            map.afterPropertiesSet();
+            fail();
+        }
+        catch (InvalidStateException e) {
+            e.printStackTrace();
+        }
+        
+        verify(serviceRegistry);
+    }
+    
+    static class ValueClass {
+        public void sayHello() {
+            System.out.println("Hello");
+        }
+    }
+    
 }

@@ -28,8 +28,8 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     
     @Override
     public void init() {
-        Assert.notNull(proxyInterfaces, "proxyInterfaces cannot be null");
-        Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
+        //Assert.notNull(proxyInterfaces, "proxyInterfaces cannot be null");
+        //Assert.notEmpty(proxyInterfaces, "proxyInterfaces cannot be empty");
         
         if (this.proxyFactoryCreator == null) {
             this.proxyFactoryCreator = new DynamicServiceProxyFactoryCreator();
