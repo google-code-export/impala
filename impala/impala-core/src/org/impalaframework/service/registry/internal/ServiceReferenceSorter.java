@@ -31,12 +31,12 @@ public class ServiceReferenceSorter {
     
     private Comparator<ServiceRegistryReference> comparator = new ServiceReferenceComparator();
     
-    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
+    List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
         return sort(references, false);
         //FIXME document
     }
     
-    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
+    List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
         Assert.notNull(references);
         //no point sorting if size < 2
         if (references.size() < 2) {
