@@ -62,20 +62,20 @@ public interface ServiceRegistry {
     /**
      * Retrieves a service from the service registry
      * @param beanName the name under which the service was registered
-     * @param implementationTypes the possible for the service. 
+     * @param supportedTypes the possible for the service. 
      * The service must be class compatible with all of these types to be returned.
      * @return a {@link ServiceRegistryReference} instance
      */
-    ServiceRegistryReference getService(String beanName, Class<?>[] implementationTypes);
+    ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes);
     
     /**
      * Gets all services from the service registry which match the provided filter
      * @param filter a {@link ServiceReferenceFilter} instance
-     * @param implementationTypes the possible for the service. The service must be class compatible with all of these
+     * @param supportedTypes the possible for the service. The service must be class compatible with all of these
      * types to be returned.
      * @return a list of service references.
      */
-    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] implementationTypes);
+    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes);
     
     /**
      * Adds global event listeners to which all service registry events will be
