@@ -16,8 +16,8 @@ package org.impalaframework.service.contribution;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 
 /**
  * Interface for receiving service activity calls from {@link ServiceRegistryMonitor}.

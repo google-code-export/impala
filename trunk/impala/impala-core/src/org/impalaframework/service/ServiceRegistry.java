@@ -17,7 +17,6 @@ package org.impalaframework.service;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 
 /**
  * Interface for shared registry for services used by Impala to share beans between modules.

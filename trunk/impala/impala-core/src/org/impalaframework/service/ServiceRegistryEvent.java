@@ -12,9 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.service.event;
+package org.impalaframework.service;
 
-import org.impalaframework.service.ServiceRegistryReference;
 
 public interface ServiceRegistryEvent {
     public ServiceRegistryReference getServiceReference();

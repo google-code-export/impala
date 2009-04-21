@@ -14,6 +14,7 @@
 
 package org.impalaframework.service.event;
 
+import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.springframework.util.Assert;
 

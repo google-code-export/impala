@@ -22,8 +22,8 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 
 /**

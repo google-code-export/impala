@@ -12,7 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.service.event;
+package org.impalaframework.service;
+
 
 public interface ServiceRegistryEventListener {
     void handleServiceRegistryEvent(ServiceRegistryEvent event);
