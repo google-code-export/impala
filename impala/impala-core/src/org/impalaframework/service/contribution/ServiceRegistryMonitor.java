@@ -18,10 +18,10 @@ import java.util.Collection;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEvent;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
-import org.impalaframework.service.event.ServiceRegistryEvent;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.util.Assert;
@@ -74,7 +74,8 @@ public class ServiceRegistryMonitor implements
     private void handleEventRemoved(ServiceRegistryEvent event) {
         ServiceRegistryReference ref = event.getServiceReference();
         
-        //FIXME do we need to match before removing
+        //no particular point matching before removing as it is more extra work than 
+        //simply calling remove.
         serviceActivityNotifiable.remove(ref);
     }
 

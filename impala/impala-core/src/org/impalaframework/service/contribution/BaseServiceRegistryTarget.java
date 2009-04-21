@@ -16,8 +16,8 @@ package org.impalaframework.service.contribution;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.event.ServiceRegistryEvent;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
+import org.impalaframework.service.ServiceRegistryEvent;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.util.Assert;

@@ -23,10 +23,10 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryEvent;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
-import org.impalaframework.service.event.ServiceRegistryEvent;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.spring.bean.StringFactoryBean;

@@ -31,10 +31,10 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEvent;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
-import org.impalaframework.service.event.ServiceRegistryEvent;
-import org.impalaframework.service.event.ServiceRegistryEventListener;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
@@ -51,7 +51,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     private ClassChecker classChecker = new ClassChecker();
     private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
-    private ExportTypeDeriver exportTypeDeriver;
+    private ExportTypeDeriver exportTypeDeriver = new DefaultExportTypeDeriver();
 
     private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
     private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
@@ -352,11 +352,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     List<Class<?>> deriveExportTypes(Object service) {
 
-        //FIXME if classes are present then use all of these as keys in classes to services map
-        //if no classes are present, then find first matching interface, and use this as key in classes to services map
-        //if no bean name present, then at least one explicit class reference must be present
-        //if no classes are present, then bean name must be present
-        
+        //pass on job of figuring out export types to ExportTypeDeriver      
         if (exportTypeDeriver != null) {
             return exportTypeDeriver.deriveExportTypes(service);
         }
