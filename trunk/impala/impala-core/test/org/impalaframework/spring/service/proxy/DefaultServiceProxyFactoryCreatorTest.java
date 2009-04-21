@@ -26,9 +26,9 @@ import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class DynamicServiceProxyFactoryCreatorTest extends TestCase {
+public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
 
-    private DynamicServiceProxyFactoryCreator creator;
+    private DefaultServiceProxyFactoryCreator creator;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] classes;
 
@@ -36,7 +36,7 @@ public class DynamicServiceProxyFactoryCreatorTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         classes = new Class[]{List.class};
-        creator = new DynamicServiceProxyFactoryCreator();
+        creator = new DefaultServiceProxyFactoryCreator();
         serviceRegistry = createMock(ServiceRegistry.class);
         creator.setServiceRegistry(serviceRegistry);
     }

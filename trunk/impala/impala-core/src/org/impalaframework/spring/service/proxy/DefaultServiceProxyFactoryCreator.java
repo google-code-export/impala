@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DynamicServiceProxyFactoryCreator implements ServiceProxyFactoryCreator, ServiceRegistryAware {
+public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCreator, ServiceRegistryAware {
     
     private static final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
     
