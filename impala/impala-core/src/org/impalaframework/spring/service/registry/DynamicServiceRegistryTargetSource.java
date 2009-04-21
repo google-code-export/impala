@@ -40,6 +40,7 @@ public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTarge
     /* *************** ContributionEndpointTargetSource implementation ************** */
 
     public ServiceRegistryReference getServiceRegistryReference() {
+        //FIXME should we be able to retrieve using filter as well
         return serviceRegistry.getService(beanName, interfaces);
     }
 
