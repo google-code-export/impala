@@ -42,7 +42,7 @@ import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
 /**
- * Implementation of {@link ServiceRegistry}, which holds services which can be shared across modules
+ * Implementation of {@link ServiceRegistry}, which holds services which can be shared across modules.
  * @author Phil Zoio
  */
 public class ServiceRegistryImpl implements ServiceRegistry {
@@ -89,7 +89,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             ClassLoader classLoader) {
         
         //Note: null checks performed by BasicServiceRegistryReference constructor
-        
         BasicServiceRegistryReference serviceReference = null;
         synchronized (registryLock) {
             
