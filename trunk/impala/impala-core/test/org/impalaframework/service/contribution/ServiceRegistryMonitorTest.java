@@ -42,7 +42,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
+        expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(null);
         
         serviceActivityNotifiable.add(ref);
         
@@ -56,7 +56,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {String.class});
+        expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(new Class<?>[] {String.class});
         
         serviceActivityNotifiable.add(ref);
         
@@ -70,7 +70,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(new Class<?>[] {Integer.class});
+        expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(new Class<?>[] {Integer.class});
         //no call to add
         
         replay(serviceActivityNotifiable);
@@ -83,7 +83,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
-        expect(serviceActivityNotifiable.getImplementationTypes()).andReturn(null);
+        expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(null);
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);

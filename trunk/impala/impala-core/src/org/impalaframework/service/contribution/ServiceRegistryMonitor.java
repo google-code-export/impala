@@ -94,7 +94,7 @@ public class ServiceRegistryMonitor implements
     private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
         boolean matchable = true;
         
-        Class<?>[] implementationTypes = serviceActivityNotifiable.getImplementationTypes();
+        Class<?>[] implementationTypes = serviceActivityNotifiable.getSupportedTypes();
         
         //check export types
         if (implementationTypes != null && implementationTypes.length > 0) {

@@ -8,7 +8,6 @@ import org.impalaframework.spring.service.proxy.DynamicServiceProxyFactoryCreato
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.util.Assert;
 
 /**
  * Spring-based service registry {@link Map} implementation which uses a possibly wired in 
@@ -20,7 +19,6 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
         implements InitializingBean {
 
     private ServiceProxyFactoryCreator proxyFactoryCreator;
-    private Class<?>[] proxyInterfaces;
 
     public void afterPropertiesSet() throws Exception {
         this.init();
@@ -40,12 +38,8 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     }
 
     protected Object maybeGetProxy(ServiceRegistryReference reference) {
-        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(proxyInterfaces, reference);
+        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createStaticProxyFactory(getSupportedTypes(), reference);
         return proxyFactory.getProxy();
-    }
-    
-    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-        this.proxyInterfaces = proxyInterfaces;
     }
 
 }

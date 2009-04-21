@@ -45,7 +45,7 @@ public class ServiceRegistryMapTest extends TestCase {
         map = new ServiceRegistryMap();
         serviceRegistry = createMock(ServiceRegistry.class);
         map.setServiceRegistry(serviceRegistry);
-        map.setProxyInterfaces(new Class[]{ List.class });
+        map.setSupportedTypes(new Class[]{ List.class });
     }
     
     public void testNoMapKey() throws Exception {
@@ -92,8 +92,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
         map.setFilter(filter);
-        map.setProxyInterfaces(null);
-        map.setImplementationTypes(null);
+        map.setSupportedTypes(null);
         
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("mapkey", "key");
@@ -121,8 +120,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
         map.setFilter(filter);
-        map.setProxyInterfaces(null);
-        map.setImplementationTypes(null);
+        map.setSupportedTypes(null);
         
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("mapkey", "key");
