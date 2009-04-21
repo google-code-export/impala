@@ -50,6 +50,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
     
     private ClassChecker classChecker = new ClassChecker();
+    private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
     private ExportTypeDeriver exportTypeDeriver;
 
     private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
@@ -226,14 +227,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes) {
         
         Assert.notNull(beanName, "beanName cannot be null");
-        final List<ServiceRegistryReference> references = beanNameToService.get(beanName);
+        List<ServiceRegistryReference> references = beanNameToService.get(beanName);
         
-        //FIXME should we be doing any sorting here in order to determine which reference to return
         //FIXME should have option of looking for explicitly named export types rather than implementation types
         
         if (references == null || references.size() == 0) {
             return null;
         }
+        
+        //sort the service references
+        references = serviceReferenceSorter.sort(references);
         
         if (supportedTypes == null) {
             return references.get(0);
@@ -269,7 +272,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 serviceList.add(serviceReference);
             }
         }
-        return serviceList;
+        //FIXME should allow to return existing object rather than create new one
+        return serviceReferenceSorter.sort(serviceList);
     }
     
     /* ************ listener related methods * ************** */
