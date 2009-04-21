@@ -51,7 +51,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     private ClassChecker classChecker = new ClassChecker();
     private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
-    private ExportTypeDeriver exportTypeDeriver = new DefaultExportTypeDeriver();
+    private ExportTypeDeriver exportTypeDeriver = new EmptyExportTypeDeriver();
 
     private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
     private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
@@ -96,7 +96,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             boolean checkClasses = true;
             
             if (classes == null) {
-                classes = deriveExportTypes(service);
+                classes = deriveExportTypes(service, beanName, classes);
                 checkClasses = false;
             }
             
@@ -350,11 +350,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     /* ************ helper methods * ************** */
     
-    List<Class<?>> deriveExportTypes(Object service) {
+    List<Class<?>> deriveExportTypes(Object service, String beanName, List<Class<?>> classes) {
 
         //pass on job of figuring out export types to ExportTypeDeriver      
         if (exportTypeDeriver != null) {
-            return exportTypeDeriver.deriveExportTypes(service);
+            return exportTypeDeriver.deriveExportTypes(service, beanName, classes);
         }
         return Collections.emptyList();
     }
