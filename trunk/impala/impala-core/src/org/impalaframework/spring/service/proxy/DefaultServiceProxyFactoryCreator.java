@@ -67,6 +67,7 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         ProxyFactory proxyFactory = new ProxyFactory();
         addInterfaces(proxyFactory, interfaces);
 
+        //FIXME add support for proxying classes too!
         proxyFactory.setTargetSource(targetSource);
         
         ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
