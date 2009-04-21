@@ -62,6 +62,11 @@ public class ServiceReferenceSorter {
             return 0;
         }
 
+        /**
+         * Computes service ranking. If not specified or cannot be determined, then set to default of zero.
+         * For number types, then will return value up to Integer.MAX_VALUE.
+         * For String types, will return integer value if string can be converted to an int using Integer.valueOf(String).
+         */
         int getServiceRanking(ServiceRegistryReference reference) {
             Map<String, ?> attributes = reference.getAttributes();
             
