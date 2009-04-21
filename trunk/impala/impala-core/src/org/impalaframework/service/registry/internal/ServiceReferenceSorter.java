@@ -31,11 +31,16 @@ public class ServiceReferenceSorter {
     
     private Comparator<ServiceRegistryReference> comparator = new ServiceReferenceComparator();
     
+    /**
+     * Sorts and returns new list
+     */
     List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
         return sort(references, false);
-        //FIXME document
     }
     
+    /**
+     * Sorts, returns existing list if reuseList is true, otherwise returns new list
+     */
     List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
         Assert.notNull(references);
         //no point sorting if size < 2
