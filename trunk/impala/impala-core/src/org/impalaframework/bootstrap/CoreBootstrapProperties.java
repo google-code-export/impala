@@ -63,6 +63,8 @@ public interface CoreBootstrapProperties {
      */
     String GRAPH_BEAN_VISIBILITY_TYPE = "graph.bean.visibility.type";
     
+    String GRAPH_BEAN_VISIBILITY_TYPE_DEFAULT = "graphOrdered";
+    
     /**
      * This is used to specify whether Impala should attempt to load classes by first checking the application or system class path, 
      * before examining the module class path. The default is <i>true</i>.
