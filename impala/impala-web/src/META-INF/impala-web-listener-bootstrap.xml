@@ -8,31 +8,31 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="useTouchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="use.touch.file"/>
-         <property name="defaultValue" value="false"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.USE_TOUCH_FILE_DEFAULT]"/>
     </bean>
 
     <bean id="touchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="touch.file"/>
-         <property name="defaultValue" value="/WEB-INF/modules/touch.txt"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOUCH_FILE_DEFAULT]"/>
     </bean>
 
     <bean id="autoDeployCheckInterval" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="auto.reload.check.interval"/>
-         <property name="defaultValue" value="2"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL_DEFAULT]"/>
     </bean>
 
     <bean id="autoDeployCheckDelay" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="auto.reload.check.delay"/>
-         <property name="defaultValue" value="10"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY_DEFAULT]"/>
     </bean>
 
     <bean id="autoDeployMonitoringType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="auto.reload.monitoring.type"/>
-         <property name="defaultValue" value="default"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT]"/>
     </bean>
         
     <bean id="scheduledModuleChangeMonitor"

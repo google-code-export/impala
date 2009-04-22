@@ -37,23 +37,31 @@ public interface WebBootstrapProperties {
      */
     String USE_TOUCH_FILE = "use.touch.file";
 
+    boolean USE_TOUCH_FILE_DEFAULT = false;
+
     /**
      * The touch file resource which will be monitored. If not present and 'use.touch.file'
      * is true, then auto.deploy is effectively turned off.
      */
     String TOUCH_FILE = "touch.file";
 
+    String TOUCH_FILE_DEFAULT = "/WEB-INF/modules/touch.txt";
+    
     /**
      * The period in seconds between successive checks for modifications when 
      * auto.deploy is used. 
      */
     String AUTO_RELOAD_CHECK_INTERVAL = "auto.reload.check.interval";
     
+    int AUTO_RELOAD_CHECK_INTERVAL_DEFAULT = 2;
+    
     /**
      * The delay in seconds before the first check for modifications when
      * auto.deploy is used. 
      */
     String AUTO_RELOAD_CHECK_DELAY = "auto.reload.check.delay";
+    
+    int AUTO_RELOAD_CHECK_DELAY_DEFAULT = 10;
         
     /**
      * The type of monitoring that is used to check for modifications when
@@ -66,6 +74,8 @@ public interface WebBootstrapProperties {
      * out of step with module loading.
      */
     String AUTO_RELOAD_MONITORING_TYPE = "auto.reload.monitoring.type";
+    
+    String AUTO_RELOAD_MONITORING_TYPE_DEFAULT = "default";
     
     /**
      * Whether {@link ServletContext} attributes and resources should be partitioned
