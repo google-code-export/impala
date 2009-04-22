@@ -41,7 +41,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
     void addMx4jAdaptorContext(ConfigurationSettings configSettings,
             PropertySource propertySource) {
         
-        BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, false);
+        BooleanPropertyValue exposeMx4jAdaptor = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR_DEFAULT);
         configSettings.addProperty(JMXBootstrapProperties.EXPOSE_MX4J_ADAPTOR, exposeMx4jAdaptor);
 
         if (exposeMx4jAdaptor.getValue()) {
@@ -66,7 +66,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
     
     protected void addJmxOperations(ConfigurationSettings configSettings,
             PropertySource propertySource) {
-        BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
+        BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS_DEFAULT);
         configSettings.addProperty(JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, exposeJmx);
 
         BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT);

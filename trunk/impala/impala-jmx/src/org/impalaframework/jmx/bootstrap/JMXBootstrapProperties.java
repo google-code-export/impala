@@ -17,7 +17,10 @@ package org.impalaframework.jmx.bootstrap;
 public interface JMXBootstrapProperties {
 
     String EXPOSE_JMX_OPERATIONS = "expose.jmx.operations";
+    boolean EXPOSE_JMX_OPERATIONS_DEFAULT = true;
+   
     String EXPOSE_MX4J_ADAPTOR = "expose.mx4j.adaptor";
+    boolean EXPOSE_MX4J_ADAPTOR_DEFAULT = false;
     
     String JMX_ADAPTOR_PORT = "jmx.adaptor.port";
     int JMX_ADAPTOR_PORT_DEFAULT = 8001;
