@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.bootstrap.ConfigurationSettings;
 import org.impalaframework.bootstrap.ContextLocationResolver;
 import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.IntPropertyValue;
 import org.impalaframework.config.PropertySource;
 
 public class JMXContextLocationResolver implements ContextLocationResolver {
@@ -45,6 +46,9 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
 
         if (exposeMx4jAdaptor.getValue()) {
             
+            IntPropertyValue adaptorPort = new IntPropertyValue(propertySource, JMXBootstrapProperties.JMX_ADAPTOR_PORT, JMXBootstrapProperties.JMX_ADAPTOR_PORT_DEFAULT);
+            configSettings.addProperty(JMXBootstrapProperties.JMX_ADAPTOR_PORT, adaptorPort);
+            
             if (configSettings.getContextLocations().contains("META-INF/impala-jmx-bootstrap.xml")) {
 
                 boolean mx4jPresent = isMX4JPresent();
@@ -65,7 +69,7 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
         BooleanPropertyValue exposeJmx = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, true);
         configSettings.addProperty(JMXBootstrapProperties.EXPOSE_JMX_OPERATIONS, exposeJmx);
 
-        BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, false);
+        BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT);
         configSettings.addProperty(JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, locateExistingMbeanServer);
         
         if (exposeJmx.getValue()) {

@@ -31,7 +31,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     <bean id="locateExistingServerIfPossible" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
          <property name="propertySource" ref="propertySource"/>
          <property name="name" value="jmx.locate.existing.server"/>
-         <property name="defaultValue" value="false"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT]"/>
     </bean> 
     
     <bean id="mbeanServer"
