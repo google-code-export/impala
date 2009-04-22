@@ -57,19 +57,19 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
         if (autoReloadModules.getValue()) {
             configSettings.add("META-INF/impala-web-listener-bootstrap.xml");
     
-            BooleanPropertyValue useTouchFile = new BooleanPropertyValue(propertySource, WebBootstrapProperties.USE_TOUCH_FILE, false);
+            BooleanPropertyValue useTouchFile = new BooleanPropertyValue(propertySource, WebBootstrapProperties.USE_TOUCH_FILE, WebBootstrapProperties.USE_TOUCH_FILE_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.USE_TOUCH_FILE, useTouchFile);
             
-            StringPropertyValue touchFile = new StringPropertyValue(propertySource, WebBootstrapProperties.TOUCH_FILE, "/WEB-INF/modules/touch.txt");
+            StringPropertyValue touchFile = new StringPropertyValue(propertySource, WebBootstrapProperties.TOUCH_FILE, WebBootstrapProperties.TOUCH_FILE_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.TOUCH_FILE, touchFile);
             
-            IntPropertyValue delay = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY, 10);
+            IntPropertyValue delay = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY, WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY, delay);
             
-            IntPropertyValue interval = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, 2);
+            IntPropertyValue interval = new IntPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL, interval);
             
-            StringPropertyValue monitoringType = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, "default");
+            StringPropertyValue monitoringType = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, monitoringType);
         }
     }
