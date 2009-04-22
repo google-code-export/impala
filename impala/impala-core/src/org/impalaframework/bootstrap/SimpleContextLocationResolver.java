@@ -17,6 +17,7 @@ package org.impalaframework.bootstrap;
 import org.impalaframework.config.BooleanPropertyValue;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.InstantiationUtils;
 import org.springframework.util.StringUtils;
@@ -62,12 +63,12 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
     }
 
     private void logStandaloneProperties(ConfigurationSettings configSettings, PropertySource propertySource) {
-        BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EMBEDDED_MODE, false);
+        BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EMBEDDED_MODE, CoreBootstrapProperties.EMBEDDED_MODE_DEFAULT);
         //parentClassloaderFirst value is by default the opposite of embedded mode
         BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
-        StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, "../");
-        StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, "bin");
-        StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, "resources");
+        StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, LocationConstants.WORKSPACE_ROOT_DEFAULT);
+        StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, LocationConstants.MODULE_CLASS_DIR_DEFAULT);
+        StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, LocationConstants.MODULE_RESOURCE_DIR_DEFAULT);
 
         configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
         configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);

@@ -5,6 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
+ <bean id="constantValueConfigurer" class="org.impalaframework.spring.ConstantValuePlaceholderConfigurer"/>
  <bean id="propertySource" class="org.impalaframework.spring.config.PropertySourceHolderFactoryBean"/>
 
  <bean id="moduleManagementFacade" 
@@ -101,19 +102,19 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="moduleClassDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="module.class.dir"/>
-     <property name="defaultValue" value="bin"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_CLASS_DIR_DEFAULT]"/>
  </bean>
  
  <bean id="moduleResourceDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="module.resource.dir"/>
-     <property name="defaultValue" value="resources"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_RESOURCE_DIR_DEFAULT]"/>
  </bean>
     
  <bean id="workspaceRoot" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="workspace.root"/>
-     <property name="defaultValue" value="../"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.WORKSPACE_ROOT_DEFAULT]"/>
  </bean>
     
  <bean id="applicationVersion" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
@@ -147,7 +148,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="embeddedMode" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="embedded.mode"/>
-     <property name="defaultValue" value="false"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EMBEDDED_MODE_DEFAULT]"/>
  </bean> 
  
  <bean id="notEmbeddedMode" class="org.impalaframework.spring.bean.BooleanFactoryBean">

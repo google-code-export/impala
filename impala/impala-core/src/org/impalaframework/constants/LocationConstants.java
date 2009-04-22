@@ -21,11 +21,19 @@ package org.impalaframework.constants;
  */
 public interface LocationConstants {
 
-    public static final String MODULE_CLASS_DIR_PROPERTY = "module.class.dir";
-    public static final String MODULE_RESOURCE_DIR_PROPERTY = "module.resource.dir";
-    public static final String MODULE_TEST_DIR_PROPERTY = "module.test.dir";
-    public static final String WORKSPACE_ROOT_PROPERTY = "workspace.root";
-    public static final String APPLICATION_VERSION = "application.version";
+    String MODULE_CLASS_DIR_PROPERTY = "module.class.dir";
+    String MODULE_CLASS_DIR_DEFAULT = "bin";
+    
+    String MODULE_RESOURCE_DIR_PROPERTY = "module.resource.dir";
+    String MODULE_RESOURCE_DIR_DEFAULT = "resources";
+    
+    String MODULE_TEST_DIR_PROPERTY = "module.test.dir";
+    String MODULE_TEST_DIR_DEFAULT = "module.test.dir";
+    
+    String WORKSPACE_ROOT_PROPERTY = "workspace.root";
+    String WORKSPACE_ROOT_DEFAULT = "../";
+    
+    String APPLICATION_VERSION = "application.version";
     String BOOTSTRAP_MODULES_RESOURCE_PARAM = "bootstrapModulesResource";
     String BOOTSTRAP_LOCATIONS_PROPERTY_PARAM = "bootstrapLocations";
     String BOOTSTRAP_LOCATIONS_RESOURCE_PARAM = "bootstrapLocationsResource";

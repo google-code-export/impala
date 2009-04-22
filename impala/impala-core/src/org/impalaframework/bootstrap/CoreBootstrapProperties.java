@@ -27,6 +27,8 @@ public interface CoreBootstrapProperties {
      * running embedded within IDE
      */
     String EMBEDDED_MODE = "embedded.mode";
+    
+    boolean EMBEDDED_MODE_DEFAULT = false;
 
     /**
      * A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
