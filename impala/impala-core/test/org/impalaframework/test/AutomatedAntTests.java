@@ -108,6 +108,7 @@ import org.impalaframework.service.registry.DynamicServiceRegistryTargetSourceTe
 import org.impalaframework.service.registry.internal.EmptyExportTypeDeriverTest;
 import org.impalaframework.service.registry.internal.ServiceReferenceSorterTest;
 import org.impalaframework.service.registry.internal.ServiceRegistryImplTest;
+import org.impalaframework.spring.ConstantValuePlaceholderConfigurerTest;
 import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.bean.BooleanFactoryBeanTest;
@@ -191,6 +192,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(CloseRootModuleOperationTest.class);
         suite.addTestSuite(CompositeResourceLoaderTest.class);
         suite.addTestSuite(CompositePropertySourceTest.class);
+        suite.addTestSuite(ConstantValuePlaceholderConfigurerTest.class);
         suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
         suite.addTestSuite(ContributionEndpointInterceptorTest.class);
         suite.addTestSuite(ContributionProxyFactoryBeanTest.class);
