@@ -42,7 +42,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
     }
 
     protected void addJarModuleLocation(ConfigurationSettings configSettings, PropertySource propertySource) {
-        BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, WebBootstrapProperties.EMBEDDED_MODE, false);
+        BooleanPropertyValue embeddedMode = new BooleanPropertyValue(propertySource, WebBootstrapProperties.EMBEDDED_MODE, WebBootstrapProperties.EMBEDDED_MODE_DEFAULT);
         configSettings.addProperty(WebBootstrapProperties.EMBEDDED_MODE, embeddedMode);
         
         if (!embeddedMode.getValue()) {
@@ -51,7 +51,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
     }
 
     protected void addAutoReloadListener(ConfigurationSettings configSettings, PropertySource propertySource) {
-        BooleanPropertyValue autoReloadModules = new BooleanPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MODULES, false);
+        BooleanPropertyValue autoReloadModules = new BooleanPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MODULES, WebBootstrapProperties.AUTO_RELOAD_MODULES_DEFAULT);
         configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_MODULES, autoReloadModules);
         
         if (autoReloadModules.getValue()) {

@@ -29,6 +29,8 @@ public interface WebBootstrapProperties {
      * changes are detected. Default is <b>false</b>.
      */
     String AUTO_RELOAD_MODULES = "auto.reload.modules";
+    
+    boolean AUTO_RELOAD_MODULES_DEFAULT = false;
 
     /**
      * Whether to use a touch file to detect changes which could trigger a module reload.
@@ -108,6 +110,8 @@ public interface WebBootstrapProperties {
      * setting.
      */
     String EMBEDDED_MODE = "embedded.mode";
+    
+    boolean EMBEDDED_MODE_DEFAULT = false;
 
     /**
      * If a session attribute is lost because it cannot be "reloaded" maintain the 
@@ -116,6 +120,7 @@ public interface WebBootstrapProperties {
     String PRESERVE_SESSION_ON_RELOAD_FAILURE = "preserve.session.on.reload.failure";
     
     boolean PRESERVE_SESSION_ON_RELOAD_FAILURE_DEFAULT = true;
+    
 
     String SPRING_PATH_MAPPING_ENABLED = "spring.path.mapping.enabled";
     
