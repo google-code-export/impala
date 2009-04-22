@@ -30,9 +30,9 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
         addJarModuleLocation(configSettings, propertySource);
         addAutoReloadListener(configSettings, propertySource);
         
-        BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, false);
-        BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, true);
-        BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
+        BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT_DEFAULT);
+        BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, WebBootstrapProperties.SESSION_MODULE_PROTECTION_DEFAULT);
+        BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE_DEFAULT);
 
         configSettings.addProperty(WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, servletContextPartitioned);
         configSettings.addProperty(WebBootstrapProperties.SESSION_MODULE_PROTECTION, sessionModuleProtected);

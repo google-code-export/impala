@@ -10,13 +10,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="enablePartitionedServletContext" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="partitioned.servlet.context"/>
-     <property name="defaultValue" value="true"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT_DEFAULT]"/>
  </bean>
  
  <bean id="enableModuleSessionProtection" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="session.module.protection"/>
-     <property name="defaultValue" value="false"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.SESSION_MODULE_PROTECTION_DEFAULT]"/>
  </bean>
  
  <bean id="servletContextWrapper" class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper">

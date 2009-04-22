@@ -73,6 +73,8 @@ public interface WebBootstrapProperties {
      * visible within modules only through {@link ServletContext} methods.
      */
     String PARTITIONED_SERVLET_CONTEXT = "partitioned.servlet.context";
+    
+    boolean PARTITIONED_SERVLET_CONTEXT_DEFAULT = true;
 
     /**
      * Attempt to protect session state when module is reloaded. If class loader
@@ -84,6 +86,8 @@ public interface WebBootstrapProperties {
      * with the stale class loader.
      */
     String SESSION_MODULE_PROTECTION = "session.module.protection";
+
+    boolean SESSION_MODULE_PROTECTION_DEFAULT = false;
     
     /**
      * This property must be set to true if you want to run a web application
@@ -100,6 +104,8 @@ public interface WebBootstrapProperties {
      * existing session. Default is <i>true</i>.
      */
     String PRESERVE_SESSION_ON_RELOAD_FAILURE = "preserve.session.on.reload.failure";
+    
+    boolean PRESERVE_SESSION_ON_RELOAD_FAILURE_DEFAULT = true;
 
     String SPRING_PATH_MAPPING_ENABLED = "spring.path.mapping.enabled";
     
