@@ -19,11 +19,18 @@ import junit.framework.TestCase;
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.spring.ConstantValuePlaceholderConfigurer.ConstantStringValueResolver;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.util.ClassUtils;
 
 public class ConstantValuePlaceholderConfigurerTest extends TestCase {
 
     public static String EMPTY;
+    
+    public void testConfigurer() throws Exception {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:org/impalaframework/spring/constantvalue.xml");
+        assertEquals("module.class.dir", applicationContext.getBean("string1"));        
+        assertEquals("stringval", applicationContext.getBean("string2"));
+    }
     
     public void testResolver() {
         ConstantValuePlaceholderConfigurer c = new ConstantValuePlaceholderConfigurer();
