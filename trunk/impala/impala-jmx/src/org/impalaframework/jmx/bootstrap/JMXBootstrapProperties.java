@@ -18,7 +18,11 @@ public interface JMXBootstrapProperties {
 
     String EXPOSE_JMX_OPERATIONS = "expose.jmx.operations";
     String EXPOSE_MX4J_ADAPTOR = "expose.mx4j.adaptor";
+    
     String JMX_ADAPTOR_PORT = "jmx.adaptor.port";
+    int JMX_ADAPTOR_PORT_DEFAULT = 8001;
+    
     String JMX_LOCATE_EXISTING_SERVER = "jmx.locate.existing.server";
+    boolean JMX_LOCATE_EXISTING_SERVER_DEFAULT = false;
 
 }
