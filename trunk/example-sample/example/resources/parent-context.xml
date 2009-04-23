@@ -14,6 +14,11 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
      <property name = "proxyInterfaces" value = "interfaces.EntryService"/>
  </bean>
     
+ <!-- an example of proxying a class -->
+ <bean id="concreteService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
+     <property name = "proxyInterfaces" value = "classes.ConcreteService"/>
+ </bean>    
+    
  <bean id="dataSource" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
      <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
  </bean>

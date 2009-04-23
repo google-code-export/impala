@@ -14,6 +14,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
         <property name="entryDAO" ref="entryDAO"/>
     </bean>
     
+    <bean id="concreteService" class="classes.ConcreteService">
+    </bean>
+    
     <!-- JXM beans -->
     
     <bean id="jmxHelper" class="classes.JMXHelper"/>
