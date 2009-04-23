@@ -23,6 +23,7 @@ import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
+import classes.ConcreteService;
 import classes.Entry;
 
 public class EntryServiceTest extends BaseExampleTest {
@@ -46,6 +47,17 @@ public class EntryServiceTest extends BaseExampleTest {
         Collection<Entry> entries = merchant.getEntriesOfCount(1996);
         assertEquals(1, entries.size());
 
+    }
+    
+    public void testConcreteService() throws Exception {
+
+        ConcreteService concreteService = Impala.getBean("concreteService", ConcreteService.class);
+        concreteService.doSomething();
+        
+        //prove that we are dealing with a class proxy
+        assertFalse(concreteService.getClass().getName().equals(ConcreteService.class.getName()));
+        assertTrue(concreteService instanceof ConcreteService);
+        System.out.println(concreteService.getClass().getName());
     }
 
     public RootModuleDefinition getModuleDefinition() {
