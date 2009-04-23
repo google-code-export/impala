@@ -30,8 +30,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- ############## Spring modules support ############### -->
  
- <bean id="graphBeanVisibilityType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="graphBeanVisibilityType" parent = "propertyParent">
      <property name="name" value="graph.bean.visibility.type"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE_DEFAULT]"/>
  </bean>

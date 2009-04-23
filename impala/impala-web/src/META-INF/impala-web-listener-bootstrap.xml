@@ -5,32 +5,27 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-    <bean id="useTouchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="useTouchFile" parent = "propertyParent">
          <property name="name" value="use.touch.file"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.USE_TOUCH_FILE_DEFAULT]"/>
     </bean>
 
-    <bean id="touchFile" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="touchFile" parent = "propertyParent">
          <property name="name" value="touch.file"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOUCH_FILE_DEFAULT]"/>
     </bean>
 
-    <bean id="autoDeployCheckInterval" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="autoDeployCheckInterval" parent = "propertyParent">
          <property name="name" value="auto.reload.check.interval"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL_DEFAULT]"/>
     </bean>
 
-    <bean id="autoDeployCheckDelay" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="autoDeployCheckDelay" parent = "propertyParent">
          <property name="name" value="auto.reload.check.delay"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY_DEFAULT]"/>
     </bean>
 
-    <bean id="autoDeployMonitoringType" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="autoDeployMonitoringType" parent = "propertyParent">
          <property name="name" value="auto.reload.monitoring.type"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT]"/>
     </bean>

@@ -7,14 +7,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
  <!-- ############## Path mapper definitions ############### -->
  
- <bean id="webModulePrefix" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="webModulePrefix" parent = "propertyParent">
      <property name="name" value="web.module.prefix"/>
      <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.WEB_MODULE_PREFIX]"/>
  </bean>
  
- <bean id="topLevelModuleSuffixes" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="topLevelModuleSuffixes" parent = "propertyParent">
      <property name="name" value="top.level.module.suffixes"/>
      <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES]"/>
  </bean>
