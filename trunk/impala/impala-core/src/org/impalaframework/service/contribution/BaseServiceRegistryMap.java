@@ -40,7 +40,11 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
  * The value of this attribute in {@link ServiceReferenceFilter} is used as the key for a contribution
  * added to this map.
  * 
- * @see LdapServiceReferenceFilter
+ * All direct mutation methods from the {@link Map} throw {@link UnsupportedOperationException}.
+ * Read-only methods delegate directly to the underlying private {@link Map} instance.
+ * 
+ * @see org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter
+ * @see BaseServiceRegistryList
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
