@@ -75,14 +75,14 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
     }
 
     protected void addPathModuleMapper(ConfigurationSettings configSettings, PropertySource propertySource) {
-        BooleanPropertyValue pathMapperEnabled = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, false);
+        BooleanPropertyValue pathMapperEnabled = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED_DEFAULT);
         configSettings.addProperty(WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, pathMapperEnabled);
         
         if (pathMapperEnabled.getValue()) {
             configSettings.add("META-INF/impala-web-path-mapper-bootstrap.xml");
             
-            BooleanPropertyValue webModulePrefix = new BooleanPropertyValue(propertySource, WebBootstrapProperties.WEB_MODULE_PREFIX, false);
-            BooleanPropertyValue topLevelModuleSuffixes = new BooleanPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, true);
+            StringPropertyValue webModulePrefix = new StringPropertyValue(propertySource, WebBootstrapProperties.WEB_MODULE_PREFIX, WebBootstrapProperties.WEB_MODULE_PREFIX_DEFAULT);
+            StringPropertyValue topLevelModuleSuffixes = new StringPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES_DEFAULT);
             
             configSettings.addProperty(WebBootstrapProperties.WEB_MODULE_PREFIX, webModulePrefix);
             configSettings.addProperty(WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, topLevelModuleSuffixes);
