@@ -8,6 +8,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="constantValueConfigurer" class="org.impalaframework.spring.ConstantValuePlaceholderConfigurer"/>
  <bean id="propertySource" class="org.impalaframework.spring.config.PropertySourceHolderFactoryBean"/>
 
+ <bean id="propertyParent" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean"
+ 	abstract = "true">
+     <property name="propertySource" ref="propertySource"/>
+ </bean>
+
  <bean id="moduleManagementFacade" 
      class="org.impalaframework.facade.DefaultModuleManagementFacade">
      <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
@@ -99,26 +104,22 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- ############## Definitions related to locating resources, etc. ############### -->
 
- <bean id="moduleClassDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="moduleClassDirectory" parent = "propertyParent">
      <property name="name" value="module.class.dir"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_CLASS_DIR_DEFAULT]"/>
  </bean>
  
- <bean id="moduleResourceDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="moduleResourceDirectory" parent = "propertyParent">
      <property name="name" value="module.resource.dir"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_RESOURCE_DIR_DEFAULT]"/>
  </bean>
     
- <bean id="workspaceRoot" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="workspaceRoot" parent = "propertyParent">
      <property name="name" value="workspace.root"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.WORKSPACE_ROOT_DEFAULT]"/>
  </bean>
     
- <bean id="applicationVersion" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="applicationVersion" parent = "propertyParent">
      <property name="name" value="application.version"/>
  </bean>
  
@@ -145,8 +146,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
      <property name="classResourceFinders" ref="classResourceFinders"/>
  </bean>
  
- <bean id="embeddedMode" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="embeddedMode" parent = "propertyParent">
      <property name="name" value="embedded.mode"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EMBEDDED_MODE_DEFAULT]"/>
  </bean> 
@@ -156,8 +156,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
      <property name="reverse" value="true"/>
  </bean>
  
- <bean id="parentClassLoaderFirst" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="parentClassLoaderFirst" parent = "propertyParent">
      <property name="name" value="parent.classloader.first"/>
      <property name="defaultValue" ref="notEmbeddedMode"/>
  </bean>

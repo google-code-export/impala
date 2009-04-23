@@ -7,14 +7,12 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- ############## Servlet API wrapper definitions ############### -->
  
- <bean id="enablePartitionedServletContext" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="enablePartitionedServletContext" parent = "propertyParent">
      <property name="name" value="partitioned.servlet.context"/>
      <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT_DEFAULT]"/>
  </bean>
  
- <bean id="enableModuleSessionProtection" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="enableModuleSessionProtection" parent = "propertyParent">
      <property name="name" value="session.module.protection"/>
      <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.SESSION_MODULE_PROTECTION_DEFAULT]"/>
  </bean>

@@ -6,8 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  
  <!-- added to impala-bootstrap.xml -->
- <bean id="moduleTestDirectory" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-     <property name="propertySource" ref="propertySource"/>
+ <bean id="moduleTestDirectory" parent = "propertyParent">
      <property name="name" value="module.test.dir"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_TEST_DIR_DEFAULT]"/>
  </bean>

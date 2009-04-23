@@ -19,8 +19,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
     <bean id="XSLTProcessor" class="mx4j.tools.adaptor.http.XSLTProcessor"/>
     
-    <bean id="adaptorJmxPort" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
-         <property name="propertySource" ref="propertySource"/>
+    <bean id="adaptorJmxPort" parent = "propertyParent">
          <property name="name" value="jmx.adaptor.port"/>
          <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_ADAPTOR_PORT_DEFAULT]"/>
     </bean> 
