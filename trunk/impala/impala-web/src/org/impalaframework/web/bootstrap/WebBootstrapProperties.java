@@ -123,9 +123,17 @@ public interface WebBootstrapProperties {
     
 
     String SPRING_PATH_MAPPING_ENABLED = "spring.path.mapping.enabled";
+
+    boolean SPRING_PATH_MAPPING_ENABLED_DEFAULT = false;
+    
     
     String WEB_MODULE_PREFIX = "web.module.prefix";
+
+    String WEB_MODULE_PREFIX_DEFAULT = "";
+    
     
     String TOP_LEVEL_MODULE_SUFFIXES = "top.level.module.suffixes";
+
+    String TOP_LEVEL_MODULE_SUFFIXES_DEFAULT = "";
 
 }

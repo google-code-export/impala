@@ -10,13 +10,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
  <bean id="webModulePrefix" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="web.module.prefix"/>
-     <property name="defaultValue" value=""/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.WEB_MODULE_PREFIX]"/>
  </bean>
  
  <bean id="topLevelModuleSuffixes" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean">
      <property name="propertySource" ref="propertySource"/>
      <property name="name" value="top.level.module.suffixes"/>
-     <property name="defaultValue" value=""/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES]"/>
  </bean>
  
  <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.ServletPathRequestModuleMapper">
