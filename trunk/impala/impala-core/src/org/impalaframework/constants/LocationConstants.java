@@ -28,7 +28,7 @@ public interface LocationConstants {
     String MODULE_RESOURCE_DIR_DEFAULT = "resources";
     
     String MODULE_TEST_DIR_PROPERTY = "module.test.dir";
-    String MODULE_TEST_DIR_DEFAULT = "module.test.dir";
+    String MODULE_TEST_DIR_DEFAULT = "bin";
     
     String WORKSPACE_ROOT_PROPERTY = "workspace.root";
     String WORKSPACE_ROOT_DEFAULT = "../";
