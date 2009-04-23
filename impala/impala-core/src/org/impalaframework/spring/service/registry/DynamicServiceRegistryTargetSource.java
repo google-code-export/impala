@@ -14,6 +14,9 @@
 
 package org.impalaframework.spring.service.registry;
 
+import java.lang.reflect.Modifier;
+
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
@@ -29,15 +32,34 @@ public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTarge
     private final String beanName;
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] interfaces;
+    private final Class<?> concreteClass;
 
     public DynamicServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;
         this.interfaces = interfaces;
+        
+        //if we have just a single interface and this is a concrete class, then we can use this 
+        //as the return value for getTargetClass
+        Class<?> firstClass = interfaces[0];
+        if (interfaces.length == 1 && !firstClass.isInterface()) {
+            if (Modifier.isFinal(firstClass.getModifiers())) {
+                throw new InvalidStateException("Cannot create proxy for " + firstClass + " as it is a final class");
+            }
+            this.concreteClass = firstClass;
+        } 
+        else {
+            this.concreteClass = null;
+        }
     }
     
     /* *************** ContributionEndpointTargetSource implementation ************** */
+
+    @Override
+    public Class<?> getTargetClass() {
+        return this.concreteClass;
+    }
 
     public ServiceRegistryReference getServiceRegistryReference() {
         //FIXME should we be able to retrieve using filter as well
