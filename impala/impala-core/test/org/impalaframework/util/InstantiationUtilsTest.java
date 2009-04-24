@@ -17,6 +17,7 @@ package org.impalaframework.util;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.exception.InvalidStateException;
 
 public class InstantiationUtilsTest extends TestCase {
 
@@ -37,12 +38,21 @@ public class InstantiationUtilsTest extends TestCase {
     
     public final void testClassNotFound() {
         try {
-            @SuppressWarnings("unused")
-            String instantiate = InstantiationUtils.instantiate("unknown");
+            InstantiationUtils.instantiate("unknown");
             fail();
         }
         catch (ExecutionException e) {
             assertEquals("Unable to find class of type 'unknown'", e.getMessage());
+        }
+    }    
+    
+    public final void testNoNoargs() {
+        try {
+            InstantiationUtils.instantiate(Integer.class.getName());
+            fail();
+        }
+        catch (InvalidStateException e) {
+            assertEquals("Cannot instantiate class 'class java.lang.Integer' as it has no no-args constructor", e.getMessage());
         }
     }
     

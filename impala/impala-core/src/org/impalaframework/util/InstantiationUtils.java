@@ -49,6 +49,9 @@ public class InstantiationUtils {
             o = constructor.newInstance();
             return o;
         }
+        catch (InvalidStateException e) {
+            throw e;
+        }
         catch (ClassCastException e) {
             String message = "Created object '" + o + "' is an instance of " + o.getClass().getName();
             throw new ExecutionException(message, e);
