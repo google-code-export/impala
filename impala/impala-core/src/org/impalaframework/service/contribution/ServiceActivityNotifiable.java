@@ -31,8 +31,10 @@ public interface ServiceActivityNotifiable {
 
     /**
      * Called when a service registry entry is removed.
+     * Returns true if corresponding entry was actually removed. False if no
+     * change was made.
      */
-    void remove(ServiceRegistryReference ref);
+    boolean remove(ServiceRegistryReference ref);
 
     /**
      * Called when a service registry entry is added, typically following a match using the associated {@link ServiceReferenceFilter}.

@@ -15,6 +15,7 @@
 package org.impalaframework.service.reference;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -30,6 +31,13 @@ import org.springframework.util.Assert;
 public class ServiceReferenceSorter {
     
     private Comparator<ServiceRegistryReference> comparator = new ServiceReferenceComparator();
+    
+    /**
+     * Sorts and returns new list based on original {@link Collection}
+     */
+    public List<ServiceRegistryReference> sort(Collection<ServiceRegistryReference> references) {
+        return sort(new ArrayList<ServiceRegistryReference>(references), true);
+    }    
     
     /**
      * Sorts and returns new list

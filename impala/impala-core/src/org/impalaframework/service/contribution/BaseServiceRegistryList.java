@@ -1,15 +1,16 @@
 package org.impalaframework.service.contribution;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
+import org.impalaframework.service.reference.ServiceReferenceSorter;
 
 /**
  * List implementation which is dynamically backed by the service registry. It
@@ -33,22 +34,67 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 @SuppressWarnings("unchecked")
 public class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
 
-    private List contributions = new CopyOnWriteArrayList();
+    private Object lock = new Object();
+    
+    //using unsynchronized list as synchronisation is within code
+    /**
+     * Holds contributions, typically proxied objects
+     */
+    private List contributions = new ArrayList();
+    
+    /**
+     * Holds mapping of {@link ServiceRegistryReference} to items in contributions list
+     */
+    private List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>();
+
+    /**
+     * Used to sort contributions each time repopulation occurs
+     */
+    private ServiceReferenceSorter sorter = new ServiceReferenceSorter();
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
 
     public void add(ServiceRegistryReference ref) {
-        //FIXME complete implementation
+        //FIXME test implementation
+        
+        synchronized (lock) {
+            if (!this.services.contains(ref)) {
+                
+                //add the reference and sort
+                this.services.add(ref);
+                sortAndRepopulate();                
+            } else {
+                //FIXME add logging and return false
+            }
+        }
     }
 
-    public void remove(ServiceRegistryReference ref) {
-        //FIXME complete implementation
+    public boolean remove(ServiceRegistryReference ref) {
+        synchronized (lock) {
+            boolean removedRef = this.services.remove(ref);
+            if (removedRef) {
+                sortAndRepopulate();    
+                return true;
+            } else {
+                //FIXME add logging and return false
+                return false;
+            }
+        }
     }
-    
-    /* **************** List implementation *************** */
 
-    //FIXME test these methods
-    
+    private void sortAndRepopulate() {
+        List<ServiceRegistryReference> sorted = sorter.sort(this.services);
+        //repopulate the services
+        this.services.clear();
+        this.services.addAll(sorted);
+        
+        //repopulate the contributions list
+        this.contributions.clear();
+        for (ServiceRegistryReference serviceRegistryReference : sorted) {
+            this.contributions.add(serviceRegistryReference);
+        }
+    }
+
     public boolean contains(Object object) {
         return contributions.contains(object);
     }

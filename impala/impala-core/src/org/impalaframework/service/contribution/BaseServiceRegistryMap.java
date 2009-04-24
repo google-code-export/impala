@@ -93,15 +93,18 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
                     + " does not have a '" + mapKey 
                     + "' attribute, so cannot be used in service registry map");
         }
+        
+        //FIXME return boolean with true indicating that reference was successfully added to map
     }
     
-    public void remove(ServiceRegistryReference ref) {
+    public boolean remove(ServiceRegistryReference ref) {
         if (contributions.containsValue(ref.getBean())) {
             final Map<String, ?> attributes = ref.getAttributes();
             final Object contributionKeyName = attributes.get(mapKey);
             
-            this.contributions.remove(contributionKeyName);
+            return (this.contributions.remove(contributionKeyName) != null);
         }
+        return false;
     }
     
     /* **************** Map implementation *************** */
