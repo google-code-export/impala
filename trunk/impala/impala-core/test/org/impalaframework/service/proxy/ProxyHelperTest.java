@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;

@@ -20,7 +20,7 @@ import java.util.List;
 import static org.easymock.EasyMock.*;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.ClassUtils;
 

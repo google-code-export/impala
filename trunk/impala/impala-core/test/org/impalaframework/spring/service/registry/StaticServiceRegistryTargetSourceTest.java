@@ -2,7 +2,7 @@ package org.impalaframework.spring.service.registry;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.util.ClassUtils;
 

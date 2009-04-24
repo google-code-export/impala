@@ -141,6 +141,18 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
 
     public Object set(int index, Object object) {
         throw new UnsupportedOperationException();
+    }    
+    
+    /* ******************* toString() implementation ******************** */
+    
+    @Override
+    public java.lang.String toString() {
+        StringBuffer sb = new StringBuffer();
+        sb.append(this.getClass().getName());
+        sb.append(": ");
+        String externalString = contributions.toString();
+        sb.append(externalString);
+        return sb.toString();
     }
 
 }

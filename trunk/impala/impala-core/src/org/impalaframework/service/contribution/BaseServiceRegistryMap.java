@@ -28,20 +28,22 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 
 /**
  * Map implementation which is dynamically backed by the service registry. It
- * implements {@link ServiceRegistryEventListener} so that it can pick up
- * and respond to changes in the service registry. By default, uses
- * {@link LdapServiceReferenceFilter} to filter out relevant
- * service entries from the service registry. Alternatively, a {@link ServiceReferenceFilter}
+ * implements {@link ServiceRegistryEventListener} so that it can pick up and
+ * respond to changes in the service registry. By default, uses
+ * {@link LdapServiceReferenceFilter} to filter out relevant service entries
+ * from the service registry. Alternatively, a {@link ServiceReferenceFilter}
  * can be wired in directly.
  * 
- * An entry is eligible for contribution to this map if it matches the {@link ServiceReferenceFilter}
- * associated with this instance, and if it has a non-null "map key" attribute.
- * The default name for this attribute is "mapkey" but can be changed using {@link #setMapKey(String)}.
- * The value of this attribute in {@link ServiceReferenceFilter} is used as the key for a contribution
- * added to this map.
+ * An entry is eligible for contribution to this map if it matches the
+ * {@link ServiceReferenceFilter} associated with this instance, and if it has a
+ * non-null "map key" attribute. The default name for this attribute is "mapkey"
+ * but can be changed using {@link #setMapKey(String)}. The value of this
+ * attribute in {@link ServiceReferenceFilter} is used as the key for a
+ * contribution added to this map.
  * 
- * All direct mutation methods from the {@link Map} throw {@link UnsupportedOperationException}.
- * Read-only methods delegate directly to the underlying private {@link Map} instance.
+ * All direct mutation methods from the {@link Map} throw
+ * {@link UnsupportedOperationException}. Read-only methods delegate directly to
+ * the underlying private {@link Map} instance.
  * 
  * @see org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter
  * @see BaseServiceRegistryList
@@ -181,6 +183,8 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     @Override
     public java.lang.String toString() {
         StringBuffer sb = new StringBuffer();
+        sb.append(this.getClass().getName());
+        sb.append(": ");
         String externalString = contributions.toString();
         sb.append(externalString);
         return sb.toString();

@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.filter.CompositeServiceReferenceFilter;
 import org.impalaframework.service.filter.TypeServiceReferenceFilter;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

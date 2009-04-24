@@ -12,11 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.service.registry;
+package org.impalaframework.service.reference;
 
 import java.util.Collections;
 
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

@@ -19,7 +19,7 @@ import static org.easymock.EasyMock.*;
 import java.util.Collections;
 
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

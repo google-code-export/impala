@@ -28,7 +28,7 @@ import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.ClassUtils;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.internal;
+package org.impalaframework.service.reference;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -22,7 +22,8 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.springframework.util.ClassUtils;
 
 public class ServiceReferenceSorterTest extends TestCase {
