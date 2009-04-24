@@ -36,7 +36,7 @@ public class ReflectionUtils {
      */
     public static Constructor<?> findConstructor(Class<?> c, Class<?>[] parameterTypes) {
         try {
-            final Constructor<?> constructor = c.getConstructor(parameterTypes);
+            final Constructor<?> constructor = c.getDeclaredConstructor(parameterTypes);
             return constructor;
         } catch (NoSuchMethodException e) {
             return null;
@@ -52,18 +52,22 @@ public class ReflectionUtils {
      */
     public static Object invokeConstructor(final Constructor<?> constructor, Object[] args, boolean makeAccessible) {
         try {
-            if (!constructor.isAccessible()) {
-                AccessController.doPrivileged(new PrivilegedAction<Object>(){
-                    
-                    public Object run() {
-                        constructor.setAccessible(true);
-                        return null;
-                    }
-                });
-            }
+            makeAccessible(constructor);
             return constructor.newInstance(args);
         } catch (Exception e) {
             return rethrowConstructorException(e, constructor, args);
+        }
+    }
+
+    static void makeAccessible(final Constructor<?> constructor) {
+        if (!constructor.isAccessible()) {
+            AccessController.doPrivileged(new PrivilegedAction<Object>(){
+                
+                public Object run() {
+                    constructor.setAccessible(true);
+                    return null;
+                }
+            });
         }
     }
     

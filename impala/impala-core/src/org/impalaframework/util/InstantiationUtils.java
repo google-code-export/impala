@@ -14,7 +14,10 @@
 
 package org.impalaframework.util;
 
+import java.lang.reflect.Constructor;
+
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.exception.InvalidStateException;
 import org.springframework.util.ClassUtils;
 
 public class InstantiationUtils {
@@ -35,7 +38,15 @@ public class InstantiationUtils {
 
         Object o = null;
         try {
-            o = clazz.newInstance();
+            
+            Constructor<?> constructor = ReflectionUtils.findConstructor(clazz, new Class[0]);
+            if (constructor == null) {
+                throw new InvalidStateException("Cannot instantiate class '" + clazz + "' as it has no no-args constructor");
+            }
+            
+            ReflectionUtils.makeAccessible(constructor);
+            
+            o = constructor.newInstance();
             return o;
         }
         catch (ClassCastException e) {
