@@ -13,18 +13,21 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 
 /**
  * List implementation which is dynamically backed by the service registry. It
- * implements {@link ServiceRegistryEventListener} so that it can pick up
- * and respond to changes in the service registry. By default, uses
- * {@link LdapServiceReferenceFilter} to filter out relevant
- * service entries from the service registry. Alternatively, a {@link ServiceReferenceFilter}
+ * implements {@link ServiceRegistryEventListener} so that it can pick up and
+ * respond to changes in the service registry. By default, uses
+ * {@link LdapServiceReferenceFilter} to filter out relevant service entries
+ * from the service registry. Alternatively, a {@link ServiceReferenceFilter}
  * can be wired in directly.
  * 
- * An entry is eligible for contribution to this list if it matches the {@link ServiceReferenceFilter}
- * associated with this instance. Each time a new item is added or removed from the list is sorted.
+ * An entry is eligible for contribution to this list if it matches the
+ * {@link ServiceReferenceFilter} associated with this instance. Each time a new
+ * item is added or removed from the list is sorted.
  * 
- * All direct mutation methods from the {@link List} throw {@link UnsupportedOperationException}.
- * Read-only methods delegate directly to the underlying private {@link List} instance.
+ * All direct mutation methods from the {@link List} throw
+ * {@link UnsupportedOperationException}. Read-only methods delegate directly to
+ * the underlying private {@link List} instance.
  * 
+ * @see BaseServiceRegistryMap
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
