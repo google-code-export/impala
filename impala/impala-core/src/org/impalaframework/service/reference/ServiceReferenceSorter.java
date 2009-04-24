@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.service.registry.internal;
+package org.impalaframework.service.reference;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -34,14 +34,14 @@ public class ServiceReferenceSorter {
     /**
      * Sorts and returns new list
      */
-    List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
+    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
         return sort(references, false);
     }
     
     /**
      * Sorts, returns existing list if reuseList is true, otherwise returns new list
      */
-    List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
+    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
         Assert.notNull(references);
         //no point sorting if size < 2
         if (references.size() < 2) {

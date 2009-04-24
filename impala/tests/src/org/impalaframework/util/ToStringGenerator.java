@@ -4,7 +4,7 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 
 public class ToStringGenerator extends TestCase {
 

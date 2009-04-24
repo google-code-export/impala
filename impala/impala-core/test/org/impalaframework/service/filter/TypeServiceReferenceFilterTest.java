@@ -19,7 +19,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.filter.TypeServiceReferenceFilter;
-import org.impalaframework.service.registry.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
 public class TypeServiceReferenceFilterTest extends TestCase {
