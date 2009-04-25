@@ -14,20 +14,10 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import java.lang.reflect.Modifier;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
-import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
-import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
-import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link ServiceProxyFactoryCreator} which is used to create proxy for service 
@@ -35,11 +25,9 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCreator, ServiceRegistryAware {
+public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCreator {
     
-    private static final Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
-    
-    private ServiceRegistry serviceRegistry;
+    private static final Log logger = LogFactory.getLog(DefaultServiceProxyFactoryCreator.class);
     
     /**
      * True if the interceptor should allow the call to proceed (with a dummy
@@ -60,24 +48,13 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     /**
      * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
      * using a name key entry.
-     * @param the 
      */
-    public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryBeanName) {
+    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource) {
         
-        Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-        Assert.notNull(interfaces, "interfaces cannot be null");
-        Assert.notEmpty(interfaces, "interfaces cannot be empty");
-        
-        //this will return a non-null value if single interface which is concrete class
-        ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryBeanName, interfaces, this.serviceRegistry);
-        ProxyFactory proxyFactory = new ProxyFactory();
-        
-        if (targetSource.getTargetClass() == null) {
-            //not proxying by class, so proxy by interface
-            addInterfaces(proxyFactory, interfaces);
-        }
-        
-        proxyFactory.setTargetSource(targetSource);
+        proxyFactorySource.init();
+        ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
+        ContributionEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
+        String registryBeanName = proxyFactorySource.getRegistryBeanName();
         
         ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryBeanName);
         
@@ -91,62 +68,6 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         proxyFactory.addAdvice(interceptor);
         
         return proxyFactory;
-    }
-
-    /**
-     * Creates proxy factory backed by an already obtained service registry reference. Here the job of the 
-     * {@link TargetSource} is not to obtain the service, just to handle aspects of proxying the service.
-     */
-    public ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference) {
-        
-        Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-        Assert.notNull(reference, "reference cannot be null");
-        
-        ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
-        
-        ProxyFactory proxyFactory = new ProxyFactory();
-        if (interfaces != null && interfaces.length > 0) {
-            addInterfaces(proxyFactory, interfaces);
-        } else {
-            boolean isFinal = Modifier.isFinal(reference.getBean().getClass().getModifiers());
-            if (isFinal) {
-                throw new InvalidStateException("Cannot create proxy for service reference " + reference + " as no interfaces have been " +
-                		"specified and the bean class is final, therefore cannot be proxied");
-            }
-        }
-        
-        proxyFactory.setTargetSource(targetSource);
-       
-        final String registryKeyName = reference.getBeanName();
-        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Creating static proxy for " + registryKeyName + 
-                    " with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
-        }
-        
-        interceptor.setProceedWithNoService(allowNoService);
-        interceptor.setSetContextClassLoader(setContextClassLoader);
-        proxyFactory.addAdvice(interceptor);
-        
-        return proxyFactory;
-    }
-
-    private void addInterfaces(ProxyFactory proxyFactory, Class<?>[] interfaces) {
-        
-        for (int i = 0; i < interfaces.length; i++) {
-            if (logger.isDebugEnabled()) {
-                logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
-            }
-            proxyFactory.addInterface(interfaces[i]);
-        }
-    }
-
-    /**
-     * Implementation of {@link ServiceRegistryAware}. Allows service registry to be automatically be injected.
-     */
-    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
     }
 
     /**

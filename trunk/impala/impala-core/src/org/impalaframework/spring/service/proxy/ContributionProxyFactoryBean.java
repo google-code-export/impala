@@ -48,7 +48,10 @@ public class ContributionProxyFactoryBean extends BaseContributionProxyFactoryBe
 
     protected ProxyFactory createProxyFactory() {
         String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createDynamicProxyFactory(proxyInterfaces, registryBeanName);
+        
+        DynamicBeanRetrievingProxyFactorySource source = new DynamicBeanRetrievingProxyFactorySource(proxyInterfaces, super.getServiceRegistry(), registryBeanName);
+        
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source);
         return createDynamicProxyFactory;
     }
 
