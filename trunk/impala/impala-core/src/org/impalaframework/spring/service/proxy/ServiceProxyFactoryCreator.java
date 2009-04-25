@@ -27,22 +27,26 @@ import org.springframework.aop.framework.ProxyFactory;
 public interface ServiceProxyFactoryCreator extends ServiceRegistryAware {
 
     /**
-     * Creates a {@link ProxyFactory} instance for a service which needs to be dynamically retrieved from 
-     * the service registry
-     * @param interfaces the supported types for the proxy
-     * @param registryKeyName the name identifier for the service in the service registry
+     * Creates a {@link ProxyFactory} instance for a service which needs to be
+     * dynamically retrieved from the service registry
+     * @param types the supported types for the proxy. These will typically be
+     * interfaces, but can also be just a single concrete class, in which case a
+     * CGLIB-based class proxy will be created.
+     * @param registryKeyName the name identifier for the service in the service
+     * registry
      * @return a {@link ProxyFactory} instance
      */
-    //FIXME should registryKeyName support filters
-    //FIXME document use of interfaces
-    ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName);
+    // FIXME should registryKeyName support filters
+    ProxyFactory createDynamicProxyFactory(Class<?>[] types,
+            String registryKeyName);
     
     /**
      * Creates {@link ProxyFactory} for a service which has already been obtained from the service registry
-     * @param interfaces the interface types which should be proxied
+     * @param types the supported types for the proxy. These will typically be
+     * interfaces, but can also be just a single concrete class, in which case a
+     * CGLIB-based class proxy will be created.
      * @param the {@link ServiceRegistryReference} instance which backs the service entry
      */
-    //FIXME document use of interfaces
-    ProxyFactory createStaticProxyFactory(Class<?>[] interfaces, ServiceRegistryReference reference);
+    ProxyFactory createStaticProxyFactory(Class<?>[] types, ServiceRegistryReference reference);
 
 }
