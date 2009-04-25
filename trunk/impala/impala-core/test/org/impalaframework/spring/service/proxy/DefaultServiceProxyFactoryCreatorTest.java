@@ -48,7 +48,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new DynamicBeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
         
         final List proxy = (List) proxyFactory.getProxy();
         proxy.add("obj");
@@ -69,7 +69,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new DynamicBeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
         
         final List proxy = (List) proxyFactory.getProxy();
         proxy.add("obj");
