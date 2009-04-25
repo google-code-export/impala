@@ -62,7 +62,6 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
         }
 
         Child newChild = newChild();
-        bean.registerTarget("pluginName", newChild);
         serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
         child.childMethod();
     }   
@@ -83,7 +82,6 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
         }
 
         Child newChild = newChild();
-        bean.registerTarget("pluginName", newChild);
         serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
         child.childMethod();
     }
@@ -97,10 +95,6 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
         bean.afterPropertiesSet();
 
         Child child = (Child) bean.getObject();
-        child.childMethod();
-
-        bean.registerTarget("pluginName", newChild());
-
         child.childMethod();
     }
 

@@ -106,13 +106,5 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
     public void setProxyFactoryCreator(ServiceProxyFactoryCreator proxyFactoryCreator) {
         this.proxyFactoryCreator = proxyFactoryCreator;
     }
-
-    /* *************** ContributionEndpointTargetSource delegates ************** */
-
-    public void registerTarget(String moduleName, Object bean) {
-    }
-
-    public void deregisterTarget(Object bean) {
-    }
-
+    
 }
