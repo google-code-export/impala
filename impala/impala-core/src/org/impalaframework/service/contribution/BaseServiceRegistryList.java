@@ -6,11 +6,14 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.ServiceReferenceSorter;
+import org.springframework.util.ObjectUtils;
 
 /**
  * List implementation which is dynamically backed by the service registry. It
@@ -33,7 +36,9 @@ import org.impalaframework.service.reference.ServiceReferenceSorter;
  */
 @SuppressWarnings("unchecked")
 public class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
-
+    
+    private static Log logger = LogFactory.getLog(BaseServiceRegistryList.class);
+    
     private Object lock = new Object();
     
     //using unsynchronized list as synchronisation is within code
@@ -54,36 +59,51 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
 
-    public void add(ServiceRegistryReference ref) {
-        //FIXME test implementation
+    public boolean add(ServiceRegistryReference ref) {
         
         synchronized (lock) {
             if (!this.services.contains(ref)) {
                 
+                List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
                 //add the reference and sort
-                this.services.add(ref);
-                sortAndRepopulate();                
+                services.add(ref);
+                sortAndRepopulate(services);
+
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Service " + ref + " added to " + ObjectUtils.identityToString(this));
+                }
+                
+                return true;
             } else {
-                //FIXME add logging and return false
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Service " + ref + " not added as it already present in " + ObjectUtils.identityToString(this));
+                }
             }
         }
+        return false;
     }
 
     public boolean remove(ServiceRegistryReference ref) {
         synchronized (lock) {
-            boolean removedRef = this.services.remove(ref);
+            List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
+            boolean removedRef = services.remove(ref);
             if (removedRef) {
-                sortAndRepopulate();    
+                sortAndRepopulate(services); 
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Service " + ref + " successfully removed from " + ObjectUtils.identityToString(this));
+                }   
                 return true;
             } else {
-                //FIXME add logging and return false
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Service " + ref + " not removed as it was not present in " + ObjectUtils.identityToString(this));
+                }
                 return false;
             }
         }
     }
 
-    private void sortAndRepopulate() {
-        List<ServiceRegistryReference> sorted = sorter.sort(this.services);
+    private void sortAndRepopulate(List<ServiceRegistryReference> services) {
+        List<ServiceRegistryReference> sorted = sorter.sort(services, true);
         //repopulate the services
         this.services.clear();
         this.services.addAll(sorted);
@@ -91,7 +111,7 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
         //repopulate the contributions list
         this.contributions.clear();
         for (ServiceRegistryReference serviceRegistryReference : sorted) {
-            this.contributions.add(serviceRegistryReference);
+            this.contributions.add(serviceRegistryReference.getBean());
         }
     }
 

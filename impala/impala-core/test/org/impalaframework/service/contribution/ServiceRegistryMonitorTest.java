@@ -44,7 +44,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(null);
         
-        serviceActivityNotifiable.add(ref);
+        expect(serviceActivityNotifiable.add(ref)).andReturn(true);
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);
@@ -58,7 +58,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getSupportedTypes()).andReturn(new Class<?>[] {String.class});
         
-        serviceActivityNotifiable.add(ref);
+        expect(serviceActivityNotifiable.add(ref)).andReturn(true);
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);
