@@ -16,6 +16,7 @@ package org.impalaframework.spring.service.proxy;
 
 import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -27,8 +28,13 @@ import org.springframework.util.ClassUtils;
 /**
  * <code>FactoryBean</code> which creates a proxy which has uses
  * <code>ServiceRegistryTargetSource</code> as a target source and
- * <code>ContributionEndpointInterceptor</code> as interceptor
+ * <code>ContributionEndpointInterceptor</code> as interceptor.
  * 
+ * The ContributionProxyFactoryBean works under the assumption that the service was exported against a named key.
+ * By default, the key is assumed to be the same name as the {@link ContributionProxyFactoryBean}'s bean name.
+ * However, this can be overridden.
+ * 
+ * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
 public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
@@ -64,8 +70,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
             this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
         }
         
-        String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
-        this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(proxyInterfaces, registryKeyName);
+        String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
+        this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(proxyInterfaces, registryBeanName);
     }
 
     /* *************** FactoryBean implementation methods ************** */

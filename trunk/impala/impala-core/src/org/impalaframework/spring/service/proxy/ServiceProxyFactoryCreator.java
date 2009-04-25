@@ -29,16 +29,15 @@ public interface ServiceProxyFactoryCreator extends ServiceRegistryAware {
     /**
      * Creates a {@link ProxyFactory} instance for a service which needs to be
      * dynamically retrieved from the service registry
-     * @param types the supported types for the proxy. These will typically be
-     * interfaces, but can also be just a single concrete class, in which case a
-     * CGLIB-based class proxy will be created.
+     * @param proxyTypes the supported types for the proxy. These will typically
+     * be interfaces, but can also be just a single concrete class, in which
+     * case a CGLIB-based class proxy will be created.
      * @param registryKeyName the name identifier for the service in the service
      * registry
      * @return a {@link ProxyFactory} instance
      */
     // FIXME should registryKeyName support filters
-    ProxyFactory createDynamicProxyFactory(Class<?>[] types,
-            String registryKeyName);
+    ProxyFactory createDynamicProxyFactory(Class<?>[] proxyTypes, String registryKeyName);
     
     /**
      * Creates {@link ProxyFactory} for a service which has already been obtained from the service registry
