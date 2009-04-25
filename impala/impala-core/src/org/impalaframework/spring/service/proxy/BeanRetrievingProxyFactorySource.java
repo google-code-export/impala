@@ -30,15 +30,23 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     
     static final Log logger = LogFactory.getLog(BeanRetrievingProxyFactorySource.class);
     
-    private ServiceRegistry serviceRegistry;
-    private Class<?>[] interfaces;
-    private String registryBeanName;
+    private final ServiceRegistry serviceRegistry;
+    private final Class<?>[] interfaces;
+    private final String registryBeanName;
 
+    /**
+     * Constructor
+     * @param interfaces the types to which the reference should be compatible
+     * @param serviceRegistry the service registry
+     * @param registryBeanName the name of the bean as registered in the service registry
+     */
     public BeanRetrievingProxyFactorySource(
             Class<?>[] interfaces,
             ServiceRegistry serviceRegistry, 
             String registryBeanName) {
+        
         super();
+        
         this.interfaces = interfaces;
         this.serviceRegistry = serviceRegistry;
         this.registryBeanName = registryBeanName;
