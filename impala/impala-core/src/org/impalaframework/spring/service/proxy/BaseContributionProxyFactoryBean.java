@@ -51,7 +51,6 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
         
         if (this.proxyFactoryCreator == null) {
             this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
-            this.proxyFactoryCreator.setServiceRegistry(this.serviceRegistry);
         }
         
         ProxyFactory createDynamicProxyFactory = createProxyFactory();
@@ -66,8 +65,11 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
         return proxyFactoryCreator;
     }
     
+    protected ServiceRegistry getServiceRegistry() {
+        return serviceRegistry;
+    }
+    
     /* *************** FactoryBean implementation methods ************** */
-
 
     public Object getObject() throws Exception {
         return proxyFactory.getProxy(beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());

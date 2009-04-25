@@ -42,7 +42,6 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
         
         proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
         bean.setServiceRegistry(serviceRegistry);
-        proxyFactoryCreator.setServiceRegistry(serviceRegistry);
         
         classLoader = ClassUtils.getDefaultClassLoader();
     }

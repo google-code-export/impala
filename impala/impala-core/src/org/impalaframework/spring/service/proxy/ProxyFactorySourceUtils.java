@@ -14,23 +14,18 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
-/**
- * Encapsulates the mechanism for creating a {@link ProxyFactory} which backs a service/bean
- * obtained from the Impala service registry.
- * 
- * @author Phil Zoio
- */
-public interface ServiceProxyFactoryCreator {
+public class ProxyFactorySourceUtils {
 
-    /**
-     * 
-     * @param proxyFactorySource which handles the details of creating the {@link ProxyFactory} and associated
-     * {@link ContributionEndpointTargetSource} instance.
-     * @return a {@link ProxyFactory}
-     */
-    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource);
+    protected static void addInterfaces(ProxyFactory proxyFactory, Class<?>[] interfaces) {
+        
+        for (int i = 0; i < interfaces.length; i++) {
+            if (DynamicBeanRetrievingProxyFactorySource.logger.isDebugEnabled()) {
+                DynamicBeanRetrievingProxyFactorySource.logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
+            }
+            proxyFactory.addInterface(interfaces[i]);
+        }
+    }
 
 }
