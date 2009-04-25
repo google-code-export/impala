@@ -37,7 +37,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
     
     private ServiceProxyFactoryCreator proxyFactoryCreator;
 
-    private Class<?>[] interfaces;
+    private Class<?>[] proxyInterfaces;
 
     private String beanName;
     
@@ -65,7 +65,7 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
         }
         
         String registryKeyName = (exportedBeanName != null ? exportedBeanName : beanName);
-        this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(interfaces, registryKeyName);
+        this.proxyFactory = proxyFactoryCreator.createDynamicProxyFactory(proxyInterfaces, registryKeyName);
     }
 
     /* *************** FactoryBean implementation methods ************** */
@@ -91,8 +91,8 @@ public class ContributionProxyFactoryBean implements FactoryBean, BeanNameAware,
 
     /* *************** dependency injection setters ************** */
 
-    public void setProxyInterfaces(Class<?>[] interfaces) {
-        this.interfaces = interfaces;
+    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
+        this.proxyInterfaces = proxyInterfaces;
     }
 
     public void setBeanClassLoader(ClassLoader classLoader) {
