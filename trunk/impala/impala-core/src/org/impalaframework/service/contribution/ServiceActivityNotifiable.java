@@ -40,7 +40,7 @@ public interface ServiceActivityNotifiable {
      * Called when a service registry entry is added, typically following a match using the associated {@link ServiceReferenceFilter}.
      * See {@link #getServiceReferenceFilter()}.
      */
-    void add(ServiceRegistryReference ref);
+    boolean add(ServiceRegistryReference ref);
     
     /**
      * Filter which is used by associated {@link ServiceRegistryMonitor} to filter out events from

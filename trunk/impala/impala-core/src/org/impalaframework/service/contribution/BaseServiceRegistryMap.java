@@ -72,7 +72,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
     
-    public void add(ServiceRegistryReference ref) {
+    public boolean add(ServiceRegistryReference ref) {
         
         final Map<String, ?> attributes = ref.getAttributes();
         final Object contributionKeyName = attributes.get(mapKey);
@@ -86,6 +86,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
             if (logger.isDebugEnabled()) {
                 logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + getFilter());
             }
+            return true;
         } else {
             logger.warn("Service with bean name " + ref.getBeanName() 
                     + " from contributing module " + ref.getContributingModule()
@@ -93,8 +94,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
                     + " does not have a '" + mapKey 
                     + "' attribute, so cannot be used in service registry map");
         }
-        
-        //FIXME return boolean with true indicating that reference was successfully added to map
+        return false;
     }
     
     public boolean remove(ServiceRegistryReference ref) {
