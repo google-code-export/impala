@@ -58,16 +58,18 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     private boolean setContextClassLoader = true;
     
     /**
-     * Creates proxy factory backed by a dynamically obtained service
+     * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
+     * using a name key entry.
+     * @param the 
      */
-    public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryKeyName) {
+    public ProxyFactory createDynamicProxyFactory(Class<?>[] interfaces, String registryBeanName) {
         
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
         Assert.notNull(interfaces, "interfaces cannot be null");
         Assert.notEmpty(interfaces, "interfaces cannot be empty");
         
         //this will return a non-null value if single interface which is concrete class
-        ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryKeyName, interfaces, this.serviceRegistry);
+        ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryBeanName, interfaces, this.serviceRegistry);
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {
@@ -77,10 +79,10 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         
         proxyFactory.setTargetSource(targetSource);
         
-        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryKeyName);
+        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryBeanName);
         
         if (logger.isDebugEnabled()) {
-            logger.debug("Creating dynamic proxy for " + registryKeyName + 
+            logger.debug("Creating dynamic proxy for " + registryBeanName + 
                     " with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
         }
         
