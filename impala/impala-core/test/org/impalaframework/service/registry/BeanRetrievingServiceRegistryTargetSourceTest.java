@@ -4,16 +4,16 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
+import org.impalaframework.spring.service.registry.BeanRetrievingServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
 
-public class DynamicServiceRegistryTargetSourceTest extends TestCase {
+public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
 
     private ServiceRegistryImpl serviceRegistry;
 
     public void testGetTarget() {
         serviceRegistry = new ServiceRegistryImpl();
-        DynamicServiceRegistryTargetSource targetSource = new DynamicServiceRegistryTargetSource("mybean", new Class[]{ Object.class }, serviceRegistry);
+        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource("mybean", new Class[]{ Object.class }, serviceRegistry);
         
         assertNull(targetSource.getServiceRegistryReference());
         
