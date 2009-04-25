@@ -107,7 +107,7 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilterTest;
 import org.impalaframework.service.filter.ldap.TypeHelperTest;
 import org.impalaframework.service.proxy.ProxyHelperTest;
 import org.impalaframework.service.reference.ServiceReferenceSorterTest;
-import org.impalaframework.service.registry.DynamicServiceRegistryTargetSourceTest;
+import org.impalaframework.service.registry.BeanRetrievingServiceRegistryTargetSourceTest;
 import org.impalaframework.service.registry.internal.EmptyExportTypeDeriverTest;
 import org.impalaframework.service.registry.internal.ServiceRegistryImplTest;
 import org.impalaframework.spring.ConstantValuePlaceholderConfigurerTest;
@@ -287,7 +287,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ServiceRegistryImplTest.class);
         suite.addTestSuite(ServiceRegistryExporterTest.class);
         suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
-        suite.addTestSuite(DynamicServiceRegistryTargetSourceTest.class);
+        suite.addTestSuite(BeanRetrievingServiceRegistryTargetSourceTest.class);
         suite.addTestSuite(ServiceRegistryMapTest.class);
         suite.addTestSuite(ServiceRegistryMonitorTest.class);
         suite.addTestSuite(SharedClassLoaderFactoryTest.class);

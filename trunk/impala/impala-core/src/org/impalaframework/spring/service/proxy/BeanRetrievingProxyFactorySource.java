@@ -18,7 +18,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
-import org.impalaframework.spring.service.registry.DynamicServiceRegistryTargetSource;
+import org.impalaframework.spring.service.registry.BeanRetrievingServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.Assert;
 
@@ -59,7 +59,7 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
         Assert.notEmpty(interfaces, "interfaces cannot be empty");
         
         //this will return a non-null value if single interface which is concrete class
-        ContributionEndpointTargetSource targetSource = new DynamicServiceRegistryTargetSource(registryBeanName, interfaces, this.serviceRegistry);
+        ContributionEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(registryBeanName, interfaces, this.serviceRegistry);
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {

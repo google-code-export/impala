@@ -27,18 +27,20 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
  * Implements {@link ContributionEndpointTargetSource}
  * @author Phil Zoio
  */
-public class DynamicServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
+public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
     private final String beanName;
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] interfaces;
     private final Class<?> concreteClass;
 
-    public DynamicServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
+    public BeanRetrievingServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;
         this.interfaces = interfaces;
+        
+        //FIXME add implementation based on retrieval using registry listener
         
         //if we have just a single interface and this is a concrete class, then we can use this 
         //as the return value for getTargetClass
