@@ -21,8 +21,8 @@ public class ProxyFactorySourceUtils {
     protected static void addInterfaces(ProxyFactory proxyFactory, Class<?>[] interfaces) {
         
         for (int i = 0; i < interfaces.length; i++) {
-            if (DynamicBeanRetrievingProxyFactorySource.logger.isDebugEnabled()) {
-                DynamicBeanRetrievingProxyFactorySource.logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
+            if (BeanRetrievingProxyFactorySource.logger.isDebugEnabled()) {
+                BeanRetrievingProxyFactorySource.logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
             }
             proxyFactory.addInterface(interfaces[i]);
         }

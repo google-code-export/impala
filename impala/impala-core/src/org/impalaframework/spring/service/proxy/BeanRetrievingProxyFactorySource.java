@@ -26,15 +26,15 @@ import org.springframework.util.Assert;
  * Creates proxy factory backed by a dynamically obtained service, where the
  * lookup assumes that the service was exported using a name key entry.
  */
-public class DynamicBeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
+public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     
-    static final Log logger = LogFactory.getLog(DynamicBeanRetrievingProxyFactorySource.class);
+    static final Log logger = LogFactory.getLog(BeanRetrievingProxyFactorySource.class);
     
     private ServiceRegistry serviceRegistry;
     private Class<?>[] interfaces;
     private String registryBeanName;
 
-    public DynamicBeanRetrievingProxyFactorySource(
+    public BeanRetrievingProxyFactorySource(
             Class<?>[] interfaces,
             ServiceRegistry serviceRegistry, 
             String registryBeanName) {
