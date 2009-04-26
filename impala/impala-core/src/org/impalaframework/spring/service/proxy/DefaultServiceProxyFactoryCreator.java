@@ -48,12 +48,24 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     /**
      * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
      * using a name key entry.
+     * @param proxyFactorySource the {@link ProxyFactorySource} used to create the {@link ProxyFactory} and set up the 
+     * {@link ContributionEndpointTargetSource}.
+     * @param the bean for which the proxy is being created.
      */
-    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName) {
+    public final ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName) {
         
         proxyFactorySource.init();
         ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
         ContributionEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
+        
+        addInterceptor(beanName, proxyFactory, targetSource);
+        
+        return proxyFactory;
+    }
+
+    protected void addInterceptor(String beanName, 
+            ProxyFactory proxyFactory,
+            ContributionEndpointTargetSource targetSource) {
         
         ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
         
@@ -65,8 +77,6 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         interceptor.setProceedWithNoService(allowNoService);
         interceptor.setSetContextClassLoader(setContextClassLoader);
         proxyFactory.addAdvice(interceptor);
-        
-        return proxyFactory;
     }
 
     /**
