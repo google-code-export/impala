@@ -23,7 +23,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     private ServiceProxyFactoryCreator proxyFactoryCreator;
     
     private String beanName;
-
+    
     public void afterPropertiesSet() throws Exception {
         this.init();
     }
@@ -48,5 +48,16 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     public void setBeanName(String beanName) {
         this.beanName = beanName;
     }
+    
+    /* ******************** Injection setters ******************** */
 
+    /**
+     * Sets the proxy types for the {@link ServiceRegistryMap}. Simply delegates call
+     * to superclass's {@link #setSupportedTypes(Class[])} method. Allows both 
+     * supportedTypes and proxyTypes to be used in populating this bean
+     */
+    public void setProxyTypes(Class<?>[] proxyTypes) {
+        super.setSupportedTypes(proxyTypes);
+    }
+    
 }

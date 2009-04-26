@@ -126,9 +126,8 @@ public abstract class BaseServiceRegistryTarget implements
         this.serviceRegistryMonitor = serviceRegistryMonitor;
     }
 
-    //FIXME need to consolidate how this is used in conjunction with proxyInterfaces and exportTypes
-    public void setSupportedTypes(Class<?>[] implementationTypes) {
-        this.supportedTypes = implementationTypes;
+    public void setSupportedTypes(Class<?>[] supportedTypes) {
+        this.supportedTypes = supportedTypes;
     }
 
 }
