@@ -34,6 +34,9 @@ public interface ProxyFactorySource {
      */
     ContributionEndpointTargetSource getTargetSource();
     
+    /**
+     * Gets the bean registry name used for the proxy, if this is available
+     */
     String getRegistryBeanName();
 
 }
