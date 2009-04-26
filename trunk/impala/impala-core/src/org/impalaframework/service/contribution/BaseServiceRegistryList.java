@@ -2,9 +2,11 @@ package org.impalaframework.service.contribution;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -35,7 +37,7 @@ import org.springframework.util.ObjectUtils;
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-public class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
+public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
     
     private static Log logger = LogFactory.getLog(BaseServiceRegistryList.class);
     
@@ -51,6 +53,12 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
      * Holds mapping of {@link ServiceRegistryReference} to items in contributions list
      */
     private List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>();
+    
+    /**
+     * Holds identify mapping of beans to proxies, to remove need for proxy recreation 
+     * when bean is repopulated
+     */
+    private Map<Object,Object> proxyMap = new IdentityHashMap<Object, Object>();
 
     /**
      * Used to sort contributions each time repopulation occurs
@@ -66,6 +74,7 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
                 
                 List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
                 //add the reference and sort
+                
                 services.add(ref);
                 sortAndRepopulate(services);
 
@@ -87,6 +96,9 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
         synchronized (lock) {
             List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
             boolean removedRef = services.remove(ref);
+            
+            proxyMap.remove(ref.getBean());
+            
             if (removedRef) {
                 sortAndRepopulate(services); 
                 if (logger.isDebugEnabled()) {
@@ -102,6 +114,8 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
         }
     }
 
+    protected abstract Object maybeGetProxy(ServiceRegistryReference ref);
+
     private void sortAndRepopulate(List<ServiceRegistryReference> services) {
         List<ServiceRegistryReference> sorted = sorter.sort(services, true);
         //repopulate the services
@@ -111,7 +125,15 @@ public class BaseServiceRegistryList extends BaseServiceRegistryTarget implement
         //repopulate the contributions list
         this.contributions.clear();
         for (ServiceRegistryReference serviceRegistryReference : sorted) {
-            this.contributions.add(serviceRegistryReference.getBean());
+            Object bean = serviceRegistryReference.getBean();
+            
+            Object proxyObject = proxyMap.get(bean);
+            if (proxyObject == null) {
+                proxyObject = maybeGetProxy(serviceRegistryReference);
+                proxyMap.put(bean, proxyObject);
+            }
+            
+            this.contributions.add(proxyObject);
         }
     }
 
