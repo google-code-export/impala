@@ -53,8 +53,7 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
             this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
         }
         
-        ProxyFactory createDynamicProxyFactory = createProxyFactory();
-        this.proxyFactory = createDynamicProxyFactory;
+        this.proxyFactory = createProxyFactory();
     }
 
     /* *************** Protected methods ************** */
