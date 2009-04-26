@@ -31,12 +31,17 @@ import org.springframework.util.Assert;
 public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySource {
     
     private ServiceRegistryReference reference;
-    private Class<?>[] interfaces;
+    private Class<?>[] proxyTypes;
     
-    public StaticServiceReferenceProxyFactorySource(Class<?>[] interfaces,
+    /**
+     * Constructor
+     * @param proxyTypes the types used for the proxy
+     * @param reference the {@link ServiceRegistryReference} instance to be proxied
+     */
+    public StaticServiceReferenceProxyFactorySource(Class<?>[] proxyTypes,
             ServiceRegistryReference reference) {
         super();
-        this.interfaces = interfaces;
+        this.proxyTypes = proxyTypes;
         this.reference = reference;
     }
 
@@ -47,8 +52,8 @@ public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySo
         ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
         
         ProxyFactory proxyFactory = new ProxyFactory();
-        if (interfaces != null && interfaces.length > 0) {
-            ProxyFactorySourceUtils.addInterfaces(proxyFactory, interfaces);
+        if (proxyTypes != null && proxyTypes.length > 0) {
+            ProxyFactorySourceUtils.addInterfaces(proxyFactory, proxyTypes);
         } else {
             boolean isFinal = Modifier.isFinal(reference.getBean().getClass().getModifiers());
             if (isFinal) {
