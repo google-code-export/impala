@@ -54,12 +54,11 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         proxyFactorySource.init();
         ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
         ContributionEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
-        String registryBeanName = proxyFactorySource.getRegistryBeanName();
         
         ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
         
         if (logger.isDebugEnabled()) {
-            logger.debug("Creating dynamic proxy for " + registryBeanName + 
+            logger.debug("Creating dynamic proxy for " + beanName + 
                     " with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
         }
         
