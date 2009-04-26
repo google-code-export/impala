@@ -9,6 +9,7 @@ import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.StaticServiceReferenceProxyFactorySource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
+import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -18,7 +19,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap
-        implements InitializingBean, BeanNameAware {
+        implements InitializingBean, DisposableBean, BeanNameAware {
 
     private ServiceProxyFactoryCreator proxyFactoryCreator;
     

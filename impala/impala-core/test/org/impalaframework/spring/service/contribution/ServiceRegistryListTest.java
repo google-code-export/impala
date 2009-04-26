@@ -53,6 +53,8 @@ public class ServiceRegistryListTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.addEventListener(list)).andReturn(true);
+        
         replay(serviceRegistry);
         
         list.afterPropertiesSet();
