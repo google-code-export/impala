@@ -55,6 +55,8 @@ public class ServiceRegistryMapTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.addEventListener(map)).andReturn(true);
+        
         replay(serviceRegistry);
         
         map.afterPropertiesSet();
@@ -74,6 +76,7 @@ public class ServiceRegistryMapTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
         
@@ -99,6 +102,7 @@ public class ServiceRegistryMapTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
         

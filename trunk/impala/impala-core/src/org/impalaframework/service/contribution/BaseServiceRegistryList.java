@@ -230,6 +230,12 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     public Object set(int index, Object object) {
         throw new UnsupportedOperationException();
     }    
+
+    /* ******************* protected methods ******************** */
+
+    protected List<ServiceRegistryReference> getContributions() {
+        return contributions;
+    }
     
     /* ******************* toString() implementation ******************** */
     
@@ -242,5 +248,4 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         sb.append(externalString);
         return sb.toString();
     }
-
 }
