@@ -16,6 +16,7 @@ package org.impalaframework.service.contribution;
 
 import java.util.Collections;
 
+import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
 
@@ -29,7 +30,11 @@ public class BaseServiceRegistryListTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();        
         list = new BaseServiceRegistryList() {
-            
+
+            @Override
+            protected Object maybeGetProxy(ServiceRegistryReference ref) {
+                return ref.getBean();
+            }
         };
     }
 
