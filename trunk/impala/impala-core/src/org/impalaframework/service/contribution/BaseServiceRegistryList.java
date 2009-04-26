@@ -113,6 +113,15 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
             }
         }
     }
+    
+    @Override
+    public void destroy() {
+        super.destroy();
+        //FIXME test
+        contributions.clear();
+        proxyMap.clear();
+        services.clear();
+    }
 
     protected abstract Object maybeGetProxy(ServiceRegistryReference ref);
 
@@ -233,8 +242,8 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
 
     /* ******************* protected methods ******************** */
 
-    protected List<ServiceRegistryReference> getContributions() {
-        return contributions;
+    protected List<ServiceRegistryReference> getServices() {
+        return services;
     }
     
     /* ******************* toString() implementation ******************** */

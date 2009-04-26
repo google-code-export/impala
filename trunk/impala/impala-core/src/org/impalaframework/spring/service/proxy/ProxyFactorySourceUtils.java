@@ -15,10 +15,14 @@
 package org.impalaframework.spring.service.proxy;
 
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.util.Assert;
 
 public class ProxyFactorySourceUtils {
 
     protected static void addInterfaces(ProxyFactory proxyFactory, Class<?>[] interfaces) {
+
+        Assert.notNull(proxyFactory, "proxyFactory cannot be null");
+        Assert.notNull(interfaces, "interfaces cannot be null");
         
         for (int i = 0; i < interfaces.length; i++) {
             if (BeanRetrievingProxyFactorySource.logger.isDebugEnabled()) {

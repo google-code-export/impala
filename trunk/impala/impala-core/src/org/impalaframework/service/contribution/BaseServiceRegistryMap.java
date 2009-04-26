@@ -107,6 +107,13 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         return false;
     }
     
+    @Override
+    public void destroy() {
+        super.destroy();
+        //FIXME test this
+        contributions.clear();
+    }
+    
     /* **************** Map implementation *************** */
     
     public boolean containsKey(Object key) {
