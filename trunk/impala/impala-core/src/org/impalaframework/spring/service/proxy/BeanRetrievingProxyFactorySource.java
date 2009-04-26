@@ -67,6 +67,6 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
             ProxyFactorySourceUtils.addInterfaces(proxyFactory, interfaces);
         }
         
-        afterInit(proxyFactory, targetSource, registryBeanName);
+        afterInit(proxyFactory, targetSource);
     }
 }

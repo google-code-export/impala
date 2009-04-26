@@ -27,13 +27,11 @@ public abstract class BaseProxyFactorySource implements ProxyFactorySource {
 
     private ContributionEndpointTargetSource targetSource;
     private ProxyFactory proxyFactory;
-    private String registryBeanName;
     
-    protected void afterInit(ProxyFactory proxyFactory, ContributionEndpointTargetSource targetSource, String registryBeanName) {
+    protected void afterInit(ProxyFactory proxyFactory, ContributionEndpointTargetSource targetSource) {
         this.proxyFactory = proxyFactory;
         this.targetSource = targetSource;
         this.proxyFactory.setTargetSource(targetSource);
-        this.registryBeanName = registryBeanName;
     }
 
     public final ContributionEndpointTargetSource getTargetSource() {
@@ -42,9 +40,5 @@ public abstract class BaseProxyFactorySource implements ProxyFactorySource {
 
     public final ProxyFactory getProxyFactory() {
         return proxyFactory;
-    }
-
-    public String getRegistryBeanName() {
-        return registryBeanName;
     }
 }

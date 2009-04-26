@@ -57,7 +57,7 @@ public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySo
             }
         }
 
-        afterInit(proxyFactory, targetSource, reference.getBeanName());
+        afterInit(proxyFactory, targetSource);
     }
     
 }
