@@ -17,6 +17,14 @@ package org.impalaframework.spring.service.proxy;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
+/**
+ * Abstraction for setting up a proxy factory, which involves setting up a {@link ContributionEndpointTargetSource}
+ * as well as part-initialising the {@link ProxyFactory}.
+ * 
+ * Implementations are typically not responsible, however, for adding advisors or interceptors to the proxy. 
+ * 
+ * @author Phil Zoio
+ */
 public interface ProxyFactorySource {
 
     /**
