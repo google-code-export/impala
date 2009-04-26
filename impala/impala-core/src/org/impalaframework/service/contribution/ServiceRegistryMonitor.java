@@ -68,6 +68,10 @@ public class ServiceRegistryMonitor implements
             }
         }
     }
+
+    public void destroy() {
+        //FIXME test - what to do here
+    }
     
     /* ******************* Private and package method ******************** */
     
