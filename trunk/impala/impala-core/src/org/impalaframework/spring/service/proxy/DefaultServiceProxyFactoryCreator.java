@@ -49,14 +49,14 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
      * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
      * using a name key entry.
      */
-    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource) {
+    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName) {
         
         proxyFactorySource.init();
         ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
         ContributionEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
         String registryBeanName = proxyFactorySource.getRegistryBeanName();
         
-        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, registryBeanName);
+        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Creating dynamic proxy for " + registryBeanName + 

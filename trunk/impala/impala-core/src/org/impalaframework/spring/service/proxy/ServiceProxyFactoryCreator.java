@@ -29,8 +29,9 @@ public interface ServiceProxyFactoryCreator {
      * 
      * @param proxyFactorySource which handles the details of creating the {@link ProxyFactory} and associated
      * {@link ContributionEndpointTargetSource} instance.
+     * @param beanName TODO
      * @return a {@link ProxyFactory}
      */
-    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource);
+    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName);
 
 }

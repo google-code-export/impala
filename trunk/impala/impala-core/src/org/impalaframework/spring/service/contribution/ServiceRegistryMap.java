@@ -8,6 +8,7 @@ import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreato
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.StaticServiceReferenceProxyFactorySource;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
@@ -17,9 +18,11 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap
-        implements InitializingBean {
+        implements InitializingBean, BeanNameAware {
 
     private ServiceProxyFactoryCreator proxyFactoryCreator;
+    
+    private String beanName;
 
     public void afterPropertiesSet() throws Exception {
         this.init();
@@ -36,8 +39,14 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
 
     protected Object maybeGetProxy(ServiceRegistryReference reference) {
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getSupportedTypes(), reference);
-        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource);
+        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
         return proxyFactory.getProxy();
+    }
+
+    /* ******************** BeanNameAware implementation ******************** */
+    
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
     }
 
 }

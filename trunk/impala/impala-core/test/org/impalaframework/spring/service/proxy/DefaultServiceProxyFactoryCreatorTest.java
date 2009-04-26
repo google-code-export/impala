@@ -48,7 +48,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"), null);
         
         final List proxy = (List) proxyFactory.getProxy();
         proxy.add("obj");
@@ -69,7 +69,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         expect(serviceRegistry.getService("mykey", classes)).andReturn(ref);
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(classes, serviceRegistry, "mykey"), null);
         
         final List proxy = (List) proxyFactory.getProxy();
         proxy.add("obj");
@@ -85,7 +85,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(new Class<?>[]{List.class}, ref));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(new Class<?>[]{List.class}, ref), null);
         
         final List proxy = (List) proxyFactory.getProxy();
         proxy.add("obj");
@@ -99,7 +99,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
         replay(serviceRegistry);
-        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref));
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null);
         
         final List proxy = (List) proxyFactory.getProxy();
         assertTrue(proxy instanceof ArrayList);
@@ -113,7 +113,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         
         replay(serviceRegistry);
         try {
-            creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref));
+            creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null);
             fail();
         }
         catch (Exception e) {
