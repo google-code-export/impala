@@ -240,8 +240,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         Assert.notNull(beanName, "beanName cannot be null");
         List<ServiceRegistryReference> references = beanNameToService.get(beanName);
         
-        //FIXME should have option of looking for explicitly named export types rather than implementation types
-        
         if (references == null || references.size() == 0) {
             return null;
         }
