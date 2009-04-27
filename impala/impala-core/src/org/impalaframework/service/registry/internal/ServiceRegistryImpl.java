@@ -171,9 +171,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         }
     }
 
-    public void remove(ServiceRegistryReference serviceReference) {
+    public boolean remove(ServiceRegistryReference serviceReference) {
         
         Assert.notNull(serviceReference, "serviceReference cannot be null");
+        boolean removed = false;
         
         synchronized (registryLock) {
             
@@ -203,21 +204,30 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                     }
                 }
                 
-                services.remove(serviceReference);
+                removed = services.remove(serviceReference);
             }
         }
 
         if (serviceReference != null) {
             
-            if (logger.isDebugEnabled())
+            if (removed) {
+            if (logger.isDebugEnabled()) {
                 logger.debug("Removed from service reference '" + serviceReference
                         + "' contributed from module '"
                         + serviceReference.getContributingModule() + "'");
+            }
             
             ServiceRemovedEvent event = new ServiceRemovedEvent(serviceReference);
             
             invokeListeners(event);
+            } else {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("No service '" + serviceReference
+                            + "' present to remove from service registry");
+                }
+            }
         }
+        return removed;
     }
     
     /* ************ registry service accessor methods * ************** */

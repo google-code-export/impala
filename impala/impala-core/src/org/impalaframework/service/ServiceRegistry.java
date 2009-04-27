@@ -49,9 +49,9 @@ public interface ServiceRegistry {
             List<Class<?>> exportTypes, Map<String,?> attributes, ClassLoader classLoader);
 
     /**
-     * Removes a service instance from the service registry
+     * Removes a service instance from the service registry. Returns true if service was actually removed.
      */
-    void remove(ServiceRegistryReference serviceReference);
+    boolean remove(ServiceRegistryReference serviceReference);
     
     /**
      * Evicts the services contributing from a particular module
