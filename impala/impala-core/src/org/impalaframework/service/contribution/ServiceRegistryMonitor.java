@@ -63,8 +63,9 @@ public class ServiceRegistryMonitor implements
         Assert.notNull(serviceRegistry);
         Assert.notNull(serviceActivityNotifiable);
         
+        Class<?>[] supportedTypes = serviceActivityNotifiable.getSupportedTypes();
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, null);
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes);
         for (ServiceRegistryReference serviceReference : services) {
             if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
                 serviceActivityNotifiable.add(serviceReference);

@@ -37,7 +37,8 @@ import org.springframework.util.ClassUtils;
 public class ServiceRegistryMapTest extends TestCase {
 
     private ServiceRegistryMap map;
-    private ServiceRegistry serviceRegistry;
+    private ServiceRegistry serviceRegistry;    
+    private Class<?>[] supportedTypes;
 
     @Override
     protected void setUp() throws Exception {
@@ -45,7 +46,8 @@ public class ServiceRegistryMapTest extends TestCase {
         map = new ServiceRegistryMap();
         serviceRegistry = createMock(ServiceRegistry.class);
         map.setServiceRegistry(serviceRegistry);
-        map.setSupportedTypes(new Class[]{ List.class });
+        supportedTypes = new Class[]{ List.class };
+        map.setSupportedTypes(supportedTypes);
     }
     
     public void testNoMapKey() throws Exception {
@@ -54,7 +56,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, supportedTypes)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
@@ -75,7 +77,7 @@ public class ServiceRegistryMapTest extends TestCase {
         attributes.put("mapkey", "key");
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, supportedTypes)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
