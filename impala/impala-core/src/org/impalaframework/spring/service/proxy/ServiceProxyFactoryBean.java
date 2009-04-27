@@ -35,12 +35,11 @@ public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean im
 
     private static final long serialVersionUID = 1L;
 
-    private Class<?>[] proxyInterfaces;
+    private Class<?>[] proxyTypes;
 
     private String beanName;
     
-    //FIXME use this
-    private String exportedBeanName;
+    //FIXME need to allow providing of exportTypes as well
 
     private String filterExpression;
 
@@ -60,7 +59,7 @@ public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean im
         list.setServiceRegistry(getServiceRegistry());
         list.setFilterExpression(filterExpression);
         list.init();
-        ListBackedProxySource source = new ListBackedProxySource(list, proxyInterfaces);
+        ListBackedProxySource source = new ListBackedProxySource(list, proxyTypes);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
         return createDynamicProxyFactory;
@@ -74,12 +73,8 @@ public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean im
 
     /* *************** dependency injection setters ************** */
 
-    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-        this.proxyInterfaces = proxyInterfaces;
-    }
-
-    public void setExportedBeanName(String exportedBeanName) {
-        this.exportedBeanName = exportedBeanName;
+    public void setProxyTypes(Class<?>[] proxyInterfaces) {
+        this.proxyTypes = proxyInterfaces;
     }
 
     public void setFilterExpression(String filterExpression) {
