@@ -17,6 +17,7 @@ package org.impalaframework.service.registry.internal;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -126,6 +127,28 @@ public class ServiceRegistryImplTest extends TestCase {
         
         //factory bean gets special case
         assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}));
+    }
+
+    public void testGetServices() throws Exception {
+
+        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}).isEmpty());
+        
+        final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", "some service 1", null, Collections.singletonMap("service.ranking", 100), classLoader);
+        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}).size());
+        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}).size());
+
+        final ServiceRegistryReference ref2 = registry.addService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
+        List<ServiceRegistryReference> services = registry.getServices("bean1", new Class<?>[]{String.class});
+        assertEquals(2, services.size());
+        assertEquals(ref2, services.get(0));
+        
+        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}).size());
+        
+        registry.remove(ref1);
+        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}).size());
+        
+        registry.remove(ref2);
+        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}).isEmpty());
     }
     
     public void testDuplicateBean() throws Exception {

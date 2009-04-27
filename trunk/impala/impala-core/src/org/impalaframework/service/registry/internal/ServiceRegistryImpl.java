@@ -15,9 +15,9 @@
 package org.impalaframework.service.registry.internal;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.IdentityHashMap;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -119,13 +119,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             
             //deal with the case of overriding and existing bean
             if (beanName != null) {
-                addReferenceToMap(beanNameToService, beanName, serviceReference);
+                addReferenceToMap(beanNameToService, beanName, serviceReference, true);
             }
             
-            addReferenceToMap(moduleNameToServices, moduleName, serviceReference);
+            addReferenceToMap(moduleNameToServices, moduleName, serviceReference, false);
             
             for (Class<?> exportType : classes) {
-                addReferenceToMap(classNameToServices, exportType.getName(), serviceReference);
+                addReferenceToMap(classNameToServices, exportType.getName(), serviceReference, true);
             }
             
             MapTargetInfo targetInfo = new MapTargetInfo(classes, beanName, moduleName);
@@ -237,18 +237,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      */
     public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes) {
         
-        Assert.notNull(beanName, "beanName cannot be null");
-        List<ServiceRegistryReference> references = beanNameToService.get(beanName);
+        List<ServiceRegistryReference> references = getServicesInternal(beanName, supportedTypes);
         
-        if (references == null || references.size() == 0) {
+        if (references == null) {
             return null;
-        }
-        
-        //sort the service references
-        references = serviceReferenceSorter.sort(references);
-        
-        if (supportedTypes == null) {
-            return references.get(0);
         }
         
         for (int i = 0; i < references.size(); i++) {
@@ -261,6 +253,39 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         return null;
     }
 
+    public List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes) {
+
+        List<ServiceRegistryReference> references = getServicesInternal(beanName, supportedTypes);
+        List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
+        
+        //FIXME may only be looking only at export types here
+        for (ServiceRegistryReference serviceReference : references) {
+            if (classChecker.matchesTypes(serviceReference, supportedTypes)) {
+                serviceList.add(serviceReference);
+            }
+        }
+        
+        return serviceList;
+    }
+    
+    /**
+     * Returns named service, which has to implement all of implementation types specified
+     */
+    @SuppressWarnings("unchecked")
+    private List<ServiceRegistryReference> getServicesInternal(String beanName, Class<?>[] supportedTypes) {
+        
+        Assert.notNull(beanName, "beanName cannot be null");
+        List<ServiceRegistryReference> references;
+        
+        synchronized (registryLock) {
+            List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+            references = (list == null ? Collections.EMPTY_LIST : new ArrayList<ServiceRegistryReference>(list));
+        }
+        
+        //no need to sort here, as it is already sorted
+        return references;
+    }
+
     /**
      * Returns filtered services, which has to implement all of implemenation types specified
      */
@@ -268,22 +293,21 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
         Assert.notNull(filter, "filter cannot be null");
 
-        //FIXME should have option of looking for explicitly named export types rather than implementation types
+        //FIXME implement support for explicitly named export types rather than implementation type
         
-        List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
+        //Create new list of services for concurrency protection
+        List<ServiceRegistryReference> values = new LinkedList<ServiceRegistryReference>(services);
         
-        //FIXME check semantics of using CopyOnWriteArraySet
-        Collection<ServiceRegistryReference> values = services;
-        
-        //FIXME should be looking only at export types here
-        for (ServiceRegistryReference serviceReference : values) {
-            if (classChecker.matchesTypes(serviceReference, supportedTypes) && filter.matches(serviceReference)) {
-                serviceList.add(serviceReference);
+        for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
+            ServiceRegistryReference serviceReference = iterator.next();
+           
+            if (!(classChecker.matchesTypes(serviceReference, supportedTypes) && filter.matches(serviceReference))) {
+                iterator.remove();
             }
         }
         
         //sort, reusing existing list
-        return serviceReferenceSorter.sort(serviceList, true);
+        return serviceReferenceSorter.sort(values, true);
     }
     
     /* ************ listener related methods * ************** */
@@ -420,14 +444,17 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     @SuppressWarnings("unchecked")
     private void addReferenceToMap(Map map,
             Object key,
-            ServiceRegistryReference serviceReference) {
+            ServiceRegistryReference serviceReference, boolean sort) {
         
         List<ServiceRegistryReference> list = (List<ServiceRegistryReference>) map.get(key);
         if (list == null) {
-            list = new CopyOnWriteArrayList<ServiceRegistryReference>();
+            list = new ArrayList<ServiceRegistryReference>();
             map.put(key, list);
         }
         list.add(serviceReference);
+        if (sort) {
+            this.serviceReferenceSorter.sort(list, true);
+        }
     }
     
     /* ************ dependency injection setters * ************** */
