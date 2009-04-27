@@ -30,6 +30,9 @@ import org.springframework.util.Assert;
  * Class with responsibility for for logic of picking up changes to service registry and matching these against filter.
  * Delegates to {@link ServiceActivityNotifiable} once it has done it's job.
  * 
+ * {@link ServiceRegistryMonitor} implements the {@link ServiceRegistryEventListener}. However, it does not 
+ * register itself as a listener. Instead, listener method calls are received from a delegator.
+ * 
  * @author Phil Zoio
  */
 public class ServiceRegistryMonitor implements 
@@ -67,10 +70,6 @@ public class ServiceRegistryMonitor implements
                 serviceActivityNotifiable.add(serviceReference);
             }
         }
-    }
-
-    public void destroy() {
-        //FIXME test - what to do here
     }
     
     /* ******************* Private and package method ******************** */

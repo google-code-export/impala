@@ -64,7 +64,7 @@ public abstract class BaseServiceRegistryTarget implements
         super();
     }
     
-    /* **************** Life cycle method *************** */
+    /* **************** Life cycle methods *************** */
     
     public void init() {
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
@@ -81,9 +81,7 @@ public abstract class BaseServiceRegistryTarget implements
         this.serviceRegistry.addEventListener(this);
     }
     
-    //FIXME should this be part of ServiceActivityNotifiable?
     public void destroy() {
-        this.serviceRegistryMonitor.destroy();
         this.serviceRegistry.removeEventListener(this);
     }
     
