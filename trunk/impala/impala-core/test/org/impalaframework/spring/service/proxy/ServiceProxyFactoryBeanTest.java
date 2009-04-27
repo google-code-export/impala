@@ -23,7 +23,7 @@ public class ServiceProxyFactoryBeanTest extends TestCase {
         factoryBean = new ServiceProxyFactoryBean();
         factoryBean.setServiceRegistry(serviceRegistry);
         factoryBean.setFilterExpression("(name=*)");
-        factoryBean.setProxyInterfaces(new Class[]{List.class});
+        factoryBean.setProxyTypes(new Class[]{List.class});
     }
 
     @SuppressWarnings("unchecked")
