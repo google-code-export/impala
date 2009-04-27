@@ -14,13 +14,16 @@
 
 package org.impalaframework.service.contribution;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+
+import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
-
-import junit.framework.TestCase;
 
 public class BaseServiceRegistryListTest extends TestCase {
     
@@ -61,6 +64,37 @@ public class BaseServiceRegistryListTest extends TestCase {
 
         assertTrue(list.remove(ref1));
         assertTrue(list.isEmpty());
+    }
+    
+    public void testWithListener() throws Exception {
+        ServiceRegistryImpl registry = new ServiceRegistryImpl();
+        list.setServiceRegistry(registry);
+        list.setFilterExpression("(mapkey=*)");
+
+        List<String> service1 = new ArrayList<String>();
+        List<String> service2 = new ArrayList<String>();
+        List<String> service3 = new ArrayList<String>();
+        
+        ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
+        registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        
+        assertTrue(list.isEmpty());
+        
+        //now call init to add
+        list.init();
+        
+        assertEquals(2, list.size());
+        
+        //now add service and see it automatically reflect
+        registry.addService("bean3", "module1", service3, null, Collections.singletonMap("mapkey", "bean3"), classLoader);
+        assertEquals(3, list.size());
+        
+        list.destroy();
+        assertTrue(list.isEmpty());        
+        
+        //no need to remove listener as this was removed via destroy
+        assertFalse(registry.removeEventListener(list));
     }
     
 }

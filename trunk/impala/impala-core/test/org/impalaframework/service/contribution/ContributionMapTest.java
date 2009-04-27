@@ -21,8 +21,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.contribution.ContributionMap;
-import org.impalaframework.service.contribution.ServiceRegistryMap;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
@@ -79,7 +77,8 @@ public class ContributionMapTest extends TestCase {
     public void testListener() {
 
         serviceRegistryMap.init();
-        registry.addEventListener(serviceRegistryMap);
+        //no need to add explicitly as always present
+        assertFalse(registry.addEventListener(serviceRegistryMap));
 
         String service1 = "some service1";
         String service2 = "some service2";
@@ -92,13 +91,32 @@ public class ContributionMapTest extends TestCase {
         registry.remove(ref1);
         registry.remove(ref2);      
         assertEquals(0, map.getExternalContributions().size());
+
+        //sucessfully remove listener. Compare with testDestroy where this returns false
+        assertTrue(registry.removeEventListener(serviceRegistryMap));
+    }
+    
+    public void testDestroy() throws Exception {
+        serviceRegistryMap.init();
+        String service1 = "some service1";
+        
+        final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        assertEquals(1, map.getExternalContributions().size());   
+        
+        serviceRegistryMap.destroy();
+        assertTrue(map.getExternalContributions().isEmpty());
+        
+        //no need to remove listener as this was removed via destroy
+        assertFalse(registry.removeEventListener(serviceRegistryMap));
+
+        //service is still present in service registry, though
+        assertTrue(registry.remove(ref1));
     }
     
     public void testSuppliedFilter() {
 
         serviceRegistryMap.setFilter(new LdapServiceReferenceFilter("(mapkey=bean1)"));
         serviceRegistryMap.init();
-        registry.addEventListener(serviceRegistryMap);
 
         //this one will match
         registry.addService("bean1", "module1", "some service1", null, Collections.singletonMap("mapkey", "bean1"), classLoader);
@@ -111,7 +129,6 @@ public class ContributionMapTest extends TestCase {
     public void testMapListener() {
 
         serviceRegistryMap.init();
-        registry.addEventListener(serviceRegistryMap);
 
         String service1 = "value1";
         String service2 = "value2";
