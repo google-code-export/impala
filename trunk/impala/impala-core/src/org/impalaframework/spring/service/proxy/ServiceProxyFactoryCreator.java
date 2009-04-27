@@ -26,10 +26,11 @@ import org.springframework.aop.framework.ProxyFactory;
 public interface ServiceProxyFactoryCreator {
 
     /**
-     * 
-     * @param proxyFactorySource which handles the details of creating the {@link ProxyFactory} and associated
+     * @param proxyFactorySource which handles the details of creating the
+     * {@link ProxyFactory} and associated
      * {@link ContributionEndpointTargetSource} instance.
-     * @param beanName TODO
+     * @param beanName the name of the bean on behalf of which the service proxy
+     * is being created
      * @return a {@link ProxyFactory}
      */
     public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName);
