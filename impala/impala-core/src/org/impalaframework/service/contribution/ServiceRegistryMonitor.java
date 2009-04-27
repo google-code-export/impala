@@ -65,7 +65,7 @@ public class ServiceRegistryMonitor implements
         
         Class<?>[] supportedTypes = serviceActivityNotifiable.getSupportedTypes();
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes);
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes, false);
         for (ServiceRegistryReference serviceReference : services) {
             if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
                 serviceActivityNotifiable.add(serviceReference);

@@ -68,13 +68,17 @@ public interface ServiceRegistry {
     ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes);
     
     /**
-     * Gets all services from the service registry which match the provided filter
+     * Gets all services from the service registry which match the provided
+     * filter
      * @param filter a {@link ServiceReferenceFilter} instance
-     * @param supportedTypes the possible for the service. The service must be class compatible with all of these
-     * types to be returned.
+     * @param types the possible for the service. The service must be class
+     * compatible with all of these types to be returned.
+     * @param exportTypesOnly if true, then the services returned must all be
+     * explicitly registered using the types. Otherwise, it is sufficient that
+     * each service must be type compatible with the supplied types
      * @return a list of service references.
      */
-    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes);
+    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly);
     
     /**
      * Adds global event listeners to which all service registry events will be
