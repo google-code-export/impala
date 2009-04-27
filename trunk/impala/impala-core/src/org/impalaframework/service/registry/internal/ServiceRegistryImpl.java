@@ -264,7 +264,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /**
      * Returns filtered services, which has to implement all of implemenation types specified
      */
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes) {
+    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes, boolean exportTypesOnly) {
 
         Assert.notNull(filter, "filter cannot be null");
 

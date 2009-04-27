@@ -56,7 +56,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, supportedTypes)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, supportedTypes, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
@@ -77,7 +77,7 @@ public class ServiceRegistryMapTest extends TestCase {
         attributes.put("mapkey", "key");
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, supportedTypes)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, supportedTypes, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
@@ -103,7 +103,7 @@ public class ServiceRegistryMapTest extends TestCase {
         attributes.put("mapkey", "key");
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, null, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
         
         replay(serviceRegistry);
@@ -132,7 +132,7 @@ public class ServiceRegistryMapTest extends TestCase {
         attributes.put("mapkey", "key");
         ServiceRegistryReference ref = new BasicServiceRegistryReference("stringservice", "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, null, false)).andReturn(singletonList);
         
         replay(serviceRegistry);
         

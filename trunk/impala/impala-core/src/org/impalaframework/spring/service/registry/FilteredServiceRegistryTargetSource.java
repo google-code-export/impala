@@ -49,7 +49,7 @@ public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTarg
     public ServiceRegistryReference getServiceRegistryReference() {
         
         //returns list of services matching filter
-        final List<ServiceRegistryReference> filteredServices = serviceRegistry.getServices(filter, null);
+        final List<ServiceRegistryReference> filteredServices = serviceRegistry.getServices(filter, null, false);
         if (filteredServices.isEmpty()) {
             return null;
         }
