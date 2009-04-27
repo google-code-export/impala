@@ -35,6 +35,7 @@ public class ServiceRegistryListTest extends TestCase {
 
     private ServiceRegistryList list;
     private ServiceRegistry serviceRegistry;
+    private Class<?>[] supportedTypes;
 
     @Override
     protected void setUp() throws Exception {
@@ -42,7 +43,8 @@ public class ServiceRegistryListTest extends TestCase {
         list = new ServiceRegistryList();
         serviceRegistry = createMock(ServiceRegistry.class);
         list.setServiceRegistry(serviceRegistry);
-        list.setSupportedTypes(new Class[]{ List.class });
+        supportedTypes = new Class[]{ List.class };
+        list.setSupportedTypes(supportedTypes);
     }
     
     public void testWithList() throws Exception {
@@ -52,7 +54,7 @@ public class ServiceRegistryListTest extends TestCase {
         List<String> service = new ArrayList<String>();
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
-        expect(serviceRegistry.getServices(filter, null)).andReturn(singletonList);
+        expect(serviceRegistry.getServices(filter, supportedTypes)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(list)).andReturn(true);
         
         replay(serviceRegistry);
