@@ -50,6 +50,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
     
+    private static ServiceReferenceFilter IDENTIFY_FILTER = new IdentityServiceReferenceFilter();
+    
     private ClassChecker classChecker = new ClassChecker();
     private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
     private ExportTypeDeriver exportTypeDeriver = new EmptyExportTypeDeriver();
@@ -287,27 +289,82 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     }
 
     /**
-     * Returns filtered services, which has to implement all of implemenation types specified
+     * Returns filtered services, which has to implement all of implemenation types specified.
+     * @param filter the filter which is used to match service references. Can be null. If so, {@link IdentityServiceReferenceFilter} is used,
+     * which always returns true. See {@link IdentityServiceReferenceFilter#matches(ServiceRegistryReference)}.
+     * @param types the types with which returned references should be compatible
+     * @param if true only matches against explicit export types
      */
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] supportedTypes, boolean exportTypesOnly) {
+    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly) {
 
-        Assert.notNull(filter, "filter cannot be null");
-
-        //FIXME implement support for explicitly named export types rather than implementation type
-        
-        //Create new list of services for concurrency protection
-        List<ServiceRegistryReference> values = new LinkedList<ServiceRegistryReference>(services);
-        
-        for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
-            ServiceRegistryReference serviceReference = iterator.next();
-           
-            if (!(classChecker.matchesTypes(serviceReference, supportedTypes) && filter.matches(serviceReference))) {
-                iterator.remove();
-            }
+        if (filter == null) {
+            filter = IDENTIFY_FILTER;
         }
         
-        //sort, reusing existing list
-        return serviceReferenceSorter.sort(values, true);
+        if (exportTypesOnly) {
+            
+            //FIXME test this
+            
+            Assert.notNull(types, "exportTypesOnly is true but types is null");
+            Assert.notEmpty(types, "exportTypesOnly is true but types is empty");
+            
+            final List<ServiceRegistryReference> values; 
+            
+            //check each type against 
+            synchronized (registryLock) {
+                
+                values = classNameToServices.get(types[0]);
+                
+                if (values == null) {
+                    return Collections.emptyList();
+                }
+                
+                //check each type
+                for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
+                    ServiceRegistryReference serviceReference = iterator.next();
+                    
+                    //make sure that all other types contain
+                    if (types.length > 1) {
+                        for (int i = 1; i < types.length; i++) {
+                            List<ServiceRegistryReference> secondaryValues = classNameToServices.get(types[i]);
+                            if (!secondaryValues.contains(serviceReference)) {
+                                iterator.remove();
+                            }
+                        }
+                    }
+                }
+            }
+                
+            //check each entry against filter
+            for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
+                ServiceRegistryReference serviceReference = iterator.next();
+               
+                if (!filter.matches(serviceReference)) {
+                    iterator.remove();
+                }
+            }
+            
+            return serviceReferenceSorter.sort(values, true);
+        } else {
+        
+            //Create new list of services for concurrency protection
+            final List<ServiceRegistryReference> values;
+            
+            synchronized (registryLock) {
+                values = new LinkedList<ServiceRegistryReference>(services);
+            }
+            
+            for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
+                ServiceRegistryReference serviceReference = iterator.next();
+               
+                if (!(classChecker.matchesTypes(serviceReference, types) && filter.matches(serviceReference))) {
+                    iterator.remove();
+                }
+            }
+            //sort, reusing existing list
+            return serviceReferenceSorter.sort(values, true);
+        }
+        
     }
     
     /* ************ listener related methods * ************** */
@@ -505,6 +562,14 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
         public String getModuleName() {
             return moduleName;
+        }
+        
+    }
+
+    private static class IdentityServiceReferenceFilter implements ServiceReferenceFilter {
+
+        public boolean matches(ServiceRegistryReference reference) {
+            return true;
         }
         
     }
