@@ -18,6 +18,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -203,15 +204,72 @@ public class ServiceRegistryImplTest extends TestCase {
         registry.addService("bean1", "module1", service1, classLoader);
         registry.addService("bean2", "module2", service2, classLoader);
         
-        assertEquals(2, registry.getServices(new ServiceReferenceFilter(){
-            public boolean matches(ServiceRegistryReference reference) {
-                return true;
-            }}, null, false).size());
+        assertEquals(2, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, null, false).size());
         
         assertEquals(0, registry.getServices(new ServiceReferenceFilter(){
             public boolean matches(ServiceRegistryReference reference) {
                 return false;
             }}, null, false).size());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testUsingExportTypesFilter() {
+        List<String> service1 = new ArrayList<String>();
+        List<String> service2 = new ArrayList<String>();
+        
+        List service1Classes = Collections.singletonList(ArrayList.class);
+        List service2Classes = Collections.singletonList(List.class);
+        
+        registry.addService("bean1", "module1", service1, service1Classes, null, classLoader);
+        registry.addService("bean2", "module2", service2, service2Classes, null, classLoader);
+        
+        Class[] arrayListMatch = new Class[] { ArrayList.class };
+        Class[] listMatch = new Class[] { List.class };
+
+        assertEquals(2, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, null, false).size());
+        assertEquals(2, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, listMatch, false).size());
+        assertEquals(2, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, arrayListMatch, false).size());
+        
+        //match exactly on export types
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, arrayListMatch, true).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, listMatch, true).size());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testUsingMultiFilters() {
+        List<String> service1 = new ArrayList<String>();
+        
+        List service1Classes = new ArrayList();
+        service1Classes.add(ArrayList.class);
+        service1Classes.add(List.class);
+        
+        registry.addService("bean1", "module1", service1, service1Classes, null, classLoader);
+        
+        Class[] arrayListMatch = new Class[] { ArrayList.class };
+        Class[] listMatch = new Class[] { List.class };
+        Class[] allMatch = new Class[] { List.class, ArrayList.class };
+        Class[] allMatchReverse = new Class[] { ArrayList.class, List.class };
+        Class[] falseMatch = new Class[] { List.class, LinkedList.class };
+
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, null, false).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, listMatch, false).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, arrayListMatch, false).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, allMatch, false).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, allMatchReverse, false).size());
+        assertEquals(0, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, falseMatch, false).size());
+
+        try {
+            //true and null combo not allowed
+            assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, null, true).size());
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, listMatch, true).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, arrayListMatch, true).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, allMatch, true).size());
+        assertEquals(1, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, allMatchReverse, true).size());
+        assertEquals(0, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, falseMatch, true).size());
     }
     
     public void testCheckClassesClassLoader() throws Exception {
