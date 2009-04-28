@@ -50,7 +50,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
     
-    private static ServiceReferenceFilter IDENTIFY_FILTER = new IdentityServiceReferenceFilter();
+    static ServiceReferenceFilter IDENTIFY_FILTER = new IdentityServiceReferenceFilter();
     
     private ClassChecker classChecker = new ClassChecker();
     private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
@@ -303,8 +303,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         if (exportTypesOnly) {
             
-            //FIXME test this
-            
             Assert.notNull(types, "exportTypesOnly is true but types is null");
             Assert.notEmpty(types, "exportTypesOnly is true but types is empty");
             
@@ -313,7 +311,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             //check each type against 
             synchronized (registryLock) {
                 
-                values = classNameToServices.get(types[0]);
+                values = classNameToServices.get(types[0].getName());
                 
                 if (values == null) {
                     return Collections.emptyList();
@@ -326,8 +324,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                     //make sure that all other types contain
                     if (types.length > 1) {
                         for (int i = 1; i < types.length; i++) {
-                            List<ServiceRegistryReference> secondaryValues = classNameToServices.get(types[i]);
-                            if (!secondaryValues.contains(serviceReference)) {
+                            List<ServiceRegistryReference> secondaryValues = classNameToServices.get(types[i].getName());
+                            boolean found = false;
+                            
+                            if (secondaryValues != null) {
+                                if (secondaryValues.contains(serviceReference)) {
+                                    found = true;
+                                }
+                            }
+                            
+                            if (!found) {
                                 iterator.remove();
                             }
                         }
