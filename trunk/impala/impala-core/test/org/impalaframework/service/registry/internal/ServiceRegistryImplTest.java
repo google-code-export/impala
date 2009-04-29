@@ -16,7 +16,9 @@ package org.impalaframework.service.registry.internal;
 
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -129,7 +131,114 @@ public class ServiceRegistryImplTest extends TestCase {
         //factory bean gets special case
         assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}, false));
     }
+    
+    @SuppressWarnings("unchecked")
+    public void testGetServiceByExportTypes() throws Exception {
+        
+        classes = new Class[]{String.class};
+        
+        final StringFactoryBean factoryBean = new StringFactoryBean();
+        factoryBean.setValue("some service");
+        registry.addService("bean1", "module1", factoryBean, classLoader);
 
+        try {
+            registry.getService(null, classes, false);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Either bean name must be not null, or export types must be non-empty", e.getMessage());
+        } 
+        
+        try {
+            registry.getService(null, new Class[0], false);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Either bean name must be not null, or export types must be non-empty", e.getMessage());
+        }
+
+        try {
+            registry.getServices((String)null, classes, false);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Either bean name must be not null, or export types must be non-empty", e.getMessage());
+        } 
+        
+        try {
+            registry.getServices((String)null, new Class[0], false);
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("Either bean name must be not null, or export types must be non-empty", e.getMessage());
+        }    
+        
+        //not registered under any export types
+        assertNull(registry.getService("bean1", classes, true));
+        assertNull(registry.getService(null, classes, true));
+        
+        assertTrue(registry.getServices("bean1", classes, true).isEmpty());
+        assertTrue(registry.getServices((String)null, classes, true).isEmpty());
+        
+        //now register bean with export types
+        List list = Collections.singletonList(String.class);
+        registry.addService(null, "module1", factoryBean, list, null, classLoader);
+        
+        assertNotNull(registry.getService(null, classes, true));
+        assertNull(registry.getService("bean1", classes, true));
+        
+        assertFalse(registry.getServices((String)null, classes, true).isEmpty());
+        assertTrue(registry.getServices("bean1", classes, true).isEmpty());
+        
+        registry.addService("bean2", "module1", factoryBean, list, null, classLoader);
+        assertNotNull(registry.getService("bean2", classes, true));
+        assertFalse(registry.getServices("bean2", classes, true).isEmpty());
+    }
+    
+ 
+    public void testMultiExportTypes() throws Exception {
+        
+        classes = new Class[]{ ArrayList.class, List.class };
+        registry.addService(null, "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
+        
+        assertTrue(registry.getServices("bean1", new Class<?>[]{ String.class }, true).isEmpty());
+        assertTrue(registry.getServices("bean1", classes, true).isEmpty());
+        assertFalse(registry.getServices((String)null, classes, true).isEmpty());
+        
+        assertNull(registry.getService("bean1", new Class<?>[]{ String.class }, true));
+        assertNull(registry.getService("bean1", classes, true));
+        assertNotNull(registry.getService((String)null, classes, true));
+        
+        registry.addService("bean2", "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
+
+        assertTrue(registry.getServices("bean2", new Class<?>[]{ String.class }, true).isEmpty());
+        assertFalse(registry.getServices("bean2", classes, true).isEmpty());
+        assertFalse(registry.getServices((String)null, classes, true).isEmpty());
+        
+        assertNull(registry.getService("bean2", new Class<?>[]{ String.class }, true));
+        assertNotNull(registry.getService("bean2", classes, true));
+        assertNotNull(registry.getService((String)null, classes, true));
+        
+        //not matching on all so empty
+        classes = new Class[]{ List.class, AbstractList.class, ArrayList.class };
+        
+        assertTrue(registry.getServices("bean2", classes, true).isEmpty());
+        assertTrue(registry.getServices((String)null, classes, true).isEmpty());
+        
+        assertNull(registry.getService("bean2", classes, true));
+        assertNull(registry.getService((String)null, classes, true));
+        
+        classes = new Class[]{ List.class, LinkedList.class };
+        
+        //not matching on export types
+        assertTrue(registry.getServices("bean2", classes, true).isEmpty());
+        assertTrue(registry.getServices((String)null, classes, true).isEmpty());
+        
+        assertNull(registry.getService("bean2", classes, true));
+        assertNull(registry.getService((String)null, classes, true));
+    }
+    
+    
     public void testGetServices() throws Exception {
 
         assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}, false).isEmpty());
@@ -139,7 +248,7 @@ public class ServiceRegistryImplTest extends TestCase {
         assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}, false).size());
 
         final ServiceRegistryReference ref2 = registry.addService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
-        List<ServiceRegistryReference> services = registry.getServices("bean1", new Class<?>[]{String.class}, false);
+        List<ServiceRegistryReference> services = registry.getServices("bean1", new Class<?>[]{ String.class }, false);
         assertEquals(2, services.size());
         assertEquals(ref2, services.get(0));
         
