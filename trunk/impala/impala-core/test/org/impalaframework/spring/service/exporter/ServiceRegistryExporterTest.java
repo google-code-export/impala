@@ -69,10 +69,10 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service, registry.getService("myBean", classes).getBean());
+        assertSame(service, registry.getService("myBean", classes, false).getBean());
         
         exporter.destroy();
-        assertNull(registry.getService("myBean", classes));
+        assertNull(registry.getService("myBean", classes, false));
     }
     
     public void testInvalidType() throws Exception {
@@ -97,11 +97,11 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        ServiceRegistryReference serviceReference = registry.getService("exportName", classes);
+        ServiceRegistryReference serviceReference = registry.getService("exportName", classes, false);
         assertSame(service, serviceReference.getBean());
         
         exporter.destroy();
-        assertNull(registry.getService("exportName", classes));
+        assertNull(registry.getService("exportName", classes, false));
     }
     
     public void testTagsAndAttribute() throws Exception {
@@ -115,12 +115,12 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        ServiceRegistryReference s = registry.getService("myBean", classes);
+        ServiceRegistryReference s = registry.getService("myBean", classes, false);
         assertSame(service, s.getBean());
         assertEquals(attributes, s.getAttributes());
         
         exporter.destroy();
-        assertNull(registry.getService("myBean", classes));
+        assertNull(registry.getService("myBean", classes, false));
     }
     
 }

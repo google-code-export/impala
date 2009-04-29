@@ -58,12 +58,12 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myBean1", classes).getBean());
-        assertSame(service2, registry.getService("myBean2", classes).getBean());
+        assertSame(service1, registry.getService("myBean1", classes, false).getBean());
+        assertSame(service2, registry.getService("myBean2", classes, false).getBean());
         
         exporter.destroy();
-        assertNull(registry.getService("myBean1", classes));
-        assertNull(registry.getService("myBean2", classes));
+        assertNull(registry.getService("myBean1", classes, false));
+        assertNull(registry.getService("myBean2", classes, false));
     }
     
     public void testGetBeanWithExportNames() throws Exception {
@@ -77,12 +77,12 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myExport1", classes).getBean());
-        assertSame(service2, registry.getService("myExport2", classes).getBean());
+        assertSame(service1, registry.getService("myExport1", classes, false).getBean());
+        assertSame(service2, registry.getService("myExport2", classes, false).getBean());
         
         exporter.destroy();
-        assertNull(registry.getService("myExport1", classes));
-        assertNull(registry.getService("myExport2", classes));
+        assertNull(registry.getService("myExport1", classes, false));
+        assertNull(registry.getService("myExport2", classes, false));
     }
     
 }

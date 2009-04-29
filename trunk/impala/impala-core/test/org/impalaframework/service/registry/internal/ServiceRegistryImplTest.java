@@ -50,7 +50,7 @@ public class ServiceRegistryImplTest extends TestCase {
     }
 
     public void testRegistry() throws Exception {
-        assertNull(registry.getService("notregistered", classes));
+        assertNull(registry.getService("notregistered", classes, false));
 
         final ServiceRegistryReference ref = registry.addService("bean1", "module1", "some service", classLoader);
         assertEquals(1, registry.getBeanReferences("bean1").size());
@@ -58,12 +58,12 @@ public class ServiceRegistryImplTest extends TestCase {
         assertTrue(registry.getClassReferences(String.class).isEmpty());
         assertTrue(registry.hasService(ref));
 
-        ServiceRegistryReference service = registry.getService("bean1", classes);
+        ServiceRegistryReference service = registry.getService("bean1", classes, false);
         assertEquals("some service", service.getBean());
         assertEquals("module1", service.getContributingModule());
 
         registry.remove(ref);
-        assertNull(registry.getService("bean1", classes));
+        assertNull(registry.getService("bean1", classes, false));
         assertEquals(0, registry.getBeanReferences("bean1").size());
         assertEquals(0, registry.getModuleReferences("module1").size());
         assertFalse(registry.hasService(ref));
@@ -119,37 +119,37 @@ public class ServiceRegistryImplTest extends TestCase {
         factoryBean.setValue("some service");
         registry.addService("bean1", "module1", factoryBean, classLoader);
 
-        ServiceRegistryReference service = registry.getService("bean1", classes);
+        ServiceRegistryReference service = registry.getService("bean1", classes, false);
         assertEquals(factoryBean, service.getBean());
 
         //must match all classes provided
-        assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}));
-        assertNull(registry.getService("bean1", new Class<?>[]{Integer.class}));
+        assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}, false));
+        assertNull(registry.getService("bean1", new Class<?>[]{Integer.class}, false));
         
         //factory bean gets special case
-        assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}));
+        assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}, false));
     }
 
     public void testGetServices() throws Exception {
 
-        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}).isEmpty());
+        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}, false).isEmpty());
         
         final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", "some service 1", null, Collections.singletonMap("service.ranking", 100), classLoader);
-        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}).size());
-        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}).size());
+        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}, false).size());
+        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}, false).size());
 
         final ServiceRegistryReference ref2 = registry.addService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
-        List<ServiceRegistryReference> services = registry.getServices("bean1", new Class<?>[]{String.class});
+        List<ServiceRegistryReference> services = registry.getServices("bean1", new Class<?>[]{String.class}, false);
         assertEquals(2, services.size());
         assertEquals(ref2, services.get(0));
         
-        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}).size());
+        assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}, false).size());
         
         registry.remove(ref1);
-        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}).size());
+        assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}, false).size());
         
         registry.remove(ref2);
-        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}).isEmpty());
+        assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}, false).isEmpty());
     }
     
     public void testDuplicateBean() throws Exception {

@@ -237,33 +237,42 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /**
      * Returns named service, which has to implement all of implemenation types specified
      */
-    public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes) {
+    public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
         
-        List<ServiceRegistryReference> references = getServicesInternal(beanName, supportedTypes);
+        List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
         
         if (references == null) {
             return null;
         }
         
-        for (int i = 0; i < references.size(); i++) {
-            final ServiceRegistryReference ref = getMatchingReference(references, supportedTypes, i);
-            if (ref != null) {
-                return ref;
+        if (exportTypesOnly) {
+            //FIXME add implementation
+            
+        } else {
+            for (int i = 0; i < references.size(); i++) {
+                final ServiceRegistryReference ref = getMatchingReference(references, supportedTypes, i);
+                if (ref != null) {
+                    return ref;
+                }
             }
         }
         
         return null;
     }
 
-    public List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes) {
+    public List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
 
-        List<ServiceRegistryReference> references = getServicesInternal(beanName, supportedTypes);
+        List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
         List<ServiceRegistryReference> serviceList = new LinkedList<ServiceRegistryReference>();
         
-        //FIXME may only be looking only at export types here
-        for (ServiceRegistryReference serviceReference : references) {
-            if (classChecker.matchesTypes(serviceReference, supportedTypes)) {
-                serviceList.add(serviceReference);
+        if (exportTypesOnly) {
+            //FIXME add implementation
+            
+        } else {
+            for (ServiceRegistryReference serviceReference : references) {
+                if (classChecker.matchesTypes(serviceReference, supportedTypes)) {
+                    serviceList.add(serviceReference);
+                }
             }
         }
         
@@ -274,13 +283,32 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * Returns named service, which has to implement all of implementation types specified
      */
     @SuppressWarnings("unchecked")
-    private List<ServiceRegistryReference> getServicesInternal(String beanName, Class<?>[] supportedTypes) {
+    private List<ServiceRegistryReference> getServicesInternal(String beanName, Class<?>[] exportedTypes) {
         
-        Assert.notNull(beanName, "beanName cannot be null");
+        final boolean useBeanLookup;
+        if (beanName == null) {
+            Assert.notEmpty(exportedTypes, "Either bean name must be not null, or export types must be non-empty");
+            useBeanLookup = false;
+        }
+        else if (exportedTypes == null || exportedTypes.length == 0) {
+            Assert.notNull(beanName, "Either bean name must be not null, or export types must be non-empty");
+            useBeanLookup = true;
+        } else {
+            //bean lookup and export types are available - use bean lookup
+            useBeanLookup = true;
+        }
+        
         List<ServiceRegistryReference> references;
         
         synchronized (registryLock) {
-            List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+            final List<ServiceRegistryReference> list;
+            
+            if (useBeanLookup) {
+                list = beanNameToService.get(beanName);
+            } else {
+                //get list from export types
+                list = classNameToServices.get(exportedTypes[0]);
+            }
             references = (list == null ? Collections.EMPTY_LIST : new ArrayList<ServiceRegistryReference>(list));
         }
         
@@ -324,14 +352,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                     //make sure that all other types contain
                     if (types.length > 1) {
                         for (int i = 1; i < types.length; i++) {
-                            List<ServiceRegistryReference> secondaryValues = classNameToServices.get(types[i].getName());
-                            boolean found = false;
-                            
-                            if (secondaryValues != null) {
-                                if (secondaryValues.contains(serviceReference)) {
-                                    found = true;
-                                }
-                            }
+                            String name = types[i].getName();
+                            boolean found = isPresentAsExportedType(serviceReference, name);
                             
                             if (!found) {
                                 iterator.remove();
@@ -371,6 +393,19 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             return serviceReferenceSorter.sort(values, true);
         }
         
+    }
+
+    private boolean isPresentAsExportedType(ServiceRegistryReference serviceReference,
+            String name) {
+        List<ServiceRegistryReference> secondaryValues = classNameToServices.get(name);
+        boolean found = false;
+        
+        if (secondaryValues != null) {
+            if (secondaryValues.contains(serviceReference)) {
+                found = true;
+            }
+        }
+        return found;
     }
     
     /* ************ listener related methods * ************** */
