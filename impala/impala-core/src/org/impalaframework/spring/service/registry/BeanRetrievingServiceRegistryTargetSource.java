@@ -65,7 +65,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
 
     public ServiceRegistryReference getServiceRegistryReference() {
         //FIXME should we be able to retrieve using filter as well
-        return serviceRegistry.getService(beanName, interfaces);
+        return serviceRegistry.getService(beanName, interfaces, false);
     }
 
 }

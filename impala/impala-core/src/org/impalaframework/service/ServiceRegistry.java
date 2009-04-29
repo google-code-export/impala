@@ -63,9 +63,10 @@ public interface ServiceRegistry {
      * @param beanName the name under which the service was registered
      * @param supportedTypes the possible types for the service. 
      * The service must be class compatible with all of these types to be returned.
+     * @param exportTypesOnly TODO
      * @return a {@link ServiceRegistryReference} instance
      */
-    ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes);
+    ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
     
     /**
      * Retrieves services from the service registry registered under a particular bean name.
@@ -75,9 +76,10 @@ public interface ServiceRegistry {
      * @param beanName the name under which the services were registered
      * @param supportedTypes the possible types for the service. 
      * The service must be class compatible with all of these types to be returned.
+     * @param exportTypesOnly TODO
      * @return a {@link List} of {@link ServiceRegistryReference} instance
      */
-    List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes);
+    List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
     
     /**
      * Gets all services from the service registry which match the provided

@@ -79,7 +79,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
         verify(parentBeanFactory);
         verify(endPoint);
         
-        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
+        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes, false);
         assertSame(object, service.getBean());
     }
     
@@ -99,7 +99,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
         replay(factoryBean);
         assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
 
-        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes);
+        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes, false);
         assertNotNull(service.getBean());
         
         verify(beanFactory);
