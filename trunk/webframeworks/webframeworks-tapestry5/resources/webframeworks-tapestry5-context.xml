@@ -26,7 +26,7 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         <property name = "message" value = "Hello Phil"/>
     </bean>
     
-    <bean id="messageService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-        <property name = "proxyInterfaces" value = "interfaces.MessageService"/>
+    <bean id="messageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+        <property name = "proxyTypes" value = "interfaces.MessageService"/>
     </bean>
 </beans>
