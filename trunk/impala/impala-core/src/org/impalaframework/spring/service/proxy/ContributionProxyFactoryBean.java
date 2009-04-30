@@ -15,7 +15,6 @@
 package org.impalaframework.spring.service.proxy;
 
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
-import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
 
 /**
@@ -27,42 +26,12 @@ import org.springframework.beans.factory.BeanNameAware;
  * 
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
+ * @deprecated use {@link NamedServiceProxyFactoryBean} instead
  */
-public class ContributionProxyFactoryBean extends BaseContributionProxyFactoryBean implements BeanNameAware {
-
-    private static final long serialVersionUID = 1L;
-
-    private Class<?>[] proxyInterfaces;
-    
-    private String beanName;
-    
-    private String exportedBeanName;
-
-    /* *************** BeanNameAware implementation method ************** */
-
-    public void setBeanName(String name) {
-        this.beanName = name;
-    }
-
-    /* *************** Abstract superclass method implementation ************** */
-
-    protected ProxyFactory createProxyFactory() {
-        String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
-        
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyInterfaces, registryBeanName, false);
-        
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
-        return createDynamicProxyFactory;
-    }
-
-    /* *************** dependency injection setters ************** */
+public class ContributionProxyFactoryBean extends NamedServiceProxyFactoryBean implements BeanNameAware {
 
     public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-        this.proxyInterfaces = proxyInterfaces;
-    }
-
-    public void setExportedBeanName(String exportedBeanName) {
-        this.exportedBeanName = exportedBeanName;
+        super.setProxyTypes(proxyInterfaces);
     }
     
 }

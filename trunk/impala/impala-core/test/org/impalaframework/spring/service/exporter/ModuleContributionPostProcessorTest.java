@@ -25,7 +25,7 @@ import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
-import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
+import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.ClassUtils;
@@ -49,7 +49,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
         p = new ModuleContributionPostProcessor();
         beanFactory = createMock(DefaultListableBeanFactory.class);
         parentBeanFactory = createMock(DefaultListableBeanFactory.class);
-        endPoint = createMock(ContributionProxyFactoryBean.class);
+        endPoint = createMock(NamedServiceProxyFactoryBean.class);
         factoryBean = createMock(FactoryBean.class);
         serviceRegistry = new ServiceRegistryImpl();
         p.setBeanFactory(beanFactory);

@@ -21,7 +21,7 @@ import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.ContributionEndpoint;
-import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
+import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
@@ -58,8 +58,8 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
             String contributionClassNames = contributions.get(beanName);
             checkContributionClasses(bean, beanName, contributionClassNames);
             
-            RootBeanDefinition beanDefinition = new RootBeanDefinition(ContributionProxyFactoryBean.class);
-            beanDefinition.getPropertyValues().addPropertyValue("proxyInterfaces", contributionClassNames);
+            RootBeanDefinition beanDefinition = new RootBeanDefinition(NamedServiceProxyFactoryBean.class);
+            beanDefinition.getPropertyValues().addPropertyValue("proxyTypes", contributionClassNames);
             
             BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
 

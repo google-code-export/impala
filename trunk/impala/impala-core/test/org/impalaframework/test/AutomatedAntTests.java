@@ -149,7 +149,7 @@ import org.impalaframework.spring.service.exporter.ModuleContributionUtilsTest;
 import org.impalaframework.spring.service.exporter.ParentWithChildContextTest;
 import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporterTest;
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporterTest;
-import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBeanTest;
+import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreatorTest;
 import org.impalaframework.spring.service.registry.FilteredServiceRegistryTargetSourceTest;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
@@ -201,7 +201,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ConstantValuePlaceholderConfigurerTest.class);
         suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
         suite.addTestSuite(ContributionEndpointInterceptorTest.class);
-        suite.addTestSuite(ContributionProxyFactoryBeanTest.class);
+        suite.addTestSuite(NamedServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(ContributionMapTest.class);
         suite.addTestSuite(DateValueTest.class);
         suite.addTestSuite(DefaultClassFilterTest.class);
