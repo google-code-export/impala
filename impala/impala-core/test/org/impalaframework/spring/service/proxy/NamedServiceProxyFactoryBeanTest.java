@@ -20,16 +20,15 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
-import org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean;
 import org.springframework.util.ClassUtils;
 
 /**
  * Unit org.impalaframework.testrun for <code>ContributionProxyFactoryBean</code>
  * @author Phil Zoio
  */
-public class ContributionProxyFactoryBeanTest extends TestCase {
+public class NamedServiceProxyFactoryBeanTest extends TestCase {
 
-    private ContributionProxyFactoryBean bean;
+    private NamedServiceProxyFactoryBean bean;
     private ServiceRegistryImpl serviceRegistry;
     private ClassLoader classLoader;
     private DefaultServiceProxyFactoryCreator proxyFactoryCreator;
@@ -37,7 +36,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        bean = new ContributionProxyFactoryBean();
+        bean = new NamedServiceProxyFactoryBean();
         serviceRegistry = new ServiceRegistryImpl();
         
         proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
@@ -47,7 +46,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
     }
     
     public void testWithBeanName() throws Exception {
-        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
         bean.afterPropertiesSet();
 
@@ -66,7 +65,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
     }   
     
     public void testWithExportName() throws Exception {
-        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
         bean.setExportedBeanName("exportBean");
         bean.afterPropertiesSet();
@@ -86,7 +85,7 @@ public class ContributionProxyFactoryBeanTest extends TestCase {
     }
     
     public void testAllowNoService() throws Exception {
-        bean.setProxyInterfaces(new Class[] { Child.class });
+        bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
         proxyFactoryCreator.setAllowNoService(true);
         bean.setProxyFactoryCreator(proxyFactoryCreator);
