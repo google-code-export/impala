@@ -244,28 +244,30 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      */
     public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
         
-        List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
+        final List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
         
-        if (references == null) {
+        if (references == null || references.isEmpty()) {
             return null;
         }
         
+        //more than one result returned
         if (exportTypesOnly) {
             
-            for (Iterator<ServiceRegistryReference> iterator = references.iterator(); iterator.hasNext();) {
+            //only one supported type - we've done all the type checking we need to do
+            if (supportedTypes.length <  2) {
+                return references.get(0);
+            }
+            
+            for (ServiceRegistryReference serviceReference : references) {
                 
-                ServiceRegistryReference serviceReference = iterator.next();
-                
-                //make sure that all other types contain
-                if (supportedTypes.length > 1) {
-                    for (int i = 1; i < supportedTypes.length; i++) {
-                        String name = supportedTypes[i].getName();
-                        boolean found = isPresentAsExportedType(serviceReference, name);
-                        
-                        if (!found) {
-                            serviceReference = null;
-                            break;
-                        }
+                //find first entry which is present against all exported types
+                for (int i = 1; i < supportedTypes.length; i++) {
+                    String name = supportedTypes[i].getName();
+                    boolean found = isPresentAsExportedType(serviceReference, name);
+                    
+                    if (!found) {
+                        serviceReference = null;
+                        break;
                     }
                 }
                 
