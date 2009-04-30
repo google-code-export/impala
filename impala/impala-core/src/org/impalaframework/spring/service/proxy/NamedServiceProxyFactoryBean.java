@@ -19,11 +19,13 @@ import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
 
 /**
- * The <code>ContributionProxyFactoryBean</code> works under the assumption that the service was exported against a named key.
+ * The <code>NamedServiceProxyFactoryBean</code> works under the assumption that the service was exported against a named key.
  * By default, the key is assumed to be the same name as the {@link NamedServiceProxyFactoryBean}'s bean name.
  * However, this can be overridden.
  * 
  * The service is retrieved using dynamic lookup following each invocation on the proxy.
+ * 
+ * Note that {@link NamedServiceProxyFactoryBean} replaces {@link ContributionProxyFactoryBean}
  * 
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
