@@ -15,7 +15,6 @@ import org.impalaframework.web.WebConstants;
  * the License.
  */
 
-
 public class StartServer {
     public static void main(String[] args) {
         System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
