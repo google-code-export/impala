@@ -61,22 +61,26 @@ public interface ServiceRegistry {
     /**
      * Retrieves a service from the service registry
      * @param beanName the name under which the service was registered
-     * @param supportedTypes the possible types for the service. 
-     * The service must be class compatible with all of these types to be returned.
-     * @param exportTypesOnly TODO
+     * @param supportedTypes the possible types for the service. The service
+     * must be class compatible with all of these types to be returned.
+     * @param exportTypesOnly if true, then the services returned must all be
+     * explicitly registered using the types. Otherwise, it is sufficient that
+     * each service must be type compatible with the supplied types
      * @return a {@link ServiceRegistryReference} instance
      */
     ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
     
     /**
-     * Retrieves services from the service registry registered under a particular bean name.
-     * Typically, only a single bean will be registered in the service registry under a 
-     * given bean name. However, it is possible for more than one bean to be registered under
-     * a single key name.
+     * Retrieves services from the service registry registered under a
+     * particular bean name. Typically, only a single bean will be registered in
+     * the service registry under a given bean name. However, it is possible for
+     * more than one bean to be registered under a single key name.
      * @param beanName the name under which the services were registered
-     * @param supportedTypes the possible types for the service. 
-     * The service must be class compatible with all of these types to be returned.
-     * @param exportTypesOnly TODO
+     * @param supportedTypes the possible types for the service. The service
+     * must be class compatible with all of these types to be returned.
+     * @param exportTypesOnly if true, then the services returned must all be
+     * explicitly registered using the types. Otherwise, it is sufficient that
+     * each service must be type compatible with the supplied types
      * @return a {@link List} of {@link ServiceRegistryReference} instance
      */
     List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
