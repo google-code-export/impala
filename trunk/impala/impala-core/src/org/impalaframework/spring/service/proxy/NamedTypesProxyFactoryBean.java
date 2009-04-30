@@ -34,9 +34,9 @@ public class NamedTypesProxyFactoryBean extends BaseContributionProxyFactoryBean
 
     protected ProxyFactory createProxyFactory() {
         
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), exportTypes, null, true);
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), exportTypes, getBeanName(), true);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, null);
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
 

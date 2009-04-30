@@ -22,7 +22,6 @@ import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BaseServiceRegistryTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.DisposableBean;
 
 /**
@@ -31,25 +30,17 @@ import org.springframework.beans.factory.DisposableBean;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean implements BeanNameAware, DisposableBean {
+public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean implements DisposableBean {
 
     private static final long serialVersionUID = 1L;
 
     private Class<?>[] proxyTypes;
-
-    private String beanName;
     
     //FIXME need to allow providing of exportTypes as well
 
     private String filterExpression;
 
     private ServiceRegistryList list;
-
-    /* *************** BeanNameAware implementation method ************** */
-
-    public void setBeanName(String name) {
-        this.beanName = name;
-    }
 
     /* *************** Abstract superclass method implementation ************** */
 
@@ -61,7 +52,7 @@ public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean im
         list.init();
         ListBackedProxySource source = new ListBackedProxySource(list, proxyTypes);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
     

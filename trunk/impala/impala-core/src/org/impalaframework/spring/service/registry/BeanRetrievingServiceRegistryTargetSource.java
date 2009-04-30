@@ -64,7 +64,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     }
 
     public ServiceRegistryReference getServiceRegistryReference() {
-        return serviceRegistry.getService(beanName, interfaces, exportedTypesOnly);
+        return serviceRegistry.getService(exportedTypesOnly ? null : beanName, interfaces, exportedTypesOnly);
     }
 
 }

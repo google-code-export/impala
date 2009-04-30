@@ -16,7 +16,6 @@ package org.impalaframework.spring.service.proxy;
 
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.aop.framework.ProxyFactory;
-import org.springframework.beans.factory.BeanNameAware;
 
 /**
  * The <code>NamedServiceProxyFactoryBean</code> works under the assumption that the service was exported against a named key.
@@ -30,30 +29,22 @@ import org.springframework.beans.factory.BeanNameAware;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public class NamedServiceProxyFactoryBean extends BaseContributionProxyFactoryBean implements BeanNameAware {
+public class NamedServiceProxyFactoryBean extends BaseContributionProxyFactoryBean {
 
     private static final long serialVersionUID = 1L;
 
     private Class<?>[] proxyTypes;
     
-    private String beanName;
-    
     private String exportedBeanName;
-
-    /* *************** BeanNameAware implementation method ************** */
-
-    public void setBeanName(String name) {
-        this.beanName = name;
-    }
 
     /* *************** Abstract superclass method implementation ************** */
 
     protected ProxyFactory createProxyFactory() {
-        String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
+        String registryBeanName = (exportedBeanName != null ? exportedBeanName : getBeanName());
         
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, registryBeanName, false);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
 

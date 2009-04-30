@@ -40,6 +40,7 @@ public class NamedTypesProxyFactoryBeanTest extends TestCase {
         
         classLoader = ClassUtils.getDefaultClassLoader();
         exportTypes = new Class<?>[] { Child.class };
+        bean.setBeanName("mybean");
     }
     
     public void testWithBeanName() throws Exception {
