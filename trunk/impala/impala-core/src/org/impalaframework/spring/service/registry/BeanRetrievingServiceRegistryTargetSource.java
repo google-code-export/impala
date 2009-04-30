@@ -34,7 +34,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     private final Class<?>[] interfaces;
     private final Class<?> concreteClass;
 
-    public BeanRetrievingServiceRegistryTargetSource(String beanName, Class<?>[] interfaces, ServiceRegistry serviceRegistry) {
+    public BeanRetrievingServiceRegistryTargetSource(ServiceRegistry serviceRegistry, String beanName, Class<?>[] interfaces, boolean exportedTypesOnly) {
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;

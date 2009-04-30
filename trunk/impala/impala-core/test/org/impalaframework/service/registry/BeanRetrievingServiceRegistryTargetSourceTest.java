@@ -13,7 +13,7 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
 
     public void testGetTarget() {
         serviceRegistry = new ServiceRegistryImpl();
-        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource("mybean", new Class[]{ Object.class }, serviceRegistry);
+        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, "mybean", new Class[]{ Object.class }, false);
         
         assertNull(targetSource.getServiceRegistryReference());
         

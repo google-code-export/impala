@@ -33,7 +33,7 @@ public class ContributionProxyFactoryBean extends BaseContributionProxyFactoryBe
     private static final long serialVersionUID = 1L;
 
     private Class<?>[] proxyInterfaces;
-
+    
     private String beanName;
     
     private String exportedBeanName;
@@ -49,7 +49,7 @@ public class ContributionProxyFactoryBean extends BaseContributionProxyFactoryBe
     protected ProxyFactory createProxyFactory() {
         String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
         
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(proxyInterfaces, super.getServiceRegistry(), registryBeanName);
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyInterfaces, registryBeanName, false);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
         return createDynamicProxyFactory;
