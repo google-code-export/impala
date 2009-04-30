@@ -34,7 +34,7 @@ public class NamedServiceProxyFactoryBean extends BaseContributionProxyFactoryBe
 
     private static final long serialVersionUID = 1L;
 
-    private Class<?>[] proxyInterfaces;
+    private Class<?>[] proxyTypes;
     
     private String beanName;
     
@@ -51,7 +51,7 @@ public class NamedServiceProxyFactoryBean extends BaseContributionProxyFactoryBe
     protected ProxyFactory createProxyFactory() {
         String registryBeanName = (exportedBeanName != null ? exportedBeanName : beanName);
         
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyInterfaces, registryBeanName, false);
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, registryBeanName, false);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, beanName);
         return createDynamicProxyFactory;
@@ -59,8 +59,8 @@ public class NamedServiceProxyFactoryBean extends BaseContributionProxyFactoryBe
 
     /* *************** dependency injection setters ************** */
 
-    public void setProxyTypes(Class<?>[] proxyInterfaces) {
-        this.proxyInterfaces = proxyInterfaces;
+    public void setProxyTypes(Class<?>[] proxyTypes) {
+        this.proxyTypes = proxyTypes;
     }
 
     public void setExportedBeanName(String exportedBeanName) {
