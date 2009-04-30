@@ -15,6 +15,7 @@
 package org.impalaframework.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 
@@ -27,6 +28,10 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
+import javax.xml.validation.Validator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -34,12 +39,15 @@ import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.xml.SimpleSaxErrorHandler;
 import org.springframework.beans.factory.xml.DefaultDocumentLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 public class XMLDomUtils {
 
@@ -105,6 +113,51 @@ public class XMLDomUtils {
             }
         }
         return document;
+    }
+
+    /**
+     * Validates document of given description using w3c.org schema validation
+     * @param document the DOM document instance
+     * @param description a description of the document, typically name or path
+     * @param xsdLocation the location of the schema on the classpath
+     * @param xsdClassLoader the class loader to use to locate the document
+     */
+    public static void validateDocument(Document document, String description,
+            String xsdLocation, ClassLoader xsdClassLoader) {
+        
+        ClassPathResource xsdResource = new ClassPathResource(xsdLocation, xsdClassLoader);
+        validateDocument(document, description, xsdResource);
+    }
+
+    /**
+     * Validates document of given description using w3c.org schema validation
+     * @param document the DOM document instance
+     * @param description a description of the document, typically name or path
+     * @param xsdResource the schema resource used for validation
+     */
+    public static void validateDocument(Document document,
+            String description, Resource xsdResource) {
+        SchemaFactory factory = 
+            SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+    
+        Schema schema;
+        try {
+            InputStream inputStream = xsdResource.getInputStream();
+            Source source = new StreamSource(inputStream);
+    
+            schema = factory.newSchema(source);
+            Validator validator = schema.newValidator();
+            validator.validate(new DOMSource(document));
+        }
+        catch (SAXParseException e) {
+            throw new ExecutionException("Error on " + e.getLineNumber() + ", column " + e.getColumnNumber() + " in " + description + ": " + e.getMessage(), e);
+        }
+        catch (SAXException e) {
+            throw new ExecutionException("Error parsing " + description + ": " + e.getMessage(), e);
+        }
+        catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
     
 }

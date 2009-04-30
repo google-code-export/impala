@@ -167,6 +167,7 @@ import org.impalaframework.util.ResourceUtilsTest;
 import org.impalaframework.util.SerializationUtilsTest;
 import org.impalaframework.util.StringBufferUtilsTest;
 import org.impalaframework.util.URLUtilsTest;
+import org.impalaframework.util.XMLDomUtilsTest;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactoryTest;
 
 public class AutomatedAntTests {
@@ -324,6 +325,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(URLClassRetrieverTest.class);
         suite.addTestSuite(URLUtilsTest.class);     
         suite.addTestSuite(VertexTestCase.class);
+        suite.addTestSuite(XMLDomUtilsTest.class);
         suite.addTestSuite(XMLModuleDefinitionDocumentLoaderTest.class);
         suite.addTestSuite(XMLModuleDefinitionSourceTest.class);
         
