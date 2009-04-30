@@ -34,7 +34,7 @@ import org.springframework.util.ClassUtils;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public abstract class BaseContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
+public abstract class BaseServiceProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
 
     private static final long serialVersionUID = 1L;
     

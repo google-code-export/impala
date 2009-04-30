@@ -24,7 +24,7 @@ import org.springframework.aop.framework.ProxyFactory;
  * @see NamedServiceProxyFactoryBean
  * @author Phil Zoio
  */
-public class NamedTypesProxyFactoryBean extends BaseContributionProxyFactoryBean {
+public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
 
     private static final long serialVersionUID = 1L;
 

@@ -151,7 +151,7 @@ import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporterT
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporterTest;
 import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreatorTest;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBeanTest;
-import org.impalaframework.spring.service.proxy.NamedTypesProxyFactoryBeanTest;
+import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.registry.FilteredServiceRegistryTargetSourceTest;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
@@ -203,7 +203,6 @@ public class AutomatedAntTests {
         suite.addTestSuite(ConstructedModuleDefinitionSourceTest.class);
         suite.addTestSuite(ContributionEndpointInterceptorTest.class);
         suite.addTestSuite(NamedServiceProxyFactoryBeanTest.class);
-        suite.addTestSuite(NamedTypesProxyFactoryBeanTest.class);
         suite.addTestSuite(ContributionMapTest.class);
         suite.addTestSuite(DateValueTest.class);
         suite.addTestSuite(DefaultClassFilterTest.class);
@@ -322,6 +321,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
         suite.addTestSuite(TransitionProcessorRegistryTest.class);
         suite.addTestSuite(TypeHelperTest.class);
+        suite.addTestSuite(TypedServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(TypeReaderRegistryTest.class);
         suite.addTestSuite(UpdateRootModuleOperationTest.class);
         suite.addTestSuite(URLClassRetrieverTest.class);

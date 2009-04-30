@@ -30,7 +30,7 @@ import org.springframework.beans.factory.DisposableBean;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public class ServiceProxyFactoryBean extends BaseContributionProxyFactoryBean implements DisposableBean {
+public class ServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements DisposableBean {
 
     private static final long serialVersionUID = 1L;
 
