@@ -33,14 +33,14 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] interfaces;
     private final Class<?> concreteClass;
+    private final boolean exportedTypesOnly;
 
     public BeanRetrievingServiceRegistryTargetSource(ServiceRegistry serviceRegistry, String beanName, Class<?>[] interfaces, boolean exportedTypesOnly) {
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;
         this.interfaces = interfaces;
-        
-        //FIXME add implementation based on retrieval using registry listener
+        this.exportedTypesOnly = exportedTypesOnly;
         
         //if we have just a single interface and this is a concrete class, then we can use this 
         //as the return value for getTargetClass
@@ -64,8 +64,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     }
 
     public ServiceRegistryReference getServiceRegistryReference() {
-        //FIXME should we be able to retrieve using filter as well
-        return serviceRegistry.getService(beanName, interfaces, false);
+        return serviceRegistry.getService(beanName, interfaces, exportedTypesOnly);
     }
 
 }
