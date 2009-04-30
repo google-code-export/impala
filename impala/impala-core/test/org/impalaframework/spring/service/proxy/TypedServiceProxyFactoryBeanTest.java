@@ -24,9 +24,9 @@ import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class NamedTypesProxyFactoryBeanTest extends TestCase {
+public class TypedServiceProxyFactoryBeanTest extends TestCase {
 
-    private NamedTypesProxyFactoryBean bean;
+    private TypedServiceProxyFactoryBean bean;
     private ServiceRegistryImpl serviceRegistry;
     private ClassLoader classLoader;
     private Class<?>[] exportTypes;
@@ -34,7 +34,7 @@ public class NamedTypesProxyFactoryBeanTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        bean = new NamedTypesProxyFactoryBean();
+        bean = new TypedServiceProxyFactoryBean();
         serviceRegistry = new ServiceRegistryImpl();
         bean.setServiceRegistry(serviceRegistry);
         
