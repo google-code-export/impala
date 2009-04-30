@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import junit.framework.TestCase;
+import java.util.Arrays;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
@@ -22,52 +22,28 @@ import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
 import org.springframework.util.ClassUtils;
 
-/**
- * Test for {@link NamedServiceProxyFactoryBean}
- * @author Phil Zoio
- */
-public class NamedServiceProxyFactoryBeanTest extends TestCase {
+import junit.framework.TestCase;
 
-    private NamedServiceProxyFactoryBean bean;
+public class NamedTypesProxyFactoryBeanTest extends TestCase {
+
+    private NamedTypesProxyFactoryBean bean;
     private ServiceRegistryImpl serviceRegistry;
     private ClassLoader classLoader;
-    private DefaultServiceProxyFactoryCreator proxyFactoryCreator;
+    private Class<?>[] exportTypes;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        bean = new NamedServiceProxyFactoryBean();
+        bean = new NamedTypesProxyFactoryBean();
         serviceRegistry = new ServiceRegistryImpl();
-        
-        proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
         bean.setServiceRegistry(serviceRegistry);
         
         classLoader = ClassUtils.getDefaultClassLoader();
+        exportTypes = new Class<?>[] { Child.class };
     }
     
     public void testWithBeanName() throws Exception {
-        bean.setProxyTypes(new Class[] { Child.class });
-        bean.setBeanName("someBean");
-        bean.afterPropertiesSet();
-
-        Child child = (Child) bean.getObject();
-
-        try {
-            child.childMethod();
-            fail();
-        }
-        catch (NoServiceException e) {
-        }
-
-        Child newChild = newChild();
-        serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
-        child.childMethod();
-    }   
-    
-    public void testWithExportName() throws Exception {
-        bean.setProxyTypes(new Class[] { Child.class });
-        bean.setBeanName("someBean");
-        bean.setExportedBeanName("exportBean");
+        bean.setExportTypes(exportTypes);
         bean.afterPropertiesSet();
 
         Child child = (Child) bean.getObject();
@@ -81,22 +57,10 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         }
 
         Child newChild = newChild();
-        serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
+        serviceRegistry.addService(null, "pluginName", newChild, Arrays.asList(exportTypes) , null, classLoader);
         child.childMethod();
-    }
+    }  
     
-    public void testAllowNoService() throws Exception {
-        bean.setProxyTypes(new Class[] { Child.class });
-        bean.setBeanName("someBean");
-        proxyFactoryCreator.setAllowNoService(true);
-        bean.setProxyFactoryCreator(proxyFactoryCreator);
-        
-        bean.afterPropertiesSet();
-
-        Child child = (Child) bean.getObject();
-        child.childMethod();
-    }
-
     private Child newChild() {
         return new Child() {
             public void childMethod() {
@@ -107,5 +71,5 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
             }
         };
     }
-
+    
 }
