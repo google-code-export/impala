@@ -20,6 +20,7 @@ import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.ClassUtils;
@@ -33,7 +34,7 @@ import org.springframework.util.ClassUtils;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public abstract class BaseContributionProxyFactoryBean implements FactoryBean, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
+public abstract class BaseContributionProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
 
     private static final long serialVersionUID = 1L;
     
@@ -44,6 +45,8 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
     private ClassLoader beanClassLoader;
     
     private ServiceRegistry serviceRegistry;
+
+    private String beanName;
 
     /* *************** InitializingBean implementation method ************** */
 
@@ -56,6 +59,12 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
         this.proxyFactory = createProxyFactory();
     }
 
+    /* *************** BeanNameAware implementation method ************** */
+
+    public void setBeanName(String name) {
+        this.beanName = name;
+    }
+
     /* *************** Protected methods ************** */
     
     protected abstract ProxyFactory createProxyFactory();
@@ -66,6 +75,10 @@ public abstract class BaseContributionProxyFactoryBean implements FactoryBean, I
     
     protected ServiceRegistry getServiceRegistry() {
         return serviceRegistry;
+    }
+    
+    protected String getBeanName() {
+        return beanName;
     }
     
     /* *************** FactoryBean implementation methods ************** */
