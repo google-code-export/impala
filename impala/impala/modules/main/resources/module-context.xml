@@ -6,8 +6,8 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 	
- <bean id="messageService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "@project.package.name@.@main.project.name@.MessageService"/>
+ <bean id="messageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+	 <property name = "proxyTypes" value = "@project.package.name@.@main.project.name@.MessageService"/>
  </bean>
 	
 </beans>

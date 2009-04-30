@@ -5,14 +5,14 @@
     <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
     
     <bean id="child"
-        class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-        <property name="proxyInterfaces" value="org.impalaframework.spring.module.impl.Child"/>
+        class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+        <property name="proxyTypes" value="org.impalaframework.spring.module.impl.Child"/>
         <property name="serviceRegistry" ref="serviceRegistry"/>
     </bean>
     
     <bean id="another"
-        class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-        <property name="proxyInterfaces" value="org.impalaframework.spring.module.impl.Child"/>
+        class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+        <property name="proxyTypes" value="org.impalaframework.spring.module.impl.Child"/>
         <property name="serviceRegistry" ref="serviceRegistry"/>
     </bean>
     

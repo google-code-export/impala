@@ -8,20 +8,20 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
   
  <!-- Database and Hibernate -->
     
- <bean id="dataSource" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
+ <bean id="dataSource" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "javax.sql.DataSource"/>
  </bean>
     
- <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "org.hibernate.SessionFactory"/>
+ <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "org.hibernate.SessionFactory"/>
  </bean>
     
- <bean id="transactionManager" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "org.springframework.transaction.PlatformTransactionManager"/>
+ <bean id="transactionManager" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "org.springframework.transaction.PlatformTransactionManager"/>
  </bean>
     
- <bean id="clinic" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "org.springframework.samples.petclinic.Clinic"/>
+ <bean id="clinic" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "org.springframework.samples.petclinic.Clinic"/>
  </bean>        
     
 </beans>

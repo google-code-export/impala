@@ -6,25 +6,25 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
     
- <bean id="entryDAO" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "interfaces.EntryDAO"/>
+ <bean id="entryDAO" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "interfaces.EntryDAO"/>
  </bean>
     
- <bean id="entryService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "interfaces.EntryService"/>
+ <bean id="entryService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "interfaces.EntryService"/>
  </bean>
     
  <!-- an example of proxying a class -->
- <bean id="concreteService" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "classes.ConcreteService"/>
+ <bean id="concreteService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "classes.ConcreteService"/>
  </bean>    
     
- <bean id="dataSource" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "javax.sql.DataSource"/>
+ <bean id="dataSource" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "javax.sql.DataSource"/>
  </bean>
     
- <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-     <property name = "proxyInterfaces" value = "org.hibernate.SessionFactory"/>
+ <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+     <property name = "proxyTypes" value = "org.hibernate.SessionFactory"/>
  </bean>
     
  <!-- Transaction manager for a single Hibernate SessionFactory -->
