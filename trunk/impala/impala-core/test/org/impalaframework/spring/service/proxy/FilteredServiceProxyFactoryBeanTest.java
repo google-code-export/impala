@@ -79,8 +79,12 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
         assertNotNull(object);
         
         assertTrue(object instanceof ArrayList);
+        
+        //check that this is actually a proxy, not the class itself
         assertFalse(object.getClass().getName().equals(ArrayList.class.getName()));
         List<String> list = (List<String>) object;
+        
+        //check that we can use the proxy
         list.add("some string");
     }
 
