@@ -23,6 +23,7 @@ import org.impalaframework.service.contribution.BaseServiceRegistryList;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BaseServiceRegistryTargetSource;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
@@ -70,8 +71,8 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
 
     Class<?>[] getProxyTypesToUse() {
         final Class<?>[] proxyTypesToUse;
-        if (proxyTypes == null || proxyTypes.length == 0) {
-            Assert.isTrue(exportTypes != null && exportTypes.length > 0, "exportTypes and proxyTypes cannot both be empty");
+        if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
+            Assert.isTrue(!ArrayUtils.isNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be empty");
             proxyTypesToUse = exportTypes;
         } else {
             proxyTypesToUse = proxyTypes;

@@ -69,7 +69,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         Assert.notNull(name);
 
         //use the default context locations if none supplied
-        if (configLocations == null || configLocations.length == 0) {
+        if (ArrayUtils.isNullOrEmpty(configLocations)) {
             configLocations = new String[0];
         }
         

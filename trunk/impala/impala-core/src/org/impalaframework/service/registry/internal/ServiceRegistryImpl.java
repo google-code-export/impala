@@ -39,6 +39,7 @@ import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
 
@@ -318,7 +319,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         final boolean useBeanLookup;
         final boolean exportTypesSet;
         
-        if (exportedTypes == null || exportedTypes.length == 0) {
+        if (ArrayUtils.isNullOrEmpty(exportedTypes)) {
             Assert.notNull(beanName, "Either bean name must be not null, or export types must be non-empty");
             useBeanLookup = true;
             exportTypesSet = false;

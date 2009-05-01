@@ -20,6 +20,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.aop.framework.ProxyFactory;
 
@@ -78,7 +79,7 @@ public class ProxyHelper {
     
     private static List<Class<?>> filterInterfaces(final List<Class<?>> interfaces, final Class<?>[] proxyInterfaces) {
         final List<Class<?>> filteredInterfaces = new ArrayList<Class<?>>();
-        if (proxyInterfaces != null && proxyInterfaces.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(proxyInterfaces)) {
             
             //only proxy if we have a match
             for (int i = 0; i < proxyInterfaces.length; i++) {

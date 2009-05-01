@@ -20,6 +20,7 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.TargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.Assert;
@@ -51,7 +52,7 @@ public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySo
         ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
         
         ProxyFactory proxyFactory = new ProxyFactory();
-        if (proxyTypes != null && proxyTypes.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(proxyTypes)) {
             ProxyFactorySourceUtils.addInterfaces(proxyFactory, proxyTypes);
         } else {
             boolean isFinal = Modifier.isFinal(reference.getBean().getClass().getModifiers());

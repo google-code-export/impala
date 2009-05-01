@@ -122,10 +122,6 @@ public abstract class BaseServiceRegistryTarget implements
     protected ServiceReferenceFilter getFilter() {
         return filter;
     }
-
-    protected boolean hasExportTypes() {
-        return exportTypes != null && exportTypes.length > 0;
-    }
     
     /* ******************* Injected setters ******************** */
     
