@@ -15,6 +15,7 @@
 package org.impalaframework.util;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import junit.framework.TestCase;
 
@@ -26,6 +27,12 @@ public class ArrayUtilsTest extends TestCase {
         list.add("a");
         list.add("b");
         assertEquals(list, ArrayUtils.toList(new String[]{"a", "b"}));
+    }
+    
+    public void testTrim() throws Exception {
+        String input = "a , b , c,d";
+        String[] result = ArrayUtils.trim(input.split(","));
+        assertTrue(Arrays.equals("a,b,c,d".split(","), result));
     }
 
 }
