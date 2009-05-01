@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -29,6 +30,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryListTest extends TestCase {
@@ -36,21 +38,29 @@ public class ServiceRegistryListTest extends TestCase {
     private ServiceRegistryList list;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] supportedTypes;
+    private LdapServiceReferenceFilter filter;
+    private ClassLoader classLoader;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         list = new ServiceRegistryList();
-        serviceRegistry = createMock(ServiceRegistry.class);
+        
+        serviceRegistry = new ServiceRegistryImpl();
         list.setServiceRegistry(serviceRegistry);
         supportedTypes = new Class[]{ List.class };
         list.setProxyTypes(supportedTypes);
+        
+        filter = new LdapServiceReferenceFilter("(name=*)");
+        list.setFilter(filter);
+        
+        classLoader = ClassUtils.getDefaultClassLoader();
     }
     
     public void testWithList() throws Exception {
-        LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
-        list.setFilter(filter);
-        
+
+        serviceRegistry = createMock(ServiceRegistry.class);
+        list.setServiceRegistry(serviceRegistry);
         List<String> service = new ArrayList<String>();
         ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
@@ -69,6 +79,42 @@ public class ServiceRegistryListTest extends TestCase {
         
         list.remove(ref);
         assertTrue(list.isEmpty());
+    }
+    
+    public void testWithNoExportTypes() throws Exception {
+        List<String> service = new ArrayList<String>();
+        serviceRegistry.addService("mybean", "mymodule", service, null, Collections.singletonMap("name", "value"), classLoader);
+        list.afterPropertiesSet();
+        
+        assertFalse(list.isEmpty());
+    }
+    
+    public void testWithExportTypes() throws Exception {
+        list.setExportTypes(supportedTypes);
+        
+        List<String> service = new ArrayList<String>();
+        serviceRegistry.addService("mybean", "mymodule", service, null, Collections.singletonMap("name", "value"), classLoader);
+        list.afterPropertiesSet();
+        
+        assertTrue(list.isEmpty());
+            
+        //add another service which does not specify export types
+        serviceRegistry.addService("mybean", "mymodule", service, null, Collections.singletonMap("name", "value"), classLoader);
+        assertTrue(list.isEmpty());
+
+        //add another service which does specify export types
+        serviceRegistry.addService("mybean", "mymodule", service, Arrays.asList(supportedTypes), Collections.singletonMap("name", "value"), classLoader);
+        assertFalse(list.isEmpty());   
+    }
+    
+    public void testWithExportTypesBeforeInit() throws Exception {
+        list.setExportTypes(supportedTypes);
+        
+        List<String> service = new ArrayList<String>();
+        serviceRegistry.addService("mybean", "mymodule", service, Arrays.asList(supportedTypes), Collections.singletonMap("name", "value"), classLoader);
+        list.afterPropertiesSet();
+        
+        assertFalse(list.isEmpty());
     }
     
     //FIXME add test for export type being set, with
