@@ -112,6 +112,22 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
         
         noService(list);
     }
+    
+    public void testGetProxyToUse() throws Exception {
+        
+        Class<?>[] array1 = new Class[]{List.class};
+        Class<?>[] array2 = new Class[]{ArrayList.class};
+        
+        factoryBean.setExportTypes(array1);
+        factoryBean.setProxyTypes(null);
+        assertSame(array1, factoryBean.getProxyTypesToUse());
+        
+        factoryBean.setProxyTypes(array2);
+        assertSame(array2, factoryBean.getProxyTypesToUse());
+        
+        factoryBean.setExportTypes(array1);
+        assertSame(array2, factoryBean.getProxyTypesToUse());
+    }
 
     private void noService(List<String> list) {
         try {
