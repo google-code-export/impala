@@ -199,7 +199,7 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testMultiExportTypes() throws Exception {
         
         classes = new Class[]{ ArrayList.class, List.class };
-        registry.addService(null, "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
+        ServiceRegistryReference ref = registry.addService(null, "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
         
         assertTrue(registry.getServices("bean1", new Class<?>[]{ String.class }, true).isEmpty());
         assertTrue(registry.getServices("bean1", classes, true).isEmpty());
@@ -208,6 +208,9 @@ public class ServiceRegistryImplTest extends TestCase {
         assertNull(registry.getService("bean1", new Class<?>[]{ String.class }, true));
         assertNull(registry.getService("bean1", classes, true));
         assertNotNull(registry.getService((String)null, classes, true));
+        assertFalse(registry.isPresentInExportedTypes(ref, new Class<?>[]{ String.class }));
+        assertFalse(registry.isPresentInExportedTypes(ref, new Class<?>[]{ ArrayList.class, LinkedList.class }));
+        assertTrue(registry.isPresentInExportedTypes(ref, new Class<?>[]{ List.class, ArrayList.class }));
         
         registry.addService("bean2", "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
 

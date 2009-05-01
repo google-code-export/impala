@@ -117,11 +117,6 @@ public class ServiceRegistryListTest extends TestCase {
         assertFalse(list.isEmpty());
     }
     
-    //FIXME add test for export type being set, with
-    // - no export types when registering bean 
-    // - export types before list is inited
-    // - export types after inited
-    
     static class ValueClass {
         public void sayHello() {
             System.out.println("Hello");

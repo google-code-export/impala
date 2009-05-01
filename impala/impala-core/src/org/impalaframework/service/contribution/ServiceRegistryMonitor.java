@@ -104,7 +104,20 @@ public class ServiceRegistryMonitor implements
     void handleReferenceAdded(ServiceRegistryReference serviceReference) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
         
-        if (matchesTypes(serviceActivityNotifiable, serviceReference) && filter.matches(serviceReference)) {
+        final boolean typeMatches;
+        
+        Class<?>[] exportedTypes = serviceActivityNotifiable.getExportTypes();
+        if (exportedTypes != null && exportedTypes.length > 0) {
+            
+            //do check against export types in registry
+            typeMatches = getServiceRegistry().isPresentInExportedTypes(serviceReference, exportedTypes);
+        } else {
+
+            //do check against actual implemented types
+            typeMatches = matchesTypes(serviceActivityNotifiable, serviceReference);
+        }
+        
+        if (typeMatches && filter.matches(serviceReference)) {
             serviceActivityNotifiable.add(serviceReference);
         }
     }
