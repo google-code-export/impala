@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.util.ArrayUtils;
 
 /**
  * Package internal class responsible for class checking operations
@@ -98,7 +99,7 @@ class ClassChecker {
         
         boolean matches = true;
         
-        if (implementationTypes == null || implementationTypes.length == 0) {
+        if (ArrayUtils.isNullOrEmpty(implementationTypes)) {
             return matches;
         }
         

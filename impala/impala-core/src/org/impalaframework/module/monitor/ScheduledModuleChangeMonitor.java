@@ -28,6 +28,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
+import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -76,7 +77,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
      * Wires in the {@link Resource} instances which should be monitored on behalf of individual modules
      */
     public void setResourcesToMonitor(String moduleName, Resource[] resources) {
-        if (resources != null && resources.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(resources)) {
             logger.info("Monitoring for changes in module " + moduleName + ": " + Arrays.toString(resources));
             resourcesToMonitor.put(moduleName, new ResourceInfo(System.currentTimeMillis(), resources));
         }

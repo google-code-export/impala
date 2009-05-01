@@ -20,6 +20,10 @@ import java.util.List;
 import org.springframework.util.Assert;
 
 public abstract class ArrayUtils {
+
+    public static <T extends Object> boolean isNullOrEmpty(T[] array) {
+        return (array == null || array.length == 0);
+    }
     
     public static List<String> toList(String[] array) {
         Assert.notNull(array);

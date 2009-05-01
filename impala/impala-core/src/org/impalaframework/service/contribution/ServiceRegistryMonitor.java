@@ -24,6 +24,7 @@ import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -69,7 +70,7 @@ public class ServiceRegistryMonitor implements
         final Class<?>[] supportedTypes;
         final boolean exportTypesOnly;
         
-        if (exportTypes != null && exportTypes.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(exportTypes)) {
             supportedTypes = exportTypes;
             exportTypesOnly = true;
         } else {
@@ -107,7 +108,7 @@ public class ServiceRegistryMonitor implements
         final boolean typeMatches;
         
         Class<?>[] exportedTypes = serviceActivityNotifiable.getExportTypes();
-        if (exportedTypes != null && exportedTypes.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(exportedTypes)) {
             
             //do check against export types in registry
             typeMatches = getServiceRegistry().isPresentInExportedTypes(serviceReference, exportedTypes);
@@ -125,15 +126,15 @@ public class ServiceRegistryMonitor implements
     private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
         boolean matchable = true;
         
-        Class<?>[] implementationTypes = serviceActivityNotifiable.getProxyTypes();
+        Class<?>[] proxyTypes = serviceActivityNotifiable.getProxyTypes();
         
         //check export types
-        if (implementationTypes != null && implementationTypes.length > 0) {
+        if (!ArrayUtils.isNullOrEmpty(proxyTypes)) {
 
             Class<? extends Object> beanClass = serviceReference.getBean().getClass();
-            for (int i = 0; i < implementationTypes.length; i++) {
+            for (int i = 0; i < proxyTypes.length; i++) {
                 
-                if (!implementationTypes[i].isAssignableFrom(beanClass)) {
+                if (!proxyTypes[i].isAssignableFrom(beanClass)) {
                     matchable = false;
                     break;
                 }
