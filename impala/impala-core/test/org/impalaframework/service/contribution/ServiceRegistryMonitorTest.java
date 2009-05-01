@@ -18,6 +18,7 @@ import static org.easymock.EasyMock.*;
 
 import java.util.Collections;
 
+import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.util.ClassUtils;
@@ -28,6 +29,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 
     private ServiceActivityNotifiable serviceActivityNotifiable;
     private ServiceRegistryMonitor monitor;
+    private ServiceRegistry serviceRegistry;
     
     @Override
     protected void setUp() throws Exception {
@@ -35,6 +37,8 @@ public class ServiceRegistryMonitorTest extends TestCase {
         monitor = new ServiceRegistryMonitor();
         serviceActivityNotifiable = createMock(ServiceActivityNotifiable.class);
         monitor.setServiceActivityNotifiable(serviceActivityNotifiable);
+        serviceRegistry = createMock(ServiceRegistry.class);
+        monitor.setServiceRegistry(serviceRegistry);
     }
 
     public void testHandleServiceNoTypes() {
@@ -43,6 +47,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(null);
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(null);
         
         expect(serviceActivityNotifiable.add(ref)).andReturn(true);
         
@@ -57,6 +62,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(new Class<?>[] {String.class});
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(null);
         
         expect(serviceActivityNotifiable.add(ref)).andReturn(true);
         
@@ -71,11 +77,47 @@ public class ServiceRegistryMonitorTest extends TestCase {
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(new Class<?>[] {Integer.class});
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(null);
         //no call to add
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);
         verify(serviceActivityNotifiable);
+    }
+    
+    public void testWithExportedTypesNotMatches() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        Class<?>[] exportedTypes = new Class<?>[] {Integer.class};
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportedTypes);
+        expect(serviceRegistry.isPresentInExportedTypes(ref, exportedTypes)).andReturn(false);
+        //no call to add
+        
+        replay(serviceActivityNotifiable);
+        replay(serviceRegistry);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+        verify(serviceRegistry);
+    }
+    
+    public void testWithExportedTypesMatches() {
+        
+        BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        Class<?>[] exportedTypes = new Class<?>[] {Integer.class};
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportedTypes);
+        expect(serviceRegistry.isPresentInExportedTypes(ref, exportedTypes)).andReturn(true);
+        
+        expect(serviceActivityNotifiable.add(ref)).andReturn(true);
+        
+        replay(serviceActivityNotifiable);
+        replay(serviceRegistry);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+        verify(serviceRegistry);
     }
 
     public void testHandleServiceNotMatches() {
@@ -84,6 +126,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(null);
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(null);
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);
