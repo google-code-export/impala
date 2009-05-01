@@ -53,11 +53,11 @@ public class XMLDomUtils {
 
     private static Log logger = LogFactory.getLog(XMLDomUtils.class);
     
-    public static String readOptionalElementText(Element definitionElement, String elementName) {
-        Element element = DomUtils.getChildElementByTagName(definitionElement, elementName);
+    public static String readOptionalElementText(Element element, String childName) {
+        Element childElement = DomUtils.getChildElementByTagName(element, childName);
         String text = null;
-        if (element != null)
-            text = DomUtils.getTextValue(element);
+        if (childElement != null)
+            text = DomUtils.getTextValue(childElement);
         return text;
     }
     

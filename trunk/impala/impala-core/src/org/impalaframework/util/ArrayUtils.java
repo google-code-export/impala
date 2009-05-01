@@ -21,8 +21,24 @@ import org.springframework.util.Assert;
 
 public abstract class ArrayUtils {
 
+    /**
+     * Returns true if source array is null or empty
+     */
     public static <T extends Object> boolean isNullOrEmpty(T[] array) {
         return (array == null || array.length == 0);
+    }
+    
+    /**
+     * Trims individual elements in source array
+     */
+    public static String[] trim(String[] array) {
+        if (array == null) {
+            return null;
+        }
+        for (int i = 0; i < array.length; i++) {
+            array[i] = array[i].trim();
+        }
+        return array;
     }
     
     public static List<String> toList(String[] array) {
@@ -34,8 +50,8 @@ public abstract class ArrayUtils {
         return list;
     }
 
-    public static String[] asArray(List<String> configLocations) {
-        if (configLocations == null) return null;
-        return configLocations.toArray(new String[0]);
+    public static String[] asArray(List<String> list) {
+        if (list == null) return null;
+        return list.toArray(new String[0]);
     }
 }
