@@ -39,7 +39,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     }
 
     protected Object maybeGetProxy(ServiceRegistryReference reference) {
-        final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getSupportedTypes(), reference);
+        final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getProxyTypes(), reference);
         final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
         return proxyFactory.getProxy();
     }
@@ -54,11 +54,11 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
 
     /**
      * Sets the proxy types for the {@link ServiceRegistryMap}. Simply delegates call
-     * to superclass's {@link #setSupportedTypes(Class[])} method. Allows both 
+     * to superclass's {@link #setProxyTypes(Class[])} method. Allows both 
      * supportedTypes and proxyTypes to be used in populating this bean
      */
     public void setProxyTypes(Class<?>[] proxyTypes) {
-        super.setSupportedTypes(proxyTypes);
+        super.setProxyTypes(proxyTypes);
     }
     
 }

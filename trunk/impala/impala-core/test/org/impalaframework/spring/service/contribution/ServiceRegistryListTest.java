@@ -44,7 +44,7 @@ public class ServiceRegistryListTest extends TestCase {
         serviceRegistry = createMock(ServiceRegistry.class);
         list.setServiceRegistry(serviceRegistry);
         supportedTypes = new Class[]{ List.class };
-        list.setSupportedTypes(supportedTypes);
+        list.setProxyTypes(supportedTypes);
     }
     
     public void testWithList() throws Exception {
@@ -70,6 +70,11 @@ public class ServiceRegistryListTest extends TestCase {
         list.remove(ref);
         assertTrue(list.isEmpty());
     }
+    
+    //FIXME add test for export type being set, with
+    // - no export types when registering bean 
+    // - export types before list is inited
+    // - export types after inited
     
     static class ValueClass {
         public void sayHello() {

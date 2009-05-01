@@ -51,6 +51,11 @@ public interface ServiceActivityNotifiable {
     /**
      * Can be used by {@link ServiceActivityNotifiable} to optionally indicate which classes the service instances should be subtypes of.
      */
-    public Class<?>[] getSupportedTypes();
+    public Class<?>[] getProxyTypes();
+    
+    /**
+     * If returns true, then relevant service reference must registered against all the specified supported types
+     */
+    public Class<?>[] getExportTypes();
 
 }
