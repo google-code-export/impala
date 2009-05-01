@@ -42,7 +42,7 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
 
     private Class<?>[] proxyTypes;
     
-    //FIXME support filtering by export types
+    private Class<?>[] exportTypes;
 
     private String filterExpression;
 
@@ -54,14 +54,29 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
         
         Assert.notNull(filterExpression, "filterExpression cannot be null. If you have no filter exporession to provide, consider using " + TypedServiceProxyFactoryBean.class.getName());
         
+        final Class<?>[] proxyTypesToUse = getProxyTypesToUse();
+        
         list = new ServiceRegistryList();
         list.setServiceRegistry(getServiceRegistry());
         list.setFilterExpression(filterExpression);
+        list.setExportTypes(exportTypes);
         list.init();
-        ListBackedProxySource source = new ListBackedProxySource(list, proxyTypes);
+        
+        ListBackedProxySource source = new ListBackedProxySource(list, proxyTypesToUse);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
+    }
+
+    Class<?>[] getProxyTypesToUse() {
+        final Class<?>[] proxyTypesToUse;
+        if (proxyTypes == null || proxyTypes.length == 0) {
+            Assert.isTrue(exportTypes != null && exportTypes.length > 0, "exportTypes and proxyTypes cannot both be empty");
+            proxyTypesToUse = exportTypes;
+        } else {
+            proxyTypesToUse = proxyTypes;
+        }
+        return proxyTypesToUse;
     }
 
     /* *************** Package level methods ************** */
@@ -82,9 +97,21 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
      * Sets proxy types for exposed bean. Proxy for service exposed using the types provided.
      * If single type is provided, and this type is a non-final concrete class, then 
      * class-based proxy using CGLIB is used.
+     * 
+     * Can only be null or empty if {@link #exportTypes} is not null or empty.
      */
     public void setProxyTypes(Class<?>[] proxyTypes) {
         this.proxyTypes = proxyTypes;
+    }
+    
+    /**
+     * Sets types under which bean must have been exported to service registry to be picked up.
+     * If proxyTypes not set, then this is also used for the proxyTypes.
+     * 
+     * Can be null.
+     */
+    public void setExportTypes(Class<?>[] exportTypes) {
+        this.exportTypes = exportTypes;
     }
 
     /**
@@ -175,8 +202,6 @@ class ListBackedRegistryTargetSource extends BaseServiceRegistryTargetSource {
     public Class<?> getTargetClass() {
         return targetClass;
     }
-
-
 
     public ServiceRegistryReference getServiceRegistryReference() {
         List<ServiceRegistryReference> contributions = this.list.getServices();
