@@ -260,18 +260,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             
             for (ServiceRegistryReference serviceReference : references) {
                 
-                //find first entry which is present against all exported types
-                for (int i = 1; i < supportedTypes.length; i++) {
-                    String name = supportedTypes[i].getName();
-                    boolean found = isPresentAsExportedType(serviceReference, name);
-                    
-                    if (!found) {
-                        serviceReference = null;
-                        break;
-                    }
-                }
-                
-                if (serviceReference != null) {
+                if (isPresentInExportedTypes(serviceReference, supportedTypes))
+                {
                     return serviceReference;
                 }
             }
@@ -441,29 +431,50 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
     }
 
-    private void filterReferenceByExportTypes(
-            final List<ServiceRegistryReference> values, Class<?>[] types) {
+    /**
+     * Returns non-null reference if service reference is present in 
+     * @param serviceReference the {@link ServiceRegistryReference} under examination
+     * @param exportedTypes an array of {@link Class} instances
+     * @return true if service reference is present in service registry against all of the passed in export types
+     */
+    public boolean isPresentInExportedTypes(ServiceRegistryReference serviceReference, Class<?>[] exportedTypes) {
+        return isPresentInExportedTypes(serviceReference, exportedTypes, 0);
+    }
+
+    private boolean isPresentInExportedTypes(
+            ServiceRegistryReference serviceReference,
+            Class<?>[] exportedTypes, int startIndex) {
+        for (int i = startIndex; i < exportedTypes.length; i++) {
+            String name = exportedTypes[i].getName();
+            boolean found = isPresentAsExportedType(serviceReference, name);
+            
+            if (!found) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /* ************ private service registry lookup related methods * ************** */
+
+    private void filterReferenceByExportTypes(final List<ServiceRegistryReference> values, Class<?>[] types) {
         
-        for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
+        Iterator<ServiceRegistryReference> iterator = values.iterator();
+        while (iterator.hasNext()) {
             
             ServiceRegistryReference serviceReference = iterator.next();
             
-            //make sure that all other types contain
-            if (types.length > 1) {
-                for (int i = 1; i < types.length; i++) {
-                    String name = types[i].getName();
-                    boolean found = isPresentAsExportedType(serviceReference, name);
-                    
-                    if (!found) {
-                        iterator.remove();
-                    }
-                }
+            //note start index is 1 because we've already checked first type
+            boolean isPresent = isPresentInExportedTypes(serviceReference, types, 1);
+            if (!isPresent) {
+                iterator.remove();
             }
         }
     }
 
     private boolean isPresentAsExportedType(ServiceRegistryReference serviceReference,
             String name) {
+        
         List<ServiceRegistryReference> secondaryValues = classNameToServices.get(name);
         boolean found = false;
         

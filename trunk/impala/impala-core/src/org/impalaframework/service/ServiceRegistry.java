@@ -99,6 +99,14 @@ public interface ServiceRegistry {
     List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly);
     
     /**
+     * Returns non-null reference if service reference is present in 
+     * @param serviceReference the {@link ServiceRegistryReference} under examination
+     * @param exportedTypes an array of {@link Class} instances
+     * @return true if service reference is present in service registry against all of the passed in export types
+     */
+    public boolean isPresentInExportedTypes(ServiceRegistryReference serviceReference, Class<?>[] exportedTypes);
+    
+    /**
      * Adds global event listeners to which all service registry events will be
      * broadcast. Returns false if listener is already present in service
      * registry and therefore not added as part of this operation.
