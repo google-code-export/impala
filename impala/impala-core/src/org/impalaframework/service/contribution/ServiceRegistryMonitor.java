@@ -63,9 +63,22 @@ public class ServiceRegistryMonitor implements
         Assert.notNull(serviceRegistry);
         Assert.notNull(serviceActivityNotifiable);
         
-        Class<?>[] supportedTypes = serviceActivityNotifiable.getSupportedTypes();
+        Class<?>[] proxyTypes = serviceActivityNotifiable.getProxyTypes();
+        Class<?>[] exportTypes = serviceActivityNotifiable.getExportTypes();
+        
+        final Class<?>[] supportedTypes;
+        final boolean exportTypesOnly;
+        
+        if (exportTypes != null && exportTypes.length > 0) {
+            supportedTypes = exportTypes;
+            exportTypesOnly = true;
+        } else {
+            supportedTypes = proxyTypes;
+            exportTypesOnly = false;
+        }
+        
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes, false);
+        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes, exportTypesOnly);
         for (ServiceRegistryReference serviceReference : services) {
             if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
                 serviceActivityNotifiable.add(serviceReference);
@@ -99,7 +112,7 @@ public class ServiceRegistryMonitor implements
     private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
         boolean matchable = true;
         
-        Class<?>[] implementationTypes = serviceActivityNotifiable.getSupportedTypes();
+        Class<?>[] implementationTypes = serviceActivityNotifiable.getProxyTypes();
         
         //check export types
         if (implementationTypes != null && implementationTypes.length > 0) {

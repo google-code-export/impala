@@ -117,7 +117,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
             fail();
         }
         catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
             assertTrue(e.getMessage().endsWith("as no interfaces have been specified and the bean class is final, therefore cannot be proxied"));
         }
         

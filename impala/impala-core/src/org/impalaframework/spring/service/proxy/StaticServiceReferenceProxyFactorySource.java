@@ -57,7 +57,7 @@ public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySo
             boolean isFinal = Modifier.isFinal(reference.getBean().getClass().getModifiers());
             if (isFinal) {
                 throw new InvalidStateException("Cannot create proxy for service reference " + reference + " as no interfaces have been " +
-                        " specified and the bean class is final, therefore cannot be proxied");
+                        "specified and the bean class is final, therefore cannot be proxied");
             }
         }
 

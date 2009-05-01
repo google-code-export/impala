@@ -58,7 +58,9 @@ public abstract class BaseServiceRegistryTarget implements
      * Sets the implementation types which must be matched against before service can be 
      * passed to {@link ServiceActivityNotifiable} instance.
      */
-    private Class<?>[] supportedTypes;
+    private Class<?>[] proxyTypes;
+    
+    private Class<?>[] exportTypes;
     
     public BaseServiceRegistryTarget() {
         super();
@@ -91,8 +93,12 @@ public abstract class BaseServiceRegistryTarget implements
         return filter;
     }
 
-    public Class<?>[] getSupportedTypes() {
-        return supportedTypes;
+    public Class<?>[] getProxyTypes() {
+        return proxyTypes;
+    }   
+    
+    public Class<?>[] getExportTypes() {
+        return exportTypes;
     }
 
     /* ******************* Implementation of ServiceRegistryEventListener ******************** */
@@ -116,6 +122,10 @@ public abstract class BaseServiceRegistryTarget implements
     protected ServiceReferenceFilter getFilter() {
         return filter;
     }
+
+    protected boolean hasExportTypes() {
+        return exportTypes != null && exportTypes.length > 0;
+    }
     
     /* ******************* Injected setters ******************** */
     
@@ -131,8 +141,12 @@ public abstract class BaseServiceRegistryTarget implements
         this.serviceRegistryMonitor = serviceRegistryMonitor;
     }
 
-    public void setSupportedTypes(Class<?>[] supportedTypes) {
-        this.supportedTypes = supportedTypes;
+    public void setProxyTypes(Class<?>[] proxyTypes) {
+        this.proxyTypes = proxyTypes;
     }
 
+    public void setExportTypes(Class<?>[] exportTypes) {
+        this.exportTypes = exportTypes;
+    }
+    
 }
