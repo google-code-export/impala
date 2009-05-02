@@ -34,6 +34,13 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
 
     private static class ExportBeanDefinitionParser implements BeanDefinitionParser {
 
+        /**
+         * Parses the <code>export</code> element. An example is below:
+         * 
+         * <pre class = "code">
+         * 
+         * </pre>
+         */
         public BeanDefinition parse(Element element, ParserContext parserContext) {
             //FIXME provide implementation of this ...
             return null;
