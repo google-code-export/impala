@@ -13,7 +13,7 @@ public interface ServiceRegistryReference {
     /**
      * The export types of the service. May return empty list but will not return null.
      */
-    List<Class<?>> getExportedTypes();
+    List<Class<?>> getExportTypes();
     
     /**
      * Returns the name of the bean 

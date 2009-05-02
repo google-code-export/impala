@@ -33,14 +33,14 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] interfaces;
     private final Class<?> concreteClass;
-    private final boolean exportedTypesOnly;
+    private final boolean exportTypesOnly;
 
-    public BeanRetrievingServiceRegistryTargetSource(ServiceRegistry serviceRegistry, String beanName, Class<?>[] interfaces, boolean exportedTypesOnly) {
+    public BeanRetrievingServiceRegistryTargetSource(ServiceRegistry serviceRegistry, String beanName, Class<?>[] interfaces, boolean exportTypesOnly) {
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;
         this.interfaces = interfaces;
-        this.exportedTypesOnly = exportedTypesOnly;
+        this.exportTypesOnly = exportTypesOnly;
         
         //if we have just a single interface and this is a concrete class, then we can use this 
         //as the return value for getTargetClass
@@ -64,7 +64,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     }
 
     public ServiceRegistryReference getServiceRegistryReference() {
-        return serviceRegistry.getService(exportedTypesOnly ? null : beanName, interfaces, exportedTypesOnly);
+        return serviceRegistry.getService(exportTypesOnly ? null : beanName, interfaces, exportTypesOnly);
     }
 
 }
