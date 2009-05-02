@@ -22,6 +22,11 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         <property name="message" value="Hi Phil - a named message" />
     </bean>
     
+    <bean id="attributeMessageService" 
+        class="classes.MessageServiceImpl">
+        <property name="message" value="Hi Phil - an attribute message" />
+    </bean>
+    
     <bean id="typedMessageServiceExport"
     	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
     	<!-- the name of the bean to export -->
@@ -36,6 +41,14 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         <property name="beanName" value="namedMessageService" />
     	<!-- the export name to use in the service registry for named lookups --> 
         <property name="exportName" value="myNamedMessageService" />
+    </bean>
+    
+    <bean id="attributeMessageServiceExport"
+    	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
+    	<!-- the name of the bean to export -->
+        <property name="beanName" value="attributeMessageService" />
+    	<!-- the export name to use in the service registry for named lookups --> 
+        <property name="attributes" value="message=hello" />
     </bean>
 
 </beans>

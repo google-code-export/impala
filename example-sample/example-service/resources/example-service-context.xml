@@ -53,5 +53,10 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
 	     <property name = "exportName" value = "myNamedMessageService"/>
 	</bean>
+	
+	<bean id="filteredMessageService" class="org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean">
+	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
+	     <property name = "filterExpression" value = "(message=*)"/>
+	</bean>
     
 </beans>

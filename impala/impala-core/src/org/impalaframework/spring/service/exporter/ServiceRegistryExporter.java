@@ -24,6 +24,8 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ArrayUtils;
+import org.impalaframework.util.MapStringUtils;
+import org.impalaframework.util.ParseUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -54,7 +56,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     
     private Class<?>[] exportTypes;
     
-    private Map<String, ? extends Object> attributes;
+    private Map<String, ? extends Object> attributeMap;
     
     private ModuleDefinition moduleDefinition;
     
@@ -64,6 +66,8 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 
     private ClassLoader beanClassLoader;
 
+    private String attributes;
+    
     private ServiceRegistryReference serviceReference;
     
     /**
@@ -73,7 +77,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     public void afterPropertiesSet() throws Exception {
         
         Assert.notNull(beanName, "beanName cannot be null");
-        Assert.isTrue(exportName != null || !ArrayUtils.isNullOrEmpty(exportTypes), "either beanName must be non-null or exportTypes must be non-empty");
+        //Assert.isTrue(exportName != null || !ArrayUtils.isNullOrEmpty(exportTypes), "either beanName must be non-null or exportTypes must be non-empty");
         Assert.notNull(serviceRegistry);
         Assert.notNull(beanFactory);
         Assert.notNull(moduleDefinition);
@@ -81,7 +85,12 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
         Object service = beanFactory.getBean(beanName);
         
         List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
-        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypesToUse, attributes, beanClassLoader);
+        
+        if (attributes != null && attributeMap == null) {
+            attributeMap = MapStringUtils.parseMapFromString(attributes);
+        }
+        
+        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypesToUse, attributeMap, beanClassLoader);
     }
 
     /**
@@ -138,7 +147,17 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     /**
      * Sets attributes for the service registry entry
      */
-    public void setAttributes(Map<String, ? extends Object> attributes) {
+    public void setAttributeMap(Map<String, ? extends Object> attributes) {
+        this.attributeMap = attributes;
+    }
+
+    /**
+     * Sets attributes, in the format described in {@link MapStringUtils#parseMapFromString(String)}.
+     * Can parse dates, doubles, longs, booleans and String. See also {@link ParseUtils#parseObject(String)}.
+     * 
+     * @param attributes expects a comma or new line separated String with individual name value pairs separated by '='.
+     */
+    public void setAttributes(String attributes) {
         this.attributes = attributes;
     }
 

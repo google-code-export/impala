@@ -77,12 +77,9 @@ public class ServiceRegistryImplTest extends TestCase {
         exportTypes.add(String.class);
         
         registry.addService(null, "module1", "some service", exportTypes, null, classLoader);
-        try {
-            registry.addService(null, "module1", "some service", null, null, classLoader);
-            fail();
-        } catch (InvalidStateException e) {
-            assertEquals("Attempted to register bean from module 'module1' with no bean name and no export types available.", e.getMessage());
-        }
+        
+        //this is okay too
+        registry.addService(null, "module1", "some service", null, null, classLoader);
     }
     
     public void testRegisterByClass() throws Exception {
