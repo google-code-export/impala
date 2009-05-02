@@ -33,5 +33,9 @@ public class ContributionProxyFactoryBean extends NamedServiceProxyFactoryBean i
     public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
         super.setProxyTypes(proxyInterfaces);
     }
+
+    public void setExportName(String exportedBeanName) {
+        super.setExportName(exportedBeanName);
+    }
     
 }

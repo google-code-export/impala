@@ -27,8 +27,6 @@ import org.springframework.aop.framework.ProxyFactory;
 public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
 
     private static final long serialVersionUID = 1L;
-
-    //FIXME add working example of this 
     
     private Class<?>[] exportTypes;
 

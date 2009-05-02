@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -22,6 +23,7 @@ import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -50,7 +52,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     
     private String exportName;
     
-    private List<Class<?>> exportTypes;
+    private Class<?>[] exportTypes;
     
     private Map<String, String> attributes;
     
@@ -69,18 +71,17 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
      * supplied export name, attributes and tags, if these are provided. By default, simply uses the bean name.
      */
     public void afterPropertiesSet() throws Exception {
+        
         Assert.notNull(beanName, "beanName cannot be null");
+        Assert.isTrue(exportName != null || !ArrayUtils.isNullOrEmpty(exportTypes), "either beanName must be non-null or exportTypes must be non-empty");
         Assert.notNull(serviceRegistry);
         Assert.notNull(beanFactory);
         Assert.notNull(moduleDefinition);
         
-        if (exportName == null) {
-            exportName = beanName;
-        }
-        
         Object service = beanFactory.getBean(beanName);
         
-        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypes, attributes, beanClassLoader);
+        List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
+        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypesToUse, attributes, beanClassLoader);
     }
 
     /**
@@ -144,7 +145,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     /**
      * Sets export types for service instance
      */
-    public void setExportTypes(List<Class<?>> exportTypes) {
+    public void setExportTypes(Class<?>[] exportTypes) {
         this.exportTypes = exportTypes;
     }
 }

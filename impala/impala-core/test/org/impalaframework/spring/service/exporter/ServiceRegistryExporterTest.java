@@ -19,9 +19,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
@@ -41,7 +39,7 @@ public class ServiceRegistryExporterTest extends TestCase {
     
     private String service = "myservice";
     private Class<?>[] classes;
-    private List<Class<?>> exportTypes;
+    private Class<?>[] exportTypes;
 
     @Override
     protected void setUp() throws Exception {
@@ -53,23 +51,23 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.setBeanFactory(beanFactory);
         exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
         exporter.setServiceRegistry(registry);
-        exportTypes = new ArrayList<Class<?>>();
-        exportTypes.add(String.class);
-        exportTypes.add(Object.class);
+        exportTypes = new Class<?>[]{String.class, Object.class};
         exporter.setExportTypes(exportTypes);
         exporter.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
     }
     
     public void testGetBean() throws Exception {
         exporter.setBeanName("myBean");
+        //no export name set, but no export types set either
         
         expect(beanFactory.getBean("myBean")).andReturn(service);
         
         replay(beanFactory);
         exporter.afterPropertiesSet();
         verify(beanFactory);
-        
-        assertSame(service, registry.getService("myBean", classes, false).getBean());
+
+        assertNull(registry.getService("myBean", classes, false));
+        assertSame(service, registry.getService(null, classes, true).getBean());
         
         exporter.destroy();
         assertNull(registry.getService("myBean", classes, false));
@@ -77,7 +75,9 @@ public class ServiceRegistryExporterTest extends TestCase {
     
     public void testInvalidType() throws Exception {
         exporter.setBeanName("myBean");
-        exportTypes.add(Integer.class);
+
+        exportTypes = new Class<?>[]{String.class, Object.class, Integer.class};
+        exporter.setExportTypes(exportTypes);
         try {
             expect(beanFactory.getBean("myBean")).andReturn(service);
             replay(beanFactory);
@@ -115,7 +115,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        ServiceRegistryReference s = registry.getService("myBean", classes, false);
+        ServiceRegistryReference s = registry.getService(null, classes, true);
         assertSame(service, s.getBean());
         assertEquals(attributes, s.getAttributes());
         

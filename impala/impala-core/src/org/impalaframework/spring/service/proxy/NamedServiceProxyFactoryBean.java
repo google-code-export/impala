@@ -35,12 +35,12 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
 
     private Class<?>[] proxyTypes;
     
-    private String exportedBeanName;
+    private String exportName;
 
     /* *************** Abstract superclass method implementation ************** */
 
     protected ProxyFactory createProxyFactory() {
-        String registryBeanName = (exportedBeanName != null ? exportedBeanName : getBeanName());
+        String registryBeanName = (exportName != null ? exportName : getBeanName());
         
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, registryBeanName, false);
         
@@ -54,8 +54,8 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
         this.proxyTypes = proxyTypes;
     }
 
-    public void setExportedBeanName(String exportedBeanName) {
-        this.exportedBeanName = exportedBeanName;
+    public void setExportName(String exportedBeanName) {
+        this.exportName = exportedBeanName;
     }
     
 }
