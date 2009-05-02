@@ -23,13 +23,13 @@ public class MapStringUtilsTest extends TestCase {
     public void testParseMapFromString() {
         String input = " name1 = 1 \n name2= value 2, name3 = value3 ";
         
-        Map<String, String> map = MapStringUtils.parseMapFromString(input);
+        Map<String, String> map = MapStringUtils.parsePropertiesFromString(input);
         assertEquals(3, map.size());
         assertEquals("1", map.get("name1"));
         assertEquals("value 2", map.get("name2"));
         assertEquals("value3", map.get("name3"));
         
-        Map<String, String> mapWithMissingEquals = MapStringUtils.parseMapFromString("name1 no equals 1 \nname2= value2,name3 = value3");
+        Map<String, String> mapWithMissingEquals = MapStringUtils.parsePropertiesFromString("name1 no equals 1 \nname2= value2,name3 = value3");
         assertEquals(2, mapWithMissingEquals.size());
         assertTrue(mapWithMissingEquals.containsKey("name2"));
         assertTrue(mapWithMissingEquals.containsKey("name3"));

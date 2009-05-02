@@ -30,9 +30,17 @@ public class MapStringUtils {
      * @return a String to String map. Uses {@link LinkedHashMap} so that the ordering of the key
      * value pairs is maintained
      */
-    public static Map<String,String> parseMapFromString(String mapString) {
-        String delimiters = ",\n";
+    public static Map<String,String> parsePropertiesFromString(String mapString) {
+        return parsePropertiesFromString(mapString, ",\n");
+    }
+
+    /**
+     * As in {@link #parsePropertiesFromString(String)}, but with allowing the user to specify the 
+     * delimiters between pairings
+     */
+    public static Map<String, String> parsePropertiesFromString(String mapString, String delimiters) {
         Assert.notNull(mapString, "map string cannot be null");
+        Assert.notNull(delimiters, "delimiters cannot be null");
         String[] pairings = StringUtils.tokenizeToStringArray(mapString, delimiters);
         
         Map<String,String> map = new LinkedHashMap<String,String>();
