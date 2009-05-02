@@ -15,6 +15,7 @@
 package tests;
 
 import interfaces.EntryService;
+import interfaces.MessageService;
 
 import java.util.Collection;
 
@@ -58,6 +59,14 @@ public class EntryServiceTest extends BaseExampleTest {
         assertFalse(concreteService.getClass().getName().equals(ConcreteService.class.getName()));
         assertTrue(concreteService instanceof ConcreteService);
         System.out.println(concreteService.getClass().getName());
+    }
+    
+    public void testTypedLookupService() throws Exception {
+        MessageService typedMessageService = Impala.getModuleBean("example-service", "typedMessageService", MessageService.class);
+        System.out.println(typedMessageService.getMessage());
+
+        MessageService namedMessageService = Impala.getModuleBean("example-service", "namedsMessageService", MessageService.class);
+        System.out.println(namedMessageService.getMessage());
     }
 
     public RootModuleDefinition getModuleDefinition() {

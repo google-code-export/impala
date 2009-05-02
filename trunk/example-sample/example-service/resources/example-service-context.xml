@@ -44,5 +44,14 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
             </map>
         </property>
     </bean>
+
+	<bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
+	     <property name = "exportTypes" value = "interfaces.MessageService"/>
+	</bean>
+	
+	<bean id="namedMessageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
+	     <property name = "exportName" value = "myNamedMessageService"/>
+	</bean>
     
 </beans>

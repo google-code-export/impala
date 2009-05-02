@@ -67,7 +67,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
     public void testWithExportName() throws Exception {
         bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
-        bean.setExportedBeanName("exportBean");
+        bean.setExportName("exportBean");
         bean.afterPropertiesSet();
 
         Child child = (Child) bean.getObject();

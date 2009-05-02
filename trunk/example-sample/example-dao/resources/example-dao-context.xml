@@ -11,5 +11,31 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
         class="classes.EntryDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
+    
+    <bean id="typedMessageService" 
+        class="classes.MessageServiceImpl">
+        <property name="message" value="Hi Phil - a typed message" />
+    </bean>
+    
+    <bean id="namedMessageService" 
+        class="classes.MessageServiceImpl">
+        <property name="message" value="Hi Phil - a named message" />
+    </bean>
+    
+    <bean id="typedMessageServiceExport"
+    	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
+    	<!-- the name of the bean to export -->
+        <property name="beanName" value="typedMessageService" />
+        <!-- export types to be used -->
+        <property name="exportTypes" value="interfaces.MessageService,classes.MessageServiceImpl" />
+    </bean>
+    
+    <bean id="namedMessageServiceExport"
+    	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
+    	<!-- the name of the bean to export -->
+        <property name="beanName" value="namedMessageService" />
+    	<!-- the export name to use in the service registry for named lookups --> 
+        <property name="exportName" value="myNamedMessageService" />
+    </bean>
 
 </beans>
