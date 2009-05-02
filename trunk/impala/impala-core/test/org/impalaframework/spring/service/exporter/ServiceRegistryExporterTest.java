@@ -106,7 +106,7 @@ public class ServiceRegistryExporterTest extends TestCase {
     
     public void testTagsAndAttribute() throws Exception {
         exporter.setBeanName("myBean");
-        Map<String, String> attributes = Collections.singletonMap("attribute1", "value1");
+        Map<String, ? extends Object> attributes = Collections.singletonMap("attribute1", "value1");
         exporter.setAttributes(attributes);
         
         expect(beanFactory.getBean("myBean")).andReturn(service);
