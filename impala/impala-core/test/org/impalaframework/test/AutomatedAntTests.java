@@ -163,6 +163,7 @@ import org.impalaframework.util.MapStringUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.ObjectMapUtilsTest;
 import org.impalaframework.util.ObjectUtilsTest;
+import org.impalaframework.util.ParseUtilsTest;
 import org.impalaframework.util.PathUtilsTest;
 import org.impalaframework.util.PropertyUtilsTest;
 import org.impalaframework.util.ReflectionUtilsTest;
@@ -265,6 +266,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
         suite.addTestSuite(ParentWithChildContextTest.class);
         suite.addTestSuite(ParentClassLoaderFactoryTest.class);
+        suite.addTestSuite(ParseUtilsTest.class);
         suite.addTestSuite(PathUtilsTest.class);
         suite.addTestSuite(PrefixedCompositePropertySourceTest.class);
         suite.addTestSuite(ProcessTransitionsTest.class);
