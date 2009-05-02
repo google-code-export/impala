@@ -54,7 +54,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     
     private Class<?>[] exportTypes;
     
-    private Map<String, String> attributes;
+    private Map<String, ? extends Object> attributes;
     
     private ModuleDefinition moduleDefinition;
     
@@ -138,7 +138,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     /**
      * Sets attributes for the service registry entry
      */
-    public void setAttributes(Map<String, String> attributes) {
+    public void setAttributes(Map<String, ? extends Object> attributes) {
         this.attributes = attributes;
     }
 
