@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
@@ -107,7 +108,7 @@ public class ServiceRegistryExporterTest extends TestCase {
     public void testTagsAndAttribute() throws Exception {
         exporter.setBeanName("myBean");
         Map<String, ? extends Object> attributes = Collections.singletonMap("attribute1", "value1");
-        exporter.setAttributes(attributes);
+        exporter.setAttributeMap(attributes);
         
         expect(beanFactory.getBean("myBean")).andReturn(service);
         
@@ -118,6 +119,9 @@ public class ServiceRegistryExporterTest extends TestCase {
         ServiceRegistryReference s = registry.getService(null, classes, true);
         assertSame(service, s.getBean());
         assertEquals(attributes, s.getAttributes());
+        
+        assertFalse(registry.getServices(new LdapServiceReferenceFilter("(attribute1=*)"), classes, false).isEmpty());
+        assertFalse(registry.getServices(new LdapServiceReferenceFilter("(attribute1=*)"), classes, true).isEmpty());
         
         exporter.destroy();
         assertNull(registry.getService("myBean", classes, false));

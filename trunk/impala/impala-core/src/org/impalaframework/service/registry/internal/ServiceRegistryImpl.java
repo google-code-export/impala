@@ -28,7 +28,6 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEvent;
@@ -115,10 +114,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 checkClasses(serviceReference);
             }
             
+            /*
+             * FIXME test this
             if (classes.isEmpty() && beanName == null) {
                 throw new InvalidStateException("Attempted to register bean from module '" + moduleName + "'" +
                         " with no bean name and no export types available.");
             }
+             */
             
             //deal with the case of overriding and existing bean
             if (beanName != null) {

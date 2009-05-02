@@ -65,8 +65,11 @@ public class EntryServiceTest extends BaseExampleTest {
         MessageService typedMessageService = Impala.getModuleBean("example-service", "typedMessageService", MessageService.class);
         System.out.println(typedMessageService.getMessage());
 
-        MessageService namedMessageService = Impala.getModuleBean("example-service", "namedsMessageService", MessageService.class);
+        MessageService namedMessageService = Impala.getModuleBean("example-service", "namedMessageService", MessageService.class);
         System.out.println(namedMessageService.getMessage());
+
+        MessageService filteredMessageService = Impala.getModuleBean("example-service", "filteredMessageService", MessageService.class);
+        System.out.println(filteredMessageService.getMessage());
     }
 
     public RootModuleDefinition getModuleDefinition() {
