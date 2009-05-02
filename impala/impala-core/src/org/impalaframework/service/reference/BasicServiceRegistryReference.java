@@ -34,7 +34,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
     private final String contributingModule;
     private final Map<String, ?> attributes;
     private final ClassLoader beanClassLoader;
-    private List<Class<?>> exportedTypes;
+    private List<Class<?>> exportTypes;
 
     @SuppressWarnings("unchecked")
     public BasicServiceRegistryReference(Object bean, 
@@ -48,7 +48,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
     public BasicServiceRegistryReference(Object bean, 
             String beanName,
             String contributingModule, 
-            List<Class<?>> exportedTypes,
+            List<Class<?>> exportTypes,
             Map<String, ?> attributes, 
             ClassLoader classLoader) {
         super();
@@ -58,7 +58,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
         this.bean = bean;
         this.beanName = beanName;
         this.contributingModule = contributingModule;
-        this.exportedTypes = (exportedTypes != null ? new LinkedList<Class<?>>(exportedTypes) : Collections.EMPTY_LIST);
+        this.exportTypes = (exportTypes != null ? new LinkedList<Class<?>>(exportTypes) : Collections.EMPTY_LIST);
         this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
         this.beanClassLoader = classLoader;
     }
@@ -67,8 +67,8 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
         return bean;
     }
     
-    public List<Class<?>> getExportedTypes() {
-        return exportedTypes;
+    public List<Class<?>> getExportTypes() {
+        return exportTypes;
     }
 
     public final String getBeanName() {
@@ -112,9 +112,9 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
         buffer.append(this.beanClassLoader.toString());
         else buffer.append("value is null"); 
         buffer.append(", ");
-        buffer.append("exportedTypes = ");
-        if ( this.exportedTypes!= null )
-        buffer.append(this.exportedTypes.toString());
+        buffer.append("exportTypes = ");
+        if ( this.exportTypes!= null )
+        buffer.append(this.exportTypes.toString());
         else buffer.append("value is null"); 
         buffer.append("\n");
         return  buffer.toString();

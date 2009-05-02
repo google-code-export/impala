@@ -85,14 +85,14 @@ public class ServiceRegistryMonitorTest extends TestCase {
         verify(serviceActivityNotifiable);
     }
     
-    public void testWithExportedTypesNotMatches() {
+    public void testWithExportTypesNotMatches() {
         
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-        Class<?>[] exportedTypes = new Class<?>[] {Integer.class};
-        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportedTypes);
-        expect(serviceRegistry.isPresentInExportedTypes(ref, exportedTypes)).andReturn(false);
+        Class<?>[] exportTypes = new Class<?>[] {Integer.class};
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportTypes);
+        expect(serviceRegistry.isPresentInExportTypes(ref, exportTypes)).andReturn(false);
         //no call to add
         
         replay(serviceActivityNotifiable);
@@ -102,14 +102,14 @@ public class ServiceRegistryMonitorTest extends TestCase {
         verify(serviceRegistry);
     }
     
-    public void testWithExportedTypesMatches() {
+    public void testWithExportTypesMatches() {
         
         BasicServiceRegistryReference ref = new BasicServiceRegistryReference("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
-        Class<?>[] exportedTypes = new Class<?>[] {Integer.class};
-        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportedTypes);
-        expect(serviceRegistry.isPresentInExportedTypes(ref, exportedTypes)).andReturn(true);
+        Class<?>[] exportTypes = new Class<?>[] {Integer.class};
+        expect(serviceActivityNotifiable.getExportTypes()).andReturn(exportTypes);
+        expect(serviceRegistry.isPresentInExportTypes(ref, exportTypes)).andReturn(true);
         
         expect(serviceActivityNotifiable.add(ref)).andReturn(true);
         

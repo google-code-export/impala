@@ -208,9 +208,9 @@ public class ServiceRegistryImplTest extends TestCase {
         assertNull(registry.getService("bean1", new Class<?>[]{ String.class }, true));
         assertNull(registry.getService("bean1", classes, true));
         assertNotNull(registry.getService((String)null, classes, true));
-        assertFalse(registry.isPresentInExportedTypes(ref, new Class<?>[]{ String.class }));
-        assertFalse(registry.isPresentInExportedTypes(ref, new Class<?>[]{ ArrayList.class, LinkedList.class }));
-        assertTrue(registry.isPresentInExportedTypes(ref, new Class<?>[]{ List.class, ArrayList.class }));
+        assertFalse(registry.isPresentInExportTypes(ref, new Class<?>[]{ String.class }));
+        assertFalse(registry.isPresentInExportTypes(ref, new Class<?>[]{ ArrayList.class, LinkedList.class }));
+        assertTrue(registry.isPresentInExportTypes(ref, new Class<?>[]{ List.class, ArrayList.class }));
         
         registry.addService("bean2", "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
 

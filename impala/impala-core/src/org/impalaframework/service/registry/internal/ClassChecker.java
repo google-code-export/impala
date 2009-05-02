@@ -32,11 +32,11 @@ class ClassChecker {
     
     void checkClasses(ServiceRegistryReference reference) {
 
-        final List<Class<?>> exportedTypes = reference.getExportedTypes();
+        final List<Class<?>> exportTypes = reference.getExportTypes();
         
-        if (!exportedTypes.isEmpty()) { 
-            checkClassesForClassLoader(exportedTypes, reference);
-            checkClassesForImplements(exportedTypes, reference);
+        if (!exportTypes.isEmpty()) { 
+            checkClassesForClassLoader(exportTypes, reference);
+            checkClassesForImplements(exportTypes, reference);
         }
     }
 

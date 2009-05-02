@@ -107,11 +107,11 @@ public class ServiceRegistryMonitor implements
         
         final boolean typeMatches;
         
-        Class<?>[] exportedTypes = serviceActivityNotifiable.getExportTypes();
-        if (!ArrayUtils.isNullOrEmpty(exportedTypes)) {
+        Class<?>[] exportTypes = serviceActivityNotifiable.getExportTypes();
+        if (!ArrayUtils.isNullOrEmpty(exportTypes)) {
             
             //do check against export types in registry
-            typeMatches = getServiceRegistry().isPresentInExportedTypes(serviceReference, exportedTypes);
+            typeMatches = getServiceRegistry().isPresentInExportTypes(serviceReference, exportTypes);
         } else {
 
             //do check against actual implemented types

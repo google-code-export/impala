@@ -30,7 +30,7 @@ public class ServiceReferenceTest extends TestCase {
                 "moduleName", classLoader);
         assertEquals(0, serviceReference.getAttributes().size());
         assertSame(classLoader, serviceReference.getBeanClassLoader());
-        assertTrue(serviceReference.getExportedTypes().isEmpty());
+        assertTrue(serviceReference.getExportTypes().isEmpty());
     }
     
     public void testConstructAttributes() throws Exception {

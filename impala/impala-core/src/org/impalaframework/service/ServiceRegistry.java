@@ -101,10 +101,10 @@ public interface ServiceRegistry {
     /**
      * Returns non-null reference if service reference is present in 
      * @param serviceReference the {@link ServiceRegistryReference} under examination
-     * @param exportedTypes an array of {@link Class} instances
+     * @param exportTypes an array of {@link Class} instances
      * @return true if service reference is present in service registry against all of the passed in export types
      */
-    public boolean isPresentInExportedTypes(ServiceRegistryReference serviceReference, Class<?>[] exportedTypes);
+    public boolean isPresentInExportTypes(ServiceRegistryReference serviceReference, Class<?>[] exportTypes);
     
     /**
      * Adds global event listeners to which all service registry events will be

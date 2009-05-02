@@ -33,27 +33,27 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] interfaces;
     private final String registryBeanName;
-    private final boolean exportedTypesOnly;
+    private final boolean exportTypesOnly;
 
     /**
      * Constructor
      * @param serviceRegistry the service registry
      * @param interfaces the types to which the reference should be compatible
      * @param registryBeanName the name of the bean as registered in the service registry
-     * @param exportedTypesOnly whether only to search for exported types
+     * @param exportTypesOnly whether only to search for exported types
      */
     public BeanRetrievingProxyFactorySource(
             ServiceRegistry serviceRegistry,
             Class<?>[] interfaces, 
             String registryBeanName, 
-            boolean exportedTypesOnly) {
+            boolean exportTypesOnly) {
         
         super();
         
         this.interfaces = interfaces;
         this.serviceRegistry = serviceRegistry;
         this.registryBeanName = registryBeanName;
-        this.exportedTypesOnly = exportedTypesOnly;
+        this.exportTypesOnly = exportTypesOnly;
     }
 
     public void init() {
@@ -63,7 +63,7 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
         Assert.notEmpty(interfaces, "interfaces cannot be empty");
         
         //this will return a non-null value if single interface which is concrete class
-        ContributionEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(this.serviceRegistry, registryBeanName, interfaces, exportedTypesOnly);
+        ContributionEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(this.serviceRegistry, registryBeanName, interfaces, exportTypesOnly);
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {
