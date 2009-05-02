@@ -14,13 +14,14 @@
 
 package org.impalaframework.util;
 
+import java.util.Date;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
 public class MapStringUtilsTest extends TestCase {
 
-    public void testParseMapFromString() {
+    public void testParsePropertiesFromString() {
         String input = " name1 = 1 \n name2= value 2, name3 = value3 ";
         
         Map<String, String> map = MapStringUtils.parsePropertiesFromString(input);
@@ -33,6 +34,16 @@ public class MapStringUtilsTest extends TestCase {
         assertEquals(2, mapWithMissingEquals.size());
         assertTrue(mapWithMissingEquals.containsKey("name2"));
         assertTrue(mapWithMissingEquals.containsKey("name3"));
+    }
+    
+    public void testParseMapFromString() {
+        String input = " name1 = 1 \n name2= 2007-06-11 16:15:32, name3 = value3 ";
+        
+        Map<String, Object> map = MapStringUtils.parseMapFromString(input);
+        assertEquals(3, map.size());
+        assertEquals(new Long(1), map.get("name1"));
+        assertTrue(map.get("name2") instanceof Date);
+        assertEquals("value3", map.get("name3"));
     }
 
 }
