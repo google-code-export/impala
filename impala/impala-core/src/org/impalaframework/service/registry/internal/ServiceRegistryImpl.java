@@ -114,13 +114,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 checkClasses(serviceReference);
             }
             
-            /*
-             * FIXME test this
             if (classes.isEmpty() && beanName == null) {
-                throw new InvalidStateException("Attempted to register bean from module '" + moduleName + "'" +
-                        " with no bean name and no export types available.");
+                logger.warn("Registering service with no explicit name or service classes. One of these is recommended");
             }
-             */
             
             //deal with the case of overriding and existing bean
             if (beanName != null) {
