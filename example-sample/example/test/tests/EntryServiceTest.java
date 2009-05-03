@@ -76,7 +76,8 @@ public class EntryServiceTest extends BaseExampleTest {
         
         List<MessageService> listMessageService = Impala.getModuleBean("example-service", "messageServiceList", List.class);
         assertFalse(listMessageService.isEmpty());
-        System.out.println("First list entry: " + listMessageService.get(0).getMessage());
+        MessageService messageService = listMessageService.get(0);
+        System.out.println("First list entry: " + messageService.getMessage());
         
         Map<String,MessageService> mapMessageService = Impala.getModuleBean("example-service", "messageServiceMap", Map.class);
         assertFalse(mapMessageService.isEmpty());
