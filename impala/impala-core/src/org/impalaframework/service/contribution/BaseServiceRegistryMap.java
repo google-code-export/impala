@@ -110,7 +110,6 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     @Override
     public void destroy() {
         super.destroy();
-        //FIXME test this
         contributions.clear();
     }
     
