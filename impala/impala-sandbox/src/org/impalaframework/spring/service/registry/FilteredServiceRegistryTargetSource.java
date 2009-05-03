@@ -33,9 +33,9 @@ public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTarg
     private final ServiceRegistry serviceRegistry;
 
     public FilteredServiceRegistryTargetSource(
-            //FIXME should pass in array of classes
+            //should pass in array of classes
             Class<?> clazz,
-            //FIXME should also pass in explicit export types
+            //should also pass in explicit export types
             ServiceReferenceFilter filter, 
             ServiceRegistry serviceRegistry) {
         super();
