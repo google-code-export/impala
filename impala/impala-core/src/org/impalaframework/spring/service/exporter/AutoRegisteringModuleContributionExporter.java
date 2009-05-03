@@ -30,11 +30,13 @@ import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
- * Subclass of <code>BaseModuleContributionExporter</code> which will automatically register
- * <code>ContributionEndPoints</code> in the root module application context for each of the
- * contributions named using the <code>contributions</code> property, if such a <code>ContributionEndPoint</code>
- * does not already exist. Note that the interface names need to be specified using the value portion of 
- * each contribution entry. The key portion is used to specify the bean name to be used.
+ * Subclass of <code>BaseModuleContributionExporter</code> which will
+ * automatically register {@link NamedServiceProxyFactoryBean} instance in the
+ * root module application context for each of the contributions named using
+ * keys in the <code>contributions</code> property, if such an entry does not
+ * already exist. Note that the interface names need to be specified using the
+ * value portion of each contribution entry. The key portion is used to specify
+ * the bean name to be used.
  * @see ModuleArrayContributionExporter
  * 
  * @author Phil Zoio
@@ -55,11 +57,11 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
         ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(getBeanFactory(), beanName);
 
         if (endPoint == null) {
-            String contributionClassNames = contributions.get(beanName);
-            checkContributionClasses(bean, beanName, contributionClassNames);
+            String proxyTypes = contributions.get(beanName);
+            checkContributionClasses(bean, beanName, proxyTypes);
             
             RootBeanDefinition beanDefinition = new RootBeanDefinition(NamedServiceProxyFactoryBean.class);
-            beanDefinition.getPropertyValues().addPropertyValue("proxyTypes", contributionClassNames);
+            beanDefinition.getPropertyValues().addPropertyValue("proxyTypes", proxyTypes);
             
             BeanFactory rootBeanFactory = ModuleContributionUtils.getRootBeanFactory(getBeanFactory());
 
