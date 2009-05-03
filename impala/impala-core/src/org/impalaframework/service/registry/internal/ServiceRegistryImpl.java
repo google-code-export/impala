@@ -47,6 +47,8 @@ import org.springframework.util.ObjectUtils;
  * @author Phil Zoio
  */
 public class ServiceRegistryImpl implements ServiceRegistry {
+    
+    //FIXME should we wire in FrameworkLockHolder and use this instead of explicit locking to control concurrent access?
 
     private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
     
