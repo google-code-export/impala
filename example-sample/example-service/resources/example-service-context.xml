@@ -2,9 +2,11 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:service="http://www.impalaframework.org/schema/service"
     xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.impalaframework.org/schema/service http://www.impalaframework.org/schema/impala-service.xsd">
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
@@ -44,7 +46,18 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
             </map>
         </property>
     </bean>
+    
+    <service:import id="typedMessageService" exportTypes = "interfaces.MessageService"/>
+	
+	<service:import id="namedMessageService" 
+		proxyTypes = "interfaces.MessageService"
+		exportName = "myNamedMessageService"/>
+	
+	<service:import id="filteredMessageService" 
+		proxyTypes = "interfaces.MessageService"
+		filterExpression = "(message=*)"/>
 
+	<!-- 
 	<bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
 	     <property name = "exportTypes" value = "interfaces.MessageService"/>
 	</bean>
@@ -58,5 +71,6 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
 	     <property name = "filterExpression" value = "(message=*)"/>
 	</bean>
-    
+    -->
+     
 </beans>

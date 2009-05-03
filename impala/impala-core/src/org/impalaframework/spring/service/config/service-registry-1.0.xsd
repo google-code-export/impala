@@ -27,5 +27,33 @@
 			<xsd:attribute name="attributes" type="xsd:string" use="optional"/>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:element name="import">
+		<xsd:annotation>
+			<xsd:documentation>
+	Used to import an individual Spring bean from the Impala service registry. 
+	Basically, there are three ways of importing beans. First, by name, corresponding with a name used to register a bean into the service
+	registry. Second, by type, corresponding with types used to register a bean in the service registry.
+	Third, by filter, in which case the service must have been exported using attributes which match the filter expression.
+	
+	The following attributes apply:
+	- filterExpression: if not null, then used to look up the service as an entry which matches the filter
+	- exportName: if not null, and filterExpression is null, then used to look up service as a named entry
+	- exportTypes: if both filterExpression and exportName are null, then used to look up service as a typed entry
+	Even if filterExpression or exportName is specified, then if exportTypes is present it is used to limit the candidate services to 
+	those which were exported using all of the specified set of export types. 
+	- proxyTypes: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service
+	which is passed to client users of the service. If not present, then the export types (from the exportTypes attribute)
+	are also used as the proxy types.
+		</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="exportName" type="xsd:string" use="optional"/>
+			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="filterExpression" type="xsd:string" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
 
 </xsd:schema>
