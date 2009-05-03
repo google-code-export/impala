@@ -56,17 +56,15 @@ public class ProxyHelper {
         
         if (interfaces.size() == 0) {
             logger.warn("Bean of instance " + bean.getClass().getName() + " could not be backed by a proxy as it does not implement an interface");
-        //TODO should be try to use class-based proxy here using CGLIB
-        return bean;
-    }
-    
-    final Class<?>[] proxyInterfaces = this.proxyInterfaces;
-    
-    final List<Class<?>> filteredInterfaces = filterInterfaces(interfaces,proxyInterfaces);
-    
-    if (filteredInterfaces.size() == 0) {
-        logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
-        //TODO should be try to use class-based proxy here using CGLIB
+            return bean;
+        }
+        
+        final Class<?>[] proxyInterfaces = this.proxyInterfaces;
+        
+        final List<Class<?>> filteredInterfaces = filterInterfaces(interfaces,proxyInterfaces);
+        
+        if (filteredInterfaces.size() == 0) {
+            logger.warn("Bean of instance " + bean.getClass().getName() + " does not implement any of the specified interfaces: " + proxyInterfaces);
             return bean;
         }
         
