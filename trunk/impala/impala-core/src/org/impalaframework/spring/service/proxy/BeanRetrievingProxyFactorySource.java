@@ -31,7 +31,7 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     static final Log logger = LogFactory.getLog(BeanRetrievingProxyFactorySource.class);
     
     private final ServiceRegistry serviceRegistry;
-    private final Class<?>[] interfaces;
+    private final Class<?>[] proxyTypes;
     private final String registryBeanName;
     private final boolean exportTypesOnly;
 
@@ -50,7 +50,7 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
         
         super();
         
-        this.interfaces = interfaces;
+        this.proxyTypes = interfaces;
         this.serviceRegistry = serviceRegistry;
         this.registryBeanName = registryBeanName;
         this.exportTypesOnly = exportTypesOnly;
@@ -59,16 +59,16 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     public void init() {
         
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-        Assert.notNull(interfaces, "interfaces cannot be null");
-        Assert.notEmpty(interfaces, "interfaces cannot be empty");
+        Assert.notNull(proxyTypes, "proxyTypes cannot be null");
+        Assert.notEmpty(proxyTypes, "proxyTypes cannot be empty");
         
         //this will return a non-null value if single interface which is concrete class
-        ContributionEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(this.serviceRegistry, registryBeanName, interfaces, exportTypesOnly);
+        ContributionEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(this.serviceRegistry, registryBeanName, proxyTypes, exportTypesOnly);
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {
             //not proxying by class, so proxy by interface
-            ProxyFactorySourceUtils.addInterfaces(proxyFactory, interfaces);
+            ProxyFactorySourceUtils.addInterfaces(proxyFactory, proxyTypes);
         }
         
         afterInit(proxyFactory, targetSource);

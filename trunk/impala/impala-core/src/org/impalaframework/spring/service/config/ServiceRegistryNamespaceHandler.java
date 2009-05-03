@@ -7,6 +7,8 @@ import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
@@ -56,7 +58,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         }
     }
     
-    private static class ImportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+    static class ImportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
         
         /**
          * Parses the <code>export</code> element. An example is below.
@@ -69,21 +71,62 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
          * </pre>
          */
         
+        //FIXME test this method
+        
         @Override
         protected Class<?> getBeanClass(Element element) {
-            if (StringUtils.hasText(element.getAttribute("filterExpression"))) {
+            if (hasAttribute(element, "filterExpression")) {
                 return FilteredServiceProxyFactoryBean.class;
             }
             
-            if (StringUtils.hasText(element.getAttribute("exportName"))) {
+            if (hasAttribute(element, "exportName")) {
                 return NamedServiceProxyFactoryBean.class;
             }
             return TypedServiceProxyFactoryBean.class;
         }
+
+        @Override
+        protected void postProcess(BeanDefinitionBuilder beanDefinition,
+                Element element) {
+            
+            boolean hasProxyTypes = hasAttribute(element, "proxyTypes");
+            boolean hasExportTypes = hasAttribute(element, "exportTypes");
+
+            boolean hasFilterExpression = hasAttribute(element, "filterExpression");
+            boolean hasExportName = hasAttribute(element, "exportName");
+            
+            if (!hasExportTypes && !hasFilterExpression && !hasExportName) {
+                    throw new BeanDefinitionValidationException("Either 'exportTypes', 'filterExpression' or 'exportName' must be specified" + inNameString("import"));
+            }
+            
+            if (hasExportName) {
+                if (hasExportTypes || hasFilterExpression) {
+                    throw new BeanDefinitionValidationException("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' or 'exportTypes' attributes" + inNameString("import"));
+                }
+                
+                if (!hasProxyTypes) {
+                    throw new BeanDefinitionValidationException("The 'exportName' attribute has been specified, requiring also that the 'proxyTypes' be specified" + inNameString("import"));
+                }
+            } else {
+                if (!hasProxyTypes && !hasExportTypes) {
+                    throw new BeanDefinitionValidationException("Either 'exportTypes' or 'proxyTypes' must be specified" + inNameString("import"));
+                }
+            }
+        }
+
+        private String inNameString(String elementName) {
+            return ", in Impala 'service' namespace, '" + elementName + "' element";
+        }
+
+        private boolean hasAttribute(Element element, String attribute) {
+            return StringUtils.hasText(element.getAttribute(attribute));
+        }
+        
+        
         
     }
     
-    private static class ListBeanDefinitionParser implements BeanDefinitionParser {
+    static class ListBeanDefinitionParser implements BeanDefinitionParser {
 
         public BeanDefinition parse(Element element, ParserContext parserContext) {
             //FIXME provide implementation of this ...
@@ -92,7 +135,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
 
     }
     
-    private static class MapBeanDefinitionParser implements BeanDefinitionParser {
+    static class MapBeanDefinitionParser implements BeanDefinitionParser {
 
         public BeanDefinition parse(Element element, ParserContext parserContext) {
             //FIXME provide implementation of this ...
@@ -100,7 +143,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         }
     }
     
-    private static class AutoExportBeanDefinitionParser implements BeanDefinitionParser {
+    static class AutoExportBeanDefinitionParser implements BeanDefinitionParser {
 
         public BeanDefinition parse(Element element, ParserContext parserContext) {
             //FIXME provide implementation of this ...
