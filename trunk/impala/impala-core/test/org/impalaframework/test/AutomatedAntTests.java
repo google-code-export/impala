@@ -144,7 +144,7 @@ import org.impalaframework.spring.service.contribution.ServiceRegistryMapTest;
 import org.impalaframework.spring.service.exporter.AutoRegisteringModuleContributionExporterTest;
 import org.impalaframework.spring.service.exporter.ContributionEndpointInterceptorTest;
 import org.impalaframework.spring.service.exporter.ModuleContributionExportersTest;
-import org.impalaframework.spring.service.exporter.ModuleContributionPostProcessorTest;
+import org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessorTest;
 import org.impalaframework.spring.service.exporter.ModuleContributionUtilsTest;
 import org.impalaframework.spring.service.exporter.ParentWithChildContextTest;
 import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporterTest;
@@ -250,7 +250,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleClassLoaderFactoryTest.class);
         suite.addTestSuite(ModuleContributionExportersTest.class);
         suite.addTestSuite(ModuleContributionUtilsTest.class);
-        suite.addTestSuite(ModuleContributionPostProcessorTest.class);
+        suite.addTestSuite(NamedServiceAutoExportPostProcessorTest.class);
         suite.addTestSuite(ModuleDefinitionPostProcessorTest.class);
         suite.addTestSuite(ModuleDefinitionToStringTest.class);
         suite.addTestSuite(ModuleDefinitionUtilsTest.class);

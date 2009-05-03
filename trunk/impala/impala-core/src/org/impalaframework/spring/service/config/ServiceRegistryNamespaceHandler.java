@@ -4,7 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.spring.service.contribution.ServiceRegistryList;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
-import org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor;
+import org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor;
 import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporter;
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean;
@@ -159,7 +159,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
 
         @Override
         protected Class<?> getBeanClass(Element element) {
-            return ModuleContributionPostProcessor.class;
+            return NamedServiceAutoExportPostProcessor.class;
         }
 
         @Override

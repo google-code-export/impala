@@ -33,9 +33,9 @@ import org.springframework.util.ClassUtils;
 /**
  * @author Phil Zoio
  */
-public class ModuleContributionPostProcessorTest extends TestCase {
+public class NamedServiceAutoExportPostProcessorTest extends TestCase {
 
-    private ModuleContributionPostProcessor p;
+    private NamedServiceAutoExportPostProcessor p;
     private DefaultListableBeanFactory beanFactory;
     private DefaultListableBeanFactory parentBeanFactory;
     private ContributionEndpoint endPoint;
@@ -46,7 +46,7 @@ public class ModuleContributionPostProcessorTest extends TestCase {
     public void setUp()
     {
         classes = new Class[]{Object.class};
-        p = new ModuleContributionPostProcessor();
+        p = new NamedServiceAutoExportPostProcessor();
         beanFactory = createMock(DefaultListableBeanFactory.class);
         parentBeanFactory = createMock(DefaultListableBeanFactory.class);
         endPoint = createMock(NamedServiceProxyFactoryBean.class);
