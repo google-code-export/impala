@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.reference.BasicServiceRegistryReference;
 import org.springframework.aop.framework.ProxyFactory;
 
@@ -29,7 +30,7 @@ import org.springframework.aop.framework.ProxyFactory;
  * @see BasicServiceRegistryReference
  * @author Phil Zoio
  */
-public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
+public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements NamedContributionEndpoint {
 
     private static final long serialVersionUID = 1L;
 
@@ -40,12 +41,24 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
     /* *************** Abstract superclass method implementation ************** */
 
     protected ProxyFactory createProxyFactory() {
-        String registryBeanName = (exportName != null ? exportName : getBeanName());
+        String registryBeanName = getRegistryExportName();
         
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, registryBeanName, false);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
+    }
+
+    /* *************** NamedContributionEndpoint implementation ************** */
+    
+    public String getExportName() {
+        return getRegistryExportName();
+    }
+    
+    /* *************** private methods ************** */
+    
+    private String getRegistryExportName() {
+        return (exportName != null ? exportName : getBeanName());
     }
 
     /* *************** dependency injection setters ************** */
