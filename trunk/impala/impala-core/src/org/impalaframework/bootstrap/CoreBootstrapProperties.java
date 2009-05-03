@@ -39,11 +39,6 @@ public interface CoreBootstrapProperties {
     String ALL_LOCATIONS = "all.locations";
     
     /**
-     * An alias for {@link #ALL_LOCATIONS}
-     */
-    String BOOTSTRAP_LOCATIONS = "bootstrapLocations";
-    
-    /**
      * Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
      * otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
      * <i>impala-</i> is used as a prefix, and <i>.xml</i> is used as a suffix.

@@ -117,7 +117,6 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     @Override
     public void destroy() {
         super.destroy();
-        //FIXME test
         contributions.clear();
         proxyMap.clear();
         services.clear();

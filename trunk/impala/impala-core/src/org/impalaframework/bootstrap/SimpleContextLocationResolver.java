@@ -78,11 +78,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
     }
     
     protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
-        boolean added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
-        
-        //TODO line left in for backward compatiblity. Remove after 1.0M5
-        if (!added) added = addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.BOOTSTRAP_LOCATIONS);
-        return added;
+        return addNamedLocations(configSettings, propertySource, CoreBootstrapProperties.ALL_LOCATIONS);
     }
 
     protected void addDefaultLocations(ConfigurationSettings configSettings) {
