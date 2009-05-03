@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service http://www.impalaframework.org/schema/impala-service.xsd">
 
     <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
     
@@ -25,30 +26,47 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <bean id="attributeMessageService" 
         class="classes.MessageServiceImpl">
         <property name="message" value="Hi Phil - an attribute message" />
-    </bean>
+    </bean>    
     
+    <service:export 
+    	id="typedMessageServiceExport" 
+    	beanName="typedMessageService" 
+    	exportTypes="interfaces.MessageService,classes.MessageServiceImpl" />
+    
+    <service:export 
+    	id="namedMessageServiceExport" 
+    	beanName="typedMessageService" 
+    	exportName="myNamedMessageService" />    
+    	    
+    <service:export 
+    	id="attributeMessageServiceExport" 
+    	beanName="attributeMessageService" 
+    	attributes="message=hello" />    
+    
+    <!-- 
     <bean id="typedMessageServiceExport"
     	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
-    	<!-- the name of the bean to export -->
+    	<!- the name of the bean to export ->
         <property name="beanName" value="typedMessageService" />
-        <!-- export types to be used -->
+        <!- export types to be used ->
         <property name="exportTypes" value="interfaces.MessageService,classes.MessageServiceImpl" />
-    </bean>
+    </bean> 
     
     <bean id="namedMessageServiceExport"
     	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
-    	<!-- the name of the bean to export -->
+    	<!- the name of the bean to export ->
         <property name="beanName" value="namedMessageService" />
-    	<!-- the export name to use in the service registry for named lookups --> 
+    	<!- the export name to use in the service registry for named lookups -> 
         <property name="exportName" value="myNamedMessageService" />
     </bean>
     
     <bean id="attributeMessageServiceExport"
     	class="org.impalaframework.spring.service.exporter.ServiceRegistryExporter">
-    	<!-- the name of the bean to export -->
+    	<!- the name of the bean to export ->
         <property name="beanName" value="attributeMessageService" />
-    	<!-- the export name to use in the service registry for named lookups --> 
+    	<!- the export name to use in the service registry for named lookups -> 
         <property name="attributes" value="message=hello" />
     </bean>
+    -->
 
 </beans>

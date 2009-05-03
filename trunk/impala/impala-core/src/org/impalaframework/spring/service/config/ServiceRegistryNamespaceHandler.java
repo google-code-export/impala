@@ -2,7 +2,9 @@ package org.impalaframework.spring.service.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
@@ -32,20 +34,22 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("auto-export", new MapBeanDefinitionParser());
     }
 
-    private static class ExportBeanDefinitionParser implements BeanDefinitionParser {
+    private static class ExportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
         /**
          * Parses the <code>export</code> element. An example is below:
          * 
          * <pre class = "code">
-         * 
+         * &lt;service:export beanName = "beanToBeExported" 
+         *         exportName = "optionalNameInExportRegistry"
+         *         exportTypes = "optionalCommaSeparatedListOfTypes"
+         *         attributes = "attributeMapStringWhichWillBeParseToMap"/&gt;
          * </pre>
          */
-        public BeanDefinition parse(Element element, ParserContext parserContext) {
-            //FIXME provide implementation of this ...
-            return null;
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ServiceRegistryExporter.class;
         }
-
     }
     
     private static class ImportBeanDefinitionParser implements BeanDefinitionParser {

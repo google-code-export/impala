@@ -12,9 +12,20 @@
 	<xsd:element name="export">
 		<xsd:annotation>
 			<xsd:documentation>
-	Documentation for export
+	Used to export an individual Spring bean as an Impala service. 
+	- beanName is the name of the bean being exported, resolved used applicationContext.getBean(beanName)
+	- exportName is the name against which the bean is registered in the Impala service registry (enabling name based lookups using the import element)
+	- exportTypes is a comma separated list of types against which the bean will be exported (enabling typed based lookups using the import element)
+	- attributes is a set of attributes pairs, separated by default by line breaks or commas, with name and value separated by equals 
 			</xsd:documentation>
 		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="beanName" type="xsd:string" use="required"/>
+			<xsd:attribute name="exportName" type="xsd:string" use="optional"/>
+			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="attributes" type="xsd:string" use="optional"/>
+		</xsd:complexType>
 	</xsd:element>
 
 </xsd:schema>
