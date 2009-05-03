@@ -15,33 +15,19 @@
 package org.impalaframework.service.contribution;
 
 import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.proxy.ProxyHelper;
 
 /**
- * Adds to functionality of {@link BaseServiceRegistryMap} by providing an implementation of 
- * {@link #maybeGetProxy(ServiceRegistryReference)} which uses {@link ProxyHelper}
+ * Makes {@link BaseServiceRegistryMap} concrete but not support any proxying of returned entries.
  * 
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap {
     
-    private ProxyHelper proxyHelper;
-    
     public ServiceRegistryMap() {
         super();
-        proxyHelper = new ProxyHelper();
     }
     
     protected Object maybeGetProxy(ServiceRegistryReference reference) {
-        return proxyHelper.maybeGetProxy(reference);
-    }
-
-    public void setProxyEntries(boolean proxyEntries) {
-        this.proxyHelper.setProxyEntries(proxyEntries);
-    }
-    
-
-    public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
-        this.proxyHelper.setProxyInterfaces(proxyInterfaces);
+        return reference.getBean();
     }
 }

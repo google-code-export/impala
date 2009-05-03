@@ -37,7 +37,6 @@ public class ContributionMapTest extends TestCase {
         super.setUp();
         map = new ContributionMap();
         serviceRegistryMap = map.getExternalContributions();
-        serviceRegistryMap.setProxyEntries(false);
         serviceRegistryMap.setFilterExpression("(mapkey=*)");
         registry = new ServiceRegistryImpl();
         serviceRegistryMap.setServiceRegistry(registry);
