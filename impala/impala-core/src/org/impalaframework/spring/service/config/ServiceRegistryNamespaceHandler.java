@@ -2,6 +2,8 @@ package org.impalaframework.spring.service.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.service.contribution.ServiceRegistryList;
+import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
@@ -121,25 +123,22 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         private boolean hasAttribute(Element element, String attribute) {
             return StringUtils.hasText(element.getAttribute(attribute));
         }
-        
-        
-        
     }
     
-    static class ListBeanDefinitionParser implements BeanDefinitionParser {
+    static class ListBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
-        public BeanDefinition parse(Element element, ParserContext parserContext) {
-            //FIXME provide implementation of this ...
-            return null;
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ServiceRegistryList.class;
         }
 
     }
     
-    static class MapBeanDefinitionParser implements BeanDefinitionParser {
+    static class MapBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
-        public BeanDefinition parse(Element element, ParserContext parserContext) {
-            //FIXME provide implementation of this ...
-            return null;
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ServiceRegistryMap.class;
         }
     }
     

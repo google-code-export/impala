@@ -18,6 +18,8 @@ import interfaces.EntryService;
 import interfaces.MessageService;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.InteractiveTestRunner;
@@ -61,7 +63,8 @@ public class EntryServiceTest extends BaseExampleTest {
         System.out.println(concreteService.getClass().getName());
     }
     
-    public void testTypedLookupService() throws Exception {
+    @SuppressWarnings("unchecked")
+    public void testLookupServices() throws Exception {
         MessageService typedMessageService = Impala.getModuleBean("example-service", "typedMessageService", MessageService.class);
         System.out.println(typedMessageService.getMessage());
 
@@ -70,6 +73,15 @@ public class EntryServiceTest extends BaseExampleTest {
 
         MessageService filteredMessageService = Impala.getModuleBean("example-service", "filteredMessageService", MessageService.class);
         System.out.println(filteredMessageService.getMessage());
+        
+        List<MessageService> listMessageService = Impala.getModuleBean("example-service", "messageServiceList", List.class);
+        assertFalse(listMessageService.isEmpty());
+        System.out.println("First list entry: " + listMessageService.get(0).getMessage());
+        
+        Map<String,MessageService> mapMessageService = Impala.getModuleBean("example-service", "messageServiceMap", Map.class);
+        assertFalse(mapMessageService.isEmpty());
+        String firstKey = mapMessageService.keySet().iterator().next();
+        System.out.println("First map entry: " + mapMessageService.get(firstKey).getMessage());
     }
 
     public RootModuleDefinition getModuleDefinition() {

@@ -76,6 +76,15 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
 	<service:import id="filteredMessageService" 
 		proxyTypes = "interfaces.MessageService"
 		filterExpression = "(message=*)"/>
+		
+	<service:list id="messageServiceList" 
+		proxyTypes = "interfaces.MessageService"
+		filterExpression = "(message=*)"/>
+		
+	<service:map id="messageServiceMap" 
+		proxyTypes = "interfaces.MessageService"
+		mapKey = "message"
+		filterExpression = "(message=*)"/>
 
 	<!-- 
 	<bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
