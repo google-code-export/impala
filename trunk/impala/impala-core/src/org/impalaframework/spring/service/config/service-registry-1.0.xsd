@@ -128,7 +128,7 @@
 	Used to automatically export beans to the service registry. It checks for the presence in beans in the parent (and dependent) application
 	contexts (that is, application contexts for parent and dependent modules) for beans which are service endpoints, created for example using
 	the 'import' element. It then checks each bean in the current application context, and if its bean name corresponds with the endpoint's 
-	EXPORT NAME (TODO) attribute, it export the bean using the bean name as the export name.
+	export name, it exports the bean using the current bean name as the export name.
 	
 	In this way, the 'auto-export' element provides a very easy way to contribute an implementation for a service endpoint defined in a parent
 	application context.
