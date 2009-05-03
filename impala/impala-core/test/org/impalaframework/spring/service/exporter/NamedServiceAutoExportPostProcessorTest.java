@@ -15,13 +15,15 @@
 package org.impalaframework.spring.service.exporter;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
@@ -38,7 +40,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
     private NamedServiceAutoExportPostProcessor p;
     private DefaultListableBeanFactory beanFactory;
     private DefaultListableBeanFactory parentBeanFactory;
-    private ContributionEndpoint endPoint;
+    private NamedContributionEndpoint endPoint;
     private FactoryBean factoryBean;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] classes;
@@ -68,8 +70,26 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
         
-        //this is the method we are expecting to be called
-        //endPoint.registerTarget("pluginName", object);
+        expect(endPoint.getExportName()).andReturn("anotherExportName");
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        
+        //because anotherExportName is used, no service is exported
+        assertNull(serviceRegistry.getService("mybean", classes, false));
+    }
+    
+    public void testPostProcessWithOtherExportName() {
+        expectFactoryBean();
+        Object object = new Object();
+        p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
+        
+        expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);
         replay(parentBeanFactory);
@@ -83,6 +103,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         assertSame(object, service.getBean());
     }
     
+    
     public void testPostProcessAfterInitializationFactoryBean() throws Exception {
         expectFactoryBean();
         expect(factoryBean.getObject()).andReturn("value");
@@ -91,7 +112,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         //then the registered object is the factoryBean.getObject()
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
         
-        //endPoint.registerTarget("pluginName", object);
+        expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);
         replay(parentBeanFactory);

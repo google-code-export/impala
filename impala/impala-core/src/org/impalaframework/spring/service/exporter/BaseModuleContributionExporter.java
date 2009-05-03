@@ -94,8 +94,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
     }
 
     protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
-        ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-        return endPoint;
+        return ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
     }
 
     protected BeanFactory getBeanFactory() {

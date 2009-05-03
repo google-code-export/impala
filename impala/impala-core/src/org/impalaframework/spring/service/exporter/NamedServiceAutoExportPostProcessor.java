@@ -21,7 +21,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -54,6 +54,8 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 	
 	private Map<Object, ServiceRegistryReference> referenceMap = new IdentityHashMap<Object, ServiceRegistryReference>();
 
+    /* *************** BeanPostProcessor methods ************** */
+	
 	public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
 		return bean;
 	}
@@ -62,8 +64,8 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		String moduleName = moduleName();
 		
 		//only if there is a contribution end point corresponding with bean name do we register the service
-		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		if (endPoint != null) {			
+		NamedContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+		if (hasRegisterableEndpoint(beanName, endPoint)) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
 		
 			final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
@@ -71,17 +73,18 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		}	
 		return bean;
 	}
+	
+    /* *************** DestructionAwareBeanPostProcessor methods ************** */
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
-	
-		//remove bean if end point exists corresponding with bean name
-		ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		if (endPoint != null) {
+
+        final ServiceRegistryReference serviceRegistryReference = referenceMap.get(beanName);
+        
+        //if we have reference for this bean
+		if (serviceRegistryReference != null) {
 
 			String moduleName = moduleName();
 			logger.info("Removing bean " + beanName + " contributed from module " + moduleName);
-			
-			final ServiceRegistryReference serviceRegistryReference = referenceMap.get(beanName);
 			
 			if (serviceRegistryReference != null) {
 				serviceRegistry.remove(serviceRegistryReference);
@@ -91,6 +94,14 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		}
 	}
 	
+    /* *************** private methods ************** */
+
+    private boolean hasRegisterableEndpoint(String beanName,
+            NamedContributionEndpoint endPoint) {
+        boolean b = endPoint != null && beanName.equals(endPoint.getExportName());
+        return b;
+    }
+    
 	private String moduleName() {
 		String moduleName = null;
 		if (moduleDefinition != null) {

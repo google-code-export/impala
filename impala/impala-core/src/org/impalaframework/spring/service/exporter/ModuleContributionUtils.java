@@ -15,7 +15,7 @@
 package org.impalaframework.spring.service.exporter;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.NamedContributionEndpoint;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
@@ -30,13 +30,15 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
  */
 public abstract class ModuleContributionUtils {
 
-    static ContributionEndpoint findContributionEndPoint(BeanFactory beanFactory, String beanName) {
+    static NamedContributionEndpoint findContributionEndPoint(
+            BeanFactory beanFactory, String beanName) {
 
-        ContributionEndpoint factoryBean = null;
+        NamedContributionEndpoint endpoint = null;
         if (beanFactory instanceof HierarchicalBeanFactory) {
 
             HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
-            BeanFactory parentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();
+            BeanFactory parentBeanFactory = hierarchicalBeanFactory
+                    .getParentBeanFactory();
 
             if (parentBeanFactory != null) {
 
@@ -45,9 +47,10 @@ public abstract class ModuleContributionUtils {
                 try {
 
                     if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
-                        Object o = parentBeanFactory.getBean(parentFactoryBeanName);
-                        if (o instanceof ContributionEndpoint) {
-                            factoryBean = (ContributionEndpoint) o;
+                        Object o = parentBeanFactory
+                                .getBean(parentFactoryBeanName);
+                        if (o instanceof NamedContributionEndpoint) {
+                            endpoint = (NamedContributionEndpoint) o;
                         }
                     }
                 }
@@ -59,11 +62,11 @@ public abstract class ModuleContributionUtils {
                 }
             }
         }
-        return factoryBean;
+        return endpoint;
     }
 
     static Object getTarget(Object bean, String beanName) {
-        
+
         Object target = null;
         if (bean instanceof FactoryBean) {
             FactoryBean factoryBean = (FactoryBean) bean;
@@ -71,9 +74,10 @@ public abstract class ModuleContributionUtils {
                 target = factoryBean.getObject();
             }
             catch (Exception e) {
-                String errorMessage = "Failed getting object from factory bean " + factoryBean + ", bean name "
-                        + beanName;
-                throw new BeanInstantiationException(factoryBean.getObjectType(), errorMessage, e);
+                String errorMessage = "Failed getting object from factory bean "
+                        + factoryBean + ", bean name " + beanName;
+                throw new BeanInstantiationException(factoryBean
+                        .getObjectType(), errorMessage, e);
             }
         }
         else {
@@ -83,15 +87,18 @@ public abstract class ModuleContributionUtils {
     }
 
     static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
-        
+
         if (!(beanFactory instanceof HierarchicalBeanFactory)) {
-            throw new ExecutionException(BeanFactory.class.getSimpleName() + " " + beanFactory + " is of type "
-                    + beanFactory.getClass().getName() + ", which is not an instance of "
+            throw new ExecutionException(BeanFactory.class.getSimpleName()
+                    + " " + beanFactory + " is of type "
+                    + beanFactory.getClass().getName()
+                    + ", which is not an instance of "
                     + HierarchicalBeanFactory.class.getName());
         }
 
         HierarchicalBeanFactory hierarchicalFactory = (HierarchicalBeanFactory) beanFactory;
-        BeanFactory parentBeanFactory = hierarchicalFactory.getParentBeanFactory();
+        BeanFactory parentBeanFactory = hierarchicalFactory
+                .getParentBeanFactory();
 
         if (parentBeanFactory != null) {
             beanFactory = getRootBeanFactory(parentBeanFactory);
