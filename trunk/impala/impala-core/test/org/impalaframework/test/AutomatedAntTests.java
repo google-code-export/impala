@@ -152,7 +152,6 @@ import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreato
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBeanTest;
-import org.impalaframework.spring.service.registry.FilteredServiceRegistryTargetSourceTest;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
 import org.impalaframework.util.ArrayUtilsTest;
@@ -221,7 +220,6 @@ public class AutomatedAntTests {
         suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
         suite.addTestSuite(FileMonitorImplTest.class);
         suite.addTestSuite(FileUtilsTest.class);
-        suite.addTestSuite(FilteredServiceRegistryTargetSourceTest.class);
         suite.addTestSuite(FilteredServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(FilterParserTest.class);
         suite.addTestSuite(FilterTest.class);
