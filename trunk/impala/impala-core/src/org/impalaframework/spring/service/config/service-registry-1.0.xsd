@@ -55,5 +55,21 @@
 			<xsd:attribute name="filterExpression" type="xsd:string" use="optional"/>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:element name="list">
+		<xsd:annotation>
+			<xsd:documentation>
+	Documentation for list
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
+	<xsd:element name="map">
+		<xsd:annotation>
+			<xsd:documentation>
+	Documentation for map
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
 
 </xsd:schema>
