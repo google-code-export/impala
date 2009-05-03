@@ -59,17 +59,47 @@
 	<xsd:element name="list">
 		<xsd:annotation>
 			<xsd:documentation>
-	Documentation for list
+	Used to create a java.util.List which is backed by Impala service registry entries.
+	
+	The following attributes apply:
+	- filterExpression: used to filter services which are eligible for adding to the list
+	- exportTypes: if exportTypes is present it is used to limit the candidate services to 
+	those which were exported using all of the specified set of export types. 
+	- proxyTypes: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service
+	for each entry in the list. If not present, then the export types (from the exportTypes attribute)
+	are also used as the proxy types.
 			</xsd:documentation>
 		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="filterExpression" type="xsd:string" use="required"/>
+			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
+		</xsd:complexType>
 	</xsd:element>
 	
 	<xsd:element name="map">
 		<xsd:annotation>
 			<xsd:documentation>
-	Documentation for map
+	Used to create a java.util.Map which is backed by Impala service registry entries.
+	
+	The following attributes apply:
+	- filterExpression: used to filter services which are eligible for adding to the list
+	- exportTypes: if exportTypes is present it is used to limit the candidate services to 
+	those which were exported using all of the specified set of export types. 
+	- proxyTypes: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service
+	for each entry in the map. If not present, then the export types (from the exportTypes attribute)
+	are also used as the proxy types.
+	- mapKey: the service attribute used as the key for the map. By default this will be 'mapkey'
 			</xsd:documentation>
 		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="filterExpression" type="xsd:string" use="required"/>
+			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="mapKey" type="xsd:string" use="optional"/>
+		</xsd:complexType>
 	</xsd:element>
 
 </xsd:schema>
