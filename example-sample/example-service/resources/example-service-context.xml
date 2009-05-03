@@ -46,7 +46,27 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
             </map>
         </property>
     </bean>
-    
+		
+	<!-- 
+	No exportTypes, exportName or filterExpression
+	<service:import id="noRestrictionMessageService" proxyTypes = "interfaces.MessageService"/>	
+	
+	No proxyTypes specified
+	<service:import id="namedMessageServiceNoType" 
+		exportName = "myNamedMessageService"/>	
+     
+    Export name and export types cannot both be specified
+    <service:import id="typedAndNamedMessageService" 
+		exportTypes = "interfaces.MessageService" 
+		exportName = "myNamedMessageService"/>
+		
+    Export name and filter expression cannot both be specified
+	<service:import id="filteredAndNamedMessageService" 
+		proxyTypes = "interfaces.MessageService" 
+		exportName = "myNamedMessageService"
+		filterExpression = "(message=*)"/>
+     -->
+     
     <service:import id="typedMessageService" exportTypes = "interfaces.MessageService"/>
 	
 	<service:import id="namedMessageService" 
