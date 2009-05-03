@@ -4,18 +4,17 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.spring.service.contribution.ServiceRegistryList;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
+import org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor;
+import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporter;
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean;
-import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
-import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
-import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
@@ -39,6 +38,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
         registerBeanDefinitionParser("list", new ListBeanDefinitionParser());
         registerBeanDefinitionParser("map", new MapBeanDefinitionParser());
+        registerBeanDefinitionParser("export-array", new ArrayExportDefinitionParser());
         registerBeanDefinitionParser("auto-export", new AutoExportBeanDefinitionParser());
     }
 
@@ -142,11 +142,29 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         }
     }
     
-    static class AutoExportBeanDefinitionParser implements BeanDefinitionParser {
+    static class ArrayExportDefinitionParser extends AbstractSimpleBeanDefinitionParser {
 
-        public BeanDefinition parse(Element element, ParserContext parserContext) {
-            //FIXME provide implementation of this ...
-            return null;
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ServiceArrayRegistryExporter.class;
+        }
+
+        @Override
+        protected boolean shouldGenerateIdAsFallback() {
+            return true;
+        }
+    }
+    
+    static class AutoExportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ModuleContributionPostProcessor.class;
+        }
+
+        @Override
+        protected boolean shouldGenerateIdAsFallback() {
+            return true;
         }
     }
 }

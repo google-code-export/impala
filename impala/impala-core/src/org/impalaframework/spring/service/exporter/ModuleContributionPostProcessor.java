@@ -39,6 +39,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
  * 
  * @author Phil Zoio
  */
+//FIXME rename this class
 public class ModuleContributionPostProcessor implements ModuleDefinitionAware, ServiceRegistryAware, BeanPostProcessor, BeanFactoryAware,
 		DestructionAwareBeanPostProcessor, BeanClassLoaderAware {
 
