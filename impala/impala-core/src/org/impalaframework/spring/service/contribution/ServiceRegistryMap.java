@@ -2,7 +2,7 @@ package org.impalaframework.spring.service.contribution;
 
 import java.util.Map;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryMap;
 import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
@@ -38,7 +38,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
         super.init();
     }
 
-    protected Object maybeGetProxy(ServiceRegistryReference reference) {
+    protected Object maybeGetProxy(ServiceRegistryEntry reference) {
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getProxyTypes(), reference);
         final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
         return proxyFactory.getProxy();

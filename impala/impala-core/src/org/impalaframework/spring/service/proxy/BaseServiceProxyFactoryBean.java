@@ -16,7 +16,7 @@ package org.impalaframework.spring.service.proxy;
 
 import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -31,7 +31,7 @@ import org.springframework.util.ClassUtils;
  * the {@link ProxyFactory} gets created. Implementations may for example hold a static reference to a bean obtained from the 
  * service registry, or use some kind of dynamic lookup.
  * 
- * @see BasicServiceRegistryReference
+ * @see BasicServiceRegistryEntry
  * @author Phil Zoio
  */
 public abstract class BaseServiceProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {

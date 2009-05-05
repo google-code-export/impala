@@ -20,7 +20,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
@@ -82,8 +82,8 @@ public class ContributionMapTest extends TestCase {
         String service1 = "some service1";
         String service2 = "some service2";
         
-        final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        final ServiceRegistryReference ref2 = registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        final ServiceRegistryEntry ref2 = registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         assertEquals(2, map.getExternalContributions().size());
         assertNotNull(map.getExternalContributions().get("bean1"));
         assertNotNull(map.getExternalContributions().get("bean2"));
@@ -99,7 +99,7 @@ public class ContributionMapTest extends TestCase {
         serviceRegistryMap.init();
         String service1 = "some service1";
         
-        final ServiceRegistryReference ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        final ServiceRegistryEntry entry1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
         assertEquals(1, map.getExternalContributions().size());   
         
         serviceRegistryMap.destroy();
@@ -109,7 +109,7 @@ public class ContributionMapTest extends TestCase {
         assertFalse(registry.removeEventListener(serviceRegistryMap));
 
         //service is still present in service registry, though
-        assertTrue(registry.remove(ref1));
+        assertTrue(registry.remove(entry1));
     }
     
     public void testSuppliedFilter() {

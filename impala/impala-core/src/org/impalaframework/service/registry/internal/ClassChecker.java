@@ -19,7 +19,7 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.util.ArrayUtils;
 
 /**
@@ -30,7 +30,7 @@ class ClassChecker {
     
     private static Log logger = LogFactory.getLog(ClassChecker.class);
     
-    void checkClasses(ServiceRegistryReference reference) {
+    void checkClasses(ServiceRegistryEntry reference) {
 
         final List<Class<?>> exportTypes = reference.getExportTypes();
         
@@ -44,7 +44,7 @@ class ClassChecker {
      * Checks that the class loader and classes are compatible. In other words, it must be possible to load each of the classes
      * using the supplied class loader.
      */
-    private void checkClassesForClassLoader(List<Class<?>> classes, ServiceRegistryReference reference) {
+    private void checkClassesForClassLoader(List<Class<?>> classes, ServiceRegistryEntry reference) {
         
         final ClassLoader classLoader = reference.getBeanClassLoader();
         
@@ -72,7 +72,7 @@ class ClassChecker {
      * @param classes
      * @param reference
      */
-    private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryReference reference) {
+    private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryEntry reference) {
         
         Object service = ServiceRegistryUtils.getTargetInstance(reference);
         
@@ -94,7 +94,7 @@ class ClassChecker {
      * Used during the operation to retrieve service references, potentially filtered by implementation type.
      */
     boolean matchesTypes(
-            ServiceRegistryReference reference,
+            ServiceRegistryEntry reference,
             Class<?>[] implementationTypes) {
         
         boolean matches = true;

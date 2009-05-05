@@ -16,8 +16,8 @@ package org.impalaframework.service.contribution;
 
 import java.util.Collections;
 
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
@@ -32,8 +32,8 @@ public class BaseServiceRegistryMapTest extends TestCase {
         map = new BaseServiceRegistryMap() {
 
             @Override
-            protected Object maybeGetProxy(ServiceRegistryReference reference) {
-                return reference.getBean();
+            protected Object maybeGetProxy(ServiceRegistryEntry entry) {
+                return entry.getBean();
             }
             
         };
@@ -41,8 +41,8 @@ public class BaseServiceRegistryMapTest extends TestCase {
 
     public void testAddRemove() throws Exception {
 
-        BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference("service1", "beanName1", "module", null, Collections.singletonMap("mapkey", "bean1"), ClassUtils.getDefaultClassLoader());
-        BasicServiceRegistryReference ref2 = new BasicServiceRegistryReference("service2", "beanName2", "module", null, Collections.singletonMap("mapkey", "bean2"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry("service1", "beanName1", "module", null, Collections.singletonMap("mapkey", "bean1"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref2 = new BasicServiceRegistryEntry("service2", "beanName2", "module", null, Collections.singletonMap("mapkey", "bean2"), ClassUtils.getDefaultClassLoader());
         assertTrue(map.add(ref1));
         assertTrue(map.add(ref2));
 
@@ -54,7 +54,7 @@ public class BaseServiceRegistryMapTest extends TestCase {
         assertEquals("service1", map.get("bean1"));
         assertEquals("service2", map.get("bean2"));
         
-        BasicServiceRegistryReference refWithNoMapKey = new BasicServiceRegistryReference("service2", "beanName2", "module", null, null, ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry refWithNoMapKey = new BasicServiceRegistryEntry("service2", "beanName2", "module", null, null, ClassUtils.getDefaultClassLoader());
 
         assertFalse(map.add(refWithNoMapKey));
         assertEquals(2, map.size());

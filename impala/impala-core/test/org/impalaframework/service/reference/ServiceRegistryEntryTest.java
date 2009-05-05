@@ -16,32 +16,32 @@ package org.impalaframework.service.reference;
 
 import java.util.Collections;
 
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class ServiceReferenceTest extends TestCase {
+public class ServiceRegistryEntryTest extends TestCase {
 
     public void testConstruct() throws Exception {
         ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
                 "moduleName", classLoader);
-        assertEquals(0, serviceReference.getAttributes().size());
-        assertSame(classLoader, serviceReference.getBeanClassLoader());
-        assertTrue(serviceReference.getExportTypes().isEmpty());
+        assertEquals(0, entry.getAttributes().size());
+        assertSame(classLoader, entry.getBeanClassLoader());
+        assertTrue(entry.getExportTypes().isEmpty());
     }
     
     public void testConstructAttributes() throws Exception {
-        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
                 "moduleName", null, Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
-        assertEquals(1, serviceReference.getAttributes().size());
+        assertEquals(1, entry.getAttributes().size());
     }
 
     public void testConstructTagsAttributesNull() throws Exception {
-        ServiceRegistryReference serviceReference = new BasicServiceRegistryReference("service1","beanName",
+        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
                 "moduleName", null, null, ClassUtils.getDefaultClassLoader());
-        assertEquals(0, serviceReference.getAttributes().size());
+        assertEquals(0, entry.getAttributes().size());
     }   
 }

@@ -20,14 +20,14 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.springframework.util.Assert;
 
 /**
- * Default implementation of {@link ServiceRegistryReference}. Objects of this class are immutable.
+ * Default implementation of {@link ServiceRegistryEntry}. Objects of this class are immutable.
  * @author Phil Zoio
  */
-public class BasicServiceRegistryReference implements ServiceRegistryReference {
+public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
 
     private final Object bean;
     private final String beanName;
@@ -37,7 +37,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
     private List<Class<?>> exportTypes;
 
     @SuppressWarnings("unchecked")
-    public BasicServiceRegistryReference(Object bean, 
+    public BasicServiceRegistryEntry(Object bean, 
             String beanName,
             String contributingModule, 
             ClassLoader classLoader) {
@@ -45,7 +45,7 @@ public class BasicServiceRegistryReference implements ServiceRegistryReference {
     }
 
     @SuppressWarnings("unchecked")
-    public BasicServiceRegistryReference(Object bean, 
+    public BasicServiceRegistryEntry(Object bean, 
             String beanName,
             String contributingModule, 
             List<Class<?>> exportTypes,

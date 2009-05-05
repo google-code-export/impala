@@ -19,15 +19,15 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
 
     private Collection<Class<?>> types;
     private boolean matchAny;
     
-    public boolean matches(ServiceRegistryReference reference) {
-        Object bean = reference.getBean();
+    public boolean matches(ServiceRegistryEntry entry) {
+        Object bean = entry.getBean();
         
         if (types == null || types.isEmpty()) {
             return false;

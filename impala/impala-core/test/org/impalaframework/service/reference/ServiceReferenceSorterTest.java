@@ -21,8 +21,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.springframework.util.ClassUtils;
 
@@ -37,29 +37,29 @@ public class ServiceReferenceSorterTest extends TestCase {
     }
 
     public void testSort() {
-        ServiceRegistryReference ref1 = newRef(new Integer(1));
-        ServiceRegistryReference ref2 = newRef("nothing");
-        ServiceRegistryReference ref3 = newRef(-100);
-        ServiceRegistryReference ref4 = newRef(400);
-        ServiceRegistryReference ref5 = newRef(Long.MAX_VALUE);
-        ServiceRegistryReference ref6 = newRef(new Double(Integer.MAX_VALUE + ".51"));
+        ServiceRegistryEntry ref1 = newRef(new Integer(1));
+        ServiceRegistryEntry ref2 = newRef("nothing");
+        ServiceRegistryEntry ref3 = newRef(-100);
+        ServiceRegistryEntry ref4 = newRef(400);
+        ServiceRegistryEntry ref5 = newRef(Long.MAX_VALUE);
+        ServiceRegistryEntry ref6 = newRef(new Double(Integer.MAX_VALUE + ".51"));
         
-        List<ServiceRegistryReference> list = Arrays.asList(ref1, ref2, ref3, ref4, ref5, ref6);
-        List<ServiceRegistryReference> sorted = sorter.sort(list);
-        List<ServiceRegistryReference> expected = Arrays.asList(ref5, ref6, ref4, ref1, ref2, ref3);
+        List<ServiceRegistryEntry> list = Arrays.asList(ref1, ref2, ref3, ref4, ref5, ref6);
+        List<ServiceRegistryEntry> sorted = sorter.sort(list);
+        List<ServiceRegistryEntry> expected = Arrays.asList(ref5, ref6, ref4, ref1, ref2, ref3);
         System.out.println("sorted:" + sorted);
         System.out.println("expected:" + expected);
         assertEquals(expected, sorted);
     }
 
-    private ServiceRegistryReference newRef(Object ranking) {
+    private ServiceRegistryEntry newRef(Object ranking) {
         Map<String, Object> attributes = null;
         if (ranking != null) {
             attributes = new HashMap<String, Object>();
             attributes.put("service.ranking", ranking);
         }
-        ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "bean", "mod", null, attributes, ClassUtils.getDefaultClassLoader());
-        return ref;
+        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service", "bean", "mod", null, attributes, ClassUtils.getDefaultClassLoader());
+        return entry;
     }
 
 }

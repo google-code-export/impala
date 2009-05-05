@@ -12,7 +12,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.springframework.util.ObjectUtils;
@@ -50,9 +50,9 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     private List contributions = new ArrayList();
     
     /**
-     * Holds mapping of {@link ServiceRegistryReference} to items in contributions list
+     * Holds mapping of {@link ServiceRegistryEntry} to items in contributions list
      */
-    private List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>();
+    private List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>();
     
     /**
      * Holds identify mapping of beans to proxies, to remove need for proxy recreation 
@@ -67,47 +67,48 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
 
-    public boolean add(ServiceRegistryReference ref) {
+    public boolean add(ServiceRegistryEntry entry) {
         
         synchronized (lock) {
-            if (!this.services.contains(ref)) {
+            if (!this.services.contains(entry)) {
                 
-                List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
+                List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>(this.services);
                 //add the reference and sort
                 
-                services.add(ref);
+                services.add(entry);
                 sortAndRepopulate(services);
 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Service " + ref + " added to " + ObjectUtils.identityToString(this));
+                    logger.debug("Service " + entry + " added to " + ObjectUtils.identityToString(this));
                 }
                 
                 return true;
             } else {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Service " + ref + " not added as it already present in " + ObjectUtils.identityToString(this));
+                    logger.debug("Service " + entry + " not added as it already present in " + ObjectUtils.identityToString(this));
                 }
             }
         }
         return false;
     }
 
-    public boolean remove(ServiceRegistryReference ref) {
+    public boolean remove(ServiceRegistryEntry entry) {
+        
         synchronized (lock) {
-            List<ServiceRegistryReference> services = new ArrayList<ServiceRegistryReference>(this.services);
-            boolean removedRef = services.remove(ref);
+            List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>(this.services);
+            boolean removedRef = services.remove(entry);
             
-            proxyMap.remove(ref.getBean());
+            proxyMap.remove(entry.getBean());
             
             if (removedRef) {
                 sortAndRepopulate(services); 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Service " + ref + " successfully removed from " + ObjectUtils.identityToString(this));
+                    logger.debug("Service " + entry + " successfully removed from " + ObjectUtils.identityToString(this));
                 }   
                 return true;
             } else {
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Service " + ref + " not removed as it was not present in " + ObjectUtils.identityToString(this));
+                    logger.debug("Service " + entry + " not removed as it was not present in " + ObjectUtils.identityToString(this));
                 }
                 return false;
             }
@@ -122,22 +123,22 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         services.clear();
     }
 
-    protected abstract Object maybeGetProxy(ServiceRegistryReference ref);
+    protected abstract Object maybeGetProxy(ServiceRegistryEntry ref);
 
-    private void sortAndRepopulate(List<ServiceRegistryReference> services) {
-        List<ServiceRegistryReference> sorted = sorter.sort(services, true);
+    private void sortAndRepopulate(List<ServiceRegistryEntry> services) {
+        List<ServiceRegistryEntry> sorted = sorter.sort(services, true);
         //repopulate the services
         this.services.clear();
         this.services.addAll(sorted);
         
         //repopulate the contributions list
         this.contributions.clear();
-        for (ServiceRegistryReference serviceRegistryReference : sorted) {
-            Object bean = serviceRegistryReference.getBean();
+        for (ServiceRegistryEntry entry : sorted) {
+            Object bean = entry.getBean();
             
             Object proxyObject = proxyMap.get(bean);
             if (proxyObject == null) {
-                proxyObject = maybeGetProxy(serviceRegistryReference);
+                proxyObject = maybeGetProxy(entry);
                 proxyMap.put(bean, proxyObject);
             }
             
@@ -241,7 +242,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
 
     /* ******************* protected methods ******************** */
 
-    protected List<ServiceRegistryReference> getServices() {
+    protected List<ServiceRegistryEntry> getServices() {
         return services;
     }
     

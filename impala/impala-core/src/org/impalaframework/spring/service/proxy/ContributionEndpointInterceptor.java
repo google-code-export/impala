@@ -19,7 +19,7 @@ import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 
 /**
@@ -47,7 +47,7 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         final boolean setCCCL = setContextClassLoader;
-        ServiceRegistryReference serviceReference = targetSource.getServiceRegistryReference();
+        ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
         if (serviceReference != null) {
             
             Thread currentThread = Thread.currentThread();

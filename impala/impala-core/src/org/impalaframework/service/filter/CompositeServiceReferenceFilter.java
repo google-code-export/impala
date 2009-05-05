@@ -17,21 +17,21 @@ package org.impalaframework.service.filter;
 import java.util.Collection;
 
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 public class CompositeServiceReferenceFilter implements ServiceReferenceFilter {
 
     private Collection<ServiceReferenceFilter> filters;
     private boolean matchAny;
     
-    public boolean matches(ServiceRegistryReference reference) {
+    public boolean matches(ServiceRegistryEntry entry) {
         
         if (filters == null || filters.isEmpty()) {
             return false;
         }
         
         for (ServiceReferenceFilter type : filters) {   
-            if (type.matches(reference)) {
+            if (type.matches(entry)) {
                 if (matchAny)
                     return true;
             } else {

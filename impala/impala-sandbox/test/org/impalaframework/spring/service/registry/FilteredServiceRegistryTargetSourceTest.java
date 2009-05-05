@@ -28,9 +28,9 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class FilteredServiceRegistryTargetSourceTest extends TestCase {
@@ -48,7 +48,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
     }
     
     public void testGetNull() {
-        final List<ServiceRegistryReference> emptyList = Collections.emptyList();
+        final List<ServiceRegistryEntry> emptyList = Collections.emptyList();
         expect(serviceRegistry.getServices(filter, null, false)).andReturn(emptyList);
         
         replay(serviceRegistry);
@@ -60,11 +60,11 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
     
     public void testNoAttributes() throws Exception {
         
-        final List<ServiceRegistryReference> emptyList = new ArrayList<ServiceRegistryReference>();
+        final List<ServiceRegistryEntry> emptyList = new ArrayList<ServiceRegistryEntry>();
         final HashMap<String,?> attributes = new HashMap<String,Object>();
         
-        final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference("bean1", "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
-        final BasicServiceRegistryReference ref2 = new BasicServiceRegistryReference("bean2", "name2", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry("bean1", "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref2 = new BasicServiceRegistryEntry("bean2", "name2", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         
         emptyList.add(ref1);
         emptyList.add(ref2);
@@ -72,7 +72,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
         
         replay(serviceRegistry);
         
-        final ServiceRegistryReference reference = this.targetSource.getServiceRegistryReference();
+        final ServiceRegistryEntry reference = this.targetSource.getServiceRegistryReference();
         assertNotNull(reference);
         assertSame(ref1, reference);
         
@@ -81,17 +81,17 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
     
     public void testWrongType() throws Exception {
         
-        final List<ServiceRegistryReference> emptyList = new ArrayList<ServiceRegistryReference>();
+        final List<ServiceRegistryEntry> emptyList = new ArrayList<ServiceRegistryEntry>();
         final HashMap<String,?> attributes = new HashMap<String,Object>();
         
-        final BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         
         emptyList.add(ref1);
         expect(serviceRegistry.getServices(filter, null, false)).andReturn(emptyList);
         
         replay(serviceRegistry);
         
-        final ServiceRegistryReference serviceRegistryReference = this.targetSource.getServiceRegistryReference();
+        final ServiceRegistryEntry serviceRegistryReference = this.targetSource.getServiceRegistryReference();
         assertNull(serviceRegistryReference);
         
         verify(serviceRegistry);        

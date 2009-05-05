@@ -16,5 +16,5 @@ package org.impalaframework.service;
 
 
 public interface ServiceReferenceFilter {
-    public boolean matches(ServiceRegistryReference reference);
+    public boolean matches(ServiceRegistryEntry entry);
 }

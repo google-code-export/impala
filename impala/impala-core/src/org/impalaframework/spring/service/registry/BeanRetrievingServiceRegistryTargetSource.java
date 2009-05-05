@@ -18,7 +18,7 @@ import java.lang.reflect.Modifier;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 
 /**
@@ -63,7 +63,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
         return this.concreteClass;
     }
 
-    public ServiceRegistryReference getServiceRegistryReference() {
+    public ServiceRegistryEntry getServiceRegistryReference() {
         return serviceRegistry.getService(exportTypesOnly ? null : beanName, interfaces, exportTypesOnly);
     }
 

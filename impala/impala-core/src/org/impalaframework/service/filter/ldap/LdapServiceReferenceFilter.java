@@ -17,7 +17,7 @@ package org.impalaframework.service.filter.ldap;
 import java.util.Map;
 
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 /**
  * Implementation of {@link ServiceReferenceFilter} which uses RFC 1960 String
@@ -42,8 +42,8 @@ public class LdapServiceReferenceFilter implements ServiceReferenceFilter {
         rootNode = filterParser.parse();
     }
 
-    public boolean matches(ServiceRegistryReference reference) {
-        final Map<String, ?> attributes = reference.getAttributes();
+    public boolean matches(ServiceRegistryEntry entry) {
+        final Map<String, ?> attributes = entry.getAttributes();
         if (attributes == null) {
             return false;
         }

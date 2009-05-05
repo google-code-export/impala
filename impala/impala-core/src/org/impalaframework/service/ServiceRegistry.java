@@ -33,7 +33,7 @@ public interface ServiceRegistry {
      * @param service the service instance
      * @param classLoader the classloader associated with the loading module
      */
-    ServiceRegistryReference addService(String beanName, String moduleName, Object service, ClassLoader classLoader);   
+    ServiceRegistryEntry addService(String beanName, String moduleName, Object service, ClassLoader classLoader);   
 
     /**
      * 
@@ -45,13 +45,13 @@ public interface ServiceRegistry {
      * looking up services from the service registry
      * @param classLoader the classloader associated with the loading module
      */
-    ServiceRegistryReference addService(String beanName, String moduleName, Object service, 
+    ServiceRegistryEntry addService(String beanName, String moduleName, Object service, 
             List<Class<?>> exportTypes, Map<String,?> attributes, ClassLoader classLoader);
 
     /**
      * Removes a service instance from the service registry. Returns true if service was actually removed.
      */
-    boolean remove(ServiceRegistryReference serviceReference);
+    boolean remove(ServiceRegistryEntry entry);
     
     /**
      * Evicts the services contributing from a particular module
@@ -66,9 +66,9 @@ public interface ServiceRegistry {
      * @param exportTypesOnly if true, then the services returned must all be
      * explicitly registered using the types. Otherwise, it is sufficient that
      * each service must be type compatible with the supplied types
-     * @return a {@link ServiceRegistryReference} instance
+     * @return a {@link ServiceRegistryEntry} instance
      */
-    ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
+    ServiceRegistryEntry getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
     
     /**
      * Retrieves services from the service registry registered under a
@@ -81,9 +81,9 @@ public interface ServiceRegistry {
      * @param exportTypesOnly if true, then the services returned must all be
      * explicitly registered using the types. Otherwise, it is sufficient that
      * each service must be type compatible with the supplied types
-     * @return a {@link List} of {@link ServiceRegistryReference} instance
+     * @return a {@link List} of {@link ServiceRegistryEntry} instance
      */
-    List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
+    List<ServiceRegistryEntry> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly);
     
     /**
      * Gets all services from the service registry which match the provided
@@ -96,15 +96,15 @@ public interface ServiceRegistry {
      * each service must be type compatible with the supplied types
      * @return a list of service references.
      */
-    List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly);
+    List<ServiceRegistryEntry> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly);
     
     /**
      * Returns non-null reference if service reference is present in 
-     * @param serviceReference the {@link ServiceRegistryReference} under examination
+     * @param entry the {@link ServiceRegistryEntry} under examination
      * @param exportTypes an array of {@link Class} instances
      * @return true if service reference is present in service registry against all of the passed in export types
      */
-    public boolean isPresentInExportTypes(ServiceRegistryReference serviceReference, Class<?>[] exportTypes);
+    public boolean isPresentInExportTypes(ServiceRegistryEntry entry, Class<?>[] exportTypes);
     
     /**
      * Adds global event listeners to which all service registry events will be

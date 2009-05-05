@@ -18,7 +18,7 @@ import java.util.List;
 
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 
 /**
@@ -46,15 +46,15 @@ public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTarg
     
     /* *************** ContributionEndpointTargetSource implementations ************** */
 
-    public ServiceRegistryReference getServiceRegistryReference() {
+    public ServiceRegistryEntry getServiceRegistryReference() {
         
         //returns list of services matching filter
-        final List<ServiceRegistryReference> filteredServices = serviceRegistry.getServices(filter, null, false);
+        final List<ServiceRegistryEntry> filteredServices = serviceRegistry.getServices(filter, null, false);
         if (filteredServices.isEmpty()) {
             return null;
         }
         else {
-            for (ServiceRegistryReference serviceRegistryReference : filteredServices) {
+            for (ServiceRegistryEntry serviceRegistryReference : filteredServices) {
                 final Object bean = serviceRegistryReference.getBean();
                 if (clazz.isAssignableFrom(bean.getClass())) {
                     return serviceRegistryReference;

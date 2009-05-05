@@ -7,7 +7,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -40,7 +40,7 @@ public class ServiceArrayRegistryExporter
 
     private BeanFactory beanFactory;
     
-    private Set<ServiceRegistryReference> services = new HashSet<ServiceRegistryReference>();
+    private Set<ServiceRegistryEntry> services = new HashSet<ServiceRegistryEntry>();
 
     private ClassLoader beanClassLoader;
     
@@ -60,13 +60,13 @@ public class ServiceArrayRegistryExporter
         
         for (int i = 0; i < beanNames.length; i++) {
             Object service = beanFactory.getBean(beanNames[i]);
-            final ServiceRegistryReference serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
+            final ServiceRegistryEntry serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
             services.add(serviceReference);
         }
     }
     
     public void destroy() throws Exception {
-        for (ServiceRegistryReference service : services) {
+        for (ServiceRegistryEntry service : services) {
             serviceRegistry.remove(service);
         }
     }

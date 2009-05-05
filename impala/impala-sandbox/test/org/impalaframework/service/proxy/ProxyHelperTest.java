@@ -7,8 +7,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.config.PropertySource;
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -62,8 +62,8 @@ public class ProxyHelperTest extends TestCase {
         assertSame(instance, proxyHelper.maybeGetProxy(ref(instance)));
     }
     
-    private ServiceRegistryReference ref(Object o) {
-        return new BasicServiceRegistryReference(o,"beanName","moduleName",ClassUtils.getDefaultClassLoader());
+    private ServiceRegistryEntry ref(Object o) {
+        return new BasicServiceRegistryEntry(o,"beanName","moduleName",ClassUtils.getDefaultClassLoader());
     }
 
     
