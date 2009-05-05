@@ -25,8 +25,8 @@ import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -76,7 +76,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
         		if (hasRegisterableEndpoint(beanName, endPoint)) {			
         			logger.info("Contributing bean " + beanName + " from module " + moduleName);
         			
-        			final ServiceBeanReference service = new StaticServiceBeanReference(bean);
+        			final ServiceBeanReference service = new StaticSpringServiceBeanReference(bean);
                     final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, service, beanClassLoader);
         			referenceMap.put(beanName, serviceReference);
         		}	

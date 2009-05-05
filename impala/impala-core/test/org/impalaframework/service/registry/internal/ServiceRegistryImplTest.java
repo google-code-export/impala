@@ -118,10 +118,10 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testClassMatching() throws Exception {
         final StringFactoryBean factoryBean = new StringFactoryBean();
         factoryBean.setValue("some service");
-        registryaddService("bean1", "module1", factoryBean, classLoader);
+        registryaddService("bean1", "module1", factoryBean.getObject(), classLoader);
 
         ServiceRegistryEntry service = registry.getService("bean1", classes, false);
-        assertEquals(factoryBean, service.getServiceBeanReference().getService());
+        assertEquals("some service", service.getServiceBeanReference().getService());
 
         //must match all classes provided
         assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}, false));
@@ -181,7 +181,7 @@ public class ServiceRegistryImplTest extends TestCase {
         
         //now register bean with export types
         List list = Collections.singletonList(String.class);
-        registryaddService(null, "module1", factoryBean, list, null, classLoader);
+        registryaddService(null, "module1", factoryBean.getObject(), list, null, classLoader);
         
         assertNotNull(registry.getService(null, classes, true));
         assertNull(registry.getService("bean1", classes, true));
@@ -189,7 +189,7 @@ public class ServiceRegistryImplTest extends TestCase {
         assertFalse(registry.getServices((String)null, classes, true).isEmpty());
         assertTrue(registry.getServices("bean1", classes, true).isEmpty());
         
-        registryaddService("bean2", "module1", factoryBean, list, null, classLoader);
+        registryaddService("bean2", "module1", factoryBean.getObject(), list, null, classLoader);
         assertNotNull(registry.getService("bean2", classes, true));
         assertFalse(registry.getServices("bean2", classes, true).isEmpty());
     }
@@ -425,7 +425,7 @@ public class ServiceRegistryImplTest extends TestCase {
         }
     }
     
-    public void testCheckClassesFactoryBean() {
+    public void testCheckClassesFactoryBean() throws Exception {
         
         StringFactoryBean service = new StringFactoryBean();
         service.setValue("service");
@@ -434,7 +434,7 @@ public class ServiceRegistryImplTest extends TestCase {
         toCheck.add(String.class);
         toCheck.add(Object.class);
         
-        registry.checkClasses(new StaticServiceRegistryEntry(service, "bean", "module", toCheck, null, classLoader));
+        registry.checkClasses(new StaticServiceRegistryEntry(service.getObject(), "bean", "module", toCheck, null, classLoader));
     }
     
     public void testDeriveExports() throws Exception {

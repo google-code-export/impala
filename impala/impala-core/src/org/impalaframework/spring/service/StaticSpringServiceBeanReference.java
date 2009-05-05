@@ -14,34 +14,41 @@
 
 package org.impalaframework.spring.service;
 
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.ServiceBeanReference;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;
 
 /**
- * Represents non-static Spring bean reference
+ * Represents service bean backed by static bean
  * @author Phil Zoio
  */
-public class SpringServiceBeanReference implements ServiceBeanReference {
+public class StaticSpringServiceBeanReference implements ServiceBeanReference {
 
-    private final String beanName;
-    private final BeanFactory beanFactory;
+    private final Object service;
     
-    public SpringServiceBeanReference(BeanFactory beanFactory, String beanName) {
+    public StaticSpringServiceBeanReference(Object service) {
         super();
-        Assert.notNull(beanName);
-        Assert.notNull(beanFactory);
-        
-        this.beanFactory = beanFactory;
-        this.beanName = beanName;
+        Assert.notNull(service);
+        if (service instanceof FactoryBean) {
+            FactoryBean factoryBean = (FactoryBean)service;
+            try {
+                this.service = factoryBean.getObject();
+            }
+            catch (Exception e) {
+                throw new ExecutionException("Error retrieving target object from factory bean " + factoryBean, e);
+            }
+        } else {
+            this.service = service;
+        }
     }
 
     public Object getService() {
-        return beanFactory.getBean(beanName);
+        return service;
     }
 
     public boolean isStatic() {
-        return false;
+        return true;
     }
 
 }

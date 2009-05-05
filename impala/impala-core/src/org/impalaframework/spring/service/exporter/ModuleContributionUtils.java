@@ -17,8 +17,8 @@ package org.impalaframework.spring.service.exporter;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
-import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.spring.service.SpringServiceBeanReference;
+import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
@@ -39,7 +39,7 @@ public abstract class ModuleContributionUtils {
         Object bean = beanFactory.getBean(beanName);
         boolean singleton = isSingleton(beanFactory, beanName, bean);
         if (singleton) {
-            return new StaticServiceBeanReference(bean);
+            return new StaticSpringServiceBeanReference(bean);
         }
         return new SpringServiceBeanReference(beanFactory, beanName);
     }
