@@ -49,6 +49,10 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
             </map>
         </property>
     </bean>
+    
+    <service:import id="prototypeMessageService" 
+    	exportName = "prototypeMessageService"
+    	proxyTypes = "interfaces.MessageService"/>
 		
 	<!-- 
 	No exportTypes, exportName or filterExpression

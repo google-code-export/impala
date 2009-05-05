@@ -23,10 +23,18 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
         <property name="message" value="Hi Phil - a named message" />
     </bean>
     
+    <bean id="prototypeMessageService" 
+        class="classes.PrototypeMessageService" scope="prototype"/>
+    
     <bean id="attributeMessageService" 
         class="classes.MessageServiceImpl">
         <property name="message" value="Hi Phil - an attribute message" />
-    </bean>    
+    </bean>  
+      
+    <service:export 
+    	id="prototypeMessageServiceExport" 
+    	exportName="prototypeMessageService"
+    	beanName="prototypeMessageService"/>    
     
     <service:export 
     	id="typedMessageServiceExport" 
