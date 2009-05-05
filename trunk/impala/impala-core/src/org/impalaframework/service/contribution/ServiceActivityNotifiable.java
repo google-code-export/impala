@@ -14,6 +14,7 @@
 
 package org.impalaframework.service.contribution;
 
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEventListener;
@@ -57,5 +58,11 @@ public interface ServiceActivityNotifiable {
      * If returns true, then relevant service reference must registered against all the specified supported types
      */
     public Class<?>[] getExportTypes();
+    
+    /**
+     * Returns true if the {@link ServiceActivityNotifiable} instance can deal with non-static service references, that is, 
+     * {@link ServiceBeanReference} instances backed by non-static services (such as Spring beans which are not singletons).
+     */
+    public boolean getAllowNonStaticReferences();
 
 }

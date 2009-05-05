@@ -18,6 +18,7 @@ import static org.easymock.EasyMock.*;
 
 import java.util.Collections;
 
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
@@ -66,6 +67,28 @@ public class ServiceRegistryMonitorTest extends TestCase {
         expect(serviceActivityNotifiable.getExportTypes()).andReturn(null);
         
         expect(serviceActivityNotifiable.add(ref)).andReturn(true);
+        
+        replay(serviceActivityNotifiable);
+        monitor.handleReferenceAdded(ref);
+        verify(serviceActivityNotifiable);
+    }
+    
+    public void testNonStaticRegistryEntry() {
+        
+        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry(new ServiceBeanReference(){
+
+            public Object getService() {
+                return "service";
+            }
+
+            public boolean isStatic() {
+                return false;
+            }
+            
+        }, "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        
+        expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
+        expect(serviceActivityNotifiable.getAllowNonStaticReferences()).andReturn(false);
         
         replay(serviceActivityNotifiable);
         monitor.handleReferenceAdded(ref);
