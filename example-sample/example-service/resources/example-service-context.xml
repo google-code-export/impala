@@ -53,6 +53,10 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     <service:import id="prototypeMessageService" 
     	exportName = "prototypeMessageService"
     	proxyTypes = "interfaces.MessageService"/>
+    
+    <service:import id="nonstaticFactoryBeanMessageService" 
+    	exportName = "nonstaticFactoryBeanMessageService"
+    	proxyTypes = "interfaces.MessageService"/>
 		
 	<!-- 
 	No exportTypes, exportName or filterExpression
