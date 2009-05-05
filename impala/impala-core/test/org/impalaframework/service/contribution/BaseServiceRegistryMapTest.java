@@ -34,7 +34,7 @@ public class BaseServiceRegistryMapTest extends TestCase {
 
             @Override
             protected Object maybeGetProxy(ServiceRegistryEntry entry) {
-                return entry.getService().getService();
+                return entry.getServiceBeanReference().getService();
             }
             
         };

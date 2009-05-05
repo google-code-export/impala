@@ -60,8 +60,8 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myBean1", classes, false).getService().getService());
-        assertSame(service2, registry.getService("myBean2", classes, false).getService().getService());
+        assertSame(service1, registry.getService("myBean1", classes, false).getServiceBeanReference().getService());
+        assertSame(service2, registry.getService("myBean2", classes, false).getServiceBeanReference().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myBean1", classes, false));
@@ -81,8 +81,8 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myExport1", classes, false).getService().getService());
-        assertSame(service2, registry.getService("myExport2", classes, false).getService().getService());
+        assertSame(service1, registry.getService("myExport1", classes, false).getServiceBeanReference().getService());
+        assertSame(service2, registry.getService("myExport2", classes, false).getServiceBeanReference().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myExport1", classes, false));

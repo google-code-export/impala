@@ -28,6 +28,6 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap {
     }
     
     protected Object maybeGetProxy(ServiceRegistryEntry entry) {
-        return entry.getService().getService();
+        return entry.getServiceBeanReference().getService();
     }
 }

@@ -38,7 +38,7 @@ public class BaseServiceRegistryListTest extends TestCase {
 
             @Override
             protected Object maybeGetProxy(ServiceRegistryEntry entry) {
-                return entry.getService().getService();
+                return entry.getServiceBeanReference().getService();
             }
         };
     }

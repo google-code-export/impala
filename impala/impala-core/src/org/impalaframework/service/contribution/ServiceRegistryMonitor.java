@@ -131,7 +131,7 @@ public class ServiceRegistryMonitor implements
         //check export types
         if (!ArrayUtils.isNullOrEmpty(proxyTypes)) {
 
-            Class<? extends Object> beanClass = entry.getService().getService().getClass();
+            Class<? extends Object> beanClass = entry.getServiceBeanReference().getService().getClass();
             for (int i = 0; i < proxyTypes.length; i++) {
                 
                 if (!proxyTypes[i].isAssignableFrom(beanClass)) {

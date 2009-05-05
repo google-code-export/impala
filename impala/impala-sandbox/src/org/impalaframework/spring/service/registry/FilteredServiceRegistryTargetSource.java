@@ -55,7 +55,7 @@ public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTarg
         }
         else {
             for (ServiceRegistryEntry serviceRegistryReference : filteredServices) {
-                final Object bean = serviceRegistryReference.getService().getService();
+                final Object bean = serviceRegistryReference.getServiceBeanReference().getService();
                 if (clazz.isAssignableFrom(bean.getClass())) {
                     return serviceRegistryReference;
                 }
