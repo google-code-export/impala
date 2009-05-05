@@ -15,22 +15,23 @@
 package org.impalaframework.util;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-public class MapStringUtilsTest extends TestCase {
+public class CollectionStringUtilsTest extends TestCase {
 
     public void testParsePropertiesFromString() {
         String input = " name1 = 1 \n name2= value 2, name3 = value3 ";
         
-        Map<String, String> map = MapStringUtils.parsePropertiesFromString(input);
+        Map<String, String> map = CollectionStringUtils.parsePropertiesFromString(input);
         assertEquals(3, map.size());
         assertEquals("1", map.get("name1"));
         assertEquals("value 2", map.get("name2"));
         assertEquals("value3", map.get("name3"));
         
-        Map<String, String> mapWithMissingEquals = MapStringUtils.parsePropertiesFromString("name1 no equals 1 \nname2= value2,name3 = value3");
+        Map<String, String> mapWithMissingEquals = CollectionStringUtils.parsePropertiesFromString("name1 no equals 1 \nname2= value2,name3 = value3");
         assertEquals(2, mapWithMissingEquals.size());
         assertTrue(mapWithMissingEquals.containsKey("name2"));
         assertTrue(mapWithMissingEquals.containsKey("name3"));
@@ -39,11 +40,30 @@ public class MapStringUtilsTest extends TestCase {
     public void testParseMapFromString() {
         String input = " name1 = 1 \n name2= 2007-06-11 16:15:32, name3 = value3 ";
         
-        Map<String, Object> map = MapStringUtils.parseMapFromString(input);
+        Map<String, Object> map = CollectionStringUtils.parseMapFromString(input);
         assertEquals(3, map.size());
         assertEquals(new Long(1), map.get("name1"));
         assertTrue(map.get("name2") instanceof Date);
         assertEquals("value3", map.get("name3"));
     }
+    
+    public void testParseStringList() throws Exception {
+        String input = "value 1, 2007-06-11 16:15:32 \n 3 ";
+        List<String> list = CollectionStringUtils.parseStringList(input);
+        
+        assertEquals(3, list.size());
+        assertEquals("value 1", list.get(0));
+        assertEquals("2007-06-11 16:15:32", list.get(1));
+        assertEquals("3", list.get(2));
+    }
 
+    public void testParseObjectList() throws Exception {
+        String input = "value 1, 2007-06-11 16:15:32 \n 3 ";
+        List<Object> list = CollectionStringUtils.parseObjectList(input);
+        assertEquals(3, list.size());
+        assertEquals("value 1", list.get(0));
+        assertTrue(list.get(1) instanceof Date);
+        assertEquals(new Long(3), list.get(2));
+    }
+    
 }
