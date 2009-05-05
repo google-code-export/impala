@@ -78,7 +78,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         final Object contributionKeyName = attributes.get(mapKey);
         
         if (contributionKeyName != null) {
-            Object beanObject = entry.getBean();
+            Object beanObject = entry.getService().getService();
             
             final Object proxyObject = maybeGetProxy(entry);
     
@@ -90,7 +90,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         } else {
             logger.warn("Service with bean name " + entry.getBeanName() 
                     + " from contributing module " + entry.getContributingModule()
-                    + " of class " + entry.getBean().getClass().getName() 
+                    + " of class " + entry.getService().getService().getClass().getName() 
                     + " does not have a '" + mapKey 
                     + "' attribute, so cannot be used in service registry map");
         }
@@ -98,7 +98,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     }
     
     public boolean remove(ServiceRegistryEntry entry) {
-        if (contributions.containsValue(entry.getBean())) {
+        if (contributions.containsValue(entry.getService().getService())) {
             final Map<String, ?> attributes = entry.getAttributes();
             final Object contributionKeyName = attributes.get(mapKey);
             

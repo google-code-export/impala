@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.*;
 import java.util.Collections;
 
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
@@ -43,7 +44,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 
     public void testHandleServiceNoTypes() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(null);
@@ -58,7 +59,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 
     public void testHandleServiceWithCorrectTypes() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(new Class<?>[] {String.class});
@@ -73,7 +74,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 
     public void testTypeNotMatches() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(new Class<?>[] {Integer.class});
@@ -87,7 +88,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
     
     public void testWithExportTypesNotMatches() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         Class<?>[] exportTypes = new Class<?>[] {Integer.class};
@@ -104,7 +105,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
     
     public void testWithExportTypesMatches() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(name=*)"));
         Class<?>[] exportTypes = new Class<?>[] {Integer.class};
@@ -122,7 +123,7 @@ public class ServiceRegistryMonitorTest extends TestCase {
 
     public void testHandleServiceNotMatches() {
         
-        BasicServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "beanName", "module", null, Collections.singletonMap("name", "somevalue"), ClassUtils.getDefaultClassLoader());
         
         expect(serviceActivityNotifiable.getServiceReferenceFilter()).andReturn(new LdapServiceReferenceFilter("(missing=*)"));
         expect(serviceActivityNotifiable.getProxyTypes()).andReturn(null);

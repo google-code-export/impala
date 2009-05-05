@@ -50,16 +50,18 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
     
     public void testGetBean() throws Exception {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
-        
+
+        expect(beanFactory.isSingleton("myBean1")).andReturn(true);
         expect(beanFactory.getBean("myBean1")).andReturn(service1);
+        expect(beanFactory.isSingleton("myBean2")).andReturn(true);
         expect(beanFactory.getBean("myBean2")).andReturn(service2);
         
         replay(beanFactory);
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myBean1", classes, false).getBean());
-        assertSame(service2, registry.getService("myBean2", classes, false).getBean());
+        assertSame(service1, registry.getService("myBean1", classes, false).getService().getService());
+        assertSame(service2, registry.getService("myBean2", classes, false).getService().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myBean1", classes, false));
@@ -69,16 +71,18 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
     public void testGetBeanWithExportNames() throws Exception {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
         exporter.setExportNames(new String[]{"myExport1","myExport2"});
-        
+
+        expect(beanFactory.isSingleton("myBean1")).andReturn(true);
         expect(beanFactory.getBean("myBean1")).andReturn(service1);
+        expect(beanFactory.isSingleton("myBean2")).andReturn(true);
         expect(beanFactory.getBean("myBean2")).andReturn(service2);
         
         replay(beanFactory);
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        assertSame(service1, registry.getService("myExport1", classes, false).getBean());
-        assertSame(service2, registry.getService("myExport2", classes, false).getBean());
+        assertSame(service1, registry.getService("myExport1", classes, false).getService().getService());
+        assertSame(service2, registry.getService("myExport2", classes, false).getService().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myExport1", classes, false));

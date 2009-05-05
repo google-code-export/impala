@@ -18,8 +18,7 @@ import java.util.LinkedList;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.filter.TypeServiceReferenceFilter;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class TypeServiceReferenceFilterTest extends TestCase {
@@ -35,11 +34,11 @@ public class TypeServiceReferenceFilterTest extends TestCase {
     }
     
     public void testMatches() {
-        assertFalse(filter.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
         
         filter.setType(String.class);
-        assertTrue(filter.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
-        assertFalse(filter.matches(new BasicServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
+        assertTrue(filter.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new StaticServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
     }
     
     public void testCollectionMatchesAll() {
@@ -49,8 +48,8 @@ public class TypeServiceReferenceFilterTest extends TestCase {
         list.add(String.class);
         list.add(Integer.class);
         filter.setTypes(list);
-        assertFalse(filter.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
-        assertFalse(filter.matches(new BasicServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
+        assertFalse(filter.matches(new StaticServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
     }
     
     public void testCollectionMatchesAny() {
@@ -61,8 +60,8 @@ public class TypeServiceReferenceFilterTest extends TestCase {
         list.add(String.class);
         list.add(Integer.class);
         filter.setTypes(list);
-        assertTrue(filter.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
-        assertTrue(filter.matches(new BasicServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
+        assertTrue(filter.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", classLoader)));
+        assertTrue(filter.matches(new StaticServiceRegistryEntry(new Integer(1), "beanName", "moduleName", classLoader)));
     }
 
 

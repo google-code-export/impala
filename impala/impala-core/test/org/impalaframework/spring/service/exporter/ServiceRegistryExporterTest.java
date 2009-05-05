@@ -60,7 +60,8 @@ public class ServiceRegistryExporterTest extends TestCase {
     public void testGetBean() throws Exception {
         exporter.setBeanName("myBean");
         //no export name set, but no export types set either
-        
+
+        expect(beanFactory.isSingleton("myBean")).andReturn(true);
         expect(beanFactory.getBean("myBean")).andReturn(service);
         
         replay(beanFactory);
@@ -68,7 +69,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
 
         assertNull(registry.getService("myBean", classes, false));
-        assertSame(service, registry.getService(null, classes, true).getBean());
+        assertSame(service, registry.getService(null, classes, true).getService().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myBean", classes, false));
@@ -80,6 +81,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         exportTypes = new Class<?>[]{String.class, Object.class, Integer.class};
         exporter.setExportTypes(exportTypes);
         try {
+            expect(beanFactory.isSingleton("myBean")).andReturn(true);
             expect(beanFactory.getBean("myBean")).andReturn(service);
             replay(beanFactory);
             exporter.afterPropertiesSet();
@@ -91,7 +93,8 @@ public class ServiceRegistryExporterTest extends TestCase {
     public void testGetBeanAlternative() throws Exception {
         exporter.setBeanName("myBean");
         exporter.setExportName("exportName");
-        
+
+        expect(beanFactory.isSingleton("myBean")).andReturn(true);
         expect(beanFactory.getBean("myBean")).andReturn(service);
         
         replay(beanFactory);
@@ -99,7 +102,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
         
         ServiceRegistryEntry serviceReference = registry.getService("exportName", classes, false);
-        assertSame(service, serviceReference.getBean());
+        assertSame(service, serviceReference.getService().getService());
         
         exporter.destroy();
         assertNull(registry.getService("exportName", classes, false));
@@ -109,7 +112,8 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.setBeanName("myBean");
         Map<String, ? extends Object> attributes = Collections.singletonMap("attribute1", "value1");
         exporter.setAttributeMap(attributes);
-        
+
+        expect(beanFactory.isSingleton("myBean")).andReturn(true);
         expect(beanFactory.getBean("myBean")).andReturn(service);
         
         replay(beanFactory);
@@ -117,7 +121,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
         
         ServiceRegistryEntry s = registry.getService(null, classes, true);
-        assertSame(service, s.getBean());
+        assertSame(service, s.getService().getService());
         assertEquals(attributes, s.getAttributes());
         
         assertFalse(registry.getServices(new LdapServiceReferenceFilter("(attribute1=*)"), classes, false).isEmpty());

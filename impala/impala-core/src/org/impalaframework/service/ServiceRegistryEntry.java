@@ -8,7 +8,7 @@ public interface ServiceRegistryEntry {
     /**
      * Returns the bean backing the service reference
      */
-    Object getBean();
+    ServiceBeanReference getService();
 
     /**
      * The export types of the service. May return empty list but will not return null.

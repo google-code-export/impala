@@ -30,8 +30,8 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryMapTest extends TestCase {
@@ -54,7 +54,7 @@ public class ServiceRegistryMapTest extends TestCase {
         LdapServiceReferenceFilter filter = new LdapServiceReferenceFilter("(name=myname)");
         map.setFilter(filter);
         
-        ServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry("service", "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryEntry> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, supportedTypes, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
@@ -75,7 +75,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("mapkey", "key");
-        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryEntry> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, supportedTypes, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
@@ -101,7 +101,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("mapkey", "key");
-        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry(service, "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryEntry> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(map)).andReturn(true);
@@ -130,7 +130,7 @@ public class ServiceRegistryMapTest extends TestCase {
         
         Map<String, String> attributes = new HashMap<String, String>();
         attributes.put("mapkey", "key");
-        ServiceRegistryEntry ref = new BasicServiceRegistryEntry("stringservice", "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry("stringservice", "mybean", "mymodule", null, attributes, ClassUtils.getDefaultClassLoader());
         List<ServiceRegistryEntry> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, null, false)).andReturn(singletonList);
         

@@ -98,7 +98,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
             List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>(this.services);
             boolean removedRef = services.remove(entry);
             
-            proxyMap.remove(entry.getBean());
+            proxyMap.remove(entry.getService().getService());
             
             if (removedRef) {
                 sortAndRepopulate(services); 
@@ -134,7 +134,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         //repopulate the contributions list
         this.contributions.clear();
         for (ServiceRegistryEntry entry : sorted) {
-            Object bean = entry.getBean();
+            Object bean = entry.getService().getService();
             
             Object proxyObject = proxyMap.get(bean);
             if (proxyObject == null) {

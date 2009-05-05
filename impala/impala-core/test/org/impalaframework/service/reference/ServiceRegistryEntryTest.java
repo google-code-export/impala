@@ -16,17 +16,17 @@ package org.impalaframework.service.reference;
 
 import java.util.Collections;
 
-import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
-import org.springframework.util.ClassUtils;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
+import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryEntryTest extends TestCase {
 
     public void testConstruct() throws Exception {
         ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
+        ServiceRegistryEntry entry = new StaticServiceRegistryEntry("service1","beanName",
                 "moduleName", classLoader);
         assertEquals(0, entry.getAttributes().size());
         assertSame(classLoader, entry.getBeanClassLoader());
@@ -34,13 +34,13 @@ public class ServiceRegistryEntryTest extends TestCase {
     }
     
     public void testConstructAttributes() throws Exception {
-        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
+        ServiceRegistryEntry entry = new StaticServiceRegistryEntry("service1","beanName",
                 "moduleName", null, Collections.singletonMap("attribute","value"), ClassUtils.getDefaultClassLoader());
         assertEquals(1, entry.getAttributes().size());
     }
 
     public void testConstructTagsAttributesNull() throws Exception {
-        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service1","beanName",
+        ServiceRegistryEntry entry = new StaticServiceRegistryEntry("service1","beanName",
                 "moduleName", null, null, ClassUtils.getDefaultClassLoader());
         assertEquals(0, entry.getAttributes().size());
     }   

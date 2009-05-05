@@ -22,7 +22,7 @@ public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTarget
     }
 
     public Object getTarget() throws Exception {
-        Object bean = reference.getBean();
+        Object bean = reference.getService().getService();
         if (bean instanceof FactoryBean) {
             FactoryBean fb = (FactoryBean) bean;
             return fb.getObject();
@@ -32,7 +32,7 @@ public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTarget
     
     @Override
     public Class<?> getTargetClass() {
-        return reference.getBean().getClass();
+        return reference.getService().getService().getClass();
     }
 
     public boolean isStatic() {

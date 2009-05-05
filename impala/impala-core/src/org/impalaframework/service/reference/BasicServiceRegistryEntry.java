@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.springframework.util.Assert;
 
@@ -29,7 +30,7 @@ import org.springframework.util.Assert;
  */
 public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
 
-    private final Object bean;
+    private final ServiceBeanReference bean;
     private final String beanName;
     private final String contributingModule;
     private final Map<String, ?> attributes;
@@ -37,7 +38,7 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
     private List<Class<?>> exportTypes;
 
     @SuppressWarnings("unchecked")
-    public BasicServiceRegistryEntry(Object bean, 
+    public BasicServiceRegistryEntry(ServiceBeanReference bean, 
             String beanName,
             String contributingModule, 
             ClassLoader classLoader) {
@@ -45,7 +46,7 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
     }
 
     @SuppressWarnings("unchecked")
-    public BasicServiceRegistryEntry(Object bean, 
+    public BasicServiceRegistryEntry(ServiceBeanReference bean, 
             String beanName,
             String contributingModule, 
             List<Class<?>> exportTypes,
@@ -63,7 +64,7 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
         this.beanClassLoader = classLoader;
     }
 
-    public final Object getBean() {
+    public final ServiceBeanReference getService() {
         return bean;
     }
     

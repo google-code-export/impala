@@ -22,17 +22,19 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceBeanReference;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.ClassUtils;
@@ -54,14 +56,14 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testRegistry() throws Exception {
         assertNull(registry.getService("notregistered", classes, false));
 
-        final ServiceRegistryEntry ref = registry.addService("bean1", "module1", "some service", classLoader);
+        final ServiceRegistryEntry ref = registryaddService("bean1", "module1", "some service", classLoader);
         assertEquals(1, registry.getBeanReferences("bean1").size());
         assertEquals(1, registry.getModuleReferences("module1").size());
         assertTrue(registry.getClassReferences(String.class).isEmpty());
         assertTrue(registry.hasService(ref));
 
         ServiceRegistryEntry service = registry.getService("bean1", classes, false);
-        assertEquals("some service", service.getBean());
+        assertEquals("some service", service.getService().getService());
         assertEquals("module1", service.getContributingModule());
 
         registry.remove(ref);
@@ -76,10 +78,10 @@ public class ServiceRegistryImplTest extends TestCase {
         List<Class<?>> exportTypes = new ArrayList<Class<?>>();
         exportTypes.add(String.class);
         
-        registry.addService(null, "module1", "some service", exportTypes, null, classLoader);
+        registryaddService(null, "module1", "some service", exportTypes, null, classLoader);
         
         //this is okay too
-        registry.addService(null, "module1", "some service", null, null, classLoader);
+        registryaddService(null, "module1", "some service", null, null, classLoader);
     }
     
     public void testRegisterByClass() throws Exception {
@@ -89,7 +91,7 @@ public class ServiceRegistryImplTest extends TestCase {
         exportTypes.add(Object.class);
         
         assertTrue(registry.getClassReferences(String.class).isEmpty());
-        final ServiceRegistryEntry ref = registry.addService("bean1", "module1", "some service", exportTypes, null, classLoader);
+        final ServiceRegistryEntry ref = registryaddService("bean1", "module1", "some service", exportTypes, null, classLoader);
         assertEquals(1, registry.getClassReferences(String.class).size());
         assertEquals(1, registry.getClassReferences(Object.class).size());
         
@@ -100,9 +102,9 @@ public class ServiceRegistryImplTest extends TestCase {
     
     public void testEvict() throws Exception {
 
-        registry.addService("bean1", "module1", "s1", classLoader);
-        registry.addService("bean2", "module1", "s2", classLoader);
-        registry.addService("bean3", "module2", "s3", classLoader);
+        registryaddService("bean1", "module1", "s1", classLoader);
+        registryaddService("bean2", "module1", "s2", classLoader);
+        registryaddService("bean3", "module2", "s3", classLoader);
         
         registry.evictModuleServices("module1");
 
@@ -116,10 +118,10 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testClassMatching() throws Exception {
         final StringFactoryBean factoryBean = new StringFactoryBean();
         factoryBean.setValue("some service");
-        registry.addService("bean1", "module1", factoryBean, classLoader);
+        registryaddService("bean1", "module1", factoryBean, classLoader);
 
         ServiceRegistryEntry service = registry.getService("bean1", classes, false);
-        assertEquals(factoryBean, service.getBean());
+        assertEquals(factoryBean, service.getService().getService());
 
         //must match all classes provided
         assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}, false));
@@ -136,7 +138,7 @@ public class ServiceRegistryImplTest extends TestCase {
         
         final StringFactoryBean factoryBean = new StringFactoryBean();
         factoryBean.setValue("some service");
-        registry.addService("bean1", "module1", factoryBean, classLoader);
+        registryaddService("bean1", "module1", factoryBean, classLoader);
 
         try {
             registry.getService(null, classes, false);
@@ -179,7 +181,7 @@ public class ServiceRegistryImplTest extends TestCase {
         
         //now register bean with export types
         List list = Collections.singletonList(String.class);
-        registry.addService(null, "module1", factoryBean, list, null, classLoader);
+        registryaddService(null, "module1", factoryBean, list, null, classLoader);
         
         assertNotNull(registry.getService(null, classes, true));
         assertNull(registry.getService("bean1", classes, true));
@@ -187,7 +189,7 @@ public class ServiceRegistryImplTest extends TestCase {
         assertFalse(registry.getServices((String)null, classes, true).isEmpty());
         assertTrue(registry.getServices("bean1", classes, true).isEmpty());
         
-        registry.addService("bean2", "module1", factoryBean, list, null, classLoader);
+        registryaddService("bean2", "module1", factoryBean, list, null, classLoader);
         assertNotNull(registry.getService("bean2", classes, true));
         assertFalse(registry.getServices("bean2", classes, true).isEmpty());
     }
@@ -196,7 +198,7 @@ public class ServiceRegistryImplTest extends TestCase {
     public void testMultiExportTypes() throws Exception {
         
         classes = new Class[]{ ArrayList.class, List.class };
-        ServiceRegistryEntry ref = registry.addService(null, "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
+        ServiceRegistryEntry ref = registryaddService(null, "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
         
         assertTrue(registry.getServices("bean1", new Class<?>[]{ String.class }, true).isEmpty());
         assertTrue(registry.getServices("bean1", classes, true).isEmpty());
@@ -209,7 +211,7 @@ public class ServiceRegistryImplTest extends TestCase {
         assertFalse(registry.isPresentInExportTypes(ref, new Class<?>[]{ ArrayList.class, LinkedList.class }));
         assertTrue(registry.isPresentInExportTypes(ref, new Class<?>[]{ List.class, ArrayList.class }));
         
-        registry.addService("bean2", "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
+        registryaddService("bean2", "module1", new ArrayList<String>(), Arrays.asList(classes), null, classLoader);
 
         assertTrue(registry.getServices("bean2", new Class<?>[]{ String.class }, true).isEmpty());
         assertFalse(registry.getServices("bean2", classes, true).isEmpty());
@@ -243,11 +245,11 @@ public class ServiceRegistryImplTest extends TestCase {
 
         assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}, false).isEmpty());
         
-        final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", "some service 1", null, Collections.singletonMap("service.ranking", 100), classLoader);
+        final ServiceRegistryEntry ref1 = registryaddService("bean1", "module1", "some service 1", null, Collections.singletonMap("service.ranking", 100), classLoader);
         assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}, false).size());
         assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}, false).size());
 
-        final ServiceRegistryEntry ref2 = registry.addService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
+        final ServiceRegistryEntry ref2 = registryaddService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
         List<ServiceRegistryEntry> services = registry.getServices("bean1", new Class<?>[]{ String.class }, false);
         assertEquals(2, services.size());
         assertEquals(ref2, services.get(0));
@@ -262,8 +264,8 @@ public class ServiceRegistryImplTest extends TestCase {
     }
     
     public void testDuplicateBean() throws Exception {
-        final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", "some service", classLoader);
-        final ServiceRegistryEntry ref2 = registry.addService("bean1", "module2", "some service", classLoader);
+        final ServiceRegistryEntry ref1 = registryaddService("bean1", "module1", "some service", classLoader);
+        final ServiceRegistryEntry ref2 = registryaddService("bean1", "module2", "some service", classLoader);
         assertEquals(2, registry.getBeanReferences("bean1").size());
         registry.remove(ref1);
         assertEquals(1, registry.getBeanReferences("bean1").size());
@@ -283,8 +285,8 @@ public class ServiceRegistryImplTest extends TestCase {
         String service1 = "some service1";
         String service2 = "some service2";
         
-        registry.addService("bean1", "module1", service1, classLoader);
-        final ServiceRegistryEntry ref2 = registry.addService("bean2", "module2", service2, classLoader);
+        registryaddService("bean1", "module1", service1, classLoader);
+        final ServiceRegistryEntry ref2 = registryaddService("bean2", "module2", service2, classLoader);
         registry.remove(ref2);
         
         assertEquals(3, listener1.getEvents().size());
@@ -299,7 +301,7 @@ public class ServiceRegistryImplTest extends TestCase {
         listener2.reset();
 
         String service3 = "some service3";
-        registry.addService("bean3", "module3", service3, classLoader);
+        registryaddService("bean3", "module3", service3, classLoader);
         assertEquals(0, listener1.getEvents().size());
         assertEquals(1, listener2.getEvents().size());
         
@@ -310,8 +312,8 @@ public class ServiceRegistryImplTest extends TestCase {
         String service1 = "some service1";
         String service2 = "some service2";
         
-        registry.addService("bean1", "module1", service1, classLoader);
-        registry.addService("bean2", "module2", service2, classLoader);
+        registryaddService("bean1", "module1", service1, classLoader);
+        registryaddService("bean2", "module2", service2, classLoader);
         
         assertEquals(2, registry.getServices(ServiceRegistryImpl.IDENTIFY_FILTER, null, false).size());
         
@@ -329,8 +331,8 @@ public class ServiceRegistryImplTest extends TestCase {
         List service1Classes = Collections.singletonList(ArrayList.class);
         List service2Classes = Collections.singletonList(List.class);
         
-        registry.addService("bean1", "module1", service1, service1Classes, null, classLoader);
-        registry.addService("bean2", "module2", service2, service2Classes, null, classLoader);
+        registryaddService("bean1", "module1", service1, service1Classes, null, classLoader);
+        registryaddService("bean2", "module2", service2, service2Classes, null, classLoader);
         
         Class[] arrayListMatch = new Class[] { ArrayList.class };
         Class[] listMatch = new Class[] { List.class };
@@ -352,7 +354,7 @@ public class ServiceRegistryImplTest extends TestCase {
         service1Classes.add(ArrayList.class);
         service1Classes.add(List.class);
         
-        registry.addService("bean1", "module1", service1, service1Classes, null, classLoader);
+        registryaddService("bean1", "module1", service1, service1Classes, null, classLoader);
         
         Class[] arrayListMatch = new Class[] { ArrayList.class };
         Class[] listMatch = new Class[] { List.class };
@@ -387,7 +389,7 @@ public class ServiceRegistryImplTest extends TestCase {
         toCheck.add(String.class);
         toCheck.add(Object.class);
         
-        registry.checkClasses(new BasicServiceRegistryEntry("service", "bean", "module", toCheck, null, classLoader));
+        registry.checkClasses(new StaticServiceRegistryEntry("service", "bean", "module", toCheck, null, classLoader));
         
         try {
             //now create CustomClassLoader
@@ -400,7 +402,7 @@ public class ServiceRegistryImplTest extends TestCase {
                 }
             };
             
-            registry.checkClasses(new BasicServiceRegistryEntry("service", "bean", "module", toCheck, null, exceptionClassLoader));
+            registry.checkClasses(new StaticServiceRegistryEntry("service", "bean", "module", toCheck, null, exceptionClassLoader));
             fail();
         } catch (InvalidStateException e) {
             System.out.println(e.getMessage());
@@ -415,7 +417,7 @@ public class ServiceRegistryImplTest extends TestCase {
         toCheck.add(Object.class);
         
         try {
-            registry.checkClasses(new BasicServiceRegistryEntry(new Integer(1), "bean", "module", toCheck, null, classLoader));
+            registry.checkClasses(new StaticServiceRegistryEntry(new Integer(1), "bean", "module", toCheck, null, classLoader));
             fail();
         } catch (InvalidStateException e) {
             System.out.println(e.getMessage());
@@ -432,11 +434,22 @@ public class ServiceRegistryImplTest extends TestCase {
         toCheck.add(String.class);
         toCheck.add(Object.class);
         
-        registry.checkClasses(new BasicServiceRegistryEntry(service, "bean", "module", toCheck, null, classLoader));
+        registry.checkClasses(new StaticServiceRegistryEntry(service, "bean", "module", toCheck, null, classLoader));
     }
     
     public void testDeriveExports() throws Exception {
         assertTrue(registry.deriveExportTypes("service", null, null).isEmpty());
+    }
+    
+    private ServiceRegistryEntry registryaddService(String beanName,
+            String moduleName, Object service, ClassLoader classLoader) {
+        return registry.addService(beanName, moduleName, new StaticServiceBeanReference(service), classLoader);
+    }
+    
+    @SuppressWarnings("unchecked")
+    private ServiceRegistryEntry registryaddService(String beanName,
+            String moduleName, Object service, List<Class<?>> exportTypes, Map attributes, ClassLoader classLoader) {
+        return registry.addService(beanName, moduleName, new StaticServiceBeanReference(service), exportTypes, attributes, classLoader);
     }
     
 }

@@ -174,7 +174,7 @@ class ServiceRegistryList extends BaseServiceRegistryList {
 
     @Override
     protected Object maybeGetProxy(ServiceRegistryEntry ref) {
-        return ref.getBean();
+        return ref.getService().getService();
     }
 
     @Override

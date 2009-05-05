@@ -100,7 +100,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         verify(endPoint);
         
         ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
-        assertSame(object, service.getBean());
+        assertSame(object, service.getService().getService());
     }
     
     
@@ -121,7 +121,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
 
         ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
-        assertNotNull(service.getBean());
+        assertNotNull(service.getService().getService());
         
         verify(beanFactory);
         verify(parentBeanFactory);

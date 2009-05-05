@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.spring.config.ExternalDynamicPropertySource;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.beans.factory.InitializingBean;
@@ -63,7 +63,7 @@ public class ProxyHelperTest extends TestCase {
     }
     
     private ServiceRegistryEntry ref(Object o) {
-        return new BasicServiceRegistryEntry(o,"beanName","moduleName",ClassUtils.getDefaultClassLoader());
+        return new StaticServiceRegistryEntry(o,"beanName","moduleName",ClassUtils.getDefaultClassLoader());
     }
 
     
