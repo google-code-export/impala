@@ -17,7 +17,7 @@ package org.impalaframework.spring.service.proxy;
 import java.lang.reflect.Modifier;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
 import org.impalaframework.util.ArrayUtils;
@@ -31,15 +31,15 @@ import org.springframework.util.Assert;
  */
 public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySource {
     
-    private ServiceRegistryReference reference;
+    private ServiceRegistryEntry reference;
     private Class<?>[] proxyTypes;
     
     /**
      * Constructor
      * @param proxyTypes the types used for the proxy
-     * @param reference the {@link ServiceRegistryReference} instance to be proxied
+     * @param reference the {@link ServiceRegistryEntry} instance to be proxied
      */
-    public StaticServiceReferenceProxyFactorySource(Class<?>[] proxyTypes, ServiceRegistryReference reference) {
+    public StaticServiceReferenceProxyFactorySource(Class<?>[] proxyTypes, ServiceRegistryEntry reference) {
         super();
         this.proxyTypes = proxyTypes;
         this.reference = reference;

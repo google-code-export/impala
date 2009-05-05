@@ -32,10 +32,10 @@ import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
 import org.impalaframework.util.ArrayUtils;
@@ -58,16 +58,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     private ServiceReferenceSorter serviceReferenceSorter = new ServiceReferenceSorter();
     private ExportTypeDeriver exportTypeDeriver = new EmptyExportTypeDeriver();
 
-    private Map<String, List<ServiceRegistryReference>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
-    private Map<String, List<ServiceRegistryReference>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
-    private Map<String, List<ServiceRegistryReference>> classNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryReference>>();
-    private Set<ServiceRegistryReference> services = new CopyOnWriteArraySet<ServiceRegistryReference>();
+    private Map<String, List<ServiceRegistryEntry>> beanNameToService = new ConcurrentHashMap<String, List<ServiceRegistryEntry>>();
+    private Map<String, List<ServiceRegistryEntry>> moduleNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryEntry>>();
+    private Map<String, List<ServiceRegistryEntry>> classNameToServices = new ConcurrentHashMap<String, List<ServiceRegistryEntry>>();
+    private Set<ServiceRegistryEntry> services = new CopyOnWriteArraySet<ServiceRegistryEntry>();
     
     /**
-     * For each registry entry, holds a {@link MapTargetInfo} which points to the keys by which the {@link ServiceRegistryReference}
+     * For each registry entry, holds a {@link MapTargetInfo} which points to the keys by which the {@link ServiceRegistryEntry}
      * instance is held as a value.
      */
-    private Map<ServiceRegistryReference, MapTargetInfo> beanTargetInfo = new IdentityHashMap<ServiceRegistryReference, MapTargetInfo>();
+    private Map<ServiceRegistryEntry, MapTargetInfo> beanTargetInfo = new IdentityHashMap<ServiceRegistryEntry, MapTargetInfo>();
 
     // use CopyOnWriteArrayList to support non-blocking thread-safe iteration
     private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
@@ -77,7 +77,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     /* ************ registry service modification methods * ************** */
 
-    public ServiceRegistryReference addService(
+    public ServiceRegistryEntry addService(
             String beanName, 
             String moduleName, 
             Object service,
@@ -86,7 +86,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         return addService(beanName, moduleName, service, null, null, classLoader);
     }
 
-    public ServiceRegistryReference addService(
+    public ServiceRegistryEntry addService(
             String beanName, 
             String moduleName, 
             Object service,
@@ -95,7 +95,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             ClassLoader classLoader) {
         
         //Note: null checks performed by BasicServiceRegistryReference constructor
-        BasicServiceRegistryReference serviceReference = null;
+        BasicServiceRegistryEntry serviceReference = null;
         synchronized (registryLock) {
             
             boolean checkClasses = true;
@@ -105,7 +105,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 checkClasses = false;
             }
             
-            serviceReference = new BasicServiceRegistryReference(
+            serviceReference = new BasicServiceRegistryEntry(
                     service, 
                     beanName,
                     moduleName, 
@@ -154,13 +154,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
         Assert.notNull(moduleName, "moduleName cannot be null");
         
-        final List<ServiceRegistryReference> list;
+        final List<ServiceRegistryEntry> list;
         
         synchronized (registryLock) {
-            final List<ServiceRegistryReference> tempList = moduleNameToServices.get(moduleName);
+            final List<ServiceRegistryEntry> tempList = moduleNameToServices.get(moduleName);
             
             if (tempList != null) {
-                list = new LinkedList<ServiceRegistryReference>(tempList);
+                list = new LinkedList<ServiceRegistryEntry>(tempList);
             } else {
                 list = null;
             }
@@ -168,13 +168,13 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         //we have new list so can use it outside synchronised block
         if (list != null) {
-            for (ServiceRegistryReference serviceRegistryReference : list) {
+            for (ServiceRegistryEntry serviceRegistryReference : list) {
                 remove(serviceRegistryReference);
             }
         }
     }
 
-    public boolean remove(ServiceRegistryReference serviceReference) {
+    public boolean remove(ServiceRegistryEntry serviceReference) {
         
         Assert.notNull(serviceReference, "serviceReference cannot be null");
         boolean removed = false;
@@ -185,7 +185,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             if (targetInfo != null) {
                 String beanName = targetInfo.getBeanName();
                 if (beanName != null) {
-                    final List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+                    final List<ServiceRegistryEntry> list = beanNameToService.get(beanName);
                     if (list != null) {
                         list.remove(serviceReference);
                     }
@@ -193,7 +193,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 
                 String moduleName = targetInfo.getModuleName();
                 if (moduleName != null) {
-                    final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
+                    final List<ServiceRegistryEntry> list = moduleNameToServices.get(moduleName);
                     if (list != null) {
                         list.remove(serviceReference);
                     }
@@ -201,7 +201,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 
                 final List<Class<?>> exportTypes = targetInfo.getExportTypes();
                 for (Class<?> exportType : exportTypes) {
-                    final List<ServiceRegistryReference> list = classNameToServices.get(exportType.getName());
+                    final List<ServiceRegistryEntry> list = classNameToServices.get(exportType.getName());
                     if (list != null) {
                         list.remove(serviceReference);
                     }
@@ -243,9 +243,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * @param supportedTypes, which cannot be null or empty if bean name is null
      * @param exportTypesOnly which cannot be false if beanName is null
      */
-    public ServiceRegistryReference getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
+    public ServiceRegistryEntry getService(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
         
-        final List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
+        final List<ServiceRegistryEntry> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
         
         if (references == null || references.isEmpty()) {
             return null;
@@ -259,7 +259,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 return references.get(0);
             }
             
-            for (ServiceRegistryReference serviceReference : references) {
+            for (ServiceRegistryEntry serviceReference : references) {
                 
                 if (isPresentInExportTypes(serviceReference, supportedTypes))
                 {
@@ -269,7 +269,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             
         } else {
             for (int i = 0; i < references.size(); i++) {
-                final ServiceRegistryReference ref = getMatchingReference(references, supportedTypes, i);
+                final ServiceRegistryEntry ref = getMatchingReference(references, supportedTypes, i);
                 if (ref != null) {
                     return ref;
                 }
@@ -287,9 +287,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * @param supportedTypes, which cannot be null or empty if bean name is null
      * @param exportTypesOnly which cannot be false if beanName is null
      */
-    public List<ServiceRegistryReference> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
+    public List<ServiceRegistryEntry> getServices(String beanName, Class<?>[] supportedTypes, boolean exportTypesOnly) {
 
-        List<ServiceRegistryReference> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
+        List<ServiceRegistryEntry> references = getServicesInternal(beanName, exportTypesOnly ? supportedTypes : null);
         
         if (references.isEmpty()) {
             return references;
@@ -299,8 +299,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             //filter only export types
             filterReferenceByExportTypes(references, supportedTypes);
         } else {
-            for (Iterator<ServiceRegistryReference> iterator = references.iterator(); iterator.hasNext();) {
-                ServiceRegistryReference serviceReference = iterator.next();
+            for (Iterator<ServiceRegistryEntry> iterator = references.iterator(); iterator.hasNext();) {
+                ServiceRegistryEntry serviceReference = iterator.next();
                 if (!classChecker.matchesTypes(serviceReference, supportedTypes)) {
                     iterator.remove();
                 }
@@ -314,7 +314,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
      * Returns named service, which has to implement all of implementation types specified
      */
     @SuppressWarnings("unchecked")
-    private List<ServiceRegistryReference> getServicesInternal(String beanName, Class<?>[] exportTypes) {
+    private List<ServiceRegistryEntry> getServicesInternal(String beanName, Class<?>[] exportTypes) {
         
         final boolean useBeanLookup;
         final boolean exportTypesSet;
@@ -337,10 +337,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             }
         }
         
-        List<ServiceRegistryReference> references;
+        List<ServiceRegistryEntry> references;
         
         synchronized (registryLock) {
-            final List<ServiceRegistryReference> list;
+            final List<ServiceRegistryEntry> list;
             
             if (useBeanLookup) {
                 list = beanNameToService.get(beanName);
@@ -349,7 +349,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 //list to be returned
                 if (exportTypesSet && list != null && !list.isEmpty()) {
                     
-                    final List<ServiceRegistryReference> exportList = classNameToServices.get(exportTypes[0].getName());
+                    final List<ServiceRegistryEntry> exportList = classNameToServices.get(exportTypes[0].getName());
                     if (exportList == null) {
                         return Collections.EMPTY_LIST;
                     } else {
@@ -360,7 +360,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 //get list from export types
                 list = classNameToServices.get(exportTypes[0].getName());
             }
-            references = (list == null ? Collections.EMPTY_LIST : new ArrayList<ServiceRegistryReference>(list));
+            references = (list == null ? Collections.EMPTY_LIST : new ArrayList<ServiceRegistryEntry>(list));
         }
         
         //no need to sort here, as it is already sorted
@@ -370,11 +370,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     /**
      * Returns filtered services, which has to implement all of implemenation types specified.
      * @param filter the filter which is used to match service references. Can be null. If so, {@link IdentityServiceReferenceFilter} is used,
-     * which always returns true. See {@link IdentityServiceReferenceFilter#matches(ServiceRegistryReference)}.
+     * which always returns true. See {@link IdentityServiceReferenceFilter#matches(ServiceRegistryEntry)}.
      * @param types the types with which returned references should be compatible
      * @param if true only matches against explicit export types
      */
-    public List<ServiceRegistryReference> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly) {
+    public List<ServiceRegistryEntry> getServices(ServiceReferenceFilter filter, Class<?>[] types, boolean exportTypesOnly) {
 
         if (filter == null) {
             filter = IDENTIFY_FILTER;
@@ -385,7 +385,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             Assert.notNull(types, "exportTypesOnly is true but types is null");
             Assert.notEmpty(types, "exportTypesOnly is true but types is empty");
             
-            final List<ServiceRegistryReference> values; 
+            final List<ServiceRegistryEntry> values; 
             
             //check each type against 
             synchronized (registryLock) {
@@ -401,8 +401,8 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             }
                 
             //check each entry against filter
-            for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
-                ServiceRegistryReference serviceReference = iterator.next();
+            for (Iterator<ServiceRegistryEntry> iterator = values.iterator(); iterator.hasNext();) {
+                ServiceRegistryEntry serviceReference = iterator.next();
                
                 if (!filter.matches(serviceReference)) {
                     iterator.remove();
@@ -413,14 +413,14 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         } else {
         
             //Create new list of services for concurrency protection
-            final List<ServiceRegistryReference> values;
+            final List<ServiceRegistryEntry> values;
             
             synchronized (registryLock) {
-                values = new LinkedList<ServiceRegistryReference>(services);
+                values = new LinkedList<ServiceRegistryEntry>(services);
             }
             
-            for (Iterator<ServiceRegistryReference> iterator = values.iterator(); iterator.hasNext();) {
-                ServiceRegistryReference serviceReference = iterator.next();
+            for (Iterator<ServiceRegistryEntry> iterator = values.iterator(); iterator.hasNext();) {
+                ServiceRegistryEntry serviceReference = iterator.next();
                
                 if (!(classChecker.matchesTypes(serviceReference, types) && filter.matches(serviceReference))) {
                     iterator.remove();
@@ -434,16 +434,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     /**
      * Returns non-null reference if service reference is present in 
-     * @param serviceReference the {@link ServiceRegistryReference} under examination
+     * @param serviceReference the {@link ServiceRegistryEntry} under examination
      * @param exportTypes an array of {@link Class} instances
      * @return true if service reference is present in service registry against all of the passed in export types
      */
-    public boolean isPresentInExportTypes(ServiceRegistryReference serviceReference, Class<?>[] exportTypes) {
+    public boolean isPresentInExportTypes(ServiceRegistryEntry serviceReference, Class<?>[] exportTypes) {
         return isPresentInExportTypes(serviceReference, exportTypes, 0);
     }
 
     private boolean isPresentInExportTypes(
-            ServiceRegistryReference serviceReference,
+            ServiceRegistryEntry serviceReference,
             Class<?>[] exportTypes, int startIndex) {
         for (int i = startIndex; i < exportTypes.length; i++) {
             String name = exportTypes[i].getName();
@@ -458,12 +458,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     /* ************ private service registry lookup related methods * ************** */
 
-    private void filterReferenceByExportTypes(final List<ServiceRegistryReference> values, Class<?>[] types) {
+    private void filterReferenceByExportTypes(final List<ServiceRegistryEntry> values, Class<?>[] types) {
         
-        Iterator<ServiceRegistryReference> iterator = values.iterator();
+        Iterator<ServiceRegistryEntry> iterator = values.iterator();
         while (iterator.hasNext()) {
             
-            ServiceRegistryReference serviceReference = iterator.next();
+            ServiceRegistryEntry serviceReference = iterator.next();
             
             //note start index is 1 because we've already checked first type
             boolean isPresent = isPresentInExportTypes(serviceReference, types, 1);
@@ -473,10 +473,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         }
     }
 
-    private boolean isPresentAsExportedType(ServiceRegistryReference serviceReference,
+    private boolean isPresentAsExportedType(ServiceRegistryEntry serviceReference,
             String name) {
         
-        List<ServiceRegistryReference> secondaryValues = classNameToServices.get(name);
+        List<ServiceRegistryEntry> secondaryValues = classNameToServices.get(name);
         boolean found = false;
         
         if (secondaryValues != null) {
@@ -524,37 +524,37 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     /* ************ registry collection accessor methods * ************** */
     
-    List<ServiceRegistryReference> getClassReferences(Class<?> exportType) {
-        final List<ServiceRegistryReference> list = classNameToServices.get(exportType.getName());
+    List<ServiceRegistryEntry> getClassReferences(Class<?> exportType) {
+        final List<ServiceRegistryEntry> list = classNameToServices.get(exportType.getName());
         if (list == null) {
             return Collections.emptyList();
         } 
         return Collections.unmodifiableList(list);
     }
     
-    List<ServiceRegistryReference> getModuleReferences(String moduleName) {
-        final List<ServiceRegistryReference> list = moduleNameToServices.get(moduleName);
+    List<ServiceRegistryEntry> getModuleReferences(String moduleName) {
+        final List<ServiceRegistryEntry> list = moduleNameToServices.get(moduleName);
         if (list == null) {
             return Collections.emptyList();
         } 
         return Collections.unmodifiableList(list);
     }
     
-    List<ServiceRegistryReference> getBeanReferences(String beanName) {
-        final List<ServiceRegistryReference> list = beanNameToService.get(beanName);
+    List<ServiceRegistryEntry> getBeanReferences(String beanName) {
+        final List<ServiceRegistryEntry> list = beanNameToService.get(beanName);
         if (list == null) {
             return Collections.emptyList();
         } 
         return Collections.unmodifiableList(list);
     }
 
-    ServiceRegistryReference getBeanReference(String beanName) {
-        final List<ServiceRegistryReference> beanReferences = getBeanReferences(beanName);
+    ServiceRegistryEntry getBeanReference(String beanName) {
+        final List<ServiceRegistryEntry> beanReferences = getBeanReferences(beanName);
         if (beanReferences.isEmpty()) return null;
         return beanReferences.get(0);
     }
     
-    boolean hasService(ServiceRegistryReference serviceReference) {     
+    boolean hasService(ServiceRegistryEntry serviceReference) {     
         return services.contains(serviceReference);
     }
     
@@ -569,16 +569,16 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         return Collections.emptyList();
     }
 
-    void checkClasses(ServiceRegistryReference serviceReference) {
+    void checkClasses(ServiceRegistryEntry serviceReference) {
         classChecker.checkClasses(serviceReference);
     }
 
-    private ServiceRegistryReference getMatchingReference(
-            final List<ServiceRegistryReference> list, 
+    private ServiceRegistryEntry getMatchingReference(
+            final List<ServiceRegistryEntry> list, 
             Class<?>[] supportedTypes,
             int index) {
         
-        final ServiceRegistryReference reference = list.get(index);
+        final ServiceRegistryEntry reference = list.get(index);
         if (reference == null) {
             return null;
         }
@@ -621,11 +621,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     @SuppressWarnings("unchecked")
     private void addReferenceToMap(Map map,
             Object key,
-            ServiceRegistryReference serviceReference, boolean sort) {
+            ServiceRegistryEntry serviceReference, boolean sort) {
         
-        List<ServiceRegistryReference> list = (List<ServiceRegistryReference>) map.get(key);
+        List<ServiceRegistryEntry> list = (List<ServiceRegistryEntry>) map.get(key);
         if (list == null) {
-            list = new ArrayList<ServiceRegistryReference>();
+            list = new ArrayList<ServiceRegistryEntry>();
             map.put(key, list);
         }
         list.add(serviceReference);
@@ -641,24 +641,24 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     }
     
     /**
-     * Used to hold the keys by which a particular {@link ServiceRegistryReference} instance is held in
+     * Used to hold the keys by which a particular {@link ServiceRegistryEntry} instance is held in
      * this service registry as a value.
      * @author Phil Zoio
      */
     class MapTargetInfo {
         
         /**
-         * The key by which the {@link ServiceRegistryReference} is held in the bean name map
+         * The key by which the {@link ServiceRegistryEntry} is held in the bean name map
          */
         private final String beanName;
         
         /**
-         * The keys by which the {@link ServiceRegistryReference} is held in the classes map
+         * The keys by which the {@link ServiceRegistryEntry} is held in the classes map
          */
         private final List<Class<?>> classes;
         
         /**
-         * The keys by which the {@link ServiceRegistryReference} is held in the modules map
+         * The keys by which the {@link ServiceRegistryEntry} is held in the modules map
          */
         private final String moduleName;
         
@@ -688,7 +688,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
 
     private static class IdentityServiceReferenceFilter implements ServiceReferenceFilter {
 
-        public boolean matches(ServiceRegistryReference reference) {
+        public boolean matches(ServiceRegistryEntry reference) {
             return true;
         }
         

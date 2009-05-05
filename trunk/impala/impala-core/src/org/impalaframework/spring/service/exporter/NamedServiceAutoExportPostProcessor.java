@@ -23,7 +23,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -52,7 +52,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 	
 	private ClassLoader beanClassLoader;
 	
-	private Map<Object, ServiceRegistryReference> referenceMap = new IdentityHashMap<Object, ServiceRegistryReference>();
+	private Map<Object, ServiceRegistryEntry> referenceMap = new IdentityHashMap<Object, ServiceRegistryEntry>();
 
     /* *************** BeanPostProcessor methods ************** */
 	
@@ -68,7 +68,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		if (hasRegisterableEndpoint(beanName, endPoint)) {			
 			logger.info("Contributing bean " + beanName + " from module " + moduleName);
 		
-			final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
+			final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
 			referenceMap.put(beanName, serviceReference);
 		}	
 		return bean;
@@ -78,7 +78,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 
 	public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
 
-        final ServiceRegistryReference serviceRegistryReference = referenceMap.get(beanName);
+        final ServiceRegistryEntry serviceRegistryReference = referenceMap.get(beanName);
         
         //if we have reference for this bean
 		if (serviceRegistryReference != null) {

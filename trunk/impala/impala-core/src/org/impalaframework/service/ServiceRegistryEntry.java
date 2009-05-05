@@ -3,7 +3,7 @@ package org.impalaframework.service;
 import java.util.List;
 import java.util.Map;
 
-public interface ServiceRegistryReference {
+public interface ServiceRegistryEntry {
 
     /**
      * Returns the bean backing the service reference

@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 
 /**
@@ -60,9 +60,9 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     private Map<String,Object> contributions = new ConcurrentHashMap<String,Object>();
     
     /**
-     * The {@link ServiceRegistryReference} attribute which is used 
+     * The {@link ServiceRegistryEntry} attribute which is used 
      * as a key for contributions added to the key of this map. By default, specified using the
-     * key "mapkey" in the {@link ServiceRegistryReference} instance.
+     * key "mapkey" in the {@link ServiceRegistryEntry} instance.
      */
     private String mapKey = "mapkey";
     
@@ -72,15 +72,15 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
     
-    public boolean add(ServiceRegistryReference ref) {
+    public boolean add(ServiceRegistryEntry entry) {
         
-        final Map<String, ?> attributes = ref.getAttributes();
+        final Map<String, ?> attributes = entry.getAttributes();
         final Object contributionKeyName = attributes.get(mapKey);
         
         if (contributionKeyName != null) {
-            Object beanObject = ref.getBean();
+            Object beanObject = entry.getBean();
             
-            final Object proxyObject = maybeGetProxy(ref);
+            final Object proxyObject = maybeGetProxy(entry);
     
             this.contributions.put(contributionKeyName.toString(), proxyObject);
             if (logger.isDebugEnabled()) {
@@ -88,18 +88,18 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
             }
             return true;
         } else {
-            logger.warn("Service with bean name " + ref.getBeanName() 
-                    + " from contributing module " + ref.getContributingModule()
-                    + " of class " + ref.getBean().getClass().getName() 
+            logger.warn("Service with bean name " + entry.getBeanName() 
+                    + " from contributing module " + entry.getContributingModule()
+                    + " of class " + entry.getBean().getClass().getName() 
                     + " does not have a '" + mapKey 
                     + "' attribute, so cannot be used in service registry map");
         }
         return false;
     }
     
-    public boolean remove(ServiceRegistryReference ref) {
-        if (contributions.containsValue(ref.getBean())) {
-            final Map<String, ?> attributes = ref.getAttributes();
+    public boolean remove(ServiceRegistryEntry entry) {
+        if (contributions.containsValue(entry.getBean())) {
+            final Map<String, ?> attributes = entry.getAttributes();
             final Object contributionKeyName = attributes.get(mapKey);
             
             return (this.contributions.remove(contributionKeyName) != null);
@@ -175,7 +175,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
 
     /* ******************* Protected and package level methods ******************** */
     
-    protected abstract Object maybeGetProxy(ServiceRegistryReference reference);
+    protected abstract Object maybeGetProxy(ServiceRegistryEntry entry);
     
     Map<String, Object> getContributions() {
         return contributions;

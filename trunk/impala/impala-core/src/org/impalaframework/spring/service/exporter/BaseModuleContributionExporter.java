@@ -25,7 +25,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -53,7 +53,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
     
     private ClassLoader beanClassLoader;
 
-    private Map<ServiceRegistryReference, ContributionEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryReference, ContributionEndpoint>();
+    private Map<ServiceRegistryEntry, ContributionEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryEntry, ContributionEndpoint>();
 
     /**
      * This implementation will only add an entry to the {@link ServiceRegistry}
@@ -75,7 +75,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
                 if (serviceRegistry != null) {
                     String moduleName = moduleDefinition.getName();
                     logger.info("Contributing bean " + beanName + " from module " + moduleName);
-                    final ServiceRegistryReference serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
+                    final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, bean, beanClassLoader);
                     contributionMap.put(serviceReference, endPoint);
                 }   
             }       
@@ -83,10 +83,10 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
     }
 
     public void destroy() throws Exception {
-        Set<ServiceRegistryReference> contributionKeys = contributionMap.keySet();
+        Set<ServiceRegistryEntry> contributionKeys = contributionMap.keySet();
         
         //go through the contributions and remove
-        for (ServiceRegistryReference reference : contributionKeys) {           
+        for (ServiceRegistryEntry reference : contributionKeys) {           
             if (serviceRegistry != null) {
                 serviceRegistry.remove(reference);
             }

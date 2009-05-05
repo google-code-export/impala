@@ -15,7 +15,7 @@
 package org.impalaframework.spring.service.proxy;
 
 import org.impalaframework.service.NamedContributionEndpoint;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.aop.framework.ProxyFactory;
  * 
  * Note that {@link NamedServiceProxyFactoryBean} replaces {@link ContributionProxyFactoryBean}
  * 
- * @see BasicServiceRegistryReference
+ * @see BasicServiceRegistryEntry
  * @author Phil Zoio
  */
 public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements NamedContributionEndpoint {

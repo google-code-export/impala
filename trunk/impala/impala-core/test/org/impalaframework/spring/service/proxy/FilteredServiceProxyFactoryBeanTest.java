@@ -21,7 +21,7 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
@@ -102,7 +102,7 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
         noService(list);
 
         //add service and see we can call
-        ServiceRegistryReference reference = serviceRegistry.addService("beanName", "moduleName", service, null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry reference = serviceRegistry.addService("beanName", "moduleName", service, null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
        
         list.add("some string");
         list.add("some string");

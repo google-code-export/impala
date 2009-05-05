@@ -21,48 +21,48 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.springframework.util.Assert;
 
 /**
- * Sorts {@link ServiceRegistryReference} instance using the attribute 'service.ranking'. 
+ * Sorts {@link ServiceRegistryEntry} instance using the attribute 'service.ranking'. 
  * @author Phil Zoio
  */
 public class ServiceReferenceSorter {
     
-    private Comparator<ServiceRegistryReference> comparator = new ServiceReferenceComparator();
+    private Comparator<ServiceRegistryEntry> comparator = new ServiceReferenceComparator();
     
     /**
      * Sorts and returns new list based on original {@link Collection}
      */
-    public List<ServiceRegistryReference> sort(Collection<ServiceRegistryReference> references) {
-        return sort(new ArrayList<ServiceRegistryReference>(references), true);
+    public List<ServiceRegistryEntry> sort(Collection<ServiceRegistryEntry> entries) {
+        return sort(new ArrayList<ServiceRegistryEntry>(entries), true);
     }    
     
     /**
      * Sorts and returns new list
      */
-    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references) {
-        return sort(references, false);
+    public List<ServiceRegistryEntry> sort(List<ServiceRegistryEntry> entries) {
+        return sort(entries, false);
     }
     
     /**
      * Sorts, returns existing list if reuseList is true, otherwise returns new list
      */
-    public List<ServiceRegistryReference> sort(List<ServiceRegistryReference> references, boolean reuseList) {
-        Assert.notNull(references);
+    public List<ServiceRegistryEntry> sort(List<ServiceRegistryEntry> entries, boolean reuseList) {
+        Assert.notNull(entries);
         //no point sorting if size < 2
-        if (references.size() < 2) {
-            return references;
+        if (entries.size() < 2) {
+            return entries;
         }
-        List<ServiceRegistryReference> list = reuseList ? references : new ArrayList<ServiceRegistryReference>(references);
+        List<ServiceRegistryEntry> list = reuseList ? entries : new ArrayList<ServiceRegistryEntry>(entries);
         Collections.sort(list, comparator);
         return list;
     }
 
-    static class ServiceReferenceComparator implements Comparator<ServiceRegistryReference> {
+    static class ServiceReferenceComparator implements Comparator<ServiceRegistryEntry> {
 
-        public int compare(ServiceRegistryReference o1, ServiceRegistryReference o2) {
+        public int compare(ServiceRegistryEntry o1, ServiceRegistryEntry o2) {
             int o2ranking = getServiceRanking(o2);
             int o1ranking = getServiceRanking(o1);
             if (o2ranking > o1ranking) return 1;
@@ -75,8 +75,8 @@ public class ServiceReferenceSorter {
          * For number types, then will return value up to Integer.MAX_VALUE.
          * For String types, will return integer value if string can be converted to an int using Integer.valueOf(String).
          */
-        int getServiceRanking(ServiceRegistryReference reference) {
-            Map<String, ?> attributes = reference.getAttributes();
+        int getServiceRanking(ServiceRegistryEntry entry) {
+            Map<String, ?> attributes = entry.getAttributes();
             
             Integer ranking;
             

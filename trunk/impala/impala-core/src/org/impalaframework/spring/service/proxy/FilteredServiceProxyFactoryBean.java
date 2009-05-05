@@ -18,9 +18,9 @@ import java.lang.reflect.Modifier;
 import java.util.List;
 
 import org.impalaframework.exception.InvalidStateException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryList;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BaseServiceRegistryTargetSource;
 import org.impalaframework.util.ArrayUtils;
@@ -34,7 +34,7 @@ import org.springframework.util.Assert;
  * 
  * The implementation is backed by a {@link ServiceRegistryList} instance.
  * 
- * @see BasicServiceRegistryReference
+ * @see BasicServiceRegistryEntry
  * @author Phil Zoio
  */
 public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements DisposableBean {
@@ -173,12 +173,12 @@ class ListBackedProxySource extends BaseProxyFactorySource {
 class ServiceRegistryList extends BaseServiceRegistryList {
 
     @Override
-    protected Object maybeGetProxy(ServiceRegistryReference ref) {
+    protected Object maybeGetProxy(ServiceRegistryEntry ref) {
         return ref.getBean();
     }
 
     @Override
-    public List<ServiceRegistryReference> getServices() {
+    public List<ServiceRegistryEntry> getServices() {
         return super.getServices();
     }
 
@@ -204,8 +204,8 @@ class ListBackedRegistryTargetSource extends BaseServiceRegistryTargetSource {
         return targetClass;
     }
 
-    public ServiceRegistryReference getServiceRegistryReference() {
-        List<ServiceRegistryReference> contributions = this.list.getServices();
+    public ServiceRegistryEntry getServiceRegistryReference() {
+        List<ServiceRegistryEntry> contributions = this.list.getServices();
         if (contributions.size() > 0) {
             return contributions.get(0);
         }

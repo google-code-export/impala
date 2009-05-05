@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.beans.factory.BeanNameAware;
 
 /**
@@ -24,7 +24,7 @@ import org.springframework.beans.factory.BeanNameAware;
  * 
  * The service is retrieved using dynamic lookup following each invocation on the proxy.
  * 
- * @see BasicServiceRegistryReference
+ * @see BasicServiceRegistryEntry
  * @author Phil Zoio
  * @deprecated use {@link NamedServiceProxyFactoryBean} instead
  */

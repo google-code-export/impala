@@ -20,8 +20,8 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
@@ -35,16 +35,16 @@ public class BaseServiceRegistryListTest extends TestCase {
         list = new BaseServiceRegistryList() {
 
             @Override
-            protected Object maybeGetProxy(ServiceRegistryReference ref) {
-                return ref.getBean();
+            protected Object maybeGetProxy(ServiceRegistryEntry entry) {
+                return entry.getBean();
             }
         };
     }
 
     public void testAddRemove() throws Exception {
 
-        BasicServiceRegistryReference ref1 = new BasicServiceRegistryReference("service1", "beanName1", "module", null, Collections.singletonMap("service.ranking", 0), ClassUtils.getDefaultClassLoader());
-        BasicServiceRegistryReference ref2 = new BasicServiceRegistryReference("service2", "beanName2", "module", null, Collections.singletonMap("service.ranking", 100), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry("service1", "beanName1", "module", null, Collections.singletonMap("service.ranking", 0), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref2 = new BasicServiceRegistryEntry("service2", "beanName2", "module", null, Collections.singletonMap("service.ranking", 100), ClassUtils.getDefaultClassLoader());
         list.add(ref1);
         assertTrue(list.add(ref2));
         

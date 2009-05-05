@@ -19,7 +19,7 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class LdapServiceReferenceFilterTest extends TestCase {
@@ -33,20 +33,20 @@ public class LdapServiceReferenceFilterTest extends TestCase {
     }
 
     public void testMatchesNoAttributes() {
-        BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry reference = new BasicServiceRegistryEntry("object", "bean", "module", ClassUtils.getDefaultClassLoader());
         assertFalse(filter.matches(reference));
     }
     
     public void testMatchesWithEmptyAttributes() {
         
         Map<String,Object> attributes = new HashMap<String, Object>();
-        BasicServiceRegistryReference reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry reference = new BasicServiceRegistryEntry("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         assertFalse(filter.matches(reference));
         
-        attributes.put("name","anothervalue");  reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        attributes.put("name","anothervalue");  reference = new BasicServiceRegistryEntry("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         assertFalse(filter.matches(reference));
         
-        attributes.put("name","value"); reference = new BasicServiceRegistryReference("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        attributes.put("name","value"); reference = new BasicServiceRegistryEntry("object", "bean", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         assertTrue(filter.matches(reference));
     }
 

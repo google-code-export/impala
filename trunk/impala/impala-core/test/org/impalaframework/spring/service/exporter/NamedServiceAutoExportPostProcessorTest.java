@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.NamedContributionEndpoint;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
@@ -99,7 +99,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         verify(parentBeanFactory);
         verify(endPoint);
         
-        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes, false);
+        ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
         assertSame(object, service.getBean());
     }
     
@@ -120,7 +120,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(factoryBean);
         assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
 
-        ServiceRegistryReference service = serviceRegistry.getService("mybean", classes, false);
+        ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
         assertNotNull(service.getBean());
         
         verify(beanFactory);

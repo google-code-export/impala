@@ -19,8 +19,8 @@ import java.util.List;
 
 import static org.easymock.EasyMock.*;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.ClassUtils;
 
@@ -43,7 +43,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testDynamicProxyFactory() throws Exception {
         final List<String> list = new ArrayList<String>();
-        ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         
@@ -64,7 +64,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
                 ArrayList.class 
                 };
         final List<String> list = new ArrayList<String>();
-        ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         
@@ -82,7 +82,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testStaticProxyFactory() throws Exception {
         final List<String> list = new ArrayList<String>();
-        ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(new Class<?>[]{List.class}, ref), null);
@@ -96,7 +96,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testStaticProxyFactoryWithNoInterfaces() throws Exception {
         final List<String> list = new ArrayList<String>();
-        ServiceRegistryReference ref = new BasicServiceRegistryReference(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null);
@@ -109,7 +109,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
     }
     
     public void testWithFinalClass() throws Exception {
-        ServiceRegistryReference ref = new BasicServiceRegistryReference("service", "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry("service", "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
         replay(serviceRegistry);
         try {

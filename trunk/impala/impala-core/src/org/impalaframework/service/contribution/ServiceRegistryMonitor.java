@@ -20,7 +20,7 @@ import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -79,10 +79,10 @@ public class ServiceRegistryMonitor implements
         }
         
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
-        Collection<ServiceRegistryReference> services = serviceRegistry.getServices(filter, supportedTypes, exportTypesOnly);
-        for (ServiceRegistryReference serviceReference : services) {
-            if (matchesTypes(serviceActivityNotifiable, serviceReference)) {
-                serviceActivityNotifiable.add(serviceReference);
+        Collection<ServiceRegistryEntry> services = serviceRegistry.getServices(filter, supportedTypes, exportTypesOnly);
+        for (ServiceRegistryEntry entry : services) {
+            if (matchesTypes(serviceActivityNotifiable, entry)) {
+                serviceActivityNotifiable.add(entry);
             }
         }
     }
@@ -90,7 +90,7 @@ public class ServiceRegistryMonitor implements
     /* ******************* Private and package method ******************** */
     
     private void handleEventRemoved(ServiceRegistryEvent event) {
-        ServiceRegistryReference ref = event.getServiceReference();
+        ServiceRegistryEntry ref = event.getServiceRegistryEntry();
         
         //no particular point matching before removing as it is more extra work than 
         //simply calling remove.
@@ -98,11 +98,11 @@ public class ServiceRegistryMonitor implements
     }
 
     void handleEventAdded(ServiceRegistryEvent event) {
-        ServiceRegistryReference ref = event.getServiceReference();
-        handleReferenceAdded(ref);
+        ServiceRegistryEntry entry = event.getServiceRegistryEntry();
+        handleReferenceAdded(entry);
     }
 
-    void handleReferenceAdded(ServiceRegistryReference serviceReference) {
+    void handleReferenceAdded(ServiceRegistryEntry entry) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
         
         final boolean typeMatches;
@@ -111,19 +111,19 @@ public class ServiceRegistryMonitor implements
         if (!ArrayUtils.isNullOrEmpty(exportTypes)) {
             
             //do check against export types in registry
-            typeMatches = getServiceRegistry().isPresentInExportTypes(serviceReference, exportTypes);
+            typeMatches = getServiceRegistry().isPresentInExportTypes(entry, exportTypes);
         } else {
 
             //do check against actual implemented types
-            typeMatches = matchesTypes(serviceActivityNotifiable, serviceReference);
+            typeMatches = matchesTypes(serviceActivityNotifiable, entry);
         }
         
-        if (typeMatches && filter.matches(serviceReference)) {
-            serviceActivityNotifiable.add(serviceReference);
+        if (typeMatches && filter.matches(entry)) {
+            serviceActivityNotifiable.add(entry);
         }
     }
 
-    private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryReference serviceReference) {
+    private boolean matchesTypes(ServiceActivityNotifiable serviceActivityNotifiable, ServiceRegistryEntry entry) {
         boolean matchable = true;
         
         Class<?>[] proxyTypes = serviceActivityNotifiable.getProxyTypes();
@@ -131,7 +131,7 @@ public class ServiceRegistryMonitor implements
         //check export types
         if (!ArrayUtils.isNullOrEmpty(proxyTypes)) {
 
-            Class<? extends Object> beanClass = serviceReference.getBean().getClass();
+            Class<? extends Object> beanClass = entry.getBean().getClass();
             for (int i = 0; i < proxyTypes.length; i++) {
                 
                 if (!proxyTypes[i].isAssignableFrom(beanClass)) {

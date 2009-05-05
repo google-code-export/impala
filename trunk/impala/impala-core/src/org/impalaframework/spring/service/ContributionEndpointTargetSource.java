@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.service;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.springframework.aop.TargetSource;
 
 /**
@@ -28,6 +28,6 @@ public interface ContributionEndpointTargetSource extends TargetSource {
      * Returns the <code>ServiceRegistryReference</code> corresponding with the target object
      * @return
      */
-    public ServiceRegistryReference getServiceRegistryReference();
+    public ServiceRegistryEntry getServiceRegistryReference();
 
 }

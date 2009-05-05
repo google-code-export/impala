@@ -17,7 +17,7 @@ package org.impalaframework.service.contribution;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 /**
  * Interface for receiving service activity calls from {@link ServiceRegistryMonitor}.
@@ -34,13 +34,13 @@ public interface ServiceActivityNotifiable {
      * Returns true if corresponding entry was actually removed. False if no
      * change was made.
      */
-    boolean remove(ServiceRegistryReference ref);
+    boolean remove(ServiceRegistryEntry entry);
 
     /**
      * Called when a service registry entry is added, typically following a match using the associated {@link ServiceReferenceFilter}.
      * See {@link #getServiceReferenceFilter()}.
      */
-    boolean add(ServiceRegistryReference ref);
+    boolean add(ServiceRegistryEntry entry);
     
     /**
      * Filter which is used by associated {@link ServiceRegistryMonitor} to filter out events from

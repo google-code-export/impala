@@ -19,7 +19,7 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.aop.framework.ProxyFactory;
@@ -44,9 +44,9 @@ public class ProxyHelper {
      * <li>if proxyInterfaces is null or empty, then wraps with proxy, exposing with all interfaces implemented by bean
      * </ul>
      */
-    public Object maybeGetProxy(ServiceRegistryReference reference) {
+    public Object maybeGetProxy(ServiceRegistryEntry entry) {
         
-        Object bean = reference.getBean();
+        Object bean = entry.getBean();
         
         if (!proxyEntries) {
             return bean;

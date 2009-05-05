@@ -14,7 +14,7 @@
 
 package org.impalaframework.service.contribution;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 /**
  * Makes {@link BaseServiceRegistryMap} concrete but not support any proxying of returned entries.
@@ -27,7 +27,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap {
         super();
     }
     
-    protected Object maybeGetProxy(ServiceRegistryReference reference) {
-        return reference.getBean();
+    protected Object maybeGetProxy(ServiceRegistryEntry entry) {
+        return entry.getBean();
     }
 }

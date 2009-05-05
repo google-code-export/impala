@@ -27,9 +27,9 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.reference.BasicServiceRegistryReference;
+import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
@@ -62,8 +62,8 @@ public class ServiceRegistryListTest extends TestCase {
         serviceRegistry = createMock(ServiceRegistry.class);
         list.setServiceRegistry(serviceRegistry);
         List<String> service = new ArrayList<String>();
-        ServiceRegistryReference ref = new BasicServiceRegistryReference(service, "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
-        List<ServiceRegistryReference> singletonList = Collections.singletonList(ref);
+        ServiceRegistryEntry ref = new BasicServiceRegistryEntry(service, "mybean", "mymodule", ClassUtils.getDefaultClassLoader());
+        List<ServiceRegistryEntry> singletonList = Collections.singletonList(ref);
         expect(serviceRegistry.getServices(filter, supportedTypes, false)).andReturn(singletonList);
         expect(serviceRegistry.addEventListener(list)).andReturn(true);
         

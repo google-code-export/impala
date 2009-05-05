@@ -5,7 +5,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.service.registry.BeanRetrievingServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
@@ -26,7 +26,7 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
         assertNull(targetSource.getServiceRegistryReference());
         
         Object service = new Object();
-        final ServiceRegistryReference serviceReference = serviceRegistry.addService("mybean", "moduleName", service, ClassUtils.getDefaultClassLoader());
+        final ServiceRegistryEntry serviceReference = serviceRegistry.addService("mybean", "moduleName", service, ClassUtils.getDefaultClassLoader());
         
         assertNotNull(targetSource.getServiceRegistryReference());
         
@@ -42,7 +42,7 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
         
         Object service = new Object();
         List<Class<?>> asList = Arrays.asList(new Class<?>[]{Object.class});
-        final ServiceRegistryReference serviceReference = serviceRegistry.addService("mybean", "moduleName", service, asList, null, ClassUtils.getDefaultClassLoader());
+        final ServiceRegistryEntry serviceReference = serviceRegistry.addService("mybean", "moduleName", service, asList, null, ClassUtils.getDefaultClassLoader());
         
         assertNotNull(targetSource.getServiceRegistryReference());
         

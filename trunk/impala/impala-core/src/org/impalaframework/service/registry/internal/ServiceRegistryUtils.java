@@ -15,12 +15,12 @@
 package org.impalaframework.service.registry.internal;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.springframework.beans.factory.FactoryBean;
 
 public class ServiceRegistryUtils {
 
-    static Object getTargetInstance(final ServiceRegistryReference reference) {
+    static Object getTargetInstance(final ServiceRegistryEntry reference) {
         Object target = reference.getBean();
         if (target instanceof FactoryBean) {
             FactoryBean factoryBean  = (FactoryBean) target;

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.beans.factory.BeanFactory;
@@ -98,7 +98,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        ServiceRegistryReference serviceReference = registry.getService("exportName", classes, false);
+        ServiceRegistryEntry serviceReference = registry.getService("exportName", classes, false);
         assertSame(service, serviceReference.getBean());
         
         exporter.destroy();
@@ -116,7 +116,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.afterPropertiesSet();
         verify(beanFactory);
         
-        ServiceRegistryReference s = registry.getService(null, classes, true);
+        ServiceRegistryEntry s = registry.getService(null, classes, true);
         assertSame(service, s.getBean());
         assertEquals(attributes, s.getAttributes());
         

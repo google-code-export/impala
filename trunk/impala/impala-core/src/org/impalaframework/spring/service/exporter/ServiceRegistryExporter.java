@@ -21,7 +21,7 @@ import java.util.Map;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.MapStringUtils;
@@ -68,7 +68,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 
     private String attributes;
     
-    private ServiceRegistryReference serviceReference;
+    private ServiceRegistryEntry serviceReference;
     
     /**
      * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 

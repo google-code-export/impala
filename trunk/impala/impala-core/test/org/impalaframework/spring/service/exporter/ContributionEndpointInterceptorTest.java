@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
-import org.impalaframework.service.ServiceRegistryReference;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.impalaframework.spring.service.proxy.ContributionEndpointInterceptor;
 import org.springframework.util.ClassUtils;
@@ -41,13 +41,13 @@ public class ContributionEndpointInterceptorTest extends TestCase {
 
     private Method method;
 
-    private ServiceRegistryReference serviceRegistryReference;
+    private ServiceRegistryEntry serviceRegistryReference;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         targetSource = createMock(ContributionEndpointTargetSource.class);
-        serviceRegistryReference = createMock(ServiceRegistryReference.class);
+        serviceRegistryReference = createMock(ServiceRegistryEntry.class);
         interceptor = new ContributionEndpointInterceptor(targetSource, "myBean");
         method = ReflectionUtils.findMethod(String.class, "toString", new Class[] {});
         assertNotNull(method);
