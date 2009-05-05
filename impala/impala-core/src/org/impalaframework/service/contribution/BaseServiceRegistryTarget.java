@@ -101,6 +101,10 @@ public abstract class BaseServiceRegistryTarget implements
         return exportTypes;
     }
 
+    public boolean getAllowNonStaticReferences() {
+        return false;
+    }
+
     /* ******************* Implementation of ServiceRegistryEventListener ******************** */
 
     public void handleServiceRegistryEvent(ServiceRegistryEvent event) {

@@ -16,16 +16,19 @@ package org.impalaframework.service.contribution;
 
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ArrayUtils;
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Class with responsibility for for logic of picking up changes to service registry and matching these against filter.
@@ -39,6 +42,8 @@ import org.springframework.util.Assert;
 public class ServiceRegistryMonitor implements 
     ServiceRegistryEventListener, 
     ServiceRegistryAware {
+    
+    private static Log logger = LogFactory.getLog(ServiceRegistryMonitor.class);
     
     private ServiceRegistry serviceRegistry;
     
@@ -104,6 +109,19 @@ public class ServiceRegistryMonitor implements
 
     void handleReferenceAdded(ServiceRegistryEntry entry) {
         ServiceReferenceFilter filter = serviceActivityNotifiable.getServiceReferenceFilter();
+        
+        boolean isStatic = entry.getServiceBeanReference().isStatic();
+        if (!isStatic) {
+            boolean allowNonStaticReferences = serviceActivityNotifiable.getAllowNonStaticReferences();
+            if (!allowNonStaticReferences) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Service entry " + entry + " filtered out as bean reference is static, but target " +
+                            ObjectUtils.identityToString(serviceActivityNotifiable) +
+                    		"does not support non-static reference");
+                }
+                return;
+            }
+        }
         
         final boolean typeMatches;
         
