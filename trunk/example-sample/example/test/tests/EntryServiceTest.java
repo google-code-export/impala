@@ -87,8 +87,20 @@ public class EntryServiceTest extends BaseExampleTest {
     
     public void testPrototypeService() throws Exception {
         MessageService prototypeMessageService = Impala.getModuleBean("example-service", "prototypeMessageService", MessageService.class);
-        System.out.println(prototypeMessageService.getMessage());
-        System.out.println(prototypeMessageService.getMessage());
+        String message1 = prototypeMessageService.getMessage();
+        String message2 = prototypeMessageService.getMessage();
+        System.out.println(message1);
+        System.out.println(message2);
+        assertFalse(message1.equals(message2));
+    }   
+    
+    public void testNonStaticFactoryBean() throws Exception {
+        MessageService nonstaticFactoryBeanMessageService = Impala.getModuleBean("example-service", "nonstaticFactoryBeanMessageService", MessageService.class);        
+        String message1 = nonstaticFactoryBeanMessageService.getMessage();
+        String message2 = nonstaticFactoryBeanMessageService.getMessage();
+        System.out.println(message1);
+        System.out.println(message2);
+        assertFalse(message1.equals(message2));
     }
 
     public RootModuleDefinition getModuleDefinition() {

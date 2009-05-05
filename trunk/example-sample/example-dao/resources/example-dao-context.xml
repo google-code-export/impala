@@ -25,6 +25,9 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     
     <bean id="prototypeMessageService" 
         class="classes.PrototypeMessageService" scope="prototype"/>
+        
+    <bean id="nonstaticFactoryBeanMessageService" 
+        class="classes.NonStaticMessageServiceFactoryBean"/>
     
     <bean id="attributeMessageService" 
         class="classes.MessageServiceImpl">
@@ -34,7 +37,12 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     <service:export 
     	id="prototypeMessageServiceExport" 
     	exportName="prototypeMessageService"
-    	beanName="prototypeMessageService"/>    
+    	beanName="prototypeMessageService"/>  
+      
+    <service:export 
+    	id="nonstaticMessageServiceFactoryBeanExport" 
+    	exportName="nonstaticFactoryBeanMessageService"
+    	beanName="nonstaticFactoryBeanMessageService"/>      
     
     <service:export 
     	id="typedMessageServiceExport" 
