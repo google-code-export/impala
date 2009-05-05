@@ -31,6 +31,7 @@ public abstract class MapStringUtils {
      * value pairs is maintained
      */
     public static Map<String,String> parsePropertiesFromString(String mapString) {
+        //FIXME should have escape syntax for ,
         return parsePropertiesFromString(mapString, ",\n");
     }
 
@@ -53,6 +54,7 @@ public abstract class MapStringUtils {
      * value pairs is maintained
      */
     public static Map<String,Object> parseMapFromString(String mapString) {
+        //FIXME should have escape syntax for ,
         return parseMapFromString(mapString, ",\n");
     }
     
@@ -71,6 +73,7 @@ public abstract class MapStringUtils {
             String delimiters, ValueConverter valueConverter) {
         Assert.notNull(mapString, "map string cannot be null");
         Assert.notNull(delimiters, "delimiters cannot be null");
+        
         String[] pairings = StringUtils.tokenizeToStringArray(mapString, delimiters);
         Map map = new LinkedHashMap();
         for (String pair : pairings) {
