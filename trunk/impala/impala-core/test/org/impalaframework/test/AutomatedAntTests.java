@@ -157,7 +157,7 @@ import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSo
 import org.impalaframework.util.ArrayUtilsTest;
 import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
-import org.impalaframework.util.MapStringUtilsTest;
+import org.impalaframework.util.CollectionStringUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.ObjectMapUtilsTest;
 import org.impalaframework.util.ObjectUtilsTest;
@@ -198,6 +198,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ClassLoaderAwareSerializationStreamFactoryTest.class);   
         suite.addTestSuite(ClassLoaderUtilsTest.class);
         suite.addTestSuite(CloseRootModuleOperationTest.class);
+        suite.addTestSuite(CollectionStringUtilsTest.class);
         suite.addTestSuite(CompositeResourceLoaderTest.class);
         suite.addTestSuite(CompositePropertySourceTest.class);
         suite.addTestSuite(ConstantValuePlaceholderConfigurerTest.class);
@@ -240,7 +241,6 @@ public class AutomatedAntTests {
         suite.addTestSuite(LoadTransitionProcessorTest.class);
         suite.addTestSuite(LocationModificationStateHolderTest.class);
         suite.addTestSuite(LockingModuleOperationTest.class);
-        suite.addTestSuite(MapStringUtilsTest.class);
         suite.addTestSuite(MemoryUtilsTest.class);
         suite.addTestSuite(ModificationExtractorTest.class);
         suite.addTestSuite(ModificationExtractorRegistryTest.class);

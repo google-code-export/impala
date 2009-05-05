@@ -14,14 +14,43 @@
 
 package org.impalaframework.util;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 
-public abstract class MapStringUtils {
+public abstract class CollectionStringUtils {
+    
+    /**
+     * Generates a list of Strings from the underlying list, assuming that they are
+     * separated by a new line or comma. Trims each entry in list.
+     * @param listString the input String
+     * @return a list of Strings, values trimmed, in the input order
+     */
+    @SuppressWarnings("unchecked")
+    public static List<String> parseStringList(String listString) {
+
+        String delimiters = ",\n";
+        return parseList(listString, delimiters, stringConverter);
+    }
+    
+    /**
+     * Generates a list of Objects from the underlying list, assuming that they are
+     * separated by a new line or comma. Uses {@link ParseUtils#parseObject(String)} to convert 
+     * String values to map values.
+     * @param listString the input String
+     * @return a list of Strings, values trimmed, in the input order
+     */
+    @SuppressWarnings("unchecked")
+    public static List<Object> parseObjectList(String listString) {
+
+        String delimiters = ",\n";
+        return parseList(listString, delimiters, objectConverter);
+    }
 
     /**
      * Generates map of String to String name value pairs, assuming that individual pairings are
@@ -85,6 +114,22 @@ public abstract class MapStringUtils {
         }
         
         return map;
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List parseList(String listString, 
+            String delimiters, ValueConverter valueConverter) {
+
+        Assert.notNull(listString, "listString string cannot be null");
+        Assert.notNull(delimiters, "delimiters cannot be null");
+        
+        String[] pairings = StringUtils.tokenizeToStringArray(listString, delimiters); 
+        List list = new ArrayList(pairings.length);  
+        for (String string : pairings) {
+            list.add(valueConverter.convertValue(string.trim()));
+        }
+        
+        return list;
     }
     
     private static interface ValueConverter {

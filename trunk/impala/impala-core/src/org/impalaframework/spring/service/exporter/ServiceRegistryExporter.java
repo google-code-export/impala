@@ -24,7 +24,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.util.ArrayUtils;
-import org.impalaframework.util.MapStringUtils;
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.ParseUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -87,7 +87,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
         List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
         
         if (attributes != null && attributeMap == null) {
-            attributeMap = MapStringUtils.parseMapFromString(attributes);
+            attributeMap = CollectionStringUtils.parseMapFromString(attributes);
         }
         
         serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypesToUse, attributeMap, beanClassLoader);
@@ -152,7 +152,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     }
 
     /**
-     * Sets attributes, in the format described in {@link MapStringUtils#parseMapFromString(String)}.
+     * Sets attributes, in the format described in {@link CollectionStringUtils#parseMapFromString(String)}.
      * Can parse dates, doubles, longs, booleans and String. See also {@link ParseUtils#parseObject(String)}.
      * 
      * @param attributes expects a comma or new line separated String with individual name value pairs separated by '='.
