@@ -37,7 +37,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class ContributionMap implements Map {
     
     private Map localContributions = new ConcurrentHashMap();
-    private ServiceRegistryMap externalContributions = new ServiceRegistryMap();
+    private BaseServiceRegistryMap externalContributions;
     
     public void clear() {
         this.localContributions.clear();
@@ -116,8 +116,8 @@ public class ContributionMap implements Map {
         return allValues;
     }
     
-    ServiceRegistryMap getExternalContributions() {
-        return externalContributions;
+    public void setExternalContributions(BaseServiceRegistryMap externalContributions) {
+        this.externalContributions = externalContributions;
     }
 
     public void setLocalContributions(Map localContributions) {
