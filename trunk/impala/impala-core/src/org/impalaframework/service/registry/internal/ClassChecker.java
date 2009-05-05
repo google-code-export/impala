@@ -74,7 +74,7 @@ class ClassChecker {
      */
     private void checkClassesForImplements(List<Class<?>> classes, ServiceRegistryEntry reference) {
         
-        Object service = ServiceRegistryUtils.getTargetInstance(reference);
+        Object service = reference.getServiceBeanReference().getService();
         
         //check that classes are valid
         for (Class<?> clz : classes) {
@@ -103,10 +103,10 @@ class ClassChecker {
             return matches;
         }
         
-        Object target = ServiceRegistryUtils.getTargetInstance(reference);
+        Object service = reference.getServiceBeanReference().getService();
 
         //check that the the target implements all the interfaces
-        final Class<? extends Object> targetClass = target.getClass();
+        final Class<? extends Object> targetClass = service.getClass();
         
         for (Class<?> clazz : implementationTypes) {
             if (!clazz.isAssignableFrom(targetClass)) {
