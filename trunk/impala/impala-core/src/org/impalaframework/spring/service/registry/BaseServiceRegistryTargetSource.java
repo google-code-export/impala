@@ -38,7 +38,7 @@ public abstract class BaseServiceRegistryTargetSource implements ContributionEnd
     public Object getTarget() throws Exception {
         ServiceRegistryEntry reference = getServiceRegistryReference();
         if (reference != null) {
-            Object bean = reference.getBean();
+            Object bean = reference.getService().getService();
             if (bean instanceof FactoryBean) {
                 FactoryBean fb = (FactoryBean) bean;
                 return fb.getObject();

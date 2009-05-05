@@ -28,11 +28,12 @@ import java.util.concurrent.CopyOnWriteArraySet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
-import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.event.ServiceAddedEvent;
 import org.impalaframework.service.event.ServiceRemovedEvent;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
@@ -80,7 +81,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public ServiceRegistryEntry addService(
             String beanName, 
             String moduleName, 
-            Object service,
+            ServiceBeanReference service,
             ClassLoader classLoader) {
         
         return addService(beanName, moduleName, service, null, null, classLoader);
@@ -89,10 +90,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public ServiceRegistryEntry addService(
             String beanName, 
             String moduleName, 
-            Object service,
+            ServiceBeanReference beanReference,
             List<Class<?>> classes, 
             Map<String, ?> attributes, 
             ClassLoader classLoader) {
+        
+        Object service = beanReference.getService();
         
         //Note: null checks performed by BasicServiceRegistryReference constructor
         BasicServiceRegistryEntry serviceReference = null;
@@ -106,7 +109,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             }
             
             serviceReference = new BasicServiceRegistryEntry(
-                    service, 
+                    beanReference, 
                     beanName,
                     moduleName, 
                     classes, 

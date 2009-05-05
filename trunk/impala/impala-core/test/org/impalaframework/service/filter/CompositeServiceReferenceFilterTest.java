@@ -2,13 +2,11 @@ package org.impalaframework.service.filter;
 
 import java.util.LinkedList;
 
-import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.filter.CompositeServiceReferenceFilter;
-import org.impalaframework.service.filter.TypeServiceReferenceFilter;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
-import org.springframework.util.ClassUtils;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.service.ServiceReferenceFilter;
+import org.impalaframework.service.StaticServiceRegistryEntry;
+import org.springframework.util.ClassUtils;
 
 public class CompositeServiceReferenceFilterTest extends TestCase {
     
@@ -25,14 +23,14 @@ public class CompositeServiceReferenceFilterTest extends TestCase {
         
         ClassLoader loader = ClassUtils.getDefaultClassLoader();
         composite.setMatchAny(false);
-        assertFalse(composite.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
+        assertFalse(composite.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
           
         composite.setFilters(list);
-        assertFalse(composite.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
-        assertFalse(composite.matches(new BasicServiceRegistryEntry(new Integer(1), "beanName", "moduleName", loader)));
+        assertFalse(composite.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
+        assertFalse(composite.matches(new StaticServiceRegistryEntry(new Integer(1), "beanName", "moduleName", loader)));
 
         composite.setMatchAny(true);
-        assertTrue(composite.matches(new BasicServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
-        assertTrue(composite.matches(new BasicServiceRegistryEntry(new Integer(1), "beanName", "moduleName", loader)));
+        assertTrue(composite.matches(new StaticServiceRegistryEntry("value1", "beanName", "moduleName", loader)));
+        assertTrue(composite.matches(new StaticServiceRegistryEntry(new Integer(1), "beanName", "moduleName", loader)));
     }
 }

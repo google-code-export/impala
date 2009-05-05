@@ -20,6 +20,7 @@ import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -82,15 +83,14 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
         Assert.notNull(beanFactory);
         Assert.notNull(moduleDefinition);
         
-        Object service = beanFactory.getBean(beanName);
-        
         List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
         
         if (attributes != null && attributeMap == null) {
             attributeMap = CollectionStringUtils.parseMapFromString(attributes);
         }
-        
-        serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), service, exportTypesToUse, attributeMap, beanClassLoader);
+
+        final ServiceBeanReference beanReference = ModuleContributionUtils.newServiceBeanReference(beanFactory, beanName);
+        this.serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), beanReference, exportTypesToUse, attributeMap, beanClassLoader);
     }
 
     /**

@@ -22,6 +22,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
 
@@ -44,7 +45,7 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
     public void testCreateDestroy() throws Exception {
         
         ArrayList<String> service = new ArrayList<String>();
-        serviceRegistry.addService("beanName", "moduleName", service, null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
+        serviceRegistry.addService("beanName", "moduleName", new StaticServiceBeanReference(service), null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
         
         factoryBean.afterPropertiesSet();
         Object object = factoryBean.getObject();
@@ -72,7 +73,7 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
 
         factoryBean.setProxyTypes(new Class[]{ArrayList.class});
         ArrayList<String> service = new ArrayList<String>();
-        serviceRegistry.addService("beanName", "moduleName", service, null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
+        serviceRegistry.addService("beanName", "moduleName", new StaticServiceBeanReference(service), null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
         
         factoryBean.afterPropertiesSet();
         Object object = factoryBean.getObject();
@@ -102,7 +103,7 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
         noService(list);
 
         //add service and see we can call
-        ServiceRegistryEntry reference = serviceRegistry.addService("beanName", "moduleName", service, null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry reference = serviceRegistry.addService("beanName", "moduleName", new StaticServiceBeanReference(service), null, Collections.singletonMap("name", "value"), ClassUtils.getDefaultClassLoader());
        
         list.add("some string");
         list.add("some string");

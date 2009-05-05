@@ -6,6 +6,7 @@ import java.util.Set;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -59,8 +60,9 @@ public class ServiceArrayRegistryExporter
         }
         
         for (int i = 0; i < beanNames.length; i++) {
-            Object service = beanFactory.getBean(beanNames[i]);
-            final ServiceRegistryEntry serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), service, beanClassLoader);
+            String beanName = beanNames[i];
+            final ServiceBeanReference beanReference = ModuleContributionUtils.newServiceBeanReference(beanFactory, beanName);
+            final ServiceRegistryEntry serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), beanReference, beanClassLoader);
             services.add(serviceReference);
         }
     }

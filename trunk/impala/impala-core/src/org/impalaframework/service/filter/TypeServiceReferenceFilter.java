@@ -27,7 +27,7 @@ public class TypeServiceReferenceFilter implements ServiceReferenceFilter {
     private boolean matchAny;
     
     public boolean matches(ServiceRegistryEntry entry) {
-        Object bean = entry.getBean();
+        Object bean = entry.getService().getService();
         
         if (types == null || types.isEmpty()) {
             return false;

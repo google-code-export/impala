@@ -29,6 +29,7 @@ import junit.framework.TestCase;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
@@ -63,8 +64,8 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
         final List<ServiceRegistryEntry> emptyList = new ArrayList<ServiceRegistryEntry>();
         final HashMap<String,?> attributes = new HashMap<String,Object>();
         
-        final BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry("bean1", "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
-        final BasicServiceRegistryEntry ref2 = new BasicServiceRegistryEntry("bean2", "name2", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref1 = new StaticServiceRegistryEntry("bean1", "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref2 = new StaticServiceRegistryEntry("bean2", "name2", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         
         emptyList.add(ref1);
         emptyList.add(ref2);
@@ -84,7 +85,7 @@ public class FilteredServiceRegistryTargetSourceTest extends TestCase {
         final List<ServiceRegistryEntry> emptyList = new ArrayList<ServiceRegistryEntry>();
         final HashMap<String,?> attributes = new HashMap<String,Object>();
         
-        final BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry ref1 = new StaticServiceRegistryEntry(new Integer(1), "name1", "module", null, attributes, ClassUtils.getDefaultClassLoader());
         
         emptyList.add(ref1);
         expect(serviceRegistry.getServices(filter, null, false)).andReturn(emptyList);

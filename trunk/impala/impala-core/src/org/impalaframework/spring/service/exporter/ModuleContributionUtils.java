@@ -16,6 +16,9 @@ package org.impalaframework.spring.service.exporter;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedContributionEndpoint;
+import org.impalaframework.service.ServiceBeanReference;
+import org.impalaframework.service.StaticServiceBeanReference;
+import org.impalaframework.spring.service.SpringServiceBeanReference;
 import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
@@ -29,6 +32,14 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
  * @author Phil Zoio
  */
 public abstract class ModuleContributionUtils {
+    
+    static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
+        
+        if (beanFactory.isSingleton(beanName)) {
+            return new StaticServiceBeanReference(beanFactory.getBean(beanName));
+        }
+        return new SpringServiceBeanReference(beanFactory, beanName);
+    }
 
     static NamedContributionEndpoint findContributionEndPoint(
             BeanFactory beanFactory, String beanName) {

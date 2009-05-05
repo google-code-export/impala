@@ -17,6 +17,7 @@ package org.impalaframework.spring.service.proxy;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
@@ -59,8 +60,8 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         catch (NoServiceException e) {
         }
 
-        Child newChild = newChild();
-        serviceRegistry.addService("someBean", "pluginName", newChild, classLoader);
+        Child service = newChild();
+        serviceRegistry.addService("someBean", "pluginName", new StaticServiceBeanReference(service), classLoader);
         child.childMethod();
     }   
     
@@ -80,8 +81,8 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
             e.printStackTrace();
         }
 
-        Child newChild = newChild();
-        serviceRegistry.addService("exportBean", "pluginName", newChild, classLoader);
+        Child service = newChild();
+        serviceRegistry.addService("exportBean", "pluginName",  new StaticServiceBeanReference(service), classLoader);
         child.childMethod();
     }
     

@@ -22,8 +22,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
-import org.impalaframework.service.reference.ServiceReferenceSorter;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class ServiceReferenceSorterTest extends TestCase {
@@ -58,7 +57,7 @@ public class ServiceReferenceSorterTest extends TestCase {
             attributes = new HashMap<String, Object>();
             attributes.put("service.ranking", ranking);
         }
-        ServiceRegistryEntry entry = new BasicServiceRegistryEntry("service", "bean", "mod", null, attributes, ClassUtils.getDefaultClassLoader());
+        ServiceRegistryEntry entry = new StaticServiceRegistryEntry("service", "bean", "mod", null, attributes, ClassUtils.getDefaultClassLoader());
         return entry;
     }
 

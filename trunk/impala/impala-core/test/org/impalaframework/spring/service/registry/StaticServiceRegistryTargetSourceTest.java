@@ -2,6 +2,7 @@ package org.impalaframework.spring.service.registry;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.util.ClassUtils;
@@ -9,14 +10,14 @@ import org.springframework.util.ClassUtils;
 public class StaticServiceRegistryTargetSourceTest extends TestCase {
 
     public void testWithBean() throws Exception {
-        final BasicServiceRegistryEntry reference = new BasicServiceRegistryEntry("bean", "beanName", "moduleName", ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry reference = new StaticServiceRegistryEntry("bean", "beanName", "moduleName", ClassUtils.getDefaultClassLoader());
         doTest(reference);
     }
     
     public void testWithFactoryBean() throws Exception {
         final StringFactoryBean bean = new StringFactoryBean();
         bean.setValue("bean");
-        final BasicServiceRegistryEntry reference = new BasicServiceRegistryEntry(bean, "beanName", "moduleName", ClassUtils.getDefaultClassLoader());
+        final BasicServiceRegistryEntry reference = new StaticServiceRegistryEntry(bean, "beanName", "moduleName", ClassUtils.getDefaultClassLoader());
         doTest(reference);
     }
 

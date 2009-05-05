@@ -17,6 +17,7 @@ package org.impalaframework.spring.service.proxy;
 import java.util.Arrays;
 
 import org.impalaframework.exception.NoServiceException;
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
@@ -57,8 +58,8 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
             e.printStackTrace();
         }
 
-        Child newChild = newChild();
-        serviceRegistry.addService(null, "pluginName", newChild, Arrays.asList(exportTypes) , null, classLoader);
+        Child service = newChild();
+        serviceRegistry.addService(null, "pluginName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
         child.childMethod();
     }  
     

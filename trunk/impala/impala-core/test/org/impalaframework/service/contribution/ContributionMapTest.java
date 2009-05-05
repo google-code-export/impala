@@ -21,6 +21,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
@@ -83,8 +84,8 @@ public class ContributionMapTest extends TestCase {
         String service1 = "some service1";
         String service2 = "some service2";
         
-        final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        final ServiceRegistryEntry ref2 = registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", new StaticServiceBeanReference(service1), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        final ServiceRegistryEntry ref2 = registry.addService("bean2", "module1", new StaticServiceBeanReference(service2), null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         assertEquals(2, serviceRegistryMap.size());
         assertNotNull(serviceRegistryMap.get("bean1"));
         assertNotNull(serviceRegistryMap.get("bean2"));
@@ -100,7 +101,7 @@ public class ContributionMapTest extends TestCase {
         serviceRegistryMap.init();
         String service1 = "some service1";
         
-        final ServiceRegistryEntry entry1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        final ServiceRegistryEntry entry1 = registry.addService("bean1", "module1", new StaticServiceBeanReference(service1), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
         assertEquals(1, serviceRegistryMap.size());   
         
         serviceRegistryMap.destroy();
@@ -119,10 +120,10 @@ public class ContributionMapTest extends TestCase {
         serviceRegistryMap.init();
 
         //this one will match
-        registry.addService("bean1", "module1", "some service1", null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        registry.addService("bean1", "module1", new StaticServiceBeanReference("some service1"), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
         
         //this one won't
-        registry.addService("bean2", "module1", "some service1", null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        registry.addService("bean2", "module1", new StaticServiceBeanReference("some service1"), null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         assertEquals(1, serviceRegistryMap.size());
     }
     
@@ -133,8 +134,8 @@ public class ContributionMapTest extends TestCase {
         String service1 = "value1";
         String service2 = "value2";
         
-        registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        registry.addService("bean1", "module1", new StaticServiceBeanReference(service1), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        registry.addService("bean2", "module1", new StaticServiceBeanReference(service2), null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         assertEquals(2, serviceRegistryMap.size());
 
         Map<String,String> m = new HashMap<String, String>();
@@ -170,8 +171,8 @@ public class ContributionMapTest extends TestCase {
         String service1 = "value1";
         String service2 = "value2";
         
-        registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        registry.addService("bean1", "module1", new StaticServiceBeanReference(service1), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        registry.addService("bean2", "module1", new StaticServiceBeanReference(service2), null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         
         serviceRegistryMap.init();
         assertEquals(2, serviceRegistryMap.size());

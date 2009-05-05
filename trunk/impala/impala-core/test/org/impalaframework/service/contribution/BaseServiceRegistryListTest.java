@@ -21,6 +21,8 @@ import java.util.List;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceBeanReference;
+import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.springframework.util.ClassUtils;
@@ -36,15 +38,15 @@ public class BaseServiceRegistryListTest extends TestCase {
 
             @Override
             protected Object maybeGetProxy(ServiceRegistryEntry entry) {
-                return entry.getBean();
+                return entry.getService().getService();
             }
         };
     }
 
     public void testAddRemove() throws Exception {
 
-        BasicServiceRegistryEntry ref1 = new BasicServiceRegistryEntry("service1", "beanName1", "module", null, Collections.singletonMap("service.ranking", 0), ClassUtils.getDefaultClassLoader());
-        BasicServiceRegistryEntry ref2 = new BasicServiceRegistryEntry("service2", "beanName2", "module", null, Collections.singletonMap("service.ranking", 100), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref1 = new StaticServiceRegistryEntry("service1", "beanName1", "module", null, Collections.singletonMap("service.ranking", 0), ClassUtils.getDefaultClassLoader());
+        BasicServiceRegistryEntry ref2 = new StaticServiceRegistryEntry("service2", "beanName2", "module", null, Collections.singletonMap("service.ranking", 100), ClassUtils.getDefaultClassLoader());
         list.add(ref1);
         assertTrue(list.add(ref2));
         
@@ -76,8 +78,8 @@ public class BaseServiceRegistryListTest extends TestCase {
         List<String> service3 = new ArrayList<String>();
         
         ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-        registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
+        registry.addService("bean1", "module1", new StaticServiceBeanReference(service1), null, Collections.singletonMap("mapkey", "bean1"), classLoader);
+        registry.addService("bean2", "module1", new StaticServiceBeanReference(service2), null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         
         assertTrue(list.isEmpty());
         
@@ -87,7 +89,7 @@ public class BaseServiceRegistryListTest extends TestCase {
         assertEquals(2, list.size());
         
         //now add service and see it automatically reflect
-        registry.addService("bean3", "module1", service3, null, Collections.singletonMap("mapkey", "bean3"), classLoader);
+        registry.addService("bean3", "module1", new StaticServiceBeanReference(service3), null, Collections.singletonMap("mapkey", "bean3"), classLoader);
         assertEquals(3, list.size());
         
         list.destroy();

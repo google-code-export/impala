@@ -33,7 +33,7 @@ public interface ServiceRegistry {
      * @param service the service instance
      * @param classLoader the classloader associated with the loading module
      */
-    ServiceRegistryEntry addService(String beanName, String moduleName, Object service, ClassLoader classLoader);   
+    ServiceRegistryEntry addService(String beanName, String moduleName, ServiceBeanReference service, ClassLoader classLoader);   
 
     /**
      * 
@@ -45,7 +45,7 @@ public interface ServiceRegistry {
      * looking up services from the service registry
      * @param classLoader the classloader associated with the loading module
      */
-    ServiceRegistryEntry addService(String beanName, String moduleName, Object service, 
+    ServiceRegistryEntry addService(String beanName, String moduleName, ServiceBeanReference service, 
             List<Class<?>> exportTypes, Map<String,?> attributes, ClassLoader classLoader);
 
     /**
