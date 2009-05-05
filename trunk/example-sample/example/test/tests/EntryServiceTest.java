@@ -83,6 +83,12 @@ public class EntryServiceTest extends BaseExampleTest {
         assertFalse(mapMessageService.isEmpty());
         String firstKey = mapMessageService.keySet().iterator().next();
         System.out.println("First map entry: " + mapMessageService.get(firstKey).getMessage());
+    }   
+    
+    public void testPrototypeService() throws Exception {
+        MessageService prototypeMessageService = Impala.getModuleBean("example-service", "prototypeMessageService", MessageService.class);
+        System.out.println(prototypeMessageService.getMessage());
+        System.out.println(prototypeMessageService.getMessage());
     }
 
     public RootModuleDefinition getModuleDefinition() {
