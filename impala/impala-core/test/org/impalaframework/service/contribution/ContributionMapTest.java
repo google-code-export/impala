@@ -36,7 +36,8 @@ public class ContributionMapTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         map = new ContributionMap();
-        serviceRegistryMap = map.getExternalContributions();
+        serviceRegistryMap = new ServiceRegistryMap();
+        map.setExternalContributions(serviceRegistryMap);
         serviceRegistryMap.setFilterExpression("(mapkey=*)");
         registry = new ServiceRegistryImpl();
         serviceRegistryMap.setServiceRegistry(registry);
@@ -84,12 +85,12 @@ public class ContributionMapTest extends TestCase {
         
         final ServiceRegistryEntry ref1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
         final ServiceRegistryEntry ref2 = registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
-        assertEquals(2, map.getExternalContributions().size());
-        assertNotNull(map.getExternalContributions().get("bean1"));
-        assertNotNull(map.getExternalContributions().get("bean2"));
+        assertEquals(2, serviceRegistryMap.size());
+        assertNotNull(serviceRegistryMap.get("bean1"));
+        assertNotNull(serviceRegistryMap.get("bean2"));
         registry.remove(ref1);
         registry.remove(ref2);      
-        assertEquals(0, map.getExternalContributions().size());
+        assertEquals(0, serviceRegistryMap.size());
 
         //sucessfully remove listener. Compare with testDestroy where this returns false
         assertTrue(registry.removeEventListener(serviceRegistryMap));
@@ -100,10 +101,10 @@ public class ContributionMapTest extends TestCase {
         String service1 = "some service1";
         
         final ServiceRegistryEntry entry1 = registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
-        assertEquals(1, map.getExternalContributions().size());   
+        assertEquals(1, serviceRegistryMap.size());   
         
         serviceRegistryMap.destroy();
-        assertTrue(map.getExternalContributions().isEmpty());
+        assertTrue(serviceRegistryMap.isEmpty());
         
         //no need to remove listener as this was removed via destroy
         assertFalse(registry.removeEventListener(serviceRegistryMap));
@@ -122,7 +123,7 @@ public class ContributionMapTest extends TestCase {
         
         //this one won't
         registry.addService("bean2", "module1", "some service1", null, Collections.singletonMap("mapkey", "bean2"), classLoader);
-        assertEquals(1, map.getExternalContributions().size());
+        assertEquals(1, serviceRegistryMap.size());
     }
     
     public void testMapListener() {
@@ -134,7 +135,7 @@ public class ContributionMapTest extends TestCase {
         
         registry.addService("bean1", "module1", service1, null, Collections.singletonMap("mapkey", "bean1"), classLoader);
         registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
-        assertEquals(2, map.getExternalContributions().size());
+        assertEquals(2, serviceRegistryMap.size());
 
         Map<String,String> m = new HashMap<String, String>();
         m.put("bean2", "value2a");
@@ -173,7 +174,7 @@ public class ContributionMapTest extends TestCase {
         registry.addService("bean2", "module1", service2, null, Collections.singletonMap("mapkey", "bean2"), classLoader);
         
         serviceRegistryMap.init();
-        assertEquals(2, map.getExternalContributions().size());
+        assertEquals(2, serviceRegistryMap.size());
     }
     
 }
