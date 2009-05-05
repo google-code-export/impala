@@ -24,6 +24,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
+import org.springframework.util.Assert;
 
 /**
  * <code>BeanPostProcessor</code> which attempts to register the created bean
@@ -34,11 +35,36 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
 public abstract class ModuleContributionUtils {
     
     static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
-        
-        if (beanFactory.isSingleton(beanName)) {
-            return new StaticServiceBeanReference(beanFactory.getBean(beanName));
+
+        Object bean = beanFactory.getBean(beanName);
+        boolean singleton = isSingleton(beanFactory, beanName, bean);
+        if (singleton) {
+            return new StaticServiceBeanReference(bean);
         }
         return new SpringServiceBeanReference(beanFactory, beanName);
+    }
+
+    public static boolean isSingleton(
+            BeanFactory beanFactory,
+            String beanName, 
+            Object bean) {
+
+        Assert.notNull(beanFactory, "beanFactory cannot be null");
+        Assert.notNull(beanName, "beanName cannot be null");
+        Assert.notNull(bean, "bean cannot be null");
+        
+        //FIXME test
+        boolean singleton = true;
+        
+        if (bean instanceof FactoryBean) {
+            FactoryBean factoryBean = (FactoryBean) bean;
+            singleton = factoryBean.isSingleton();
+        }
+        
+        if (singleton) {
+            singleton = beanFactory.isSingleton(beanName);
+        }
+        return singleton;
     }
 
     static NamedContributionEndpoint findContributionEndPoint(
@@ -78,6 +104,7 @@ public abstract class ModuleContributionUtils {
 
     static Object getTarget(Object bean, String beanName) {
 
+        //FIXME remove
         Object target = null;
         if (bean instanceof FactoryBean) {
             FactoryBean factoryBean = (FactoryBean) bean;
