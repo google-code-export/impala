@@ -59,18 +59,51 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         p.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
     }
     
-    public void testNull() {
-        p.setBeanFactory(null);
-        p.postProcessAfterInitialization(new Object(), "mybean");
-        ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean");
-    }
-    
     public void testPostProcessAfterInitialization() {
         expectFactoryBean();
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
         
+        expect(beanFactory.isSingleton("mybean")).andReturn(true);
         expect(endPoint.getExportName()).andReturn("anotherExportName");
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        
+        //because anotherExportName is used, no service is exported
+        assertNull(serviceRegistry.getService("mybean", classes, false));
+    }
+
+    
+    public void testRegisterTwice() {
+        expectFactoryBean();
+        Object object = new Object();
+        p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
+        
+        expect(beanFactory.isSingleton("mybean")).andReturn(true);
+        expect(endPoint.getExportName()).andReturn("mybean");
+        
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        
+        assertNotNull(serviceRegistry.getService("mybean", classes, false));
+    }
+    public void testNotSingleton() {
+        Object object = new Object();
+        p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
+        
+        expect(beanFactory.isSingleton("mybean")).andReturn(false);
         
         replay(beanFactory);
         replay(parentBeanFactory);
@@ -88,7 +121,8 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         expectFactoryBean();
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-        
+
+        expect(beanFactory.isSingleton("mybean")).andReturn(true);
         expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);
@@ -107,11 +141,13 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
     public void testPostProcessAfterInitializationFactoryBean() throws Exception {
         expectFactoryBean();
         expect(factoryBean.getObject()).andReturn("value");
+        expect(factoryBean.isSingleton()).andReturn(true);
+        expect(beanFactory.isSingleton("mybean")).andReturn(true);
 
         //verify that if the object is a factory bean
         //then the registered object is the factoryBean.getObject()
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-        
+
         expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);

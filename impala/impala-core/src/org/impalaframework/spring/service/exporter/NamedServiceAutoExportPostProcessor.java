@@ -22,6 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.NamedContributionEndpoint;
+import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
@@ -41,7 +42,8 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
  * @author Phil Zoio
  */
 public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAware, ServiceRegistryAware, BeanPostProcessor, BeanFactoryAware,
-		DestructionAwareBeanPostProcessor, BeanClassLoaderAware {
+		DestructionAwareBeanPostProcessor, 
+		BeanClassLoaderAware {
 
 	private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
@@ -53,7 +55,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 	
 	private ClassLoader beanClassLoader;
 	
-	private Map<Object, ServiceRegistryEntry> referenceMap = new IdentityHashMap<Object, ServiceRegistryEntry>();
+	private Map<String, ServiceRegistryEntry> referenceMap = new IdentityHashMap<String, ServiceRegistryEntry>();
 
     /* *************** BeanPostProcessor methods ************** */
 	
@@ -64,16 +66,36 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {		
 		String moduleName = moduleName();
 		
-		//only if there is a contribution end point corresponding with bean name do we register the service
-		NamedContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
-		if (hasRegisterableEndpoint(beanName, endPoint)) {			
-			logger.info("Contributing bean " + beanName + " from module " + moduleName);
-			
-			//FIXME make sure that bean is static
-
-			final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, new StaticServiceBeanReference(bean), beanClassLoader);
-			referenceMap.put(beanName, serviceReference);
-		}	
+		//add check so that we don't try to add bean and factory bean
+		if (!referenceMap.containsKey(beanName)) {
+		    
+		    if (ModuleContributionUtils.isSingleton(beanFactory, beanName, bean)) {
+		
+        		//only if there is a contribution end point corresponding with bean name do we register the service
+        		NamedContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+        		if (hasRegisterableEndpoint(beanName, endPoint)) {			
+        			logger.info("Contributing bean " + beanName + " from module " + moduleName);
+        			
+        			final ServiceBeanReference service = new StaticServiceBeanReference(bean);
+                    final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, service, beanClassLoader);
+        			referenceMap.put(beanName, serviceReference);
+        		}	
+		    } else {
+	            
+	            //FIXME test
+	            if (logger.isDebugEnabled()) {
+	                logger.debug("Not auto-exporting " + beanName + " as this is not a singleton");
+	            }
+		    }
+		    
+		} else {
+		    
+		    //FIXME test
+		    if (logger.isDebugEnabled()) {
+		        logger.debug("Already registered bean " + beanName);
+		    }
+		}
+		
 		return bean;
 	}
 	
