@@ -63,7 +63,7 @@ public class ServiceRegistryImplTest extends TestCase {
         assertTrue(registry.hasService(ref));
 
         ServiceRegistryEntry service = registry.getService("bean1", classes, false);
-        assertEquals("some service", service.getService().getService());
+        assertEquals("some service", service.getServiceBeanReference().getService());
         assertEquals("module1", service.getContributingModule());
 
         registry.remove(ref);
@@ -121,7 +121,7 @@ public class ServiceRegistryImplTest extends TestCase {
         registryaddService("bean1", "module1", factoryBean, classLoader);
 
         ServiceRegistryEntry service = registry.getService("bean1", classes, false);
-        assertEquals(factoryBean, service.getService().getService());
+        assertEquals(factoryBean, service.getServiceBeanReference().getService());
 
         //must match all classes provided
         assertNull(registry.getService("bean1", new Class<?>[]{String.class, Integer.class}, false));

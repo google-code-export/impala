@@ -46,7 +46,7 @@ public class ProxyHelper {
      */
     public Object maybeGetProxy(ServiceRegistryEntry entry) {
         
-        Object bean = entry.getService().getService();
+        Object bean = entry.getServiceBeanReference().getService();
         
         if (!proxyEntries) {
             return bean;

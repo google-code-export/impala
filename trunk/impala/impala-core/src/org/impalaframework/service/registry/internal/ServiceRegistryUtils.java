@@ -21,7 +21,7 @@ import org.springframework.beans.factory.FactoryBean;
 public class ServiceRegistryUtils {
 
     static Object getTargetInstance(final ServiceRegistryEntry reference) {
-        Object target = reference.getService().getService();
+        Object target = reference.getServiceBeanReference().getService();
         if (target instanceof FactoryBean) {
             FactoryBean factoryBean  = (FactoryBean) target;
             try {

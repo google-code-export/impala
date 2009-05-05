@@ -59,12 +59,12 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
         this.bean = bean;
         this.beanName = beanName;
         this.contributingModule = contributingModule;
-        this.exportTypes = (exportTypes != null ? new LinkedList<Class<?>>(exportTypes) : Collections.EMPTY_LIST);
-        this.attributes = (attributes != null ? new HashMap(attributes) : Collections.EMPTY_MAP);
+        this.exportTypes = (exportTypes != null ? Collections.unmodifiableList(new LinkedList<Class<?>>(exportTypes)) : Collections.EMPTY_LIST);
+        this.attributes = (attributes != null ? Collections.unmodifiableMap(new HashMap(attributes)) : Collections.EMPTY_MAP);
         this.beanClassLoader = classLoader;
     }
 
-    public final ServiceBeanReference getService() {
+    public final ServiceBeanReference getServiceBeanReference() {
         return bean;
     }
     

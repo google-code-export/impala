@@ -69,7 +69,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
 
         assertNull(registry.getService("myBean", classes, false));
-        assertSame(service, registry.getService(null, classes, true).getService().getService());
+        assertSame(service, registry.getService(null, classes, true).getServiceBeanReference().getService());
         
         exporter.destroy();
         assertNull(registry.getService("myBean", classes, false));
@@ -102,7 +102,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
         
         ServiceRegistryEntry serviceReference = registry.getService("exportName", classes, false);
-        assertSame(service, serviceReference.getService().getService());
+        assertSame(service, serviceReference.getServiceBeanReference().getService());
         
         exporter.destroy();
         assertNull(registry.getService("exportName", classes, false));
@@ -121,7 +121,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         verify(beanFactory);
         
         ServiceRegistryEntry s = registry.getService(null, classes, true);
-        assertSame(service, s.getService().getService());
+        assertSame(service, s.getServiceBeanReference().getService());
         assertEquals(attributes, s.getAttributes());
         
         assertFalse(registry.getServices(new LdapServiceReferenceFilter("(attribute1=*)"), classes, false).isEmpty());
