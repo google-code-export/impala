@@ -39,7 +39,7 @@ import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleUtils;
-import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;

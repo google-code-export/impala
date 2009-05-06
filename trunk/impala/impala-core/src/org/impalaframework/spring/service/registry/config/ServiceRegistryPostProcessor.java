@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.service.registry;
+package org.impalaframework.spring.service.registry.config;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;

@@ -21,7 +21,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.ChildBean;
-import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
