@@ -14,7 +14,12 @@
 
 package org.impalaframework.service.filter.ldap;
 
+import java.util.List;
+import java.util.Map;
+
 import junit.framework.TestCase;
+
+import org.impalaframework.util.CollectionStringUtils;
 
 public class FilterParserTest extends TestCase {
     
@@ -112,6 +117,38 @@ public class FilterParserTest extends TestCase {
         parseMissingEnd("(&(objectClass=Person)(|(!(sn=Jensen))(cn=Babs J*))");
     }
     
+    public void testOverride() throws Exception {
+        FilterParser filterParser = new FilterParser("(name^=one,two,three)") {
+            
+            private final Operator inOperator = new Operator("^");
+
+            @Override
+            protected FilterNode createSingleValueNode(Operator operator,
+                    String name, String value) {
+                if (operator == inOperator) {
+                   return new InNode(name, value);
+                } 
+                FilterNode createSingleValueNode = super.createSingleValueNode(operator, name, value);
+                return createSingleValueNode;
+            }
+
+            @Override
+            protected Operator getOperator(char operatorIdentifier) {
+                Operator operator = super.getOperator(operatorIdentifier);
+                if (Operator.eq == operator) {
+                    if (operatorIdentifier == '^') {
+                        return inOperator;
+                    }
+                }
+                return operator;
+            }
+            
+        };
+        final FilterNode node = filterParser.parse();
+        assertTrue(node.match(CollectionStringUtils.parseMapFromString("name=two")));
+        assertFalse(node.match(CollectionStringUtils.parseMapFromString("name=none")));
+    }
+    
     private void parseExtraStart(String string) {
         try {
             parse(string).toString();
@@ -161,4 +198,36 @@ public class FilterParserTest extends TestCase {
         System.out.println(node);
         return node;
     }
+}
+
+/**
+ * Simple test node which matches one of a string set
+ * @author Phil Zoio
+ */
+class InNode extends BaseNode {
+
+    private List<String> values;
+    
+    protected InNode(String key, String listString) {
+        super(key);
+        this.values = CollectionStringUtils.parseStringList(listString);
+    }
+
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer();
+        for (String value : this.values) {
+            buffer.append(value).append(",");
+        }
+        buffer.delete(buffer.length()-1,buffer.length());
+        return wrapBrackets(getKey()+"^=" + buffer.toString());
+    }
+
+    public boolean match(Map<?, ?> data) {
+        Object value = data.get(getKey());
+        if (value == null) return false;
+        String string = value.toString();
+        return values.contains(string);
+    }
+    
 }
