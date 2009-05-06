@@ -93,7 +93,7 @@ public class ContributionEndpointInterceptorTest extends TestCase {
     
     public void testInvokeWithRetries() throws Throwable {
         interceptor.setRetryInterval(50);
-        interceptor.setNumberOfRetries(2);
+        interceptor.setRetryCount(2);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);

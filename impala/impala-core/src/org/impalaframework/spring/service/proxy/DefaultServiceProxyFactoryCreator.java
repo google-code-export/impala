@@ -44,6 +44,26 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
      * modules
      */
     private boolean setContextClassLoader = true;
+
+    /**
+     * Whether to log a warning of no service is found. This will
+     * typically be set to true if {@link #allowNoService} is set to true
+     */
+    private boolean logWarningNoService;
+
+    /**
+     * The number of times the interceptor should retry before giving up
+     * attempting to obtain a proxy. For example, if retryCount is set to three,
+     * Impala will try one initially, plus another three times, before giving up
+     * attempting to obtain the service reference.
+     */
+    private int retryCount;
+
+    /**
+     * The amount of time in milliseconds between successive retries if
+     * {@link #retryCount} is greater than zero
+     */
+    private int retryInterval;
     
     /**
      * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
@@ -76,6 +96,9 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
         
         interceptor.setProceedWithNoService(allowNoService);
         interceptor.setSetContextClassLoader(setContextClassLoader);
+        interceptor.setLogWarningNoService(logWarningNoService);
+        interceptor.setRetryCount(retryCount);
+        interceptor.setRetryInterval(retryInterval);
         proxyFactory.addAdvice(interceptor);
     }
 
@@ -88,13 +111,37 @@ public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCre
     }
     
     /**
-     * Sets to true if the interceptor should set the current threads context class loader to the class loader of the module
-     * responsible for loading the target bean. Defaults to true.
+     * Sets to true if the interceptor should set the current threads context
+     * class loader to the class loader of the module responsible for loading
+     * the target bean. Defaults to true.
      * 
      * @see Thread#setContextClassLoader(ClassLoader)
      */
     public void setSetContextClassLoader(boolean setContextClassLoader) {
         this.setContextClassLoader = setContextClassLoader;
     }
-    
+
+    /**
+     * Sets whether to log a warning if no service can be found
+     */
+    public void setLogWarningNoService(boolean logWarningNoService) {
+        this.logWarningNoService = logWarningNoService;
+    }
+
+    /**
+     * Sets the number of times Impala will try to retrieve a service reference
+     * if this is not present
+     */
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
+    }
+
+    /**
+     * Sets the amount of time in milliseconds between successive retries if
+     * {@link #retryCount} is greater than zero
+     */
+    public void setRetryInterval(int retryInterval) {
+        this.retryInterval = retryInterval;
+    }
+
 }

@@ -291,6 +291,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
+ <bean id="serviceProxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator"/>
+ 
  <!-- ############## Simple modules support ############### --> 
  
  <bean id="simpleModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
