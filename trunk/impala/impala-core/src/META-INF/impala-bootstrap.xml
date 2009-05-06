@@ -284,7 +284,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="applicationContextLoader" class="org.impalaframework.spring.module.loader.DefaultApplicationContextLoader">    
     <property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>    
     <property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
-    <property name = "serviceProxyFactoryCreator" ref="serviceProxyFactoryCreator"/>    
+    <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
     <property name = "serviceRegistry" ref="serviceRegistry"/>    
  </bean>    
  
@@ -292,7 +292,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
- <bean id="serviceProxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator"/>
+ <bean id="proxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator"/>
  
  <!-- ############## Simple modules support ############### --> 
  
