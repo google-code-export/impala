@@ -34,7 +34,14 @@ import org.springframework.util.ClassUtils;
  * @see BasicServiceRegistryEntry
  * @author Phil Zoio
  */
-public abstract class BaseServiceProxyFactoryBean implements FactoryBean, BeanNameAware, InitializingBean, ContributionEndpoint, ServiceRegistryAware, BeanClassLoaderAware {
+public abstract class BaseServiceProxyFactoryBean 
+    implements FactoryBean, 
+    BeanNameAware, 
+    InitializingBean, 
+    ContributionEndpoint, 
+    ServiceRegistryAware,
+    ServiceProxyFactoryCreatorAware,
+    BeanClassLoaderAware {
 
     private static final long serialVersionUID = 1L;
     
@@ -97,6 +104,14 @@ public abstract class BaseServiceProxyFactoryBean implements FactoryBean, BeanNa
         // prototype currently not supported
         return true;
     }
+
+    /* ******************** ServiceProxyFactoryCreatorAware implementation ******************** */
+    
+    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+        if (this.proxyFactoryCreator == null) {
+            this.proxyFactoryCreator = serviceProxyFactoryCreator;
+        }
+    }
     
     /* *************** ServiceRegistryAware implementation ************** */
     
@@ -108,10 +123,6 @@ public abstract class BaseServiceProxyFactoryBean implements FactoryBean, BeanNa
 
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.beanClassLoader = classLoader;
-    }
-
-    public void setProxyFactoryCreator(ServiceProxyFactoryCreator proxyFactoryCreator) {
-        this.proxyFactoryCreator = proxyFactoryCreator;
     }
     
 }

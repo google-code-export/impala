@@ -17,6 +17,7 @@ package org.impalaframework.spring.service.registry;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreatorAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
@@ -46,7 +47,11 @@ public class ServiceRegistryPostProcessor implements BeanPostProcessor {
             ServiceRegistryAware psa = (ServiceRegistryAware) bean;
             psa.setServiceRegistry(serviceRegistry);
         }
-        //FIXME wire in serviceProxyFactoryCreator
+        if (bean instanceof ServiceProxyFactoryCreatorAware) {
+            //FIXME test
+            ServiceProxyFactoryCreatorAware spa = (ServiceProxyFactoryCreatorAware) bean;
+            spa.setServiceProxyFactoryCreator(serviceProxyFactoryCreator);
+        }
         return bean;
     }
 

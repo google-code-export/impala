@@ -90,7 +90,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
         proxyFactoryCreator.setAllowNoService(true);
-        bean.setProxyFactoryCreator(proxyFactoryCreator);
+        bean.setServiceProxyFactoryCreator(proxyFactoryCreator);
         
         bean.afterPropertiesSet();
 
