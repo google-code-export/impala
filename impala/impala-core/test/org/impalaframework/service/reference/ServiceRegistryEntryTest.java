@@ -19,7 +19,6 @@ import java.util.Collections;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryEntryTest extends TestCase {

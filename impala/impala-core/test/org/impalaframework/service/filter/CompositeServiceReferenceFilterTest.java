@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.StaticServiceRegistryEntry;
+import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class CompositeServiceReferenceFilterTest extends TestCase {

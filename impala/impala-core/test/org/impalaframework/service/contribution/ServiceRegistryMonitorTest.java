@@ -20,9 +20,9 @@ import java.util.Collections;
 
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

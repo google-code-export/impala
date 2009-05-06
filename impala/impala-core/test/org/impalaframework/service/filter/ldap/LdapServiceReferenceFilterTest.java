@@ -19,8 +19,8 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class LdapServiceReferenceFilterTest extends TestCase {
