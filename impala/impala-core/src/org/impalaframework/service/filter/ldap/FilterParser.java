@@ -24,7 +24,7 @@ import java.util.List;
  * 
  * @author Phil Zoio
  */
-class FilterParser {
+public class FilterParser {
     
     static final String UNESCAPED_STARS = FilterParser.class + ".UNESCAPED_STARS:";
 
@@ -77,9 +77,22 @@ class FilterParser {
         String key = filterChars.charsTo('=');
 
         char previous = filterChars.previous();
+        Operator operator = getOperator(previous);
+
+        if (operator != Operator.eq) {
+            key = key.substring(0, key.length() - 1);
+        }
+
+        filterChars.next();
+        List<String> value = parseValue();
+
+        return createNode(operator, key.trim(), value);
+    }
+
+    protected Operator getOperator(char operatorIdentifier) {
         Operator operator = Operator.eq;
 
-        switch (previous) {
+        switch (operatorIdentifier) {
         case '~':
             operator = Operator.apprx;
             break;
@@ -90,15 +103,7 @@ class FilterParser {
             operator = Operator.gt;
             break;
         }
-
-        if (operator != Operator.eq) {
-            key = key.substring(0, key.length() - 1);
-        }
-
-        filterChars.next();
-        List<String> value = parseValue();
-
-        return createNode(operator, key.trim(), value);
+        return operator;
     }
 
     private List<String> parseValue() {
@@ -220,36 +225,56 @@ class FilterParser {
         }
     }
 
-    protected FilterNode createNode(Operator operator, String name, List<String> values) {
+    private FilterNode createNode(Operator operator, String name, List<String> values) {
         
         if (values.size() == 1) {
-            
-            String value = values.get(0);
-            
-            if (operator == Operator.eq) {
-                return new EqualsNode(name, value);
-            }
-            if (operator == Operator.lt) {
-                return new LessThanNode(name, value);
-            }
-            if (operator == Operator.gt) {
-                return new GreaterThanNode(name, value);
-            }
-            if (operator == Operator.apprx) {
-                return new ApproxNode(name, value);
-            }
-        
+            return createSingleValueNode(operator, name, values.get(0));
         } else {
-            boolean hasNonEmptyValue = false;
-            for (String value : values) {
-                if (value.trim().length() > 0) {
-                    hasNonEmptyValue = true;
-                }
+            return createMultiValueNode(operator, name, values);
+        }
+    }
+
+    /**
+     * Creates {@link FilterNode} when value contains list of items. Possible for subclasses to 
+     * override this and create different/additional node types
+     * @param operator the operator definition used
+     * @param name the name part of the key
+     * @param values a list of supplied values
+     * @return a {@link FilterNode} instance.
+     */
+    protected FilterNode createMultiValueNode(Operator operator, String name, List<String> values) {
+        boolean hasNonEmptyValue = false;
+        for (String value : values) {
+            if (value.trim().length() > 0) {
+                hasNonEmptyValue = true;
             }
-            if (hasNonEmptyValue)
-                return new SubstringNode(name, values);
-            else 
-                return new PresentNode(name);
+        }
+        if (hasNonEmptyValue)
+            return new SubstringNode(name, values);
+        else 
+            return new PresentNode(name);
+    }
+
+    /**
+     * Creates {@link FilterNode} when value contains list of items. Possible for subclasses to 
+     * override this and create different/additional node types
+     * @param operator the operator definition used
+     * @param name the name part of the key
+     * @param value the single value supplied
+     * @return a {@link FilterNode} instance.
+     */
+    protected FilterNode createSingleValueNode(Operator operator, String name, String value) {
+        if (operator == Operator.eq) {
+            return new EqualsNode(name, value);
+        }
+        if (operator == Operator.lt) {
+            return new LessThanNode(name, value);
+        }
+        if (operator == Operator.gt) {
+            return new GreaterThanNode(name, value);
+        }
+        if (operator == Operator.apprx) {
+            return new ApproxNode(name, value);
         }
         return null;
     }
