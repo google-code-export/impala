@@ -27,7 +27,7 @@ public class ServiceRegistryPostProcessorTest extends TestCase {
     public final void testPostProcessBeforeInitialization() {
         ServiceRegistry registry = new ServiceRegistryImpl();
         ProxyFactoryCreator serviceProxyFactoryCreator = new DefaultProxyFactoryCreator();
-        ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry, serviceProxyFactoryCreator );
+        ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry, serviceProxyFactoryCreator);
         TestRegistryAware testAware = new TestRegistryAware();
         postProcessor.postProcessBeforeInitialization(testAware, null);
         assertSame(registry, testAware.getServiceRegistry());
