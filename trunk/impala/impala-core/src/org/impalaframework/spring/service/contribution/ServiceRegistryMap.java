@@ -6,6 +6,7 @@ import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryMap;
 import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreatorAware;
 import org.impalaframework.spring.service.proxy.StaticServiceReferenceProxyFactorySource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
@@ -19,7 +20,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap
-        implements InitializingBean, DisposableBean, BeanNameAware {
+        implements InitializingBean, DisposableBean, BeanNameAware, ServiceProxyFactoryCreatorAware {
 
     private ServiceProxyFactoryCreator proxyFactoryCreator;
     
@@ -42,6 +43,14 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getProxyTypes(), reference);
         final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
         return proxyFactory.getProxy();
+    }
+
+    /* ******************** ServiceProxyFactoryCreatorAware implementation ******************** */
+    
+    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+        if (this.proxyFactoryCreator == null) {
+            this.proxyFactoryCreator = serviceProxyFactoryCreator;
+        }
     }
 
     /* ******************** BeanNameAware implementation ******************** */
