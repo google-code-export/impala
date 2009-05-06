@@ -28,7 +28,7 @@ class Operator {
     public static final Operator gt = new Operator(">=");
     public static final Operator apprx = new Operator("~=");
 
-    private Operator(String sign) {
+    protected Operator(String sign) {
         super();
         this.sign = sign;
     }
