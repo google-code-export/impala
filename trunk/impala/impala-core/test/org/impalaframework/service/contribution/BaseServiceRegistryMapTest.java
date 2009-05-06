@@ -17,8 +17,8 @@ package org.impalaframework.service.contribution;
 import java.util.Collections;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

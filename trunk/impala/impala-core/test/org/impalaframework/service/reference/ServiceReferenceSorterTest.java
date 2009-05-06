@@ -22,7 +22,6 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
 public class ServiceReferenceSorterTest extends TestCase {

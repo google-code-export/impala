@@ -1,8 +1,9 @@
-package org.impalaframework.service;
+package org.impalaframework.service.reference;
 
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 
 public class StaticServiceRegistryEntry extends BasicServiceRegistryEntry {

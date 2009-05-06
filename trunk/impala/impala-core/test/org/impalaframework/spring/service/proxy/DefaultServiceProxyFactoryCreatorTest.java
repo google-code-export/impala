@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.StaticServiceRegistryEntry;
+import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.ClassUtils;
 
