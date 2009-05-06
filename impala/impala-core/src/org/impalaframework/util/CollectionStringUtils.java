@@ -110,6 +110,8 @@ public abstract class CollectionStringUtils {
             if (equalsIndex > 0) {
                 Object value = valueConverter.convertValue(pair.substring(equalsIndex+1).trim());
                 map.put(pair.substring(0, equalsIndex).trim(), value);
+            } else {
+                map.put(pair.trim(), null);
             }
         }
         
