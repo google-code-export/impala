@@ -39,6 +39,10 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
     private boolean logWarningNoService;
     
     private boolean setContextClassLoader;
+    
+    private int numberOfRetries;
+    
+    private int retryInterval;
 
     public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
         this.targetSource = targetSource;
@@ -46,12 +50,39 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
     }
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
+        
         final boolean setCCCL = setContextClassLoader;
+        
         ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
+        
+        if (serviceReference == null) {
+            System.out.println("No service reference");
+        }
+        
+        int retriesUsed = 0;
+        while (serviceReference == null && retriesUsed < numberOfRetries) {
+            try {
+                Thread.sleep(retryInterval);
+            }
+            catch (InterruptedException e) {
+            }
+            serviceReference = targetSource.getServiceRegistryReference();
+            retriesUsed++;
+        }
+
         if (serviceReference != null) {
             
-            Thread currentThread = Thread.currentThread();
-            ClassLoader existingClassLoader = currentThread.getContextClassLoader();
+            final Thread currentThread;
+            final ClassLoader existingClassLoader;
+            if (setCCCL) {
+                currentThread = Thread.currentThread();  
+                existingClassLoader= currentThread.getContextClassLoader();
+            } else {
+                currentThread = null;
+                existingClassLoader = null;
+            }
+            
+            
             try {
                 if (setCCCL) {
                     currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
@@ -66,6 +97,7 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
             }
         }
         else {
+            
             if (proceedWithNoService) {
 
                 if (logWarningNoService) {
@@ -76,8 +108,9 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
                 return invokeDummy(invocation);
             }
-            else
+            else {
                 throw new NoServiceException("No service available for bean " + beanName);
+            }
         }
     }
 
@@ -116,6 +149,14 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
 
     public void setSetContextClassLoader(boolean setContextClassLoader) {
         this.setContextClassLoader = setContextClassLoader;
+    }
+
+    public void setNumberOfRetries(int numberOfRetries) {
+        this.numberOfRetries = numberOfRetries;
+    }
+
+    public void setRetryInterval(int retryInterval) {
+        this.retryInterval = retryInterval;
     }
 
 }
