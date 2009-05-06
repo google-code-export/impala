@@ -15,13 +15,13 @@
 package org.impalaframework.spring.service.proxy;
 
 /**
- * Interface which beans can implement to be notified of the application-wide {@link ServiceProxyFactoryCreator}.
+ * Interface which beans can implement to be notified of the application-wide {@link ProxyFactoryCreator}.
  * Typically, implementors will first check to see whether this property is set before populating the field
- * This is so a {@link ServiceProxyFactoryCreator} can be set at the bean level
+ * This is so a {@link ProxyFactoryCreator} can be set at the bean level
  * 
  * @author Phil Zoio
  */
-public interface ServiceProxyFactoryCreatorAware {
+public interface ProxyFactoryCreatorAware {
     
-    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator);
+    public void setProxyFactoryCreator(ProxyFactoryCreator proxyFactoryCreator);
 }

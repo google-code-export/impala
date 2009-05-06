@@ -23,7 +23,7 @@ import org.springframework.aop.framework.ProxyFactory;
  * 
  * @author Phil Zoio
  */
-public interface ServiceProxyFactoryCreator {
+public interface ProxyFactoryCreator {
 
     /**
      * @param proxyFactorySource which handles the details of creating the

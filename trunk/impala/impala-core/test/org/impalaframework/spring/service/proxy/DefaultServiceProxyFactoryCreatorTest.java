@@ -32,7 +32,7 @@ import org.springframework.util.ClassUtils;
 
 public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
 
-    private DefaultServiceProxyFactoryCreator creator;
+    private DefaultProxyFactoryCreator creator;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] classes;
 
@@ -40,7 +40,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         classes = new Class[]{List.class};
-        creator = new DefaultServiceProxyFactoryCreator();
+        creator = new DefaultProxyFactoryCreator();
         serviceRegistry = createMock(ServiceRegistry.class);
     }
     
