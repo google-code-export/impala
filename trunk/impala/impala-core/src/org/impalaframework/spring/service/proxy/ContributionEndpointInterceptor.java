@@ -40,7 +40,7 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
     
     private boolean setContextClassLoader;
     
-    private int numberOfRetries;
+    private int retryCount;
     
     private int retryInterval;
 
@@ -55,12 +55,8 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
         
         ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
         
-        if (serviceReference == null) {
-            System.out.println("No service reference");
-        }
-        
         int retriesUsed = 0;
-        while (serviceReference == null && retriesUsed < numberOfRetries) {
+        while (serviceReference == null && retriesUsed < retryCount) {
             try {
                 Thread.sleep(retryInterval);
             }
@@ -98,14 +94,13 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
         }
         else {
             
+            if (logWarningNoService) {
+                log.warn("************************************************************************* ");
+                log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
+                log.warn("************************************************************************* ");
+            }
+            
             if (proceedWithNoService) {
-
-                if (logWarningNoService) {
-                    log.warn("************************************************************************* ");
-                    log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
-                    log.warn("************************************************************************* ");
-                }
-
                 return invokeDummy(invocation);
             }
             else {
@@ -151,8 +146,8 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
         this.setContextClassLoader = setContextClassLoader;
     }
 
-    public void setNumberOfRetries(int numberOfRetries) {
-        this.numberOfRetries = numberOfRetries;
+    public void setRetryCount(int retryCount) {
+        this.retryCount = retryCount;
     }
 
     public void setRetryInterval(int retryInterval) {
