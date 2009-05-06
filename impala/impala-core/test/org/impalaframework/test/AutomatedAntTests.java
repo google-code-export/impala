@@ -155,9 +155,9 @@ import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBeanTest
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessorTest;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
 import org.impalaframework.util.ArrayUtilsTest;
+import org.impalaframework.util.CollectionStringUtilsTest;
 import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
-import org.impalaframework.util.CollectionStringUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
 import org.impalaframework.util.ObjectMapUtilsTest;
 import org.impalaframework.util.ObjectUtilsTest;
