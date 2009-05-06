@@ -48,7 +48,7 @@ public class ParentWithChildContextTest extends TestCase {
              @Override
             protected DefaultListableBeanFactory createBeanFactory() {
                 DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-                beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+                beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry, null));
                 return beanFactory;
             }
         };
@@ -71,7 +71,7 @@ public class ParentWithChildContextTest extends TestCase {
              @Override
                 protected DefaultListableBeanFactory createBeanFactory() {
                     DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-                    beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+                    beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry, null));
                     beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(new SimpleModuleDefinition("module1")));
                     return beanFactory;
                 }

@@ -122,7 +122,7 @@ class TestContext extends ClassPathXmlApplicationContext {
     @Override
     protected DefaultListableBeanFactory createBeanFactory() {
         DefaultListableBeanFactory beanFactory = super.createBeanFactory();
-        beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry));
+        beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry, null));
         return beanFactory;
     }
 };
