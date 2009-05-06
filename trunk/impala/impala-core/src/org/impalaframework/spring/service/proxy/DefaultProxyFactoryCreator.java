@@ -27,6 +27,8 @@ import org.springframework.aop.framework.ProxyFactory;
  */
 public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
     
+    //FIXME remove package cycles
+    
     private static final Log logger = LogFactory.getLog(DefaultProxyFactoryCreator.class);
     
     /**
