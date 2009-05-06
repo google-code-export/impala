@@ -51,44 +51,44 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     </bean>
     
     <!-- 
-    Imports a bean registered using the name 'prototypeMessageService' with scope = 'prototype'
+    Imports a bean registered using the name 'prototypeMessageService' with scope='prototype'
     -->
     <service:import id="prototypeMessageService" 
-    	exportName = "prototypeMessageService"
-    	proxyTypes = "interfaces.MessageService"/>
+    	exportName="prototypeMessageService"
+    	proxyTypes="interfaces.MessageService"/>
     	
     <!-- 
     Imports a bean created using a non-static factory bean, registered using the name 'nonstaticFactoryBeanMessageService'
     -->
     <service:import id="nonstaticFactoryBeanMessageService" 
-    	exportName = "nonstaticFactoryBeanMessageService"
-    	proxyTypes = "interfaces.MessageService"/>
+    	exportName="nonstaticFactoryBeanMessageService"
+    	proxyTypes="interfaces.MessageService"/>
      
     <!-- 
     Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
     -->     
-    <service:import id="typedMessageService" exportTypes = "interfaces.MessageService"/>
+    <service:import id="typedMessageService" exportTypes="interfaces.MessageService"/>
 	
     <!-- 
     Imports a bean exported using the name 'myNamedMessageService', and proxied using the type interfaces.MessageService
     -->     
 	<service:import id="namedMessageService" 
-		proxyTypes = "interfaces.MessageService"
-		exportName = "myNamedMessageService"/>
+		proxyTypes="interfaces.MessageService"
+		exportName="myNamedMessageService"/>
 	
     <!-- 
     Imports a bean exported using the filter '(message=*)"', and proxied using the type interfaces.MessageService
     --> 
 	<service:import id="filteredMessageService" 
-		proxyTypes = "interfaces.MessageService"
-		filterExpression = "(message=*)"/>
+		proxyTypes="interfaces.MessageService"
+		filterExpression="(message=*)"/>
 		
     <!-- 
     Creates a list from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
     --> 
 	<service:list id="messageServiceList" 
-		proxyTypes = "interfaces.MessageService"
-		filterExpression = "(message=*)"/>
+		proxyTypes="interfaces.MessageService"
+		filterExpression="(message=*)"/>
 		
     <!-- 
     Creates a list from beans exported using the filter '(message=*)"'. 
@@ -97,25 +97,25 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     and keyed on the 'message' attribute.
     --> 
 	<service:map id="messageServiceMap" 
-		proxyTypes = "interfaces.MessageService"
-		mapKey = "message"
-		filterExpression = "(message=*)"/>
+		proxyTypes="interfaces.MessageService"
+		mapKey="message"
+		filterExpression="(message=*)"/>
 
 	<!-- 
 	replaced old service import definitions
 	
 	<bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
-	     <property name = "exportTypes" value = "interfaces.MessageService"/>
+	     <property name="exportTypes" value="interfaces.MessageService"/>
 	</bean>
 	
 	<bean id="namedMessageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
-	     <property name = "exportName" value = "myNamedMessageService"/>
+	     <property name="proxyTypes" value="interfaces.MessageService"/>
+	     <property name="exportName" value="myNamedMessageService"/>
 	</bean>
 	
 	<bean id="filteredMessageService" class="org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean">
-	     <property name = "proxyTypes" value = "interfaces.MessageService"/>
-	     <property name = "filterExpression" value = "(message=*)"/>
+	     <property name="proxyTypes" value="interfaces.MessageService"/>
+	     <property name="filterExpression" value="(message=*)"/>
 	</bean>
     -->
     
@@ -124,22 +124,22 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
 	service:import entries with problems:
 	
 	No exportTypes, exportName or filterExpression
-	<service:import id="noRestrictionMessageService" proxyTypes = "interfaces.MessageService"/>	
+	<service:import id="noRestrictionMessageService" proxyTypes="interfaces.MessageService"/>	
 	
 	No proxyTypes specified
 	<service:import id="namedMessageServiceNoType" 
-		exportName = "myNamedMessageService"/>	
+		exportName="myNamedMessageService"/>	
      
     Export name and export types cannot both be specified
     <service:import id="typedAndNamedMessageService" 
-		exportTypes = "interfaces.MessageService" 
-		exportName = "myNamedMessageService"/>
+		exportTypes="interfaces.MessageService" 
+		exportName="myNamedMessageService"/>
 		
     Export name and filter expression cannot both be specified
 	<service:import id="filteredAndNamedMessageService" 
-		proxyTypes = "interfaces.MessageService" 
-		exportName = "myNamedMessageService"
-		filterExpression = "(message=*)"/>
+		proxyTypes="interfaces.MessageService" 
+		exportName="myNamedMessageService"
+		filterExpression="(message=*)"/>
      -->
      
 </beans>
