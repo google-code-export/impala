@@ -32,5 +32,6 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.18-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.18.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.18-sources.jar"/>
+	<classpathentry kind="lib" path="/webframeworks-repository/web/spring-webflow-1.0.5.jar" sourcepath="/webframeworks-repository/web/spring-webflow-1.0.5-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
