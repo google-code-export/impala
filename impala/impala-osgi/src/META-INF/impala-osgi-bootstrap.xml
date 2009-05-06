@@ -28,13 +28,15 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="rootModuleLoader" 
      parent="baseModuleLoader"
      class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">          
-    <property name = "serviceRegistry" ref="serviceRegistry"/>    
+    <property name = "serviceRegistry" ref="serviceRegistry"/> 
+    <property name = "serviceProxyFactoryCreator" ref="serviceProxyFactoryCreator"/>       
  </bean>    
     
  <bean id="applicationModuleLoader" 
      parent="baseModuleLoader"
      class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
     <property name = "serviceRegistry" ref="serviceRegistry"/>      
+    <property name = "serviceProxyFactoryCreator" ref="serviceProxyFactoryCreator"/>    
  </bean>
  
  <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">
