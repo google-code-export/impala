@@ -28,7 +28,7 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
-import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
+import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.osgi.framework.Bundle;

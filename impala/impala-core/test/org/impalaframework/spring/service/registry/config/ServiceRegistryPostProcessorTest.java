@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.spring.service.registry;
+package org.impalaframework.spring.service.registry.config;
 
 import junit.framework.TestCase;
 
@@ -21,6 +21,7 @@ import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 
 public class ServiceRegistryPostProcessorTest extends TestCase {
 
