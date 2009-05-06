@@ -20,14 +20,14 @@ import org.impalaframework.spring.service.ContributionEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
- * Implementation of {@link ServiceProxyFactoryCreator} which is used to create proxy for service 
+ * Implementation of {@link ProxyFactoryCreator} which is used to create proxy for service 
  * obtained from the Impala service registry.
  * 
  * @author Phil Zoio
  */
-public class DefaultServiceProxyFactoryCreator implements ServiceProxyFactoryCreator {
+public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
     
-    private static final Log logger = LogFactory.getLog(DefaultServiceProxyFactoryCreator.class);
+    private static final Log logger = LogFactory.getLog(DefaultProxyFactoryCreator.class);
     
     /**
      * True if the interceptor should allow the call to proceed (with a dummy

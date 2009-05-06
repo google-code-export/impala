@@ -32,7 +32,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
     private NamedServiceProxyFactoryBean bean;
     private ServiceRegistryImpl serviceRegistry;
     private ClassLoader classLoader;
-    private DefaultServiceProxyFactoryCreator proxyFactoryCreator;
+    private DefaultProxyFactoryCreator proxyFactoryCreator;
 
     @Override
     protected void setUp() throws Exception {
@@ -40,7 +40,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         bean = new NamedServiceProxyFactoryBean();
         serviceRegistry = new ServiceRegistryImpl();
         
-        proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
+        proxyFactoryCreator = new DefaultProxyFactoryCreator();
         bean.setServiceRegistry(serviceRegistry);
         
         classLoader = ClassUtils.getDefaultClassLoader();
@@ -90,7 +90,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         bean.setProxyTypes(new Class[] { Child.class });
         bean.setBeanName("someBean");
         proxyFactoryCreator.setAllowNoService(true);
-        bean.setServiceProxyFactoryCreator(proxyFactoryCreator);
+        bean.setProxyFactoryCreator(proxyFactoryCreator);
         
         bean.afterPropertiesSet();
 

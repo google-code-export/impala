@@ -27,7 +27,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
-import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
 import org.impalaframework.spring.service.registry.ServiceRegistryPostProcessor;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
@@ -58,7 +58,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     
     private ServiceRegistry serviceRegistry;
     
-    private ServiceProxyFactoryCreator serviceProxyFactoryCreator;
+    private ProxyFactoryCreator serviceProxyFactoryCreator;
 
     /* ************************* ModuleLoader implementation ************************ */    
     
@@ -197,7 +197,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
         this.serviceRegistry = serviceRegistry;
     }
 
-    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+    public void setServiceProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator) {
         this.serviceProxyFactoryCreator = serviceProxyFactoryCreator;
     }
     

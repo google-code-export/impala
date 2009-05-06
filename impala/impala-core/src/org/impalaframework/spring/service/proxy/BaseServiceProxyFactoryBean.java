@@ -40,12 +40,12 @@ public abstract class BaseServiceProxyFactoryBean
     InitializingBean, 
     ContributionEndpoint, 
     ServiceRegistryAware,
-    ServiceProxyFactoryCreatorAware,
+    ProxyFactoryCreatorAware,
     BeanClassLoaderAware {
 
     private static final long serialVersionUID = 1L;
     
-    private ServiceProxyFactoryCreator proxyFactoryCreator;
+    private ProxyFactoryCreator proxyFactoryCreator;
 
     private ProxyFactory proxyFactory;
 
@@ -60,7 +60,7 @@ public abstract class BaseServiceProxyFactoryBean
     public void afterPropertiesSet() throws Exception {
         
         if (this.proxyFactoryCreator == null) {
-            this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
+            this.proxyFactoryCreator = new DefaultProxyFactoryCreator();
         }
         
         this.proxyFactory = createProxyFactory();
@@ -76,7 +76,7 @@ public abstract class BaseServiceProxyFactoryBean
     
     protected abstract ProxyFactory createProxyFactory();
     
-    protected ServiceProxyFactoryCreator getProxyFactoryCreator() {
+    protected ProxyFactoryCreator getProxyFactoryCreator() {
         return proxyFactoryCreator;
     }
     
@@ -107,7 +107,7 @@ public abstract class BaseServiceProxyFactoryBean
 
     /* ******************** ServiceProxyFactoryCreatorAware implementation ******************** */
     
-    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+    public void setProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator) {
         if (this.proxyFactoryCreator == null) {
             this.proxyFactoryCreator = serviceProxyFactoryCreator;
         }

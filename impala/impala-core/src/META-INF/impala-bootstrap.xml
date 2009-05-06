@@ -292,7 +292,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
- <bean id="serviceProxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator"/>
+ <bean id="serviceProxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator"/>
  
  <!-- ############## Simple modules support ############### --> 
  

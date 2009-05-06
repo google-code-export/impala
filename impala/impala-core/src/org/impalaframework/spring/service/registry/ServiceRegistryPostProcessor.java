@@ -16,8 +16,8 @@ package org.impalaframework.spring.service.registry;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
-import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
-import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreatorAware;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.util.Assert;
@@ -34,9 +34,9 @@ public class ServiceRegistryPostProcessor implements BeanPostProcessor {
     
     private final ServiceRegistry serviceRegistry;
     
-    private final ServiceProxyFactoryCreator serviceProxyFactoryCreator;
+    private final ProxyFactoryCreator serviceProxyFactoryCreator;
 
-    public ServiceRegistryPostProcessor(ServiceRegistry serviceRegistry, ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+    public ServiceRegistryPostProcessor(ServiceRegistry serviceRegistry, ProxyFactoryCreator serviceProxyFactoryCreator) {
         Assert.notNull(serviceRegistry);
         this.serviceRegistry = serviceRegistry;
         this.serviceProxyFactoryCreator = serviceProxyFactoryCreator;
@@ -47,10 +47,10 @@ public class ServiceRegistryPostProcessor implements BeanPostProcessor {
             ServiceRegistryAware psa = (ServiceRegistryAware) bean;
             psa.setServiceRegistry(serviceRegistry);
         }
-        if (bean instanceof ServiceProxyFactoryCreatorAware) {
+        if (bean instanceof ProxyFactoryCreatorAware) {
             //FIXME test
-            ServiceProxyFactoryCreatorAware spa = (ServiceProxyFactoryCreatorAware) bean;
-            spa.setServiceProxyFactoryCreator(serviceProxyFactoryCreator);
+            ProxyFactoryCreatorAware spa = (ProxyFactoryCreatorAware) bean;
+            spa.setProxyFactoryCreator(serviceProxyFactoryCreator);
         }
         return bean;
     }

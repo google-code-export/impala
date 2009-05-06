@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryMap;
-import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreator;
-import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreator;
-import org.impalaframework.spring.service.proxy.ServiceProxyFactoryCreatorAware;
+import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
 import org.impalaframework.spring.service.proxy.StaticServiceReferenceProxyFactorySource;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanNameAware;
@@ -15,14 +15,14 @@ import org.springframework.beans.factory.InitializingBean;
 
 /**
  * Spring-based service registry {@link Map} implementation which uses a possibly wired in 
- * {@link ServiceProxyFactoryCreator} to create a proxy for the backed object.
+ * {@link ProxyFactoryCreator} to create a proxy for the backed object.
  * 
  * @author Phil Zoio
  */
 public class ServiceRegistryMap extends BaseServiceRegistryMap
-        implements InitializingBean, DisposableBean, BeanNameAware, ServiceProxyFactoryCreatorAware {
+        implements InitializingBean, DisposableBean, BeanNameAware, ProxyFactoryCreatorAware {
 
-    private ServiceProxyFactoryCreator proxyFactoryCreator;
+    private ProxyFactoryCreator proxyFactoryCreator;
     
     private String beanName;
     
@@ -33,7 +33,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
     @Override
     public void init() {
         if (this.proxyFactoryCreator == null) {
-            this.proxyFactoryCreator = new DefaultServiceProxyFactoryCreator();
+            this.proxyFactoryCreator = new DefaultProxyFactoryCreator();
         }
         
         super.init();
@@ -47,7 +47,7 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
 
     /* ******************** ServiceProxyFactoryCreatorAware implementation ******************** */
     
-    public void setServiceProxyFactoryCreator(ServiceProxyFactoryCreator serviceProxyFactoryCreator) {
+    public void setProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator) {
         if (this.proxyFactoryCreator == null) {
             this.proxyFactoryCreator = serviceProxyFactoryCreator;
         }
