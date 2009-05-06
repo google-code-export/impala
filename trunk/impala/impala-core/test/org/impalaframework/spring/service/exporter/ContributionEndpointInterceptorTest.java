@@ -90,6 +90,20 @@ public class ContributionEndpointInterceptorTest extends TestCase {
         }
         verifyMocks();
     }
+    
+    public void testInvokeWithRetries() throws Throwable {
+        interceptor.setRetryInterval(50);
+        interceptor.setNumberOfRetries(2);
+        expect(targetSource.getServiceRegistryReference()).andReturn(null);
+        expect(targetSource.getServiceRegistryReference()).andReturn(null);
+        expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
+        Object result = new Object();
+        expect(invocation.proceed()).andReturn(result);
+
+        replayMocks();
+        assertSame(result, interceptor.invoke(invocation));
+        verifyMocks();
+    }
 
     public final void testInvokeDummy() throws Throwable {
         interceptor.setProceedWithNoService(true);
