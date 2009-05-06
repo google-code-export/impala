@@ -31,8 +31,9 @@ public class CollectionStringUtilsTest extends TestCase {
         assertEquals("value 2", map.get("name2"));
         assertEquals("value3", map.get("name3"));
         
-        Map<String, String> mapWithMissingEquals = CollectionStringUtils.parsePropertiesFromString("name1 no equals 1 \nname2= value2,name3 = value3");
-        assertEquals(2, mapWithMissingEquals.size());
+        Map<String, String> mapWithMissingEquals = CollectionStringUtils.parsePropertiesFromString(" name1 no equals 1 \nname2= value2,name3 = value3");
+        assertEquals(3, mapWithMissingEquals.size());
+        assertTrue(mapWithMissingEquals.containsKey("name1 no equals 1"));
         assertTrue(mapWithMissingEquals.containsKey("name2"));
         assertTrue(mapWithMissingEquals.containsKey("name3"));
     }
