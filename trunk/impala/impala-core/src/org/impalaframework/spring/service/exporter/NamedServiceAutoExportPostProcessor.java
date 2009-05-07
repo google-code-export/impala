@@ -81,8 +81,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
         			referenceMap.put(beanName, serviceReference);
         		}	
 		    } else {
-	            
-	            //FIXME test
+		        
 	            if (logger.isDebugEnabled()) {
 	                logger.debug("Not auto-exporting " + beanName + " as this is not a singleton");
 	            }
@@ -90,7 +89,6 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		    
 		} else {
 		    
-		    //FIXME test
 		    if (logger.isDebugEnabled()) {
 		        logger.debug("Already registered bean " + beanName);
 		    }
