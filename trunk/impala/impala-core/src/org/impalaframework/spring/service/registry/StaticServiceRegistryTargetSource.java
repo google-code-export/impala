@@ -36,8 +36,7 @@ public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTarget
     }
 
     public boolean isStatic() {
-        //FIXME should this be false
-        return true;
+        return false;
     }
 
     public ServiceRegistryEntry getServiceRegistryReference() {
