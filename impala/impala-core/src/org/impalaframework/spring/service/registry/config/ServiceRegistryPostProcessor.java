@@ -48,7 +48,6 @@ public class ServiceRegistryPostProcessor implements BeanPostProcessor {
             psa.setServiceRegistry(serviceRegistry);
         }
         if (bean instanceof ProxyFactoryCreatorAware) {
-            //FIXME test
             ProxyFactoryCreatorAware spa = (ProxyFactoryCreatorAware) bean;
             spa.setProxyFactoryCreator(serviceProxyFactoryCreator);
         }

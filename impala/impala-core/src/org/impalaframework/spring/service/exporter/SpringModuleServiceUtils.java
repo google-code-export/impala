@@ -19,7 +19,6 @@ import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.spring.service.SpringServiceBeanReference;
 import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
-import org.springframework.beans.BeanInstantiationException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
@@ -50,8 +49,7 @@ public abstract class SpringModuleServiceUtils {
         Assert.notNull(beanFactory, "beanFactory cannot be null");
         Assert.notNull(beanName, "beanName cannot be null");
         Assert.notNull(bean, "bean cannot be null");
-        
-        //FIXME test
+
         boolean singleton = true;
         
         if (bean instanceof FactoryBean) {
@@ -98,28 +96,6 @@ public abstract class SpringModuleServiceUtils {
             }
         }
         return endpoint;
-    }
-
-    static Object getTarget(Object bean, String beanName) {
-
-        //FIXME remove
-        Object target = null;
-        if (bean instanceof FactoryBean) {
-            FactoryBean factoryBean = (FactoryBean) bean;
-            try {
-                target = factoryBean.getObject();
-            }
-            catch (Exception e) {
-                String errorMessage = "Failed getting object from factory bean "
-                        + factoryBean + ", bean name " + beanName;
-                throw new BeanInstantiationException(factoryBean
-                        .getObjectType(), errorMessage, e);
-            }
-        }
-        else {
-            target = bean;
-        }
-        return target;
     }
 
     static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {

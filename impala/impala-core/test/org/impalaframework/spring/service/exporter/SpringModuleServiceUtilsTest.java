@@ -20,7 +20,6 @@ import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class SpringModuleServiceUtilsTest extends TestCase {
@@ -60,18 +59,6 @@ public class SpringModuleServiceUtilsTest extends TestCase {
             assertTrue(message.contains(", which is not an instance of org.springframework.beans.factory.HierarchicalBeanFactory"));
         }       
     }
-
-    public final void testGetTarget() {
-        ClassPathXmlApplicationContext childOfChild = getContext("contribution/root-with-definition.xml")[0];
-        
-        Object bean = childOfChild.getBean("&moduleDefinition");
-        assertTrue(bean instanceof FactoryBean);
-        
-        Object target = SpringModuleServiceUtils.getTarget(bean, "moduleDefinition");
-        assertFalse(target instanceof FactoryBean);
-        assertSame(target, SpringModuleServiceUtils.getTarget(target, "moduleDefinition"));
-    }
-    
     
     private ClassPathXmlApplicationContext[] getContext(String rootName) {
         ClassPathXmlApplicationContext parent = new ClassPathXmlApplicationContext(rootName);
