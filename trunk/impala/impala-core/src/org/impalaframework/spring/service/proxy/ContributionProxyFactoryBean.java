@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.beans.factory.BeanNameAware;
 
@@ -29,6 +31,22 @@ import org.springframework.beans.factory.BeanNameAware;
  * @deprecated use {@link NamedServiceProxyFactoryBean} instead
  */
 public class ContributionProxyFactoryBean extends NamedServiceProxyFactoryBean implements BeanNameAware {
+
+    Log logger = LogFactory.getLog(ContributionProxyFactoryBean.class);
+    
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("*************** WARNING ***************");
+        String message = "You are using " + ContributionProxyFactoryBean.class.getName() 
+                + " for bean " + getBeanName()
+                + ". This class is deprecated and will be removed in the next release. Use "
+                + NamedServiceProxyFactoryBean.class.getName() 
+                + " or the 'import' element from the Impala 'service' namespace";
+        System.out.println(message);
+        logger.warn(message);
+        System.out.println("*************** WARNING ***************");
+        super.afterPropertiesSet();
+    }
 
     public void setProxyInterfaces(Class<?>[] proxyInterfaces) {
         super.setProxyTypes(proxyInterfaces);
