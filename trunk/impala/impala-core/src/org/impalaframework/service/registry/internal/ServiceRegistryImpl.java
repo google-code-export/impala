@@ -41,7 +41,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     
     private ServiceEventListenerRegistryDelegate listenerRegistryDelegate = new ServiceEventListenerRegistryDelegate();
 
-    private static Log logger = LogFactory.getLog(DelegatingServiceRegistry.class);
+    private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
     
     /* ************ registry service modification methods * ************** */
 
