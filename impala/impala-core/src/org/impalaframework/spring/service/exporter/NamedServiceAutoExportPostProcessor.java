@@ -23,7 +23,6 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
-import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -38,7 +37,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 /**
  * {@link BeanPostProcessor} which attempts to register the created bean
  * with the {@link ServiceRegistry}, but only if the current bean's parent context
- * has a same-named bean which implements {@link ServiceEndpoint}.
+ * has a same-named bean which implements {@link NamedServiceEndpoint}.
  * 
  * @author Phil Zoio
  */

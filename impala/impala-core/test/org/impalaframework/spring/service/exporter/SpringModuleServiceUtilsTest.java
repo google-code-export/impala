@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.ServiceEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -36,7 +36,7 @@ public class SpringModuleServiceUtilsTest extends TestCase {
     public final void testFindServiceEndPointNotPresent() {
         ClassPathXmlApplicationContext childOfChild = getContext("contribution/root-no-definition.xml")[0];
 
-        ServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(childOfChild.getBeanFactory(),
+        NamedServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(childOfChild.getBeanFactory(),
                 "child");
         assertNull(endPoint);
     }
