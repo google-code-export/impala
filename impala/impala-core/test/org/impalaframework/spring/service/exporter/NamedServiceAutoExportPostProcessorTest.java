@@ -23,7 +23,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.NamedContributionEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
@@ -40,7 +40,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
     private NamedServiceAutoExportPostProcessor p;
     private DefaultListableBeanFactory beanFactory;
     private DefaultListableBeanFactory parentBeanFactory;
-    private NamedContributionEndpoint endPoint;
+    private NamedServiceEndpoint endPoint;
     private FactoryBean factoryBean;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] classes;
@@ -171,7 +171,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         
         replay(beanFactory);
         replay(parentBeanFactory);
-        assertEquals(endPoint, ModuleContributionUtils.findContributionEndPoint(beanFactory, "mybean"));
+        assertEquals(endPoint, SpringModuleServiceUtils.findServiceEndpoint(beanFactory, "mybean"));
         verify(beanFactory);
         verify(parentBeanFactory);
     }

@@ -23,7 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
@@ -54,11 +54,11 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
     
     private ClassLoader beanClassLoader;
 
-    private Map<ServiceRegistryEntry, ContributionEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryEntry, ContributionEndpoint>();
+    private Map<ServiceRegistryEntry, ServiceEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryEntry, ServiceEndpoint>();
 
     /**
      * This implementation will only add an entry to the {@link ServiceRegistry}
-     * if it can find a {@link ContributionEndpoint} in a super-
+     * if it can find a {@link ServiceEndpoint} in a super-
      * {@link org.springframework.context.ApplicationContext}
      * which has the same name as the name of the bean
      */
@@ -67,7 +67,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
             Object bean = beanFactory.getBean(beanName);
 
-            ContributionEndpoint endPoint = getContributionEndPoint(beanName, bean);
+            ServiceEndpoint endPoint = getServiceEndpoint(beanName, bean);
 
             //if contribution endpoint exists corresponding with bean name, then we add
             //to the contribution map, and register the bean
@@ -76,7 +76,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
                 if (serviceRegistry != null) {
                     String moduleName = moduleDefinition.getName();
                     logger.info("Contributing bean " + beanName + " from module " + moduleName);
-                    final ServiceBeanReference beanReference = ModuleContributionUtils.newServiceBeanReference(beanFactory, beanName);
+                    final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
                     final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, beanReference, beanClassLoader);
                     contributionMap.put(serviceReference, endPoint);
                 }   
@@ -95,9 +95,9 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
         }
     }
 
-    protected ContributionEndpoint getContributionEndPoint(String beanName, Object bean) {
+    protected ServiceEndpoint getServiceEndpoint(String beanName, Object bean) {
         //FIXME no need to pass in bean
-        return ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+        return SpringModuleServiceUtils.findServiceEndpoint(beanFactory, beanName);
     }
 
     protected BeanFactory getBeanFactory() {

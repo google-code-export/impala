@@ -20,17 +20,31 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 
 /**
- * Interceptor which satisfies parent dependency
+ * Interceptor which uses a {@link ServiceEndpointTargetSource} to retrieve a {@link ServiceRegistryEntry}, from which it 
+ * obtains a service object to which to pass to the standard Spring AOP {@link MethodInvocation#proceed()} call.
+ * 
+ * It also performs a number of other responsibilities, such as:
+ * <ul>
+ * <li>retrying for certain number of times using a certain interval if no reference could be obtained
+ * <li>setting the thread context class loader to that of the class loader responsible for loading the invocation target
+ * <li>logging if no service can be found
+ * <li>throwing a {@link NoServiceException} if no service can be found
+ * <li>or proceeding with a no-op proxy implementation of the service if no service can be found
+ * </ul>
+ * All of these behaviours can be enabled, disabled or controlled via configuration, as described in {@link DefaultProxyFactoryCreator}.
+ * 
+ * @see DefaultProxyFactoryCreator
+ * 
  * @author Phil Zoio
  */
-public class ContributionEndpointInterceptor implements MethodInterceptor {
+public class ServiceEndpointInterceptor implements MethodInterceptor {
 
-    final Log log = LogFactory.getLog(ContributionEndpointInterceptor.class);
+    final Log log = LogFactory.getLog(ServiceEndpointInterceptor.class);
 
-    private ContributionEndpointTargetSource targetSource;
+    private ServiceEndpointTargetSource targetSource;
 
     private String beanName;
 
@@ -44,7 +58,7 @@ public class ContributionEndpointInterceptor implements MethodInterceptor {
     
     private int retryInterval;
 
-    public ContributionEndpointInterceptor(ContributionEndpointTargetSource targetSource, String beanName) {
+    public ServiceEndpointInterceptor(ServiceEndpointTargetSource targetSource, String beanName) {
         this.targetSource = targetSource;
         this.beanName = beanName;
     }

@@ -16,13 +16,14 @@ package org.impalaframework.spring.service.exporter;
 
 import java.util.Arrays;
 
+import org.impalaframework.service.ServiceEndpoint;
 import org.springframework.util.Assert;
 
 /**
  * Subclass of <code>BaseModuleContributionExporter</code> which will register
  * beans as services with the <code>ServiceRegistry</code> only if they are named in the 
  * <code>contributions</code> property, and their parent Spring context contains same
- * named beans which implement <code>ContributionEndPoint</code>
+ * named beans which implement {@link ServiceEndpoint}
  * 
  * @see AutoRegisteringModuleContributionExporter
  * @author Phil Zoio

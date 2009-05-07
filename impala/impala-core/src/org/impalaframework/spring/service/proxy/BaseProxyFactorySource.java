@@ -14,27 +14,27 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
  * Base implementation of {@link ProxyFactorySource}. Simply provides access after init to the {@link ProxyFactory},
- * the {@link ContributionEndpointTargetSource} and the registry bean name (which may ben null).
+ * the {@link ServiceEndpointTargetSource} and the registry bean name (which may ben null).
  * 
  * @author Phil Zoio
  */
 public abstract class BaseProxyFactorySource implements ProxyFactorySource {
 
-    private ContributionEndpointTargetSource targetSource;
+    private ServiceEndpointTargetSource targetSource;
     private ProxyFactory proxyFactory;
     
-    protected void afterInit(ProxyFactory proxyFactory, ContributionEndpointTargetSource targetSource) {
+    protected void afterInit(ProxyFactory proxyFactory, ServiceEndpointTargetSource targetSource) {
         this.proxyFactory = proxyFactory;
         this.targetSource = targetSource;
         this.proxyFactory.setTargetSource(targetSource);
     }
 
-    public final ContributionEndpointTargetSource getTargetSource() {
+    public final ServiceEndpointTargetSource getTargetSource() {
         return targetSource;
     }
 

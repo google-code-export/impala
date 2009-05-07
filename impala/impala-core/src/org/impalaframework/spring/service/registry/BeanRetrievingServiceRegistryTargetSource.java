@@ -19,12 +19,12 @@ import java.lang.reflect.Modifier;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 
 /**
  * Supports retrieving of target object from service registry for particular bean name.
  * 
- * Implements {@link ContributionEndpointTargetSource}
+ * Implements {@link ServiceEndpointTargetSource}
  * @author Phil Zoio
  */
 public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
@@ -56,7 +56,7 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
         }
     }
     
-    /* *************** ContributionEndpointTargetSource implementation ************** */
+    /* *************** ServiceEndpointTargetSource implementation ************** */
 
     @Override
     public Class<?> getTargetClass() {

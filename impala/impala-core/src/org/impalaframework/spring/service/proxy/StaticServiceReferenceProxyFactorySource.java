@@ -18,7 +18,7 @@ import java.lang.reflect.Modifier;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSource;
 import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.TargetSource;
@@ -49,7 +49,7 @@ public class StaticServiceReferenceProxyFactorySource extends BaseProxyFactorySo
         
         Assert.notNull(reference, "reference cannot be null");
         
-        ContributionEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
+        ServiceEndpointTargetSource targetSource = new StaticServiceRegistryTargetSource(reference);
         
         ProxyFactory proxyFactory = new ProxyFactory();
         if (!ArrayUtils.isNullOrEmpty(proxyTypes)) {

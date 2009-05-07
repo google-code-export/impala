@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -38,7 +38,7 @@ public abstract class BaseServiceProxyFactoryBean
     implements FactoryBean, 
     BeanNameAware, 
     InitializingBean, 
-    ContributionEndpoint, 
+    ServiceEndpoint, 
     ServiceRegistryAware,
     ProxyFactoryCreatorAware,
     BeanClassLoaderAware {

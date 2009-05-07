@@ -15,14 +15,14 @@
 package org.impalaframework.spring.service.registry;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.beans.factory.FactoryBean;
 
 /**
- * Abstract class providing implementation of some of methods of {@link ContributionEndpointTargetSource}
+ * Abstract class providing implementation of some of methods of {@link ServiceEndpointTargetSource}
  * @author Phil Zoio
  */
-public abstract class BaseServiceRegistryTargetSource implements ContributionEndpointTargetSource {
+public abstract class BaseServiceRegistryTargetSource implements ServiceEndpointTargetSource {
 
     /* *************** TargetSource implementations ************** */
     

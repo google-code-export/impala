@@ -89,7 +89,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
             attributeMap = CollectionStringUtils.parseMapFromString(attributes);
         }
 
-        final ServiceBeanReference beanReference = ModuleContributionUtils.newServiceBeanReference(beanFactory, beanName);
+        final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
         this.serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), beanReference, exportTypesToUse, attributeMap, beanClassLoader);
     }
 
