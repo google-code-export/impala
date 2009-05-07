@@ -21,17 +21,21 @@ import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
 import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
 import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 
 public class ServiceRegistryPostProcessorTest extends TestCase {
 
     public final void testPostProcessBeforeInitialization() {
         ServiceRegistry registry = new ServiceRegistryImpl();
-        ProxyFactoryCreator serviceProxyFactoryCreator = new DefaultProxyFactoryCreator();
-        ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry, serviceProxyFactoryCreator);
+        ProxyFactoryCreator proxyFactoryCreator = new DefaultProxyFactoryCreator();
+        ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry, proxyFactoryCreator);
         TestRegistryAware testAware = new TestRegistryAware();
+        TestProxyFactoryCreatorAware proxyFactoryCreatorAware = new TestProxyFactoryCreatorAware();
         postProcessor.postProcessBeforeInitialization(testAware, null);
+        postProcessor.postProcessBeforeInitialization(proxyFactoryCreatorAware, null);
         assertSame(registry, testAware.getServiceRegistry());
+        assertSame(proxyFactoryCreator, proxyFactoryCreatorAware.getProxyFactoryCreator());
         
         assertSame(testAware, postProcessor.postProcessAfterInitialization(testAware, null));
     }
@@ -49,5 +53,18 @@ class TestRegistryAware implements ServiceRegistryAware {
         this.serviceRegistry = serviceRegistry;
     }
 
+}
 
+class TestProxyFactoryCreatorAware implements ProxyFactoryCreatorAware {
+    
+    private ProxyFactoryCreator proxyFactoryCreator;
+
+    public void setProxyFactoryCreator(ProxyFactoryCreator proxyFactoryCreator) {
+        this.proxyFactoryCreator = proxyFactoryCreator;
+    }
+
+    public ProxyFactoryCreator getProxyFactoryCreator() {
+        return proxyFactoryCreator;
+    }
+    
 }
