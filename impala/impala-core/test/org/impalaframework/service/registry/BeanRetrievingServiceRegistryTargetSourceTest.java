@@ -7,18 +7,18 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.service.registry.BeanRetrievingServiceRegistryTargetSource;
 import org.springframework.util.ClassUtils;
 
 public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
 
-    private ServiceRegistryImpl serviceRegistry;
+    private DelegatingServiceRegistry serviceRegistry;
     
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
     }
 
     public void testGetUsingBean() {

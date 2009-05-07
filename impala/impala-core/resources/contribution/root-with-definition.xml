@@ -2,7 +2,7 @@
 <!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
 <beans>
  
-    <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
+    <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.DelegatingServiceRegistry"/>
     
     <bean id="child"
         class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">

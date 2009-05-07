@@ -21,14 +21,14 @@ import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 
 public class ServiceArrayRegistryExporterTest extends TestCase {
 
     private ServiceArrayRegistryExporter exporter;
-    private ServiceRegistryImpl registry;
+    private DelegatingServiceRegistry registry;
     private BeanFactory beanFactory;
     
     private String service1 = "myservice1";
@@ -40,7 +40,7 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         super.setUp();
         classes = new Class[]{String.class};
         exporter = new ServiceArrayRegistryExporter();
-        registry = new ServiceRegistryImpl();
+        registry = new DelegatingServiceRegistry();
         beanFactory = createMock(BeanFactory.class);
         exporter.setBeanFactory(beanFactory);
         exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));

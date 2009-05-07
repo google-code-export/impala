@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.StaticServiceBeanReference;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
 import org.springframework.util.ClassUtils;
@@ -28,7 +28,7 @@ import junit.framework.TestCase;
 public class TypedServiceProxyFactoryBeanTest extends TestCase {
 
     private TypedServiceProxyFactoryBean bean;
-    private ServiceRegistryImpl serviceRegistry;
+    private DelegatingServiceRegistry serviceRegistry;
     private ClassLoader classLoader;
     private Class<?>[] exportTypes;
 
@@ -36,7 +36,7 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         bean = new TypedServiceProxyFactoryBean();
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
         bean.setServiceRegistry(serviceRegistry);
         
         classLoader = ClassUtils.getDefaultClassLoader();

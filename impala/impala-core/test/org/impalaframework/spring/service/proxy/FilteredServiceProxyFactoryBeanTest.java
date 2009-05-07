@@ -23,18 +23,18 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.util.ClassUtils;
 
 public class FilteredServiceProxyFactoryBeanTest extends TestCase {
     
-    private ServiceRegistryImpl serviceRegistry;
+    private DelegatingServiceRegistry serviceRegistry;
     private FilteredServiceProxyFactoryBean factoryBean;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
         factoryBean = new FilteredServiceProxyFactoryBean();
         factoryBean.setServiceRegistry(serviceRegistry);
         factoryBean.setFilterExpression("(name=*)");

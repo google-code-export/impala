@@ -18,7 +18,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
@@ -27,7 +27,7 @@ import org.impalaframework.spring.service.registry.config.ServiceRegistryPostPro
 public class ServiceRegistryPostProcessorTest extends TestCase {
 
     public final void testPostProcessBeforeInitialization() {
-        ServiceRegistry registry = new ServiceRegistryImpl();
+        ServiceRegistry registry = new DelegatingServiceRegistry();
         ProxyFactoryCreator proxyFactoryCreator = new DefaultProxyFactoryCreator();
         ServiceRegistryPostProcessor postProcessor = new ServiceRegistryPostProcessor(registry, proxyFactoryCreator);
         TestRegistryAware testAware = new TestRegistryAware();

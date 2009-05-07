@@ -35,13 +35,13 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryImpl implements ServiceRegistry {
+public class DelegatingServiceRegistry implements ServiceRegistry {
     
     private ServiceEntryRegistryDelegate entryRegistryDelegate = new ServiceEntryRegistryDelegate();
     
     private ServiceEventListenerRegistryDelegate listenerRegistryDelegate = new ServiceEventListenerRegistryDelegate();
 
-    private static Log logger = LogFactory.getLog(ServiceRegistryImpl.class);
+    private static Log logger = LogFactory.getLog(DelegatingServiceRegistry.class);
     
     /* ************ registry service modification methods * ************** */
 

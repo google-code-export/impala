@@ -41,7 +41,7 @@ import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
 import org.impalaframework.spring.module.loader.DefaultApplicationContextLoader;
 import org.impalaframework.spring.module.loader.DelegatingContextLoaderRegistry;
@@ -70,7 +70,7 @@ public class ModuleStateHolderTest extends TestCase {
         registry.addItem("spring-"+ModuleTypes.APPLICATION, applicationModuleLoader);
         DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
         contextLoader.setModuleLoaderRegistry(registry);
-        contextLoader.setServiceRegistry(new ServiceRegistryImpl());
+        contextLoader.setServiceRegistry(new DelegatingServiceRegistry());
         contextLoader.setDelegatingContextLoaderRegistry(new DelegatingContextLoaderRegistry());
         
         TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();

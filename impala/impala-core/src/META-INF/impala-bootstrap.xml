@@ -253,7 +253,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
- <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.ServiceRegistryImpl"/>
+ <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.DelegatingServiceRegistry"/>
  
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
 

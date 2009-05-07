@@ -28,14 +28,14 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryExporterTest extends TestCase {
 
     private ServiceRegistryExporter exporter;
-    private ServiceRegistryImpl registry;
+    private DelegatingServiceRegistry registry;
     private BeanFactory beanFactory;
     
     private String service = "myservice";
@@ -47,7 +47,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         super.setUp();
         classes = new Class[]{String.class};
         exporter = new ServiceRegistryExporter();
-        registry = new ServiceRegistryImpl();
+        registry = new DelegatingServiceRegistry();
         beanFactory = createMock(BeanFactory.class);
         exporter.setBeanFactory(beanFactory);
         exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));

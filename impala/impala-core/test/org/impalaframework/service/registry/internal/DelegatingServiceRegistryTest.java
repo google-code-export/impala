@@ -39,9 +39,9 @@ import org.impalaframework.spring.bean.StringFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.ClassUtils;
 
-public class ServiceRegistryImplTest extends TestCase {
+public class DelegatingServiceRegistryTest extends TestCase {
 
-    private ServiceRegistryImpl registry;
+    private DelegatingServiceRegistry registry;
     private ClassLoader classLoader;
     private Class<?>[] classes;
     private ServiceEntryRegistryDelegate entryDelegate;
@@ -49,7 +49,7 @@ public class ServiceRegistryImplTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        registry = new ServiceRegistryImpl();
+        registry = new DelegatingServiceRegistry();
         entryDelegate = registry.getEntryRegistryDelegate();
         
         classLoader = ClassUtils.getDefaultClassLoader();

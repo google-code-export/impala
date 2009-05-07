@@ -23,14 +23,14 @@ import junit.framework.TestCase;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.util.ClassUtils;
 
 public class ContributionMapTest extends TestCase {
 
     private ContributionMap map;
     private ServiceRegistryMap serviceRegistryMap;
-    private ServiceRegistryImpl registry;
+    private DelegatingServiceRegistry registry;
     private ClassLoader classLoader;
 
     @Override
@@ -40,7 +40,7 @@ public class ContributionMapTest extends TestCase {
         serviceRegistryMap = new ServiceRegistryMap();
         map.setExternalContributions(serviceRegistryMap);
         serviceRegistryMap.setFilterExpression("(mapkey=*)");
-        registry = new ServiceRegistryImpl();
+        registry = new DelegatingServiceRegistry();
         serviceRegistryMap.setServiceRegistry(registry);
         classLoader = ClassUtils.getDefaultClassLoader();
     }

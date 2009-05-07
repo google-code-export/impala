@@ -31,7 +31,7 @@ import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
 import org.impalaframework.service.reference.StaticServiceRegistryEntry;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryListTest extends TestCase {
@@ -47,7 +47,7 @@ public class ServiceRegistryListTest extends TestCase {
         super.setUp();
         list = new ServiceRegistryList();
         
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
         list.setServiceRegistry(serviceRegistry);
         supportedTypes = new Class[]{ List.class };
         list.setProxyTypes(supportedTypes);
