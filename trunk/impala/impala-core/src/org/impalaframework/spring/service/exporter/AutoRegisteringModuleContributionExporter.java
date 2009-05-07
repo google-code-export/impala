@@ -20,7 +20,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.ServiceEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -53,8 +53,8 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
         processContributions(beanNames);
     }
 
-    protected ServiceEndpoint getServiceEndpoint(String beanName, Object bean) {
-        ServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(getBeanFactory(), beanName);
+    protected NamedServiceEndpoint getServiceEndpoint(String beanName, Object bean) {
+        NamedServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(getBeanFactory(), beanName);
 
         if (endPoint == null) {
             String proxyTypes = contributions.get(beanName);
@@ -68,7 +68,7 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
             BeanDefinitionRegistry registry = getBeanDefinitionRegistry(rootBeanFactory);
             registry.registerBeanDefinition(beanName, beanDefinition);
 
-            endPoint = (ServiceEndpoint) rootBeanFactory.getBean("&" + beanName,ServiceEndpoint.class);
+            endPoint = (NamedServiceEndpoint) rootBeanFactory.getBean("&" + beanName, NamedServiceEndpoint.class);
         }
 
         return endPoint;

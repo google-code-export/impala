@@ -23,8 +23,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.service.ServiceEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
+import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -58,7 +59,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
     /**
      * This implementation will only add an entry to the {@link ServiceRegistry}
-     * if it can find a {@link ServiceEndpoint} in a super-
+     * if it can find a {@link NamedServiceEndpoint} in a super-
      * {@link org.springframework.context.ApplicationContext}
      * which has the same name as the name of the bean
      */
@@ -67,7 +68,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
 
             Object bean = beanFactory.getBean(beanName);
 
-            ServiceEndpoint endPoint = getServiceEndpoint(beanName, bean);
+            NamedServiceEndpoint endPoint = getServiceEndpoint(beanName, bean);
 
             //if contribution endpoint exists corresponding with bean name, then we add
             //to the contribution map, and register the bean
@@ -95,8 +96,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
         }
     }
 
-    protected ServiceEndpoint getServiceEndpoint(String beanName, Object bean) {
-        //FIXME no need to pass in bean
+    protected NamedServiceEndpoint getServiceEndpoint(String beanName, Object bean) {
         return SpringModuleServiceUtils.findServiceEndpoint(beanFactory, beanName);
     }
 

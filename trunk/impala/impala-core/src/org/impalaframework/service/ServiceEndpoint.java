@@ -14,6 +14,10 @@
 
 package org.impalaframework.service;
 
+/**
+ * Marker interface which indicates that the bean is the target of one or more services imported from the service registry.
+ * @author Phil Zoio
+ */
 public interface ServiceEndpoint {
 
 }
