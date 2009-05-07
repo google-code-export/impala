@@ -14,11 +14,11 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
- * Abstraction for setting up a proxy factory, which involves setting up a {@link ContributionEndpointTargetSource}
+ * Abstraction for setting up a proxy factory, which involves setting up a {@link ServiceEndpointTargetSource}
  * as well as part-initialising the {@link ProxyFactory}.
  * 
  * Implementations are typically not responsible, however, for adding advisors or interceptors to the proxy. 
@@ -38,8 +38,8 @@ public interface ProxyFactorySource {
     ProxyFactory getProxyFactory();
     
     /**
-     * Returns created {@link ContributionEndpointTargetSource}
+     * Returns created {@link ServiceEndpointTargetSource}
      */
-    ContributionEndpointTargetSource getTargetSource();
+    ServiceEndpointTargetSource getTargetSource();
 
 }

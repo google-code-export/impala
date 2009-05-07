@@ -16,7 +16,7 @@ package org.impalaframework.spring.service.proxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -71,14 +71,14 @@ public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
      * Creates proxy factory backed by a dynamically obtained service, where the lookup assumes that the service was exported
      * using a name key entry.
      * @param proxyFactorySource the {@link ProxyFactorySource} used to create the {@link ProxyFactory} and set up the 
-     * {@link ContributionEndpointTargetSource}.
+     * {@link ServiceEndpointTargetSource}.
      * @param the bean for which the proxy is being created.
      */
     public final ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName) {
         
         proxyFactorySource.init();
         ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
-        ContributionEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
+        ServiceEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
         
         addInterceptor(beanName, proxyFactory, targetSource);
         
@@ -87,9 +87,9 @@ public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
 
     protected void addInterceptor(String beanName, 
             ProxyFactory proxyFactory,
-            ContributionEndpointTargetSource targetSource) {
+            ServiceEndpointTargetSource targetSource) {
         
-        ContributionEndpointInterceptor interceptor = new ContributionEndpointInterceptor(targetSource, beanName);
+        ServiceEndpointInterceptor interceptor = new ServiceEndpointInterceptor(targetSource, beanName);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Creating dynamic proxy for " + beanName + 

@@ -21,7 +21,7 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryList;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BaseServiceRegistryTargetSource;
 import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.framework.ProxyFactory;
@@ -156,7 +156,7 @@ class ListBackedProxySource extends BaseProxyFactorySource {
             targetClass = null;
         }
         
-        ContributionEndpointTargetSource targetSource = new ListBackedRegistryTargetSource(this.list, targetClass);
+        ServiceEndpointTargetSource targetSource = new ListBackedRegistryTargetSource(this.list, targetClass);
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {

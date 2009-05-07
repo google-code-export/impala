@@ -19,11 +19,11 @@ import java.util.List;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 
 /**
  * Supports retrieving of target object from service registry for filter.
- * Implements {@link ContributionEndpointTargetSource}
+ * Implements {@link ServiceEndpointTargetSource}
  * @author Phil Zoio
  */
 public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTargetSource {
@@ -44,7 +44,7 @@ public class FilteredServiceRegistryTargetSource extends BaseServiceRegistryTarg
         this.serviceRegistry = serviceRegistry;
     }
     
-    /* *************** ContributionEndpointTargetSource implementations ************** */
+    /* *************** ServiceEndpointTargetSource implementations ************** */
 
     public ServiceRegistryEntry getServiceRegistryReference() {
         

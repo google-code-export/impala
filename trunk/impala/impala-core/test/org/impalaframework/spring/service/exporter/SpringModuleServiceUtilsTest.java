@@ -18,25 +18,25 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.ContributionEndpoint;
+import org.impalaframework.service.ServiceEndpoint;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-public class ModuleContributionUtilsTest extends TestCase {
+public class SpringModuleServiceUtilsTest extends TestCase {
 
-    public final void testFindContributionEndPointPresent() {
+    public final void testFindServiceEndPointPresent() {
         ClassPathXmlApplicationContext childOfChild = getContext("contribution/root-with-definition.xml")[0];
 
         //true because applicationContext is not an instanceof AbstractBeanFactory
-        assertNotNull(ModuleContributionUtils.findContributionEndPoint(childOfChild, "child"));
-        assertNotNull(ModuleContributionUtils.findContributionEndPoint(childOfChild.getBeanFactory(), "child"));
+        assertNotNull(SpringModuleServiceUtils.findServiceEndpoint(childOfChild, "child"));
+        assertNotNull(SpringModuleServiceUtils.findServiceEndpoint(childOfChild.getBeanFactory(), "child"));
     }
 
-    public final void testFindContributionEndPointNotPresent() {
+    public final void testFindServiceEndPointNotPresent() {
         ClassPathXmlApplicationContext childOfChild = getContext("contribution/root-no-definition.xml")[0];
 
-        ContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(childOfChild.getBeanFactory(),
+        ServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(childOfChild.getBeanFactory(),
                 "child");
         assertNull(endPoint);
     }
@@ -44,14 +44,14 @@ public class ModuleContributionUtilsTest extends TestCase {
     public final void testGetRootBeanFactory() {
         ClassPathXmlApplicationContext[] contexts = getContext("contribution/root-with-definition.xml");
         ClassPathXmlApplicationContext parent = contexts[2];
-        assertSame(parent, ModuleContributionUtils.getRootBeanFactory(contexts[0]));
-        assertSame(parent, ModuleContributionUtils.getRootBeanFactory(contexts[1]));
-        assertSame(parent, ModuleContributionUtils.getRootBeanFactory(contexts[2]));        
+        assertSame(parent, SpringModuleServiceUtils.getRootBeanFactory(contexts[0]));
+        assertSame(parent, SpringModuleServiceUtils.getRootBeanFactory(contexts[1]));
+        assertSame(parent, SpringModuleServiceUtils.getRootBeanFactory(contexts[2]));        
     }
 
     public final void testGetInvalidRootBeanFactory() {
         try {
-            ModuleContributionUtils.getRootBeanFactory(EasyMock.createMock(BeanFactory.class));
+            SpringModuleServiceUtils.getRootBeanFactory(EasyMock.createMock(BeanFactory.class));
             fail();
         }
         catch (ExecutionException e) {
@@ -67,9 +67,9 @@ public class ModuleContributionUtilsTest extends TestCase {
         Object bean = childOfChild.getBean("&moduleDefinition");
         assertTrue(bean instanceof FactoryBean);
         
-        Object target = ModuleContributionUtils.getTarget(bean, "moduleDefinition");
+        Object target = SpringModuleServiceUtils.getTarget(bean, "moduleDefinition");
         assertFalse(target instanceof FactoryBean);
-        assertSame(target, ModuleContributionUtils.getTarget(target, "moduleDefinition"));
+        assertSame(target, SpringModuleServiceUtils.getTarget(target, "moduleDefinition"));
     }
     
     

@@ -15,7 +15,7 @@
 package org.impalaframework.spring.service.exporter;
 
 import org.impalaframework.exception.ExecutionException;
-import org.impalaframework.service.NamedContributionEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.spring.service.SpringServiceBeanReference;
 import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
@@ -27,12 +27,10 @@ import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.util.Assert;
 
 /**
- * <code>BeanPostProcessor</code> which attempts to register the created bean
- * with the parent's bean factory's <code>ContributionProxyFactoryBean</code>
  * 
  * @author Phil Zoio
  */
-public abstract class ModuleContributionUtils {
+public abstract class SpringModuleServiceUtils {
     
     static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
 
@@ -67,10 +65,10 @@ public abstract class ModuleContributionUtils {
         return singleton;
     }
 
-    static NamedContributionEndpoint findContributionEndPoint(
+    static NamedServiceEndpoint findServiceEndpoint(
             BeanFactory beanFactory, String beanName) {
 
-        NamedContributionEndpoint endpoint = null;
+        NamedServiceEndpoint endpoint = null;
         if (beanFactory instanceof HierarchicalBeanFactory) {
 
             HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
@@ -86,8 +84,8 @@ public abstract class ModuleContributionUtils {
                     if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
                         Object o = parentBeanFactory
                                 .getBean(parentFactoryBeanName);
-                        if (o instanceof NamedContributionEndpoint) {
-                            endpoint = (NamedContributionEndpoint) o;
+                        if (o instanceof NamedServiceEndpoint) {
+                            endpoint = (NamedServiceEndpoint) o;
                         }
                     }
                 }

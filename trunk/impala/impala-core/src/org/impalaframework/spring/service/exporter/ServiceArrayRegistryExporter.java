@@ -61,7 +61,7 @@ public class ServiceArrayRegistryExporter
         
         for (int i = 0; i < beanNames.length; i++) {
             String beanName = beanNames[i];
-            final ServiceBeanReference beanReference = ModuleContributionUtils.newServiceBeanReference(beanFactory, beanName);
+            final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
             final ServiceRegistryEntry serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), beanReference, beanClassLoader);
             services.add(serviceReference);
         }

@@ -1,12 +1,12 @@
 package org.impalaframework.spring.service.registry;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link ContributionEndpointTargetSource} which is designed to hold a static 
+ * Implementation of {@link ServiceEndpointTargetSource} which is designed to hold a static 
  * reference to a {@link ServiceRegistryEntry} instance.
  * 
  * @author Phil Zoio

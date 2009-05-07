@@ -14,7 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.spring.service.ContributionEndpointTargetSource;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -28,7 +28,7 @@ public interface ProxyFactoryCreator {
     /**
      * @param proxyFactorySource which handles the details of creating the
      * {@link ProxyFactory} and associated
-     * {@link ContributionEndpointTargetSource} instance.
+     * {@link ServiceEndpointTargetSource} instance.
      * @param beanName the name of the bean on behalf of which the service proxy
      * is being created
      * @return a {@link ProxyFactory}

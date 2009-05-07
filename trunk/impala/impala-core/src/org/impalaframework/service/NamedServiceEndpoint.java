@@ -14,6 +14,6 @@
 
 package org.impalaframework.service;
 
-public interface ContributionEndpoint {
-
+public interface NamedServiceEndpoint extends ServiceEndpoint {
+    public String getExportName();
 }

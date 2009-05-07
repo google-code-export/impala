@@ -118,6 +118,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 </beans>
 }}}
 
+*TODO* - section to be updated with release of Impala 1.0 M6.
+
 Note the use of `ModuleContributionPostProcessor`. This class is one of the service registry export mechanisms. What it does in this case is looks for beans of the same name in parent application contexts which implement the `org.impalaframework.service.ContributionEndpoint`. For each of these, it will export the implementation bean to the service registry, with the expectation that it will be consumed from the service registry by the `ContributionEndpoint` implementation. This provides a simple mechanism for using a child application context to provide implementations for beans defined in a parent application context - a bean interface vs implementation mechanism.
 
 Of course, there is no need for a direct coupling between the `ContributionEndpoint` and the contributing bean - this is just one of the service export mechanisms available.

@@ -21,8 +21,9 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.service.NamedContributionEndpoint;
+import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
+import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
@@ -37,7 +38,7 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
 /**
  * {@link BeanPostProcessor} which attempts to register the created bean
  * with the {@link ServiceRegistry}, but only if the current bean's parent context
- * has a same-named bean which implements <code>ContributionEndPoint</code>.
+ * has a same-named bean which implements {@link ServiceEndpoint}.
  * 
  * @author Phil Zoio
  */
@@ -69,10 +70,10 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		//add check so that we don't try to add bean and factory bean
 		if (!referenceMap.containsKey(beanName)) {
 		    
-		    if (ModuleContributionUtils.isSingleton(beanFactory, beanName, bean)) {
+		    if (SpringModuleServiceUtils.isSingleton(beanFactory, beanName, bean)) {
 		
         		//only if there is a contribution end point corresponding with bean name do we register the service
-        		NamedContributionEndpoint endPoint = ModuleContributionUtils.findContributionEndPoint(beanFactory, beanName);
+        		NamedServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(beanFactory, beanName);
         		if (hasRegisterableEndpoint(beanName, endPoint)) {			
         			logger.info("Contributing bean " + beanName + " from module " + moduleName);
         			
@@ -122,7 +123,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
     /* *************** private methods ************** */
 
     private boolean hasRegisterableEndpoint(String beanName,
-            NamedContributionEndpoint endPoint) {
+            NamedServiceEndpoint endPoint) {
         boolean b = endPoint != null && beanName.equals(endPoint.getExportName());
         return b;
     }

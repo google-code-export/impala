@@ -12,8 +12,22 @@
  * the License.
  */
 
-package org.impalaframework.service;
+package org.impalaframework.spring.service;
 
-public interface NamedContributionEndpoint extends ContributionEndpoint {
-    public String getExportName();
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.springframework.aop.TargetSource;
+
+/**
+ * Extension of <code>TargetSource</code> which represents capability of
+ * accepting contributions from a child <code>ApplicationConext</code>
+ * @author Phil Zoio
+ */
+public interface ServiceEndpointTargetSource extends TargetSource {
+
+    /**
+     * Returns the <code>ServiceRegistryReference</code> corresponding with the target object
+     * @return
+     */
+    public ServiceRegistryEntry getServiceRegistryReference();
+
 }
