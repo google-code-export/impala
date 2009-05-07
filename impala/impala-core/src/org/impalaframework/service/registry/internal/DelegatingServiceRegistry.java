@@ -35,10 +35,9 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryImpl implements ServiceRegistry {
+public class DelegatingServiceRegistry implements ServiceRegistry {
     
     private ServiceEntryRegistryDelegate entryRegistryDelegate = new ServiceEntryRegistryDelegate();
-    
     private ServiceEventListenerRegistryDelegate listenerRegistryDelegate = new ServiceEventListenerRegistryDelegate();
 
     private static Log logger = LogFactory.getLog(DelegatingServiceRegistry.class);
@@ -176,17 +175,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     public boolean removeEventListener(ServiceRegistryEventListener listener) {
         
         return listenerRegistryDelegate.removeEventListener(listener);
-    }
-    
-    /* ************ package level accessor methods * ************** */
-
-
-    ServiceEntryRegistryDelegate getEntryRegistryDelegate() {
-        return entryRegistryDelegate;
-    }
-
-    ServiceEventListenerRegistryDelegate getListenerRegistryDelegate() {
-        return listenerRegistryDelegate;
     }
     
 }
