@@ -16,6 +16,7 @@ package org.impalaframework.service;
 
 /**
  * Represents the service instance contributed to the Impala {@link ServiceRegistry}.
+ * Can back a static service as well as a service retrieved dynamically.
  * @author Phil Zoio
  */
 public interface ServiceBeanReference {
