@@ -26,7 +26,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -53,7 +53,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         parentBeanFactory = createMock(DefaultListableBeanFactory.class);
         endPoint = createMock(NamedServiceProxyFactoryBean.class);
         factoryBean = createMock(FactoryBean.class);
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
         p.setBeanFactory(beanFactory);
         p.setServiceRegistry(serviceRegistry);
         p.setBeanClassLoader(ClassUtils.getDefaultClassLoader());

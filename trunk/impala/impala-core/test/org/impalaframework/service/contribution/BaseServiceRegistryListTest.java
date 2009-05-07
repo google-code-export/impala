@@ -24,7 +24,7 @@ import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.reference.StaticServiceRegistryEntry;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.springframework.util.ClassUtils;
 
 public class BaseServiceRegistryListTest extends TestCase {
@@ -69,7 +69,7 @@ public class BaseServiceRegistryListTest extends TestCase {
     }
     
     public void testWithListener() throws Exception {
-        ServiceRegistryImpl registry = new ServiceRegistryImpl();
+        DelegatingServiceRegistry registry = new DelegatingServiceRegistry();
         list.setServiceRegistry(registry);
         list.setFilterExpression("(mapkey=*)");
 

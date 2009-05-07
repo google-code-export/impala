@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.ServiceRegistry;
-import org.impalaframework.service.registry.internal.ServiceRegistryImpl;
+import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.impl.Child;
 import org.impalaframework.spring.module.impl.Parent;
@@ -38,7 +38,7 @@ public class ParentWithChildContextTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        serviceRegistry = new ServiceRegistryImpl();
+        serviceRegistry = new DelegatingServiceRegistry();
     }
     
     public void testContexts() {
