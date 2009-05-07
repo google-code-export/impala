@@ -36,7 +36,7 @@ public interface ServiceRegistry {
     ServiceRegistryEntry addService(String beanName, String moduleName, ServiceBeanReference service, ClassLoader classLoader);   
 
     /**
-     * 
+     * Registers a service in the Impala service registry, with options provide a list of export types and a map of attributes.
      * @param beanName the name under which the service is registered. Can be null
      * @param moduleName the module from which the service is registered. Cannot be null
      * @param service the service instance

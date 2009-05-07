@@ -25,6 +25,9 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.concurrent.locks.ReentrantReadWriteLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.ReadLock;
+import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -73,8 +76,12 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     // use CopyOnWriteArrayList to support non-blocking thread-safe iteration
     private List<ServiceRegistryEventListener> listeners = new CopyOnWriteArrayList<ServiceRegistryEventListener>();
 
-    private Object registryLock = new Object();
     private Object listenersLock = new Object();
+    
+    private ReentrantReadWriteLock reentrantRegistryLock = new ReentrantReadWriteLock();
+    private ReadLock registryReadLock = reentrantRegistryLock.readLock();
+    private WriteLock registryWriteLock = reentrantRegistryLock.writeLock();
+    
 
     /* ************ registry service modification methods * ************** */
 
@@ -97,31 +104,34 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         Object service = beanReference.getService();
         
+        final boolean checkClasses;
+        
+        if (classes == null) {
+            classes = deriveExportTypes(service, beanName, classes);
+            checkClasses = false;
+        } else {
+            checkClasses = true;
+        }
+        
+        if (classes.isEmpty() && beanName == null) {
+            logger.warn("Registering service with no explicit name or service classes. One of these is recommended");
+        }
+
         //Note: null checks performed by BasicServiceRegistryReference constructor
-        BasicServiceRegistryEntry serviceReference = null;
-        synchronized (registryLock) {
-            
-            boolean checkClasses = true;
-            
-            if (classes == null) {
-                classes = deriveExportTypes(service, beanName, classes);
-                checkClasses = false;
-            }
-            
-            serviceReference = new BasicServiceRegistryEntry(
-                    beanReference, 
-                    beanName,
-                    moduleName, 
-                    classes, 
-                    attributes, classLoader);
-            
-            if (checkClasses) {
-                checkClasses(serviceReference);
-            }
-            
-            if (classes.isEmpty() && beanName == null) {
-                logger.warn("Registering service with no explicit name or service classes. One of these is recommended");
-            }
+        BasicServiceRegistryEntry serviceReference = new BasicServiceRegistryEntry(
+                beanReference, 
+                beanName,
+                moduleName, 
+                classes, 
+                attributes, classLoader);
+        
+        //no need to check classes as these were derived
+        if (checkClasses) {
+            checkClasses(serviceReference);
+        }
+        
+        try {
+            registryWriteLock.lock();
             
             //deal with the case of overriding and existing bean
             if (beanName != null) {
@@ -134,10 +144,14 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 addReferenceToMap(classNameToServices, exportType.getName(), serviceReference, true);
             }
             
+            //associate service reference with keys used to hold it in service registry
             MapTargetInfo targetInfo = new MapTargetInfo(classes, beanName, moduleName);
             beanTargetInfo.put(serviceReference, targetInfo);
             
             services.add(serviceReference);
+            
+        } finally {
+            registryWriteLock.unlock();
         }
         
         if (logger.isDebugEnabled())
@@ -149,7 +163,6 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         invokeListeners(event);
         
         Assert.notNull(serviceReference, "Programming error: addService completing without returning non-null service referece");
-        
         return serviceReference;
     }
 
@@ -159,14 +172,20 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         final List<ServiceRegistryEntry> list;
         
-        synchronized (registryLock) {
+        //get copy of services within read lock protected block
+        try {
+            registryReadLock.lock();
+            
             final List<ServiceRegistryEntry> tempList = moduleNameToServices.get(moduleName);
             
             if (tempList != null) {
-                list = new LinkedList<ServiceRegistryEntry>(tempList);
+                list = new ArrayList<ServiceRegistryEntry>(tempList);
             } else {
                 list = null;
             }
+            
+        } finally {
+            registryReadLock.unlock();
         }
         
         //we have new list so can use it outside synchronised block
@@ -182,7 +201,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         Assert.notNull(serviceReference, "serviceReference cannot be null");
         boolean removed = false;
         
-        synchronized (registryLock) {
+        //use write lock protected section to remove service references
+        try {
+            registryWriteLock.lock();
             
             final MapTargetInfo targetInfo = beanTargetInfo.remove(serviceReference);
             if (targetInfo != null) {
@@ -212,6 +233,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 
                 removed = services.remove(serviceReference);
             }
+            
+        } finally {
+            registryWriteLock.unlock();
         }
 
         if (serviceReference != null) {
@@ -342,7 +366,10 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         
         List<ServiceRegistryEntry> references;
         
-        synchronized (registryLock) {
+        //use read lock protected section to get services
+        try {
+            registryReadLock.lock();
+            
             final List<ServiceRegistryEntry> list;
             
             if (useBeanLookup) {
@@ -364,6 +391,9 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 list = classNameToServices.get(exportTypes[0].getName());
             }
             references = (list == null ? Collections.EMPTY_LIST : new ArrayList<ServiceRegistryEntry>(list));
+            
+        } finally {
+            registryReadLock.unlock();
         }
         
         //no need to sort here, as it is already sorted
@@ -390,18 +420,23 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             
             final List<ServiceRegistryEntry> values; 
             
-            //check each type against 
-            synchronized (registryLock) {
+            //build a copy of values within read lock protected block
+            try {
+                registryReadLock.lock();
                 
-                values = classNameToServices.get(types[0].getName());
+                final List<ServiceRegistryEntry> tempValues = classNameToServices.get(types[0].getName());
                 
-                if (values == null) {
+                if (tempValues == null) {
                     return Collections.emptyList();
+                } else {
+                    values = new ArrayList<ServiceRegistryEntry>(tempValues);
                 }
-                
-                //filter only export types
-                filterReferenceByExportTypes(values, types);
+            } finally {
+                registryReadLock.unlock();
             }
+                
+            //filter only export types
+            filterReferenceByExportTypes(values, types);
                 
             //check each entry against filter
             for (Iterator<ServiceRegistryEntry> iterator = values.iterator(); iterator.hasNext();) {
@@ -418,8 +453,11 @@ public class ServiceRegistryImpl implements ServiceRegistry {
             //Create new list of services for concurrency protection
             final List<ServiceRegistryEntry> values;
             
-            synchronized (registryLock) {
-                values = new LinkedList<ServiceRegistryEntry>(services);
+            try {
+                registryReadLock.lock();
+                values = new LinkedList<ServiceRegistryEntry>(this.services);
+            } finally {
+                registryReadLock.unlock();
             }
             
             for (Iterator<ServiceRegistryEntry> iterator = values.iterator(); iterator.hasNext();) {
@@ -505,7 +543,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
                 logger.warn("Listener " + ObjectUtils.identityToString(listener) + " already a listener for this service registry");
                 return false;
             } else {
-                listeners.add(listener);
+                this.listeners.add(listener);
                 if (logger.isDebugEnabled()) {
                     logger.debug("Added service registry listener " + listener);
                 }
@@ -594,6 +632,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
     }
     
     private List<ServiceRegistryEventListener> getCopyOfListeners() {
+        //not synchronized as we are using CopyOnWriteArrayList
         return new ArrayList<ServiceRegistryEventListener>(listeners);
     }
 
@@ -612,6 +651,7 @@ public class ServiceRegistryImpl implements ServiceRegistry {
         for (ServiceRegistryEventListener currentListener : listeners) {
             
             if (currentListener == listener) {
+                //not synchronized as we are using CopyOnWriteArrayList
                 boolean removed = this.listeners.remove(currentListener);
                 if (logger.isDebugEnabled())
                     logger.debug("Removed service registry listener " + listener + ": " + removed);
