@@ -15,8 +15,6 @@
 package org.impalaframework.spring.service.exporter;
 
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -30,6 +28,7 @@ import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
+import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -64,7 +63,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
         
-        expect(beanFactory.isSingleton("mybean")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("mybean")).andReturn(false);
         expect(endPoint.getExportName()).andReturn("anotherExportName");
         
         replay(beanFactory);
@@ -84,8 +83,8 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         expectFactoryBean();
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
-        
-        expect(beanFactory.isSingleton("mybean")).andReturn(true);
+
+        expect(beanFactory.containsBeanDefinition("mybean")).andReturn(false);
         expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);
@@ -103,7 +102,10 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
         
-        expect(beanFactory.isSingleton("mybean")).andReturn(false);
+        expect(beanFactory.containsBeanDefinition("mybean")).andReturn(true);
+        GenericBeanDefinition definition = new GenericBeanDefinition();
+        definition.setScope("prototype");
+        expect(beanFactory.getBeanDefinition("mybean")).andReturn(definition);
         
         replay(beanFactory);
         replay(parentBeanFactory);
@@ -122,7 +124,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         Object object = new Object();
         p.setModuleDefinition(new SimpleModuleDefinition("pluginName"));
 
-        expect(beanFactory.isSingleton("mybean")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("mybean")).andReturn(false);
         expect(endPoint.getExportName()).andReturn("mybean");
         
         replay(beanFactory);
@@ -142,7 +144,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         expectFactoryBean();
         expect(factoryBean.getObject()).andReturn("value");
         expect(factoryBean.isSingleton()).andReturn(true);
-        expect(beanFactory.isSingleton("mybean")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("mybean")).andReturn(false);
 
         //verify that if the object is a factory bean
         //then the registered object is the factoryBean.getObject()

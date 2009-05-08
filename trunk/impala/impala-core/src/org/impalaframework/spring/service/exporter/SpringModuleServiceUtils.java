@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceBeanReference;
@@ -32,6 +34,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class SpringModuleServiceUtils {
+
+    private static final Log logger = LogFactory.getLog(SpringModuleServiceUtils.class);
     
     static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
 
@@ -69,7 +73,9 @@ public abstract class SpringModuleServiceUtils {
                 BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
                 singleton = beanDefinition.isSingleton();
             } else {
-                System.err.println("No bean definition " + beanName);
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Cannot check whether bean definition " + beanName + " is singleton as it is not available as a top level bean");
+                }
             }
         }
         return singleton;

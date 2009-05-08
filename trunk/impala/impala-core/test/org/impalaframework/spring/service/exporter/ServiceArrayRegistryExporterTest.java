@@ -14,22 +14,22 @@
 
 package org.impalaframework.spring.service.exporter;
 
-import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.easymock.classextension.EasyMock.createMock;
+import static org.easymock.classextension.EasyMock.replay;
+import static org.easymock.classextension.EasyMock.verify;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
-import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.util.ClassUtils;
 
 public class ServiceArrayRegistryExporterTest extends TestCase {
 
     private ServiceArrayRegistryExporter exporter;
     private DelegatingServiceRegistry registry;
-    private BeanFactory beanFactory;
+    private DefaultListableBeanFactory beanFactory;
     
     private String service1 = "myservice1";
     private String service2 = "myservice2";
@@ -41,7 +41,7 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         classes = new Class[]{String.class};
         exporter = new ServiceArrayRegistryExporter();
         registry = new DelegatingServiceRegistry();
-        beanFactory = createMock(BeanFactory.class);
+        beanFactory = createMock(DefaultListableBeanFactory.class);
         exporter.setBeanFactory(beanFactory);
         exporter.setModuleDefinition(new SimpleModuleDefinition("module1"));
         exporter.setServiceRegistry(registry);
@@ -51,9 +51,9 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
     public void testGetBean() throws Exception {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
 
-        expect(beanFactory.isSingleton("myBean1")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("myBean1")).andReturn(false);
         expect(beanFactory.getBean("myBean1")).andReturn(service1);
-        expect(beanFactory.isSingleton("myBean2")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("myBean2")).andReturn(false);
         expect(beanFactory.getBean("myBean2")).andReturn(service2);
         
         replay(beanFactory);
@@ -72,9 +72,9 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
         exporter.setExportNames(new String[]{"myExport1","myExport2"});
 
-        expect(beanFactory.isSingleton("myBean1")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("myBean1")).andReturn(false);
         expect(beanFactory.getBean("myBean1")).andReturn(service1);
-        expect(beanFactory.isSingleton("myBean2")).andReturn(true);
+        expect(beanFactory.containsBeanDefinition("myBean2")).andReturn(false);
         expect(beanFactory.getBean("myBean2")).andReturn(service2);
         
         replay(beanFactory);
