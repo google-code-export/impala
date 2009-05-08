@@ -63,7 +63,8 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		return bean;
 	}
 	
-	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {		
+	public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {	
+	    
 		String moduleName = moduleName();
 		
 		//add check so that we don't try to add bean and factory bean
