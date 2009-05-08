@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/service http://www.impalaframework.org/schema/impala-service.xsd">
 
     <service:auto-export/>
-    
+     
     <bean id="entryDAO"
         class="classes.EntryDAOImpl">
         <property name="sessionFactory" ref="sessionFactory" />
@@ -20,7 +20,11 @@ http://www.impalaframework.org/schema/service http://www.impalaframework.org/sch
     
     <bean id="namedMessageService" 
         class="classes.MessageServiceImpl">
-        <property name="message" value="Hi Phil - a named message" />
+        <property name="message">
+        	<bean class="org.impalaframework.spring.bean.StringFactoryBean">
+        		<property name="value" value="Hi Phil - a typed message" />
+        	</bean>
+        </property>
     </bean>
     
     <bean id="prototypeMessageService" 
