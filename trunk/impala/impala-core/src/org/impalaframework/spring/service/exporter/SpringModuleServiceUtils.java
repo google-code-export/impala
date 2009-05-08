@@ -23,6 +23,8 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.util.Assert;
 
 /**
@@ -58,7 +60,17 @@ public abstract class SpringModuleServiceUtils {
         }
         
         if (singleton) {
-            singleton = beanFactory.isSingleton(beanName);
+            BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+            
+            //we're only interested in top level definitions
+            //inner beans won't appear here, so 
+            boolean containsBeanDefinition = registry.containsBeanDefinition(beanName);
+            if (containsBeanDefinition) {
+                BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
+                singleton = beanDefinition.isSingleton();
+            } else {
+                System.err.println("No bean definition " + beanName);
+            }
         }
         return singleton;
     }
