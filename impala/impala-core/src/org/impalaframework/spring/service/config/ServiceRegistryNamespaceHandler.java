@@ -58,6 +58,11 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         protected Class<?> getBeanClass(Element element) {
             return ServiceRegistryExporter.class;
         }
+
+        @Override
+        protected boolean shouldGenerateIdAsFallback() {
+            return true;
+        }
     }
     
     static class ImportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
