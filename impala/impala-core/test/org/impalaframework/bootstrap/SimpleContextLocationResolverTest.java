@@ -25,6 +25,17 @@ public class SimpleContextLocationResolverTest extends TestCase {
         configSettings = new ConfigurationSettings();
     }
 
+    public void testAddNoProxyProperties() {
+        resolver.addProxyProperties(configSettings, propertySource);
+        assertLocations();
+    }
+
+    public void testAddProxyProperties() {
+        properties.setProperty("proxy.allow.no.service", "true");
+        resolver.addProxyProperties(configSettings, propertySource);
+        assertLocations();
+    }
+
     public void testDefaultExplicitlySetLocations() {
         assertFalse(resolver.explicitlySetLocations(configSettings, propertySource));
         assertLocations();
