@@ -138,6 +138,7 @@ import org.impalaframework.spring.module.registry.RegistryContributorTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
+import org.impalaframework.spring.service.config.ServiceRegistryNamespaceHandlerTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryListTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMapTest;
 import org.impalaframework.spring.service.exporter.AutoRegisteringModuleContributionExporterTest;
@@ -296,6 +297,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ServiceRegistryListTest.class);
         suite.addTestSuite(ServiceRegistryMapTest.class);
         suite.addTestSuite(ServiceRegistryMonitorTest.class);
+        suite.addTestSuite(ServiceRegistryNamespaceHandlerTest.class);
         suite.addTestSuite(SharedClassLoaderFactoryTest.class);
         suite.addTestSuite(SimpleContextLocationResolverTest.class);
         suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);
