@@ -73,8 +73,6 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
          * </pre>
          */
         
-        //FIXME test this method
-        
         @Override
         protected Class<?> getBeanClass(Element element) {
             if (hasAttribute(element, "filterExpression")) {
