@@ -15,6 +15,7 @@
 package org.impalaframework.bootstrap;
 
 import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.IntPropertyValue;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StringPropertyValue;
 import org.impalaframework.constants.LocationConstants;
@@ -39,9 +40,10 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
     public final boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
         
         logStandaloneProperties(configSettings, propertySource);
-        
+
         if (!explicitlySetLocations(configSettings, propertySource)) {
-        
+            
+            addProxyProperties(configSettings, propertySource);
             addCustomLocations(configSettings, propertySource);
             
             explicitlyAddLocations(configSettings, propertySource);
@@ -50,6 +52,20 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
         } else {
             return true;
         }
+    }
+
+    protected void addProxyProperties(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
+        
+        BooleanPropertyValue proxyAllowNoService = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PROXY_ALLOW_NO_SERVICE, CoreBootstrapProperties.PROXY_ALLOW_NO_SERVICE_DEFAULT);
+        BooleanPropertyValue proxySetContextClassLoader = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PROXY_SET_CONTEXT_CLASSLOADER, CoreBootstrapProperties.PROXY_SET_CONTEXT_CLASSLOADER_DEFAULT);
+        IntPropertyValue proxyRetryCount = new IntPropertyValue(propertySource, CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_COUNT, CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_COUNT_DEFAULT);
+        IntPropertyValue proxyRetryInterval = new IntPropertyValue(propertySource, CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL, CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL_DEFAULT);
+        
+        configSettings.addProperty(CoreBootstrapProperties.PROXY_ALLOW_NO_SERVICE, proxyAllowNoService);
+        configSettings.addProperty(CoreBootstrapProperties.PROXY_SET_CONTEXT_CLASSLOADER, proxySetContextClassLoader);
+        configSettings.addProperty(CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_COUNT, proxyRetryCount);
+        configSettings.addProperty(CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL, proxyRetryInterval);
     }
 
     protected void addCustomLocations(ConfigurationSettings configSettings,
