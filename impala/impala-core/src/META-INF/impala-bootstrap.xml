@@ -292,7 +292,33 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
- <bean id="proxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator"/>
+ <bean id="proxyAllowNoService" parent = "propertyParent">
+     <property name="name" value="proxy.allow.no.service"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.PROXY_ALLOW_NO_SERVICE_DEFAULT]"/>
+ </bean> 
+ 
+ <bean id="proxySetContextClassLoader" parent = "propertyParent">
+     <property name="name" value="proxy.set.context.classloader"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.PROXY_SET_CONTEXT_CLASSLOADER_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="proxyRetryCount" parent = "propertyParent">
+     <property name="name" value="proxy.missing.service.retry.count"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_COUNT_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="proxyRetryInterval" parent = "propertyParent">
+     <property name="name" value="proxy.missing.service.retry.interval"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL_DEFAULT]"/>
+ </bean>
+ 
+ 
+ <bean id="proxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator">
+     <property name="allowNoService" ref="proxyAllowNoService"/>
+     <property name="setContextClassLoader" ref="proxySetContextClassLoader"/>
+     <property name="retryCount" ref="proxyRetryCount"/>
+     <property name="retryInterval" ref="proxyRetryInterval"/>
+ </bean>
  
  <!-- ############## Simple modules support ############### --> 
  
