@@ -28,6 +28,9 @@ public interface CoreBootstrapProperties {
      */
     String EMBEDDED_MODE = "embedded.mode";
     
+    /**
+     * Default value for {@link #EMBEDDED_MODE} property
+     */
     boolean EMBEDDED_MODE_DEFAULT = false;
 
     /**
@@ -58,6 +61,9 @@ public interface CoreBootstrapProperties {
      */
     String GRAPH_BEAN_VISIBILITY_TYPE = "graph.bean.visibility.type";
     
+    /**
+     * Default value for {@link #GRAPH_BEAN_VISIBILITY_TYPE} property
+     */
     String GRAPH_BEAN_VISIBILITY_TYPE_DEFAULT = "graphOrdered";
     
     /**
@@ -86,4 +92,58 @@ public interface CoreBootstrapProperties {
      * then <code>mymodule</code> may be found in a jar file called <code></code>mymodule-1.1.jar</code>
      */
     String APPLICATION_VERSION = LocationConstants.APPLICATION_VERSION;
+    
+    /**
+     * Property which applies for creation of proxies.
+     * True if the interceptor should allow the call to proceed (with a dummy
+     * value returned) if no service is present. Primarily present for testing
+     * purposes. Defaults to false.
+     */
+    String PROXY_ALLOW_NO_SERVICE = "proxy.allow.no.service";
+    
+    /**
+     * Default value for {@link #PROXY_ALLOW_NO_SERVICE}
+     */
+    boolean PROXY_ALLOW_NO_SERVICE_DEFAULT = false;
+
+    /**
+     * Property which applies for creation of proxies.
+     * Whether to set the context class loader to the class loader of the module
+     * contributing the bean being invoked. This is to mitigate possibility of
+     * exceptions being caused by calls to
+     * <code>Thread.setContextClassLoader()</code> being propagated across
+     * modules
+     */
+    String PROXY_SET_CONTEXT_CLASSLOADER = "proxy.set.context.classloader";
+    
+    /**
+     * Default value for {@link #PROXY_SET_CONTEXT_CLASSLOADER}
+     */
+    boolean PROXY_SET_CONTEXT_CLASSLOADER_DEFAULT = true;
+
+    /**
+     * Property which applies for creation of proxies.
+     * The number of times the interceptor should retry before giving up
+     * attempting to obtain a proxy. For example, if retryCount is set to three,
+     * Impala will try one initially, plus another three times, before giving up
+     * attempting to obtain the service reference.
+     */
+    String PROXY_MISSING_SERVICE_RETRY_COUNT = "proxy.missing.service.retry.count";
+    
+    /**
+     * Default value for {@link #PROXY_SERVICE_MISSING_RETRY_COUNT}
+     */
+    int PROXY_MISSING_SERVICE_RETRY_COUNT_DEFAULT = 0;
+
+    /**
+     * Property which applies for creation of proxies.
+     * The amount of time in milliseconds between successive retries if
+     * {@link #retryCount} is greater than zero
+     */
+    String PROXY_MISSING_SERVICE_RETRY_INTERVAL = "proxy.missing.service.retry.interval";
+    
+    /**
+     * Default value for {@link #PROXY_SERVICE_MISSING_RETRY_INTERVAL}
+     */
+    int PROXY_MISSING_SERVICE_RETRY_INTERVAL_DEFAULT = 1000;
 }
