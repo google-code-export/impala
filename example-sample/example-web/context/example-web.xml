@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
-       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean name="/test.do" class="TestController">
         <property name = "entryService" ref = "entryService"/>
@@ -14,4 +12,5 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
           <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
           <property name="suffix" value=".jsp"/>
     </bean>
+    
 </beans>
