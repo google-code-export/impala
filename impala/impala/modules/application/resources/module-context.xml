@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-@jspapi.version@.xsd">
 
-    <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+    <bean class = "org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor"/>
 
 	<bean id="messageService" class="@project.package.name@.@module.project.name@.MessageServiceImpl">
 		<property name = "message" value = "Hello World!"/>

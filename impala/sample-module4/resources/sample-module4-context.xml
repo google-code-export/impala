@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
   
- <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+ <bean class = "org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor"/>
     
  <bean name = "bean4" class = "classes.FileMonitorBean4"/>
  <import resource = "imported-context.xml"/>    
