@@ -5,7 +5,7 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
  
- <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+ <bean class = "org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor"/>
     
  <bean id="child" class="org.impalaframework.spring.module.impl.ChildBean"/>
 

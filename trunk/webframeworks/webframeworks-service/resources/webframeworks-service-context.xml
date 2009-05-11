@@ -6,7 +6,7 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
-    <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+    <bean class = "org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor"/>
 
     <bean id="messageService" class="classes.MessageServiceImpl">
         <property name = "message" value = "Hello World!"/>
