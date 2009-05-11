@@ -8,26 +8,16 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
     
- <bean id="entryDAO" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "interfaces.EntryDAO"/>
- </bean>
-    
- <bean id="entryService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "interfaces.EntryService"/>
- </bean>
+ <service:import id="entryDAO" exportName = "entryDAO" proxyTypes = "interfaces.EntryDAO"/>
+  
+ <service:import id="entryService" exportName = "entryService" proxyTypes = "interfaces.EntryService"/>
     
  <!-- an example of proxying a class -->
- <bean id="concreteService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "classes.ConcreteService"/>
- </bean>    
+ <service:import id="concreteService" exportName = "concreteService" proxyTypes = "classes.ConcreteService"/>
     
- <bean id="dataSource" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "javax.sql.DataSource"/>
- </bean>
+ <service:import id="dataSource" exportName = "dataSource" proxyTypes = "javax.sql.DataSource"/>
     
- <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "org.hibernate.SessionFactory"/>
- </bean>
+ <service:import id="sessionFactory" exportName = "sessionFactory" proxyTypes = "org.hibernate.SessionFactory"/>
     
  <!-- Transaction manager for a single Hibernate SessionFactory -->
  <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
