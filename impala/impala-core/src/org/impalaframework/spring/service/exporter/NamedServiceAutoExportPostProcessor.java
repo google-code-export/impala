@@ -14,8 +14,10 @@
 
 package org.impalaframework.spring.service.exporter;
 
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -56,6 +58,8 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 	private ClassLoader beanClassLoader;
 	
 	private Map<String, ServiceRegistryEntry> referenceMap = new IdentityHashMap<String, ServiceRegistryEntry>();
+	
+	private Set<String> beansEncountered = new HashSet<String>();
 
     /* *************** BeanPostProcessor methods ************** */
 	
@@ -68,9 +72,9 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		String moduleName = moduleName();
 		
 		//add check so that we don't try to add bean and factory bean
-		if (!referenceMap.containsKey(beanName)) {
+		if (!beansEncountered.contains(beanName) && !referenceMap.containsKey(beanName)) {
 		    
-		    if (SpringModuleServiceUtils.isSingleton(beanFactory, beanName, bean)) {
+		    if (SpringModuleServiceUtils.isSingleton(beanFactory, beanName)) {
 		
         		//only if there is a contribution end point corresponding with bean name do we register the service
         		NamedServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(beanFactory, beanName);
@@ -95,6 +99,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		    }
 		}
 		
+		beansEncountered.add(beanName);
 		return bean;
 	}
 	
