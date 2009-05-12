@@ -51,10 +51,8 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
     public void testGetBean() throws Exception {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
 
-        expect(beanFactory.containsBeanDefinition("myBean1")).andReturn(false);
-        expect(beanFactory.getBean("myBean1")).andReturn(service1);
-        expect(beanFactory.containsBeanDefinition("myBean2")).andReturn(false);
-        expect(beanFactory.getBean("myBean2")).andReturn(service2);
+        expectService1();
+        expectService2();
         
         replay(beanFactory);
         exporter.afterPropertiesSet();
@@ -72,10 +70,8 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.setBeanNames(new String[]{"myBean1","myBean2"});
         exporter.setExportNames(new String[]{"myExport1","myExport2"});
 
-        expect(beanFactory.containsBeanDefinition("myBean1")).andReturn(false);
-        expect(beanFactory.getBean("myBean1")).andReturn(service1);
-        expect(beanFactory.containsBeanDefinition("myBean2")).andReturn(false);
-        expect(beanFactory.getBean("myBean2")).andReturn(service2);
+        expectService1();
+        expectService2();
         
         replay(beanFactory);
         exporter.afterPropertiesSet();
@@ -87,6 +83,18 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         exporter.destroy();
         assertNull(registry.getService("myExport1", classes, false));
         assertNull(registry.getService("myExport2", classes, false));
+    }
+
+    private void expectService2() {
+        expect(beanFactory.containsBean("&myBean2")).andReturn(false);
+        expect(beanFactory.containsBeanDefinition("myBean2")).andReturn(false);
+        expect(beanFactory.getBean("myBean2")).andReturn(service2);
+    }
+
+    private void expectService1() {
+        expect(beanFactory.containsBean("&myBean1")).andReturn(false);
+        expect(beanFactory.containsBeanDefinition("myBean1")).andReturn(false);
+        expect(beanFactory.getBean("myBean1")).andReturn(service1);
     }
     
 }

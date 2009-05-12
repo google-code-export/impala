@@ -37,29 +37,40 @@ public abstract class SpringModuleServiceUtils {
 
     private static final Log logger = LogFactory.getLog(SpringModuleServiceUtils.class);
     
+    /**
+     * Returns instance of {@link StaticSpringServiceBeanReference} if bean is represented by a singleton
+     * and {@link SpringServiceBeanReference} if not.
+     * @see #isSingleton(BeanFactory, String)
+     */
     static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
 
         Object bean = beanFactory.getBean(beanName);
-        boolean singleton = isSingleton(beanFactory, beanName, bean);
+        boolean singleton = isSingleton(beanFactory, beanName);
         if (singleton) {
             return new StaticSpringServiceBeanReference(bean);
         }
         return new SpringServiceBeanReference(beanFactory, beanName);
     }
 
+    /**
+     * Checks that the bean with given name contained in the specified bean factory is a singleton.
+     * Will return true if bean represented by a bean registered under the scope <code>singletone</code>.
+     * If the bean is also a factory bean (see {@link FactoryBean}), then the {@link FactoryBean}
+     * instance also needs to be a singleton
+     * @return true if bean is singleton registered bean and, if applicable, a singleton {@link FactoryBean}.
+     */
     public static boolean isSingleton(
             BeanFactory beanFactory,
-            String beanName, 
-            Object bean) {
+            String beanName) {
 
         Assert.notNull(beanFactory, "beanFactory cannot be null");
         Assert.notNull(beanName, "beanName cannot be null");
-        Assert.notNull(bean, "bean cannot be null");
 
         boolean singleton = true;
-        
-        if (bean instanceof FactoryBean) {
-            FactoryBean factoryBean = (FactoryBean) bean;
+
+        boolean isBeanFactory = beanFactory.containsBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
+        if (isBeanFactory) {
+            FactoryBean factoryBean = (FactoryBean) beanFactory.getBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
             singleton = factoryBean.isSingleton();
         }
         
@@ -81,41 +92,70 @@ public abstract class SpringModuleServiceUtils {
         return singleton;
     }
 
+    /**
+     * If parent bean factory contains bean of the same name which is a {@link FactoryBean}
+     * implementing the {@link NamedServiceEndpoint} interface, then this instance will be returned.
+     * Otherwise, returns null.
+     * @param beanFactory the current bean's bean factory
+     * @param beanName the name of the bean to check
+     * @return {@link NamedServiceEndpoint} if present, otherwise null.
+     */
     static NamedServiceEndpoint findServiceEndpoint(
             BeanFactory beanFactory, String beanName) {
 
         NamedServiceEndpoint endpoint = null;
-        if (beanFactory instanceof HierarchicalBeanFactory) {
 
-            HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
-            BeanFactory parentBeanFactory = hierarchicalBeanFactory
-                    .getParentBeanFactory();
+        //continue looping until you find an endpoint or have no more parents to check through
+        while (beanFactory != null && endpoint == null) {
 
-            if (parentBeanFactory != null) {
+            if (beanFactory instanceof HierarchicalBeanFactory) {
 
-                String parentFactoryBeanName = "&" + beanName;
+                HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) beanFactory;
+                beanFactory = hierarchicalBeanFactory.getParentBeanFactory();
 
-                try {
+                endpoint = getEndpoint(beanFactory, beanName);
+            }
 
-                    if (parentBeanFactory.containsBean(parentFactoryBeanName)) {
-                        Object o = parentBeanFactory
-                                .getBean(parentFactoryBeanName);
-                        if (o instanceof NamedServiceEndpoint) {
-                            endpoint = (NamedServiceEndpoint) o;
-                        }
+        }
+        return endpoint;
+    }
+
+    /**
+     * Returns {@link NamedServiceEndpoint} from specified {@link BeanFactory} and bean name
+     * (qualified using the factory bean prefix &), assuming this exists.
+     */
+    private static NamedServiceEndpoint getEndpoint(BeanFactory beanFactory,
+            String beanName) {
+        
+        NamedServiceEndpoint endpoint = null;
+        if (beanFactory != null) {
+      
+            String parentFactoryBeanName = "&" + beanName;
+      
+            try {
+      
+                if (beanFactory.containsBean(parentFactoryBeanName)) {
+                    Object o = beanFactory.getBean(parentFactoryBeanName);
+                    if (o instanceof NamedServiceEndpoint) {
+                        endpoint = (NamedServiceEndpoint) o;
                     }
                 }
-                catch (BeanIsNotAFactoryException e) {
-                    // This is check is only present due to a bug in an early
-                    // 2.0
-                    // release, which was fixed certainly before 2.0.6
-                    // ordinarily, this exception will never be thrown
-                }
+            }
+            catch (BeanIsNotAFactoryException e) {
+                // This is check is only present due to a bug in an early
+                // 2.0
+                // release, which was fixed certainly before 2.0.6
+                // ordinarily, this exception will never be thrown
             }
         }
         return endpoint;
     }
 
+    /**
+     * Recursive method to return the root bean factory for the current bean factory.
+     * Relies on children {@link BeanFactory}s implementing the {@link HierarchicalBeanFactory}
+     * interface
+     */
     static BeanFactory getRootBeanFactory(BeanFactory beanFactory) {
 
         if (!(beanFactory instanceof HierarchicalBeanFactory)) {
