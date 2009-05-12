@@ -14,11 +14,12 @@
 
 package org.impalaframework.spring.service.config;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.classextension.EasyMock.*;
 
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.w3c.dom.Element;
 
 import junit.framework.TestCase;
@@ -27,22 +28,27 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
     
     private ServiceRegistryNamespaceHandler.ImportBeanDefinitionParser importParser;
     private Element element;
-
+    private BeanDefinitionBuilder builder;
+    
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         importParser = new ServiceRegistryNamespaceHandler.ImportBeanDefinitionParser();
         element = createMock(Element.class);
+        builder = createMock(BeanDefinitionBuilder.class);
     }
 
     public void testNoAttributes() throws Exception {
         
-        expectAttribute("proxyTypes", null);
+        expectAttribute("proxyTypes", "mytypes");
         expectAttribute("exportTypes", null);
         expectAttribute("exportName", null);
         expectAttribute("filterExpression", null);
+        expectAttribute("id", "myid");
+        
+        expect(builder.addPropertyValue("exportName", "myid")).andReturn(builder);
 
-        failWith("Either 'exportTypes', 'filterExpression' or 'exportName' must be specified, in Impala 'service' namespace, 'import' element");
+        process();
     }
     
     public void testExportNameWithNoProxyTypes() throws Exception {
@@ -121,9 +127,10 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
     }
 
     public void testClassnameForTypesOnly() throws Exception {
-        
+
         expectAttribute("exportName", null);
         expectAttribute("filterExpression", null);
+        expectAttribute("exportTypes", "mytype");
 
         classNameFor(TypedServiceProxyFactoryBean.class);     
     }
@@ -135,8 +142,10 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
     }
 
     private void process() {
+        replay(builder);
         replay(element);
-        importParser.postProcess(null, element);
+        importParser.postProcess(builder, element);
+        verify(builder);
         verify(element);
     }
 
