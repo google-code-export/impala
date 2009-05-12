@@ -7,23 +7,13 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
-  
- <!-- Database and Hibernate -->
+
+ <service:import id = "dataSource" proxyTypes = "javax.sql.DataSource"/>
     
- <bean id="dataSource" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "javax.sql.DataSource"/>
- </bean>
+ <service:import id = "sessionFactory" proxyTypes = "org.hibernate.SessionFactory"/> 
     
- <bean id="sessionFactory" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "org.hibernate.SessionFactory"/>
- </bean>
+ <service:import id = "transactionManager" proxyTypes = "org.springframework.transaction.PlatformTransactionManager"/>  
     
- <bean id="transactionManager" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "org.springframework.transaction.PlatformTransactionManager"/>
- </bean>
-    
- <bean id="clinic" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-     <property name = "proxyTypes" value = "org.springframework.samples.petclinic.Clinic"/>
- </bean>        
+ <service:import id = "clinic" proxyTypes = "org.springframework.samples.petclinic.Clinic"/>
     
 </beans>
