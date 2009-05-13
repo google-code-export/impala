@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
        xsi:schemaLocation="
-http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-@jspapi.version@.xsd">
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
+    <!-- Export beans by name as a comma-separated list -->
     <service:export-array beanNames="messageService"/>
     
-    
+    <!-- Or alternatively add an entry for each bean you want to export 
+    <service:export beanName="messageService"/>    
+    -->
 
 	<bean id="messageService" class="@project.package.name@.@module.project.name@.MessageServiceImpl">
 		<property name = "message" value = "Hello World!"/>
