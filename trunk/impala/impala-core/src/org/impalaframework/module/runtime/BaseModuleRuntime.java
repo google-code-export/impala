@@ -49,7 +49,16 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         
         try {
             beforeModuleLoads(definition);
-            final RuntimeModule runtimeModule = doLoadModule(definition);
+            
+            RuntimeModule runtimeModule;
+            try {
+                runtimeModule = doLoadModule(definition);
+            }
+            catch (RuntimeException e) {
+                classLoaderRegistry.removeClassLoader(definition.getName());
+                throw e;
+            }
+            
             Assert.notNull(classLoaderRegistry);
             
             final String moduleName = definition.getName();

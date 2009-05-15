@@ -94,6 +94,33 @@ public class BaseModuleRuntimeTest extends TestCase {
         verify(definition1, monitor, moduleLocationResolver);
     }
     
+    public void testFail() throws Exception {
+        
+        moduleRuntime = new TestModuleRuntime() {
+
+            @Override
+            protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+                throw new RuntimeException();
+            }
+            
+        };
+        moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
+        
+        expect(definition1.getName()).andReturn("myName");
+        
+        replay(definition1, monitor, moduleLocationResolver);
+        
+        try {
+            moduleRuntime.loadRuntimeModule(definition1);
+            fail();
+        }
+        catch (RuntimeException e) {
+        }
+        assertNull(classLoaderRegistry.getClassLoader("myName"));
+        
+        verify(definition1, monitor, moduleLocationResolver);
+    }
+    
     public void testClose() throws Exception {
         
         expect(definition1.getName()).andReturn("myName");
