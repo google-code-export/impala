@@ -34,6 +34,8 @@ import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
@@ -148,8 +150,29 @@ public class ExternalModuleServletTest extends TestCase {
     }
     
     public void testInit() throws Exception {
+
         final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
         
+        BaseImpalaServlet servlet = getServlet(genericWebApplicationContext);
+        
+        doInitWebapplicationContextTest(genericWebApplicationContext, servlet);
+        assertTrue(servlet.getInvoker() instanceof ReadWriteLockingInvoker);
+    }
+    
+    public void testInitWithClassLoader() throws Exception {
+
+        final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
+        
+        BaseImpalaServlet servlet = getServlet(genericWebApplicationContext);
+        servlet.setSetThreadContextClassLoader(true);
+        
+        doInitWebapplicationContextTest(genericWebApplicationContext, servlet);
+        HttpServiceInvoker invoker = servlet.getInvoker();
+        assertTrue(invoker instanceof ReadWriteLockingInvoker);
+    }
+
+    private BaseImpalaServlet getServlet(
+            final GenericWebApplicationContext genericWebApplicationContext) {
         BaseImpalaServlet servlet = new BaseImpalaServlet() {
             
             private static final long serialVersionUID = 1L;
@@ -166,7 +189,12 @@ public class ExternalModuleServletTest extends TestCase {
             }
             
         };
-        
+        return servlet;
+    }
+
+    private void doInitWebapplicationContextTest(
+            final GenericWebApplicationContext genericWebApplicationContext,
+            BaseImpalaServlet servlet) {
         expect(servlet.getServletContext()).andReturn(servletContext);
         expect(servletConfig.getServletName()).andReturn("servletName");
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
