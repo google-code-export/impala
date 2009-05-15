@@ -23,12 +23,10 @@
         <servlet-name>example-servlet1</servlet-name>
         <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
-        <!-- 
         <init-param>
         	<param-name>setThreadContextClassLoader</param-name>
         	<param-value>true</param-value>
         </init-param>
-         -->
     </servlet>
     <servlet-mapping>
         <servlet-name>example-servlet1</servlet-name>

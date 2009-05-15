@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.module.spi.FrameworkLockHolder;
+import org.springframework.web.context.WebApplicationContext;
 
 public class ServletInvokerUtils {
     
@@ -52,6 +54,26 @@ public class ServletInvokerUtils {
             logger.warn("invoke called with target " + (target != null ) + " which is not an instance of " + HttpServiceInvoker.class.getSimpleName() + ", " +
                     HttpServlet.class.getSimpleName() + " or " + Filter.class.getName());
         }
+        
+    }
+
+    public static ReadWriteLockingInvoker getHttpServiceInvoker(
+            HttpServlet delegateServlet, 
+            WebApplicationContext wac,
+            FrameworkLockHolder frameworkLockHolder, 
+            boolean setThreadContextClassLoader) {
+        
+        Object toWrap = null;
+        
+        if (setThreadContextClassLoader) {
+            ClassLoader moduleClassLoader = wac.getClassLoader();
+            ThreadContextClassLoaderHttpServiceInvoker classLoaderInvoker 
+                    = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, true, moduleClassLoader);
+            toWrap = classLoaderInvoker;
+        } else {
+            toWrap = delegateServlet;
+        }
+        return new ReadWriteLockingInvoker(toWrap, frameworkLockHolder);
         
     }
 }

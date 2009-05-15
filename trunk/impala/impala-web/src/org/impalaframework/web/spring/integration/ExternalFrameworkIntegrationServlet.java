@@ -26,8 +26,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
-import org.impalaframework.web.servlet.invoker.ReadWriteLockingInvoker;
-import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ServletInvokerUtils;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -46,8 +45,12 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
     private static final long serialVersionUID = 1L;
     
-    //FIXME Issue 184 - should expose configuration to determine whether this should be set
-    private boolean setClassLoader = true;
+    //FIXME Issue 184 - should expose configuration to determine whether this should be set 
+    /**
+     * Whether to set the thread context class loader to that of the class loader 
+     * of the module. By default this is true.
+     */
+    private boolean setThreadContextClassLoader = true;
 
     private HttpServiceInvoker invoker;
     private FrameworkServletContextCreator frameworkContextCreator;
@@ -86,20 +89,21 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
             if (delegateServlet == null) {
                 throw new ConfigurationException("No Servlet registered under name " + delegateServletBeanName);
             }
-            
-            //get current class loader and make ThreadContextClassLoaderHttpServiceInvoker aware of it
-            ClassLoader moduleClassLoader = wac.getClassLoader();
-            ThreadContextClassLoaderHttpServiceInvoker threadContextClassLoaderInvoker 
-                = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setClassLoader, moduleClassLoader);
-        
-            //wrap invoker with ReadWriteLockingInvoker so each request gets executed within of read lock
-            this.invoker = new ReadWriteLockingInvoker(threadContextClassLoaderInvoker, frameworkLockHolder);
+            this.invoker = getInvoker(wac, delegateServlet, this.frameworkLockHolder, this.setThreadContextClassLoader);
             return wac;
             
         }
         finally {
             this.frameworkLockHolder.writeUnlock();
         }
+    }
+
+    protected HttpServiceInvoker getInvoker(WebApplicationContext wac,
+            HttpServlet delegateServlet,
+            FrameworkLockHolder frameworkLockHolder,
+            boolean setThreadContextClassLoader) {
+        
+        return ServletInvokerUtils.getHttpServiceInvoker(delegateServlet, wac, frameworkLockHolder, setThreadContextClassLoader);
     }
     
     @Override
@@ -131,5 +135,13 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
      */
     public void setDelegateServletBeanName(String delegateServletBean) {
         this.delegateServletBeanName = delegateServletBean;
+    }
+    
+    /**
+     * Sets whether to set the thread context class loader to that of the class loader 
+     * of the module.
+     */
+    public void setSetThreadContextClassLoader(boolean setThreadContextClassLoader) {
+        this.setThreadContextClassLoader = setThreadContextClassLoader;
     }
 }
