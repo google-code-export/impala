@@ -4,6 +4,10 @@ The following is the set of release steps which need to be followed as part of r
 
 == In Eclipse ==
 
+=== Get samples up to date ===
+
+Run `ant tohome`, then `ant fetch` from relevant projects.
+
 === Run Eclipse tests ===
 
 Run `AllTests` for Impala, Example and Petclinic applications, as JUnit test.
