@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <!-- ############## Path mapper definitions ############### -->
+ 
+ <bean id="webModulePrefix" parent = "propertyParent">
+     <property name="name" value="web.module.prefix"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.WEB_MODULE_PREFIX]"/>
+ </bean>
+ 
+ <bean id="topLevelModuleSuffixes" parent = "propertyParent">
+     <property name="name" value="top.level.module.suffixes"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES]"/>
+ </bean>
+ 
+ <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.ServletPathRequestModuleMapper">
+     <property name = "prefix" ref = "webModulePrefix"/>
+ </bean>
+ 
+ <bean id="topLevelPathContainsModuleMapper" class="org.impalaframework.web.integration.TopLevelPathContainsModuleMapper">
+     <property name = "prefix" ref = "webModulePrefix"/>
+     <property name = "moduleNames" ref = "topLevelModuleSuffixes"/>
+ </bean>
+ 
+ <bean id="requestModuleMapper" class="org.impalaframework.web.integration.CompositeRequestModuleMapper">
+    <property name="requestModuleMappers">  
+        <list> 
+            <ref local = "servletPathRequestModuleMapper"/>
+            <ref local = "topLevelPathContainsModuleMapper"/>
+        </list>  
+    </property> 
+ </bean>
+ 
+</beans>

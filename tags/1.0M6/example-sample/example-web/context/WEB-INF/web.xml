@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	      version="2.4">
+    <listener>
+        <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
+    </listener>
+    
+    <!-- Connects with the Spring MVC framework servlet registered in module example-web -->
+    <servlet>
+        <servlet-name>example-web</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>example-web</servlet-name>
+        <url-pattern>*.do</url-pattern>
+    </servlet-mapping>
+    
+    <!-- This one connects with the Spring MVC framework servlet registered in module example-servlet1 -->
+    <servlet>
+        <servlet-name>example-servlet1</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+        <init-param>
+        	<param-name>setThreadContextClassLoader</param-name>
+        	<param-value>true</param-value>
+        </init-param>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>example-servlet1</servlet-name>
+        <url-pattern>*.do1</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Connects with the InternalModuleServlet in example-servlet2 and the InternalFrameworkIntegrationServlet in example-servlet3 -->
+    <servlet>
+        <servlet-name>example-redirector</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>example-</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>example-redirector</servlet-name>
+        <url-pattern>*.to</url-pattern>
+    </servlet-mapping>
+    
+    <!-- Connects with the delegateServlet registered in module example-servlet4 -->
+    <servlet>
+        <servlet-name>example-servlet4</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServlet</servlet-class>
+        <load-on-startup>4</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>example-servlet4</servlet-name>
+        <url-pattern>*.do4</url-pattern>
+    </servlet-mapping>
+</web-app>
