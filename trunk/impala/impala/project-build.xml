@@ -180,11 +180,10 @@
 		      <report todir="${test.results.dir}"
 	          format="frames"/>
 	    </junitreport>
-		
-        <fail message="Tests failed in project ${project.name}." if="test.failed" />
-	
+
 		<property name = "test.location" location = "${test.results.dir}/index.html"/>
-		<echo>Tests results available in ${test.location}</echo>
+        <fail message="Tests failed in project ${project.name}. Tests results available in ${test.location}" if="test.failed" />
+		
 	</target>
 	
 	<target name = "project:main" depends = "project:clean, project:repo, project:test"/>
