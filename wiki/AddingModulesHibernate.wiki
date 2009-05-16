@@ -2,8 +2,6 @@
 
 = Introduction =
 
-*Note*: this page applies to 1.0M4 and snapshot distributions after revision 2647
-
 The following are some manual steps you may want to follow to get Hibernate up and running once you have created a new Hibernate module.
 
 The steps are really just indicative. 

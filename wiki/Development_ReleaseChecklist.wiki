@@ -120,7 +120,7 @@ Run Tomcat as in Petclinic
 Check the following urls:
   * http://localhost:8080/example-web/test.do
   * http://localhost:8080/example-web/servlet1/test.do1
-  * http://localhost:8080/example-web/servlet2/test.do2
+  * http://localhost:8080/example-web/servlet2/test.to
   
 == Scaffold steps ==
 
