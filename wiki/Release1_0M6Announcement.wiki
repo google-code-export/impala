@@ -11,7 +11,9 @@ The headline improvements include the following.
   * Impala now supports exporting and importing services based on Spring beans which are not singletons or not created using non-singleton Factory beans. It does this in a way that is totally transparent to users of the services.
   * Impala now provides dynamic `java.util.List` and `java.util.Map` implementations, backed by beans imported from the service registry. 
 
-The 1.0M6 also introduces a number of improvements to make dynamic module reloading more robust, particularly when using the module _auto-reload_ feature.
+For more details on how to import from and export to the service registry, see ImportingAndExportingServices. 
+
+The 1.0M6 release also introduces a number of improvements to make dynamic module reloading more robust, particularly when using the module _auto-reload_ feature.
 The full list of issues covered for milestone 1.0M6 is here:  http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M6&can=1.
 
 Note that there are a number of package name and configuration changes in this release.
