@@ -1,8 +1,0 @@
-#hibernate from javax.transaction:jta:1.0.1B
-hibernate from jta:jta:1.0.1b
-hibernate from mysql:mysql-connector-java:5.1.6
-hibernate from antlr:antlr:2.7.6 source=false
-hibernate from commons-collections:commons-collections:2.1.1
-hibernate from dom4j:dom4j:1.6.1
-hibernate from net.sf.ehcache:ehcache:1.2.3
-hibernate from org.hibernate:hibernate:3.2.6.ga
