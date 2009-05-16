@@ -10,6 +10,38 @@ provides a number of XML elements which you can use in your Spring application c
 service registry. It also takes care of the details of setting up proxies to imported services. These proxies manage the dynamic interactions with the
 service registry, meaning that the complexity of these interactions is not imported into your application.
 
+In our examples, we will consider a bean contained in the exporting module:
+
+{{{
+<bean id="messageService" class="classes.MessageServiceImpl">
+    <property name="message" value="Hi Phil - a typed message"/>
+</bean>  
+}}}
+
+which will be exported and imported in various ways.
+
+----
+----
+
+== Adding the namespace headers ==
+
+Before using one of the `service` elements in your bean definition file, you will need to add the Impala service namespace declaration
+to the root element of the relevant Spring configuration files.
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
+}}}
+
+Note the entry `xmlns:service="http://www.impalaframework.org/schema/service"` declares the Impala service namespace, and the entry
+`http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd` associates
+this with a schema location.
+
 ----
 ----
 
@@ -28,6 +60,42 @@ add beans to the service registry which can be looked up by name, Java type, or 
 
 Beans of any Spring scope can be exported to the service registry. Additionally, beans backed by non-singleton
 `FactoryBeans` can be exported. In the case of non-singleton beans or `FactoryBeans`, the service registry will hold a reference to the underlying Spring context and bean name, allowing for on-demand lookup of the underlying service object.
+
+*Examples:*
+
+The following example exports the `messageService` bean using the service registry name `myNamedMessageService`. In other words,
+clients importing the service from the service registry will be able to do so using the attribute declaration `exportName="myNamedMessageService"`. 
+
+{{{
+<service:export 
+	beanName="messageService" 
+	exportName="myNamedMessageService" />    
+}}}
+
+The following will export the service using the same name as the bean name, i.e. `messageService`.
+
+{{{
+<service:export 
+	beanName="messageService"/>    
+}}}
+
+This example exports the service using the types `MessageService` and `MessageServiceImpl`. This will allow the service to looked up using
+these types (providing of course that these types are visible to the importing modules), using the `import` element.
+
+{{{
+<service:export 
+	beanName="messageService" 
+	exportTypes="interfaces.MessageService,classes.MessageServiceImpl" />
+}}}
+
+The following example exports the bean with the attribute `sender=phil`. Attributes are useful in allowing you to look up beans by `filterExpression`,
+and for defining filters for the 'list' and 'map' import elements.
+
+{{{	    
+<service:export 
+	beanName="messageService" 
+	attributes="sender=phil" /> 
+}}}
 
 ----
 
