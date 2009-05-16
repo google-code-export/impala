@@ -35,7 +35,7 @@
   * Impala Runtime Configuration
     * [ImpalaWebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
-  * [UsingServiceRegistry Using the Service Registry]
+  * [ImportingAndExportingServices Using the Service Registry]
   * [SpringBeanConfiguration Spring Bean Configuration]
   * [InteractiveTestRunner Interactive Test Runner]
   * [WebApplications Web applications]
