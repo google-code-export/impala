@@ -11,6 +11,7 @@ service registry. It also takes care of the details of setting up proxies to imp
 service registry, meaning that the complexity of these interactions is not imported into your application.
 
 ----
+----
 
 == Export elements ==
 
@@ -27,6 +28,8 @@ add beans to the service registry which can be looked up by name, Java type, or 
 
 Beans of any Spring scope can be exported to the service registry. Additionally, beans backed by non-singleton
 `FactoryBeans` can be exported. In the case of non-singleton beans or `FactoryBeans`, the service registry will hold a reference to the underlying Spring context and bean name, allowing for on-demand lookup of the underlying service object.
+
+----
 
 === 'export-array' element ===
 
