@@ -142,7 +142,9 @@ Upload _dist/impala-${project.version}.zip_ to [http://code.google.com/p/impala/
 
 == Sanity Check ==
 
-Download release and go through scaffold steps as defined in FirstSteps.
+Download the release. Check that the SHA1 checksum matches that of the pre-upload distribution file.
+
+Go through scaffold steps as defined in FirstSteps.
 
 == Maven steps ==
 
