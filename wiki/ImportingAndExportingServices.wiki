@@ -231,7 +231,10 @@ but the matched bean also has to have been explicitly registered using the expor
 
 Note that it is not possible to use `exportTypes` or `filterExpression` in combination with `exportName`. The idea is that the 
 `exportName` and `proxyTypes` attributes should provide a sufficiently narrow match to eliminate the necessity of also matching by
-`exportTypes`. 
+`exportTypes`.
+
+Note also that as of Impala 1.0M6 it is not possible to use the `filterExpression` attribute to import beans backed by non-singleton Spring beans
+or `FactoryBeans`.
 
 ----
 
@@ -249,6 +252,17 @@ non-singleton `FactoryBeans` are not supported. Impala will simply filter these 
 so that they will not be included in the list, even if they match using one or more of the
 other attributes.
 
+The example below creates a list backed by all beans which implement `MessageService` and are exported with the `sender` attribute specified.
+
+{{{
+<service:list id="messageServiceList" 
+	proxyTypes="interfaces.MessageService"
+	filterExpression="(sender=*)"/>
+}}}
+
+As with the `import` element, you can also limit the entries to explicit export types using the `exportTypes` attribute. If `exportTypes` is specified, then 
+`proxyTypes` is optional.
+
 ----
 
 === 'map' element ===
@@ -263,3 +277,15 @@ The following attributes apply:
 
 Note that, as with the `list` element, 
 Spring beans of non-singleton scope (e.g. `prototype`), or beans backed by non-singleton `FactoryBeans` are not supported. Impala will simply filter these beans out so that they will not be included.
+
+An example of the service registry map is shown below. Here, entries in the map must have been exported using the `sender` attribute.
+Note also that because the map key being is not the default, it must be explicitly specified. 
+
+{{{
+<service:map id="messageServiceMap" 
+	proxyTypes="interfaces.MessageService"
+	mapKey="sender"
+	filterExpression="(sender=*)"/>
+}}}
+
+In the example above, the value for the sender attribute is used as the key for each map entry.
