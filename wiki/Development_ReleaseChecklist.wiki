@@ -6,7 +6,7 @@ The following is the set of release steps which need to be followed as part of r
 
 === Run Eclipse tests ===
 
-Run `AllTests` for Impala, Entryorder and Petclinic applications, as JUnit test.
+Run `AllTests` for Impala, Example and Petclinic applications, as JUnit test.
 Run `EntryDAOTest` as JUnit test.
 Run `InProjectEntryDAOTest` as JUnit test.
 
