@@ -109,6 +109,12 @@ export name, it exports the bean using the current bean name as the export name.
 In this way, the `auto-export` element provides a very easy way to contribute an implementation for a service endpoint defined in a parent
 application context.
 
+The `auto-export` element does not have any parameters, simply looking as follows:
+
+{{{
+<service:auto-export/>
+}}}
+
 ----
 
 === 'export-array' element ===
@@ -119,6 +125,30 @@ Used to export an array of beans to the service registry. Beans will be exported
   
 Note that beans are not exported by any explicit type (as in the export `exportTypes` attributes), and not exported
 using any explicit filter. This means that when using this form of export, bean lookup will typically be using the `import` element with the `exportName` specified.
+
+An example is shown below, in the case below using separate export names for each of the exported beans.
+
+{{{
+<service:export-array beanNames="messageService1,messageService2" exportNames="myMessageService1,myMessageService2"/>
+}}}
+
+The example above is really just a convenient alternative to two individual `export` entries:
+
+{{{
+<service:export 
+	beanName="messageService1" 
+	exportName="myMessageService1" />  
+	
+<service:export 
+	beanName="messageService2" 
+	exportName="myMessageService2" />  
+}}}
+
+If the export names used in the service registry are the same as the bean names, then the following will do:
+
+{{{
+<service:export-array beanNames="messageService1,messageService2"/>
+}}}
 
 ----
 ----
