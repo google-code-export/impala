@@ -40,6 +40,8 @@ Used to export an array of beans to the service registry. Beans will be exported
 Note that beans are not exported by any explicit type (as in the export `exportTypes` attributes), and not exported
 using any explicit filter. This means that when using this form of export, bean lookup will typically be using the `import` element with the `exportName` specified.
 
+----
+
 === 'auto-export' element ===
 
 Used to automatically export beans to the service registry. It checks for the presence in beans in the parent (and dependent) application
@@ -50,6 +52,7 @@ export name, it exports the bean using the current bean name as the export name.
 In this way, the `auto-export` element provides a very easy way to contribute an implementation for a service endpoint defined in a parent
 application context.
 
+----
 ----
 
 == Import elements ==
@@ -72,6 +75,8 @@ The following attributes apply:
   * `exportTypes`: if both filterExpression and exportName are null, then used to look up service as a typed entry. Even if `filterExpression` or `exportName` is specified, then if `exportTypes` is present it is used to limit the candidate services to those which were exported using all of the specified set of export types. 
   * `proxyTypes`: must be present if exportTypes is not. If present, then the `proxyTypes` are used to create the proxy to the service which is passed to client users of the service. If not present, then the export types (from the `exportTypes` attribute) are also used as the proxy types.
 
+----
+
 === 'list' element ===
 
 Used to create a `java.util.List` which is backed by Impala service registry entries.
@@ -85,6 +90,8 @@ Note that Spring beans of non-singleton scope (e.g. `prototype`), or beans backe
 non-singleton `FactoryBeans` are not supported. Impala will simply filter these beans out 
 so that they will not be included in the list, even if they match using one or more of the
 other attributes.
+
+----
 
 === 'map' element ===
 
