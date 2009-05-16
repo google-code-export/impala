@@ -156,6 +156,14 @@ Follow the instructions on http://maven.apache.org/guides/mini/guide-central-rep
 Create issue at the following URL:
 http://jira.codehaus.org/secure/CreateIssue.jspa
 
+== Documentation Updates ==
+
+Now is a good time to make sure that documentation is up to date for the new release.
+Prepare any necessary release documentation.
+
 == Announcements ==
+
+Make new release the 'Featured' download, so that it appears on the project home page.
+Remove the 'Featured' tag from the previous release.
 
 TODO: Add list of sites/mailing lists to add announcement.
