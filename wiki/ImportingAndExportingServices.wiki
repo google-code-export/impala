@@ -70,9 +70,9 @@ The following attributes apply:
   * `exportTypes`: if both filterExpression and exportName are null, then used to look up service as a typed entry
 Even if filterExpression or exportName is specified, then if exportTypes is present it is used to limit the candidate services to 
 those which were exported using all of the specified set of export types. 
-  * `proxyTypes`: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service
-which is passed to client users of the service. If not present, then the export types (from the exportTypes attribute)
-are also used as the proxy types.
+  * `proxyTypes`: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service 
+  which is passed to client users of the service. If not present, then the export types (from the exportTypes attribute)
+  are also used as the proxy types.
 
 === 'list' element ===
 
@@ -83,9 +83,9 @@ The following attributes apply:
   * `exportTypes`: if exportTypes is present it is used to limit the candidate services to 
 those which were exported using all of the specified set of export types. 
   * `proxyTypes`: if present, then the proxyTypes are used to create the proxy to the service
-for each entry in the map. If not present, then the export types (from the exportTypes attribute)
-are also used as the proxy types. If neither is present, then Impala will attempt to create a
-CGLIB proxy of the class.
+  for each entry in the map. If not present, then the export types (from the exportTypes attribute)
+  are also used as the proxy types. If neither is present, then Impala will attempt to create a
+  CGLIB proxy of the class.
 
 Note that Spring beans of non-singleton scope (e.g. `prototype`), or beans backed by 
 non-singleton `FactoryBeans` are not supported. Impala will simply filter these beans out 
