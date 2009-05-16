@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    
+    <bean id="configurer"
+        class="org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurer">
+        <property name="fileLocations">
+            <list>
+                <value>externalconfig/configurer1.properties</value>
+                <value>externalconfig/configurer2.properties</value>
+                <value>externalconfig/configurer3.properties</value>
+                <value>externalconfig/configurer4.properties</value>
+                <value>classpath:externalconfig/configurer5.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id = "bean10" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean10}"/>
+    </bean>
+    
+    <bean id = "bean11" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean11}"/>
+    </bean>
+    
+    <bean id = "bean20" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean20}"/>
+    </bean>
+    
+    <bean id = "bean21" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean21}"/>
+    </bean>
+    
+    <bean id = "bean22" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean22}"/>
+    </bean>
+    
+    <bean id = "bean30" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean30}"/>
+    </bean>
+    
+    <bean id = "bean40" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean40}"/>
+    </bean>
+    
+    <bean id = "bean50" class = "org.impalaframework.spring.bean.StringFactoryBean">
+        <property name="value" value = "${bean50}"/>
+    </bean>
+    
+</beans>

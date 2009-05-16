@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
+
+    <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean">
+        <property name = "filterName" value = "webframeworks-tapestry5"/>
+        <property name = "filterClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter"/>
+        <property name = "delegateFilter" ref = "delegateFilter"/>  
+        <property name = "initParameters">
+            <map>
+                <entry key="prefix" value = "/tapestry5"/>
+            </map>
+        </property>
+    </bean> 
+    
+    <bean id = "delegateFilter" class="tapestry5.Tapestry5FilterFactoryBean">
+        <property name = "filterName" value = "delegateFilter"/>
+        <property name = "filterClass" value = "org.apache.tapestry5.spring.TapestrySpringFilter"/>
+        <property name = "applicationPackage" value = "tapestry5.application"/>
+    </bean>
+    
+    <bean id = "messageHolder" class="tapestry5.application.MessageHolder">
+        <property name = "message" value = "Hello Phil"/>
+    </bean>
+    
+    <bean id="messageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+        <property name = "proxyTypes" value = "interfaces.MessageService"/>
+    </bean>
+</beans>

@@ -1,0 +1,5 @@
+configuration files:
+
+webspec.xml: contains module definitions
+web-locations/web-modules: contains list of bootstrap locations
+web-modules: also contains application version

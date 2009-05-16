@@ -1,0 +1,1 @@
+main from mysql:mysql-connector-java:5.0.5

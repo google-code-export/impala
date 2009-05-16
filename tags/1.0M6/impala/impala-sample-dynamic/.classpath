@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="output/bin" path="src"/>
+	<classpathentry kind="src" output="output/testbin" path="test"/>
+	<classpathentry kind="src" output="output/spring" path="resources"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-interactive"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
