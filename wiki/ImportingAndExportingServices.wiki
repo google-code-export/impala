@@ -39,6 +39,7 @@ Note that beans are not exported by any explicit type (as in the export `exportT
 using any explicit filter. This means that when using this form of export, bean lookup will typically be using the 
 `import` element with the `exportName` specified.
 
+
 === 'auto-export' element ===
 
 Used to automatically export beans to the service registry. It checks for the presence in beans in the parent (and dependent) application
