@@ -1,4 +1,4 @@
-#summary Importing from and exporting to Impala service registry
+#summary Importing services from and exporting services to Impala service registry
 
 Impala uses a service registry to share services (ordinarily, Spring beans) between modules. The service registry is a central registry
 shared by the whole application to which services can be dynamically added and removed. Clients of the service registry can look up services
