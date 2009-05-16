@@ -6,7 +6,7 @@ The following is the set of release steps which need to be followed as part of r
 
 === Get samples up to date ===
 
-Run `ant tohome`, then `ant fetch` from relevant projects.
+Run `ant tohome`, then `ant fetch` from relevant projects. This results in the latest Impala snapshot being populated. Check-in the updated Jar files.
 
 === Run Eclipse tests ===
 
