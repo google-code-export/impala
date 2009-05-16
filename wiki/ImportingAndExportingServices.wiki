@@ -169,10 +169,69 @@ registry. Second, by type, corresponding with types used to register a bean in t
 Third, by filter, in which case the service must have been exported using attributes which match the filter expression.
 
 The following attributes apply:
+  * `id`: used for the name of the bean. This is required so that the imported bean can be referenced by other beans.
   * `filterExpression`: if not null, then used to look up the service as an entry which matches the filter
   * `exportName`: if not null, and filterExpression is null, then used to look up service as a named entry
   * `exportTypes`: if both filterExpression and exportName are null, then used to look up service as a typed entry. Even if `filterExpression` or `exportName` is specified, then if `exportTypes` is present it is used to limit the candidate services to those which were exported using all of the specified set of export types. 
   * `proxyTypes`: must be present if exportTypes is not. If present, then the `proxyTypes` are used to create the proxy to the service which is passed to client users of the service. If not present, then the export types (from the `exportTypes` attribute) are also used as the proxy types.
+
+*Examples*
+
+The example below imports a bean exported using the `exportName` attribute with the value `namedMessageService`. The imported bean is stored in the
+current (client) application context with the bean name `messageService`. The underlying service is proxied using the `MessageService` interface.
+
+{{{
+<service:import id="namedMessageService" 
+	exportName="messageService"
+	proxyTypes="interfaces.MessageService"/>
+}}}
+
+The following example has the identical effect. Since neither the `exportTypes` or `filterExpression` attributes have been set
+the `exportName` is implicitly used, set to the same as the bean `id`.
+	
+{{{
+<service:import id="namedMessageService" proxyTypes="interfaces.MessageService"/>
+}}}
+ 
+The following example imports a bean explicitly exported using the type `interfaces.MessageService`. If more than one bean is found which
+satifies this condition, the bean with the highest `service.ranking` custom attribute is used. If the `service.ranking` attribute is not used
+for any candidate service, then the first service added to the service registry is returned.
+
+{{{  
+<service:import id="typedMessageService" exportTypes="interfaces.MessageService" proxyTypes = "interfaces.MessageService"/>
+}}}
+
+The above bean is also proxied using the interface `interfaces.MessageService`. However, if the `exportTypes` element is used,
+the `proxyTypes` element can be omitted. The following entry has the identical effect.
+
+{{{  
+<service:import id="typedMessageService" exportTypes="interfaces.MessageService"/>
+}}}
+
+The following example uses a filter expression to retrieve a bean from the service registry. The filter uses a
+[http://www.ietf.org/rfc/rfc1960.txt LDAP RFC 1960] expression to match against attributes specified using the `export` element's
+`attributes` attribute. In the example below, the filter will match entries to the service registry which are 
+exported with the custom attribute `sender` with a value of `phil`.
+
+{{{
+<service:import id="filteredMessageService" 
+	proxyTypes="interfaces.MessageService"
+	filterExpression="(sender=phil)"/>
+}}}
+
+In the example below, we are using the `proxyTypes` element to specify the proxy interfaces or class. It is also possible to use
+specify `exportTypes` in combination with `filterExpression`. In the following example, the filter expression is applied,
+but the matched bean also has to have been explicitly registered using the export type `interfaces.MessageService`.
+
+{{{
+<service:import id="filteredMessageService" 
+	exportTypes="interfaces.MessageService"
+	filterExpression="(sender=phil)"/>
+}}}
+
+Note that it is not possible to use `exportTypes` or `filterExpression` in combination with `exportName`. The idea is that the 
+`exportName` and `proxyTypes` attributes should provide a sufficiently narrow match to eliminate the necessity of also matching by
+`exportTypes`. 
 
 ----
 
