@@ -8,7 +8,7 @@ The headline improvements include the following.
   * Service export and import can now be done not only by name but also by type or by custom attributes, the latter using a model similar to that used in OSGi.
   * Impala's mechanism for proxying services obtained from the service registry has improved, and is now more easily configurable.
   * It is now possible to export and import Impala services without having to specify an interface - proxying of the service implementation class is now also supported.
-  * Impala now supports exporting and importing services based on Spring beans which are not singletons or not created using non-singleton Factory beans. It does this in a way that is totally transparent to users of the services.
+  * Impala now supports exporting and importing services based on Spring beans which are not singletons or not created using non-singleton Factory beans. It does this in a way that is totally transparent to users of the services, effectively allowing clients to treat all beans as singletons.
   * Impala now provides dynamic `java.util.List` and `java.util.Map` implementations, backed by beans imported from the service registry. 
 
 For more details on how to import from and export to the service registry, see ImportingAndExportingServices. 
