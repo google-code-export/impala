@@ -30,12 +30,13 @@
   * [BestPractices Best practices]
   * [Solutions Real world solutions]
   * Module Configuration
-    * [ModuleStructure Module Structure]
-    * [ModuleConfiguration Module Configuration]
+    * [ModuleStructure Module structure]
+    * [ModuleConfiguration Module configuration]
   * Impala Runtime Configuration
-    * [ImpalaWebConfiguration Web Configuration]
-    * [ImpalaConfiguration Impala Configuration]
-  * [ImportingAndExportingServices Using the Service Registry]
+    * [ImpalaWebConfiguration Web configuration]
+    * [ImpalaConfiguration Impala configuration]
+    * [PropertyConfiguration Impala properties]
+  * [ImportingAndExportingServices Using the service registry]
   * [InteractiveTestRunner Interactive Test Runner]
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
