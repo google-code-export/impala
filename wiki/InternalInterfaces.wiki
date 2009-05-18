@@ -13,17 +13,17 @@ Note that these interfaces are provisional and may still be changed prior to the
 
 TO BE ADDED
 
-=== ServiceRegistry ===
+=== `ServiceRegistry` ===
 
-=== ServiceRegistryEntry ===
+=== `ServiceRegistryEntry` ===
 
-=== ServiceBeanReference ===
+=== `ServiceBeanReference` ===
 
-=== ServiceRegistryEventListener ===
+=== `ServiceRegistryEventListener` ===
 
-=== ServiceEndpoint ===
+=== `ServiceEndpoint` ===
 
-=== NamedServiceEndpoint ===
+=== `NamedServiceEndpoint` ===
 
 TO BE ADDED
 
