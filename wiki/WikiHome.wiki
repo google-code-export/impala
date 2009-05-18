@@ -27,8 +27,7 @@
     
 === User Documentation ===
 
-
-Configuration
+==== Configuration ==== 
   * [ModuleStructure Module structure]
   * [ModuleConfiguration Module configuration]
   * [ImpalaConfiguration Impala configuration]
@@ -37,15 +36,15 @@ Configuration
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
 
-Testing
+==== Testing ==== 
   * [InteractiveTestRunner Interactive Test Runner]
 
-Web
+==== Web ==== 
   * [WebApplications Web applications]
   * [PropertyConfiguration Impala properties]
   * [ImpalaWebConfiguration Web configuration]
     
-Geneal Pages
+==== General Pages ==== 
   * [BestPractices Best practices]
   * [Solutions Real world solutions]
   * [Compatibility Non-backward compatible changes across versions]
