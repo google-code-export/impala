@@ -23,39 +23,39 @@ A file which is contained in practically every web application is the _web.xml_ 
 
 {{{
 <web-app>
-	
-	<display-name>Enter display name here</display-name>
+    
+    <display-name>Enter display name here</display-name>
 
-	<description>Enter description here</description>
-	
-	<context-param>
-		<param-name>contextLoaderClassName</param-name>
-		<param-value>org.impalaframework.web.spring.loader.ExternalModuleContextLoader</param-value>
-	</context-param>
+    <description>Enter description here</description>
+    
+    <context-param>
+        <param-name>contextLoaderClassName</param-name>
+        <param-value>org.impalaframework.web.spring.loader.ExternalModuleContextLoader</param-value>
+    </context-param>
 
-	<listener>
-		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
-	</listener>
-	
-	<servlet>
-		<servlet-name>myapp-web</servlet-name>
+    <listener>
+        <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>myapp-web</servlet-name>
         <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
-	</servlet>
+    </servlet>
 
-	<servlet-mapping>
-		<servlet-name>myapp-web</servlet-name>
-		<url-pattern>*.htm</url-pattern>
-	</servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>myapp-web</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
 
-	<session-config>
-		<session-timeout>10</session-timeout>
-	</session-config>
+    <session-config>
+        <session-timeout>10</session-timeout>
+    </session-config>
 
-	<welcome-file-list>
-		<welcome-file>index.jsp</welcome-file>
-	</welcome-file-list>
-	
+    <welcome-file-list>
+        <welcome-file>index.jsp</welcome-file>
+    </welcome-file-list>
+    
 </web-app>
 }}}
 
@@ -74,11 +74,11 @@ The recommended approach to creating modules is to use self contained modules. T
 
 {{{
 <parent>
-	<names>
-	myapp-main
-	myapp-module1
-	myapp-web
-	</names>
+    <names>
+    myapp-main
+    myapp-module1
+    myapp-web
+    </names>
 </parent>
 }}}
 
@@ -94,19 +94,19 @@ Recall from the discussion in [GettingStartedPart2 part two] that the sample app
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
-	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+       xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
 
-	<bean name="/message.htm" class="com.application.web.MessageController">
-		<property name = "messageService" ref = "messageService"/>
-	</bean>	
-	<bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
-	<bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		  <property name="suffix" value=".jsp"/>
-	</bean>
+    <bean name="/message.htm" class="com.application.web.MessageController">
+        <property name = "messageService" ref = "messageService"/>
+    </bean>    
+    <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+          <property name="suffix" value=".jsp"/>
+    </bean>
 </beans>
 }}}
 
@@ -129,20 +129,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 public class MessageController  implements Controller {
-	private MessageService messageService;
+    private MessageService messageService;
 
-	public void setMessageService(MessageService messageService) {
-		this.messageService = messageService;
-	}
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
-	public ModelAndView handleRequest(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("message", messageService.getMessage());
+    public ModelAndView handleRequest(HttpServletRequest arg0,
+            HttpServletResponse arg1) throws Exception {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("message", messageService.getMessage());
 
-		ModelAndView mav = new ModelAndView("test", map);
-		return mav;
-	}
+        ModelAndView mav = new ModelAndView("test", map);
+        return mav;
+    }
 }
 }}}
 
@@ -233,10 +233,10 @@ We'll understand this better when considering the `StartServer` class used to ru
 
 {{{
 public class StartServer {
-	public static void main(String[] args) {
-		System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
-		StartJetty.main(new String[]{"8080", "../myapp-web/context", "/web"});
-	}
+    public static void main(String[] args) {
+        System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
+        StartJetty.main(new String[]{"8080", "../myapp-web/context", "/web"});
+    }
 }
 }}}
 
