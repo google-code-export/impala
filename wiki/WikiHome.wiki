@@ -45,6 +45,7 @@
   * [ImpalaWebConfiguration Web configuration]
 
 ==== Advanced ====
+  * [InternalInterfaces Impala internal interfaces]
   * [ExtendingImpala Extending Impala]
     
 ==== General Pages ==== 
