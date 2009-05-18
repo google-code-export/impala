@@ -62,9 +62,7 @@ loading process, meaning that it will not interfere with module loading. It also
 to reload partially modified module jar files.
 
 Together with the use of the touch file, the temp file mechanism allows for a robust auto-reload
-mechanism. 
- 
-_(Note: this feature is coming with 1.0 M6)_.
+mechanism.
 
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
 across modules. This makes it possible to set attributes and make resources
