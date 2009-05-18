@@ -12,8 +12,6 @@ be used to determine which Impala application context XML files to include will 
 the truth. Note that if the value does not end in _.xml_, the it is assumed to take the form _impala-suppliedname.xml_. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapContexts for more details on how these context locations are used.
 
-*bootstrapLocations*: An alias for `all.locations`.
-
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
 otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapContexts for more details on how these context locations are used.
@@ -29,6 +27,7 @@ _parentFirst_ and _parentOnly_.
 before examining the module class path. The default is _true_.
 
 ----
+
 === Web Properties ===
 
 The following properties are relevant when running Impala as a web application.
