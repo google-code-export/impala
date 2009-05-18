@@ -35,13 +35,10 @@ _parentFirst_ and _parentOnly_.
 before examining the module class path. The default is _true_.
 
 ----
-----
 
 === Web Properties ===
 
 The following properties are relevant when running Impala as a web application.
-
-----
 
 ==== 'auto-reload' properties ====
 
