@@ -9,7 +9,7 @@ As background for this discussion, it is helpful to bear in mind the processes a
 
 Note that these interfaces are provisional and may still be changed prior to the final 1.0 release.
 
-== Service Interfaces ==
+== Service Registry Interfaces ==
 
 TO BE ADDED
 
