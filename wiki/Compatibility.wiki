@@ -13,3 +13,4 @@ This is not a change log. See the per milestone bug list for changes applying fo
 
 [Compatibility_1_0M5 Incompatible changes from 1.0M4 to 1.0M5]
 
+[Compatibility_1_0M6 Incompatible changes from 1.0M5 to 1.0M6]
