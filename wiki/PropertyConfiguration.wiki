@@ -7,6 +7,8 @@ but which can also be set using system properties, and in web applications, usin
 
 The following properties are relevant for both standalone and web Impala runtime environments.
 
+----
+
 ==== Spring context location properties ====
 
 *all.locations	*: A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
@@ -33,10 +35,13 @@ _parentFirst_ and _parentOnly_.
 before examining the module class path. The default is _true_.
 
 ----
+----
 
 === Web Properties ===
 
 The following properties are relevant when running Impala as a web application.
+
+----
 
 ==== 'auto-reload' properties ====
 
