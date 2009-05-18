@@ -22,6 +22,20 @@ _impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapCont
 
 ----
 
+==== Proxy properties ====
+
+*proxy.allow.no.service*: Property which applies for creation of proxies. True if the interceptor should allow the call to proceed (with a dummy value returned) if no service is present. Primarily present for testing purposes. Defaults to false.
+
+*proxy.set.context.classloader:* Property which applies for creation of proxies. Whether to set the context class loader to the class loader of the module which contributed the service bean being invoked. 
+
+Set this to `true` if you are using frameworks which are relying on the thread's context class loader being correctly set _after_ module loading has taken place. For example, if you have modules which are dynamically loading classes after the initial module load. Spring is pretty good at setting the context class loader correctly during an application context refresh. This property makes sure that it is set correctly after any subsequent invocation.
+
+*proxy.missing.service.retry.count:* Property which applies for creation of proxies. The number of times the interceptor should retry before giving up attempting to obtain a proxy. For example, if `proxy.missing.service.retry.count` is set to three, Impala will try one initially, plus another three times, before giving up attempting to obtain the service reference.
+
+*proxy.missing.service.retry.interval:* Property which applies for creation of proxies. The amount of time in milliseconds between successive retries if `proxy.missing.service.retry.count` is greater than zero.
+
+----
+
 ==== Classloader properties ====
 
 *classloader.type*: The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
