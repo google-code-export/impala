@@ -35,25 +35,29 @@ Here's the bean definition for the `messageService` bean.
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"       
 	   xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx 
-http://www.springframework.org/schema/tx/spring-tx-2.0.xsd">
-	
- <bean id="messageService" 
- 	class="org.impalaframework.spring.service.proxy.ContributionProxyFactoryBean">
-	 <property name = "proxyInterfaces" value = "com.application.main.MessageService"/>
- </bean>
+http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.impalaframework.org/schema/service 
+http://impala.googlecode.com/svn/schema/service-registry.xsd">
+
+ <service:import id="messageService" proxyTypes="com.application.main.MessageService"/>
 	
 </beans>
 }}}
 
-This is contained in the file _resources/parent-context.xml_ in the _myapp-main_ project. The bean is defined via the `ContributionProxyFactoryBean` class. Note that the proxy interfaces are defined as properties.
+This is contained in the file _resources/parent-context.xml_ in the _myapp-main_ project. 
 
-You're probably wondering why the name `ContributionProxyFactoryBean`. The name is because the implementations are not defined in the root module (technically they could be, although it probably wouldn't be good practice to), but are instead effectively contributed via additions to the Impala service registry.
+Note the use of the `service:import` bean definition. Here we are taking advantage of the `import` element from the Impala `service` namespace,
+which defines a number of ways for importing services from the Service registry. In our example above, a bean exported to the service registry 
+using the name `messageService` will be imported, provided that it implements the interface `com.application.main.MessageService`.
+
+For more details on how to import services from the service registry, see ImportingAndExportingServices.
 
 === Module Definition File ===
 
@@ -105,11 +109,24 @@ As you can imagine, the value for the message to be produced via the `getMessage
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service 
+http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
-    <bean class = "org.impalaframework.spring.service.exporter.ModuleContributionPostProcessor"/>
+    <!-- Export beans by name as a comma-separated list -->
+    <service:export-array beanNames="messageService"/>
+    
+    <!-- Or alternatively add an entry for each bean you want to export 
+    <service:export beanName="messageService"/>    
+    -->
+    
+    <!-- Or alternatively automatically export services whose bean name
+    matches endpoint bean name in parent application context 
+    <service:auto-export/>    
+    -->
 
 	<bean id="messageService" class="com.application.module1.MessageServiceImpl">
 		<property name = "message" value = "Hello World!"/>
@@ -118,11 +135,13 @@ http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 </beans>
 }}}
 
-*TODO* - section to be updated with release of Impala 1.0 M6.
+Note the use of `service:export-array`. This is one of the mechanisms for exporting beans from the current module to Impala service registry, in this
+case exporting an array of beans to the service registry. 
 
-Note the use of `ModuleContributionPostProcessor`. This class is one of the service registry export mechanisms. What it does in this case is looks for beans of the same name in parent application contexts which implement the `org.impalaframework.service.ContributionEndpoint`. For each of these, it will export the implementation bean to the service registry, with the expectation that it will be consumed from the service registry by the `ContributionEndpoint` implementation. This provides a simple mechanism for using a child application context to provide implementations for beans defined in a parent application context - a bean interface vs implementation mechanism.
+A number of alternatives are available: you can export beans individually using the `service:export` element.
+Alternatively, you can use the `auto-export` element. In this case, Impala looks for beans of the same name in parent application contexts which implement the `org.impalaframework.service.NamedServiceEndpoint`. For each of these, it will export the implementation bean to the service registry, with the expectation that it will be consumed from the service registry by the `ContributionEndpoint` implementation. This provides a simple mechanism for using a child application context to provide implementations for beans defined in a parent application context - a bean interface vs implementation mechanism.
 
-Of course, there is no need for a direct coupling between the `ContributionEndpoint` and the contributing bean - this is just one of the service export mechanisms available.
+For more details on the bean export mechanisms available see ImportingAndExportingServices.
 
 Finally, we show the _module.properties_ file for the child module.
 

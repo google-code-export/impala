@@ -118,7 +118,8 @@ scaffold:input-repository-project:
     [input] Please enter name of repository project: [repository]
 
 scaffold:input-project-prefix:
-    [input] Please enter the project name prefix: [myapp-]
+    [input] Please enter the project name prefix: []
+myapp-
 
 scaffold:input-base-package:
     [input] Please enter the base package to be used for application: [com.application]
