@@ -3,7 +3,7 @@
 The main migration tasks for users moving from Impala 1.0 M6 from earlier versions is to replace `ContributionProxyFactoryBean` and `ModuleContributionPostProcessor` with 
 their 1.0M6 replacements. While these classes will still work as before in 1.0 M6, they are now deprecated and slated for removal in future releases.
 
-== ContributionProxyFactoryBean ==
+== `ContributionProxyFactoryBean` ==
 
 This factory bean was formerly used to import beans from the Impala service registry and to create the proxy to them which can be used by other client beans.
 
@@ -34,7 +34,7 @@ However, with the availability of the new `service` namespace, you can now set t
 	exportName="myNamedMessageService"/>
 }}}
 
-== ModuleContributionPostProcessor ==
+== `ModuleContributionPostProcessor` ==
 
 Prior to 1.0 M6, `ModuleContributionPostProcessor` was used to automatically export beans which from the current module 
 which have parent modules which expose named service endpoints with the same name as the current module's bean name.
