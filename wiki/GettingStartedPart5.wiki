@@ -61,7 +61,7 @@ The ability to specify the download location in this way makes it easy to apply 
 If you've gone to the trouble of downloading the Impala distribution and setting up your `IMPALA_HOME` environment variable, it wouldn't be very helpful having to go onto the internet to download Impala jars. The quick start application features a simple command to retrieve Impala jars, and place them in the _main_ directory of your workspace's repository:
 
 {{{
-ant get
+ant fetch
 }}}
 
 == Main project build file ==
