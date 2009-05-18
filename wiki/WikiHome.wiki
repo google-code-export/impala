@@ -40,7 +40,7 @@
   * [InteractiveTestRunner Interactive Test Runner]
 
 ==== Web ==== 
-  * [WebApplications Web applications]
+  * [WebApplications Web applications with Impala]
   * [PropertyConfiguration Impala properties]
   * [ImpalaWebConfiguration Web configuration]
     
