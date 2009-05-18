@@ -21,6 +21,8 @@ In addition, Impala provides a number of features aimed at making Spring applica
 
 Impala is extremely well suited to test driven development. The interactive test runner provides a powerful mechanism for driving development through [http://impalablog.blogspot.com/2008/04/thoughts-on-integration-testing.html integration tests]. See [GettingStartedPart3 this page] for more details on Impala's test environment.
 
+Equally, integration tests can be run within the IDE or ANT, both individually and as part of a suite, without any additional setup.
+
 === How easy is it go get started with Impala? ===
 
 Very easy. By following the instructions in the [GettingStarted getting started tutorial] you can build and run a modular web application without having to edit a single line. All you need to do is run a few simple commands. 
