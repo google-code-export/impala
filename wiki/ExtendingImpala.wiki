@@ -1,0 +1,5 @@
+#summary Extending Impala
+
+TO BE ADDED
+
+Describe how to extend Impala.
