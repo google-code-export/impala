@@ -63,16 +63,16 @@ changes are detected. Default is `false`.
 
 *use.touch.file*: Whether to use a touch file to detect changes which could trigger a module reload.
 If true, then will only check files for modifications if a modification in the
-timestamp of the touch file is detected (coming with 1.0 M6).
+timestamp of the touch file is detected.
 
 *touch.file*: The touch file resource which will be monitored. If not present and `use.touch.file`
-is true, then `auto.reload.modules` is effectively turned off (coming with 1.0 M6).
+is true, then `auto.reload.modules` is effectively turned off.
 
 *auto.reload.check.interval*: The period in seconds between successive checks for modifications when 
-`auto.reload.modules` is used _(coming with 1.0 M6)_.
+`auto.reload.modules` is used.
 
 *auto.reload.check.delay*: The delay in seconds before the first check for modifications when
-`auto.reload.modules` is used _(coming with 1.0 M6)_.
+`auto.reload.modules` is used.
 
 *auto.reload.monitoring.type*: The strategy used for selecting files to monitor when 'auto.reload.modules'
 is used. The default value is `default` which entails simply monitoring the 
