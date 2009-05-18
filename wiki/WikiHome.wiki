@@ -36,7 +36,6 @@
     * [ImpalaWebConfiguration Web Configuration]
     * [ImpalaConfiguration Impala Configuration]
   * [ImportingAndExportingServices Using the Service Registry]
-  * [SpringBeanConfiguration Spring Bean Configuration]
   * [InteractiveTestRunner Interactive Test Runner]
   * [WebApplications Web applications]
   * [Compatibility Non-backward compatible changes across versions]
