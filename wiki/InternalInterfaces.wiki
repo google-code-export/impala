@@ -9,6 +9,24 @@ As background for this discussion, it is helpful to bear in mind the processes a
 
 Note that these interfaces are provisional and may still be changed prior to the final 1.0 release.
 
+== Service Interfaces ==
+
+TO BE ADDED
+
+=== ServiceRegistry ===
+
+=== ServiceRegistryEntry ===
+
+=== ServiceBeanReference ===
+
+=== ServiceRegistryEventListener ===
+
+=== ServiceEndpoint ===
+
+=== NamedServiceEndpoint ===
+
+TO BE ADDED
+
 == Module Interfaces ==
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/ModuleDefinition.java ModuleDefinition] ===
