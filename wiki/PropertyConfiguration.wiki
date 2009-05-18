@@ -7,6 +7,8 @@ but which can also be set using system properties, and in web applications, usin
 
 The following properties are relevant for both standalone and web Impala runtime environments.
 
+==== Spring context location properties ====
+
 *all.locations	*: A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
 be used to determine which Impala application context XML files to include will be ignored. The value set in this file is taken as
 the truth. Note that if the value does not end in _.xml_, the it is assumed to take the form _impala-suppliedname.xml_. In other words,
@@ -15,6 +17,10 @@ _impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapCont
 *extra.locations*: Used to add additional context locations. Use when you want simply want to add one more context locations to the set which would 
 otherwise be used. Note that if the value does not end in .xml, the it is assumed to take the form impala-suppliedname.xml. In other words,
 _impala-_ is used as a prefix, and _.xml_ is used as a suffix. See BootstrapContexts for more details on how these context locations are used.
+
+----
+
+==== Classloader properties ====
 
 *classloader.type*: The module management type to be used. Permissible values are _shared_, _hierarchical_ and _graph_. 
 The default value is _graph_.
@@ -31,6 +37,8 @@ before examining the module class path. The default is _true_.
 === Web Properties ===
 
 The following properties are relevant when running Impala as a web application.
+
+==== 'auto-reload' properties ====
 
 *auto.reload.modules*: Whether modules should be automatically reloaded if the file/directory
 containing the modules has modified. If true, a background thread will
@@ -64,6 +72,17 @@ to reload partially modified module jar files.
 Together with the use of the touch file, the temp file mechanism allows for a robust auto-reload
 mechanism.
 
+----
+
+==== Miscellaneous web properties ====
+
+*embedded.mode*: This property must be set to true if you want to run a web application
+embedded within the IDE, without any specific packaging required.
+Suitable for a fast develop/deploy/test cycle. The alternative involves
+creating a war file with modules placed in jars files in
+_WEB-INF/modules_. This is the default, and is the valid production
+setting.
+
 *partitioned.servlet.context*: Whether `ServletContext` attributes and resources should be partitioned
 across modules. This makes it possible to set attributes and make resources
 visible within modules only through {@link ServletContext} methods.
@@ -75,13 +94,6 @@ reloaded. The solution is to clone the object via Java serialization,
 replacing the class loader of session object during the cloning process.
 The cloned object is then added to the session in place of the old object
 with the stale class loader.
-
-*embedded.mode*: This property must be set to true if you want to run a web application
-embedded within the IDE, without any specific packaging required.
-Suitable for a fast develop/deploy/test cycle. The alternative involves
-creating a war file with modules placed in jars files in
-_WEB-INF/modules_. This is the default, and is the valid production
-setting.
 
 *preserve.session.on.reload.failure*: If a session attribute is lost because it cannot be "reloaded" maintain the 
 existing session. Default is `true`.
