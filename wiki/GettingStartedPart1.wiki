@@ -57,41 +57,77 @@ The last time I ran this command, the following output was produced:
 ant newproject
 Buildfile: build.xml
 
-impalaversion:
-    [input] Please specify Impala version in IMPALA_HOME [1.0-SNAPSHOT]
-1.0M3
-
 newproject:
-     [echo] Creating new project structure, Impala version 1.0M3
+     [echo] Creating new project structure, Impala version 1.0M6
 
 scaffold:input-workspace-root:
-    [input] Please enter name of workspace root directory:
-/Users/philzoio/workspaces/newproject
+    [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
+
+
+scaffold:input-build-project:
+    [input] Please enter build project name, to be used for build module: [build]
+
 
 scaffold:input-main-project:
-    [input] Please enter main project name, to be used for root module:
-main
+    [input] Please enter main project name, to be used for root module: [main]
+
 
 scaffold:input-module-project:
-    [input] Please enter name of first non-root module:
-module1
+    [input] Please enter name of first non-root module: [module1]
+
 
 scaffold:input-web-project:
-    [input] Please enter name of web module:
-web
+    [input] Please enter name of web module: [web]
+
 
 scaffold:input-test-project:
-    [input] Please enter name of tests project:
-tests
+    [input] Please enter name of tests project: [test]
+
 
 scaffold:input-repository-project:
-    [input] Please enter name of repository project:
-repository
+    [input] Please enter name of repository project: [repository]
+
+
+scaffold:input-project-prefix:
+    [input] Please enter the project name prefix: []
+^Cphil-zoios-macbook-3:impala-1.0-SNAPSHOT philzoio$ ant newproject
+Buildfile: build.xml
+
+newproject:
+     [echo] Creating new project structure, Impala version 1.0M6
+
+scaffold:input-workspace-root:
+    [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
+
+scaffold:input-build-project:
+    [input] Please enter build project name, to be used for build module: [build]
+
+scaffold:input-main-project:
+    [input] Please enter main project name, to be used for root module: [main]
+
+scaffold:input-module-project:
+    [input] Please enter name of first non-root module: [module1]
+
+scaffold:input-web-project:
+    [input] Please enter name of web module: [web]
+
+scaffold:input-test-project:
+    [input] Please enter name of tests project: [test]
+
+scaffold:input-repository-project:
+    [input] Please enter name of repository project: [repository]
+
+scaffold:input-project-prefix:
+    [input] Please enter the project name prefix: [myapp-]
+
+scaffold:input-base-package:
+    [input] Please enter the base package to be used for application: [com.application]
 
 scaffold:newproject-confirm:
      [echo] Workspace root location: /Users/philzoio/workspaces/newproject
+     [echo] Build project name: build
      [echo] Main (root) project name: main
-     [echo] First non-root module project name: module1
+     [echo] First application module project name: module1
      [echo] Web project name: web
      [echo] Tests project name: test
      [echo] Repository project name: repository
@@ -101,33 +137,54 @@ scaffold:newproject-confirm:
 
 scaffold:filterset:
 
+scaffold:copybuild:
+     [copy] Copying 4 files to /Users/philzoio/workspaces/newproject/build
+
 scaffold:copymain:
-     [copy] Copying 7 files to /Users/philzoio/workspaces/newproject/main
-     [copy] Copied 6 empty directories to 4 empty directories under /Users/philzoio/workspaces/newproject/main
-     [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/main
+     [copy] Copying 11 files to /Users/philzoio/workspaces/newproject/main
+     [copy] Copied 8 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/main
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/resources
 
+copypackage:
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/src
+     [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/main/test
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/main/src/classes
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/main/test/classes
+
 scaffold:copymodule:
-     [copy] Copying 5 files to /Users/philzoio/workspaces/newproject/module1
-     [copy] Copied 5 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/module1
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copying 8 files to /Users/philzoio/workspaces/newproject/module1
+     [copy] Copied 8 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/module1
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/resources
 
+copypackage:
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/src
+     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module1/test
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/module1/src/classes
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/module1/test/classes
+
 scaffold:copyweb:
-     [copy] Copying 12 files to /Users/philzoio/workspaces/newproject/web
-     [copy] Copied 8 empty directories to 3 empty directories under /Users/philzoio/workspaces/newproject/web
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/web
+     [copy] Copying 16 files to /Users/philzoio/workspaces/newproject/web
+     [copy] Copied 11 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/web
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/resources
 
-scaffold:create:
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/tests
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/tests
+copypackage:
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/src
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/test
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/web/src/classes
+   [delete] Deleting directory /Users/philzoio/workspaces/newproject/web/test/classes
+
+scaffold:copytest:
+     [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/test
+     [copy] Copied 3 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/test
+
+scaffold:copyrepository:
      [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/repository
      [copy] Copied 2 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/repository
 
-BUILD SUCCESSFUL
-Total time: 37 seconds
+scaffold:create:
 
+BUILD SUCCESSFUL
+Total time: 8 seconds
 }}}
 
 Before we import the Eclipse project, there are just two more steps to follow:
@@ -135,7 +192,7 @@ Before we import the Eclipse project, there are just two more steps to follow:
 First, go the main newly project, and run the following two commands:
 
 {{{
-cd /Users/philzoio/workspaces/newproject/main
+cd /Users/philzoio/workspaces/newproject/build
 ant fetch get
 }}}
 
@@ -145,10 +202,10 @@ The fetch target will copy the Impala libraries into the repository project of t
 ant fetch
 Buildfile: build.xml
      [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-     [echo] Project using impala home: /Users/philzoio/impala-1.0M5
+     [echo] Project using impala home: /Users/philzoio/impala-1.0-SNAPSHOT
 
 repository:fetch-impala-from-lib:
-     [copy] Copying 22 files to /Users/philzoio/workspaces/newproject/myapp-repository/main
+     [copy] Copying 22 files to /Users/philzoio/workspaces/newproject/repository/main
 
 repository:fetch-impala-from-repository:
 
@@ -166,29 +223,46 @@ The get command downloads the necessary third party libraries, as defined using 
 ant get
 Buildfile: build.xml
      [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-     [echo] Project using impala home: /Users/philzoio/impala-1.0M5
+     [echo] Project using impala home: /Users/philzoio/impala-1.0-SNAPSHOT
 
 shared:get:
 
 download:get:
-      [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
-...
-      [get] Getting: http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0-sources.jar
-      [get] To: /Users/philzoio/workspaces/newproject/myapp-repository/jetty/commons-el-1.0-sources.jar
- [download] ******************************************************
- [download] 
- [download]                RESULTS OF DOWNLOAD OPERATION                   
- [download] 
- [download] org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar resolved from file:/Users/philzoio/.m2/repository/org/springframework/spring-webmvc/2.5.5/spring-webmvc-2.5.5.jar
-...
- [download] commons-el/commons-el/1.0/commons-el-1.0-sources.jar resolved from http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0-sources.jar
+    [mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/build
+    [mkdir] Created dir: /Users/philzoio/workspaces/newproject/repository/test
+ [download] Using following locations to retrieve resources: 
+ [download] -------------------------------------------------
+ [download] file:///Users/philzoio/.m2/repository/
+ [download] http://ibiblio.org/pub/packages/maven2/
+ [download] -------------------------------------------------
+ [download] Retrieving new resource if available for commons-logging/commons-logging/1.1/commons-logging-1.1.jar
+     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/repository/main
+ [download] Retrieving new resource if available for commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar
+ [download] Retrieving new resource if available for log4j/log4j/1.2.13/log4j-1.2.13.jar
+ [download] Retrieving new resource if available for log4j/log4j/1.2.13/log4j-1.2.13-sources.jar
+ 
+ ...
+ 
+ [download] xerces/xercesImpl/2.8.1/xercesImpl-2.8.1.jar
+ [download] resolved from
+ [download] http://ibiblio.org/pub/packages/maven2/xerces/xercesImpl/2.8.1/xercesImpl-2.8.1.jar
+ [download] xerces/xercesImpl/2.8.1/xercesImpl-2.8.1-sources.jar
+ [download] resolved from
+ [download] http://ibiblio.org/pub/packages/maven2/xerces/xercesImpl/2.8.1/xercesImpl-2.8.1-sources.jar
+ [download] commons-el/commons-el/1.0/commons-el-1.0.jar
+ [download] resolved from
+ [download] http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0.jar
+ [download] commons-el/commons-el/1.0/commons-el-1.0-sources.jar
+ [download] resolved from
+ [download] http://ibiblio.org/pub/packages/maven2/commons-el/commons-el/1.0/commons-el-1.0-sources.jar
  [download] 
  [download] ******************************************************
 
 get:
 
 BUILD SUCCESSFUL
-Total time: 5 minutes 8 seconds
+Total time: 7 minutes 4 seconds
+
 }}}
 
 We're now ready to import our projects into Eclipse. Start by opening Eclipse in the newly created workspace.
