@@ -7,6 +7,12 @@ Impala allows you to break out your Spring application into individual modules. 
 
 === What kind of problems does Impala solve? ===
 
+Impala allows you to develop much more *productively* because you can reload parts of your application rather than having to restart your application every time you make a change.
+
+Also, because you can write your applications in a genuinely modular way, it is much easier to keep your applications simple even as the size and complexity of your applications grow.
+
+=== Why do Spring developers need Impala? ===
+
 While Spring framework is an excellent piece of software, the fact that it doesn't have any first class support for modules is a real limitation. A large Spring application will consist of thousands of classes and hundreds of bean definitions. These bean definitions will typically be spread across different XML definition files.
 
 Managing these XML definition files becomes a real challenge (and at times a nightmare), especially as the project grows. For example, certain integration tests only require some of the functionality. On the one hand, you don't want to load your entire application for every integration test, but on the other, mixing and matching between different bean definition files across tests is time consuming, error prone, and headache ridden.
@@ -16,6 +22,16 @@ Another problem with Spring is the mechanism for varying wirings to support diff
 With applications divided into Impala modules, these problems become much more manageable. Typically, you won't even need to specify application context definition file names when working with Impala. You can compose your application at a higher level using modules. That being said, you can easily vary configurations within modules, either by specifying the Spring configuration files to be used in the module, or by using a flexible bean definition import mechanism provided by Impala.
 
 In addition, Impala provides a number of features aimed at making Spring applications easier to manage and configure. Your operation teams will like Impala!
+
+=== How does Impala compare with Spring Dynamic Modules and the dm Server? ===
+
+Spring Dynamic Modules and the SpringSource dm Server also aim to tackle the same problem as Impala - providing dynamic modularity to Spring applications. However, the approach to the problem is quite different.
+
+Both Spring DM and dm Server take OSGi as their starting point, and as a result is quite "OSGi-centric". Much of the work that has gone into Spring DM is about bringing the Spring programming model to OSGi. The dm Server adds extra feature which make Spring DM much more usable for the typical user, but at the cost of a more restricted environment - it only works with the Equinox OSGi runtime. Also, it has a less commercially friendly GPL licence.
+
+Impala approach is much more about answering the question: "What can we do, given existing mainstream technologies and Spring Framework capabilities, to make modularity a reality for Spring applications?" It's evolution has been driven by the need to provide practical solutions that address the pain points associated with lack of dynamic modularity in Spring itself.
+
+Impala's class loader and modularity model has evolved into something quite sophisticated, capable of of supporting a great deal of flexibility in the structuring of application modules. It does not, however, support multiple versions of third party libraries. In terms of third party library management at runtime, Impala works in the same way as traditional Java applications.
 
 === What is the relationship between Impala and TDD? ===
 
