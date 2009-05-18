@@ -43,6 +43,9 @@
   * [WebApplications Web applications with Impala]
   * [PropertyConfiguration Impala properties]
   * [ImpalaWebConfiguration Web configuration]
+
+==== Advanced ====
+  * [ExtendingImpala Extending Impala]
     
 ==== General Pages ==== 
   * [BestPractices Best practices]
