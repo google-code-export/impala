@@ -19,7 +19,7 @@ package interfaces;
 
 public interface MessageService {
 
-	public String getMessage();
+    public String getMessage();
 	
 }
 }}}
@@ -128,9 +128,9 @@ http://impala.googlecode.com/svn/schema/service-registry.xsd">
     <service:auto-export/>    
     -->
 
-	<bean id="messageService" class="com.application.module1.MessageServiceImpl">
-		<property name = "message" value = "Hello World!"/>
-	</bean>
+    <bean id="messageService" class="com.application.module1.MessageServiceImpl">
+        <property name = "message" value = "Hello World!"/>
+    </bean>
 
 </beans>
 }}}
