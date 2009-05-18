@@ -17,6 +17,7 @@ The 1.0M6 release also introduces a number of improvements to make dynamic modul
 
 See the [http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0M6&can=1 full list of issues covered for milestone 1.0M6].
 
-If you are upgrading from an earlier release, you will probably wish to check [Compatibility_1_0M6 the backward incompatible changes for 1.0M6].
+If you are upgrading from an earlier release, you will probably wish to check [Compatibility_1_0M6 the backward incompatible changes for 1.0M6] as well as 
+the [Migration_1_0M6 migration to 1.0M6 page].
 
 If you like Impala and would like to support the project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
