@@ -26,22 +26,29 @@
   * [AddingModules Adding Modules]
     
 === User Documentation ===
-    
-  * [BestPractices Best practices]
-  * [Solutions Real world solutions]
-  * Module Configuration
-    * [ModuleStructure Module structure]
-    * [ModuleConfiguration Module configuration]
-  * Impala Runtime Configuration
-    * [ImpalaWebConfiguration Web configuration]
-    * [ImpalaConfiguration Impala configuration]
-    * [PropertyConfiguration Impala properties]
+
+
+Configuration
+  * [ModuleStructure Module structure]
+  * [ModuleConfiguration Module configuration]
+  * [ImpalaConfiguration Impala configuration]
+  * [PropertyConfiguration Impala properties]
   * [ImportingAndExportingServices Using the service registry]
-  * [InteractiveTestRunner Interactive Test Runner]
-  * [WebApplications Web applications]
-  * [Compatibility Non-backward compatible changes across versions]
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
+
+Testing
+  * [InteractiveTestRunner Interactive Test Runner]
+
+Web
+  * [WebApplications Web applications]
+  * [PropertyConfiguration Impala properties]
+  * [ImpalaWebConfiguration Web configuration]
+    
+Geneal Pages
+  * [BestPractices Best practices]
+  * [Solutions Real world solutions]
+  * [Compatibility Non-backward compatible changes across versions]
   
 == Developer Pages ==
   
