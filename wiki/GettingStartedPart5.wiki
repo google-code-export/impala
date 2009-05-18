@@ -69,35 +69,36 @@ ant get
 Let's take a look at the _main_ project build file which you get with the generated quickstart application:
 
 {{{
-<project name="Build" basedir=".">	
-
-	<property environment="env"/>
-	<property name = "workspace.root" location = ".."/>
+<?xml version="1.0"?>
+<project name="Build build" basedir=".">    
+    
+    <property environment="env"/>
+    <property name = "workspace.root" location = ".."/>
     <property name = "impala.home" location = "${env.IMPALA_HOME}"/>
 
-	<echo>Project using workspace.root: ${workspace.root}</echo>
-	<echo>Project using impala home: ${impala.home}</echo>
-	
-	<property file = "build.properties"/>
-	<property file = "web.properties"/>
-	
-	<import file = "${impala.home}/project-build.xml"/>
-	<import file = "${impala.home}/shared-build.xml"/>
-	<import file = "${impala.home}/shared-web-build.xml"/>
-	<import file = "${impala.home}/shared-tomcat-build.xml"/>
-	<import file = "${impala.home}/download-build.xml"/>
-	<import file = "${impala.home}/repository-build.xml"/>
-	<import file = "${impala.home}/execution-build.xml"/>
-	
-	<target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
-	<target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala libraries"/>
-	<target name = "clean" depends = "shared:clean" description="Cleans all projects"/>
-	<target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
-	<target name = "test" depends = "shared:test" description="Runs tests"/>
-	<target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
-	<target name = "war" depends = "shared-web:war" description="Do war file build"/>
-	<target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
-	
+    <echo>Project using workspace.root: ${workspace.root}</echo>
+    <echo>Project using impala home: ${impala.home}</echo>
+    
+    <property file = "build.properties"/>
+    <property file = "web.properties"/>
+    
+    <import file = "${impala.home}/project-build.xml"/>
+    <import file = "${impala.home}/shared-build.xml"/>
+    <import file = "${impala.home}/shared-web-build.xml"/>
+    <import file = "${impala.home}/shared-tomcat-build.xml"/>
+    <import file = "${impala.home}/download-build.xml"/>
+    <import file = "${impala.home}/repository-build.xml"/>
+    <import file = "${impala.home}/execution-build.xml"/>
+    
+    <target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
+    <target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala libraries"/>
+    <target name = "clean" depends = "shared:clean" description="Cleans all projects"/>
+    <target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
+    <target name = "test" depends = "shared:test" description="Runs tests"/>
+    <target name = "jetty" depends = "execution:jetty" description="Runs Jetty in ANT"/>
+    <target name = "war" depends = "shared-web:war" description="Do war file build"/>
+    <target name = "tomcat" depends = "shared-tomcat:copy" description="Deploy war to Tomcat"/>
+    
 </project>
 }}}
 
@@ -174,33 +175,33 @@ We can end the discussion with a brief look at the structure of the exploded war
 
 {{{
 WEB-INF/classes:
-	impala-embedded.properties	
-	impala.properties		
-	log4j.properties		
-	moduledefinitions.xml
+    impala-embedded.properties    
+    impala.properties        
+    log4j.properties        
+    moduledefinitions.xml
 
 WEB-INF/lib:
-	cglib-nodep-2.1_3.jar		
-	easymockclassextension-2.2.jar	
-	impala-interactive-1.0-SNAPSHOT.jar	
-	junit-3.8.1.jar			
-	servletapi-2.4.jar		
-	startjetty.jar
-	commons-logging-1.1.jar		
-	impala-build-1.0-SNAPSHOT.jar	
-	impala-web-1.0-SNAPSHOT.jar		
-	launcher.jar			
-	spring-2.5.5.jar
-	easymock-2.2.jar		
-	impala-core-1.0-SNAPSHOT.jar	
-	jsp-api-2.0.jar			
-	log4j-1.2.13.jar		
-	spring-webmvc-2.5.5.jar
+    cglib-nodep-2.1_3.jar        
+    easymockclassextension-2.2.jar    
+    impala-interactive-1.0-SNAPSHOT.jar    
+    junit-3.8.1.jar            
+    servletapi-2.4.jar        
+    startjetty.jar
+    commons-logging-1.1.jar        
+    impala-build-1.0-SNAPSHOT.jar    
+    impala-web-1.0-SNAPSHOT.jar        
+    launcher.jar            
+    spring-2.5.5.jar
+    easymock-2.2.jar        
+    impala-core-1.0-SNAPSHOT.jar    
+    jsp-api-2.0.jar            
+    log4j-1.2.13.jar        
+    spring-webmvc-2.5.5.jar
 
 WEB-INF/modules:
-	main-1.0.jar		
-	module1-1.0.jar		
-	web-1.0.jar		
+    main-1.0.jar        
+    module1-1.0.jar        
+    web-1.0.jar        
 }}}
 
 _WEB-INF/classes_ contains the files from the _web_ project's _webconfig_ directory. Note that these files are all found in the web application class path. _WEB-INF/lib_ contains all the third party jars, including the Impala jar files. Finally, the modules are contained in jar files in _WEB-INF_ modules. The reason for this location is that the module jars need to be loaded using a different class loader from the third party jars, and therefore should not be on the web application's class path.
@@ -236,6 +237,3 @@ starts the Jetty web container on port 8080.
 You can then browse to the running application on: http://localhost:8080/web/message.htm
 
 There are some useful configuration options which can be applied, for example, to set system properties and to tweak Impala startup options, but this this basic configuration will get you going without pain.
-
-This feature is available in Impala snapshots from SVN 2168 (http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip) and will be available in release 1.0M3.
-

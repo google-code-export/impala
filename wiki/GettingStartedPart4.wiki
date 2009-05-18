@@ -178,21 +178,30 @@ INFO : BaseLocationsRetriever - org.impalaframework.bootstrap.ConfigurationSetti
 Context locations: [META-INF/impala-bootstrap.xml, META-INF/impala-web-bootstrap.xml, META-INF/impala-graph-bootstrap.xml, META-INF/impala-jmx-bootstrap.xml, META-INF/impala-web-listener-bootstrap.xml]
 Property settings: 
   all.locations: [null]
+  auto.reload.check.delay: 10 (default)
+  auto.reload.check.interval: 2 (default)
   auto.reload.modules: true
-  bootstrapLocations: [null]
+  auto.reload.monitoring.type: default (default)
   classloader.type: graph (default)
   embedded.mode: true
   expose.jmx.operations: true (default)
   expose.mx4j.adaptor: false (default)
   extra.locations: [null]
   graph.bean.visibility.type: graphOrdered (default)
+  jmx.locate.existing.server: false (default)
   module.class.dir: bin (default)
   module.resource.dir: resources (default)
   parent.classloader.first: false (default)
-  partitioned.servlet.context: false (default)
+  partitioned.servlet.context: true (default)
   preserve.session.on.reload.failure: true (default)
+  proxy.allow.no.service: false (default)
+  proxy.missing.service.retry.count: 0 (default)
+  proxy.missing.service.retry.interval: 1000 (default)
+  proxy.set.context.classloader: true (default)
   session.module.protection: true
   spring.path.mapping.enabled: false (default)
+  touch.file: /WEB-INF/modules/touch.txt (default)
+  use.touch.file: false (default)
   workspace.root: ../ (default)
 --------
 INFO : BaseLocationsRetriever - Property source: org.impalaframework.config.PrefixedCompositePropertySource@7e319a - propertySources: [org.impalaframework.config.SystemPropertiesPropertySource@ea763a, org.impalaframework.config.StaticPropertiesPropertySource@f7dbd8, org.impalaframework.web.config.ServletContextPropertySource@824d2c]
