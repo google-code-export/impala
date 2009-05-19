@@ -7,3 +7,13 @@ Impala is built to be extremely extensible. This is largely because the Impala r
 Remember that much of Impala's built in behaviour can be configured using the Impala properties described in PropertyConfiguration. However, if existing behaviour does not meet your needs, you will probably need to add some extension to the framework.
 
 == Impala's extension mechanism ==
+
+As mentioned, Impala is set up as a Spring application context, but remember that it is not configured in exactly the same way as a vanilla Spring application. 
+
+Remember that a vanilla Spring application is typically set up by specifying a list of Spring application context configuration files, in the order in which they should be loaded. This is usually done either programmatically, for example, using
+
+{{{
+new FileSystemApplicationContext(new String[]{"location1.xml", "location2.xml});
+}}}
+
+or using the `contextConfigLocation` init parameter in the _WEB-INF/web.xml_.
