@@ -1,5 +1,9 @@
 #summary Extending Impala
 
-TO BE ADDED
+== Introduction ==
 
-Describe how to extend Impala.
+Impala is built to be extremely extensible. This is largely because the Impala runtime is itself is simply a set of Spring beans, but also because as much as possible it is designed with the goal of extensibility in mind. The code is highly factored, which makes it relatively easy to introduce new pieces of functionality or behaviour in a non-intrusive way.
+
+Remember that much of Impala's built in behaviour can be configured using the Impala properties described in PropertyConfiguration. However, if existing behaviour does not meet your needs, you will probably need to add some extension to the framework.
+
+== Impala's extension mechanism ==
