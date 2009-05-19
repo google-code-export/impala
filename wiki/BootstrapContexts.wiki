@@ -80,4 +80,7 @@ A list of the Spring configuration files used to set up Impala in a web applicat
   * _impala-web-listener-bootstrap.xml_: adds resource monitoring functionality which automatically reloads modules when detecting file system changes.
   * _impala-osgi-bootstrap.xml_: overrides core functionality to use OSGi class loader and runtime instead of Impala's native runtime. This feature is still experimental at this point.
 
-*Note*: For configuring the built-in capabilities of Impala, use the [PropertyConfiguration configuration properties].
+*Note*: 
+For configuring the built-in capabilities of Impala, use the [PropertyConfiguration configuration properties].
+
+For more details on extending Impala, see ExtendingImpala. 
