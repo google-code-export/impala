@@ -17,3 +17,7 @@ new FileSystemApplicationContext(new String[]{"location1.xml", "location2.xml});
 }}}
 
 or using the `contextConfigLocation` init parameter in the _WEB-INF/web.xml_.
+
+With Impala, the actual set of Spring locations used depends partly on the properties set in _impala.properties_, but also values set in the _extra.locations_ property. It is also possible to get full control of the list using the _all.locations_ property.
+
+For more details on this see BootstrapContexts.
