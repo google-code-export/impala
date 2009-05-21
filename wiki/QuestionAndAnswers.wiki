@@ -1,5 +1,4 @@
 #summary Questions and Answers
-#labels Featured
 
 === What does Impala do? ===
 
@@ -60,23 +59,25 @@ This topic is covered in quite a bit of detail in [http://impalablog.blogspot.co
 
 === How stable is Impala? ===
 
-For a project approaching its first public release, the Impala code base is very stable. Most of the key features have been in place for several months. Since then, the code base has been through an intense and prolonged round of refactoring. 
+As of 1.0M6, no substantial further API changes are planned. The code base has been through several intense round of refactorings over the last year. 
 
-Of course, there will be changes between now and 1.0 final. But don't expect an overhaul of the code base - this has already happened. The Impala code base is in fact very well factored - at the time of writing the largest class in the code base is less than 250 lines long, and most classes are less than 100 lines long. 
+The Impala code base is in fact very well factored - only a couple of classes are more than 500 lines long, and most classes are less than 100 lines long. 
 
 === How do  class loaders work in Impala? ===
 
-The mechanisms for specifying the behaviour of classloaders is pluggable. However, the default arrangement is to have a class loader hierarchy which parallels the module hierarchy. Specifically, class loaders for individual modules have visibility of their parent module class loaders, but not that of sibling class loaders. All modules have visibility of the application class loader. 
+The mechanisms for specifying the behaviour of classloaders is configurable. However, in practice, you can think of modules as having a class loader hierarchy which parallels the module hierarchy. Specifically, class loaders for individual modules have visibility of their parent module class loaders, but not that of sibling class loaders. All modules have visibility of the application class loader. 
 
-Loading of third party libraries works identically to regular Java applications - all third party libraries are loaded by the application class loader, which will typically either be the Java class path, or, for web applications, jars in the _WEB-INF/lib_ directory. 
+Impala allows you to arrange modules in a graph, instead of just a hierarchy, which gives you a great deal more flexibility in specifying a module structure for your applications. Each module will delegate to class loading operations to dependent modules in the correct order.
+
+Impala does not address loading of third party libraries. Here, and Impala application works identically to regular Java applications - all third party libraries are loaded by the application class loader, which will typically either be the Java class path, or, for web applications, jars in the _WEB-INF/lib_ directory. 
 
 === Will I run into class loader problems? ===
 
-You'd have to be pretty brave to say never here. However, without making an effort to bend Impala out of shape, you shouldn't run into class loader problems very often, if at all. Impala has been carefully designed to minimise the risk of class loader issues occurring, and make it easy to diagnose these when they do occur. 
+You'd have to be pretty brave to say never here. However, without making an effort to bend Impala out of shape, you shouldn't run into class loader problems very often, if at all. Impala has been carefully designed to minimise the risk of class loader issues occurring, and make it easy to diagnose these when they do occur. In practice, class loader issues appear to come up only very rarely, and are addressed as soon as they are detected.
 
 === Does Impala work with Hibernate? ===
 
-Absolutely, see the [http://impalablog.blogspot.com/2008/01/springs-petclinic-sample-impala-style.html Petclinic sample].
+Yes, as with any other mainstream library we've tried. See the [http://impalablog.blogspot.com/2008/01/springs-petclinic-sample-impala-style.html Petclinic sample].
 
 === Does Impala work with other technologies, such as JMX, Quartz, etc. ===
 
@@ -86,19 +87,17 @@ Absolutely. Impala should work with just about any technology that works within 
 
 Impala work with any web framework using the standard Spring integration mechanisms available to that framework. Simply expose your Impala-based service layer.
 
-With Spring MVC, Impala achieves a tighter and more dynamic integration out of the box, allowing Spring MVC as well as other elements of the application to be reloaded dynamically without having to restart your web container or redeploy your web application. 
+With Spring MVC, Impala achieves and more dynamic integration out of the box, allowing Spring MVC as well as other elements of the application to be reloaded dynamically without having to restart your web container or redeploy your web application. 
 
-From Milestone 1.0M3 (and snapshot versions from SVN 2500 onwards), it is also possible to achieve this level of integration with arbitrary web Java web frameworks. See the [SamplesWebframework web frameworks sample].
+With a small amount of extra work, it is also possible to achieve this level of integration with arbitrary web Java web frameworks. See the [SamplesWebframework web frameworks sample].
 
 In the future some frameworks, such as Grails, would probably require and benefit from a more specialised integration mechanism which takes advantage of the capabilities of that framework.
 
 === What about OSGi? ===
 
-OSGi is an interesting technology that allows for modularity and class version in Java application development. In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, at least as a area for further investigation. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
+OSGi is a power technology that allows for modularity and class version in Java application development. In the problems it tackles, Impala is in many ways quite similar to [http://www.springframework.org/osgi/ Spring Dynamic Modules], which is based on OSGi. While clearly a great technology, it is far from clear to me that OSGi represents the simplest, most practical way to solve the most burning issue which is affecting Spring developers on a day to day basis - the lack of a first class concept of modularity within Spring core, and the resultant difficulties in configuring large, complex applications. OSGi is a great solution for third party class versioning issues, but for me this is much less of a issue than the need for a simple, productive way of achieving modularity. Nevertheless, OSGi is on the Impala roadmap, and an [SamplesOsgi OSGi sample] has been created. However, it will not be given high priority prior to the final 1.0 release. See this [http://impalablog.blogspot.com/2007/11/impala-and-osgi.html Impala Blog entry].
 
 See also the [OSGiConvergence OSGi convergence wiki page].
-
-There are those who would have you believe that you cannot have modular applications without OSGi. That is not the case.
 
 === What about Maven? ===
 
@@ -108,7 +107,7 @@ Impala is not tied directly to any build system. However, it does feature an opt
 
 Impala has a simple approach to dependency management, aiming not for full transitive dependency management, but for simple but effective tools for managing dependencies, described in this [http://impalablog.blogspot.com/2007/09/impalas-non-maven-approach-to-simpler.html Impala Blog entry]. 
 
-All this being said, better support for Maven is on the road map. Maven users should be able to work with Impala, using Maven project structure conventions. There is no reason in the future why Maven users shouldn't be able to build Impala applications using Maven.
+All this being said, better support for Maven is on the road map. Maven users should be able to work with Impala, using Maven project structure conventions. There is no reason why Maven users shouldn't be able to build Impala applications using Maven. However, use of Maven is not required.
 
 === Why the name Impala? ===
 
