@@ -11,21 +11,54 @@ Note that these interfaces are provisional and may still be changed prior to the
 
 == Service Registry Interfaces ==
 
-TO BE ADDED
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceRegistry.java ServiceRegistry] ===
 
-=== `ServiceRegistry` ===
+Represents the mechanism for sharing services between modules. Beans can be exported to the registry, which results in a bean
+being registered by name (not necessarily the name of the source bean) or by one or more export types. Beans can also be exported with 
+custom attributes.
 
-=== `ServiceRegistryEntry` ===
+When a bean is registerd, a `ServiceRegistryEntry` instance is created.
 
-=== `ServiceBeanReference` ===
+Once present in the registry, beans can be retrieved from the registry, again either by name, by one or more export types, or 
+via a filter based on custom attributes set during registration. Methods are available either to retrieve just a single 
+service or to retrieve a collection of services. In these cases, `ServiceRegistryEntry` instances or collections will be returned.
 
-=== `ServiceRegistryEventListener` ===
+Note that `ServiceRegistry` is actually a sub-interface of two other interfaces - 
+`ServiceEntryRegistry`, which contains methods used to registry and retrieve services, and 
+`ServiceEventListenerRegistry`, which is used to register and deregister listeners to 
+service events, generated for example when services are added or removed.
 
-=== `ServiceEndpoint` ===
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceRegistryEntry.java ServiceRegistryEntry] ===
 
-=== `NamedServiceEndpoint` ===
+Represents a service present in the the `ServiceRegistry`. Contains information on the export name, types and custom attributes, 
+as well as a handle which can be used to retrieve the service bean instance. The latter is available through the `ServiceBeanReference` interface.
 
-TO BE ADDED
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceBeanReference.java ServiceBeanReference] ===
+
+Represents a service present in the registry. For singleton services, a the implementation of `ServiceBeanReference` will
+simply statically wrap the singleton instance. For non-singletons (e.g. prototypes, non-singleton `FactoryBeans`)
+registered from Spring-based modules,
+the `ServiceBeanReference's` `getService` method will involve a dynamic lookup from the contributing module's `ApplicationContext`.
+
+`ServiceBeanReference` has a `isStatic` method which can be used to determine whether the contained reference is static or not.
+
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceRegistryEventListener.java ServiceRegistryEventListener] ===
+
+A `ServiceRegistryEventListener` receives notifications of changes made to the service registry. The key changes are
+when services are added to the registry and when services are removed from the registry.
+
+`ServiceRegistryEventListeners` are used, for example, to keep service-registry backed lists up to date.
+They are used, for example for services imported via the `import` element with registered attributes.
+See ImportAndExportingServices for more details.
+
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceEndpoint.java ServiceEndpoint] ===
+
+A `ServiceEndpoint` is the target of an import from a service registry. Application code does not use this interface directly.
+See ImportingAndExportingServices for more details.
+
+=== [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/service/ServiceEndpoint.java NamedServiceEndpoint] ===
+
+A subclass of `ServiceEndpoint` where the target imports the service by name from the service registry.
 
 == Module Interfaces ==
 
