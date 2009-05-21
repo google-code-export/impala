@@ -11,7 +11,7 @@ Impala allows you to develop much more *productively* because you can reload par
 
 Also, because you can write your applications in a genuinely modular way, it is much easier to keep your applications simple even as the size and complexity of your applications grow.
 
-=== Why do Spring developers need Impala? ===
+=== How can Spring users benefit from Impala? ===
 
 While Spring framework is an excellent piece of software, the fact that it doesn't have any first class support for modules is a real limitation. A large Spring application will consist of thousands of classes and hundreds of bean definitions. These bean definitions will typically be spread across different XML definition files.
 
