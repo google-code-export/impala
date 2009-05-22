@@ -49,6 +49,8 @@ public interface WebBootstrapProperties {
 
     String TOUCH_FILE_DEFAULT = "/WEB-INF/modules/touch.txt";
     
+    //FIXME add staging directory default property
+    
     /**
      * The period in seconds between successive checks for modifications when 
      * auto.deploy is used. 
