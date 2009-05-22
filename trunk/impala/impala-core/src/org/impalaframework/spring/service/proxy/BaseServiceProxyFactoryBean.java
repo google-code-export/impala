@@ -14,10 +14,10 @@
 
 package org.impalaframework.spring.service.proxy;
 
-import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.SpringServiceEndpoint;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
@@ -37,11 +37,11 @@ import org.springframework.util.ClassUtils;
 public abstract class BaseServiceProxyFactoryBean 
     implements FactoryBean, 
     BeanNameAware, 
-    InitializingBean, 
-    ServiceEndpoint, 
+    InitializingBean,
     ServiceRegistryAware,
     ProxyFactoryCreatorAware,
-    BeanClassLoaderAware {
+    BeanClassLoaderAware,
+    SpringServiceEndpoint {
 
     private static final long serialVersionUID = 1L;
     
