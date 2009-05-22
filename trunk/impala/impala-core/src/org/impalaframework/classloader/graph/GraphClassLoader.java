@@ -221,6 +221,21 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     @Override
+    protected void finalize() throws Throwable {
+        try {
+            if (Boolean.valueOf(System.getProperty("display.classloader.finalize"))) {
+                System.out.println("Finalizing class loader for " + moduleDefinition.getName());
+            }
+            if (Boolean.valueOf(System.getProperty("log.classloader.finalize"))) {
+                logger.info("Finalizing class loader for " + moduleDefinition.getName());
+            }
+        }
+        finally {
+            super.finalize();
+        }
+    }
+
+    @Override
     public String toString() {
         String lineSeparator = System.getProperty("line.separator");
         
