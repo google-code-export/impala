@@ -20,30 +20,31 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
 import org.impalaframework.module.runtime.BaseModuleRuntime;
+import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.Resource;
 
 /**
  * Implements a strategy for passing a list of monitorable resources to
  * {@link ModuleChangeMonitor} based on the assumption that module updates will be first copied to
- * int a temporary file (with the extension .tmp) in WEB-INF/modules. 
+ * a staging directory. It is this directory which is monitored for changed modules.
  * 
- * Modified modules are copied from the staging directory before module loading occurs.
+ * Modified modules are copied to the application directory before module loading occurs.
  * 
  * @author Phil Zoio
  */
-public class TempFileModuleRuntimeMonitor extends BaseStagingFileModuleRuntimeMonitor {
+public class StagingDirectoryFileModuleRuntimeMonitor extends BaseStagingFileModuleRuntimeMonitor {
 
     private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
+    
+    private String stagingDirectory = "../staging";
 
     protected Resource getTempFileResource(Resource resource) {
         final File file = getFileFromResource(resource);
         if (file != null) {
-            String name = file.getName();
-            String tempFileName = name.replace(".jar", ".tmp");
             try {
-                return resource.createRelative(tempFileName);
+                return resource.createRelative(PathUtils.getPath(stagingDirectory, file.getName()));
             } catch (Exception e) {
-                logger.error("Problem creating relative file '" + tempFileName + "' for resource '" + resource.getDescription() + "'", e);
+                logger.error("Problem creating relative file '" + stagingDirectory + "' for resource '" + resource.getDescription() + "'", e);
                 return null;
             }
         } else {
