@@ -92,7 +92,6 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
                 existingClassLoader = null;
             }
             
-            
             try {
                 if (setCCCL) {
                     currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
