@@ -55,6 +55,8 @@ public class MemoryUtils {
 
     public static StringBuffer getMemoryInfo() {
         StringBuffer buffer = new StringBuffer();
+        
+        freeMemory();
 
         Runtime runtime = Runtime.getRuntime();
         double usedMemory = usedMemory(runtime);
@@ -66,6 +68,11 @@ public class MemoryUtils {
         buffer.append("Used memory: " + f.format(usedMemory) + "MB").append(lineSeparator);
         buffer.append("Max available memory: " + f.format(maxMemory) + "MB").append(lineSeparator);
         return buffer;
+    }
+
+    public static void freeMemory() {
+        System.gc();
+        System.runFinalization();
     }
 
 }
