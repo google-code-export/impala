@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class StagingDirectoryFileModuleRuntimeMonitorTest extends TestCase {
+public class StagingDirectoryModuleRuntimeMonitorTest extends TestCase {
 
     private StagingDirectoryFileModuleRuntimeMonitor runtimeMonitor;
     private FileSystemResource resource;
