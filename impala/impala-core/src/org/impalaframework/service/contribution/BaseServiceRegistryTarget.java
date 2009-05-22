@@ -14,7 +14,6 @@
 
 package org.impalaframework.service.contribution;
 
-import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEvent;
@@ -31,8 +30,8 @@ import org.springframework.util.Assert;
 public abstract class BaseServiceRegistryTarget implements 
     ServiceRegistryEventListener,
     ServiceRegistryAware, 
-    ServiceActivityNotifiable,
-    ServiceEndpoint {
+    ServiceActivityNotifiable
+    {
     
     /**
      * Used to simplify interactions with the {@link ServiceRegistry}
