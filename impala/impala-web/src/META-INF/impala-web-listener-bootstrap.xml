@@ -54,6 +54,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         class="org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitor">
         <property name="moduleLocationResolver" ref="moduleLocationResolver" />
         <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+    </bean>    
+    
+    <bean id="stagingDirectoryModuleRuntimeMonitor" 
+        class="org.impalaframework.web.module.monitor.StagingDirectoryFileModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
     </bean>
     
     <bean id="moduleRuntimeMonitor" 
