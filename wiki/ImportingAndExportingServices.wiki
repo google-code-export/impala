@@ -263,6 +263,8 @@ The example below creates a list backed by all beans which implement `MessageSer
 As with the `import` element, you can also limit the entries to explicit export types using the `exportTypes` attribute. If `exportTypes` is specified, then 
 `proxyTypes` is optional.
 
+TO ADD 'set' element - with 1.0M7.
+
 ----
 
 === 'map' element ===
