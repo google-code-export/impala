@@ -51,5 +51,9 @@ public class StagingDirectoryFileModuleRuntimeMonitor extends BaseStagingFileMod
             return null;
         }
     }
+
+    public void setStagingDirectory(String stagingDirectory) {
+        this.stagingDirectory = stagingDirectory;
+    }
     
 }

@@ -71,6 +71,11 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
             
             StringPropertyValue monitoringType = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT);
             configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE, monitoringType);
+            
+            if ("stagingDirectory".equals(monitoringType.getValue())) {
+                StringPropertyValue stagingDirectory = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY, WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT);
+                configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY, stagingDirectory);
+            }
         }
     }
 

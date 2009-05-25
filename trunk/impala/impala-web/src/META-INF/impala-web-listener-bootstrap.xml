@@ -60,6 +60,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         class="org.impalaframework.web.module.monitor.StagingDirectoryFileModuleRuntimeMonitor">
         <property name="moduleLocationResolver" ref="moduleLocationResolver" />
         <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+        <property name="stagingDirectory" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT]"/>
     </bean>
     
     <bean id="moduleRuntimeMonitor" 
