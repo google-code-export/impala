@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.spring.service.contribution.ServiceRegistryList;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
+import org.impalaframework.spring.service.contribution.ServiceRegistrySet;
 import org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor;
 import org.impalaframework.spring.service.exporter.ServiceArrayRegistryExporter;
 import org.impalaframework.spring.service.exporter.ServiceRegistryExporter;
@@ -37,6 +38,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("export", new ExportBeanDefinitionParser());
         registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
         registerBeanDefinitionParser("list", new ListBeanDefinitionParser());
+        registerBeanDefinitionParser("set", new SetBeanDefinitionParser());
         registerBeanDefinitionParser("map", new MapBeanDefinitionParser());
         registerBeanDefinitionParser("export-array", new ArrayExportDefinitionParser());
         registerBeanDefinitionParser("auto-export", new AutoExportBeanDefinitionParser());
@@ -136,6 +138,15 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         @Override
         protected Class<?> getBeanClass(Element element) {
             return ServiceRegistryList.class;
+        }
+
+    }
+    
+    static class SetBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ServiceRegistrySet.class;
         }
 
     }

@@ -89,6 +89,13 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 		filterExpression="(message=*)"/>
 		
     <!-- 
+    Creates a set from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
+    --> 
+	<service:set id="messageServiceSet" 
+		proxyTypes="interfaces.MessageService"
+		filterExpression="(message=*)"/>
+		
+    <!-- 
     Creates a list from beans exported using the filter '(message=*)"'. 
     In this example, will match any bean of correct type which is exported with a 'message' attribute.
     Each entry is proxied using the type interfaces.MessageService,

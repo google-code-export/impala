@@ -20,6 +20,7 @@ import interfaces.MessageService;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.InteractiveTestRunner;
@@ -78,6 +79,11 @@ public class EntryServiceTest extends BaseExampleTest {
         assertFalse(listMessageService.isEmpty());
         MessageService messageService = listMessageService.get(0);
         System.out.println("First list entry: " + messageService.getMessage());
+
+        Set<MessageService> setMessageServices = Impala.getModuleBean("example-service", "messageServiceSet", Set.class);
+        assertFalse(setMessageServices.isEmpty());
+        MessageService setMessageService = setMessageServices.iterator().next();
+        System.out.println("First set entry: " + setMessageService.getMessage());
         
         Map<String,MessageService> mapMessageService = Impala.getModuleBean("example-service", "messageServiceMap", Map.class);
         assertFalse(mapMessageService.isEmpty());

@@ -79,6 +79,33 @@
 		</xsd:complexType>
 	</xsd:element>
 	
+	<xsd:element name="set">
+		<xsd:annotation>
+			<xsd:documentation>
+	Used to create a java.util.Set which is backed by Impala service registry entries.
+	
+	The following attributes apply:
+	- filterExpression: used to filter services which are eligible for adding to the list
+	- exportTypes: if exportTypes is present it is used to limit the candidate services to 
+	those which were exported using all of the specified set of export types. 
+	- proxyTypes: if present, then the proxyTypes are used to create the proxy to the service
+	for each entry in the map. If not present, then the export types (from the exportTypes attribute)
+	are also used as the proxy types. If neither is present, then Impala will attempt to create a
+	CGLIB proxy of the class.
+	
+	Note that the implementation honours the java.util.Set contract - duplicates
+	of the contributed object will not appear in the set. It also does not provide
+	any guarrantees on the ordering of contributed entries.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="filterExpression" type="xsd:string" use="required"/>
+			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
+			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+	
 	<xsd:element name="map">
 		<xsd:annotation>
 			<xsd:documentation>
