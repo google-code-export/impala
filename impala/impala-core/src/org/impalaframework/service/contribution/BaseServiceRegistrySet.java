@@ -32,7 +32,8 @@ import org.springframework.util.ObjectUtils;
  * the underlying private {@link Set} instance.
  * 
  * Note that this implementation honours the {@link Set} contract - duplicates
- * of the contributed object will not appear in the set.
+ * of the contributed object will not appear in the set. It also does not provide
+ * any guarrantees on the ordering of contributed beans.
  * 
  * @see BaseServiceRegistryMap
  * @author Phil Zoio
