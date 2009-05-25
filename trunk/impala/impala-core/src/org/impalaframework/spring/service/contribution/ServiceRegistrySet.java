@@ -1,9 +1,9 @@
 package org.impalaframework.spring.service.contribution;
 
-import java.util.List;
+import java.util.Set;
 
 import org.impalaframework.service.ServiceRegistryEntry;
-import org.impalaframework.service.contribution.BaseServiceRegistryList;
+import org.impalaframework.service.contribution.BaseServiceRegistrySet;
 import org.impalaframework.spring.service.SpringServiceEndpoint;
 import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
@@ -15,14 +15,14 @@ import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
 /**
- * Spring-based service registry {@link List} implementation which uses a possibly wired in 
+ * Spring-based service registry {@link Set} implementation which uses a possibly wired in 
  * {@link ProxyFactoryCreator} to create a proxy for the backed object.
  * 
- * @see ServiceRegistrySet
+ * @see ServiceRegistryList
  * @see ServiceRegistryMap
  * @author Phil Zoio
  */
-public class ServiceRegistryList extends BaseServiceRegistryList
+public class ServiceRegistrySet extends BaseServiceRegistrySet
         implements InitializingBean, DisposableBean, BeanNameAware, ProxyFactoryCreatorAware, SpringServiceEndpoint {
 
     private ProxyFactoryCreator proxyFactoryCreator;
@@ -63,7 +63,7 @@ public class ServiceRegistryList extends BaseServiceRegistryList
     /* ******************** Injection setters ******************** */
 
     /**
-     * Sets the proxy types for the {@link ServiceRegistryList}. Simply delegates call
+     * Sets the proxy types for the {@link ServiceRegistrySet}. Simply delegates call
      * to superclass's {@link #setProxyTypes(Class[])} method. Allows both 
      * supportedTypes and proxyTypes to be used in populating this bean
      */
