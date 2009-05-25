@@ -82,6 +82,16 @@ public interface WebBootstrapProperties {
     String AUTO_RELOAD_MONITORING_TYPE_DEFAULT = "default";
     
     /**
+     * If {@link #AUTO_RELOAD_MONITORING_TYPE} is set to 'stagingDirectory',
+     * this property allows you to configure the staging directory location.
+     * Set relative to the module directory (typically WEB-INF/modules).
+     * Default is ../staging.
+     */
+    String AUTO_RELOAD_STAGING_DIRECTORY = "auto.reload.staging.directory";
+    
+    String AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT = "../staging";
+    
+    /**
      * Whether {@link ServletContext} attributes and resources should be partitioned
      * across modules. This makes it possible to set attributes and make resources
      * visible within modules only through {@link ServletContext} methods.
