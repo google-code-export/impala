@@ -1,26 +1,24 @@
 package org.impalaframework.service.contribution;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceReferenceFilter;
-import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.ServiceRegistryEventListener;
 import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
-import org.impalaframework.service.reference.ServiceReferenceSorter;
 import org.springframework.util.ObjectUtils;
 
 /**
- * {@link List} implementation which is dynamically backed by the service registry. It
- * implements {@link ServiceRegistryEventListener} so that it can pick up and
- * respond to changes in the service registry. By default, uses
+ * {@link Set} implementation which is dynamically backed by the service
+ * registry. It implements {@link ServiceRegistryEventListener} so that it can
+ * pick up and respond to changes in the service registry. By default, uses
  * {@link LdapServiceReferenceFilter} to filter out relevant service entries
  * from the service registry. Alternatively, a {@link ServiceReferenceFilter}
  * can be wired in directly.
@@ -29,17 +27,20 @@ import org.springframework.util.ObjectUtils;
  * {@link ServiceReferenceFilter} associated with this instance. Each time a new
  * item is added or removed from the list is sorted.
  * 
- * All direct mutation methods from the {@link List} throw
+ * All direct mutation methods from the {@link Set} throw
  * {@link UnsupportedOperationException}. Read-only methods delegate directly to
- * the underlying private {@link List} instance.
+ * the underlying private {@link Set} instance.
+ * 
+ * Note that this implementation honours the {@link Set} contract - duplicates
+ * of the contributed object will not appear in the set.
  * 
  * @see BaseServiceRegistryMap
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
+public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget implements Set {
     
-    private static Log logger = LogFactory.getLog(BaseServiceRegistryList.class);
+    private static Log logger = LogFactory.getLog(BaseServiceRegistrySet.class);
     
     private Object lock = new Object();
     
@@ -47,23 +48,18 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     /**
      * Holds contributions, typically proxied objects
      */
-    private List contributions = new ArrayList();
+    private Set contributions = new LinkedHashSet();
     
     /**
-     * Holds list of {@link ServiceRegistryEntry}
+     * Holds mapping of {@link ServiceRegistryEntry}
      */
-    private List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>();
+    private Set<ServiceRegistryEntry> services = new LinkedHashSet<ServiceRegistryEntry>();
     
     /**
      * Holds identify mapping of beans to proxies, to remove need for proxy recreation 
      * when bean is repopulated
      */
     private Map<Object,Object> proxyMap = new IdentityHashMap<Object, Object>();
-
-    /**
-     * Used to sort contributions each time repopulation occurs
-     */
-    private ServiceReferenceSorter sorter = new ServiceReferenceSorter();
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
 
@@ -72,11 +68,11 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         synchronized (lock) {
             if (!this.services.contains(entry)) {
                 
-                List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>(this.services);
+                Set<ServiceRegistryEntry> services = new LinkedHashSet<ServiceRegistryEntry>(this.services);
                 //add the reference and sort
                 
                 services.add(entry);
-                sortAndRepopulate(services);
+                repopulate(services);
 
                 if (logger.isDebugEnabled()) {
                     logger.debug("Service " + entry + " added to " + ObjectUtils.identityToString(this));
@@ -95,13 +91,13 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     public boolean remove(ServiceRegistryEntry entry) {
         
         synchronized (lock) {
-            List<ServiceRegistryEntry> services = new ArrayList<ServiceRegistryEntry>(this.services);
+            Set<ServiceRegistryEntry> services = new LinkedHashSet<ServiceRegistryEntry>(this.services);
             boolean removedRef = services.remove(entry);
             
             proxyMap.remove(entry.getServiceBeanReference().getService());
             
             if (removedRef) {
-                sortAndRepopulate(services); 
+                repopulate(services); 
                 if (logger.isDebugEnabled()) {
                     logger.debug("Service " + entry + " successfully removed from " + ObjectUtils.identityToString(this));
                 }   
@@ -125,17 +121,16 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
 
     protected abstract Object maybeGetProxy(ServiceRegistryEntry ref);
 
-    private void sortAndRepopulate(List<ServiceRegistryEntry> services) {
+    private void repopulate(Set<ServiceRegistryEntry> services) {
         this.services.clear();
         this.contributions.clear();
         this.proxyMap.clear();
-
+        
         //repopulate the services
-        List<ServiceRegistryEntry> sorted = sorter.sort(services, true);
-        this.services.addAll(sorted);
+        this.services.addAll(services);
         
         //repopulate the contributions list
-        for (ServiceRegistryEntry entry : sorted) {
+        for (ServiceRegistryEntry entry : this.services) {
             Object bean = entry.getServiceBeanReference().getService();
             
             Object proxyObject = proxyMap.get(bean);
@@ -156,14 +151,6 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.containsAll(collections);
     }
 
-    public Object get(int index) {
-        return contributions.get(index);
-    }
-
-    public int indexOf(Object object) {
-        return contributions.indexOf(object);
-    }
-
     public boolean isEmpty() {
         return contributions.isEmpty();
     }
@@ -172,26 +159,10 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.iterator();
     }
 
-    public int lastIndexOf(Object object) {
-        return contributions.lastIndexOf(object);
-    }
-
-    public ListIterator listIterator() {
-        return contributions.listIterator();
-    }
-
-    public ListIterator listIterator(int index) {
-        return contributions.listIterator(index);
-    }
-
     public int size() {
         return contributions.size();
     }
-
-    public List subList(int fromIndex, int toIndex) {
-        return contributions.subList(fromIndex, toIndex);
-    }
-
+    
     public Object[] toArray() {
         return contributions.toArray();
     }
@@ -206,15 +177,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         throw new UnsupportedOperationException();
     }
 
-    public void add(int index, Object object) {
-        throw new UnsupportedOperationException();
-    }
-
     public boolean addAll(Collection collection) {
-        throw new UnsupportedOperationException();
-    }
-
-    public boolean addAll(int index, Collection collection) {
         throw new UnsupportedOperationException();
     }
 
@@ -226,10 +189,6 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         throw new UnsupportedOperationException();
     }
 
-    public Object remove(int index) {
-        throw new UnsupportedOperationException();
-    }
-
     public boolean removeAll(Collection collection) {
         throw new UnsupportedOperationException();
     }
@@ -238,13 +197,9 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         throw new UnsupportedOperationException();
     }
 
-    public Object set(int index, Object object) {
-        throw new UnsupportedOperationException();
-    }    
-
     /* ******************* protected methods ******************** */
 
-    protected List<ServiceRegistryEntry> getServices() {
+    protected Set<ServiceRegistryEntry> getServices() {
         return services;
     }
     
