@@ -112,7 +112,7 @@ public class WebContextLocationResolverTest extends TestCase {
         properties.setProperty("top.level.module.path.enabled", "true");
         resolver.addPathModuleMapper(configSettings, propertySource);
         assertLocations("web-path-mapper");
-        assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES));
+        assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES));
         assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_PATH_ENABLED));
         assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.WEB_MODULE_PREFIX));
     }

@@ -45,7 +45,6 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
 
     private static final long serialVersionUID = 1L;
     
-    //FIXME Issue 184 - should expose configuration to determine whether this should be set 
     /**
      * Whether to set the thread context class loader to that of the class loader 
      * of the module. By default this is true.

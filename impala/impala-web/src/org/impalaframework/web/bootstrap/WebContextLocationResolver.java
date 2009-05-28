@@ -87,10 +87,10 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
             configSettings.add("META-INF/impala-web-path-mapper-bootstrap.xml");
             
             StringPropertyValue webModulePrefix = new StringPropertyValue(propertySource, WebBootstrapProperties.WEB_MODULE_PREFIX, WebBootstrapProperties.WEB_MODULE_PREFIX_DEFAULT);
-            StringPropertyValue topLevelModuleSuffixes = new StringPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES_DEFAULT);
+            StringPropertyValue topLevelModuleSuffixes = new StringPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES, WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES_DEFAULT);
             
             configSettings.addProperty(WebBootstrapProperties.WEB_MODULE_PREFIX, webModulePrefix);
-            configSettings.addProperty(WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES, topLevelModuleSuffixes);
+            configSettings.addProperty(WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES, topLevelModuleSuffixes);
         }   
     }
 
