@@ -12,26 +12,23 @@
  * the License.
  */
 
-package org.impalaframework.service;
+package org.impalaframework.service.registry.internal;
+
+import org.impalaframework.service.ServiceEventListenerRegistry;
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.ServiceRegistryEvent;
+import org.impalaframework.service.ServiceRegistryEventListener;
 
 /**
  * Interface for registering and removing {@link ServiceRegistryEventListener}
  * 
  * @author Phil Zoio
  */
-public interface ServiceEventListenerRegistry {
+public interface InvokingServiceEventListenerRegistry extends ServiceEventListenerRegistry {
 
     /**
-     * Adds global event listeners to which all service registry events will be
-     * broadcast. Returns false if listener is already present in service
-     * registry and therefore not added as part of this operation.
+     * Invokes the listeners for a particular {@link ServiceRegistryEntry}
      */
-    boolean addEventListener(ServiceRegistryEventListener listener);
-    
-    /**
-     * Removes global event listeners to which all service registry events will
-     * be broadcast. Returns true if listener was removed.
-     */
-    boolean removeEventListener(ServiceRegistryEventListener listener);
+    void invokeListeners(ServiceRegistryEvent event);
 
 }

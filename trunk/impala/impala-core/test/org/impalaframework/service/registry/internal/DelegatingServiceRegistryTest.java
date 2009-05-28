@@ -50,7 +50,7 @@ public class DelegatingServiceRegistryTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         registry = new DelegatingServiceRegistry();
-        entryDelegate = registry.getEntryRegistryDelegate();
+        entryDelegate = (ServiceEntryRegistryDelegate) registry.getEntryRegistryDelegate();
         
         classLoader = ClassUtils.getDefaultClassLoader();
         classes = new Class[]{String.class};

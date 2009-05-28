@@ -253,7 +253,18 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
- <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.DelegatingServiceRegistry"/>
+ <bean id="exportTypeDeriver" class="org.impalaframework.service.registry.internal.EmptyExportTypeDeriver"/>
+ 
+ <bean id="entryRegistryDelegate" class="org.impalaframework.service.registry.internal.ServiceEntryRegistryDelegate">
+    <property name="exportTypeDeriver" ref="exportTypeDeriver"/>         
+ </bean>
+ 
+ <bean id="listenerRegistryDelegate" class="org.impalaframework.service.registry.internal.ServiceEventListenerRegistryDelegate"/>
+ 
+ <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.DelegatingServiceRegistry">   
+    <property name="entryRegistryDelegate" ref="entryRegistryDelegate"/>         
+    <property name="listenerRegistryDelegate" ref="listenerRegistryDelegate"/>      
+ </bean>
  
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
 
