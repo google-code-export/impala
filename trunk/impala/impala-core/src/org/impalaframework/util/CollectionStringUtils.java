@@ -16,18 +16,20 @@ package org.impalaframework.util;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 
 
 public abstract class CollectionStringUtils {
-    
+
     /**
-     * Generates a list of Strings from the underlying list, assuming that they are
-     * separated by a new line or comma. Trims each entry in list.
+     * Generates a list of Strings from the underlying list, assuming that they
+     * are separated by a new line or comma. Trims each entry in list. Note that
+     * the character '\\' can be used to escape delimiters, so that these can
+     * appear in values.
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
      */
@@ -39,9 +41,11 @@ public abstract class CollectionStringUtils {
     }
     
     /**
-     * Generates a list of Objects from the underlying list, assuming that they are
-     * separated by a new line or comma. Uses {@link ParseUtils#parseObject(String)} to convert 
-     * String values to map values.
+     * Generates a list of Objects from the underlying list, assuming that they
+     * are separated by a new line or comma. Uses
+     * {@link ParseUtils#parseObject(String)} to convert String values to map
+     * values.Note that the character '\\' can be used to escape delimiters, so
+     * that these can appear in values.
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
      */
@@ -53,20 +57,26 @@ public abstract class CollectionStringUtils {
     }
 
     /**
-     * Generates map of String to String name value pairs, assuming that individual pairings are
-     * separated by a new line or comma, and that name to value pairs are separated by equals
+     * Generates map of String to String name value pairs, assuming that
+     * individual pairings are separated by a new line or comma, and that name
+     * to value pairs are separated by equals. Note that the character '\\' can
+     * be used to escape delimiters, so that these can appear in keys or values
+     * (in the case of the the pair separator), or keys (in the case of the name
+     * to value separator).
      * @param mapString the input String
-     * @return a String to String map. Uses {@link LinkedHashMap} so that the ordering of the key
-     * value pairs is maintained
+     * @return a String to String map. Uses {@link LinkedHashMap} so that the
+     * ordering of the key value pairs is maintained
      */
     public static Map<String,String> parsePropertiesFromString(String mapString) {
-        //FIXME should have escape syntax for ,
         return parsePropertiesFromString(mapString, ",\n");
     }
 
     /**
-     * As in {@link #parsePropertiesFromString(String)}, but with allowing the user to specify the 
-     * delimiters between pairings
+     * As in {@link #parsePropertiesFromString(String)}, but with allowing the
+     * user to specify the delimiters between pairings. Note that the character '\\' can
+     * be used to escape delimiters, so that these can appear in keys or values
+     * (in the case of the the pair separator), or keys (in the case of the name
+     * to value separator).
      */
     @SuppressWarnings("unchecked")
     public static Map<String, String> parsePropertiesFromString(String mapString, String delimiters) {
@@ -74,22 +84,28 @@ public abstract class CollectionStringUtils {
     }
     
     /**
-     * Generates map of String to Object name value pairs, assuming that individual pairings are
-     * separated by a new line or comma, and that name to value pairs are separated by equals
+     * Generates map of String to Object name value pairs, assuming that
+     * individual pairings are separated by a new line or comma, and that name
+     * to value pairs are separated by equals. Note that the character '\\' can
+     * be used to escape delimiters, so that these can appear in keys or values
+     * (in the case of the the pair separator), or keys (in the case of the name
+     * to value separator).
      * @param mapString the input String
-     * @return a String to Object map. Uses {@link ParseUtils#parseObject(String)} to convert 
-     * String values to map values.
-     * Uses {@link LinkedHashMap} so that the ordering of the key
-     * value pairs is maintained
+     * @return a String to Object map. Uses
+     * {@link ParseUtils#parseObject(String)} to convert String values to map
+     * values. Uses {@link LinkedHashMap} so that the ordering of the key value
+     * pairs is maintained
      */
     public static Map<String,Object> parseMapFromString(String mapString) {
-        //FIXME should have escape syntax for ,
         return parseMapFromString(mapString, ",\n");
     }
     
     /**
-     * As in {@link #parseMapFromString(String)}, but with allowing the user to specify the 
-     * delimiters between pairings
+     * As in {@link #parseMapFromString(String)}, but with allowing the user to
+     * specify the delimiters between pairings. Note that the character '\\' can
+     * be used to escape delimiters, so that these can appear in keys or values
+     * (in the case of the the pair separator), or keys (in the case of the name
+     * to value separator).
      */
     @SuppressWarnings("unchecked")
     public static Map<String, Object> parseMapFromString(String mapString, String delimiters) {
@@ -103,13 +119,34 @@ public abstract class CollectionStringUtils {
         Assert.notNull(mapString, "map string cannot be null");
         Assert.notNull(delimiters, "delimiters cannot be null");
         
-        String[] pairings = StringUtils.tokenizeToStringArray(mapString, delimiters);
+        String[] pairings = tokenize(mapString, delimiters);
         Map map = new LinkedHashMap();
         for (String pair : pairings) {
-            int equalsIndex = pair.indexOf('=');
+            
+            StringBuffer keyBuffer = new StringBuffer();
+            char[] pairChars = pair.toCharArray();
+            
+            boolean foundEquals = false;
+            int i = 0;
+            while (i < pairChars.length) {
+                char c = pairChars[i];
+                if (c == '=') {
+                    foundEquals = true;
+                    break;
+                }
+                if (c == '\\') {
+                    i++;
+                    c = pairChars[i];
+                }
+                keyBuffer.append(c);
+                i++;
+            }
+            
+            int equalsIndex = i;
+            
             if (equalsIndex > 0) {
-                Object value = valueConverter.convertValue(pair.substring(equalsIndex+1).trim());
-                map.put(pair.substring(0, equalsIndex).trim(), value);
+                Object value = foundEquals ? valueConverter.convertValue(pair.substring(equalsIndex+1).trim()) : null;
+                map.put(keyBuffer.toString().trim(), value);
             } else {
                 map.put(pair.trim(), null);
             }
@@ -125,13 +162,68 @@ public abstract class CollectionStringUtils {
         Assert.notNull(listString, "listString string cannot be null");
         Assert.notNull(delimiters, "delimiters cannot be null");
         
-        String[] pairings = StringUtils.tokenizeToStringArray(listString, delimiters); 
+        String[] pairings = tokenize(listString, delimiters); 
         List list = new ArrayList(pairings.length);  
         for (String string : pairings) {
             list.add(valueConverter.convertValue(string.trim()));
         }
         
         return list;
+    }
+
+    static String[] tokenize(String listString, String delimiters) {
+        char[] delimiterChars = delimiters.toCharArray();
+        
+        char[] listChars = listString.toCharArray();
+        int i = 0;
+        
+        List<String> stringList = new LinkedList<String>();
+        
+        StringBuffer buffer = new StringBuffer();
+        while (i < listChars.length) {
+            
+            char c = listChars[i];
+
+            boolean advance = false;
+            for (char d : delimiterChars) {
+                if (c == d) {
+                    stringList.add(buffer.toString());
+                    buffer = new StringBuffer();
+                    advance = true;
+                    break;
+                }
+            }
+            
+            if (!advance) {
+                if (c == '\\') {
+                    if (i < listChars.length-1) {
+                        char next = listChars[i+1];
+                        
+                        //if one of next chars is delimiter chars, 
+                        //then advance to next char
+                        for (char d : delimiterChars) {
+                            if (d == next) {
+                                i++;
+                                c = next;
+                                break;
+                            }
+                        }
+                    }
+                }
+                
+                buffer.append(c);
+            }
+            
+            i++;
+        }
+        
+        //add last buffer to String
+        stringList.add(buffer.toString());
+        
+        String[] pairings = 
+            stringList.toArray(EMPTY_STRING);
+            //StringUtils.tokenizeToStringArray(listString, delimiters);
+        return pairings;
     }
     
     private static interface ValueConverter {
@@ -153,5 +245,7 @@ public abstract class CollectionStringUtils {
         }
         
     };
+
+    private static final String[] EMPTY_STRING = new String[0];
     
 }

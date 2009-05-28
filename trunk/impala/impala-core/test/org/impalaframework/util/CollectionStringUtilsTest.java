@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,16 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 public class CollectionStringUtilsTest extends TestCase {
+    
+    public void testEscape() throws Exception {
+        compareTokenize("a:b:c:d", "a,b\nc,d");
+        compareTokenize("a:b:c:,d", "a,b\nc,\\,d");
+        compareTokenize("a:b:c:d\\", "a,b,c,d\\");
+    }
+
+    private void compareTokenize(String expected, String initial) {
+        assertEquals(Arrays.asList(expected.split(":")), Arrays.asList(CollectionStringUtils.tokenize(initial, ",\n")));
+    }
 
     public void testParsePropertiesFromString() {
         String input = " name1 = 1 \n name2= value 2, name3 = value3 ";
@@ -46,6 +57,14 @@ public class CollectionStringUtilsTest extends TestCase {
         assertEquals(new Long(1), map.get("name1"));
         assertTrue(map.get("name2") instanceof Date);
         assertEquals("value3", map.get("name3"));
+    }
+    
+    public void testEscapeKeys() throws Exception {
+        String input = "name1=value1,name\\=2=value2";
+        Map<String, Object> map = CollectionStringUtils.parseMapFromString(input);
+        assertEquals(2, map.size());
+        Object actual = map.get("name=2");
+        assertEquals("value2", actual);
     }
     
     public void testParseStringList() throws Exception {
