@@ -22,11 +22,6 @@ import org.impalaframework.service.registry.exporttype.ExportTypeDeriver;
 public class EmptyExportTypeDeriver implements ExportTypeDeriver {
 
     public List<Class<?>> deriveExportTypes(Object service, String beanName, List<Class<?>> classes) {
-        //TODO implement ExportTypeDeriver
-        //if classes are present then use all of these as keys in classes to services map
-        //if no classes are present, then find first matching interface, and use this as key in classes to services map
-        //if no bean name present, then at least one explicit class reference must be present
-        //if no classes are present, then bean name must be present
         return Collections.emptyList();
     }
 }
