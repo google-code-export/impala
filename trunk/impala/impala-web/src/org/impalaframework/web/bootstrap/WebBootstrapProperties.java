@@ -132,13 +132,29 @@ public interface WebBootstrapProperties {
     String PRESERVE_SESSION_ON_RELOAD_FAILURE = "preserve.session.on.reload.failure";
     
     boolean PRESERVE_SESSION_ON_RELOAD_FAILURE_DEFAULT = true;
-    
 
-    String SPRING_PATH_MAPPING_ENABLED = "spring.path.mapping.enabled";
+    /**
+     * Used to indicate that the URL to module mapping strategy supports top level paths.
+     * By default, Impala will use the servlet path part of the URL to determine the module. For example,
+     * the URL http://localhost:8080/myapp/module1/home.do will map to the module 'module1'.
+     * With 'top.level.module.path.enabled' set to true, the module mapping strategy will also
+     * support mapping URLs based on a portion of the top level path. For example, the URL
+     * http://localhost:8080/myapp/module1home.do can be configured to point to the module module1.
+     * In this example, the property 'top.level.module.suffixes' must contain 'module1' 
+     * for this to work. 
+     * @see #TOP_LEVEL_MODULE_SUFFIXES
+     */
+    String TOP_LEVEL_MODULE_PATH_ENABLED = "top.level.module.path.enabled";
 
-    boolean SPRING_PATH_MAPPING_ENABLED_DEFAULT = false;
+    boolean TOP_LEVEL_MODULE_PATH_ENABLED_DEFAULT = false;
     
-    
+    /**
+     * The portion of the path which is ignored for the purpose of module selection when dynamically
+     * mapping requests to modules. For example, if a module name is 'webframeworks-webflow', then the 
+     * URL http://localhost:8080/myapp/webflow/home.do will be mapped to the 'webframeworks-webflow' module.
+     * Without this property set, then you would need to use the URL http://localhost:8080/myapp/webframeworks-webflow/home.do
+     * to map to the 'webframeworks-webflow' module.
+     */
     String WEB_MODULE_PREFIX = "web.module.prefix";
 
     String WEB_MODULE_PREFIX_DEFAULT = "";

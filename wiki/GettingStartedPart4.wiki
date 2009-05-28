@@ -199,7 +199,7 @@ Property settings:
   proxy.missing.service.retry.interval: 1000 (default)
   proxy.set.context.classloader: true (default)
   session.module.protection: true
-  spring.path.mapping.enabled: false (default)
+  top.level.module.path.enabled: false (default)
   touch.file: /WEB-INF/modules/touch.txt (default)
   use.touch.file: false (default)
   workspace.root: ../ (default)
