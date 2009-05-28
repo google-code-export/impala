@@ -114,11 +114,46 @@ with the stale class loader.
 *preserve.session.on.reload.failure*: If a session attribute is lost because it cannot be "reloaded" maintain the 
 existing session. Default is `true`.
 
-*top.level.module.path.enabled*: TO BE ADDED
+*web.module.prefix*:
+The portion of the path which is ignored for the purpose of module selection when dynamically
+mapping requests to modules. For example, if a module name is `webframeworks-webflow`, then the 
+URL _http://localhost:8080/myapp/webflow/home.do_ will be mapped to the `webframeworks-webflow` module.
+Without this property set, then you would need to use the URL _http://localhost:8080/myapp/webframeworks-webflow/home.do_.
+to map to the `webframeworks-webflow` module.
 
-*web.module.prefix*: TO BE ADDED
+*top.level.module.path.enabled*: Used to indicate that the URL to module mapping strategy supports top level paths.
+By default, Impala will use the servlet path part of the URL to determine the module. For example,
+the URL _http://localhost:8080/myapp/module1/home.do_ will map to the module 'module1'.
+With `top.level.module.path.enabled` set to `true`, the module mapping strategy will also
+support mapping URLs based on a portion of the top level path. For example, the URL
+_http://localhost:8080/myapp/module1home.do_ can be configured to point to the module `module1`.
+In this example, the property `top.level.module.prefixes` must contain `module1` 
+for this to work. This capability is useful for supporting frameworks which make it difficult
+to use the servlet part of the URL for module selection. An example is Tapestry. However,
+the downside is that all resources within the module must begin with the relevant 
+top level prefix.
 
-*top.level.module.suffixes*: TO BE ADDED
+Note that in 1.0 M6, the name for this property is 'spring.path.mapping.enabled'.
+
+*top.level.module.prefixes*:
+
+If `top.level.module.path.enabled` is set to `true`, then this contains the comma-separated
+list of prefixes which is used to direct requests to modules based on the top level path of the URL.
+For example, if the value for `top.level.module.prefixes` is `module1,module2`,
+then a request with the URL _http://localhost:8080/Module2resource_ will be directed to the module
+`module2`. Note that the prefix is case insensitive.
+
+For MVC- or request-based web frameworks such as Spring MVC, this kind of module selection will typically not be necessary, as 
+most of these give you a great deal of control over how you map requests to controllers or actions.
+However, for some component based frameworks, much more restrictive assumptions are made about how
+particular URLs map to elements of the application.
+
+*Note*
+At this point you may wish to consider enabling your own scheme for module selection.
+Here, it is simply a case of following the instructions in `ExtendingImpala`, and providing an
+implementation of the [RequestModuleMapper http://impala.googlecode.com/svn/trunk/impala/impala-web/src/org/impalaframework/web/integration/RequestModuleMapper.java]
+interface. An alternative implementation may be based on cookies or URL rewriting with a request parameter,
+or may be based on an explicit selection with the selected value held in the session.
 
 ----
 

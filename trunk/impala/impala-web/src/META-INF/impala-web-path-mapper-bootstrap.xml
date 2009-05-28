@@ -13,8 +13,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="topLevelModuleSuffixes" parent = "propertyParent">
-     <property name="name" value="top.level.module.suffixes"/>
-     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOP_LEVEL_MODULE_SUFFIXES]"/>
+     <property name="name" value="top.level.module.prefixes"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES]"/>
  </bean>
  
  <bean id="servletPathRequestModuleMapper" class="org.impalaframework.web.integration.ServletPathRequestModuleMapper">

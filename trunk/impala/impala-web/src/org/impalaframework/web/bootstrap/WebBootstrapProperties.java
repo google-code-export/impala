@@ -49,8 +49,6 @@ public interface WebBootstrapProperties {
 
     String TOUCH_FILE_DEFAULT = "/WEB-INF/modules/touch.txt";
     
-    //FIXME add staging directory default property
-    
     /**
      * The period in seconds between successive checks for modifications when 
      * auto.deploy is used. 
@@ -140,9 +138,12 @@ public interface WebBootstrapProperties {
      * With 'top.level.module.path.enabled' set to true, the module mapping strategy will also
      * support mapping URLs based on a portion of the top level path. For example, the URL
      * http://localhost:8080/myapp/module1home.do can be configured to point to the module module1.
-     * In this example, the property 'top.level.module.suffixes' must contain 'module1' 
-     * for this to work. 
-     * @see #TOP_LEVEL_MODULE_SUFFIXES
+     * In this example, the property 'top.level.module.prefixes' must contain 'module1' 
+     * for this to work. This capability is useful for supporting frameworks which make it difficult
+     * to use the servlet part of the URL for module selection. An example is Tapestry. However,
+     * the downside is that all resources within the module must begin with the relevant 
+     * top level prefix.
+     * @see #TOP_LEVEL_MODULE_PREFIXES
      */
     String TOP_LEVEL_MODULE_PATH_ENABLED = "top.level.module.path.enabled";
 
@@ -159,9 +160,20 @@ public interface WebBootstrapProperties {
 
     String WEB_MODULE_PREFIX_DEFAULT = "";
     
-    
-    String TOP_LEVEL_MODULE_SUFFIXES = "top.level.module.suffixes";
+    /**
+     * If {@link #TOP_LEVEL_MODULE_PATH_ENABLED} is set to true, then this contains the comma-separated
+     * list of prefixes which is used to direct requests to modules based on the top level path of the URL.
+     * For example, if the value for 'top.level.module.prefixes' is <code>module1,module2</code>,
+     * then a request with the URL http://localhost:8080/Module2resource will be directed to the module
+     * 'module2'. Note that the prefix is case insensitive.
+     * 
+     * For MVC- or request-based web frameworks such as Spring MVC, this kind of module selection will typically not be necessary, as 
+     * most of these give you a great deal of control over how you map requests to controllers or actions.
+     * However, for some component based frameworks, much more restrictive assumptions are made about how
+     * particular URLs map to elements of the application.
+     */
+    String TOP_LEVEL_MODULE_PREFIXES = "top.level.module.prefixes";
 
-    String TOP_LEVEL_MODULE_SUFFIXES_DEFAULT = "";
+    String TOP_LEVEL_MODULE_PREFIXES_DEFAULT = "";
 
 }
