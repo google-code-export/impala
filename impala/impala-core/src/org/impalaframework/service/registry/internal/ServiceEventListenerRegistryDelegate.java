@@ -20,7 +20,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.service.ServiceEventListenerRegistry;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEvent;
 import org.impalaframework.service.ServiceRegistryEventListener;
@@ -31,7 +30,7 @@ import org.springframework.util.ObjectUtils;
  * Implementation of {@link ServiceRegistry}, which holds services which can be shared across modules.
  * @author Phil Zoio
  */
-public class ServiceEventListenerRegistryDelegate implements ServiceEventListenerRegistry {
+public class ServiceEventListenerRegistryDelegate implements InvokingServiceEventListenerRegistry {
 
     private static Log logger = LogFactory.getLog(ServiceEventListenerRegistryDelegate.class);
 

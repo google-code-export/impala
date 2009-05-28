@@ -20,6 +20,8 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceBeanReference;
+import org.impalaframework.service.ServiceEntryRegistry;
+import org.impalaframework.service.ServiceEventListenerRegistry;
 import org.impalaframework.service.ServiceReferenceFilter;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
@@ -37,9 +39,9 @@ import org.springframework.util.Assert;
  */
 public class DelegatingServiceRegistry implements ServiceRegistry {
     
-    private ServiceEntryRegistryDelegate entryRegistryDelegate = new ServiceEntryRegistryDelegate();
+    private ServiceEntryRegistry entryRegistryDelegate = new ServiceEntryRegistryDelegate();
     
-    private ServiceEventListenerRegistryDelegate listenerRegistryDelegate = new ServiceEventListenerRegistryDelegate();
+    private InvokingServiceEventListenerRegistry listenerRegistryDelegate = new ServiceEventListenerRegistryDelegate();
 
     private static Log logger = LogFactory.getLog(DelegatingServiceRegistry.class);
     
@@ -181,13 +183,24 @@ public class DelegatingServiceRegistry implements ServiceRegistry {
     /* ************ package level accessor methods * ************** */
 
 
-    ServiceEntryRegistryDelegate getEntryRegistryDelegate() {
+    ServiceEntryRegistry getEntryRegistryDelegate() {
         return entryRegistryDelegate;
     }
 
-    ServiceEventListenerRegistryDelegate getListenerRegistryDelegate() {
+    ServiceEventListenerRegistry getListenerRegistryDelegate() {
         return listenerRegistryDelegate;
     }
+    
+    /* ************ injected setter methods * ************** */
+
+    public void setEntryRegistryDelegate(ServiceEntryRegistry entryRegistryDelegate) {
+        this.entryRegistryDelegate = entryRegistryDelegate;
+    }
+
+    public void setListenerRegistryDelegate(InvokingServiceEventListenerRegistry listenerRegistryDelegate) {
+        this.listenerRegistryDelegate = listenerRegistryDelegate;
+    }
+    
     
 }
 
