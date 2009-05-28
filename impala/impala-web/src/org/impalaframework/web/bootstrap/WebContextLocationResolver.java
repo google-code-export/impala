@@ -80,8 +80,8 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
     }
 
     protected void addPathModuleMapper(ConfigurationSettings configSettings, PropertySource propertySource) {
-        BooleanPropertyValue pathMapperEnabled = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED_DEFAULT);
-        configSettings.addProperty(WebBootstrapProperties.SPRING_PATH_MAPPING_ENABLED, pathMapperEnabled);
+        BooleanPropertyValue pathMapperEnabled = new BooleanPropertyValue(propertySource, WebBootstrapProperties.TOP_LEVEL_MODULE_PATH_ENABLED, WebBootstrapProperties.TOP_LEVEL_MODULE_PATH_ENABLED_DEFAULT);
+        configSettings.addProperty(WebBootstrapProperties.TOP_LEVEL_MODULE_PATH_ENABLED, pathMapperEnabled);
         
         if (pathMapperEnabled.getValue()) {
             configSettings.add("META-INF/impala-web-path-mapper-bootstrap.xml");
