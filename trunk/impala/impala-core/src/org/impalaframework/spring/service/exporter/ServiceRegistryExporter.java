@@ -86,7 +86,6 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
         List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
         
         if (exportName == null && exportTypes == null && attributes == null && attributeMap == null) {
-            //FIXME test
             this.exportName = beanName;
         }
         

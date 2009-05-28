@@ -18,7 +18,6 @@ public class ExternalContextLoader extends ContextLoader {
     
     static String EXTERNAL_CONFIG_LOCATIONS_PARAM = "external.config.locations";
 
-    //TODO create 2.0 compliant implementation
     protected void customizeContext(ServletContext servletContext,
             ConfigurableWebApplicationContext applicationContext) {
         String[] configLocations = applicationContext.getConfigLocations();
