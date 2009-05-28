@@ -42,7 +42,12 @@ public class WebRootModuleLoader extends WebModuleLoader {
 
     @Override
     protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
-        //FIXME issue 25: wire this in
+        
+        Collection<ResourceLoader> injectedLocationResourceLoaders = getInjectedSpringLocationResourceLoaders();
+        if (injectedLocationResourceLoaders != null) {
+            return injectedLocationResourceLoaders;
+        }
+        
         Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
         ServletContextResourceLoader servletContextResourceLoader = new ServletContextResourceLoader();
         servletContextResourceLoader.setServletContext(getServletContext());

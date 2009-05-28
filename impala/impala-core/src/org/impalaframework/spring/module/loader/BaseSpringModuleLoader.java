@@ -40,6 +40,8 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implements SpringModuleLoader {
+
+    private Collection<ResourceLoader> springLocationResourceLoaders;
     
     public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
         Assert.notNull(classLoader, "classloader cannot be null");
@@ -65,12 +67,16 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
 
     protected Collection<ResourceLoader> getSpringLocationResourceLoaders() {
         
-        //TODO issue 25: wire this in
+        Collection<ResourceLoader> injectedLocationResourceLoaders = getInjectedSpringLocationResourceLoaders();
+        if (injectedLocationResourceLoaders != null) {
+            return injectedLocationResourceLoaders;
+        }
+        
         Collection<ResourceLoader> resourceLoaders = new ArrayList<ResourceLoader>();
         resourceLoaders.add(new ClassPathResourceLoader());
         return resourceLoaders;
     }
-
+    
     public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
         final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
@@ -82,6 +88,14 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
     public void handleRefresh(ConfigurableApplicationContext context) {
         // refresh the application context - now we're ready to go
         context.refresh();
+    }
+
+    protected Collection<ResourceLoader> getInjectedSpringLocationResourceLoaders() {
+        return this.springLocationResourceLoaders;
+    }
+
+    public void setSpringLocationResourceLoaders(Collection<ResourceLoader> resourceLoaders) {
+        this.springLocationResourceLoaders = resourceLoaders;
     }
 
 }
