@@ -24,6 +24,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.ParseUtils;
@@ -93,7 +94,7 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
             attributeMap = CollectionStringUtils.parseMapFromString(attributes);
         }
 
-        final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
+        final ServiceBeanReference beanReference = SpringServiceBeanUtils.newServiceBeanReference(beanFactory, beanName);
         this.serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), beanReference, exportTypesToUse, attributeMap, beanClassLoader);
     }
 

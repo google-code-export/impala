@@ -28,6 +28,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -74,7 +75,7 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
 		//add check so that we don't try to add bean and factory bean
 		if (!beansEncountered.contains(beanName) && !referenceMap.containsKey(beanName)) {
 		    
-		    if (SpringModuleServiceUtils.isSingleton(beanFactory, beanName)) {
+		    if (SpringServiceBeanUtils.isSingleton(beanFactory, beanName)) {
 		
         		//only if there is a contribution end point corresponding with bean name do we register the service
         		NamedServiceEndpoint endPoint = SpringModuleServiceUtils.findServiceEndpoint(beanFactory, beanName);
