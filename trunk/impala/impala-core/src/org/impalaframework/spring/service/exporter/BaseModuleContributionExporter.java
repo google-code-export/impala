@@ -29,6 +29,7 @@ import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -77,7 +78,7 @@ public abstract class BaseModuleContributionExporter implements ModuleDefinition
                 if (serviceRegistry != null) {
                     String moduleName = moduleDefinition.getName();
                     logger.info("Contributing bean " + beanName + " from module " + moduleName);
-                    final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
+                    final ServiceBeanReference beanReference = SpringServiceBeanUtils.newServiceBeanReference(beanFactory, beanName);
                     final ServiceRegistryEntry serviceReference = serviceRegistry.addService(beanName, moduleName, beanReference, beanClassLoader);
                     contributionMap.put(serviceReference, endPoint);
                 }   

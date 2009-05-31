@@ -10,6 +10,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
@@ -61,7 +62,7 @@ public class ServiceArrayRegistryExporter
         
         for (int i = 0; i < beanNames.length; i++) {
             String beanName = beanNames[i];
-            final ServiceBeanReference beanReference = SpringModuleServiceUtils.newServiceBeanReference(beanFactory, beanName);
+            final ServiceBeanReference beanReference = SpringServiceBeanUtils.newServiceBeanReference(beanFactory, beanName);
             final ServiceRegistryEntry serviceReference = serviceRegistry.addService(exportNames[i], moduleDefinition.getName(), beanReference, beanClassLoader);
             services.add(serviceReference);
         }

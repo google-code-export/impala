@@ -14,20 +14,12 @@
 
 package org.impalaframework.spring.service.exporter;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedServiceEndpoint;
-import org.impalaframework.service.ServiceBeanReference;
-import org.impalaframework.spring.service.SpringServiceBeanReference;
-import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanIsNotAFactoryException;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.HierarchicalBeanFactory;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.util.Assert;
 
 /**
  * 
@@ -35,64 +27,7 @@ import org.springframework.util.Assert;
  */
 public abstract class SpringModuleServiceUtils {
 
-    private static final Log logger = LogFactory.getLog(SpringModuleServiceUtils.class);
-    
-    /**
-     * Returns instance of {@link StaticSpringServiceBeanReference} if bean is represented by a singleton
-     * and {@link SpringServiceBeanReference} if not.
-     * @see #isSingleton(BeanFactory, String)
-     */
-    static ServiceBeanReference newServiceBeanReference(BeanFactory beanFactory, String beanName) {
-
-        Object bean = beanFactory.getBean(beanName);
-        boolean singleton = isSingleton(beanFactory, beanName);
-        if (singleton) {
-            return new StaticSpringServiceBeanReference(bean);
-        }
-        return new SpringServiceBeanReference(beanFactory, beanName);
-    }
-
-    /**
-     * Checks that the bean with given name contained in the specified bean factory is a singleton.
-     * Will return true if bean represented by a bean registered under the scope <code>singletone</code>.
-     * If the bean is also a factory bean (see {@link FactoryBean}), then the {@link FactoryBean}
-     * instance also needs to be a singleton
-     * @return true if bean is singleton registered bean and, if applicable, a singleton {@link FactoryBean}.
-     */
-    public static boolean isSingleton(
-            BeanFactory beanFactory,
-            String beanName) {
-
-        Assert.notNull(beanFactory, "beanFactory cannot be null");
-        Assert.notNull(beanName, "beanName cannot be null");
-
-        boolean singleton = true;
-
-        boolean isBeanFactory = beanFactory.containsBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
-        if (isBeanFactory) {
-            FactoryBean factoryBean = (FactoryBean) beanFactory.getBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
-            singleton = factoryBean.isSingleton();
-        }
-        
-        if (singleton) {
-            BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
-            
-            //we're only interested in top level definitions
-            //inner beans won't appear here, so 
-            boolean containsBeanDefinition = registry.containsBeanDefinition(beanName);
-            if (containsBeanDefinition) {
-                BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
-                singleton = beanDefinition.isSingleton();
-            } else {
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Cannot check whether bean definition " + beanName + " is singleton as it is not available as a top level bean");
-                }
-            }
-        }
-        return singleton;
-    }
-
-    /**
+     /**
      * If parent bean factory contains bean of the same name which is a {@link FactoryBean}
      * implementing the {@link NamedServiceEndpoint} interface, then this instance will be returned.
      * Otherwise, returns null.
