@@ -42,6 +42,8 @@ public class ParentFactoryBean implements InitializingBean, FactoryBean, BeanNam
     
     private ServiceBeanReference serviceBeanReference;
     
+    //FIXME use this class as base to expose mechanism to get any scoped bean as singleton
+    
     /**
      * Finds the first parent {@link BeanFactory} which contains a bean of the given name
      */
