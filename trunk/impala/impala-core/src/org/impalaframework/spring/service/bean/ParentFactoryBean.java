@@ -46,8 +46,6 @@ public class ParentFactoryBean implements InitializingBean, FactoryBean, BeanNam
      * Finds the first parent {@link BeanFactory} which contains a bean of the given name
      */
     BeanFactory findParentFactory() {
-        
-        //FIXME add test for this class
 
         BeanFactory currentBeanFactory = this.beanFactory;
         
