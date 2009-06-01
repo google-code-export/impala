@@ -21,10 +21,13 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.service.BeanDefinitionExposing;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
@@ -40,7 +43,7 @@ import org.springframework.util.ObjectUtils;
  * 
  * @author Phil Zoio
  */
-public class GraphDelegatingApplicationContext implements ApplicationContext {
+public class GraphDelegatingApplicationContext implements ApplicationContext, BeanDefinitionExposing {
 
     private static Log logger = LogFactory.getLog(GraphDelegatingApplicationContext.class);
     
@@ -239,6 +242,14 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
         return parent.getMessage(resolvable, locale);
     }
 
+    public BeanDefinition getBeanDefinition(String beanName) {
+        if (parent instanceof BeanDefinitionRegistry) {
+            return ((BeanDefinitionRegistry) parent).getBeanDefinition(beanName);
+        }
+        return null;
+    }
+
+
     public String getMessage(String code, Object[] args, Locale locale) throws NoSuchMessageException {
         return parent.getMessage(code, args, locale);
     }
@@ -272,5 +283,4 @@ public class GraphDelegatingApplicationContext implements ApplicationContext {
     public void setDisplayName(String displayName) {
         this.displayName = displayName;
     }
-
 }
