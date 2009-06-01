@@ -8,6 +8,8 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
+    <bean name="entryService" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/> 
+    
     <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
     <bean name="/servlet1/test.do1" class="TestController1">
         <property name = "entryService" ref = "entryService"/>

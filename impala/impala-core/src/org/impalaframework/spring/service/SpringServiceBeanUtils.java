@@ -16,9 +16,11 @@ package org.impalaframework.spring.service;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceBeanReference;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.util.Assert;
@@ -50,7 +52,12 @@ public class SpringServiceBeanUtils {
      * Checks that the bean with given name contained in the specified bean factory is a singleton.
      * Will return true if bean represented by a bean registered under the scope <code>singletone</code>.
      * If the bean is also a factory bean (see {@link FactoryBean}), then the {@link FactoryBean}
-     * instance also needs to be a singleton
+     * instance also needs to be a singleton.
+     * 
+     * Note that in order to work properly the {@link BeanFactory} must be able to recover the {@link BeanDefinition}
+     * for a particular bean name. This in particular must mean implementing {@link BeanDefinitionRegistry} or 
+     * {@link BeanDefinitionExposing}. In the latter case, if null is returned, then the bean will be treated as a singleton.
+     * 
      * @return true if bean is singleton registered bean and, if applicable, a singleton {@link FactoryBean}.
      */
     public static boolean isSingleton(
@@ -69,14 +76,18 @@ public class SpringServiceBeanUtils {
         }
         
         if (singleton) {
-            BeanDefinitionRegistry registry = (BeanDefinitionRegistry) beanFactory;
+            //ApplicationContext implements this implements this
+            ListableBeanFactory registry = (ListableBeanFactory) beanFactory;
             
             //we're only interested in top level definitions
             //inner beans won't appear here, so 
             boolean containsBeanDefinition = registry.containsBeanDefinition(beanName);
             if (containsBeanDefinition) {
-                BeanDefinition beanDefinition = registry.getBeanDefinition(beanName);
-                singleton = beanDefinition.isSingleton();
+                BeanDefinition beanDefinition = getBeanDefinition(registry, beanName);
+                
+                if (beanDefinition != null) {
+                    singleton = beanDefinition.isSingleton();
+                }
             } else {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Cannot check whether bean definition " + beanName + " is singleton as it is not available as a top level bean");
@@ -84,6 +95,21 @@ public class SpringServiceBeanUtils {
             }
         }
         return singleton;
+    }
+
+    private static BeanDefinition getBeanDefinition(BeanFactory beanFactory, String beanName) {
+        if (beanFactory instanceof BeanDefinitionRegistry) {
+            return ((BeanDefinitionRegistry) beanFactory).getBeanDefinition(beanName);
+        }
+        if (beanFactory instanceof BeanDefinitionExposing) {
+            BeanDefinition beanDefinition = ((BeanDefinitionExposing) beanFactory).getBeanDefinition(beanName);
+            return beanDefinition;
+        }
+        //FIXME test
+        throw new InvalidStateException("Cannot get bean definition as bean factory [" 
+                + beanFactory.getClass().getName()
+        		+ "] does not implement [" + BeanDefinitionRegistry.class
+                + "] or " + BeanDefinitionExposing.class.getName() + "]");
     }
     
     
