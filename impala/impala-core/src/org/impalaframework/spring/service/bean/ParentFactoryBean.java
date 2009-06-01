@@ -29,7 +29,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 
 /**
- * {@link FactoryBean} which simply injects bean obtained from parent bean factory
+ * {@link FactoryBean} which simply injects bean obtained from parent bean factory.
  * @author Phil Zoio
  */
 public class ParentFactoryBean implements InitializingBean, FactoryBean, BeanNameAware, BeanFactoryAware, ApplicationContextAware {
