@@ -11,7 +11,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  	<property name="beanName" value="singletonParent"/>
  </bean>
  <bean id="proxiedNamedBean" class="org.impalaframework.spring.service.bean.ProxiedNamedFactoryBean">
- 	<property name="beanName" value="singletonParent"/>
+ 	<property name="beanName" value="prototypeParent"/>
  </bean>
  
 </beans>

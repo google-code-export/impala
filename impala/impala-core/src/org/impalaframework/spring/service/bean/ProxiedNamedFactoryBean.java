@@ -28,10 +28,10 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.util.Assert;
 
 /**
- * {@link FactoryBean} which exposes existing bean via proxy.
+ * {@link FactoryBean} which exposes existing named bean via a proxy. The proxy can be used in a static way, allowing the client to
+ * treat the source bean as if it is a singleton.
  * @author Phil Zoio
  */
-//FIXME document
 public class ProxiedNamedFactoryBean extends BaseExistingBeanExposingFactoryBean implements BeanClassLoaderAware, ModuleDefinitionAware {
 
     private String beanName;

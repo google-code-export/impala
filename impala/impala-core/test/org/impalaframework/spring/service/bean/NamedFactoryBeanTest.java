@@ -41,6 +41,12 @@ public class NamedFactoryBeanTest extends TestCase {
         Object proxiedNamedBean = childContext.getBean("proxiedNamedBean");
         assertFalse(ParentBean.class.getName().equals(proxiedNamedBean.getClass().getName()));
         assertTrue(proxiedNamedBean instanceof ParentBean);
+        
+        ParentBean proxied = (ParentBean) proxiedNamedBean;
+        System.out.println(proxied.getInstance());
+        
+        ParentBean next = (ParentBean) childContext.getBean("proxiedNamedBean");
+        System.out.println(next.getInstance());
     }
     
 }
