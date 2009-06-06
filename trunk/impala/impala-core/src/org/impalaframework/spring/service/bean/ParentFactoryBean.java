@@ -43,7 +43,7 @@ public class ParentFactoryBean extends BaseExistingBeanExposingFactoryBean
     }    
     
     public void afterPropertiesSet() throws Exception {
-        BeanFactory parentFactory = findBeanFactory(getIncludeCurrentBeanFactory());
+        BeanFactory parentFactory = findBeanFactory();
         serviceBeanReference = SpringServiceBeanUtils.newServiceBeanReference(parentFactory, getBeanNameToSearchFor());
     }
 
