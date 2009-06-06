@@ -48,9 +48,17 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
     /**
      * Finds the first parent {@link BeanFactory} which contains a bean of the given name
      */
-    BeanFactory findBeanFactory(boolean includeCurrent) {
+    BeanFactory findBeanFactory() {
 
         BeanFactory currentBeanFactory = this.beanFactory;
+        
+        if (getIncludeCurrentBeanFactory()) {
+            if (this.beanFactory instanceof ListableBeanFactory) {
+                if (((ListableBeanFactory) this.beanFactory).containsBeanDefinition(getBeanNameToSearchFor())) {
+                    return this.beanFactory;
+                }
+            }
+        }
         
         //continue looping until you find a parent bean factory which contains the given bean
         while (currentBeanFactory != null) {
