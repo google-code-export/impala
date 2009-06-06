@@ -21,6 +21,16 @@ import org.springframework.context.ApplicationContextAware;
 public class ParentBean implements ApplicationContextAware, Parent {
 
     private ApplicationContext context;
+    
+    private static int count;
+    
+    private int instance;
+
+    public ParentBean() {
+        super();
+        count++;
+        this.instance = count;
+    }
 
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.context = applicationContext;
@@ -28,6 +38,10 @@ public class ParentBean implements ApplicationContextAware, Parent {
 
     public Child tryGetChild() {
         return (Child) context.getBean("child");
+    }
+    
+    public int getInstance() {
+        return instance;
     }
 
 }
