@@ -23,13 +23,24 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
  * @author Phil Zoio
  */
 public class NamedFactoryBeanTest extends TestCase {
+    
+    private ClassPathXmlApplicationContext parentContext;
+    private ClassPathXmlApplicationContext childContext;
 
-    public void testParentFactoryBean() throws Exception {
-        ClassPathXmlApplicationContext parentContext = new ClassPathXmlApplicationContext("childcontainer/parent-factory.xml");
-        ClassPathXmlApplicationContext childContext = new ClassPathXmlApplicationContext(new String[]{"childcontainer/child-factory.xml"}, parentContext);
-        
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        parentContext = new ClassPathXmlApplicationContext("childcontainer/parent-factory.xml");
+        childContext = new ClassPathXmlApplicationContext(new String[]{"childcontainer/child-factory.xml"}, parentContext);
+    }
+
+    public void testNamedFactoryBean() throws Exception {
         Object namedBean = childContext.getBean("namedBean");
         assertEquals(ParentBean.class.getName(), namedBean.getClass().getName());
+        
+        Object proxiedNamedBean = childContext.getBean("proxiedNamedBean");
+        assertFalse(ParentBean.class.getName().equals(proxiedNamedBean.getClass().getName()));
+        assertTrue(proxiedNamedBean instanceof ParentBean);
     }
     
 }
