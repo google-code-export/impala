@@ -16,79 +16,39 @@ package org.impalaframework.spring.service.bean;
 
 import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.HierarchicalBeanFactory;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.ListableBeanFactory;
-import org.springframework.beans.factory.support.BeanDefinitionValidationException;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 
 /**
- * {@link FactoryBean} which simply injects bean obtained from parent bean factory.
+ * {@link FactoryBean} which simply injects bean obtained from parent bean
+ * factory.
  * @author Phil Zoio
  */
-public class ParentFactoryBean implements InitializingBean, FactoryBean, BeanNameAware, BeanFactoryAware, ApplicationContextAware {
+public class ParentFactoryBean extends BaseExistingBeanExposingFactoryBean
+        implements BeanNameAware {
 
     private String beanName;
     
-    private BeanFactory beanFactory;
-    
-    private ApplicationContext applicationContext;
-    
     private ServiceBeanReference serviceBeanReference;
-    
-    //FIXME use this class as base to expose mechanism to get any scoped bean as singleton
-    
-    /**
-     * Finds the first parent {@link BeanFactory} which contains a bean of the given name
-     */
-    BeanFactory findParentFactory() {
 
-        BeanFactory currentBeanFactory = this.beanFactory;
-        
-        //continue looping until you find a parent bean factory which contains the given bean
-        while (currentBeanFactory != null) {
-
-            if (currentBeanFactory instanceof HierarchicalBeanFactory) {
-                HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) currentBeanFactory;
-                currentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();               
-            } else {
-                currentBeanFactory = null;
-            }
-            
-            if (currentBeanFactory != null) {
-                if (currentBeanFactory instanceof ListableBeanFactory) {
-                    ListableBeanFactory listable = (ListableBeanFactory) currentBeanFactory;
-                    if (listable.containsBeanDefinition(this.beanName)) {
-                        return currentBeanFactory;
-                    }
-                }
-            }
-        }
-        return null;
+    @Override
+    protected String getBeanNameToSearchFor() {
+        return beanName;
     }
 
+    @Override
+    protected boolean getIncludeCurrentBeanFactory() {
+        return false;
+    }    
+    
     public void afterPropertiesSet() throws Exception {
-        BeanFactory parentFactory = findParentFactory();
-        
-        if (parentFactory == null) {
-            throw new BeanDefinitionValidationException("No parent bean factory of application context [" + applicationContext.getDisplayName() + "] contains bean [" + beanName + "]");
-        }
-        
-        serviceBeanReference = SpringServiceBeanUtils.newServiceBeanReference(parentFactory, this.beanName);
+        BeanFactory parentFactory = findBeanFactory(getIncludeCurrentBeanFactory());
+        serviceBeanReference = SpringServiceBeanUtils.newServiceBeanReference(parentFactory, getBeanNameToSearchFor());
     }
 
     public Object getObject() throws Exception {
         return serviceBeanReference.getService();
-    }
-
-    public Class<?> getObjectType() {
-        return null;
     }
 
     public boolean isSingleton() {
@@ -98,14 +58,5 @@ public class ParentFactoryBean implements InitializingBean, FactoryBean, BeanNam
     public void setBeanName(String beanName) {
         this.beanName = beanName;
     }
-
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
-    }
-
-    public void setApplicationContext(ApplicationContext applicationContext) {
-        this.applicationContext = applicationContext;
-    }
-
 
 }
