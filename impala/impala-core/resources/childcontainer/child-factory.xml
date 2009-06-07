@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <bean id="prototypeParent" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/>
  <bean id="singletonParent" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/>
- <bean id="namedBean" class="org.impalaframework.spring.service.bean.NamedFactoryBean">
+ <bean id="namedBean" class="org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean">
  	<property name="beanName" value="singletonParent"/>
  </bean>
  <bean id="proxiedNamedBean" class="org.impalaframework.spring.service.bean.ProxiedNamedFactoryBean">

@@ -22,10 +22,15 @@ import org.springframework.util.Assert;
 
 /**
  * {@link FactoryBean} which simply injects bean obtained from parent bean
- * factory.
+ * factory. This implementation is functionally equivalent to {@link org.impalaframework.spring.bean.NamedFactoryBean}
+ * for singletons, but also is able to detect correctly when the bean that it is exposing is a singleton, and
+ * return {@link #isSingleton()} accordingly. If this functionality is not required, and you know that
+ * the bean you are exposing is a singleton, consider using {@link org.impalaframework.spring.bean.NamedFactoryBean} instead of this.
+ * 
+ * @see org.impalaframework.spring.bean.NamedFactoryBean
  * @author Phil Zoio
  */
-public class NamedFactoryBean extends BaseExistingBeanExposingFactoryBean {
+public class SingletonAwareNamedFactoryBean extends BaseExistingBeanExposingFactoryBean {
 
     private String beanName;
     

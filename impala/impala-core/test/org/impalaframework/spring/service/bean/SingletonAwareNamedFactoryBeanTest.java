@@ -22,7 +22,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author Phil Zoio
  */
-public class NamedFactoryBeanTest extends TestCase {
+public class SingletonAwareNamedFactoryBeanTest extends TestCase {
     
     private ClassPathXmlApplicationContext parentContext;
     private ClassPathXmlApplicationContext childContext;
