@@ -24,6 +24,13 @@ import org.springframework.util.Assert;
 /**
  * {@link BeanFactory} which returns a particular named Spring bean. Use the {@link #beanName} property to specify which 
  * Spring bean should actually be returned.
+ * 
+ * Note that this implementation assumes that the bean you are exposing is a singleton, and always returns <code>true</code>
+ * in the {@link #isSingleton()} method. A more advanced implementation which is aware of the singleton status of the bean
+ * it is exposing is {@link org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean}. If this functionality is required,
+ * for example if you are exposing non-singleton beans, then use this implementation instead.
+ * 
+ * @see org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean
  */
 public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, InitializingBean {
 
