@@ -17,11 +17,13 @@ package org.impalaframework.web.spring.integration;
 import java.util.Collections;
 import java.util.Map;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
@@ -43,7 +45,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
     private ServletContext servletContext;
     private Map<String,String> initParameters;
-    private HttpServlet servlet;
+    private Servlet servlet;
     private String servletName;
     private Class<?> servletClass;
     private ApplicationContext applicationContext;
@@ -54,7 +56,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     }
 
     public Class<?> getObjectType() {
-        return HttpServlet.class;
+        return Servlet.class;
     }
 
     public boolean isSingleton() {
@@ -72,7 +74,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
             servletName = moduleDefintion.getName();
         }
         
-        servlet = (HttpServlet) BeanUtils.instantiateClass(servletClass);
+        servlet = ObjectUtils.cast(BeanUtils.instantiateClass(servletClass), Servlet.class);
         Map<String, String> emptyMap = Collections.emptyMap();
         Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
         IntegrationServletConfig config = newServletConfig(parameterMap);
@@ -94,7 +96,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     /**
      * Hook for subclasses to customise servlet properties
      */
-    protected void initServletProperties(HttpServlet servlet) {
+    protected void initServletProperties(Servlet servlet) {
     }
     
     /* ***************** Protected getters **************** */
