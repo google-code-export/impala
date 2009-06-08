@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.spring.integration;
 
+import javax.servlet.Servlet;
 import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.exception.ConfigurationException;
@@ -34,7 +35,7 @@ public class InternalFrameworkIntegrationServletFactoryBean extends
     }
     
     @Override
-    protected void initServletProperties(HttpServlet servlet) {
+    protected void initServletProperties(Servlet servlet) {
         super.initServletProperties(servlet);
         Assert.notNull(delegateServlet, "delegateServlet cannot be null");
         
