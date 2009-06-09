@@ -24,7 +24,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>redirector</servlet-name>
-        <url-pattern>*.htm</url-pattern>
+        <url-pattern>/*</url-pattern>
     </servlet-mapping>	
      
     <!-- Just here so the JSF implementation can initialize, *not* used at runtime 
