@@ -1,0 +1,7 @@
+<parent>
+	<names>
+	springfaces-main
+	springfaces-module1
+	springfaces-web
+	</names>
+</parent>

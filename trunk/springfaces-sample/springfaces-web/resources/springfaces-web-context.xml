@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean class="config.ServletContextConfigurer">
+        <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
+    </bean> 
+    
+	<!--  -->
+    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
+        <property name = "servletName" value = "springfaces-web"/>
+        <property name = "servletClass" value = "javax.faces.webapp.FacesServlet"/>
+    </bean> 
+    
+    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
+        <property name = "servletName" value = "springfaces-web"/>
+        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+    </bean> 
+    
+	<import resource="web-application-config.xml" />
+    
+</beans>
