@@ -18,7 +18,12 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     
     <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
         <property name = "servletName" value = "springfaces-web"/>
-        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>        
+        <property name = "initParameters">
+            <map>
+                <entry key="setThreadContextClassLoader" value = "true"/>
+            </map>
+        </property>
     </bean> 
     
 	<import resource="web-application-config.xml" />
