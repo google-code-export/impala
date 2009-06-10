@@ -40,7 +40,7 @@
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.core-2.5.5.A.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.faces-2.0.7.RELEASE.jar" sourcepath="/springfaces-repository/springfaces/org.springframework.faces-sources-2.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.jdbc-2.5.5.A.jar"/>
-	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.js-2.0.7.RELEASE.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.js-2.0.7.RELEASE.jar" sourcepath="/springfaces-repository/springfaces/org.springframework.js-sources-2.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.orm-2.5.5.A.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.security-2.0.2.A.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.transaction-2.5.5.A.jar"/>

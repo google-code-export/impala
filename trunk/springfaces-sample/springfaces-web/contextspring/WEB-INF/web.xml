@@ -67,14 +67,14 @@
   	
   	<!-- Serves static resource content from .jar files such as spring-faces.jar -->
 	<servlet>
-		<servlet-name>Resources Servlet</servlet-name>
+		<servlet-name>ResourceServlet</servlet-name>
 		<servlet-class>org.springframework.js.resource.ResourceServlet</servlet-class>
 		<load-on-startup>0</load-on-startup>
 	</servlet>
 		
 	<!-- Map all /resources requests to the Resource Servlet for handling -->
 	<servlet-mapping>
-		<servlet-name>Resources Servlet</servlet-name>
+		<servlet-name>ResourceServlet</servlet-name>
 		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
 	
