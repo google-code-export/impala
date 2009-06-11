@@ -52,7 +52,7 @@
 	
 	<listener>
 		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
-	</listener>
+	</listener>	
 		
   	<!-- Serves static resource content from .jar files such as spring-faces.jar -->
 	<servlet>
@@ -85,7 +85,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>redirector</servlet-name>
-        <url-pattern>/*</url-pattern>
+        <url-pattern>/spring/*</url-pattern>
     </servlet-mapping>	
      
     <!-- Just here so the JSF implementation can initialize, *not* used at runtime 
