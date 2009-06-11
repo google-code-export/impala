@@ -12,5 +12,6 @@
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/test/junit-3.8.1.jar" sourcepath="/springfaces-repository/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/test/easymock-2.2.jar" sourcepath="/springfaces-repository/test/easymock-2.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/test/easymockclassextension-2.2.jar" sourcepath="/springfaces-repository/test/easymockclassextension-2.2-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-extension"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
