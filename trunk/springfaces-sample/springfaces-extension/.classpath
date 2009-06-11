@@ -4,5 +4,9 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="/springfaces-repository/main/impala-core-1.0-SNAPSHOT.jar" sourcepath="/springfaces-repository/main/impala-core-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/springfaces-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/web/jsp-api-2.1.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/web/servlet-api-2.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
