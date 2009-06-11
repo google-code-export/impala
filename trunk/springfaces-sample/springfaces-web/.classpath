@@ -42,9 +42,9 @@
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.jdbc-2.5.5.A.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.js-2.0.7.RELEASE.jar" sourcepath="/springfaces-repository/springfaces/org.springframework.js-sources-2.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.orm-2.5.5.A.jar"/>
-	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.security-2.0.2.A.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.security-2.0.2.A.jar" sourcepath="/springfaces-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.transaction-2.5.5.A.jar"/>
-	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.web-2.5.5.A.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.web-2.5.5.A.jar" sourcepath="/springfaces-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.web.servlet-2.5.5.A.jar" sourcepath="/springfaces-repository/main/spring-webmvc-2.5.5-sources.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.webflow-2.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/el/el-api-1.0.jar"/>
