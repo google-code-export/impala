@@ -6,6 +6,8 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
+	<import resource="web-application-config.xml" />
+	
     <bean class="config.ServletContextConfigurer">
         <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
     </bean> 
@@ -25,7 +27,5 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
             </map>
         </property>
     </bean> 
-    
-	<import resource="web-application-config.xml" />
     
 </beans>

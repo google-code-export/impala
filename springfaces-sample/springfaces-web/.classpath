@@ -34,7 +34,7 @@
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/com.springsource.org.objectweb.asm-1.5.3.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/com.springsource.org.objectweb.asm.attrs-1.5.3.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.aop-2.5.5.A.jar"/>
-	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.beans-2.5.5.A.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.beans-2.5.5.A.jar" sourcepath="/springfaces-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.binding-2.0.7.RELEASE.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.context-2.5.5.A.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/springfaces/org.springframework.core-2.5.5.A.jar"/>
