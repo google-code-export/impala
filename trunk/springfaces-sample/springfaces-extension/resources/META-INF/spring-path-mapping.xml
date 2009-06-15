@@ -15,23 +15,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <list> 
             <ref local = "mappedModuleMapper"/>
             <ref bean = "servletPathRequestModuleMapper"/>
-            <ref bean = "topLevelPathContainsModuleMapper"/>
         </list>  
-    </property> 
- </bean>
- 
-  <bean id="servletRootModuleLoader" 
-     parent = "baseModuleLoader"
-     class="org.impalaframework.web.integration.ServletRootModuleLoader">
-     <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
- </bean> 
- 
-  <bean id="extraWebModuleLoaderWebContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
-    <property name = "registryBeanName" value = "moduleLoaderRegistry"/>
-    <property name = "contributions">
-        <map>
-            <entry key="servletRootModuleLoader" value="spring-servlet_root"/>
-        </map>
     </property> 
  </bean>
  
