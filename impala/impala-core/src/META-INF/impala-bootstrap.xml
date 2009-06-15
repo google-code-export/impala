@@ -118,6 +118,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="name" value="workspace.root"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.WORKSPACE_ROOT_DEFAULT]"/>
  </bean>
+ 
+ <bean id="externalRootModuleName" parent = "propertyParent">
+     <property name="name" value="externalRootModuleName"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
+ </bean>
     
  <bean id="applicationVersion" parent = "propertyParent">
      <property name="name" value="application.version"/>
@@ -244,7 +249,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
-    <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>       
+    <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/> 
+    <property name="externalRootModuleName" ref="externalRootModuleName"/>           
  </bean>
  
  <!-- ############## Miscellaneous definitions ############### -->

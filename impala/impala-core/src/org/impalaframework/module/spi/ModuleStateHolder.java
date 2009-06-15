@@ -34,6 +34,8 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
         
     void processTransitions(TransitionSet transitions);
 
+    RuntimeModule getExternalRootModule();
+    
     RuntimeModule getRootModule();
 
     RuntimeModule getModule(String name);

@@ -86,11 +86,14 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
         StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, LocationConstants.MODULE_CLASS_DIR_DEFAULT);
         StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, LocationConstants.MODULE_RESOURCE_DIR_DEFAULT);
 
+        StringPropertyValue externalRootModuleName = new StringPropertyValue(propertySource, CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME, CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT);
+        
         configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
         configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
         configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);
         configSettings.addProperty(CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, moduleResourceDirectory);
         configSettings.addProperty(CoreBootstrapProperties.EMBEDDED_MODE, embeddedMode);
+        configSettings.addProperty(CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME, externalRootModuleName);
     }
     
     protected boolean explicitlySetLocations(ConfigurationSettings configSettings, PropertySource propertySource) {

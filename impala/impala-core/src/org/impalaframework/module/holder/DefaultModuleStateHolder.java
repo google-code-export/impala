@@ -32,6 +32,7 @@ import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 /**
  * @author Phil Zoio
@@ -39,6 +40,8 @@ import org.springframework.util.Assert;
 public class DefaultModuleStateHolder implements ModuleStateHolder {
 
     private static Log logger = LogFactory.getLog(DefaultModuleStateHolder.class);
+    
+    private String externalRootModuleName;
     
     private RootModuleDefinition rootModuleDefinition;
 
@@ -78,6 +81,13 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
         } finally {
             rootModuleDefinition = transitions.getNewRootModuleDefinition();
         }
+    }
+    
+    public RuntimeModule getExternalRootModule() {
+        if (!StringUtils.hasText(this.externalRootModuleName)) {
+            return runtimeModules.get(this.externalRootModuleName);
+        }
+        return getRootModule();
     }
 
     public RuntimeModule getRootModule() {
@@ -136,6 +146,10 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
     public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
         this.moduleStateChangeNotifier = moduleStateChangeNotifier;
+    }
+
+    public void setExternalRootModuleName(String rootModuleName) {
+        this.externalRootModuleName = rootModuleName;
     }
 
 }

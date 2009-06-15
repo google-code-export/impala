@@ -35,6 +35,14 @@ public class MemoryUtils {
         return usedMemory(runtime);
     }
 
+    /**
+     * Returns max memory available MB
+     */
+    public static double maxMemory() {
+        Runtime runtime = Runtime.getRuntime();
+        return maxMemory(runtime);
+    }
+    
     static double usedMemory(Runtime runtime) {
         long totalMemory = runtime.totalMemory();
         long freeMemory = runtime.freeMemory();
