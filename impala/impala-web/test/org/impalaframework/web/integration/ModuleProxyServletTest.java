@@ -63,7 +63,7 @@ public class ModuleProxyServletTest extends TestCase {
     
     public void testDoServiceWithModule() throws Exception {
         
-        expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
+        expect(request.getRequestURI()).andStubReturn("/app/mymodule/resource.htm");
         expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
         delegateServlet.service(request, response);
         
@@ -76,7 +76,7 @@ public class ModuleProxyServletTest extends TestCase {
     
     public void testDoServiceNoModule() throws Exception {
 
-        expect(request.getServletPath()).andStubReturn("/mymodule/resource.htm");
+        expect(request.getRequestURI()).andStubReturn("/app/mymodule/resource.htm");
         expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(null);
         
         replayMocks();
@@ -88,7 +88,7 @@ public class ModuleProxyServletTest extends TestCase {
     
     public void testDoServiceWithDuffPath() throws Exception {
         
-        expect(request.getServletPath()).andStubReturn("/duff");
+        expect(request.getRequestURI()).andStubReturn("/duff");
         replayMocks();
         
         servlet.doService(request, response, servletContext);

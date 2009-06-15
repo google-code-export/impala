@@ -100,10 +100,10 @@ public class ModuleProxyServlet extends HttpServlet {
                 HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
                 moduleServlet.service(wrappedRequest, response);
             } else {
-                logger.warn("No redirection possible for servlet path " + request.getServletPath() + ", module name " + moduleName);
+                logger.warn("No redirection possible for servlet path " + request.getRequestURI() + ", module name " + moduleName);
             }
         } else {
-            logger.warn("Not possible to figure out module name from servlet path " + request.getServletPath());
+            logger.warn("Not possible to figure out module name from servlet path " + request.getRequestURI());
         }
     }
 
