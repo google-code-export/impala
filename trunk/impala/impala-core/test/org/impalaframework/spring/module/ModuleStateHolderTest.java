@@ -27,6 +27,7 @@ import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
@@ -108,6 +109,11 @@ public class ModuleStateHolderTest extends TestCase {
         service((FileMonitor) context.getBean("bean1"));
         //now we got bean3
         service((FileMonitor) context.getBean("bean3"));
+        
+        moduleStateHolder.setExternalRootModuleName("sample-module1");
+        SpringRuntimeModule module1 = (SpringRuntimeModule) moduleStateHolder.getModule("sample-module1");
+        ConfigurableApplicationContext newRootModule = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
+        assertSame(module1.getApplicationContext(), newRootModule);
 
     }
 
