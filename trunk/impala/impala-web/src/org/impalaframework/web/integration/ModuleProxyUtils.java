@@ -45,12 +45,12 @@ public class ModuleProxyUtils {
         String tempModuleName = (servletPath.startsWith("/") ? servletPath.substring(1) : servletPath);
         
         //check index of next slash
-        int firstSlash = tempModuleName.indexOf('/');
+        int nextSlash = tempModuleName.indexOf('/');
         
         String segment = null;
         
-        if (firstSlash >= 0) {
-            segment = tempModuleName.substring(0, firstSlash);
+        if (nextSlash >= 0) {
+            segment = tempModuleName.substring(0, nextSlash);
         } else {
             if (allowTopLevelOnly) {
                 segment = tempModuleName;
@@ -58,5 +58,18 @@ public class ModuleProxyUtils {
         }
         
         return segment;
+    }
+
+    static String getTopLevelPathSegment(String uri) {
+        //request URI includes context path, so that should be stripped off
+        String toCheck = uri.startsWith("/") ? uri.substring(1) : uri;
+        
+        //we are dealing with the top level path
+        String[] split = toCheck.split("/");
+        
+        if (split.length == 1) {
+            return null;
+        }
+        return split[1];
     }
 }

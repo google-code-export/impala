@@ -81,7 +81,7 @@ public class ModuleProxyFilterTest extends TestCase {
     
     public void testDoFilter() throws Exception {
 
-        expect(request.getServletPath()).andStubReturn("/mymodule/path");
+        expect(request.getRequestURI()).andStubReturn("/app/mymodule/path");
         filter.init(filterConfig);
         
         replayMocks();
@@ -94,7 +94,7 @@ public class ModuleProxyFilterTest extends TestCase {
     
     public void testDoWithNotMatchingModule() throws Exception {
         
-        expect(request.getServletPath()).andStubReturn("/anothermodule/path");
+        expect(request.getRequestURI()).andStubReturn("/app/anothermodule/path");
         WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
         filter.init(filterConfig);
         
@@ -108,7 +108,7 @@ public class ModuleProxyFilterTest extends TestCase {
     
     public void testDoWithMatchingModule() throws Exception {
 
-        expect(request.getServletPath()).andStubReturn("/mymodule/path");
+        expect(request.getRequestURI()).andStubReturn("/app/mymodule/path");
         WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
         filter.init(filterConfig);
         

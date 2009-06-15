@@ -44,7 +44,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
     }
     
     public void testGetModuleForRequest() {
-        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        expect(request.getRequestURI()).andReturn("/app/mymodule/resource.htm");
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
@@ -55,7 +55,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
     public void testGetModuleForRequestWithPrefix() {
         initParameters.put("modulePrefix", "someprefix");
         
-        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        expect(request.getRequestURI()).andReturn("/app/mymodule/resource.htm");
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
@@ -68,7 +68,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         initParameters.put("modulePrefix", "anotherprefix");
         mapper.init(new IntegrationFilterConfig(initParameters, servletContext, "filterServlet"));
         
-        expect(request.getServletPath()).andReturn("/mymodule/resource.htm");
+        expect(request.getRequestURI()).andReturn("/app/mymodule/resource.htm");
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);

@@ -39,24 +39,19 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
     }
     
     public String getModuleForRequest(HttpServletRequest request) {
-        String moduleName = getModuleName(request.getServletPath(), prefix);
-        return moduleName;
-    }
-
-    String getModuleName(String servletPath, String modulePrefix) {
+        String uri = request.getRequestURI();
+        String moduleName = ModuleProxyUtils.getTopLevelPathSegment(uri);
         
-        String moduleName = ModuleProxyUtils.getTopLevelPathSegment(servletPath, false);
-        
-        if (moduleName == null) {
+        if (ModuleProxyUtils.getTopLevelPathSegment(uri) == null) {
             return null;
         }
         
-        if (modulePrefix != null) {
-            moduleName = modulePrefix + moduleName;
+        if (prefix != null) {
+            moduleName = prefix + moduleName;
         }
         return moduleName;
     }
-
+    
     public void setPrefix(String prefix) {
         this.prefix = prefix;
     }
