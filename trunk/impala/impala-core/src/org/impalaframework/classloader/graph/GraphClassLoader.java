@@ -156,7 +156,22 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         if (classLoader == this) {
             return true;
         }
-        return delegateClassLoader.hasVisibilityOf(classLoader);
+        boolean hasVisibilityOf = delegateClassLoader.hasVisibilityOf(classLoader);
+        
+        if (hasVisibilityOf)
+            return hasVisibilityOf;
+        
+        ClassLoader child = this;
+        ClassLoader parent = null;
+
+        while ((parent = child.getParent()) != null) {
+            if (parent == classLoader) {
+                return true;
+            }
+            child = parent;
+        }
+        
+        return false;
     }
 
     
