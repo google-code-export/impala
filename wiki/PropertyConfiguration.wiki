@@ -92,6 +92,12 @@ mechanism.
 
 ==== Miscellaneous web properties ====
 
+*external.root.module.name*: (forthcoming in 1.0M7) The module whose application context should be interpreted as the root module by
+external applications. This allows it to be published in web applications as the Spring root web application context. 
+The default is an empty String, which is interpreted as simply to use the name of the Impala root module. This 
+property can be useful if you want to allow, for example, the top level web module to be published as the root,
+instead of the Impala root module.
+
 *embedded.mode*: This property must be set to true if you want to run a web application
 embedded within the IDE, without any specific packaging required.
 Suitable for a fast develop/deploy/test cycle. The alternative involves
