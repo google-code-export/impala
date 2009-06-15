@@ -14,13 +14,23 @@
 
 package org.impalaframework.web.spring.servlet;
 
+import java.io.IOException;
+
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import org.springframework.web.util.NestedServletException;
 
 /**
  * Extension of <code>DispatcherServlet</code> for servlets which are defined
@@ -30,11 +40,19 @@ import org.springframework.web.servlet.DispatcherServlet;
  * 
  * @author Phil Zoio
  */
-public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware {
+public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware, HttpServiceInvoker {
     
     private static final long serialVersionUID = 1L;
     
     private WebApplicationContext applicationContext;
+    
+    private HttpServiceInvoker invoker;
+    
+    /**
+     * Sets whether to set the thread context class loader to that of the class loader 
+     * of the module. By default this is false.
+     */
+    private boolean setThreadContextClassLoader;
     
     public InternalModuleServlet() {
         super();
@@ -48,7 +66,24 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
         WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
         ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
         ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
+        
+        this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(this, setThreadContextClassLoader, applicationContext.getClassLoader());
         return applicationContext;
+    }   
+
+    @Override
+    protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        //FIXME test
+        invoker.invoke(request, response, null);
+    }
+    
+    public void invoke(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+            throws IOException, ServletException {
+        try {
+            super.doService(request, response);
+        } catch (Exception e) {
+            throw new NestedServletException("Request processing failed", e);
+        }
     }
 
     @Override
@@ -62,6 +97,10 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
     public void setApplicationContext(ApplicationContext applicationContext)
             throws BeansException {
         this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
+    }
+
+    public void setSetThreadContextClassLoader(boolean setThreadContextClassLoader) {
+        this.setThreadContextClassLoader = setThreadContextClassLoader;
     }
     
 }
