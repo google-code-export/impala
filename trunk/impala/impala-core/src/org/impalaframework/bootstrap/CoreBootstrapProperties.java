@@ -32,6 +32,18 @@ public interface CoreBootstrapProperties {
      * Default value for {@link #EMBEDDED_MODE} property
      */
     boolean EMBEDDED_MODE_DEFAULT = false;
+    
+    /**
+     * Module which should be exposed outside of the Impala as the module root, for example for use in as the Spring 
+     * web application root context
+     */
+    String EXTERNAL_ROOT_MODULE_NAME = "external.root.module.name";
+    
+    /**
+     * Default value for {@link #EXTERNAL_ROOT_MODULE_NAME} property. Empty, meaning that the normal module root
+     * should be used
+     */
+    String EXTERNAL_ROOT_MODULE_NAME_DEFAULT = "";
 
     /**
      * A comma or space separated list of context locations. If this property is set, then other properties which would otherwise
