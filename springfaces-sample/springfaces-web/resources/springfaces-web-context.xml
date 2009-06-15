@@ -11,8 +11,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
     <bean class="config.ServletContextConfigurer">
         <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
     </bean> 
-    
-	<!--  -->
+
     <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
         <property name = "servletName" value = "springfaces-web"/>
         <property name = "servletClass" value = "javax.faces.webapp.FacesServlet"/>
