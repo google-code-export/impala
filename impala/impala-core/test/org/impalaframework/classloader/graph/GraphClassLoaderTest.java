@@ -27,6 +27,7 @@ import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
+import org.springframework.util.ClassUtils;
 
 public class GraphClassLoaderTest extends TestCase {
     
@@ -69,6 +70,12 @@ public class GraphClassLoaderTest extends TestCase {
         
         assertTrue(ClassLoaderUtils.isVisibleFrom(rootClassLoader, definition6Loader));
         assertFalse(ClassLoaderUtils.isVisibleFrom(definition6Loader, rootClassLoader));
+        
+        assertTrue(ClassLoaderUtils.isVisibleFrom(ClassUtils.getDefaultClassLoader(), definition6Loader));
+        assertTrue(ClassLoaderUtils.isVisibleFrom(ClassUtils.getDefaultClassLoader(), rootClassLoader));
+        
+        assertFalse(ClassLoaderUtils.isVisibleFrom(rootClassLoader, ClassUtils.getDefaultClassLoader()));
+        assertFalse(ClassLoaderUtils.isVisibleFrom(definition6Loader, ClassUtils.getDefaultClassLoader()));
     }
     
 }

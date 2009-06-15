@@ -120,7 +120,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="externalRootModuleName" parent = "propertyParent">
-     <property name="name" value="externalRootModuleName"/>
+     <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
  </bean>
     
