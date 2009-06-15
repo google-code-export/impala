@@ -26,7 +26,7 @@ public abstract class SpringModuleUtils {
 
         Assert.notNull(moduleStateHolder);
         
-        final RuntimeModule runtimeModule = moduleStateHolder.getRootModule();
+        final RuntimeModule runtimeModule = moduleStateHolder.getExternalRootModule();
         return getModuleSpringContext(runtimeModule);
     }
     

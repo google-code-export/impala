@@ -84,7 +84,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     }
     
     public RuntimeModule getExternalRootModule() {
-        if (!StringUtils.hasText(this.externalRootModuleName)) {
+        if (StringUtils.hasText(this.externalRootModuleName)) {
             return runtimeModules.get(this.externalRootModuleName);
         }
         return getRootModule();
