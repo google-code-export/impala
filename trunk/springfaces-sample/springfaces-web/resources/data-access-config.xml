@@ -32,4 +32,10 @@
 		<property name="password" value="" />
 	</bean>
 	
+	<!-- Added to auto-insert data -->
+	<bean id="dataInitializer" class="org.springframework.webflow.samples.booking.DataInitializer"
+		depends-on="entityManagerFactory">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
 </beans>
