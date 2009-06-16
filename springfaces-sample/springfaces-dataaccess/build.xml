@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Build springfaces-module1" basedir=".">
+<project name="Build springfaces-dataaccess" basedir=".">
 
 	<property environment="env"/>
 	<property name = "workspace.root" location = ".."/>
