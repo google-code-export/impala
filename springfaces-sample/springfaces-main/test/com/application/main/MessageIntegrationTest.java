@@ -14,15 +14,9 @@
 
 package com.application.main;
 
-import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.interactive.InteractiveTestRunner;
-
-import com.application.main.BaseIntegrationTest;
-import com.application.main.MessageService;
-
-
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
@@ -31,12 +25,10 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
 	}
 
 	public void testIntegration() {
-		MessageService service = Impala.getBean("messageService", MessageService.class);
-		System.out.println(service.getMessage());
 	}
 
 	public RootModuleDefinition getModuleDefinition() {	
-		return new TestDefinitionSource("springfaces-main", "springfaces-module1").getModuleDefinition();
+		return new TestDefinitionSource("springfaces-main", "springfaces-dataaccess").getModuleDefinition();
 	}
 
 }
