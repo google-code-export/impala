@@ -2,6 +2,7 @@
 	<names>
 	springfaces-main
 	springfaces-dataaccess
+	springfaces-service
 	springfaces-web
 	</names>
 </parent>
