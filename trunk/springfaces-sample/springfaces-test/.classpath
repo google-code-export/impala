@@ -3,8 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-main"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-module1"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-dataaccess"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-web"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
-
