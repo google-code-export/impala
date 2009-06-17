@@ -19,7 +19,6 @@ public class DataInitializer implements InitializingBean, BeanClassLoaderAware {
 	private DataSource dataSource;
 	private ClassLoader classLoader;
 
-
 	public void afterPropertiesSet() throws Exception {
 		
 		JdbcTemplate template = new JdbcTemplate(dataSource);
