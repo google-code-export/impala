@@ -86,4 +86,11 @@ public class CollectionStringUtilsTest extends TestCase {
         assertEquals(new Long(3), list.get(2));
     }
     
+    public void testParseEmptyList() throws Exception {
+        assertTrue(CollectionStringUtils.parseStringList("").isEmpty());
+        assertTrue(CollectionStringUtils.parseObjectList("").isEmpty());
+        assertTrue(CollectionStringUtils.parsePropertiesFromString("").isEmpty());
+        assertTrue(CollectionStringUtils.parseMapFromString("").isEmpty());
+    }
+
 }
