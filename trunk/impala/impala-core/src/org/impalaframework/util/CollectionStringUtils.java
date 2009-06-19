@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.util.Assert;
+import org.springframework.util.StringUtils;
 
 
 public abstract class CollectionStringUtils {
@@ -148,7 +149,9 @@ public abstract class CollectionStringUtils {
                 Object value = foundEquals ? valueConverter.convertValue(pair.substring(equalsIndex+1).trim()) : null;
                 map.put(keyBuffer.toString().trim(), value);
             } else {
-                map.put(pair.trim(), null);
+                if (StringUtils.hasText(pair)) {
+                    map.put(pair.trim(), null);
+                }
             }
         }
         
@@ -165,7 +168,9 @@ public abstract class CollectionStringUtils {
         String[] pairings = tokenize(listString, delimiters); 
         List list = new ArrayList(pairings.length);  
         for (String string : pairings) {
-            list.add(valueConverter.convertValue(string.trim()));
+            if (StringUtils.hasText(string)) {
+                list.add(valueConverter.convertValue(string.trim()));
+            }
         }
         
         return list;
