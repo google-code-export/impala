@@ -102,7 +102,7 @@
 	</target>
 	
 	<target name="scaffold:input-module-type-name" unless="module.type.name">
-		<input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,hibernate,servlet" defaultvalue="empty" />
+		<input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,hibernate,servlet,extension" defaultvalue="empty" />
 		<property name = "copy.module.project" value = "true"/>
 	</target>	
 	
@@ -234,7 +234,8 @@
 	
 		<copy file = "${impala.home}/modules/${module.type.name}/resources/module-context.xml" 
 				tofile="${workspace.root.location}/${project.prefix}${module.project.name}/resources/${project.prefix}${module.project.name}-context.xml"
-				filtering="true">
+				filtering="true"
+				failonerror="false">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 		
