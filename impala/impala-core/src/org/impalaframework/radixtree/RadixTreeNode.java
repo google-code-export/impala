@@ -37,9 +37,10 @@ import java.util.List;
  * @param <T>
  */
 class RadixTreeNode<T> {
+    
     private String key;
 
-    private List<RadixTreeNode<T>> childern;
+    private List<RadixTreeNode<T>> children;
 
     private boolean real;
 
@@ -51,7 +52,7 @@ class RadixTreeNode<T> {
      */
     public RadixTreeNode() {
         key = "";
-        childern = new ArrayList<RadixTreeNode<T>>();
+        children = new ArrayList<RadixTreeNode<T>>();
         real = false;
     }
 
@@ -80,11 +81,11 @@ class RadixTreeNode<T> {
     }
 
     public List<RadixTreeNode<T>> getChildren() {
-        return childern;
+        return children;
     }
 
-    public void setChildern(List<RadixTreeNode<T>> childern) {
-        this.childern = childern;
+    public void setChildren(List<RadixTreeNode<T>> childern) {
+        this.children = childern;
     }
     
     @Override
