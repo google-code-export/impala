@@ -1,4 +1,3 @@
-package org.impalaframework.radixtree;
 /*
 The MIT License
 
@@ -23,7 +22,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 */
 
-import java.util.ArrayList;
+package org.impalaframework.radixtree;
+
+import java.util.List;
 
 /**
  * This interface represent the operation of a radix tree. A radix tree,
@@ -103,7 +104,7 @@ public interface RadixTree<T> {
      * @param recordLimit The limit for the results
      * @return The list of values those key start with the given prefix
      */
-    public ArrayList<T> searchPrefix(String prefix, int recordLimit);
+    public List<T> searchPrefix(String prefix, int recordLimit);
     
     /**
      * Return the size of the Radix tree
