@@ -32,9 +32,9 @@ package org.impalaframework.radixtree;
  * @author Tahseen Ur Rehman 
  * email: tahseen.ur.rehman {at.spam.me.not} gmail.com 
  */
-public class RadixTreeImplTest extends BaseRadixTreeImplTest {
+public class ConcurrentRadixTreeImplTest extends BaseRadixTreeImplTest {
 
-    protected RadixTreeImpl<String> newTrie() {
-        return new RadixTreeImpl<String>();
+    protected RadixTree<String> newTrie() {
+        return new ConcurrentRadixTree<String>(new RadixTreeImpl<String>());
     }
 }

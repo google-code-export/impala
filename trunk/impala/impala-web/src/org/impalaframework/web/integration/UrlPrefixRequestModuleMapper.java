@@ -18,19 +18,16 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
-/**
- * Defines interface for determining module name from {@link HttpServletRequest}
- * @author Phil Zoio
- */
-public interface RequestModuleMapper {
-    
-    void init(ServletConfig servletConfig);
-    
-    void init(FilterConfig filterConfig);
+public class UrlPrefixRequestModuleMapper implements RequestModuleMapper {
 
-    /**
-     * Returns name of module to which particular request should be mapped
-     */
-    String getModuleForRequest(HttpServletRequest request);
-    
+    public String getModuleForRequest(HttpServletRequest request) {
+        return null;
+    }
+
+    public void init(ServletConfig servletConfig) {
+    }
+
+    public void init(FilterConfig filterConfig) {
+    }
+
 }
