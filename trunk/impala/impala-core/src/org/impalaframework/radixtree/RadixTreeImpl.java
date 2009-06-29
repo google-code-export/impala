@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  * Implementation for Radix tree {@link RadixTree}
@@ -40,9 +41,9 @@ import java.util.Queue;
  */
 public class RadixTreeImpl<T> implements RadixTree<T> {
     
-    protected RadixTreeNode<T> root;
+    private final RadixTreeNode<T> root;
 
-    protected long size;
+    private final AtomicLong size;
 
     /**
      * Create a Radix Tree with only the default node root.
@@ -50,7 +51,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
     public RadixTreeImpl() {
         root = new RadixTreeNode<T>();
         root.setKey("");
-        size = 0;
+        size = new AtomicLong(0);
     }
     
     /*
@@ -171,7 +172,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
                 parent.setKey(parent.getKey() + child.getKey());
                 parent.setReal(child.isReal());
                 parent.setValue(child.getValue());
-                parent.setChildern(child.getChildren());
+                parent.setChildren(child.getChildren());
             }
 
             public Object getResult() {
@@ -182,7 +183,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
         visit(key, visitor);
 
         if(((Boolean) visitor.getResult()).booleanValue()) {
-            size--;   
+            size.getAndDecrement();   
         }
         
         return ((Boolean) visitor.getResult()).booleanValue();
@@ -199,7 +200,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
 			// re-throw the exception with 'key' in the message
 			throw new DuplicateKeyException("Duplicate key: '" + key + "'");
 		}
-        size++;
+        size.getAndIncrement();
     }
 
     /**
@@ -262,11 +263,11 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
             n1.setKey(node.getKey().substring(i, nodelen));
             n1.setReal(node.isReal());
             n1.setValue(node.getValue());
-            n1.setChildern(node.getChildren());
+            n1.setChildren(node.getChildren());
 
             node.setKey(key.substring(0, i));
             node.setReal(false);
-            node.setChildern(new ArrayList<RadixTreeNode<T>>());
+            node.setChildren(new ArrayList<RadixTreeNode<T>>());
             node.getChildren().add(n1);
             
             if(i < keylen) {
@@ -285,7 +286,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
         else {
             RadixTreeNode<T> n = new RadixTreeNode<T>();
             n.setKey(node.getKey().substring(i, nodelen));
-            n.setChildern(node.getChildren());
+            n.setChildren(node.getChildren());
             n.setReal(node.isReal());
             n.setValue(node.getValue());
 
@@ -493,6 +494,6 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      * @see uk.co.rtd.radixtree.RadixTree#getSize()
      */
     public long getSize() {
-        return size;
+        return size.longValue();
     }
 }
