@@ -450,7 +450,11 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
 			        // recursively search the child nodes
 			        final String childKey = child.getKey();
 					if (childKey.startsWith(newText.charAt(0) + "")) {
-						visitor.setCurrentNode(child);
+					    
+					    if (child.isReal()) {
+	                        visitor.setCurrentRealNode(child);
+					    }
+					    
 			            visit(newText, visitor, node, child);
 			            break;
 			        }

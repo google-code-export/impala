@@ -42,9 +42,9 @@ package org.impalaframework.radixtree;
 public interface Visitor<T> {
 	
     /**
-     * Used to the current node of the node being visited
+     * Used to the current real node of the node being visited
      */
-	public void setCurrentNode(RadixTreeNode<T> node);
+	public void setCurrentRealNode(RadixTreeNode<T> node);
 	
 	/**
 	 * Returns the current (or most recent) node visited by the visitor. 

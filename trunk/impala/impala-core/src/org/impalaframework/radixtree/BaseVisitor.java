@@ -4,7 +4,7 @@ public abstract class BaseVisitor<T> implements Visitor<T> {
 
 	private RadixTreeNode<T> currentNode;
 
-	public void setCurrentNode(RadixTreeNode<T> node) {
+	public void setCurrentRealNode(RadixTreeNode<T> node) {
 		this.currentNode = node;
 	}
 
