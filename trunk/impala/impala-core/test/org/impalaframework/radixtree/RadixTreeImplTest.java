@@ -31,10 +31,21 @@ package org.impalaframework.radixtree;
  * 
  * @author Tahseen Ur Rehman 
  * email: tahseen.ur.rehman {at.spam.me.not} gmail.com 
+ * @author Phil Zoio
  */
 public class RadixTreeImplTest extends BaseRadixTreeImplTest {
 
     protected RadixTreeImpl<String> newTrie() {
         return new RadixTreeImpl<String>();
+    }
+    
+    public void testInsertRemove() throws Exception {
+
+        trie.insert("bat", "bat");
+        trie.insert("bath", "bath");
+        
+        trie.delete("bat");
+        assertTrue(trie.contains("bath"));
+        assertEquals("bath", trie.findContainedValue("bathstone"));
     }
 }
