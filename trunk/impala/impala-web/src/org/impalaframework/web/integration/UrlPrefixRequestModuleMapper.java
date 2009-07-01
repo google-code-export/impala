@@ -16,9 +16,22 @@ package org.impalaframework.web.integration;
 
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-public class UrlPrefixRequestModuleMapper implements RequestModuleMapper {
+import org.impalaframework.radixtree.ConcurrentRadixTree;
+import org.springframework.web.context.ServletContextAware;
+
+public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, ServletContextAware {
+
+    private ServletContext servletContext;
+    
+    private ConcurrentRadixTree<String> radixTree;
+
+    public UrlPrefixRequestModuleMapper() {
+        super();
+        this.radixTree = new ConcurrentRadixTree<String>();
+    }
 
     public String getModuleForRequest(HttpServletRequest request) {
         return null;
@@ -28,6 +41,10 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper {
     }
 
     public void init(FilterConfig filterConfig) {
+    }
+
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
     }
 
 }
