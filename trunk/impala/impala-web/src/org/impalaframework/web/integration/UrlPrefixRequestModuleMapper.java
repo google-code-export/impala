@@ -19,22 +19,36 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.radixtree.ConcurrentRadixTree;
+import org.impalaframework.radixtree.RadixTree;
+import org.springframework.beans.factory.DisposableBean;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;
 
-public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, ServletContextAware {
+/**
+ * Uses an internally held {@link RadixTree}, held using a {@link PrefixTreeHolder}, to map requests to modules.
+ * The {@link PrefixTreeHolder} is bound to the {@link ServletContext} using the key {@link #PREFIX_HOLDER_KEY}.
+ * @author Phil Zoio
+ */
+public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, ServletContextAware, InitializingBean, DisposableBean {
 
     private ServletContext servletContext;
     
-    private ConcurrentRadixTree<String> radixTree;
-
+    private PrefixTreeHolder prefixTreeHolder;
+    
+    public static final String PREFIX_HOLDER_KEY = UrlPrefixRequestModuleMapper.class + ".PREFIX_HOLDER";
+    
     public UrlPrefixRequestModuleMapper() {
         super();
-        this.radixTree = new ConcurrentRadixTree<String>();
+        this.prefixTreeHolder = new PrefixTreeHolder();
     }
 
     public String getModuleForRequest(HttpServletRequest request) {
-        return null;
+        String requestURI = request.getRequestURI();
+        return getModuleForURI(requestURI);
+    }
+
+    String getModuleForURI(String requestURI) {
+        return prefixTreeHolder.getModuleForURI(requestURI);
     }
 
     public void init(ServletConfig servletConfig) {
@@ -45,6 +59,18 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    public void afterPropertiesSet() throws Exception {
+        servletContext.setAttribute(PREFIX_HOLDER_KEY, prefixTreeHolder);
+    }
+
+    public void destroy() throws Exception {
+        servletContext.removeAttribute(PREFIX_HOLDER_KEY);
+    }
+
+    PrefixTreeHolder getPrefixTreeHolder() {
+        return prefixTreeHolder;
     }
 
 }
