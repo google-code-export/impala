@@ -41,20 +41,22 @@ public class PrefixTreeHolder {
      */
     public void add(String moduleName, String key) {
         
+        //FIXME add concurrency control
+        
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(key, "key cannot be null");
         
         
-        if (trie.contains(key)) {
+        if (this.trie.contains(key)) {
             String value = trie.findContainedValue(key);
             throw new InvalidStateException("Module '" + moduleName + "' cannot use key '" + key + "', as it is already being used by module '" + value + "'");
         }
         
-        trie.insert(key, moduleName);
-        List<String> list = contributions.get(moduleName);
+        this.trie.insert(key, moduleName);
+        List<String> list = this.contributions.get(moduleName);
         if (list == null) {
             list = new LinkedList<String>();
-            contributions.put(moduleName, list);
+            this. contributions.put(moduleName, list);
         }
         
         list.add(key);
@@ -77,6 +79,10 @@ public class PrefixTreeHolder {
         }
         
         return unloaded;
+    }
+
+    public String getModuleForURI(String requestURI) {
+        return trie.findContainedValue(requestURI);
     }
     
 }
