@@ -27,6 +27,15 @@ public class PrefixTreeHolderTest extends TestCase {
         super.setUp();
         holder = new PrefixTreeHolder();
     }
+    
+    public void testWebFrameworks() throws Exception {
+        holder.add("webframeworks-wicket", "/wicket/aa");
+        holder.add("webframeworks-wicket", "/wicket/aaa");
+        holder.add("webframeworks-tapestry5", "/Tapestry/bbb");
+
+        assertEquals("webframeworks-wicket", holder.getModuleForURI("/wicket/aabbb"));
+        assertEquals(null, holder.getModuleForURI("/webframeworks-web/Tapestry5Home"));
+    }
 
     public void testAdd() {
         holder.add("module1", "/m1");
