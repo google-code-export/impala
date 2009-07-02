@@ -452,7 +452,9 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
 					if (childKey.startsWith(newText.charAt(0) + "")) {
 					    
 					    if (child.isReal()) {
-	                        visitor.setCurrentRealNode(child);
+					        if (newText.startsWith(childKey)) {
+					            visitor.setCurrentRealNode(child);
+					        }
 					    }
 					    
 			            visit(newText, visitor, node, child);
