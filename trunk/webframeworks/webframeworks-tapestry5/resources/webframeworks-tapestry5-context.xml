@@ -6,6 +6,10 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
+	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
+		<property name = "prefixes" value = "/Tapestry"/>
+	</bean>
+
     <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean">
         <property name = "filterName" value = "webframeworks-tapestry5"/>
         <property name = "filterClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter"/>

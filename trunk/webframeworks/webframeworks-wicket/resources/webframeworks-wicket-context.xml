@@ -4,6 +4,10 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
+		<property name = "prefixes" value = "/wicket"/>
+	</bean>
+
     <!-- Access this servlet via http://localhost:8080/webframework-web/servlet3/test.to -->
     <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean">
         <property name = "servletName" value = "webframeworks-wicket"/>
