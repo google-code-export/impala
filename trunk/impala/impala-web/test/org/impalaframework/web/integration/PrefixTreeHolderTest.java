@@ -19,9 +19,16 @@ import org.impalaframework.exception.InvalidStateException;
 import junit.framework.TestCase;
 
 public class PrefixTreeHolderTest extends TestCase {
+    
+    private PrefixTreeHolder holder;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        holder = new PrefixTreeHolder();
+    }
 
     public void testAdd() {
-        PrefixTreeHolder holder = new PrefixTreeHolder();
         holder.add("module1", "/m1");
         holder.add("module1", "/m2");
         
@@ -36,6 +43,32 @@ public class PrefixTreeHolderTest extends TestCase {
         }
         
         assertEquals(2, holder.unloadForModule("module1"));
+        
+        //check stuff is gone
+        assertFalse(holder.getTrie().contains("/m2"));
+        assertNull(holder.getContributions().get("module1"));
+    }
+    
+    public void testAddRemove() throws Exception {
+
+        holder.add("module1", "/m1");
+        holder.add("module1", "/m2");
+        assertTrue(holder.getTrie().contains("/m2"));
+        
+        holder.add("module2", "/m1plus");
+        
+        assertTrue(holder.remove("module1", "/m1"));
+        
+        //belongs to module 1
+        assertFalse(holder.remove("module1", "/m1plus"));
+        assertTrue(holder.remove("module1", "/m2"));
+        
+        //gone already
+        assertFalse(holder.remove("module1", "/m2"));
+
+        //check stuff is gone
+        assertFalse(holder.getTrie().contains("/m2"));
+        assertNull(holder.getContributions().get("module1"));
     }
 
 }
