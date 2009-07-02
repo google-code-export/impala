@@ -35,7 +35,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
     
     private PrefixTreeHolder prefixTreeHolder;
     
-    public static final String PREFIX_HOLDER_KEY = UrlPrefixRequestModuleMapper.class + ".PREFIX_HOLDER";
+    public static final String PREFIX_HOLDER_KEY = UrlPrefixRequestModuleMapper.class.getName() + ".PREFIX_HOLDER";
     
     public UrlPrefixRequestModuleMapper() {
         super();
