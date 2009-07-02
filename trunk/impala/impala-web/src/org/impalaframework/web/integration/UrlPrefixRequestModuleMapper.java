@@ -19,6 +19,8 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.radixtree.RadixTree;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -31,6 +33,8 @@ import org.springframework.web.context.ServletContextAware;
  */
 public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, ServletContextAware, InitializingBean, DisposableBean {
 
+    private Log logger = LogFactory.getLog(UrlPrefixRequestModuleMapper.class);
+    
     private ServletContext servletContext;
     
     private PrefixTreeHolder prefixTreeHolder;
@@ -44,7 +48,22 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
 
     public String getModuleForRequest(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
-        return getModuleForURI(requestURI);
+        String contextPath = request.getContextPath();
+        
+        final String subpath;
+        if (contextPath != null) {
+            subpath = requestURI.substring(contextPath.length());
+        } else {
+            subpath = requestURI;
+        }
+        
+        String moduleName = getModuleForURI(subpath);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Module for URI " + requestURI + ": " + moduleName);
+        }
+        
+        return moduleName;
     }
 
     String getModuleForURI(String requestURI) {

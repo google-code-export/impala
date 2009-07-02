@@ -21,6 +21,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name = "prefix" ref = "webModulePrefix"/>
  </bean>
  
+ <bean id="urlPrefixRequestModuleMapper" class="org.impalaframework.web.integration.UrlPrefixRequestModuleMapper">
+ </bean>
+ 
  <bean id="topLevelPathContainsModuleMapper" class="org.impalaframework.web.integration.TopLevelPathContainsModuleMapper">
      <property name = "prefix" ref = "webModulePrefix"/>
      <property name = "moduleNames" ref = "topLevelModuleSuffixes"/>
@@ -29,6 +32,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="requestModuleMapper" class="org.impalaframework.web.integration.CompositeRequestModuleMapper">
     <property name="requestModuleMappers">  
         <list> 
+            <ref local = "urlPrefixRequestModuleMapper"/>
             <ref local = "servletPathRequestModuleMapper"/>
             <ref local = "topLevelPathContainsModuleMapper"/>
         </list>  
