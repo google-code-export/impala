@@ -132,22 +132,13 @@ public interface WebBootstrapProperties {
     boolean PRESERVE_SESSION_ON_RELOAD_FAILURE_DEFAULT = true;
 
     /**
-     * Used to indicate that the URL to module mapping strategy supports top level paths.
-     * By default, Impala will use the servlet path part of the URL to determine the module. For example,
-     * the URL http://localhost:8080/myapp/module1/home.do will map to the module 'module1'.
-     * With 'top.level.module.path.enabled' set to true, the module mapping strategy will also
-     * support mapping URLs based on a portion of the top level path. For example, the URL
-     * http://localhost:8080/myapp/module1home.do can be configured to point to the module module1.
-     * In this example, the property 'top.level.module.prefixes' must contain 'module1' 
-     * for this to work. This capability is useful for supporting frameworks which make it difficult
-     * to use the servlet part of the URL for module selection. An example is Tapestry. However,
-     * the downside is that all resources within the module must begin with the relevant 
-     * top level prefix.
-     * @see #TOP_LEVEL_MODULE_PREFIXES
+     * If true, then Impala supports a mechanism which allows modules to "subscribe" to 
+     * particular URLs by prefix, using a {@link org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor}
+     * declaration in the module's application context.
      */
-    String TOP_LEVEL_MODULE_PATH_ENABLED = "top.level.module.path.enabled";
+    String MODULE_PREFIX_MAPPING_ENABLED = "module.prefix.mapping.enabled";
 
-    boolean TOP_LEVEL_MODULE_PATH_ENABLED_DEFAULT = false;
+    boolean MODULE_PREFIX_MAPPING_ENABLED_DEFAULT = false;
     
     /**
      * The portion of the path which is ignored for the purpose of module selection when dynamically
@@ -159,21 +150,5 @@ public interface WebBootstrapProperties {
     String WEB_MODULE_PREFIX = "web.module.prefix";
 
     String WEB_MODULE_PREFIX_DEFAULT = "";
-    
-    /**
-     * If {@link #TOP_LEVEL_MODULE_PATH_ENABLED} is set to true, then this contains the comma-separated
-     * list of prefixes which is used to direct requests to modules based on the top level path of the URL.
-     * For example, if the value for 'top.level.module.prefixes' is <code>module1,module2</code>,
-     * then a request with the URL http://localhost:8080/Module2resource will be directed to the module
-     * 'module2'. Note that the prefix is case insensitive.
-     * 
-     * For MVC- or request-based web frameworks such as Spring MVC, this kind of module selection will typically not be necessary, as 
-     * most of these give you a great deal of control over how you map requests to controllers or actions.
-     * However, for some component based frameworks, much more restrictive assumptions are made about how
-     * particular URLs map to elements of the application.
-     */
-    String TOP_LEVEL_MODULE_PREFIXES = "top.level.module.prefixes";
-
-    String TOP_LEVEL_MODULE_PREFIXES_DEFAULT = "";
 
 }

@@ -109,11 +109,9 @@ public class WebContextLocationResolverTest extends TestCase {
     }
     
     public void testPathMaper() throws Exception {
-        properties.setProperty("top.level.module.path.enabled", "true");
+        properties.setProperty("module.prefix.mapping.enabled", "true");
         resolver.addPathModuleMapper(configSettings, propertySource);
-        assertLocations("web-path-mapper");
-        assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_PREFIXES));
-        assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.TOP_LEVEL_MODULE_PATH_ENABLED));
+        assertLocations("web-path-mapper");assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.MODULE_PREFIX_MAPPING_ENABLED));
         assertTrue(configSettings.getPropertyValues().containsKey(WebBootstrapProperties.WEB_MODULE_PREFIX));
     }
     
