@@ -52,6 +52,7 @@ import org.impalaframework.web.spring.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletTest;
+import org.impalaframework.web.spring.integration.ModuleUrlPrefixContributorTest;
 import org.impalaframework.web.spring.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.spring.loader.BaseImpalaContextLoaderTest;
 import org.impalaframework.web.spring.loader.ContextLoaderIntegrationTest;
@@ -93,6 +94,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(ModuleProxyFilterTest.class);
         suite.addTestSuite(ModuleProxyServletTest.class);
         suite.addTestSuite(ModuleProxyUtilsTest.class);
+        suite.addTestSuite(ModuleUrlPrefixContributorTest.class);
         suite.addTestSuite(PrefixTreeHolderTest.class);
         suite.addTestSuite(RootWebModuleLoaderTest.class);
         suite.addTestSuite(ServletContextPropertySourceTest.class);
