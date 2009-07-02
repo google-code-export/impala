@@ -29,6 +29,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.Stack;
 import java.util.concurrent.atomic.AtomicLong;
 
 /**
@@ -60,7 +61,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      */
     @SuppressWarnings("unchecked")
     public T find(String key) {
-        Visitor<T> visitor = new BaseVisitor<T>() {
+        Visitor<T> visitor = new Visitor<T>() {
             T result = null;
 
             public void visit(String key, RadixTreeNode<T> parent,
@@ -95,7 +96,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      */
 	public RadixTreeNode<T> findContainedNode(final String searchKey) {
 		
-    	BaseVisitor<T> visitor = new BaseVisitor<T>() {
+	    NodeAwareVisitor<T> visitor = new NodeAwareVisitor<T>() {
             RadixTreeNode<T> result = null;
 
             public void visit(
@@ -108,11 +109,21 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
             public Object getResult() {
                 return result;
             }
+            
+            private Stack<RadixTreeNode<T>> node = new Stack<RadixTreeNode<T>>();
+
+            public void setCurrentRealNode(RadixTreeNode<T> node) {
+                this.node.push(node);
+            }
+
+            public RadixTreeNode<T> getCurrentRealNode() {
+                return node.isEmpty() ? null : node.peek();
+            }
         };
 
         visit(searchKey, visitor);
         
-        return (RadixTreeNode<T>) visitor.getCurrentNode();
+        return (RadixTreeNode<T>) visitor.getCurrentRealNode();
 	}
 
 
@@ -121,7 +132,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      * @see uk.co.rtd.radixtree.RadixTree#delete(java.lang.String)
      */
     public boolean delete(String key) {
-        Visitor<T> visitor = new BaseVisitor<T>() {
+        Visitor<T> visitor = new Visitor<T>() {
             boolean delete = false;
 
             public void visit(String key, RadixTreeNode<T> parent,
@@ -370,7 +381,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      * @see uk.co.rtd.radixtree.RadixTree#contains(java.lang.String)
      */
     public boolean contains(String key) {
-        Visitor<T> visitor = new BaseVisitor<T>() {
+        Visitor<T> visitor = new Visitor<T>() {
             boolean result = false;
 
             public void visit(String key, RadixTreeNode<T> parent,
@@ -451,10 +462,12 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
 			        final String childKey = child.getKey();
 					if (childKey.startsWith(newText.charAt(0) + "")) {
 					    
+					    if (visitor instanceof NodeAwareVisitor) {
 					    if (child.isReal()) {
 					        if (newText.startsWith(childKey)) {
-					            visitor.setCurrentRealNode(child);
+					            ((NodeAwareVisitor<T>) visitor).setCurrentRealNode(child);
 					        }
+					    }
 					    }
 					    
 			            visit(newText, visitor, node, child);
