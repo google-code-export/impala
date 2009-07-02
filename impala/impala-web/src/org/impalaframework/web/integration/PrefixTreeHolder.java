@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.integration;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -61,6 +62,20 @@ public class PrefixTreeHolder {
         
         list.add(key);
     }
+
+    public boolean remove(String moduleName, String prefix) {
+        List<String> list = contributions.get(moduleName);
+        if (list != null && list.contains(prefix)) {
+            list.remove(prefix);
+            trie.delete(prefix);
+            
+            if (list.isEmpty()) {
+                contributions.remove(moduleName);
+            }
+            return true;
+        }
+        return false;
+    }
     
     /**
      * Called when module is unloaded to remove all the prefix keys to module name associations
@@ -76,6 +91,7 @@ public class PrefixTreeHolder {
                 trie.delete(key);
                 unloaded++;
             }
+            contributions.remove(moduleName);
         }
         
         return unloaded;
@@ -83,6 +99,14 @@ public class PrefixTreeHolder {
 
     public String getModuleForURI(String requestURI) {
         return trie.findContainedValue(requestURI);
+    }
+
+    ConcurrentRadixTree<String> getTrie() {
+        return trie;
+    }
+
+    Map<String, List<String>> getContributions() {
+        return Collections.unmodifiableMap(contributions);
     }
     
 }
