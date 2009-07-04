@@ -88,19 +88,19 @@ public class ModuleProxyFilter implements Filter {
             ServletContext context, FilterChain chain)
             throws ServletException, IOException {
 
-        String moduleName = getModuleName(request);
+        RequestModuleMapping moduleMapping = getModuleMapping(request);
         
         Filter moduleFilter = null;
-        if (moduleName != null) {
-            moduleFilter = WebServletUtils.getModuleFilter(context, moduleName);
+        if (moduleMapping != null) {
+            moduleFilter = WebServletUtils.getModuleFilter(context, moduleMapping.getModuleName());
             if (moduleFilter != null) {
                 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleName + "]");
+                    logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleMapping + "]");
                 }
                 
                 //explicitly go through service method
-                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
+                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
                 
                 InvocationAwareFilterChain substituteChain = new InvocationAwareFilterChain();
                 
@@ -123,7 +123,7 @@ public class ModuleProxyFilter implements Filter {
             } else {
                 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("No module filter found for candidate module name [" + moduleName + "]. Chaining request.");
+                    logger.debug("No module filter found for candidate module name [" + moduleMapping + "]. Chaining request.");
                 }
                 chain.doFilter(request, response);
                 
@@ -138,19 +138,14 @@ public class ModuleProxyFilter implements Filter {
         }
     }
 
-    String getModuleName(HttpServletRequest request) {
-        RequestModuleMapping mapping = requestModuleMapper.getModuleForRequest(request);
-        if (mapping != null) {
-            return mapping.getModuleName();
-        }
-        
-        return null;
+    RequestModuleMapping getModuleMapping(HttpServletRequest request) {
+        return requestModuleMapper.getModuleForRequest(request);
     }
     
     /* **************** protected methods ******************* */
 
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
     }
     
     /* **************** package level getters ******************* */

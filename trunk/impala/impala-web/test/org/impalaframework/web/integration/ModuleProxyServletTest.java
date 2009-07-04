@@ -48,7 +48,7 @@ public class ModuleProxyServletTest extends TestCase {
 
             @Override
             protected HttpServletRequest wrappedRequest(
-                    HttpServletRequest request, ServletContext servletContext, String moduleName) {
+                    HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
                 return request;
             }
             
@@ -108,7 +108,7 @@ public class ModuleProxyServletTest extends TestCase {
         
         replayMocks();
         
-        assertEquals("alternativemodule", servlet.getModuleName(request));
+        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule"), servlet.getModuleMapping(request));
 
         verifyMocks();
     }

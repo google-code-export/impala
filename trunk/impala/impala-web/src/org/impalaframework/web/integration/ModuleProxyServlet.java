@@ -89,35 +89,30 @@ public class ModuleProxyServlet extends HttpServlet {
             ServletContext context)
             throws ServletException, IOException {
         
-        String moduleName = getModuleName(request);
+        RequestModuleMapping moduleMapping = getModuleMapping(request);
         
         HttpServlet moduleServlet = null;
-        if (moduleName != null) {
-            moduleServlet = WebServletUtils.getModuleServlet(context, moduleName);
+        if (moduleMapping != null) {
+            moduleServlet = WebServletUtils.getModuleServlet(context, moduleMapping.getModuleName());
             if (moduleServlet != null) {
                 
                 //explicitly go through service method
-                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleName);
+                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
                 moduleServlet.service(wrappedRequest, response);
             } else {
-                logger.warn("No redirection possible for servlet path " + request.getRequestURI() + ", module name " + moduleName);
+                logger.warn("No redirection possible for servlet path " + request.getRequestURI() + ", module name " + moduleMapping);
             }
         } else {
             logger.warn("Not possible to figure out module name from servlet path " + request.getRequestURI());
         }
     }
 
-    String getModuleName(HttpServletRequest request) {
-        RequestModuleMapping mapping = requestModuleMapper.getModuleForRequest(request);
-        if (mapping != null) {
-            return mapping.getModuleName();
-        }
-        
-        return null;
+    RequestModuleMapping getModuleMapping(HttpServletRequest request) {
+        return requestModuleMapper.getModuleForRequest(request);
     }
 
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleName);
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
     }
     
 }
