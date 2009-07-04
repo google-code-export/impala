@@ -88,7 +88,7 @@ public class ConcurrentRadixTree<T> implements RadixTree<T> {
         }
     }
 
-    public RadixTreeNode<T> findContainedNode(String searchKey) {
+    public TreeNode<T> findContainedNode(String searchKey) {
         try {
             readLock.lock();
             return delegate.findContainedNode(searchKey);

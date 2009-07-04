@@ -88,6 +88,7 @@ public class ModuleProxyFilter implements Filter {
             ServletContext context, FilterChain chain)
             throws ServletException, IOException {
 
+        //FIXME wrap request with servlet path for found module, if present
         String moduleName = getModuleName(request);
         
         Filter moduleFilter = null;

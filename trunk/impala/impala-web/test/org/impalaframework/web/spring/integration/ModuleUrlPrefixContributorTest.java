@@ -58,8 +58,8 @@ public class ModuleUrlPrefixContributorTest extends TestCase {
 
         verify(moduleDefinition, servletContext);
         
-        assertEquals("one", holder.getModuleForURI("/p1stuff"));
-        assertEquals("one", holder.getModuleForURI("/p2stuff"));
+        assertEquals("one", holder.getModuleForURI("/p1stuff").getValue());
+        assertEquals("one", holder.getModuleForURI("/p2stuff").getValue());
     }
 
     public void testAfterPropertiesSetNull() throws Exception {

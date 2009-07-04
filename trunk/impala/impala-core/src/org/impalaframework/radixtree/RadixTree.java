@@ -87,7 +87,7 @@ public interface RadixTree<T> {
      * Equivalent to {@link #findContainedValue(String)}, but returns node rather than value
      * contained by node.
      */
-	public RadixTreeNode<T> findContainedNode(final String searchKey);
+	public TreeNode<T> findContainedNode(final String searchKey);
 
     /**
      * Check if the tree contains any entry corresponding to the given key.

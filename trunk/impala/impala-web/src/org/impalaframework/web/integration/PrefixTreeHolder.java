@@ -22,6 +22,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.radixtree.ConcurrentRadixTree;
+import org.impalaframework.radixtree.TreeNode;
 import org.springframework.util.Assert;
 
 /**
@@ -97,8 +98,8 @@ public class PrefixTreeHolder {
         return unloaded;
     }
 
-    public String getModuleForURI(String requestURI) {
-        return trie.findContainedValue(requestURI);
+    public TreeNode<String> getModuleForURI(String requestURI) {
+        return trie.findContainedNode(requestURI);
     }
 
     ConcurrentRadixTree<String> getTrie() {
