@@ -71,7 +71,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
             return null;
         }
         
-        return new RequestModuleMapping(modulePrefixNode.getValue(), modulePrefixNode.getKey());
+        return new RequestModuleMapping(modulePrefixNode.getKey(), modulePrefixNode.getValue());
     }
 
     TreeNode<String> getModuleForURI(String requestURI) {

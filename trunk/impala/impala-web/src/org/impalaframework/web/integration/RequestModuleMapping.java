@@ -31,20 +31,20 @@ public class RequestModuleMapping {
      * module. Similar in intent to
      * {@link javax.servlet.http.HttpServletRequest#getServletPath()}
      */
-    private final String path;
+    private final String moduleMappingPath;
 
-    public RequestModuleMapping(String moduleName, String path) {
+    public RequestModuleMapping(String path, String moduleName) {
         super();
         this.moduleName = moduleName;
-        this.path = path;
+        this.moduleMappingPath = path;
     }
 
     public String getModuleName() {
         return moduleName;
     }
 
-    public String getPath() {
-        return path;
+    public String getModuleMappingPath() {
+        return moduleMappingPath;
     }
 
     @Override
@@ -53,7 +53,7 @@ public class RequestModuleMapping {
         int result = 1;
         result = prime * result
                 + ((moduleName == null) ? 0 : moduleName.hashCode());
-        result = prime * result + ((path == null) ? 0 : path.hashCode());
+        result = prime * result + ((moduleMappingPath == null) ? 0 : moduleMappingPath.hashCode());
         return result;
     }
 
@@ -72,11 +72,11 @@ public class RequestModuleMapping {
         }
         else if (!moduleName.equals(other.moduleName))
             return false;
-        if (path == null) {
-            if (other.path != null)
+        if (moduleMappingPath == null) {
+            if (other.moduleMappingPath != null)
                 return false;
         }
-        else if (!path.equals(other.path))
+        else if (!moduleMappingPath.equals(other.moduleMappingPath))
             return false;
         return true;
     }
@@ -88,8 +88,8 @@ public class RequestModuleMapping {
         buffer.append("moduleName = ");
         buffer.append(this.moduleName);
         buffer.append(", ");
-        buffer.append("path = ");
-        buffer.append(this.path);
+        buffer.append("moduleMappingPath = ");
+        buffer.append(this.moduleMappingPath);
         buffer.append("\n");
         return  buffer.toString();
     }
