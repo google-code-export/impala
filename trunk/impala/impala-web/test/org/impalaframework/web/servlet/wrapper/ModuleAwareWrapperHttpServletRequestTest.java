@@ -29,6 +29,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSession;
 import org.springframework.util.ClassUtils;
@@ -52,7 +53,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         moduleManagementFacade = createMock(ModuleManagementFacade.class);
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
-        wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, "mymodule", servletContext );
+        wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, new RequestModuleMapping("/mymodule", "mymodule"), servletContext );
     }
     
     public void testGetSession() {

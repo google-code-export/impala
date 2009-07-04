@@ -24,6 +24,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.integration.RequestModuleMapping;
 import org.springframework.util.Assert;
 
 /**
@@ -42,13 +43,13 @@ public class ModuleAwareWrapperHttpServletRequest extends
     private final String moduleName;
     private final ServletContext servletContext;
 
-    public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, String moduleName,
+    public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, RequestModuleMapping moduleMapping,
             ServletContext servletContext) {
         super(request);
         Assert.notNull(request);
-        Assert.notNull(moduleName);
+        Assert.notNull(moduleMapping);
         Assert.notNull(servletContext);
-        this.moduleName = moduleName;
+        this.moduleName = moduleMapping.getModuleName();
         this.servletContext = servletContext;
     }
 
