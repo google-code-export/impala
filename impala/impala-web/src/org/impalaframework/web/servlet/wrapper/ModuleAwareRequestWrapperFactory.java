@@ -33,7 +33,7 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
     
     public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
         if (enableModuleSessionProtection) {
-            return new ModuleAwareWrapperHttpServletRequest(request, moduleMapping.getModuleName(), servletContext);
+            return new ModuleAwareWrapperHttpServletRequest(request, moduleMapping, servletContext);
         }
         //FIXME wrap request with servlet path
         return request;
