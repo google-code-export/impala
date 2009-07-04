@@ -31,46 +31,52 @@ import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory
 
 public class ModuleIntegrationUtilsTest extends TestCase {
     
+    private ServletContext servletContext;
+    private HttpServletRequest request;
+    private ModuleManagementFacade facade;
+    private RequestModuleMapping mapping;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        servletContext = createMock(ServletContext.class);
+        request = createMock(HttpServletRequest.class);
+        facade = createMock(ModuleManagementFacade.class);
+        
+        mapping = new RequestModuleMapping("/mymodule", "mymodule");
+    }
+    
     public void testGetRequestWrapper() throws Exception {
-        final ServletContext servletContext = createMock(ServletContext.class);
-        final HttpServletRequest request = createMock(HttpServletRequest.class);
-        final ModuleManagementFacade facade = createMock(ModuleManagementFacade.class);
         
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
         expect(facade.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME)).andReturn(new IdentityHttpRequestWrapperFactory());
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, "mymodule"));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
         
         verifyMocks(servletContext, request, facade);
     }   
 
     public void testGetRequestWrapperFacadeNull() throws Exception {
-        final ServletContext servletContext = createMock(ServletContext.class);
-        final HttpServletRequest request = createMock(HttpServletRequest.class);
-        final ModuleManagementFacade facade = createMock(ModuleManagementFacade.class);
         
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, "mymodule"));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
         
         verifyMocks(servletContext, request, facade);
     }
     
     public void testGetRequestWrapperFactoryNull() throws Exception {
-        final ServletContext servletContext = createMock(ServletContext.class);
-        final HttpServletRequest request = createMock(HttpServletRequest.class);
-        final ModuleManagementFacade facade = createMock(ModuleManagementFacade.class);
 
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
         expect(facade.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME)).andReturn(null);
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, "mymodule"));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
         
         verifyMocks(servletContext, request, facade);
     }
