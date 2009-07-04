@@ -20,11 +20,20 @@ import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
+import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
+    
+    private RequestModuleMapping moduleMapping;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        moduleMapping = new RequestModuleMapping("/myModule", "myModule");
+    }
 
     public void testIdentityWrapper() {
         IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
@@ -39,10 +48,10 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         
-        assertSame(request, factory.getWrappedRequest(request, servletContext, "myModule"));
+        assertSame(request, factory.getWrappedRequest(request, servletContext, moduleMapping));
         
         factory.setEnableModuleSessionProtection(true);
-        final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, "myModule");
+        final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
         assertTrue(wrappedRequest instanceof ModuleAwareWrapperHttpServletRequest);
     }
 

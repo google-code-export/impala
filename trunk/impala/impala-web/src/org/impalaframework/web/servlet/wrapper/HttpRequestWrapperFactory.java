@@ -17,10 +17,12 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.integration.RequestModuleMapping;
+
 /**
  * Factory interface for returning {@link HttpServletRequest} wrappers.
  * @author Phil Zoio
  */
 public interface HttpRequestWrapperFactory {
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName);
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping);
 }

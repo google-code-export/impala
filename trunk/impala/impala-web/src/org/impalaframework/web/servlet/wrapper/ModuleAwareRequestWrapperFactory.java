@@ -17,6 +17,8 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.integration.RequestModuleMapping;
+
 
 /**
  * Implementation of <code>HttpRequestWrapperFactory</code> which returns instance of <code>ModuleAwareWrapperHttpServletRequest</code>.
@@ -29,9 +31,9 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
     
     private boolean enableModuleSessionProtection;
     
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
         if (enableModuleSessionProtection) {
-            return new ModuleAwareWrapperHttpServletRequest(request, moduleName, servletContext);
+            return new ModuleAwareWrapperHttpServletRequest(request, moduleMapping.getModuleName(), servletContext);
         }
         //FIXME wrap request with servlet path
         return request;
