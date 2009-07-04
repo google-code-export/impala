@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.radixtree.RadixTree;
+import org.impalaframework.radixtree.TreeNode;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;
@@ -57,17 +58,19 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
             subpath = requestURI;
         }
         
-        String moduleName = getModuleForURI(subpath);
+        TreeNode<String> moduleName = getModuleForURI(subpath);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Module for URI " + requestURI + ": " + moduleName);
         }
         
-        return moduleName;
+        //FIXME add key to request so that it can be used to modify servlet path
+        return moduleName != null ? moduleName.getValue() : null;
     }
 
-    String getModuleForURI(String requestURI) {
-        return prefixTreeHolder.getModuleForURI(requestURI);
+    TreeNode<String> getModuleForURI(String requestURI) {
+        TreeNode<String> moduleForURI = prefixTreeHolder.getModuleForURI(requestURI);
+        return moduleForURI;
     }
 
     public void init(ServletConfig servletConfig) {

@@ -26,6 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 public class IdentityHttpRequestWrapperFactory implements
         HttpRequestWrapperFactory {
     
+    //FIXME wrap request with one which is servlet path aware
+    
     /**
      * Simply returns <code>request</code> passed in.
      */

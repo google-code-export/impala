@@ -36,7 +36,7 @@ import java.util.List;
  * @email tahseen.ur.rehman {at.spam.me.not} gmail.com
  * @param <T>
  */
-class RadixTreeNode<T> {
+class RadixTreeNode<T> implements TreeNode<T> {
     
     private String key;
 

@@ -86,7 +86,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      */
 	public T findContainedValue(final String searchKey) {
 		
-		RadixTreeNode<T> node = findContainedNode(searchKey);
+		TreeNode<T> node = findContainedNode(searchKey);
 		return node != null ? node.getValue() : null;
 	}    
     
@@ -94,7 +94,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      * (non-Javadoc)
      * @see uk.co.rtd.radixtree.RadixTree#findContainedNode(java.lang.String)
      */
-	public RadixTreeNode<T> findContainedNode(final String searchKey) {
+	public TreeNode<T> findContainedNode(final String searchKey) {
 		
 	    NodeAwareVisitor<T> visitor = new NodeAwareVisitor<T>() {
             RadixTreeNode<T> result = null;
