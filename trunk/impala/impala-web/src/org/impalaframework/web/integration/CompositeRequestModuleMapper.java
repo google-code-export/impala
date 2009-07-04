@@ -38,11 +38,11 @@ public class CompositeRequestModuleMapper implements RequestModuleMapper {
     public void init(FilterConfig filterConfig) {
     }
     
-    public String getModuleForRequest(HttpServletRequest request) {
+    public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         Assert.notNull(requestModuleMappers, "requestModuleMappers cannot be null");
         Assert.notEmpty(requestModuleMappers, "requestModuleMappers cannot be empty");
         for (RequestModuleMapper requestModuleMapper : requestModuleMappers) {
-            final String module = requestModuleMapper.getModuleForRequest(request);
+            final RequestModuleMapping module = requestModuleMapper.getModuleForRequest(request);
             if (module != null) return module;
         }
         return null;

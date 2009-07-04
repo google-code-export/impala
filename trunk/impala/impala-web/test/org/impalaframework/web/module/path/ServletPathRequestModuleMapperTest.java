@@ -23,6 +23,7 @@ import static org.easymock.EasyMock.*;
 
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.integration.IntegrationServletConfig;
+import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.integration.ServletPathRequestModuleMapper;
 
 import junit.framework.TestCase;
@@ -48,7 +49,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals("mymodule", mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("mymodule", "/mymodule"), mapper.getModuleForRequest(request));
         verify(request);
     }
 
@@ -59,7 +60,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals("someprefixmymodule", mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("someprefixmymodule", "/mymodule"), mapper.getModuleForRequest(request));
         verify(request);
     }
     
@@ -72,7 +73,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals("anotherprefixmymodule", mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("anotherprefixmymodule", "/mymodule"), mapper.getModuleForRequest(request));
         verify(request);
     }
 

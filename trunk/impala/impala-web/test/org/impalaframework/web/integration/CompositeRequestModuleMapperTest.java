@@ -57,21 +57,23 @@ public class CompositeRequestModuleMapperTest extends TestCase {
     }
     
     public void testGetModuleOne() {
-        expect(requestModuleMapper1.getModuleForRequest(request)).andReturn("one");
+        RequestModuleMapping mapping = new RequestModuleMapping("one", "/one");
+        expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(mapping);
         replay(requestModuleMapper1, requestModuleMapper2, request);
         
-        assertEquals("one", mapper.getModuleForRequest(request));
+        assertEquals(mapping, mapper.getModuleForRequest(request));
         
         verify(requestModuleMapper1, requestModuleMapper2, request); 
     }
     
     public void testGetModuleTwo() {
         expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
-        expect(requestModuleMapper2.getModuleForRequest(request)).andReturn("two");
+        RequestModuleMapping mapping = new RequestModuleMapping("two", "/two");
+        expect(requestModuleMapper2.getModuleForRequest(request)).andReturn(mapping);
         
         replay(requestModuleMapper1, requestModuleMapper2, request);
         
-        assertEquals("two", mapper.getModuleForRequest(request));
+        assertEquals(mapping, mapper.getModuleForRequest(request));
         
         verify(requestModuleMapper1, requestModuleMapper2, request); 
     }

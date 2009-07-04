@@ -40,6 +40,9 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
     
     private PrefixTreeHolder prefixTreeHolder;
     
+    /**
+     * The key used to hold the application-wide {@link PrefixTreeHolder} instance in the {@link ServletContext}
+     */
     public static final String PREFIX_HOLDER_KEY = UrlPrefixRequestModuleMapper.class.getName() + ".PREFIX_HOLDER";
     
     public UrlPrefixRequestModuleMapper() {
@@ -47,7 +50,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
         this.prefixTreeHolder = new PrefixTreeHolder();
     }
 
-    public String getModuleForRequest(HttpServletRequest request) {
+    public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String contextPath = request.getContextPath();
         
@@ -58,14 +61,17 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
             subpath = requestURI;
         }
         
-        TreeNode<String> moduleName = getModuleForURI(subpath);
+        TreeNode<String> modulePrefixNode = getModuleForURI(subpath);
         
         if (logger.isDebugEnabled()) {
-            logger.debug("Module for URI " + requestURI + ": " + moduleName);
+            logger.debug("Module for URI " + requestURI + ": " + modulePrefixNode);
         }
         
-        //FIXME add key to request so that it can be used to modify servlet path
-        return moduleName != null ? moduleName.getValue() : null;
+        if (modulePrefixNode == null) {
+            return null;
+        }
+        
+        return new RequestModuleMapping(modulePrefixNode.getValue(), modulePrefixNode.getKey());
     }
 
     TreeNode<String> getModuleForURI(String requestURI) {
