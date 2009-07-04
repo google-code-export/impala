@@ -17,6 +17,8 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.integration.RequestModuleMapping;
+
 
 /**
  * Implementation of {@link HttpRequestWrapperFactory} which simply returns the passed {@link HttpServletRequest}
@@ -26,12 +28,10 @@ import javax.servlet.http.HttpServletRequest;
 public class IdentityHttpRequestWrapperFactory implements
         HttpRequestWrapperFactory {
     
-    //FIXME wrap request with one which is servlet path aware
-    
     /**
      * Simply returns <code>request</code> passed in.
      */
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
         return request;
     }
 }

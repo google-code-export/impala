@@ -33,7 +33,7 @@ public class ModuleIntegrationUtils {
         if (moduleManagementFactory != null) {
             HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
             if (factory != null) {
-                wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping.getModuleName());
+                wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
             } else {
                 wrappedRequest = request;
             }
