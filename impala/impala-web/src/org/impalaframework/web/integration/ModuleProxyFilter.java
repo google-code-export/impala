@@ -88,7 +88,6 @@ public class ModuleProxyFilter implements Filter {
             ServletContext context, FilterChain chain)
             throws ServletException, IOException {
 
-        //FIXME wrap request with servlet path for found module, if present
         String moduleName = getModuleName(request);
         
         Filter moduleFilter = null;
@@ -140,8 +139,12 @@ public class ModuleProxyFilter implements Filter {
     }
 
     String getModuleName(HttpServletRequest request) {
-        String moduleName = requestModuleMapper.getModuleForRequest(request);
-        return moduleName;
+        RequestModuleMapping mapping = requestModuleMapper.getModuleForRequest(request);
+        if (mapping != null) {
+            return mapping.getModuleName();
+        }
+        
+        return null;
     }
     
     /* **************** protected methods ******************* */

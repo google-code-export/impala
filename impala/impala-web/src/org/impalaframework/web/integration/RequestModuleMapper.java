@@ -29,8 +29,9 @@ public interface RequestModuleMapper {
     void init(FilterConfig filterConfig);
 
     /**
-     * Returns name of module to which particular request should be mapped
+     * Returns name of module to which particular request should be mapped,
+     * as well as the path (portion of the request URL) for which the mapping applies.
      */
-    String getModuleForRequest(HttpServletRequest request);
+    RequestModuleMapping getModuleForRequest(HttpServletRequest request);
     
 }

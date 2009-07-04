@@ -108,7 +108,12 @@ public class ModuleProxyServlet extends HttpServlet {
     }
 
     String getModuleName(HttpServletRequest request) {
-        return requestModuleMapper.getModuleForRequest(request);
+        RequestModuleMapping mapping = requestModuleMapper.getModuleForRequest(request);
+        if (mapping != null) {
+            return mapping.getModuleName();
+        }
+        
+        return null;
     }
 
     protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, String moduleName) {

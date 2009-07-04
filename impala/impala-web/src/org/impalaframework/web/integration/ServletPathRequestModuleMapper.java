@@ -38,18 +38,21 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
         this.prefix = filterConfig.getInitParameter("modulePrefix");
     }
     
-    public String getModuleForRequest(HttpServletRequest request) {
+    public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        String moduleName = ModuleProxyUtils.getTopLevelPathSegment(uri);
+        final String moduleName = ModuleProxyUtils.getTopLevelPathSegment(uri);
         
         if (ModuleProxyUtils.getTopLevelPathSegment(uri) == null) {
             return null;
         }
         
+        final String fullModuleName;
         if (prefix != null) {
-            moduleName = prefix + moduleName;
+            fullModuleName = prefix + moduleName;
+        } else {
+            fullModuleName = moduleName;
         }
-        return moduleName;
+        return new RequestModuleMapping(fullModuleName, "/" + moduleName);
     }
     
     public void setPrefix(String prefix) {

@@ -21,8 +21,12 @@ import javax.servlet.http.HttpServletRequest;
 
 public class TestMapper implements RequestModuleMapper {
 
-    public String getModuleForRequest(HttpServletRequest request) {
-        return request.getParameter("moduleName");
+    public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
+        String parameter = request.getParameter("moduleName");
+        if (parameter != null) {
+            return new RequestModuleMapping(parameter, "/" + parameter);
+        }
+        return null;
     }
 
     public void init(ServletConfig servletConfig) {
