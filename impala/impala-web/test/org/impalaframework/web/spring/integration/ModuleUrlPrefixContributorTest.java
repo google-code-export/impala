@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.web.integration.ModuleNameWithPath;
 import org.impalaframework.web.integration.PrefixTreeHolder;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapper;
 
@@ -58,8 +59,8 @@ public class ModuleUrlPrefixContributorTest extends TestCase {
 
         verify(moduleDefinition, servletContext);
         
-        assertEquals("one", holder.getModuleForURI("/p1stuff").getValue());
-        assertEquals("one", holder.getModuleForURI("/p2stuff").getValue());
+        assertEquals(new ModuleNameWithPath("one"), holder.getModuleForURI("/p1stuff").getValue());
+        assertEquals(new ModuleNameWithPath("one"), holder.getModuleForURI("/p2stuff").getValue());
     }
 
     public void testAfterPropertiesSetNull() throws Exception {

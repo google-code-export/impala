@@ -33,7 +33,7 @@ import org.springframework.util.Assert;
  */
 public class PrefixTreeHolder {
     
-    private ConcurrentRadixTree<String> trie = new ConcurrentRadixTree<String>();
+    private ConcurrentRadixTree<ModuleNameWithPath> trie = new ConcurrentRadixTree<ModuleNameWithPath>();
     
     private Map<String,List<String>> contributions = new ConcurrentHashMap<String, List<String>>();
     
@@ -48,17 +48,16 @@ public class PrefixTreeHolder {
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(key, "key cannot be null");
         
-        
         if (this.trie.contains(key)) {
-            String value = trie.findContainedValue(key);
-            throw new InvalidStateException("Module '" + moduleName + "' cannot use key '" + key + "', as it is already being used by module '" + value + "'");
+            ModuleNameWithPath value = trie.findContainedValue(key);
+            throw new InvalidStateException("Module '" + moduleName + "' cannot use key '" + key + "', as it is already being used by module '" + value.getModuleName() + "'");
         }
         
-        this.trie.insert(key, moduleName);
+        this.trie.insert(key, new ModuleNameWithPath(moduleName, null));
         List<String> list = this.contributions.get(moduleName);
         if (list == null) {
             list = new LinkedList<String>();
-            this. contributions.put(moduleName, list);
+            this.contributions.put(moduleName, list);
         }
         
         list.add(key);
@@ -98,11 +97,11 @@ public class PrefixTreeHolder {
         return unloaded;
     }
 
-    public TreeNode<String> getModuleForURI(String requestURI) {
+    public TreeNode<ModuleNameWithPath> getModuleForURI(String requestURI) {
         return trie.findContainedNode(requestURI);
     }
 
-    ConcurrentRadixTree<String> getTrie() {
+    ConcurrentRadixTree<ModuleNameWithPath> getTrie() {
         return trie;
     }
 
