@@ -134,7 +134,7 @@ public class ModuleProxyFilterTest extends TestCase {
         
         replayMocks();
         
-        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule"), filter.getModuleMapping(request));
+        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule", null), filter.getModuleMapping(request));
 
         verifyMocks();
     }

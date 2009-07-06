@@ -57,7 +57,7 @@ public class CompositeRequestModuleMapperTest extends TestCase {
     }
     
     public void testGetModuleOne() {
-        RequestModuleMapping mapping = new RequestModuleMapping("/one", "one");
+        RequestModuleMapping mapping = new RequestModuleMapping("/one", "one", null);
         expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(mapping);
         replay(requestModuleMapper1, requestModuleMapper2, request);
         
@@ -68,7 +68,7 @@ public class CompositeRequestModuleMapperTest extends TestCase {
     
     public void testGetModuleTwo() {
         expect(requestModuleMapper1.getModuleForRequest(request)).andReturn(null);
-        RequestModuleMapping mapping = new RequestModuleMapping("/two", "two");
+        RequestModuleMapping mapping = new RequestModuleMapping("/two", "two", null);
         expect(requestModuleMapper2.getModuleForRequest(request)).andReturn(mapping);
         
         replay(requestModuleMapper1, requestModuleMapper2, request);

@@ -28,15 +28,21 @@ public class RequestModuleMapping {
 
     /**
      * The part of the URL which is responsible for mapping the request to the
-     * module. Similar in intent to
-     * {@link javax.servlet.http.HttpServletRequest#getServletPath()}
+     * module. 
      */
     private final String moduleMappingPath;
 
-    public RequestModuleMapping(String path, String moduleName) {
+    /**
+     * The servlet path which should be used when module this module mapping applies
+     * {@link javax.servlet.http.HttpServletRequest#getServletPath()}
+     */
+    private String servletPath;
+
+    public RequestModuleMapping(String path, String moduleName, String servletPath) {
         super();
         this.moduleName = moduleName;
         this.moduleMappingPath = path;
+        this.servletPath = servletPath;
     }
 
     public String getModuleName() {
@@ -47,13 +53,22 @@ public class RequestModuleMapping {
         return moduleMappingPath;
     }
 
+    public String getServletPath() {
+        return servletPath;
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime
+                * result
+                + ((moduleMappingPath == null) ? 0 : moduleMappingPath
+                        .hashCode());
         result = prime * result
                 + ((moduleName == null) ? 0 : moduleName.hashCode());
-        result = prime * result + ((moduleMappingPath == null) ? 0 : moduleMappingPath.hashCode());
+        result = prime * result
+                + ((servletPath == null) ? 0 : servletPath.hashCode());
         return result;
     }
 
@@ -66,17 +81,23 @@ public class RequestModuleMapping {
         if (getClass() != obj.getClass())
             return false;
         RequestModuleMapping other = (RequestModuleMapping) obj;
+        if (moduleMappingPath == null) {
+            if (other.moduleMappingPath != null)
+                return false;
+        }
+        else if (!moduleMappingPath.equals(other.moduleMappingPath))
+            return false;
         if (moduleName == null) {
             if (other.moduleName != null)
                 return false;
         }
         else if (!moduleName.equals(other.moduleName))
             return false;
-        if (moduleMappingPath == null) {
-            if (other.moduleMappingPath != null)
+        if (servletPath == null) {
+            if (other.servletPath != null)
                 return false;
         }
-        else if (!moduleMappingPath.equals(other.moduleMappingPath))
+        else if (!servletPath.equals(other.servletPath))
             return false;
         return true;
     }
@@ -90,8 +111,10 @@ public class RequestModuleMapping {
         buffer.append(", ");
         buffer.append("moduleMappingPath = ");
         buffer.append(this.moduleMappingPath);
+        buffer.append(", ");
+        buffer.append("servletPath = ");
+        buffer.append(this.servletPath);
         buffer.append("\n");
         return  buffer.toString();
     }
-
 }

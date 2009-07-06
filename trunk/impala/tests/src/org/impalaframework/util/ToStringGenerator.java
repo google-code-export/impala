@@ -4,12 +4,12 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.service.reference.BasicServiceRegistryEntry;
+import org.impalaframework.web.integration.RequestModuleMapping;
 
 public class ToStringGenerator extends TestCase {
 
 	public void testToStringHelper() throws Exception {
-		ToStringHelper.getToString(BasicServiceRegistryEntry.class);
+		ToStringHelper.getToString(RequestModuleMapping.class);
 	}
 }
 

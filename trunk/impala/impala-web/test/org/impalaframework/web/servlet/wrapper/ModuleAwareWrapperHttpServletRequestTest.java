@@ -53,7 +53,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         moduleManagementFacade = createMock(ModuleManagementFacade.class);
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
-        wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, new RequestModuleMapping("/mymodule", "mymodule"), servletContext );
+        wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, new RequestModuleMapping("/mymodule", "mymodule", null), servletContext );
     }
     
     public void testGetSession() {

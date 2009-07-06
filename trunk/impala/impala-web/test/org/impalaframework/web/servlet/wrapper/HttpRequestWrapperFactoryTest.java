@@ -32,7 +32,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        moduleMapping = new RequestModuleMapping("/myModule", "myModule");
+        moduleMapping = new RequestModuleMapping("/myModule", "myModule", null);
     }
 
     public void testIdentityWrapper() {

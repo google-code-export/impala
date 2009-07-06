@@ -72,7 +72,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
         }
         
         //FIXME add prefix/servlet path pair
-        return new RequestModuleMapping(modulePrefixNode.getKey(), modulePrefixNode.getValue());
+        return new RequestModuleMapping(modulePrefixNode.getKey(), modulePrefixNode.getValue(), null);
     }
 
     TreeNode<String> getModuleForURI(String requestURI) {
