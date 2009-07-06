@@ -42,7 +42,6 @@ public class PrefixTreeHolder {
      * for each module which is interested in receiving URLs
      */
     public void add(String moduleName, String key) {
-        
         //FIXME add concurrency control
         
         Assert.notNull(moduleName, "moduleName cannot be null");
@@ -52,7 +51,8 @@ public class PrefixTreeHolder {
             ModuleNameWithPath value = trie.findContainedValue(key);
             throw new InvalidStateException("Module '" + moduleName + "' cannot use key '" + key + "', as it is already being used by module '" + value.getModuleName() + "'");
         }
-        
+
+        //FIXME add servlet path parameter
         this.trie.insert(key, new ModuleNameWithPath(moduleName, null));
         List<String> list = this.contributions.get(moduleName);
         if (list == null) {
