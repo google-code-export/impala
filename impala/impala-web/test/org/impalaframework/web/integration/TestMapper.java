@@ -24,7 +24,7 @@ public class TestMapper implements RequestModuleMapper {
     public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         String parameter = request.getParameter("moduleName");
         if (parameter != null) {
-            return new RequestModuleMapping("/" + parameter, parameter);
+            return new RequestModuleMapping("/" + parameter, parameter, null);
         }
         return null;
     }
