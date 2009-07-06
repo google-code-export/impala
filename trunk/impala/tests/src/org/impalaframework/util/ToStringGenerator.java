@@ -4,12 +4,12 @@ import java.lang.reflect.Field;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.integration.RequestModuleMapping;
+import org.impalaframework.web.integration.ModuleNameWithPath;
 
 public class ToStringGenerator extends TestCase {
 
 	public void testToStringHelper() throws Exception {
-		ToStringHelper.getToString(RequestModuleMapping.class);
+		ToStringHelper.getToString(ModuleNameWithPath.class);
 	}
 }
 

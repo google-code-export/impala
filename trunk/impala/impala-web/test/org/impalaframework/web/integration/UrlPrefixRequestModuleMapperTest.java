@@ -36,9 +36,9 @@ public class UrlPrefixRequestModuleMapperTest extends TestCase {
         mapper.getPrefixTreeHolder().add("module1", "/m1a");
         mapper.getPrefixTreeHolder().add("module2", "/m2");
         
-        assertEquals("module1", mapper.getModuleForURI("/m1").getValue());
-        assertEquals("module1", mapper.getModuleForURI("/m1abbb").getValue());
-        assertEquals("module2", mapper.getModuleForURI("/m2").getValue());
+        assertEquals(new ModuleNameWithPath("module1"), mapper.getModuleForURI("/m1").getValue());
+        assertEquals(new ModuleNameWithPath("module1"), mapper.getModuleForURI("/m1abbb").getValue());
+        assertEquals(new ModuleNameWithPath("module2"), mapper.getModuleForURI("/m2").getValue());
 
         assertNull(mapper.getModuleForURI("/m"));
         assertNull(mapper.getModuleForURI("/m3"));
