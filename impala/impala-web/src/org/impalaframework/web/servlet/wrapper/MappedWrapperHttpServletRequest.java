@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.integration.RequestModuleMapping;
 
 /**
  * Extension of {@link HttpServletRequestWrapper} which provides implementations for 
@@ -26,19 +27,23 @@ public class MappedWrapperHttpServletRequest extends
     
     private String pathInfo;
 
-    public MappedWrapperHttpServletRequest(HttpServletRequest request, ServletContext servletContext, String servletPath) {
+    public MappedWrapperHttpServletRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
         super(request);
         this.servletContext = servletContext;
         
-        if (servletPath != null) {
-            String contextPathPlusServletPath = request.getContextPath() + servletPath;
-            String uri = request.getRequestURI();
+        if (moduleMapping != null) {
+            String servletPath = moduleMapping.getServletPath();
             
-            if (uri.startsWith(contextPathPlusServletPath)) {
-                this.servletPath = servletPath;
-                this.pathInfo = uri.substring(contextPathPlusServletPath.length());
-            } else {
-                logger.warn("URI does not start with context plus servlet path combination: " + contextPathPlusServletPath);
+            if (servletPath != null) {
+                String contextPathPlusServletPath = request.getContextPath() + servletPath;
+                String uri = request.getRequestURI();
+                
+                if (uri.startsWith(contextPathPlusServletPath)) {
+                    this.servletPath = servletPath;
+                    this.pathInfo = uri.substring(contextPathPlusServletPath.length());
+                } else {
+                    logger.warn("URI does not start with context plus servlet path combination: " + contextPathPlusServletPath);
+                }
             }
         }
     }

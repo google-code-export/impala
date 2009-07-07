@@ -16,7 +16,6 @@ package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
@@ -36,16 +35,18 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperHttpServletRequest extends
-        HttpServletRequestWrapper {
+        MappedWrapperHttpServletRequest {
 
     private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpServletRequest.class);
 
     private final String moduleName;
     private final ServletContext servletContext;
 
-    public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, RequestModuleMapping moduleMapping,
-            ServletContext servletContext) {
-        super(request);
+    public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, 
+            ServletContext servletContext,
+            RequestModuleMapping moduleMapping) {
+        
+        super(request, servletContext, moduleMapping);
         Assert.notNull(request);
         Assert.notNull(moduleMapping);
         Assert.notNull(servletContext);
