@@ -18,7 +18,7 @@ import org.apache.commons.logging.LogFactory;
 public class MappedWrapperHttpServletRequest extends
         HttpServletRequestWrapper {
     
-    private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpServletRequest.class);
+    private static final Log logger = LogFactory.getLog(MappedWrapperHttpServletRequest.class);
     
     private ServletContext servletContext;
     
