@@ -38,7 +38,6 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     
     private ServletContext servletContext;
     
-    //FIXME prefix should hold mapping of prefix name to servlet path
     private String prefixes;
     
     public void afterPropertiesSet() throws Exception {
@@ -59,8 +58,8 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
                 if (logger.isDebugEnabled()) 
                     logger.debug("Contributing to holder: " + ObjectUtils.identityToString(holder) + ": " + name + "-" + prefix);
                 
-                //FIXME
-                holder.add(name, prefix.trim());
+                String servletPath = prefixMap.get(prefix);
+                holder.add(name, prefix, servletPath);
             }
         }
     }

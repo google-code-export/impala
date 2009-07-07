@@ -32,9 +32,9 @@ public class UrlPrefixRequestModuleMapperTest extends TestCase {
 
     public void testGetModuleForURI() throws Exception {
         
-        mapper.getPrefixTreeHolder().add("module1", "/m1");
-        mapper.getPrefixTreeHolder().add("module1", "/m1a");
-        mapper.getPrefixTreeHolder().add("module2", "/m2");
+        mapper.getPrefixTreeHolder().add("module1", "/m1", null);
+        mapper.getPrefixTreeHolder().add("module1", "/m1a", null);
+        mapper.getPrefixTreeHolder().add("module2", "/m2", null);
         
         assertEquals(new ModuleNameWithPath("module1"), mapper.getModuleForURI("/m1").getValue());
         assertEquals(new ModuleNameWithPath("module1"), mapper.getModuleForURI("/m1abbb").getValue());
