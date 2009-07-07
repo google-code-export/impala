@@ -55,6 +55,5 @@
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/springfaces/org.springframework.webflow-2.0.7.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/el/el-api-1.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/el/el-ri-1.0.jar"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/springfaces-extension"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
