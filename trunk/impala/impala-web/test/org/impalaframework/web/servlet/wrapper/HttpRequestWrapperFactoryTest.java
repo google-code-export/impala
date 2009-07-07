@@ -48,7 +48,10 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         
-        assertSame(request, factory.getWrappedRequest(request, servletContext, moduleMapping));
+        HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
+        assertTrue(mappedRequest instanceof MappedWrapperHttpServletRequest);
+        MappedWrapperHttpServletRequest mr = (MappedWrapperHttpServletRequest) mappedRequest;
+        assertSame(request, mr.getRequest());
         
         factory.setEnableModuleSessionProtection(true);
         final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);

@@ -19,6 +19,8 @@ import static org.easymock.EasyMock.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.integration.RequestModuleMapping;
+
 import junit.framework.TestCase;
 
 public class MappedWrapperHttpServletRequestTest extends TestCase {
@@ -39,7 +41,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, "/servletPath");
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, new RequestModuleMapping("/sp", "module", "/servletPath"));
         assertEquals("/servletPath", wrapper.getServletPath());
         assertEquals("/extra/path/info", wrapper.getPathInfo());
         
@@ -74,7 +76,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, "/unexpectedServletPath");
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, new RequestModuleMapping("/sp", "module", "/unexpectedServletPath"));
         assertEquals("/sp", wrapper.getServletPath());
         assertEquals("/pi", wrapper.getPathInfo());
         assertEquals("/pt", wrapper.getPathTranslated());
@@ -90,7 +92,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, "/servletPath");
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(request, servletContext, new RequestModuleMapping("/sp", "module", "/servletPath"));
         assertEquals("/realpath", wrapper.getPathTranslated());
         
         verify(request, servletContext);
