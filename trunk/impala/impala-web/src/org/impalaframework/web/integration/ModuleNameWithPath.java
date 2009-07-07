@@ -18,7 +18,11 @@ import org.springframework.util.Assert;
 
 /**
  * Holds prefix key, used to map a request to the servlet, as well as an optional
- * servlet path, to be used in place of the servlet path.
+ * servlet path, to be used where specified to replace the servlet path specified by the container.
+ * This feature is useful because it allows Impala to intercept URLs using a filter with the 
+ * mapping /*, and still have a servlet path specified as if the URL had been mapped to the 
+ * request in a more direct way.
+ * 
  * @author Phil Zoio
  */
 public class ModuleNameWithPath {

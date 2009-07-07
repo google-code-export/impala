@@ -34,6 +34,7 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     
     private ServletContext servletContext;
     
+    //FIXME prefix should hold mapping of prefix name to servlet path
     private String[] prefixes;
     
     public void afterPropertiesSet() throws Exception {
