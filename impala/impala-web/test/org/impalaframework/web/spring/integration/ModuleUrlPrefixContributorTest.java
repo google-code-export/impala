@@ -45,7 +45,7 @@ public class ModuleUrlPrefixContributorTest extends TestCase {
         contributor.setModuleDefinition(moduleDefinition);
         contributor.setServletContext(servletContext);
         
-        contributor.setPrefixes(new String[]{"/p1", "/p2"});
+        contributor.setPrefixes("/p1, /p2");
         
         holder = new PrefixTreeHolder();        
     }
