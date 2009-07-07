@@ -1,5 +1,6 @@
 package org.impalaframework.web.servlet.wrapper;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 
@@ -13,12 +14,16 @@ public class MappedWrapperHttpServletRequest extends
 
     //FIXME complete implementation and test
     
+    private ServletContext servletContext;
+    
     private String servletPath;
     
     private String pathInfo;
 
-    public MappedWrapperHttpServletRequest(HttpServletRequest request, String servletPath) {
+    public MappedWrapperHttpServletRequest(HttpServletRequest request, ServletContext servletContext, String servletPath) {
         super(request);
+        this.servletContext = servletContext;
+        
         if (servletPath != null) {
             String contextPathPlusServletPath = request.getContextPath() + servletPath;
             String uri = request.getRequestURI();
@@ -27,7 +32,7 @@ public class MappedWrapperHttpServletRequest extends
                 this.servletPath = servletPath;
                 this.pathInfo = uri.substring(contextPathPlusServletPath.length());
             } else {
-                //FIXME log warning
+                logger.warn("URI does not start with context plus servlet path combination: " + contextPathPlusServletPath);
             }
         }
     }
@@ -47,7 +52,13 @@ public class MappedWrapperHttpServletRequest extends
         }
         return super.getPathInfo();
     }
-    
-    //FIXME implement getPathTranslated
+
+    @Override
+    public String getPathTranslated() {
+        if (pathInfo != null) {
+            return servletContext.getRealPath(pathInfo);
+        }
+        return super.getPathTranslated();
+    }
  
 }
