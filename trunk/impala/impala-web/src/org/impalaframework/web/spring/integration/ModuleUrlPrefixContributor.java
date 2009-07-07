@@ -1,11 +1,15 @@
 package org.impalaframework.web.spring.integration;
 
+import java.util.Map;
+import java.util.Set;
+
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.integration.PrefixTreeHolder;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapper;
 import org.springframework.beans.factory.DisposableBean;
@@ -35,22 +39,27 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     private ServletContext servletContext;
     
     //FIXME prefix should hold mapping of prefix name to servlet path
-    private String[] prefixes;
+    private String prefixes;
     
     public void afterPropertiesSet() throws Exception {
         
         Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
         Assert.notNull(servletContext, "servletContext cannot be null");
-        Assert.notEmpty(prefixes, "prefixes cannot be null");
+        Assert.notNull(prefixes, "prefixes cannot be null");
         
         PrefixTreeHolder holder = getPrefixHolder(); 
         
         if (holder != null) {
             final String name = moduleDefinition.getName();
-            for (String prefix : prefixes) {
+            
+            Map<String, String> prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
+            Set<String> prefixKeys = prefixMap.keySet();
+            
+            for (String prefix : prefixKeys) {
                 if (logger.isDebugEnabled()) 
                     logger.debug("Contributing to holder: " + ObjectUtils.identityToString(holder) + ": " + name + "-" + prefix);
                 
+                //FIXME
                 holder.add(name, prefix.trim());
             }
         }
@@ -62,7 +71,11 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
         
         if (holder != null) {
             final String name = moduleDefinition.getName();
-            for (String prefix : prefixes) {
+            
+            Map<String, String> prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
+            Set<String> prefixKeys = prefixMap.keySet();
+            
+            for (String prefix : prefixKeys) {
                 holder.remove(name, prefix);
             }
         }
@@ -84,7 +97,7 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
         this.servletContext = servletContext;
     }
 
-    public void setPrefixes(String[] prefixes) {
+    public void setPrefixes(String prefixes) {
         this.prefixes = prefixes;
     }
 
