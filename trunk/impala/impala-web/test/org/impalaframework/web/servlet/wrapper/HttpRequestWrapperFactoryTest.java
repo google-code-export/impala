@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;

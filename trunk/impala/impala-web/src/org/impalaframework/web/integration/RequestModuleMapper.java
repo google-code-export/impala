@@ -18,6 +18,8 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+
 /**
  * Defines interface for determining module name from {@link HttpServletRequest}
  * @author Phil Zoio

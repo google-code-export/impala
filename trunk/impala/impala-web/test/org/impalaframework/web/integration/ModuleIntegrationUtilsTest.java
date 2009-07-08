@@ -28,6 +28,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.ModuleIntegrationUtils;
 import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleIntegrationUtilsTest extends TestCase {
     

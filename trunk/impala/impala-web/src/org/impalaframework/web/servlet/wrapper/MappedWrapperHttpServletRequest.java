@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.web.integration.RequestModuleMapping;
 
 /**
  * Extension of {@link HttpServletRequestWrapper} which provides implementations for 

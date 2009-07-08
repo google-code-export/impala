@@ -29,6 +29,7 @@ import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.integration.RequestModuleMapper;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 
 /**

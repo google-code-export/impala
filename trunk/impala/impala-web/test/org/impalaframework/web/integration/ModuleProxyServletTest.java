@@ -30,6 +30,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.IntegrationServletConfig;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleProxyServletTest extends TestCase {
 

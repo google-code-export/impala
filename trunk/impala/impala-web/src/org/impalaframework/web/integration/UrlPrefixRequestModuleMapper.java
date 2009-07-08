@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.radixtree.RadixTree;
 import org.impalaframework.radixtree.TreeNode;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.web.context.ServletContextAware;

@@ -20,6 +20,7 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.springframework.util.Assert;
 
 /**
