@@ -92,6 +92,10 @@ public class ModuleProxyFilter implements Filter {
         
         Filter moduleFilter = null;
         if (moduleMapping != null) {
+            
+            //FIXME - rather than get module filter, get object which encapsulates a more flexible
+            //within-module request mapping strategy
+            
             moduleFilter = WebServletUtils.getModuleFilter(context, moduleMapping.getModuleName());
             if (moduleFilter != null) {
                 
