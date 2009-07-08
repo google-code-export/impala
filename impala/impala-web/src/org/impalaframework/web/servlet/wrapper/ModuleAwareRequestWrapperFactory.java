@@ -17,8 +17,6 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-
-
 /**
  * Implementation of <code>HttpRequestWrapperFactory</code> which returns instance of <code>ModuleAwareWrapperHttpServletRequest</code>.
  * 
