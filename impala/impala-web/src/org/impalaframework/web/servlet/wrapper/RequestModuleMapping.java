@@ -12,11 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.web.integration;
+package org.impalaframework.web.servlet.wrapper;
 
 /**
  * Holds details of a mapping of a URL to a module for a particular request.
- * Returned by {@link RequestModuleMapper} implementations.
+ * Returned by {@link org.impalaframework.web.integration.RequestModuleMapper} implementations.
  * @author Phil Zoio
  */
 public class RequestModuleMapping {

@@ -22,6 +22,7 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleIntegrationUtils {
 

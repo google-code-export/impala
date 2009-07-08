@@ -23,8 +23,8 @@ import static org.easymock.EasyMock.*;
 
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.integration.IntegrationServletConfig;
-import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.integration.ServletPathRequestModuleMapper;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 import junit.framework.TestCase;
 

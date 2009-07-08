@@ -19,6 +19,8 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+
 import static org.easymock.EasyMock.*;
 
 import junit.framework.TestCase;

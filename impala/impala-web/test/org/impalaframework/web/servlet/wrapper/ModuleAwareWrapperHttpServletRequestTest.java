@@ -29,7 +29,6 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.integration.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSession;
 import org.springframework.util.ClassUtils;

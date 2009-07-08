@@ -17,7 +17,6 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.web.integration.RequestModuleMapping;
 
 
 /**
