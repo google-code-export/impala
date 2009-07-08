@@ -41,6 +41,8 @@ public abstract class WebServletUtils {
         
         return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
     }
+    
+    //FIXME - don't get and publish servlet or filter, but entry into publish module invocation environment
 
     public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
         final String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName;

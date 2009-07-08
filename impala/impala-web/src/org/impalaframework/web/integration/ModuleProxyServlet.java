@@ -93,6 +93,9 @@ public class ModuleProxyServlet extends HttpServlet {
         
         HttpServlet moduleServlet = null;
         if (moduleMapping != null) {
+            
+            //FIXME - rather than get module filter, get object which encapsulates a more flexible
+            //within-module request mapping strategy
             moduleServlet = WebServletUtils.getModuleServlet(context, moduleMapping.getModuleName());
             if (moduleServlet != null) {
                 
