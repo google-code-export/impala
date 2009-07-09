@@ -35,6 +35,8 @@ import org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitorTest;
 import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
+import org.impalaframework.web.servlet.invocation.InvocationChainTest;
+import org.impalaframework.web.servlet.invoker.ReadWriteLockInvokerTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactoryTest;
@@ -86,6 +88,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(InternalFrameworkIntegrationFilterTest.class);
         suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
         suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
+        suite.addTestSuite(InvocationChainTest.class);
         suite.addTestSuite(MappedWrapperHttpServletRequestTest.class);
         suite.addTestSuite(ModuleAwareWrapperHttpServletRequestTest.class);
         suite.addTestSuite(ModuleAwareWrapperHttpSessionTest.class);
@@ -97,6 +100,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(ModuleProxyUtilsTest.class);
         suite.addTestSuite(ModuleUrlPrefixContributorTest.class);
         suite.addTestSuite(PrefixTreeHolderTest.class);
+        suite.addTestSuite(ReadWriteLockInvokerTest.class);
         suite.addTestSuite(RootWebModuleLoaderTest.class);
         suite.addTestSuite(ServletContextPropertySourceTest.class);
         suite.addTestSuite(ServletContextLocationsRetrieverTest.class);
