@@ -32,6 +32,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 
+/**
+ * Implementation of {@link HttpServiceInvoker} responsible for invoking filters or servlets registered within the module.
+ * Registration of filters or servlets within the module is based on suffix.
+ * 
+ * @author Phil Zoio
+ */
 public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
     
     public static final String DEFAULT_SUFFIX = ModuleHttpServiceInvoker.class.getName() + ".DEFAULT_SUFFIX";
@@ -48,7 +54,19 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
     private Map<String,Servlet> servlets = new LinkedHashMap<String, Servlet>();
     
     /**
-     * Determines suffix for 
+     * Determines suffix for incoming request. Then builds an invocation chain using the filters and servlets
+     * which are mapped to the suffix for the module. Invokes this chain.
+     *
+     * If processing is complete, either through the request being handled by a servlet, or one of the filters
+     * in the chain not invoking {@link FilterChain#doFilter(ServletRequest, ServletResponse)}, the method simply
+     * returns after invoking the chain.
+     * 
+     * However, is processing is not complete (through absence of both the above conditions), then if a
+     * {@link FilterChain} argument is supplied, this will be invoked.
+     * 
+     * In other words, if the request is not fully processed by the module, it is still possible for another
+     * filter or even servlet to process the request. This however, is likely to be an unusual case: for the most
+     * part, if a request directed to the module, it will be processed within that module.
      */
     public void invoke(
             HttpServletRequest request,
@@ -63,13 +81,18 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
             suffix = DEFAULT_SUFFIX;
         }
         
-        //instantiate invocation chain
+        //create invocation chain with 
         List<Filter> invocationFilters = filters.get(suffix);
         Servlet invocationServlet = servlets.get(suffix);
-        
         InvocationChain chain = new InvocationChain(invocationFilters, invocationServlet);
         
         chain.invoke(request, response, filterChain);
+        
+        if (filterChain != null) {
+            if (!chain.isComplete()) {
+                filterChain.doFilter(request, response);
+            }
+        }
     }
     
     public void setFilters(Map<String, List<Filter>> filters) {
