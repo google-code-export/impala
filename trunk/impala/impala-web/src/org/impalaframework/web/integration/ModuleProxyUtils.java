@@ -65,4 +65,26 @@ public class ModuleProxyUtils {
         }
         return split[1];
     }
+    
+    public static String getSuffix(String uri) {
+        final int lastSlashIndex = uri.lastIndexOf('/');
+        
+        final String toCheck;
+        if (lastSlashIndex > 0) {
+            toCheck = uri.substring(lastSlashIndex+1);
+        } else {
+            toCheck = uri;
+        }
+        
+        final String extension;
+        
+        final int dotIndex = toCheck.lastIndexOf('.');
+        if (dotIndex >= 0) {
+            extension = toCheck.substring(dotIndex + 1);
+        } else {
+            extension = null;
+        }
+        
+        return extension;
+     }
 }
