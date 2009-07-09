@@ -29,5 +29,15 @@ public class ModuleProxyUtilsTest extends TestCase {
         assertEquals("app", ModuleProxyUtils.getTopLevelPathSegment("test/app"));
         assertEquals("app", ModuleProxyUtils.getTopLevelPathSegment("test/app/stuff"));
     }
+    
+    public void testGetSuffix() throws Exception {
+        assertEquals("ext", ModuleProxyUtils.getSuffix("file.ext"));
+        assertEquals("ext", ModuleProxyUtils.getSuffix("/file.ext"));
+        assertEquals("ext", ModuleProxyUtils.getSuffix("/a.file.in/file.ext"));
+        assertEquals("ext", ModuleProxyUtils.getSuffix("/a.file.in/.ext"));
+        assertEquals(null, ModuleProxyUtils.getSuffix("/a.file.in/"));
+        assertEquals(null, ModuleProxyUtils.getSuffix("/a.file.in/noext"));
+        assertEquals(null, ModuleProxyUtils.getSuffix("noext"));
+    }
 
 }
