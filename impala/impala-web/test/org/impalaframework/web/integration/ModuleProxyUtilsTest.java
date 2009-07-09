@@ -29,27 +29,5 @@ public class ModuleProxyUtilsTest extends TestCase {
         assertEquals("app", ModuleProxyUtils.getTopLevelPathSegment("test/app"));
         assertEquals("app", ModuleProxyUtils.getTopLevelPathSegment("test/app/stuff"));
     }
-    
-    public void testGetTopLevelPathSegment() {
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/", false));
-        assertEquals(null, ModuleProxyUtils.getTopLevelPathSegment("test", false));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/app", false));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/app/stuff", false));
-        
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/", false));
-        assertEquals(null, ModuleProxyUtils.getTopLevelPathSegment("/test", false));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/app", false));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/app/stuff", false));
-
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/app", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("test/app/stuff", true));
-
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/app", true));
-        assertEquals("test", ModuleProxyUtils.getTopLevelPathSegment("/test/app/stuff", true));
-    }
 
 }
