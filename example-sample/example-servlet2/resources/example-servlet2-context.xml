@@ -8,6 +8,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
+    <bean id="invokerBuilder" class="org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvokerBuilder"/> 
+        
+    <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
+        <property name="suffix" value="exe"/>
+        <property name="servletName" value="example-servlet2"/>
+    </bean>
+    
     <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
         <property name = "servletName" value = "example-servlet2"/>
         <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>

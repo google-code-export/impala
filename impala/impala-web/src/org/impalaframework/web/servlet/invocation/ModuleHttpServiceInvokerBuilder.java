@@ -23,6 +23,7 @@ import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -34,7 +35,7 @@ import org.springframework.web.context.ServletContextAware;
  * registered within the application context of type {@link ModuleInvokerContributor}.
  * @author Phil Zoio
  */
-public class ModuleHttpServiceInvokerBuilder implements InitializingBean, DisposableBean, ServletContextAware {
+public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, InitializingBean, DisposableBean, ServletContextAware {
 
     private BeanFactory beanFactory;
     
@@ -55,6 +56,10 @@ public class ModuleHttpServiceInvokerBuilder implements InitializingBean, Dispos
         Map<String, ModuleInvokerContributor> contributors = beanFactory.getBeansOfType(ModuleInvokerContributor.class);
         Map<String, ServletFactoryBean> servletFactoryBeans = beanFactory.getBeansOfType(ServletFactoryBean.class);
         Map<String, FilterFactoryBean> filterFactoryBeans = beanFactory.getBeansOfType(FilterFactoryBean.class);
+        
+        System.out.println("Contributors: " + contributors.values());
+        System.out.println("Servlets: " + servletFactoryBeans.values());
+        System.out.println("Filters: " + filterFactoryBeans.values());
         
         //now go through the contributors, and for each suffix, find the relevant servlets and filters
         //instantiate a ModuleHttpServiceInvoker, set the mappings, and bind to the servlet context
