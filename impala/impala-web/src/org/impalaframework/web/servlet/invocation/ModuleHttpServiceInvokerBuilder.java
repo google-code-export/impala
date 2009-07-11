@@ -39,6 +39,8 @@ import org.springframework.web.context.ServletContextAware;
  */
 public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, InitializingBean, DisposableBean, ServletContextAware, ModuleDefinitionAware {
 
+    //FIXME make so that this is automatically registered with application context
+    
     private BeanFactory beanFactory;
     
     private ServletContext servletContext;
