@@ -23,6 +23,19 @@ import junit.framework.TestCase;
 
 public class ObjectMapUtilsTest extends TestCase {
     
+    @SuppressWarnings("unchecked")
+    public void testNewMap() throws Exception {
+        Map map = ObjectMapUtils.newMap("k1", "v1", "k2", 2);
+        assertEquals(2, map.size());
+        assertEquals("v1", map.get("k1"));
+        assertEquals(2, map.get("k2"));
+        
+        map = ObjectMapUtils.newMap("k1", "v1", "k2");
+        assertEquals(2, map.size());
+        assertEquals("v1", map.get("k1"));
+        assertEquals(null, map.get("k2"));
+    }
+    
     public void testGetIntValue() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("intvalue1", 1);

@@ -15,6 +15,7 @@
 package org.impalaframework.util;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -25,7 +26,27 @@ import org.springframework.util.Assert;
 
 public class ObjectMapUtils {
     
-    private static Log logger = LogFactory.getLog(ObjectMapUtils.class);    
+    private static Log logger = LogFactory.getLog(ObjectMapUtils.class);   
+    
+    /**
+     * Creates map from array where keys and values are alternate values
+     */
+    @SuppressWarnings("unchecked")
+    public static Map newMap(Object... keysAndValues) {
+        Map map = new LinkedHashMap();
+        for (int i = 0; i < keysAndValues.length; i++) {
+            Object key = keysAndValues[i];
+            i++;
+            final Object value;
+            if (i < keysAndValues.length) {
+                value = keysAndValues[i];
+            } else {
+                value = null;
+            }
+            map.put(key, value);
+        }
+        return map;
+    }
     
     public static <T extends Object> void maybeOverwrite(Map<String, T> initial, Map<String, T> overwriting, String contextDescription) {
         Assert.notNull(initial);
