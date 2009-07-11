@@ -18,6 +18,8 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
@@ -35,11 +37,13 @@ import org.springframework.web.context.ServletContextAware;
  * registered within the application context of type {@link ModuleInvokerContributor}.
  * @author Phil Zoio
  */
-public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, InitializingBean, DisposableBean, ServletContextAware {
+public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, InitializingBean, DisposableBean, ServletContextAware, ModuleDefinitionAware {
 
     private BeanFactory beanFactory;
     
     private ServletContext servletContext;
+
+    private ModuleDefinition moduleDefinition;
 
     /**
      * Goes through the contributors, and for each suffix, find the relevant
@@ -63,6 +67,14 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
         
         //now go through the contributors, and for each suffix, find the relevant servlets and filters
         //instantiate a ModuleHttpServiceInvoker, set the mappings, and bind to the servlet context
+        
+        //if no contributions, first look for servlet whose name is same as module name
+        //if no contributions, first look for filter whose name is same as module name
+        //check that there is only one servlet, if > 1, throw exception
+        //if not found, pick single servlet, and map to all suffixes
+        //check that there is only one filter, if > 1 throw exception
+        //if not found, pick single filter, and map to all suffixes
+        //if not found, log warning
     }
     
     /**
@@ -80,5 +92,9 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
     
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    public void setModuleDefinition(ModuleDefinition moduleDefinition) {
+        this.moduleDefinition = moduleDefinition;
     }
 }
