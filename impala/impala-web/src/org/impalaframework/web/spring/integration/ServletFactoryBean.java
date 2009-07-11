@@ -86,7 +86,15 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
         
         initServletProperties(servlet);     
         servlet.init(config);
+    } 
+
+    /* ***************** public methods **************** */
+    
+    public String getServletName() {
+        return servletName;
     }
+
+    /* ***************** protected methods **************** */
 
     private IntegrationServletConfig newServletConfig(Map<String, String> parameterMap) {
         IntegrationServletConfig config = new IntegrationServletConfig(parameterMap, this.servletContext, this.servletName);
@@ -103,10 +111,6 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
     protected ServletContext getServletContext() {
         return servletContext;
-    }
-    
-    protected String getServletName() {
-        return servletName;
     }
     
     /* ***************** DisposableBean implementation **************** */

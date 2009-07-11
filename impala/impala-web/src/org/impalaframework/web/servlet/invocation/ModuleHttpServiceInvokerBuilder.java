@@ -14,12 +14,24 @@
 
 package org.impalaframework.web.servlet.invocation;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
+import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
@@ -41,52 +53,199 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
 
     //FIXME make so that this is automatically registered with application context
     
+    private Log logger = LogFactory.getLog(ModuleHttpServiceInvokerBuilder.class);
+    
     private BeanFactory beanFactory;
     
     private ServletContext servletContext;
-
-    private ModuleDefinition moduleDefinition;
+    
+    private String moduleName;
 
     /**
      * Goes through the contributors, and for each suffix, find the relevant
      * servlets and filter registered with the module. Instantiates a
      * {@link ModuleHttpServiceInvoker}, set the servlet and filter mapping
      * mappings, and bind to the {@link ServletContext} context using the
-     * attribute XXX
+     * attribute <code>ModuleHttpServiceInvoker.class.getName()+"."+moduleDefinition.getName()</code>
      */
     public void afterPropertiesSet() throws Exception {
+        
+        ModuleHttpServiceInvoker invoker = buildInvoker();
+        servletContext.setAttribute(getAttributeName(), invoker);
+    }
 
-        // FIXME implement and test
+    /**
+     * Unbinds the {@link ModuleHttpServiceInvoker} registered with the
+     * {@link ServletContext}
+     */
+    public void destroy() throws Exception {
+        servletContext.removeAttribute(getAttributeName());
+    }
+
+    /* ***************** package level methods **************** */
+
+    @SuppressWarnings("unchecked")
+    ModuleHttpServiceInvoker buildInvoker() throws Exception {
         
         ListableBeanFactory beanFactory = ObjectUtils.cast(this.beanFactory, ListableBeanFactory.class);
         Map<String, ModuleInvokerContributor> contributors = beanFactory.getBeansOfType(ModuleInvokerContributor.class);
         Map<String, ServletFactoryBean> servletFactoryBeans = beanFactory.getBeansOfType(ServletFactoryBean.class);
         Map<String, FilterFactoryBean> filterFactoryBeans = beanFactory.getBeansOfType(FilterFactoryBean.class);
         
-        System.out.println("Contributors: " + contributors.values());
-        System.out.println("Servlets: " + servletFactoryBeans.values());
-        System.out.println("Filters: " + filterFactoryBeans.values());
+        if (logger.isDebugEnabled()) {
+            logger.debug("Contributors: " + contributors.values());
+            logger.debug("Servlets: " + servletFactoryBeans.values());
+            logger.debug("Filters: " + filterFactoryBeans.values());
+        }
         
-        //now go through the contributors, and for each suffix, find the relevant servlets and filters
-        //instantiate a ModuleHttpServiceInvoker, set the mappings, and bind to the servlet context
+        Map<String, ServletFactoryBean> servletsByName = buildServletsByName(servletFactoryBeans);
+        Map<String, FilterFactoryBean> filtersByName = buildFiltersByName(filterFactoryBeans);
+
+        Map<String, List<FilterFactoryBean>> suffixFiltersMapping = new HashMap<String, List<FilterFactoryBean>>();
+        Map<String, ServletFactoryBean> suffixServletMapping = new HashMap<String, ServletFactoryBean>();
         
-        //if no contributions, first look for servlet whose name is same as module name
-        //if no contributions, first look for filter whose name is same as module name
-        //check that there is only one servlet, if > 1, throw exception
-        //if not found, pick single servlet, and map to all suffixes
-        //check that there is only one filter, if > 1 throw exception
-        //if not found, pick single filter, and map to all suffixes
-        //if not found, log warning
+        if (!contributors.isEmpty()) {
+            Collection<ModuleInvokerContributor> values = contributors.values();
+    
+            for (ModuleInvokerContributor contributor : values) {
+                String suffix = contributor.getSuffix();
+                String[] filterNames = contributor.getFilterNames();
+                
+                if (filterNames != null) {
+                    List<FilterFactoryBean> filterFactories = new ArrayList<FilterFactoryBean>();
+                    for (String filterName : filterNames) {
+                        FilterFactoryBean filterFactoryBean = filtersByName.get(filterName);
+                        if (filterFactoryBean == null) {
+                            throw new ConfigurationException("Suffix '" + suffix + "' has mapping for filter '" + filterName + "' for which no named filter definition is present in the current module.");
+                        }
+                        filterFactories.add(filterFactoryBean);
+                    }
+                    suffixFiltersMapping.put(suffix, filterFactories);
+                }
+                
+                String servletName = contributor.getServletName();
+                if (servletName != null) {
+                    ServletFactoryBean servletFactoryBean = servletsByName.get(servletName);
+                    if (servletFactoryBean == null) {
+                        throw new ConfigurationException("Suffix '" + suffix + "' has mapping for servlet '" + servletName + "' for which no named servlet definition is present in the current module.");
+                    }
+                    suffixServletMapping.put(suffix, servletFactoryBean);
+                }
+            }
+        } else {
+
+            //if no contributions, first look for servlet whose name is same as module name
+            FilterFactoryBean filter = null;
+            ServletFactoryBean servlet = servletsByName.get(this.moduleName);
+            
+            if (servlet == null) {
+
+                //if not found, look for filter whose name is same as module name
+                filter = filtersByName.get(this.moduleName);
+                if (filter == null) {
+
+                    //check that there is only one servlet, if > 1, throw exception
+                    if (servletsByName.size() > 1) {
+                        throw new ConfigurationException("Cannot determine default servlet for module '" + moduleName + "' as more than one servlet is registered for this module.");
+                    }
+                    if (servletsByName.size() == 1) {
+                        servlet = ObjectMapUtils.getFirstValue(servletsByName);
+                    }
+                    
+                    if (servlet == null) {
+
+                        //check that there is only one filter, if > 1, throw exception
+                        if (filtersByName.size() > 1) {
+                            throw new ConfigurationException("Cannot determine default filter for module '" + moduleName + "' as more than one filter is registered for this module.");
+                        }
+                        if (filtersByName.size() == 1) {
+                            filter = ObjectMapUtils.getFirstValue(filtersByName);
+                        }
+                    }
+                }
+            }
+            
+            if (servlet != null) {
+                suffixServletMapping.put("*", servlet);
+            }
+            else {
+                if (filter != null) {
+                    suffixFiltersMapping.put("*", Collections.singletonList(filter));
+                } else {
+                    //if not found, log warning
+                    logger.warn("No servlet or filters registered for module '" + moduleName + "'");
+                }
+            }          
+        }
+        
+        Map<String, List<Filter>> suffixFilters = initializeFilters(suffixFiltersMapping);
+        Map<String, Servlet> suffixServlets = initializeServlets(suffixServletMapping);
+        
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker();
+        invoker.setFilters(suffixFilters);
+        invoker.setServlets(suffixServlets);
+        return invoker;
+    }
+
+    /* ***************** private methods **************** */
+
+    private Map<String, Servlet> initializeServlets(
+            Map<String, ServletFactoryBean> suffixServletMapping)
+            throws Exception {
+        Map<String, Servlet> suffixServlets = new HashMap<String, Servlet>();
+        Set<String> servletSuffixes = suffixServletMapping.keySet();
+        for (String suffix : servletSuffixes) {
+            ServletFactoryBean servletFactoryBean = suffixServletMapping.get(suffix);
+            suffixServlets.put(suffix, (Servlet) servletFactoryBean.getObject());
+        }
+        return suffixServlets;
+    }
+
+    private Map<String, List<Filter>> initializeFilters(
+            Map<String, List<FilterFactoryBean>> suffixFiltersMapping)
+            throws Exception {
+        //now initialize the filters
+        Map<String, List<Filter>> suffixFilters = new HashMap<String, List<Filter>>();
+        Set<String> filterSuffixes = suffixFiltersMapping.keySet();
+        for (String suffix : filterSuffixes) {
+            List<FilterFactoryBean> list = suffixFiltersMapping.get(suffix);
+            List<Filter> filterList = new ArrayList<Filter>(list.size());
+            for (FilterFactoryBean filterFactoryBean : list) {
+                filterList.add((Filter) filterFactoryBean.getObject());
+            }
+            suffixFilters.put(suffix, filterList);
+        }
+        return suffixFilters;
+    }
+
+    private String getAttributeName() {
+        return ModuleHttpServiceInvoker.class.getName()+ "." + moduleName;
     }
     
-    /**
-     * Unbinds the {@link ModuleHttpServiceInvoker} registered with the
-     * {@link ServletContext}
-     */
-    public void destroy() throws Exception {
-
-        // FIXME implement and test
+    private Map<String, FilterFactoryBean> buildFiltersByName(Map<String, FilterFactoryBean> filterFactoryBeans) {
+        Map<String,FilterFactoryBean> filtersByName = new HashMap<String, FilterFactoryBean>();
+        
+        Set<String> keySet = filterFactoryBeans.keySet();
+        for (String key : keySet) {
+            FilterFactoryBean bean = filterFactoryBeans.get(key);
+            filtersByName.put(bean.getFilterName(), bean);
+        }
+        return filtersByName;
     }
+
+    private Map<String, ServletFactoryBean> buildServletsByName(Map<String, ServletFactoryBean> servletFactoryBeans) {
+
+        Map<String,ServletFactoryBean> servletsByName = new HashMap<String, ServletFactoryBean>();
+        
+        Set<String> keySet = servletFactoryBeans.keySet();
+        for (String key : keySet) {
+            ServletFactoryBean bean = servletFactoryBeans.get(key);
+            servletsByName.put(bean.getServletName(), bean);
+        }
+        return servletsByName;
+    }
+
+    /* ***************** automatic property setter methods **************** */
 
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
         this.beanFactory = beanFactory;
@@ -97,6 +256,6 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
     }
 
     public void setModuleDefinition(ModuleDefinition moduleDefinition) {
-        this.moduleDefinition = moduleDefinition;
+        this.moduleName = moduleDefinition.getName();
     }
 }

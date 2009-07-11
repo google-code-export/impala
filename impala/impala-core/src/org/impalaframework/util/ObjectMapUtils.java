@@ -14,6 +14,7 @@
 
 package org.impalaframework.util;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -176,6 +177,17 @@ public class ObjectMapUtils {
         }
         
         return object.toString();
+    }
+
+    /**
+     * Returns first value in map.
+     */
+    public static <T extends Object> T getFirstValue(Map<String, T> map) {
+        Collection<T> values = map.values();
+        if (values.size() > 0) {
+            return values.iterator().next();
+        }
+        return null;
     }
 
 }

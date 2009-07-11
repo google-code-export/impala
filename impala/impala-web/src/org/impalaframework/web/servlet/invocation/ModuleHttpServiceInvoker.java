@@ -16,6 +16,7 @@ package org.impalaframework.web.servlet.invocation;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -93,6 +94,14 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
                 filterChain.doFilter(request, response);
             }
         }
+    }
+    
+    Map<String, List<Filter>> getFilters() {
+        return Collections.unmodifiableMap(filters);
+    }
+    
+    Map<String, Servlet> getServlets() {
+        return Collections.unmodifiableMap(servlets);
     }
     
     public void setFilters(Map<String, List<Filter>> filters) {
