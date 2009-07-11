@@ -86,6 +86,14 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
         filter.init(config);
     }
 
+    /* ***************** public methods **************** */
+    
+    public String getFilterName() {
+        return filterName;
+    }
+
+    /* ***************** protected methods **************** */
+
     protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
         IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, this.servletContext, this.filterName);
         return config;
@@ -101,10 +109,6 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
 
     protected ServletContext getServletContext() {
         return servletContext;
-    }
-
-    protected String getFilterName() {
-        return filterName;
     }
 
     /* ***************** DisposableBean implementation **************** */
@@ -137,8 +141,8 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
         this.filter = filter;
     }
 
-    public void setFilterName(String servletName) {
-        this.filterName = servletName;
+    public void setFilterName(String filterName) {
+        this.filterName = filterName;
     }
 
     public void setFilterClass(Class<?> servletClass) {

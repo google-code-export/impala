@@ -34,6 +34,18 @@ public class ObjectMapUtilsTest extends TestCase {
         assertEquals(2, map.size());
         assertEquals("v1", map.get("k1"));
         assertEquals(null, map.get("k2"));
+        
+        map = ObjectMapUtils.newMap();
+        assertTrue(map.isEmpty());
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testGetFirstValue() throws Exception {
+        Map map = ObjectMapUtils.newMap("k1", "v1");
+        assertEquals("v1", ObjectMapUtils.getFirstValue(map));
+        
+        map = ObjectMapUtils.newMap();
+        assertEquals(null, ObjectMapUtils.getFirstValue(map));
     }
     
     public void testGetIntValue() {
