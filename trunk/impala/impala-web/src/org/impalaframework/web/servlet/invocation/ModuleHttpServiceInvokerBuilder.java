@@ -132,17 +132,23 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
                     suffixServletMapping.put(suffix, servletFactoryBean);
                 }
             }
-        } else {
-
+        } else {      
+ 
+            maybeDebug("Module '" + moduleName + "' has no contributions. Looking for servlet matching module name ...");
+            
             //if no contributions, first look for servlet whose name is same as module name
             FilterFactoryBean filter = null;
             ServletFactoryBean servlet = servletsByName.get(this.moduleName);
             
             if (servlet == null) {
 
+                maybeDebug("Looking for filter matching module name ...");
+
                 //if not found, look for filter whose name is same as module name
                 filter = filtersByName.get(this.moduleName);
                 if (filter == null) {
+                    
+                    maybeDebug("Looking for single servlet definition ...");
 
                     //check that there is only one servlet, if > 1, throw exception
                     if (servletsByName.size() > 1) {
@@ -153,6 +159,8 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
                     }
                     
                     if (servlet == null) {
+                        
+                        maybeDebug("Looking for single filter definition ...");
 
                         //check that there is only one filter, if > 1, throw exception
                         if (filtersByName.size() > 1) {
@@ -167,13 +175,17 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
             
             if (servlet != null) {
                 suffixServletMapping.put("*", servlet);
+                
+                maybeDebug("Mapping servlet " + servlet + " to all paths (*)");
             }
             else {
                 if (filter != null) {
                     suffixFiltersMapping.put("*", Collections.singletonList(filter));
+                    
+                    maybeDebug("Mapping filter " + filter + " to all paths (*)");
+                    
                 } else {
-                    //if not found, log warning
-                    logger.warn("No servlet or filters registered for module '" + moduleName + "'");
+                    maybeDebug("No servlet or filters registered for module '" + moduleName + "'");
                 }
             }          
         }
@@ -184,7 +196,18 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
         ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker();
         invoker.setFilters(suffixFilters);
         invoker.setServlets(suffixServlets);
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Module '" + moduleName + "' returning " + ModuleHttpServiceInvoker.class.getSimpleName() + ": " + invoker);
+        }
+        
         return invoker;
+    }
+
+    private void maybeDebug(String message) {
+        if (logger.isDebugEnabled()) {
+            logger.debug(message);
+        }
     }
 
     /* ***************** private methods **************** */
