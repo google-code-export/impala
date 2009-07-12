@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.util.ObjectMapUtils;
+
 import junit.framework.TestCase;
 
 public class InvocationChainTest extends TestCase {
@@ -148,14 +150,11 @@ public class InvocationChainTest extends TestCase {
         
         filters.add(filter1);
         filters.add(filter2);
-        
-        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker();
-        
-        Map<String, List<Filter>> singletonMap = Collections.singletonMap("exe", filters);
-        invoker.setFilters(singletonMap);
-        Map<String, Servlet> servlets = new HashMap<String, Servlet>();
-        servlets.put("exe", servlet);
-        invoker.setServlets(servlets);
+       
+        Map<String, List<Filter>> filterMap = Collections.singletonMap("exe", filters);
+        Map<String, Servlet> servletMap = new HashMap<String, Servlet>();
+        servletMap.put("exe", servlet);
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(filterMap, servletMap);
         
         expect(request.getRequestURI()).andReturn("/apath/afile.exe");
         filter1.doFilter(eq(request), eq(response), isA(InvocationChain.class));
@@ -169,18 +168,63 @@ public class InvocationChainTest extends TestCase {
         verify(request, response, filter1, filter2);
     }
     
+    @SuppressWarnings("unchecked")
+    public void testIsGlobalMappingOnly() throws Exception {
+        
+        filters.add(filter1);
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("*", filter1), 
+                ObjectMapUtils.newMap("*", servlet));
+        assertTrue(invoker.isGlobalMappingOnly());
+
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap(), 
+                ObjectMapUtils.newMap("*", servlet));
+        assertTrue(invoker.isGlobalMappingOnly());
+
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("*", filter1), 
+                ObjectMapUtils.newMap());
+        assertTrue(invoker.isGlobalMappingOnly());
+
+        //no mappings - must be false
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap(), 
+                ObjectMapUtils.newMap());
+        assertFalse(invoker.isGlobalMappingOnly());
+
+        //more than one mapping
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("*", filter1, "another", filter1), 
+                ObjectMapUtils.newMap());
+        assertFalse(invoker.isGlobalMappingOnly());
+        
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap(), 
+                ObjectMapUtils.newMap("*", servlet, "another", servlet));
+        assertFalse(invoker.isGlobalMappingOnly());
+        
+        //mapping to different extension
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap(), 
+                ObjectMapUtils.newMap("exe", servlet));
+        assertFalse(invoker.isGlobalMappingOnly());
+
+        invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("exe", filter1), 
+                ObjectMapUtils.newMap());
+        assertFalse(invoker.isGlobalMappingOnly());
+    }
+    
     public void testInvokerDuffSuffix() throws Exception {
         
         filters.add(filter1);
         filters.add(filter2);
         
-        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker();
-        
         Map<String, List<Filter>> singletonMap = Collections.singletonMap("exe", filters);
-        invoker.setFilters(singletonMap);
         Map<String, Servlet> servlets = new HashMap<String, Servlet>();
         servlets.put("exe", servlet);
-        invoker.setServlets(servlets);
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(singletonMap, servlets);
         
         expect(request.getRequestURI()).andReturn("/apath/afile.duff");
         //note no filter call

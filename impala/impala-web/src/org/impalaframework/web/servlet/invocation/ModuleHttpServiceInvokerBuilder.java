@@ -193,9 +193,7 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
         Map<String, List<Filter>> suffixFilters = initializeFilters(suffixFiltersMapping);
         Map<String, Servlet> suffixServlets = initializeServlets(suffixServletMapping);
         
-        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker();
-        invoker.setFilters(suffixFilters);
-        invoker.setServlets(suffixServlets);
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(suffixFilters, suffixServlets);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Module '" + moduleName + "' returning " + ModuleHttpServiceInvoker.class.getSimpleName() + ": " + invoker);

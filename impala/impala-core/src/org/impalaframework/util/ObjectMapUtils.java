@@ -180,10 +180,21 @@ public class ObjectMapUtils {
     }
 
     /**
-     * Returns first value in map.
+     * Returns first value entry in map.
      */
-    public static <T extends Object> T getFirstValue(Map<String, T> map) {
+    public static <T extends Object> T getFirstValue(Map<?, T> map) {
         Collection<T> values = map.values();
+        if (values.size() > 0) {
+            return values.iterator().next();
+        }
+        return null;
+    }
+    
+    /**
+     * Returns first value entry in map.
+     */
+    public static <T extends Object> T getFirstKey(Map<T,?> map) {
+        Collection<T> values = map.keySet();
         if (values.size() > 0) {
             return values.iterator().next();
         }
