@@ -18,23 +18,16 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.util.ObjectUtils;
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
-import org.impalaframework.web.integration.InvocationAwareFilterChain;
-import org.impalaframework.web.integration.ModuleProxyUtils;
-import org.impalaframework.web.integration.RequestModuleMapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
@@ -44,118 +37,52 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  * @see ModuleProxyServlet
  * @author Phil Zoio
  */
-public class ModuleProxyFilter implements Filter {
-    
+public class ModuleProxyFilter extends BaseModuleProxyFilter {
+
     private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);   
     
-    private static final long serialVersionUID = 1L;
-    
-    private FilterConfig filterConfig;
-    
-    private RequestModuleMapper requestModuleMapper;
-    
-    public ModuleProxyFilter() {
-        super();
-    }
-
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
-        this.requestModuleMapper = newRequestModuleMapper(filterConfig);
-        this.requestModuleMapper.init(filterConfig);
-    }
-
-    protected RequestModuleMapper newRequestModuleMapper(FilterConfig filterConfig) {
-        final String requestModuleMapperClass = filterConfig.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
-        return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
-    }
-
-    public void destroy() {
-    }
-
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-            FilterChain chain) throws IOException, ServletException {
+    protected void processMapping(ServletContext context,
+            HttpServletRequest request,
+            HttpServletResponse response,
+            FilterChain chain, 
+            RequestModuleMapping moduleMapping)
+            throws IOException, ServletException {
         
-        HttpServletRequest request = ObjectUtils.cast(servletRequest, HttpServletRequest.class);
-        HttpServletResponse response = ObjectUtils.cast(servletResponse, HttpServletResponse.class);
-
-        ModuleProxyUtils.maybeLogRequest(request, logger);
-        
-        ServletContext context = filterConfig.getServletContext();
-        doFilter(request, response, context, chain);
-        
-    }
-
-    void doFilter(HttpServletRequest request, HttpServletResponse response,
-            ServletContext context, FilterChain chain)
-            throws ServletException, IOException {
-
-        RequestModuleMapping moduleMapping = getModuleMapping(request);
-        
-        Filter moduleFilter = null;
-        if (moduleMapping != null) {
+        Filter moduleFilter = WebServletUtils.getModuleFilter(context, moduleMapping.getModuleName());
+        if (moduleFilter != null) {
             
-            //FIXME - rather than get module filter, get object which encapsulates a more flexible
-            //within-module request mapping strategy
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleMapping + "]");
+            }
             
-            moduleFilter = WebServletUtils.getModuleFilter(context, moduleMapping.getModuleName());
-            if (moduleFilter != null) {
+            //explicitly go through service method
+            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
+            
+            InvocationAwareFilterChain substituteChain = new InvocationAwareFilterChain();
+            
+            moduleFilter.doFilter(wrappedRequest, response, substituteChain);
+            
+            if (substituteChain.getWasInvoked()) {
                 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleMapping + "]");
+                    logger.debug("Filter [" + moduleFilter + "] did not process request. Chaining request.");
                 }
-                
-                //explicitly go through service method
-                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
-                
-                InvocationAwareFilterChain substituteChain = new InvocationAwareFilterChain();
-                
-                moduleFilter.doFilter(wrappedRequest, response, substituteChain);
-                
-                if (substituteChain.getWasInvoked()) {
-                    
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Filter [" + moduleFilter + "] did not process request. Chaining request.");
-                    }
-                    chain.doFilter(request, response);
-                    
-                } else {
-                    
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Filter [" + moduleFilter + "] completed processing of request.");
-                    }
-                }
+                chain.doFilter(request, response);
                 
             } else {
                 
                 if (logger.isDebugEnabled()) {
-                    logger.debug("No module filter found for candidate module name [" + moduleMapping + "]. Chaining request.");
+                    logger.debug("Filter [" + moduleFilter + "] completed processing of request.");
                 }
-                chain.doFilter(request, response);
-                
             }
+            
         } else {
             
             if (logger.isDebugEnabled()) {
-                logger.debug("Path + '" + request.getRequestURI() + "' does not correspond with any candidate module name. Chaining request.");
+                logger.debug("No module filter found for candidate module name [" + moduleMapping + "]. Chaining request.");
             }
             chain.doFilter(request, response);
             
         }
-    }
-
-    RequestModuleMapping getModuleMapping(HttpServletRequest request) {
-        return requestModuleMapper.getModuleForRequest(request);
-    }
-    
-    /* **************** protected methods ******************* */
-
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
-    }
-    
-    /* **************** package level getters ******************* */
-
-    FilterConfig getFilterConfig() {
-        return filterConfig;
     }
 }
