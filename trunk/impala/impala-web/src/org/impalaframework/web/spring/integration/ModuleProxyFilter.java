@@ -22,8 +22,10 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.integration.RequestModuleMapper;
 
-
 /**
+ * Extension of {@link org.impalaframework.web.integration.ModuleProxyFilter} which uses {@link RequestModuleMapper} retrieved from 
+ * Spring application context to perform request to module mapping.
+ * 
  * @author Phil Zoio
  */
 public class ModuleProxyFilter extends org.impalaframework.web.integration.ModuleProxyFilter {
