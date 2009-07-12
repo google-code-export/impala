@@ -36,7 +36,7 @@
     <!-- Connects with the InternalModuleServlet in example-servlet2 and the InternalFrameworkIntegrationServlet in example-servlet3 -->
     <servlet>
         <servlet-name>example-redirector</servlet-name>
-        <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>
+        <servlet-class>org.impalaframework.web.spring.integration.SmartModuleProxyServlet</servlet-class>
         <init-param>
                 <param-name>modulePrefix</param-name>
                 <param-value>example-</param-value>

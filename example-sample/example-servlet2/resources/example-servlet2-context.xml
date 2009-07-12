@@ -9,7 +9,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd"> 
         
     <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
-        <property name="suffix" value="exe"/>
+        <property name="suffix" value="*"/>
         <property name="servletName" value="example-servlet2"/>
     </bean>
     
