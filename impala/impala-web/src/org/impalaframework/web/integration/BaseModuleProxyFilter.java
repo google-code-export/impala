@@ -31,12 +31,11 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter;
 
 /**
  * Base implementation of filter which directs requests to modules
  * 
- * @see InternalFrameworkIntegrationFilter
+ * @see org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter
  * @see ModuleProxyServlet
  * @author Phil Zoio
  */

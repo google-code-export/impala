@@ -27,13 +27,12 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter;
 
 /**
  * <p><code>Filter</code> which performs a similar function to <code>ModuleProxyServlet</code>
  * </p>
  * 
- * @see InternalFrameworkIntegrationFilter
+ * @see org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter
  * @see ModuleProxyServlet
  * @author Phil Zoio
  */

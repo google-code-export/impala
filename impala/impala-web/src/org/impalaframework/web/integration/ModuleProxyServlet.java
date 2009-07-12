@@ -26,8 +26,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
-import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 
 /**
  * <p>
@@ -45,8 +43,8 @@ import org.impalaframework.web.spring.servlet.InternalModuleServlet;
  * and <code>InternalModuleServlet</code>.
  * </p>
  * 
- * @see InternalFrameworkIntegrationServlet
- * @see InternalModuleServlet
+ * @see org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet
+ * @see org.impalaframework.web.spring.servlet.InternalModuleServlet
  * @author Phil Zoio
  */
 public class ModuleProxyServlet extends BaseModuleProxyServlet {
