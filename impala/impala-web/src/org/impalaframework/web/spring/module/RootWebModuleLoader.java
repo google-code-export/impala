@@ -35,7 +35,7 @@ import org.springframework.web.context.WebApplicationContext;
  * 
  * @author Phil Zoio
  */
-public class RootWebModuleLoader extends WebModuleLoader {
+public class RootWebModuleLoader extends BaseWebModuleLoader {
 
     private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 

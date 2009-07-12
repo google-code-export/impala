@@ -17,73 +17,43 @@ package org.impalaframework.web.spring.module;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.spi.ModuleLoader;
-import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
-import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
-import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvokerBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ConfigurableApplicationContext;
-import org.springframework.util.Assert;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
- * Implementation of {@link ModuleLoader} which extends {@link BaseSpringModuleLoader}
- * providing additional functionality specific to the web environment.
- * Specifically, it uses the {@link ServletContextWrapper} if present, to provide 
- * a wrapped {@link ServletContext} instance as a proxy to the real {@link ServletContext} 
- * provided via the {@link ServletContextAware#setServletContext(ServletContext)} method.
- * Also, it creates an instance of {@link GenericWebApplicationContext} to use as the
- * {@link ConfigurableApplicationContext} instance.
+ * Extends {@link BaseWebModuleLoader}, providing a concrete implementation of
+ * {@link #configureBeanFactoryAndApplicationContext(ModuleDefinition, DefaultListableBeanFactory, GenericWebApplicationContext)}
+ * , in which a {@link ModuleHttpServiceInvokerBuilder} is automatically
+ * registered with the bean factory. This is to allow request URI suffix to
+ * filter and servlet mappings to be contributed to build a
+ * {@link ModuleHttpServiceInvoker} instance.
  * 
  * @author Phil Zoio
  */
-public class WebModuleLoader extends BaseSpringModuleLoader implements ServletContextAware {
-
-    private ServletContext servletContext;
-    
-    private ServletContextWrapper servletContextWrapper;
+public class WebModuleLoader extends BaseWebModuleLoader implements ServletContextAware {
 
     public WebModuleLoader() {
+        super();
     }
 
     public WebModuleLoader(ServletContext servletContext) {
-        Assert.notNull(servletContext, "ServletContext cannot be null");
-        this.servletContext = servletContext;
+        super(servletContext);
     }
 
-    public GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
-            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
-        
-        ServletContext wrappedServletContext = servletContext;
-        
-        if (servletContextWrapper != null) {
-            wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
-        }
-        
-        final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
-        beanFactory.setBeanClassLoader(classLoader);
-
-        final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
-        context.setParent(parent);
-        context.setServletContext(wrappedServletContext);
-        context.setClassLoader(classLoader);
-        context.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, context));
-
-        return context;
-    }
-
-    protected ServletContext getServletContext() {
-        return servletContext;
-    }
-
-    public void setServletContext(ServletContext servletContext) {
-        this.servletContext = servletContext;
-    }
-
-    public void setServletContextWrapper(ServletContextWrapper servletContextWrapper) {
-        this.servletContextWrapper = servletContextWrapper;
+    /**
+     * Hook for subclasses to perform additional configuration on application context
+     */
+    protected void configureBeanFactoryAndApplicationContext(
+            ModuleDefinition moduleDefinition,
+            final DefaultListableBeanFactory beanFactory,
+            final GenericWebApplicationContext context) {
+        //register invoker builder definition
+        RootBeanDefinition invokerBuilderDefinition = new RootBeanDefinition(ModuleHttpServiceInvokerBuilder.class);
+        beanFactory.registerBeanDefinition(ModuleHttpServiceInvokerBuilder.class.getName()+".for." + moduleDefinition.getName(), invokerBuilderDefinition);
     }
     
 }
