@@ -6,9 +6,7 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
-
-    <bean id="invokerBuilder" class="org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvokerBuilder"/> 
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd"> 
         
     <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
         <property name="suffix" value="exe"/>

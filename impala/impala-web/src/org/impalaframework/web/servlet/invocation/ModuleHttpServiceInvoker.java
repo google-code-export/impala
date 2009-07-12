@@ -111,6 +111,23 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
     public void setServlets(Map<String, Servlet> servlets) {
         this.servlets = servlets;
     }
+    
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer(500);
+        buffer.append(this.getClass().getName()).append(": ");
+        buffer.append("filters = ");
+        if ( this.filters!= null )
+        buffer.append(this.filters.toString());
+        else buffer.append("value is null"); 
+        buffer.append(", ");
+        buffer.append("servlets = ");
+        if ( this.servlets!= null )
+        buffer.append(this.servlets.toString());
+        else buffer.append("value is null"); 
+        buffer.append("\n");
+        return  buffer.toString();
+    }
 
 }
 
@@ -177,6 +194,23 @@ class InvocationChain implements HttpServiceInvoker, FilterChain {
     
     public boolean isComplete() {
         return !incomplete;
+    }
+    
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer(500);
+        buffer.append(this.getClass().getName()).append(": ");
+        buffer.append("filters = ");
+        if ( this.filters!= null )
+        buffer.append(this.filters.toString());
+        else buffer.append("value is null"); 
+        buffer.append(", ");
+        buffer.append("servlet = ");
+        if ( this.servlet!= null )
+        buffer.append(this.servlet.toString());
+        else buffer.append("value is null"); 
+        buffer.append("\n");
+        return  buffer.toString();
     }
     
 }

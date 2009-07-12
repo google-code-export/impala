@@ -45,4 +45,22 @@ public class ModuleInvokerContributor implements InitializingBean {
         this.suffix = suffix;
     }
 
+    @Override
+    public String toString() {
+        StringBuffer buffer = new StringBuffer(500);
+        buffer.append(this.getClass().getName()).append(": ");
+        buffer.append("suffix = ");
+        buffer.append(this.suffix);
+        buffer.append(", ");
+        buffer.append("servletName = ");
+        buffer.append(this.servletName);
+        buffer.append(", ");
+        buffer.append("filterNames = ");
+        if (this.filterNames != null)
+            buffer.append(this.filterNames.toString());
+        else
+            buffer.append("value is null");
+        buffer.append("\n");
+        return buffer.toString();
+    }
 }
