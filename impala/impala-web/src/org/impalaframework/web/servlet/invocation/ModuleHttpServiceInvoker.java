@@ -42,7 +42,8 @@ import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
  */
 public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
     
-    public static final String DEFAULT_SUFFIX = ModuleHttpServiceInvoker.class.getName() + ".DEFAULT_SUFFIX";
+    public static final String EMPTY_SUFFIX = "[none]";
+    public static final String ALL_EXTENSIONS = "*";
 
     /**
      * Mapping of extensions to filters. Note that filters are listed in invocation order
@@ -90,14 +91,14 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         String suffix = null;
         
         if (this.globalMappingOnly) {
-            suffix = "*";
+            suffix = ALL_EXTENSIONS;
         }
         else {
             //check suffix of request
             String uri = request.getRequestURI();
             suffix = ModuleProxyUtils.getSuffix(uri);
             if (suffix == null) {
-                suffix = DEFAULT_SUFFIX;
+                suffix = EMPTY_SUFFIX;
             }
         }
         
@@ -106,8 +107,8 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         Servlet invocationServlet = servlets.get(suffix);
         
         if (invocationFilters == null && invocationServlet == null && !this.globalMappingOnly) {
-            invocationFilters = filters.get("*");
-            invocationServlet = servlets.get("*");
+            invocationFilters = filters.get(ALL_EXTENSIONS);
+            invocationServlet = servlets.get(ALL_EXTENSIONS);
         }
         
         InvocationChain chain = new InvocationChain(invocationFilters, invocationServlet);
