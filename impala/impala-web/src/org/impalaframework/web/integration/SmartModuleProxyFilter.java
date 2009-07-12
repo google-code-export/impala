@@ -16,6 +16,7 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
+import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,18 +32,19 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 /**
  * @author Phil Zoio
  */
-public class SmartModuleProxyServlet extends BaseModuleProxyServlet {
+public class SmartModuleProxyFilter extends BaseModuleProxyFilter {
 
     private static final long serialVersionUID = 1L;
     
-    private static final Log logger = LogFactory.getLog(SmartModuleProxyServlet.class);  
+    private static final Log logger = LogFactory.getLog(SmartModuleProxyFilter.class);  
 
-    protected void processMapping(
-            ServletContext context,
+    @Override
+    protected void processMapping(ServletContext context,
             HttpServletRequest request, 
             HttpServletResponse response,
-            RequestModuleMapping moduleMapping) throws ServletException,
-            IOException {
+            FilterChain chain, 
+            RequestModuleMapping moduleMapping)
+            throws IOException, ServletException {
         
         String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+moduleMapping.getModuleName();
         Object attribute = context.getAttribute(attributeName);
@@ -54,5 +56,9 @@ public class SmartModuleProxyServlet extends BaseModuleProxyServlet {
             HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
             invoker.invoke(wrappedRequest, response, null);
         }
-    }    
+        else {
+            chain.doFilter(request, response);
+        }
+    }
+    
 }
