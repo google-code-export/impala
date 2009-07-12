@@ -167,6 +167,29 @@ public class InvocationChainTest extends TestCase {
         verify(servlet);
         verify(request, response, filter1, filter2);
     }
+
+    @SuppressWarnings("unchecked")
+    public void testInvokeGlobalOnly() throws Exception {
+        
+        filters.add(filter1);
+        filters.add(filter2);
+        
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("*", filters), 
+                ObjectMapUtils.newMap("*", servlet));
+        assertTrue(invoker.isGlobalMappingOnly());
+        
+        //note the absense of any calls to figure out the suffix
+        filter1.doFilter(eq(request), eq(response), isA(InvocationChain.class));
+        
+        replay(servlet);
+        replay(request, response, filter1, filter2);
+
+        invoker.invoke(request, response, null);
+        
+        verify(servlet);
+        verify(request, response, filter1, filter2);
+    }
     
     @SuppressWarnings("unchecked")
     public void testIsGlobalMappingOnly() throws Exception {
