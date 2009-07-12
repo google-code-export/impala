@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.integration.InvocationAwareFilterChain;
 import org.springframework.web.context.WebApplicationContext;
@@ -61,10 +60,7 @@ public class InternalFrameworkIntegrationFilterTest extends TestCase {
     }
 
     public void testInitDestroy() throws ServletException {
-        servletContext.setAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + "myfilter", filter);
         servletContext.setAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-        
-        servletContext.removeAttribute(WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX  + "myfilter");
         servletContext.removeAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
         replayMocks();

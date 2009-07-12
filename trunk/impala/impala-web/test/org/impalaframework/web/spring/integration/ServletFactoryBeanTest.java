@@ -23,12 +23,12 @@ import java.util.Collections;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
-import org.impalaframework.web.integration.ModuleProxyServlet;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.integration.ModuleProxyServlet;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 
 public class ServletFactoryBeanTest extends TestCase {
 
@@ -54,7 +54,7 @@ public class ServletFactoryBeanTest extends TestCase {
         ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
-        expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"somepath")).andReturn(null);
+        expectGetInvoker("somepath");
         
         replay(request);
         replay(context);
@@ -69,12 +69,12 @@ public class ServletFactoryBeanTest extends TestCase {
         
         factoryBean.setServletName(null);
         factoryBean.setModuleDefinition(new SimpleModuleDefinition("mymodule"));
+        expectGetInvoker("somepath");
         
         factoryBean.afterPropertiesSet();
         ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
-        expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"somepath")).andReturn(null);
         
         replay(request);
         replay(context);
@@ -92,7 +92,7 @@ public class ServletFactoryBeanTest extends TestCase {
         ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
-        expect(context.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX+"pathprefix-somepath")).andReturn(null);
+        expectGetInvoker("pathprefix-somepath");
         
         replay(request);
         replay(context);
@@ -101,6 +101,10 @@ public class ServletFactoryBeanTest extends TestCase {
         
         verify(request);
         verify(context);
+    }
+
+    private void expectGetInvoker(String path) {
+        expect(context.getAttribute(ModuleHttpServiceInvoker.class.getName()+"."+path)).andReturn(null);
     }
 
 }

@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.util.ObjectUtils;
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -83,7 +82,6 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
         servletContext = config.getServletContext();
         final String filterName = config.getFilterName();
         
-        WebServletUtils.publishFilter(servletContext, filterName, this);
         ImpalaServletUtils.publishRootModuleContext(servletContext, filterName, applicationContext);
     }
 
@@ -107,7 +105,6 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
         final ServletContext servletContext = filterConfig.getServletContext();
         final String filterName = filterConfig.getFilterName();
         
-        WebServletUtils.unpublishFilter(servletContext, filterName);
         ImpalaServletUtils.unpublishRootModuleContext(servletContext, filterName);
     }   
     

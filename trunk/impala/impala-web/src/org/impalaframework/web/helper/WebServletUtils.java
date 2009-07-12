@@ -14,7 +14,6 @@
 
 package org.impalaframework.web.helper;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 
@@ -41,30 +40,6 @@ public abstract class WebServletUtils {
         
         return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
     }
-    
-    //FIXME - don't get and publish servlet or filter, but entry into publish module invocation environment
-
-    public static HttpServlet getModuleServlet(ServletContext servletContext, String moduleName) {
-        final String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + moduleName;
-        final Object attribute = servletContext.getAttribute(attributeName);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Retrieved module Servlet from ServletContext with attribute name '" + attributeName + "': " + attribute);
-        }
-        
-        return ObjectUtils.cast(attribute, HttpServlet.class);
-    }
-
-    public static Filter getModuleFilter(ServletContext servletContext, String moduleName) {
-        final String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + moduleName;
-        final Object attribute = servletContext.getAttribute(attributeName);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Retrieved module Filter from ServletContext with attribute name '" + attributeName + "': " + attribute);
-        }
-        
-        return ObjectUtils.cast(attribute, Filter.class);
-    }
 
     public static String getModuleServletContextKey(String moduleName, String attributeName) {
         return "module_" + moduleName + ":" + attributeName;
@@ -77,28 +52,6 @@ public abstract class WebServletUtils {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Published Servlet with name '" + servletName
-                    + "' as ServletContext attribute with name [" + attributeName + "]");
-        }
-    }
-
-    public static void unpublishFilter(ServletContext servletContext, String filterName) {
-        
-        String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
-        servletContext.removeAttribute(attributeName);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Removed Filter with name '" + filterName
-                    + "' as ServletContext attribute with name [" + attributeName + "]");
-        }
-    }
-
-    public static void publishFilter(ServletContext servletContext, String filterName, Filter filter) {
-        
-        String attributeName = WebConstants.FILTER_MODULE_ATTRIBUTE_PREFIX + filterName;
-        servletContext.setAttribute(attributeName, filter);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Published Filter with name '" + filterName
                     + "' as ServletContext attribute with name [" + attributeName + "]");
         }
     }

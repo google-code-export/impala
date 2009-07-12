@@ -16,7 +16,6 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -25,7 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
+import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
@@ -38,50 +39,30 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  */
 public class ModuleProxyFilter extends BaseModuleProxyFilter {
 
-    private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);   
+    private static final long serialVersionUID = 1L;
     
+    private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);  
+
+    @Override
     protected void processMapping(ServletContext context,
-            HttpServletRequest request,
+            HttpServletRequest request, 
             HttpServletResponse response,
             FilterChain chain, 
             RequestModuleMapping moduleMapping)
             throws IOException, ServletException {
         
-        Filter moduleFilter = WebServletUtils.getModuleFilter(context, moduleMapping.getModuleName());
-        if (moduleFilter != null) {
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("Found module filter [" + moduleFilter + "] for module name [" + moduleMapping + "]");
-            }
-            
-            //explicitly go through service method
+        String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+moduleMapping.getModuleName();
+        Object attribute = context.getAttribute(attributeName);
+        
+        HttpServiceInvoker invoker = ObjectUtils.cast(attribute, HttpServiceInvoker.class);
+        logger.info("Found invoker for attribute '" + attributeName + "': " + invoker);
+        
+        if (invoker != null) {
             HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
-            
-            InvocationAwareFilterChain substituteChain = new InvocationAwareFilterChain();
-            
-            moduleFilter.doFilter(wrappedRequest, response, substituteChain);
-            
-            if (substituteChain.getWasInvoked()) {
-                
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Filter [" + moduleFilter + "] did not process request. Chaining request.");
-                }
-                chain.doFilter(request, response);
-                
-            } else {
-                
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Filter [" + moduleFilter + "] completed processing of request.");
-                }
-            }
-            
-        } else {
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("No module filter found for candidate module name [" + moduleMapping + "]. Chaining request.");
-            }
+            invoker.invoke(wrappedRequest, response, null);
+        }
+        else {
             chain.doFilter(request, response);
-            
         }
     }
 }

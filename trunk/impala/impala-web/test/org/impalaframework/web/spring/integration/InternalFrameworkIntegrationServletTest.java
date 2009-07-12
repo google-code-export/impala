@@ -30,7 +30,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -58,10 +57,7 @@ public class InternalFrameworkIntegrationServletTest extends TestCase {
     }
 
     public void testInitDestroy() throws ServletException {
-        servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet", servlet);
         servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-        
-        servletContext.removeAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "myservlet");
         servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
         replayMocks();
