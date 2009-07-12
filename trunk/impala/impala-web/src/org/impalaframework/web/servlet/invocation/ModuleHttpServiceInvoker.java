@@ -87,16 +87,29 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
             FilterChain filterChain)
             throws ServletException, IOException {
         
-        //check suffix of request
-        String uri = request.getRequestURI();
-        String suffix = ModuleProxyUtils.getSuffix(uri);
-        if (suffix == null) {
-            suffix = DEFAULT_SUFFIX;
+        String suffix = null;
+        
+        if (this.globalMappingOnly) {
+            suffix = "*";
+        }
+        else {
+            //check suffix of request
+            String uri = request.getRequestURI();
+            suffix = ModuleProxyUtils.getSuffix(uri);
+            if (suffix == null) {
+                suffix = DEFAULT_SUFFIX;
+            }
         }
         
         //create invocation chain with 
         List<Filter> invocationFilters = filters.get(suffix);
         Servlet invocationServlet = servlets.get(suffix);
+        
+        if (invocationFilters == null && invocationServlet == null && !this.globalMappingOnly) {
+            invocationFilters = filters.get("*");
+            invocationServlet = servlets.get("*");
+        }
+        
         InvocationChain chain = new InvocationChain(invocationFilters, invocationServlet);
         
         chain.invoke(request, response, filterChain);
