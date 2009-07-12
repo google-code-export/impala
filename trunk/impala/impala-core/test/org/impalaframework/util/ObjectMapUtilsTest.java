@@ -48,6 +48,15 @@ public class ObjectMapUtilsTest extends TestCase {
         assertEquals(null, ObjectMapUtils.getFirstValue(map));
     }
     
+    @SuppressWarnings("unchecked")
+    public void testGetFirstKey() throws Exception {
+        Map map = ObjectMapUtils.newMap("k1", "v1");
+        assertEquals("k1", ObjectMapUtils.getFirstKey(map));
+        
+        map = ObjectMapUtils.newMap();
+        assertEquals(null, ObjectMapUtils.getFirstKey(map));
+    }
+    
     public void testGetIntValue() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("intvalue1", 1);

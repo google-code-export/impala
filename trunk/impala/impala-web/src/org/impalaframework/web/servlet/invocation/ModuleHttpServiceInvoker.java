@@ -30,6 +30,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 
@@ -54,6 +55,17 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
      */
     private Map<String,Servlet> servlets = new LinkedHashMap<String, Servlet>();
     
+    private boolean globalMappingOnly;
+    
+    public ModuleHttpServiceInvoker(
+            Map<String, List<Filter>> suffixFilters,
+            Map<String, Servlet> suffixServlets) {
+        this.filters.putAll(suffixFilters);
+        this.servlets.putAll(suffixServlets);
+        
+        this.globalMappingOnly = determineGlobalMappingStatus();
+    }
+
     /**
      * Determines suffix for incoming request. Then builds an invocation chain using the filters and servlets
      * which are mapped to the suffix for the module. Invokes this chain.
@@ -96,20 +108,48 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         }
     }
     
+    private boolean determineGlobalMappingStatus() {
+        boolean maybeGlobal = true;
+        
+        if (this.filters.size() > 1 || this.servlets.size() > 1) {
+            //one of filters or servlets has more than one key
+            maybeGlobal = false;
+        }
+        if (maybeGlobal) {
+            if (this.filters.size() == 0 && this.servlets.size() == 0) {
+                //both of filters and servlets have no keys
+                maybeGlobal = false;
+            }
+        }
+        
+        if (maybeGlobal) {
+            String firstFilterKey = ObjectMapUtils.getFirstKey(this.filters);
+            if (firstFilterKey != null && !"*".equals(firstFilterKey)) {
+                //filter has non-global mapping key
+                maybeGlobal = false;
+            }
+        }
+        
+        if (maybeGlobal) {
+            String firstServletKey = ObjectMapUtils.getFirstKey(this.servlets);
+            if (firstServletKey != null && !"*".equals(firstServletKey)) {
+                //filter has non-global mapping key
+                maybeGlobal = false;
+            }
+        }
+        return maybeGlobal;
+    }
+    
     Map<String, List<Filter>> getFilters() {
         return Collections.unmodifiableMap(filters);
     }
     
     Map<String, Servlet> getServlets() {
         return Collections.unmodifiableMap(servlets);
-    }
+    } 
     
-    public void setFilters(Map<String, List<Filter>> filters) {
-        this.filters = filters;
-    }
-    
-    public void setServlets(Map<String, Servlet> servlets) {
-        this.servlets = servlets;
+    public boolean isGlobalMappingOnly() {
+        return globalMappingOnly;
     }
     
     @Override
