@@ -192,6 +192,30 @@ public class InvocationChainTest extends TestCase {
     }
     
     @SuppressWarnings("unchecked")
+    public void testInvokeNone() throws Exception {
+        
+        filters.add(filter1);
+        filters.add(filter2);
+        
+        ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
+                ObjectMapUtils.newMap("*", filters), 
+                ObjectMapUtils.newMap("[none]", servlet));
+        assertFalse(invoker.isGlobalMappingOnly());
+        
+        //note the absense of any calls to figure out the suffix
+        expect(request.getRequestURI()).andReturn("/apath/filewithoutextension");
+        servlet.service(request, response);
+        
+        replay(servlet);
+        replay(request, response, filter1, filter2);
+
+        invoker.invoke(request, response, null);
+        
+        verify(servlet);
+        verify(request, response, filter1, filter2);
+    }
+    
+    @SuppressWarnings("unchecked")
     public void testIsGlobalMappingOnly() throws Exception {
         
         filters.add(filter1);
