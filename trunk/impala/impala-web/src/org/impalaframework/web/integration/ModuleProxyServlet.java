@@ -16,7 +16,6 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
-import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -25,11 +24,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
-import org.impalaframework.web.integration.ModuleProxyUtils;
-import org.impalaframework.web.integration.RequestModuleMapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 
 /**
@@ -52,71 +49,28 @@ import org.impalaframework.web.spring.servlet.InternalModuleServlet;
  * @see InternalModuleServlet
  * @author Phil Zoio
  */
-public class ModuleProxyServlet extends HttpServlet {
+public class ModuleProxyServlet extends BaseModuleProxyServlet {
 
-    private static final Log logger = LogFactory.getLog(ModuleProxyServlet.class);  
-    
     private static final long serialVersionUID = 1L;
     
-    private RequestModuleMapper requestModuleMapper;
-    
-    public ModuleProxyServlet() {
-        super();
-    }
+    private static final Log logger = LogFactory.getLog(ModuleProxyServlet.class);  
 
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
-        this.requestModuleMapper = newRequestModuleMapper(config);
-        this.requestModuleMapper.init(config);
-    }
-
-    protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
-        final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
-        return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
-    }
-
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void processMapping(
+            ServletContext context,
+            HttpServletRequest request, 
+            HttpServletResponse response,
+            RequestModuleMapping moduleMapping) throws ServletException,
+            IOException {
         
-        ModuleProxyUtils.maybeLogRequest(request, logger);
-        
-        ServletContext context = getServletContext();
-        doService(request, response, context);
-        
-    }
-
-    void doService(HttpServletRequest request, HttpServletResponse response,
-            ServletContext context)
-            throws ServletException, IOException {
-        
-        RequestModuleMapping moduleMapping = getModuleMapping(request);
-        
-        HttpServlet moduleServlet = null;
-        if (moduleMapping != null) {
+        HttpServlet moduleServlet = WebServletUtils.getModuleServlet(context, moduleMapping.getModuleName());
+        if (moduleServlet != null) {
             
-            //FIXME - rather than get module filter, get object which encapsulates a more flexible
-            //within-module request mapping strategy
-            moduleServlet = WebServletUtils.getModuleServlet(context, moduleMapping.getModuleName());
-            if (moduleServlet != null) {
-                
-                //explicitly go through service method
-                HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
-                moduleServlet.service(wrappedRequest, response);
-            } else {
-                logger.warn("No redirection possible for servlet path " + request.getRequestURI() + ", module name " + moduleMapping);
-            }
+            //explicitly go through service method
+            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
+            moduleServlet.service(wrappedRequest, response);
         } else {
-            logger.warn("Not possible to figure out module name from servlet path " + request.getRequestURI());
+            logger.warn("No redirection possible for servlet path " + request.getRequestURI() + ", module name " + moduleMapping);
         }
-    }
-
-    RequestModuleMapping getModuleMapping(HttpServletRequest request) {
-        return requestModuleMapper.getModuleForRequest(request);
-    }
-
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
     }
     
 }
