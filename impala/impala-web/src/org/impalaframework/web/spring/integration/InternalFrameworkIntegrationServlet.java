@@ -22,7 +22,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -40,14 +39,7 @@ import org.springframework.web.servlet.HttpServletBean;
  * method, it then passes control to the the wired in
  * <code>delegateServlet</code> instance, which itself needs to be set up
  * using <code>ServletFactoryBean</code>.
- * <p>
- * In order to set up <code>InternalFrameworkIntegrationServlet</code> you
- * don't need an entry in <code>web.xml</code>. Instead, it is automatically
- * published to the <code>ServletContext</code> using a name based on the
- * wired in servletName, and found using a <code>ModuleProxyServlet</code>
- * instance registered in <code>web.xml</code>. This allows you to add and
- * remove modules as you please without having to modify web.xml (which would
- * require the entire web application to reload). To configure
+ * <p>To configure
  * <code>InternalFrameworkIntegrationServlet</code> you will need to use
  * <code>InternalFrameworkIntegrationServletFactoryBean</code>
  * 
@@ -97,8 +89,6 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	protected void initServletBean() throws ServletException {
 		final ServletContext servletContext = getServletContext();
 		final String servletName = getServletName();
-		
-		WebServletUtils.publishServlet(servletContext, servletName, this);
 		ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
 	}
 
@@ -106,8 +96,6 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 	public void destroy() {
 		final ServletContext servletContext = getServletContext();
 		final String servletName = getServletName();
-		
-		WebServletUtils.unpublishServlet(servletContext, servletName);
 		ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
 		super.destroy();
 	}	

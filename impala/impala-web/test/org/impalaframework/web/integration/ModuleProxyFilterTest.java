@@ -21,6 +21,7 @@ import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.util.Collections;
 import java.util.HashMap;
 
 import javax.servlet.Filter;
@@ -31,11 +32,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.helper.WebServletUtils;
-import org.impalaframework.web.integration.IntegrationFilterConfig;
-import org.impalaframework.web.integration.InvocationAwareFilterChain;
+import org.impalaframework.web.servlet.invocation.InvocationChain;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleProxyFilterTest extends TestCase {
@@ -96,7 +97,6 @@ public class ModuleProxyFilterTest extends TestCase {
     public void testDoWithNotMatchingModule() throws Exception {
         
         expect(request.getRequestURI()).andStubReturn("/app/anothermodule/path");
-        WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
         filter.init(filterConfig);
         
         replayMocks();
@@ -107,13 +107,18 @@ public class ModuleProxyFilterTest extends TestCase {
         verifyMocks();
     }
     
+    @SuppressWarnings("unchecked")
     public void testDoWithMatchingModule() throws Exception {
 
+        servletContext.setAttribute(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule", 
+            new ModuleHttpServiceInvoker(
+                    ObjectMapUtils.newMap("*", Collections.singletonList(delegateFilter)),
+                    ObjectMapUtils.newMap()));
+        
         expect(request.getRequestURI()).andStubReturn("/app/mymodule/path");
-        WebServletUtils.publishFilter(servletContext, "mymodule", delegateFilter);
         filter.init(filterConfig);
         
-        delegateFilter.doFilter(eq(request), eq(response), isA(InvocationAwareFilterChain.class));
+        delegateFilter.doFilter(eq(request), eq(response), isA(InvocationChain.class));
         
         replayMocks();
         

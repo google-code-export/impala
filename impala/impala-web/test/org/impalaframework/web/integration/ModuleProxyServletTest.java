@@ -20,7 +20,9 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.util.HashMap;
+import java.util.List;
 
+import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,8 +30,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.integration.IntegrationServletConfig;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleProxyServletTest extends TestCase {
@@ -62,10 +65,11 @@ public class ModuleProxyServletTest extends TestCase {
         servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "proxyServlet"));
     }
     
+    @SuppressWarnings("unchecked")
     public void testDoServiceWithModule() throws Exception {
         
         expect(request.getRequestURI()).andStubReturn("/app/mymodule/resource.htm");
-        expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(delegateServlet);
+        expectGetInvoker("mymodule", new ModuleHttpServiceInvoker(new HashMap<String, List<Filter>>(), ObjectMapUtils.newMap("*", delegateServlet)));
         delegateServlet.service(request, response);
         
         replayMocks();
@@ -78,7 +82,7 @@ public class ModuleProxyServletTest extends TestCase {
     public void testDoServiceNoModule() throws Exception {
 
         expect(request.getRequestURI()).andStubReturn("/app/mymodule/resource.htm");
-        expect(servletContext.getAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "mymodule")).andReturn(null);
+        expectGetInvoker("mymodule", null);
         
         replayMocks();
         
@@ -126,6 +130,10 @@ public class ModuleProxyServletTest extends TestCase {
         replay(response);
         replay(servletContext);
         replay(delegateServlet);
+    }
+
+    private void expectGetInvoker(String path, Object o) {
+        expect(servletContext.getAttribute(ModuleHttpServiceInvoker.class.getName()+"."+path)).andReturn(o);
     }
 
 }
