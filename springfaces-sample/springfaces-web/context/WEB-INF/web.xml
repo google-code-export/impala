@@ -60,6 +60,18 @@
       <filter-name>springSecurityFilterChain</filter-name>
       <url-pattern>/*</url-pattern>
     </filter-mapping>
+		
+	<!-- Performs mapping of Impala requests to module -->
+	<filter>
+        <filter-name>redirector</filter-name>
+        <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
+        <load-on-startup>1</load-on-startup>
+    </filter>
+        
+    <filter-mapping>
+        <filter-name>redirector</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 	
 	<listener>
 		<listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
@@ -77,17 +89,6 @@
 		<servlet-name>ResourceServlet</servlet-name>
 		<url-pattern>/resources/*</url-pattern>
 	</servlet-mapping>
-	
-	<!-- Performs mapping of Impala requests to module -->
-	<servlet>
-        <servlet-name>redirector</servlet-name>
-        <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>redirector</servlet-name>
-        <url-pattern>/spring/*</url-pattern>
-    </servlet-mapping>	
 	
 	<!-- The front controller of this Spring Web application, responsible for handling all application requests 
 	NB: with Impala this is not needed as this is handled by the ModuleProxyServlet
