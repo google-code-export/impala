@@ -9,19 +9,24 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 	<import resource="web-application-config.xml" />
 	
 	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
-		<property name = "prefixes" value = "/spring"/>
+		<property name = "prefixes" value = "/spring=/spring"/>
 	</bean>
 	
-    <bean class="config.ServletContextConfigurer">
+    <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
+        <property name="suffix" value="[none]"/>
+        <property name="servletName" value="springfaces-web"/>
+    </bean>
+	
+    <bean id = "configureListener" class="config.ServletContextConfigurer">
         <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
     </bean> 
 
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-        <property name = "servletName" value = "springfaces-web"/>
+    <bean id = "facesServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean" depends-on="configureListener">
+        <property name = "servletName" value = "faces-servlet"/>
         <property name = "servletClass" value = "javax.faces.webapp.FacesServlet"/>
     </bean> 
     
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
+    <bean id = "moduleServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean" >
         <property name = "servletName" value = "springfaces-web"/>
         <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>        
         <property name = "initParameters">
