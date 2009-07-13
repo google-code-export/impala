@@ -68,5 +68,9 @@ public class ServletContextListenerFactoryBean implements ServletContextAware, B
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
     }
+    
+    ServletContextListener getListener() {
+        return listener;
+    }
 
 }
