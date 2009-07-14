@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.impalaframework.org/schema/service"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		targetNamespace="http://www.impalaframework.org/schema/web"
+		elementFormDefault="qualified"
+		attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+
+	<xsd:element name="servlet">
+		<xsd:annotation>
+			<xsd:documentation>
+Add documentation
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
+			<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
+
+</xsd:schema>
