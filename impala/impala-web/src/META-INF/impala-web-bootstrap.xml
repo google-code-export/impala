@@ -57,7 +57,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>    
     
  <!-- looks for spring locations in class path -->
- <bean id="springServletModuleLoader" 
+ <bean id="springWebModuleLoader" 
      parent = "baseModuleLoader"
      class="org.impalaframework.web.spring.module.WebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
@@ -70,7 +70,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "contributions">
         <map>
             <entry key="springWebRootModuleLoader" value="spring-web_root"/>
-            <entry key="springServletModuleLoader" value="spring-servlet"/>
+            <entry key="springWebModuleLoader" value="spring-web"/>
         </map>
     </property> 
  </bean>
