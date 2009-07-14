@@ -102,7 +102,7 @@
 	</target>
 	
 	<target name="scaffold:input-module-type-name" unless="module.type.name">
-		<input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,hibernate,servlet,extension" defaultvalue="empty" />
+		<input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,hibernate,web,extension" defaultvalue="empty" />
 		<property name = "copy.module.project" value = "true"/>
 	</target>	
 	
@@ -174,14 +174,14 @@
 	
 	<target name="copypackage">
 		
-		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/src" filtering="false">
+		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/src" filtering="false" failonerror="false">
 			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
 				from = "classes" 
 				to="${project.package.name}/${current.project.name}/"
 				classpathref="lib.classpath"/>
 			<fileset dir = "${workspace.root.location}/${project.prefix}${current.project.name}/src/classes"/>
 		</copy>
-		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/test" filtering="false">
+		<copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/test" filtering="false" failonerror="false">
 			<mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
 				from = "classes" 
 				to="${project.package.name}/${current.project.name}/"
