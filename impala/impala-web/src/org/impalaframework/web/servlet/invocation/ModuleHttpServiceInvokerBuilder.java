@@ -33,6 +33,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.util.ObjectUtils;
+import org.impalaframework.web.listener.ServletContextListenerFactoryBean;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.BeansException;
@@ -88,9 +89,10 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
     ModuleHttpServiceInvoker buildInvoker() throws Exception {
         
         ListableBeanFactory beanFactory = ObjectUtils.cast(this.beanFactory, ListableBeanFactory.class);
-        Map<String, ModuleInvokerContributor> contributors = beanFactory.getBeansOfType(ModuleInvokerContributor.class);
-        Map<String, ServletFactoryBean> servletFactoryBeans = beanFactory.getBeansOfType(ServletFactoryBean.class);
+        beanFactory.getBeansOfType(ServletContextListenerFactoryBean.class);
         Map<String, FilterFactoryBean> filterFactoryBeans = beanFactory.getBeansOfType(FilterFactoryBean.class);
+        Map<String, ServletFactoryBean> servletFactoryBeans = beanFactory.getBeansOfType(ServletFactoryBean.class);
+        Map<String, ModuleInvokerContributor> contributors = beanFactory.getBeansOfType(ModuleInvokerContributor.class);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Contributors: " + contributors.values());

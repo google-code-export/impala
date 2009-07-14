@@ -20,6 +20,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+import static org.easymock.classextension.EasyMock.reset;
 
 import javax.servlet.ServletContext;
 
@@ -28,6 +29,7 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.util.ObjectMapUtils;
+import org.impalaframework.web.listener.ServletContextListenerFactoryBean;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
@@ -50,6 +52,8 @@ public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
         builder.setServletContext(servletContext);
         moduleInvokerContributor = new ModuleInvokerContributor();
         moduleInvokerContributor.setSuffix("exe");
+
+        expect(beanFactory.getBeansOfType(ServletContextListenerFactoryBean.class)).andReturn(null);
     }
 
     public void testBuilder() throws Exception {
@@ -67,6 +71,8 @@ public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
     }
     
     public void testDestroy() throws Exception {
+        reset(beanFactory);
+        
         servletContext.removeAttribute(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule");
         replay(beanFactory, servletContext);
         builder.destroy();
