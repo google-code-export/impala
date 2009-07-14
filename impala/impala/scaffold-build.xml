@@ -255,12 +255,12 @@
 		<fail if="web.already.exists" message="The location ${web.project.location} already exists. You probably already have a module at this location."/>
 		
 		<copy todir="${web.project.location}" filtering="true">
-			<fileset dir="${impala.home}/modules/web" excludes = "**/module-context.xml">
+			<fileset dir="${impala.home}/modules/war" excludes = "**/module-context.xml">
 			</fileset>
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	
-		<copy file = "${impala.home}/modules/web/resources/module-context.xml" 
+		<copy file = "${impala.home}/modules/war/resources/module-context.xml" 
 				tofile="${web.project.location}/resources/${project.prefix}${web.project.name}-context.xml"
 				filtering="true">
 			<filterset refid="scaffoldFilter"/>
