@@ -10,7 +10,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
-	<web:servlet id = "servletId" servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" servletName = "myServlet"/>
+	<web:servlet id = "servletId" 
+		factoryClass = "org.impalaframework.web.spring.integration.ServletFactoryBean"
+		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" servletName = "myServlet"/>
 
     <bean name="entryService" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/> 
     
