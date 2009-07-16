@@ -63,6 +63,7 @@ Add documentation
 		<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
 		<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
 		<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="delegatorServlet" type="xsd:string" use="optional"/>
 		<xsd:attribute name="initParameters" type="xsd:string" use="optional"/>
 	</xsd:attributeGroup>
 
