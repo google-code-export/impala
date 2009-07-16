@@ -56,7 +56,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         if (StringUtils.hasText(factoryClass)) {
             
             try {
-                ClassUtils.forName(factoryClass);
+                return ClassUtils.forName(factoryClass);
             }
             catch (Throwable e) {
                 throw new ExecutionException("Unable to load class: " + factoryClass + ": " + e.getMessage(), e);
@@ -106,5 +106,10 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         for (Element propertyElement : properties) {
             parserContext.getDelegate().parsePropertyElement(propertyElement, builder.getRawBeanDefinition());
         }
+    }
+    
+    @Override
+    protected boolean shouldGenerateIdAsFallback() {
+        return true;
     }
 }
