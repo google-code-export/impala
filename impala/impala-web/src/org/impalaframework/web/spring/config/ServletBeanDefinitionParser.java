@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
@@ -37,62 +38,67 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
 
     private static final String INIT_PARAMS_ELEMENT =  "init-parameters";
     private static final String PARAM_ELEMENT =  "param";
-   
+
+    private static final String INIT_PARAMS_ATTRIBUTE =  "initParameters";
     private static final String FACTORY_CLASS_ATTRIBUTE =  "factoryClass";
     private static final String NAME_ATTRIBUTE = "name";
     private static final String VALUE_ATTRIBUTE = "value";
     
     private static final String INIT_PARAMS_PROPERTY=  "initParameters";    
     
-    private ClassLoader classLoader;
-    
-    
-    public ServletBeanDefinitionParser(ClassLoader classLoader) {
+    public ServletBeanDefinitionParser() {
         super();
-        this.classLoader = classLoader;
     }
 
-        @Override
-        protected Class<?> getBeanClass(Element element) {
-            String factoryClass = element.getAttribute(FACTORY_CLASS_ATTRIBUTE);
-            if (StringUtils.hasText(factoryClass)) {
-                
-                try {
-                    ClassUtils.forName(factoryClass, classLoader);
-                }
-                catch (Throwable e) {
-                    throw new ExecutionException("Unable to load class: " + factoryClass + ": " + e.getMessage(), e);
-                }
+    @Override
+    protected Class<?> getBeanClass(Element element) {
+        String factoryClass = element.getAttribute(FACTORY_CLASS_ATTRIBUTE);
+        if (StringUtils.hasText(factoryClass)) {
+            
+            try {
+                ClassUtils.forName(factoryClass);
             }
-            return ServletFactoryBean.class;
+            catch (Throwable e) {
+                throw new ExecutionException("Unable to load class: " + factoryClass + ": " + e.getMessage(), e);
+            }
+        }
+        return ServletFactoryBean.class;
+    }
+    
+    @Override
+    protected boolean isEligibleAttribute(String attributeName) {
+        if (FACTORY_CLASS_ATTRIBUTE.equals(attributeName) || INIT_PARAMS_ATTRIBUTE.equals(attributeName)) {
+            return false;
+        }
+        return super.isEligibleAttribute(attributeName);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void doParse(Element element, ParserContext parserContext,
+            BeanDefinitionBuilder builder) {
+        super.doParse(element, parserContext, builder);
+        
+        Element initParams = DomUtils.getChildElementByTagName(element, INIT_PARAMS_ELEMENT);
+        Map<String,String> initParameters = new LinkedHashMap<String,String>();
+
+        if (initParams != null) {
+
+            List<Element> params = DomUtils.getChildElementsByTagName(initParams, PARAM_ELEMENT);
+            for (Element param : params) {
+                String name = param.getAttribute(NAME_ATTRIBUTE);
+                String value = param.getAttribute(VALUE_ATTRIBUTE);
+                initParameters.put(name.trim(), value.trim());
+            }
         }
         
-        @Override
-        protected boolean isEligibleAttribute(String attributeName) {
-            if (FACTORY_CLASS_ATTRIBUTE.equals(attributeName)) {
-                return false;
-            }
-            return super.isEligibleAttribute(attributeName);
+        String initParamsAttribute = element.getAttribute(INIT_PARAMS_ATTRIBUTE);
+        if (StringUtils.hasText(initParamsAttribute)) {
+            Map<String, String> initParamsFromAttribute = CollectionStringUtils.parsePropertiesFromString(initParamsAttribute);
+            initParameters.putAll(initParamsFromAttribute);
         }
-
-        @SuppressWarnings("unchecked")
-        @Override
-        protected void doParse(Element element, ParserContext parserContext,
-                BeanDefinitionBuilder builder) {
-            super.doParse(element, parserContext, builder);
-            Element initParams = DomUtils.getChildElementByTagName(element, INIT_PARAMS_ELEMENT);
-            if (initParams != null) {
-
-                Map<String,String> properties = new LinkedHashMap<String,String>();
-                List<Element> params = DomUtils.getChildElementsByTagName(initParams, PARAM_ELEMENT);
-                for (Element param : params) {
-                    String name = param.getAttribute(NAME_ATTRIBUTE);
-                    String value = param.getAttribute(VALUE_ATTRIBUTE);
-                    properties.put(name.trim(), value.trim());
-                }
-                
-                // Specific environment settings defined, overriding any shared properties.
-                builder.addPropertyValue(INIT_PARAMS_PROPERTY, properties);
-            }
-        }
+        
+        // Specific environment settings defined, overriding any shared properties.
+        builder.addPropertyValue(INIT_PARAMS_PROPERTY, initParameters);
+    }
 }
