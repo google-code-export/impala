@@ -30,8 +30,7 @@ Add documentation
 			<xsd:element ref="init-parameters" minOccurs="0"/>
 		</xsd:sequence>
 	</xsd:group>
-	
-	
+
 	<xsd:element name="init-parameters">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
