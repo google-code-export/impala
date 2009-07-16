@@ -12,37 +12,10 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		<property name = "prefixes" value = "/struts"/>
 	</bean>
 	
-    <!-- Access this servlet via http://localhost:8080/webframework-web/servlet3/test.to -->
-	<web:servlet 
-		factoryClass = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean"
-		servletClass = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet" 
-		servletName = "webframeworks-struts">
-		<property name = "delegateServlet" ref = "delegateServlet"/>
-	</web:servlet>
-    
-    <!-- which replaces this
-    <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean">
-        <property name = "servletName" value = "webframeworks-struts"/>
-        <property name = "servletClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet"/>
-        <property name = "delegateServlet" ref = "delegateServlet"/>
-    </bean> 
-    -->
-     
 	<web:servlet id = "delegateServlet" 
+		delegatorServlet = "webframeworks-struts"
 		servletClass = "struts.ReloadableActionServlet" 
 		servletName = "myServlet"
 		initParameters = "config=/WEB-INF/struts-config.xml"/>
-		
-	<!-- which replaces this
-    <bean id = "delegateServlet" class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-        <property name = "servletName" value = "delegateServlet"/>
-        <property name = "servletClass" value = "struts.ReloadableActionServlet"/>
-        <property name = "initParameters">
-            <map>
-                <entry key="config" value = "/WEB-INF/struts-config.xml"/>
-            </map>
-        </property>
-    </bean>
-    -->
 
 </beans>
