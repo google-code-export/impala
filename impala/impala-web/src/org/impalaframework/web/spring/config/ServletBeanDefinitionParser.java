@@ -26,6 +26,7 @@ import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -43,6 +44,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
 
     private static final String INIT_PARAMS_ELEMENT =  "init-parameters";
     private static final String PARAM_ELEMENT =  "param";
+    private static final String PROPERTY_ELEMENT = "property";    
 
     private static final String DELEGATOR_SERVLET_ATTRIBUTE =  "delegatorServlet";
     private static final String INIT_PARAMS_ATTRIBUTE =  "initParameters";
@@ -50,7 +52,10 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     private static final String NAME_ATTRIBUTE = "name";
     private static final String VALUE_ATTRIBUTE = "value";
     
-    private static final String INIT_PARAMS_PROPERTY=  "initParameters";    
+    private static final String INIT_PARAMS_PROPERTY=  "initParameters";
+    private static final String SERVLET_NAME_PROPERTY = "servletName";
+    private static final String SERVLET_CLASS_PROPERTY = "servletClass";
+    private static final String DELEGATE_SERVLET_PROPERTY = "delegateServlet";
     
     public ServletBeanDefinitionParser() {
         super();
@@ -81,17 +86,81 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         return super.isEligibleAttribute(attributeName);
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     protected void doParse(Element element, 
             ParserContext parserContext,
             BeanDefinitionBuilder builder) {
         
         super.doParse(element, parserContext, builder);
+
+        handleInitParameters(element, builder);
+        
+        handlePropertyElements(element, parserContext, builder);
+        
+        handleDelegatorServletAttribute(element, parserContext);
+    }
+    
+    @Override
+    protected boolean shouldGenerateIdAsFallback() {
+        return true;
+    }
+
+    void handleInitParameters(Element element, BeanDefinitionBuilder builder) {
+        
+        Map<String,String> initParameters = new LinkedHashMap<String,String>();
+        handleInitParametersElement(element, initParameters);
+        handleInitParamsAttribute(element, initParameters);
+        
+        // Specific environment settings defined, overriding any shared properties.
+        builder.addPropertyValue(INIT_PARAMS_PROPERTY, initParameters);
+    }
+
+    void handleDelegatorServletAttribute(Element element, ParserContext parserContext) {
+        
+        String delegatorServlet = element.getAttribute(DELEGATOR_SERVLET_ATTRIBUTE);
+        
+        if (StringUtils.hasText(delegatorServlet)) {
+            String id = element.getAttribute(ID_ATTRIBUTE);
+            if (!StringUtils.hasText(id)) {
+                throw new BeanDefinitionValidationException("ID required if delegator attribute is used");
+            }
+            
+            RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
+            MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
+            propertyValues.addPropertyValue(SERVLET_NAME_PROPERTY, delegatorServlet);
+            propertyValues.addPropertyValue(SERVLET_CLASS_PROPERTY, InternalFrameworkIntegrationServlet.class.getName());
+            propertyValues.addPropertyValue(DELEGATE_SERVLET_PROPERTY, new RuntimeBeanReference(id));
+            
+            String beanName = parserContext.getReaderContext().generateBeanName(integrationServlet);
+            parserContext.getRegistry().registerBeanDefinition(beanName, integrationServlet);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    void handlePropertyElements(
+            Element element,
+            ParserContext parserContext, 
+            BeanDefinitionBuilder builder) {
+        
+        List<Element> properties = DomUtils.getChildElementsByTagName(element, PROPERTY_ELEMENT);
+        for (Element propertyElement : properties) {
+            parserContext.getDelegate().parsePropertyElement(propertyElement, builder.getRawBeanDefinition());
+        }
+    }
+
+    void handleInitParamsAttribute(Element element, Map<String, String> initParameters) {
+        
+        String initParamsAttribute = element.getAttribute(INIT_PARAMS_ATTRIBUTE);
+        if (StringUtils.hasText(initParamsAttribute)) {
+            Map<String, String> initParamsFromAttribute = CollectionStringUtils.parsePropertiesFromString(initParamsAttribute);
+            initParameters.putAll(initParamsFromAttribute);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    void handleInitParametersElement(Element element, Map<String, String> initParameters) {
         
         Element initParams = DomUtils.getChildElementByTagName(element, INIT_PARAMS_ELEMENT);
-        Map<String,String> initParameters = new LinkedHashMap<String,String>();
-
         if (initParams != null) {
 
             List<Element> params = DomUtils.getChildElementsByTagName(initParams, PARAM_ELEMENT);
@@ -101,43 +170,6 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
                 initParameters.put(name.trim(), value.trim());
             }
         }
-        
-        String initParamsAttribute = element.getAttribute(INIT_PARAMS_ATTRIBUTE);
-        if (StringUtils.hasText(initParamsAttribute)) {
-            Map<String, String> initParamsFromAttribute = CollectionStringUtils.parsePropertiesFromString(initParamsAttribute);
-            initParameters.putAll(initParamsFromAttribute);
-        }
-        
-        // Specific environment settings defined, overriding any shared properties.
-        builder.addPropertyValue(INIT_PARAMS_PROPERTY, initParameters);
-        
-        //add additional properties if present
-        List<Element> properties = DomUtils.getChildElementsByTagName(element, "property");
-        for (Element propertyElement : properties) {
-            parserContext.getDelegate().parsePropertyElement(propertyElement, builder.getRawBeanDefinition());
-        }
-        
-        String delegatorServlet = element.getAttribute(DELEGATOR_SERVLET_ATTRIBUTE);
-        if (StringUtils.hasText(delegatorServlet)) {
-            String id = element.getAttribute(ID_ATTRIBUTE);
-            if (!StringUtils.hasText(id)) {
-                //FIXME handle this BETTER
-                throw new RuntimeException("ID required if delegator attribute is used");
-            }
-            
-            RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
-            MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
-            propertyValues.addPropertyValue("servletName", delegatorServlet);
-            propertyValues.addPropertyValue("servletClass", InternalFrameworkIntegrationServlet.class.getName());
-            propertyValues.addPropertyValue("delegateServlet", new RuntimeBeanReference(id));
-            
-            String beanName = parserContext.getReaderContext().generateBeanName(integrationServlet);
-            parserContext.getRegistry().registerBeanDefinition(beanName, integrationServlet);
-        }
     }
     
-    @Override
-    protected boolean shouldGenerateIdAsFallback() {
-        return true;
-    }
 }
