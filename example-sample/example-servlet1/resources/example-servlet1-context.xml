@@ -12,7 +12,12 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 
 	<web:servlet id = "servletId" 
 		factoryClass = "org.impalaframework.web.spring.integration.ServletFactoryBean"
-		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" servletName = "myServlet"/>
+		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
+		servletName = "myServlet">
+		<web:init-parameters>
+			<web:param name="name" value="value"/>
+		</web:init-parameters>
+	</web:servlet>
 
     <bean name="entryService" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/> 
     

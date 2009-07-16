@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 
-<xsd:schema xmlns="http://www.impalaframework.org/schema/service"
+<xsd:schema xmlns="http://www.impalaframework.org/schema/web"
 		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 		xmlns:beans="http://www.springframework.org/schema/beans"
 		targetNamespace="http://www.impalaframework.org/schema/web"
@@ -16,11 +16,53 @@ Add documentation
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:complexContent>
+				<xsd:extension base="beans:identifiedType">
+					<xsd:group ref="factoryElements"/>
+					<xsd:attributeGroup ref="factoryAttributes"/>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:group name="factoryElements">
+		<xsd:sequence>
+			<xsd:element ref="init-parameters" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:group>
+	
+	
+	<xsd:element name="init-parameters">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			Documentation for initParametersElement
+			]]></xsd:documentation>
+		</xsd:annotation>
+		
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="param"/>
+			</xsd:sequence>
+		</xsd:complexType>		
+	</xsd:element>
+	
+	<xsd:element name="param">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+			Documentation for paramElement
+			]]></xsd:documentation>
+		</xsd:annotation>
+			
+		<xsd:complexType>
+		    <xsd:attribute name="name" type="xsd:string" use="required"/>
+		    <xsd:attribute name="value" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:attributeGroup name="factoryAttributes">
 			<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
 			<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
 			<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
-		</xsd:complexType>
-	</xsd:element>
+	</xsd:attributeGroup>
 
 </xsd:schema>
