@@ -16,7 +16,6 @@ package org.impalaframework.web.spring.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 
@@ -26,13 +25,11 @@ import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
  * 
  * @author Phil Zoio
  */
-public class WebNamespaceHandler extends NamespaceHandlerSupport implements BeanClassLoaderAware {
+public class WebNamespaceHandler extends NamespaceHandlerSupport {
 
     private static final Log logger = LogFactory.getLog(WebNamespaceHandler.class);
     
     private static final String SERVLET_ELEMENT =  "servlet";
-    
-    private ClassLoader classLoader;
     
     public void init() {
         
@@ -40,10 +37,6 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport implements Bean
             logger.debug("Setting up " + WebNamespaceHandler.class.getName());
         }
 
-        registerBeanDefinitionParser(SERVLET_ELEMENT, new ServletBeanDefinitionParser(classLoader));
-    }
-
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        this.classLoader = classLoader;
+        registerBeanDefinitionParser(SERVLET_ELEMENT, new ServletBeanDefinitionParser());
     }
 }
