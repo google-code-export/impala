@@ -27,7 +27,8 @@ Add documentation
 	
 	<xsd:group name="factoryElements">
 		<xsd:sequence>
-			<xsd:element ref="init-parameters" minOccurs="0"/>
+			<xsd:element ref="init-parameters" minOccurs="0" maxOccurs="1"/>
+			<xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:group>
 
@@ -59,10 +60,10 @@ Add documentation
 	</xsd:element>
 	
 	<xsd:attributeGroup name="factoryAttributes">
-			<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
-			<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
-			<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
-			<xsd:attribute name="initParameters" type="xsd:string" use="optional"/>
+		<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
+		<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
+		<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="initParameters" type="xsd:string" use="optional"/>
 	</xsd:attributeGroup>
 
 </xsd:schema>

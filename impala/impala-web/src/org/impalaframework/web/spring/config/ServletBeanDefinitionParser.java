@@ -100,5 +100,11 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         
         // Specific environment settings defined, overriding any shared properties.
         builder.addPropertyValue(INIT_PARAMS_PROPERTY, initParameters);
+        
+        //add additional properties if present
+        List<Element> properties = DomUtils.getChildElementsByTagName(element, "property");
+        for (Element propertyElement : properties) {
+            parserContext.getDelegate().parsePropertyElement(propertyElement, builder.getRawBeanDefinition());
+        }
     }
 }
