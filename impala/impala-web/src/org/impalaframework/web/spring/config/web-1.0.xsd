@@ -16,12 +16,8 @@ Add documentation
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
-			<xsd:complexContent>
-				<xsd:extension base="beans:identifiedType">
-					<xsd:group ref="factoryElements"/>
-					<xsd:attributeGroup ref="factoryAttributes"/>
-				</xsd:extension>
-			</xsd:complexContent>
+			<xsd:group ref="factoryElements"/>
+			<xsd:attributeGroup ref="factoryAttributes"/>
 		</xsd:complexType>
 	</xsd:element>
 	
@@ -60,6 +56,7 @@ Add documentation
 	</xsd:element>
 	
 	<xsd:attributeGroup name="factoryAttributes">
+		<xsd:attribute name="id" type="xsd:ID" use="required"/>
 		<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
 		<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
 		<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
