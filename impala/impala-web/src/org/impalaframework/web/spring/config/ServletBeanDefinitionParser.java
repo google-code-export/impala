@@ -45,6 +45,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     private static final String PARAM_ELEMENT =  "param";
     private static final String PROPERTY_ELEMENT = "property";    
 
+    //FIXME rename to delegatorServletName
     private static final String DELEGATOR_SERVLET_ATTRIBUTE =  "delegatorServlet";
     private static final String INIT_PARAMS_ATTRIBUTE =  "initParameters";
     private static final String FACTORY_CLASS_ATTRIBUTE =  "factoryClass";
@@ -54,6 +55,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     private static final String INIT_PARAMS_PROPERTY=  "initParameters";
     private static final String SERVLET_NAME_PROPERTY = "servletName";
     private static final String SERVLET_CLASS_PROPERTY = "servletClass";
+    
     private static final String DELEGATE_SERVLET_PROPERTY = "delegateServlet";
     
     public ServletBeanDefinitionParser() {
