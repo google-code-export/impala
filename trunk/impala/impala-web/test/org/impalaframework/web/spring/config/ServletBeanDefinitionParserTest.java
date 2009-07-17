@@ -69,6 +69,9 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         
         ExtendedServletFactoryBean extendedFactoryBean = (ExtendedServletFactoryBean) ObjectMapUtils.getFirstValue(beans);
         assertEquals("extraValue", extendedFactoryBean.getExtraAttribute());
+        
+        MyServlet2 myServlet = (MyServlet2) extendedFactoryBean.getObject();
+        assertEquals("myServlet2", myServlet.getServletName());
     }
     
 }

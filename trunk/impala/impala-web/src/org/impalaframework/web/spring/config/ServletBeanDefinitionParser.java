@@ -26,7 +26,6 @@ import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
-import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -92,6 +91,10 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
             BeanDefinitionBuilder builder) {
         
         super.doParse(element, parserContext, builder);
+        
+        if (!StringUtils.hasText(element.getAttribute(SERVLET_NAME_PROPERTY))) {
+            builder.addPropertyValue(SERVLET_NAME_PROPERTY, element.getAttribute(ID_ATTRIBUTE));
+        }
 
         handleInitParameters(element, builder);
         
@@ -100,11 +103,6 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         handleDelegatorServletAttribute(element, parserContext);
     }
     
-    @Override
-    protected boolean shouldGenerateIdAsFallback() {
-        return true;
-    }
-
     void handleInitParameters(Element element, BeanDefinitionBuilder builder) {
         
         Map<String,String> initParameters = new LinkedHashMap<String,String>();
@@ -121,9 +119,6 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         
         if (StringUtils.hasText(delegatorServlet)) {
             String id = element.getAttribute(ID_ATTRIBUTE);
-            if (!StringUtils.hasText(id)) {
-                throw new BeanDefinitionValidationException("ID required if delegator attribute is used");
-            }
             
             RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
             MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();

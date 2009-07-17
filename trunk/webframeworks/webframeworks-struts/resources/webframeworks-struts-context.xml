@@ -12,10 +12,9 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		<property name = "prefixes" value = "/struts"/>
 	</bean>
 	
-	<web:servlet id = "delegateServlet" 
+	<web:servlet id = "myServlet" 
 		delegatorServlet = "webframeworks-struts"
 		servletClass = "struts.ReloadableActionServlet" 
-		servletName = "myServlet"
 		initParameters = "config=/WEB-INF/struts-config.xml"/>
 
 </beans>

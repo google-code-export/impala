@@ -10,11 +10,10 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		<property name = "prefixes" value = "/wicket"/>
 	</bean>
 	
-	<web:servlet id = "delegateServlet" 
+	<web:servlet id = "myServlet" 
 		delegatorServlet = "webframeworks-wicket"
 		factoryClass = "wicket.WicketServletFactoryBean"
 		servletClass = "wicket.WicketServlet" 
-		servletName = "myServlet"
 		initParameters = "applicationClassName=wicket.WicketApplication"/>
 
 </beans>
