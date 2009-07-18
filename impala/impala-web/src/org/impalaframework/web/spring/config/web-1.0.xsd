@@ -9,7 +9,17 @@
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
 
-	<xsd:element name="filter" type="xsd:anyType">
+	<xsd:element name="filter">
+		<xsd:annotation>
+			<xsd:documentation>
+Add documentation
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:group ref="factoryElements"/>
+			<xsd:attributeGroup ref="factoryAttributes"/>
+			<xsd:attributeGroup ref="filterAttributes"/>
+		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="servlet">
@@ -69,6 +79,12 @@ Add documentation
 		<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
 		<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
 		<xsd:attribute name="delegatorServletName" type="xsd:string" use="optional"/>
+	</xsd:attributeGroup>
+	
+	<xsd:attributeGroup name="filterAttributes">
+		<xsd:attribute name="filterClass" type="xsd:string" use="required"/>
+		<xsd:attribute name="filterName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="delegatorFilterName" type="xsd:string" use="optional"/>
 	</xsd:attributeGroup>
 
 </xsd:schema>
