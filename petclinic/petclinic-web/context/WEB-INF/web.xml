@@ -66,9 +66,4 @@
         <location>/WEB-INF/jsp/uncaughtException.jsp</location>
     </error-page>   
     
-    
-    
-    
-    
-    
 </web-app>
