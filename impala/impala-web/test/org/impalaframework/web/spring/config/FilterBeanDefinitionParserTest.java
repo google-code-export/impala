@@ -14,98 +14,95 @@
 
 package org.impalaframework.web.spring.config;
 
+import java.io.IOException;
 import java.util.Map;
 
-import javax.servlet.ServletConfig;
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.AttributeServletContext;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
-import org.impalaframework.web.spring.integration.ServletFactoryBean;
+import org.impalaframework.web.spring.integration.FilterFactoryBean;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.support.GenericWebApplicationContext;
-import org.springframework.web.servlet.HttpServletBean;
 
-public class ServletBeanDefinitionParserTest extends TestCase {
-
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        MyServlet1.reset();
-    }
+public class FilterBeanDefinitionParserTest extends TestCase {
 
     @SuppressWarnings("unchecked")
-    public void testServlet() throws Exception {
+    public void testFilter() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
         context.setServletContext(new AttributeServletContext());
         
         XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
-        reader.loadBeanDefinitions(new ClassPathResource("org/impalaframework/web/spring/config/servletbeancontext.xml"));
+        reader.loadBeanDefinitions(new ClassPathResource("org/impalaframework/web/spring/config/filterbeancontext.xml"));
         
         context.refresh();
         
-        assertEquals("injectedValue", MyServlet1.getMyAttribute());
-        assertEquals("initValue", MyServlet2.getConfigParam());
+        assertEquals("initValue", MyFilter2.getConfigParam());
         
-        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        Map factoryBeans = context.getBeansOfType(FilterFactoryBean.class);
         assertEquals(3, factoryBeans.size());
         
-        Map s = context.getBeansOfType(HttpServlet.class);
-        assertEquals(1, s.size());
+        Map s = context.getBeansOfType(Filter.class);
+        assertEquals(3, s.size());
         
-        Map beans = context.getBeansOfType(InternalFrameworkIntegrationServletFactoryBean.class);
+        Map beans = context.getBeansOfType(InternalFrameworkIntegrationFilterFactoryBean.class);
         assertEquals(1, beans.size());
         
-        InternalFrameworkIntegrationServletFactoryBean firstValue = (InternalFrameworkIntegrationServletFactoryBean) ObjectMapUtils.getFirstValue(beans);
-        assertEquals("delegator", firstValue.getServletName());
+        InternalFrameworkIntegrationFilterFactoryBean firstValue = (InternalFrameworkIntegrationFilterFactoryBean) ObjectMapUtils.getFirstValue(beans);
+        assertEquals("delegator", firstValue.getFilterName());
 
-        beans = context.getBeansOfType(ExtendedServletFactoryBean.class);
+        beans = context.getBeansOfType(ExtendedFilterFactoryBean.class);
         assertEquals(1, beans.size());
         
-        ExtendedServletFactoryBean extendedFactoryBean = (ExtendedServletFactoryBean) ObjectMapUtils.getFirstValue(beans);
+        ExtendedFilterFactoryBean extendedFactoryBean = (ExtendedFilterFactoryBean) ObjectMapUtils.getFirstValue(beans);
         assertEquals("extraValue", extendedFactoryBean.getExtraAttribute());
         
-        MyServlet2 myServlet = (MyServlet2) extendedFactoryBean.getObject();
-        assertEquals("myServlet2", myServlet.getServletName());
+        MyFilter2 myFilter = (MyFilter2) extendedFactoryBean.getObject();
+       assertNotNull(myFilter);
     }
     
 }
 
-class MyServlet1 extends HttpServletBean {
-    
-    private static String myAttribute;
+class MyFilter1 implements Filter {
 
-    private static final long serialVersionUID = 1L;
-    
-    public void setMyAttribute(String myAttribute) {
-        MyServlet1.myAttribute = myAttribute;
+    public void destroy() {
     }
-    
-    public static String getMyAttribute() {
-        return myAttribute;
+
+    public void doFilter(ServletRequest request, 
+            ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
     }
-    
-    public static void reset() {
-        myAttribute = null;
+
+    public void init(FilterConfig config) throws ServletException {
     }
 }
 
-class MyServlet2 extends HttpServletBean {
+class MyFilter2 implements Filter {
     
     private static String configParam;
 
     private static final long serialVersionUID = 1L;
     
-    @Override
-    public void init(ServletConfig config) throws ServletException {
-        super.init(config);
+    public void init(FilterConfig config) throws ServletException {
         configParam = config.getInitParameter("initParam");
+    }
+    
+    public void doFilter(ServletRequest request, 
+            ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+    }
+    
+    public void destroy() {
     }
     
     public static String getConfigParam() {
@@ -117,7 +114,7 @@ class MyServlet2 extends HttpServletBean {
     }
 }
 
-class ExtendedServletFactoryBean extends ServletFactoryBean {
+class ExtendedFilterFactoryBean extends FilterFactoryBean {
     
     private String extraAttribute;
 
