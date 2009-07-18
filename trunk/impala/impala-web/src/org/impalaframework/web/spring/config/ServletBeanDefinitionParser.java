@@ -78,9 +78,10 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     
     @Override
     protected boolean isEligibleAttribute(String attributeName) {
+        
         if (FACTORY_CLASS_ATTRIBUTE.equals(attributeName) 
             || INIT_PARAMS_ATTRIBUTE.equals(attributeName)
-            || DELEGATOR_SERVLET_NAME_ATTRIBUTE.equals(attributeName)) {
+            || getDelegatorHandlerNameAttribute().equals(attributeName)) {
             return false;
         }
         return super.isEligibleAttribute(attributeName);
@@ -93,8 +94,9 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
         
         super.doParse(element, parserContext, builder);
         
-        if (!StringUtils.hasText(element.getAttribute(SERVLET_NAME_PROPERTY))) {
-            builder.addPropertyValue(SERVLET_NAME_PROPERTY, element.getAttribute(ID_ATTRIBUTE));
+        String handlerNameProperty = getHandlerNameProperty();
+        if (!StringUtils.hasText(element.getAttribute(handlerNameProperty))) {
+            builder.addPropertyValue(getHandlerNameProperty(), element.getAttribute(ID_ATTRIBUTE));
         }
 
         handleInitParameters(element, builder);
@@ -116,22 +118,22 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
 
     void handleDelegatorServletAttribute(Element element, ParserContext parserContext) {
         
-        String delegatorServletName = element.getAttribute(DELEGATOR_SERVLET_NAME_ATTRIBUTE);
+        String delegatorServletName = element.getAttribute(getDelegatorHandlerNameAttribute());
         
         if (StringUtils.hasText(delegatorServletName)) {
             String id = element.getAttribute(ID_ATTRIBUTE);
             
             RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
             MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
-            propertyValues.addPropertyValue(SERVLET_NAME_PROPERTY, delegatorServletName);
-            propertyValues.addPropertyValue(SERVLET_CLASS_PROPERTY, InternalFrameworkIntegrationServlet.class.getName());
-            propertyValues.addPropertyValue(DELEGATE_SERVLET_PROPERTY, new RuntimeBeanReference(id));
+            propertyValues.addPropertyValue(getHandlerNameProperty(), delegatorServletName);
+            propertyValues.addPropertyValue(getHandlerClassProperty(), InternalFrameworkIntegrationServlet.class.getName());
+            propertyValues.addPropertyValue(getDelegateHandlerProperty(), new RuntimeBeanReference(id));
             
             String beanName = parserContext.getReaderContext().generateBeanName(integrationServlet);
             parserContext.getRegistry().registerBeanDefinition(beanName, integrationServlet);
         }
     }
-
+    
     @SuppressWarnings("unchecked")
     void handlePropertyElements(
             Element element,
@@ -167,5 +169,22 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
             }
         }
     }
+
+    protected String getDelegateHandlerProperty() {
+        return DELEGATE_SERVLET_PROPERTY;
+    }
+    
+    protected String getDelegatorHandlerNameAttribute() {
+        return DELEGATOR_SERVLET_NAME_ATTRIBUTE;
+    }
+    
+    protected String getHandlerNameProperty() {
+        return SERVLET_NAME_PROPERTY;
+    }
+
+    protected String getHandlerClassProperty() {
+        return SERVLET_CLASS_PROPERTY;
+    }
+
     
 }
