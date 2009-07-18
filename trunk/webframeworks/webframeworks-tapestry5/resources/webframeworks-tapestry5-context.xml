@@ -14,7 +14,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 	
 	<!-- 
 	<web:filter id = "myServlet" 
-		delegatorServlet = "webframeworks-tapestry5"
+		delegatorServletName = "webframeworks-tapestry5"
 		factoryClass = "tapestry5.Tapestry5FilterFactoryBean"
 		servletClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
 		initParameters = "prefix=/tapestry5">

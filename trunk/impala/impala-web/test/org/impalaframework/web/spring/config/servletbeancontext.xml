@@ -7,7 +7,7 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 	
 	<web:servlet id = "delegateServlet" 
-		delegatorServlet = "delegator"
+		delegatorServletName = "delegator"
 		servletClass = "org.impalaframework.web.spring.config.MyServlet1" 
 		servletName = "myServlet1"
 		initParameters = "myAttribute=injectedValue"/>

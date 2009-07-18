@@ -11,7 +11,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 	</bean>
 	
 	<web:servlet id = "myServlet" 
-		delegatorServlet = "webframeworks-wicket"
+		delegatorServletName = "webframeworks-wicket"
 		factoryClass = "wicket.WicketServletFactoryBean"
 		servletClass = "wicket.WicketServlet" 
 		initParameters = "applicationClassName=wicket.WicketApplication"/>

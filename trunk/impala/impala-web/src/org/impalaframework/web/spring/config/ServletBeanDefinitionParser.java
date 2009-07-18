@@ -45,8 +45,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     private static final String PARAM_ELEMENT =  "param";
     private static final String PROPERTY_ELEMENT = "property";    
 
-    //FIXME rename to delegatorServletName
-    private static final String DELEGATOR_SERVLET_ATTRIBUTE =  "delegatorServlet";
+    private static final String DELEGATOR_SERVLET_NAME_ATTRIBUTE =  "delegatorServletName";
     private static final String INIT_PARAMS_ATTRIBUTE =  "initParameters";
     private static final String FACTORY_CLASS_ATTRIBUTE =  "factoryClass";
     private static final String NAME_ATTRIBUTE = "name";
@@ -81,7 +80,7 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
     protected boolean isEligibleAttribute(String attributeName) {
         if (FACTORY_CLASS_ATTRIBUTE.equals(attributeName) 
             || INIT_PARAMS_ATTRIBUTE.equals(attributeName)
-            || DELEGATOR_SERVLET_ATTRIBUTE.equals(attributeName)) {
+            || DELEGATOR_SERVLET_NAME_ATTRIBUTE.equals(attributeName)) {
             return false;
         }
         return super.isEligibleAttribute(attributeName);
@@ -117,14 +116,14 @@ public class ServletBeanDefinitionParser extends AbstractSimpleBeanDefinitionPar
 
     void handleDelegatorServletAttribute(Element element, ParserContext parserContext) {
         
-        String delegatorServlet = element.getAttribute(DELEGATOR_SERVLET_ATTRIBUTE);
+        String delegatorServletName = element.getAttribute(DELEGATOR_SERVLET_NAME_ATTRIBUTE);
         
-        if (StringUtils.hasText(delegatorServlet)) {
+        if (StringUtils.hasText(delegatorServletName)) {
             String id = element.getAttribute(ID_ATTRIBUTE);
             
             RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
             MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
-            propertyValues.addPropertyValue(SERVLET_NAME_PROPERTY, delegatorServlet);
+            propertyValues.addPropertyValue(SERVLET_NAME_PROPERTY, delegatorServletName);
             propertyValues.addPropertyValue(SERVLET_CLASS_PROPERTY, InternalFrameworkIntegrationServlet.class.getName());
             propertyValues.addPropertyValue(DELEGATE_SERVLET_PROPERTY, new RuntimeBeanReference(id));
             

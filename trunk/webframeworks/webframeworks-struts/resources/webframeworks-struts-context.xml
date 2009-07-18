@@ -13,7 +13,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 	</bean>
 	
 	<web:servlet id = "myServlet" 
-		delegatorServlet = "webframeworks-struts"
+		delegatorServletName = "webframeworks-struts"
 		servletClass = "struts.ReloadableActionServlet" 
 		initParameters = "config=/WEB-INF/struts-config.xml"/>
 
