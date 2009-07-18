@@ -14,6 +14,8 @@
 
 package org.impalaframework.web.spring.config;
 
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 
 
@@ -39,6 +41,14 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
         return ServletFactoryBean.class;
     }
 
+    protected Class<?> getIntegrationHandlerClass() {
+        return InternalFrameworkIntegrationServlet.class;
+    }
+    
+    protected Class<?> getIntegrationHandlerFactoryClass() {
+        return InternalFrameworkIntegrationServletFactoryBean.class;
+    }
+    
     protected String getDelegateHandlerProperty() {
         return DELEGATE_SERVLET_PROPERTY;
     }

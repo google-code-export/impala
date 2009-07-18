@@ -20,8 +20,6 @@ import java.util.Map;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.util.CollectionStringUtils;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
-import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.RuntimeBeanReference;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
@@ -116,15 +114,20 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         if (StringUtils.hasText(delegatorServletName)) {
             String id = element.getAttribute(ID_ATTRIBUTE);
             
-            RootBeanDefinition integrationServlet = new RootBeanDefinition(InternalFrameworkIntegrationServletFactoryBean.class);
+            Class<?> beanClass = getIntegrationHandlerFactoryClass();
+            RootBeanDefinition integrationServlet = new RootBeanDefinition(beanClass);
             MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
             propertyValues.addPropertyValue(getHandlerNameProperty(), delegatorServletName);
-            propertyValues.addPropertyValue(getHandlerClassProperty(), InternalFrameworkIntegrationServlet.class.getName());
+            propertyValues.addPropertyValue(getHandlerClassProperty(), getIntegrationHandlerClassName());
             propertyValues.addPropertyValue(getDelegateHandlerProperty(), new RuntimeBeanReference(id));
             
             String beanName = parserContext.getReaderContext().generateBeanName(integrationServlet);
             parserContext.getRegistry().registerBeanDefinition(beanName, integrationServlet);
         }
+    }
+
+    protected String getIntegrationHandlerClassName() {
+        return getIntegrationHandlerClass().getName();
     }
     
     @SuppressWarnings("unchecked")
@@ -164,6 +167,10 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
     }
 
     protected abstract Class<?> getDefaultFactoryBeanClass();
+
+    protected abstract Class<?> getIntegrationHandlerFactoryClass();
+
+    protected abstract Class<?> getIntegrationHandlerClass();
 
     protected abstract String getDelegateHandlerProperty();
     
