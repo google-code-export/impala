@@ -100,8 +100,8 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
     void handleInitParameters(Element element, BeanDefinitionBuilder builder) {
         
         Map<String,String> initParameters = new LinkedHashMap<String,String>();
-        handleInitParametersElement(element, initParameters);
         handleInitParamsAttribute(element, initParameters);
+        handleInitParametersElement(element, initParameters);
         
         // Specific environment settings defined, overriding any shared properties.
         builder.addPropertyValue(INIT_PARAMS_PROPERTY, initParameters);

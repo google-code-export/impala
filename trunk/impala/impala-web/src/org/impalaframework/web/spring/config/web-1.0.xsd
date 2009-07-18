@@ -12,7 +12,7 @@
 	<xsd:element name="filter">
 		<xsd:annotation>
 			<xsd:documentation>
-Add documentation
+Creates a javax.servlet.Filter who's life cycle is bound to that of the module.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
@@ -25,7 +25,7 @@ Add documentation
 	<xsd:element name="servlet">
 		<xsd:annotation>
 			<xsd:documentation>
-Add documentation
+Creates a javax.servlet.HttpServlet who's life cycle is bound to that of the module.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
@@ -41,11 +41,66 @@ Add documentation
 			<xsd:element ref="beans:property" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:group>
+	
+	<xsd:attributeGroup name="factoryAttributes">
+		<xsd:attribute name="id" type="xsd:ID" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The id for this bean. If the servletName (for servlets) or filterName (for filters) attribute is not specified
+then the id is used to specify the name of the servlet or filter, which is in turn used to identify the filter
+in servlet or filter mappings.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="factoryClass" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The FactoryBean class used to create and destroy the servlet or filter instance. If not specified, then
+defaults to org.impalaframework.web.spring.integration.ServletFactoryBean (for servlets) or 
+org.impalaframework.web.spring.integration.FilterFactoryBean (for filters).
+
+You won't need to specify a value for this property unless you need to override the default mechanism for
+instantiating or destroying the servlet or filter instance.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="initParameters" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
+Has the same effect as specifying <init-param> entries in web.xml. 
+
+The initParameters attribute allows these init parameters to be specified in a concise way.
+Individual entries are comma separated. Name and value pairs are separated by the equals sign.
+For example:
+	initParameters = "name1=value1,name2=value2" 
+sets two init parameters, with values 'value1' and 'value2',
+respectively.
+
+Note that init parameters can alternatively specified using the contained 'init-parameters' element.
+If both the 'init-parameters' element and the 'initParameters' attribute are specified, and both contain the same attribute name,
+then the definition in the 'init-parameters' element takes precedence.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
 
 	<xsd:element name="init-parameters">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-			Documentation for initParametersElement
+Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
+Has the same effect as specifying <init-param> entries in web.xml. 
+
+The init-parameters attribute allows init parameters using nested 'param' elements.
+For example:
+<init-parameters>
+	<param name = "name1" value = "value1"/>
+	<param name = "name2" value = "value2"/>
+</init-parameters>
+
+Note that init parameters can alternatively specified using the contained 'initParameters' attribute.
+If both the 'init-parameters' element and the 'initParameters' attribute are specified, and both contain the same attribute name,
+then the definition in the 'init-parameters' element takes precedence.
 			]]></xsd:documentation>
 		</xsd:annotation>
 		
@@ -59,32 +114,86 @@ Add documentation
 	<xsd:element name="param">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-			Documentation for paramElement
+Used to specify an individual parameter with an 'init-parameters' element declaration.
 			]]></xsd:documentation>
 		</xsd:annotation>
 			
 		<xsd:complexType>
-		    <xsd:attribute name="name" type="xsd:string" use="required"/>
-		    <xsd:attribute name="value" type="xsd:string" use="required"/>
+		    <xsd:attribute name="name" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The name of the init parameter.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		    <xsd:attribute name="value" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The value for the init parameter.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:attributeGroup name="factoryAttributes">
-		<xsd:attribute name="id" type="xsd:ID" use="required"/>
-		<xsd:attribute name="factoryClass" type="xsd:string" use="optional"/>
-		<xsd:attribute name="initParameters" type="xsd:string" use="optional"/>
-	</xsd:attributeGroup>
-	
 	<xsd:attributeGroup name="servletAttributes">
-		<xsd:attribute name="servletClass" type="xsd:string" use="required"/>
-		<xsd:attribute name="servletName" type="xsd:string" use="optional"/>
-		<xsd:attribute name="delegatorServletName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="servletClass" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The class of the servlet declared using the 'servlet' element.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="servletName" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The name of the servlet declared using the 'servlet' element. Used to identify the servlet when performing
+URL to servlet mappings. If not specified, the 'id' attribute is used for this purpose.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="delegatorServletName" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+This optional attribute is used if the registered servlet is not a Spring MVC servlet. In this case,
+a delegator servlet can automatically be registered on this servlet's behalf. This delegator performs some
+additional functions required for integration with non-Spring MVC servlets such as setting the thread
+context class loader.
+
+The name of the delegator servlet is given using this attribute.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 	</xsd:attributeGroup>
 	
 	<xsd:attributeGroup name="filterAttributes">
-		<xsd:attribute name="filterClass" type="xsd:string" use="required"/>
-		<xsd:attribute name="filterName" type="xsd:string" use="optional"/>
-		<xsd:attribute name="delegatorFilterName" type="xsd:string" use="optional"/>
+		<xsd:attribute name="filterClass" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The class of the filter declared using the 'filter' element.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="filterName" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The name of the filter declared using the 'filter' element. Used to identify the filter when performing
+URL to filter mappings. If not specified, the 'id' attribute is used for this purpose.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="delegatorFilterName" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+This optional attribute is used if the registered filter is fronting a non-Spring MVC-based web framework. In this case,
+a delegator filter can automatically be registered on this filter's behalf. This delegator performs some
+additional functions required for integration with non-Spring MVC filters such as setting the thread
+context class loader.
+
+The name of the delegator filter is given using this attribute.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 	</xsd:attributeGroup>
 
 </xsd:schema>
