@@ -30,6 +30,7 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
     private static final Log logger = LogFactory.getLog(WebNamespaceHandler.class);
     
     private static final String SERVLET_ELEMENT =  "servlet";
+    private static final String FILTER_ELEMENT =  "filter";
     
     public void init() {
         
@@ -38,5 +39,6 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
         }
 
         registerBeanDefinitionParser(SERVLET_ELEMENT, new ServletBeanDefinitionParser());
+        registerBeanDefinitionParser(FILTER_ELEMENT, new FilterBeanDefinitionParser());
     }
 }

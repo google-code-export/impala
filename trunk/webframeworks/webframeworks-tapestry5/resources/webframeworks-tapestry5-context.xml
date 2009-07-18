@@ -12,28 +12,14 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		<property name = "prefixes" value = "/Tapestry"/>
 	</bean>
 	
-	<!-- 
-	<web:filter id = "myServlet" 
-		delegatorServletName = "webframeworks-tapestry5"
+	<web:filter id = "myFilter" 
+		delegatorFilterName = "webframeworks-tapestry5"
 		factoryClass = "tapestry5.Tapestry5FilterFactoryBean"
-		servletClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
+		filterClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
 		initParameters = "prefix=/tapestry5">
         <property name="applicationPackage" value="tapestry5.application"/>
 	</web:filter>
-	-->
-
-    <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean">
-        <property name = "filterName" value = "webframeworks-tapestry5"/>
-        <property name = "filterClass" value = "org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilter"/>
-        <property name = "delegateFilter" ref = "delegateFilter"/> 
-    </bean> 
-    
-    <bean id = "delegateFilter" class="tapestry5.Tapestry5FilterFactoryBean">
-        <property name = "filterName" value = "delegateFilter"/>
-        <property name = "filterClass" value = "org.apache.tapestry5.spring.TapestrySpringFilter"/>
-        <property name = "applicationPackage" value = "tapestry5.application"/>
-    </bean>
-    
+     
     <bean id = "messageHolder" class="tapestry5.application.MessageHolder">
         <property name = "message" value = "Hello Phil"/>
     </bean>
