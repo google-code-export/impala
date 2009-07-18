@@ -2,13 +2,25 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:service="http://www.impalaframework.org/schema/service"
+       xmlns:web="http://www.impalaframework.org/schema/web"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
 		<property name = "prefixes" value = "/Tapestry"/>
 	</bean>
+	
+	<!-- 
+	<web:filter id = "myServlet" 
+		delegatorServlet = "webframeworks-tapestry5"
+		factoryClass = "tapestry5.Tapestry5FilterFactoryBean"
+		servletClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
+		initParameters = "prefix=/tapestry5">
+        <property name="applicationPackage" value="tapestry5.application"/>
+	</web:filter>
+	-->
 
     <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean">
         <property name = "filterName" value = "webframeworks-tapestry5"/>
