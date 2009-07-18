@@ -9,6 +9,9 @@
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
 
+	<xsd:element name="filter" type="xsd:anyType">
+	</xsd:element>
+
 	<xsd:element name="servlet">
 		<xsd:annotation>
 			<xsd:documentation>
