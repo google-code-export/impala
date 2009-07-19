@@ -18,8 +18,30 @@ import junit.framework.TestCase;
 
 public class WebMappingBeanDefinitionParserTest extends TestCase {
 
-    public void testParse() {
-       // fail("Not yet implemented");
+    private WebMappingBeanDefinitionParser parser;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        parser = new WebMappingBeanDefinitionParser();
+    }
+    
+    public void testGetServletPathFalse() {
+        assertEquals(null, parser.getServletPath("/path", "false", "/anotherpath"));
+        assertEquals(null, parser.getServletPath("/path", "false", "/path"));
+        assertEquals(null, parser.getServletPath("/path", "false", null));
+    }    
+    
+    public void testGetServletPathNull() {
+        assertEquals(null, parser.getServletPath("/path", null, ""));
+        assertEquals("/path", parser.getServletPath("/path", null, "/path"));
+        assertEquals("/anotherpath", parser.getServletPath("/path", null, "/anotherpath"));
+    } 
+    
+    public void testGetServletPathTrue() {
+        assertEquals("/path", parser.getServletPath("/path", "true", null));
+        assertEquals("/path", parser.getServletPath("/path", "true", ""));
+        assertEquals("/anotherpath", parser.getServletPath("/path", "true", "/anotherpath"));
     }
 
 }
