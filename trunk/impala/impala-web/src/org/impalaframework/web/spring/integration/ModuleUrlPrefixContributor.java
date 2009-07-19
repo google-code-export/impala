@@ -38,20 +38,18 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     
     private ServletContext servletContext;
     
-    private String prefixes;
+    private Map<String, String> prefixMap;
     
     public void afterPropertiesSet() throws Exception {
         
         Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
         Assert.notNull(servletContext, "servletContext cannot be null");
-        Assert.notNull(prefixes, "prefixes cannot be null");
+        Assert.notNull(prefixMap, "prefixes cannot be null");
         
         PrefixTreeHolder holder = getPrefixHolder(); 
         
         if (holder != null) {
             final String name = moduleDefinition.getName();
-            
-            Map<String, String> prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
             Set<String> prefixKeys = prefixMap.keySet();
             
             for (String prefix : prefixKeys) {
@@ -70,8 +68,6 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
         
         if (holder != null) {
             final String name = moduleDefinition.getName();
-            
-            Map<String, String> prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
             Set<String> prefixKeys = prefixMap.keySet();
             
             for (String prefix : prefixKeys) {
@@ -97,7 +93,11 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     }
 
     public void setPrefixes(String prefixes) {
-        this.prefixes = prefixes;
+        Assert.notNull(prefixes);
+        this.prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
     }
 
+    public void setPrefixMap(Map<String, String> prefixMap) {
+        this.prefixMap = prefixMap;
+    }
 }
