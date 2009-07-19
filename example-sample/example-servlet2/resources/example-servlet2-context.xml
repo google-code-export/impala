@@ -3,20 +3,26 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:service="http://www.impalaframework.org/schema/service"
+       xmlns:web="http://www.impalaframework.org/schema/web"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd"> 
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd"> 
         
+	<!--
+	<web:mapping>
+		<web:suffix extension = "*" servletName="example-servlet2"/> 
+	</web:mapping>
+	-->
+       
     <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
         <property name="suffix" value="*"/>
         <property name="servletName" value="example-servlet2"/>
     </bean>
     
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-        <property name = "servletName" value = "example-servlet2"/>
-        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
-    </bean> 
+	<web:servlet id = "example-servlet2" 
+		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
 
     <!-- Use url: http://localhost:8080/example/servlet2/test.to
     Note the suffix because of the redirection from the module servlet -->
