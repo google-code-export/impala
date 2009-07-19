@@ -8,7 +8,9 @@
 		attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
-
+	
+	<xsd:element name="mapping" type = "xsd:anyType"/>
+	
 	<xsd:element name="filter">
 		<xsd:annotation>
 			<xsd:documentation>

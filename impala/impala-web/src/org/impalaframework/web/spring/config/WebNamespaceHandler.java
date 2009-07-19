@@ -31,6 +31,7 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
     
     private static final String SERVLET_ELEMENT =  "servlet";
     private static final String FILTER_ELEMENT =  "filter";
+    private static final String MAPPING_ELEMENT =  "mapping";
     
     public void init() {
         
@@ -40,5 +41,6 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
 
         registerBeanDefinitionParser(SERVLET_ELEMENT, new ServletBeanDefinitionParser());
         registerBeanDefinitionParser(FILTER_ELEMENT, new FilterBeanDefinitionParser());
+        registerBeanDefinitionParser(MAPPING_ELEMENT, new WebMappingBeanDefinitionParser());
     }
 }
