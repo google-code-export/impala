@@ -6,9 +6,9 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
-	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
-		<property name = "prefixes" value = "/wicket"/>
-	</bean>
+	<web:mapping>
+		<web:prefix path = "/wicket"/>
+	</web:mapping>
 	
 	<web:servlet id = "myServlet" 
 		delegatorServletName = "webframeworks-wicket"

@@ -20,7 +20,11 @@ import java.util.Map;
 
 import javax.servlet.Filter;
 
+import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
+import org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor;
+import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.BeanDefinitionParser;
 import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
@@ -78,6 +82,11 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
      * method is invoked in the order specified in the 'filterNames' attribute declaration.
      */
     private static final String FILTER_NAMES = "filterNames";
+    
+    /**
+     * Refers to {@link ModuleUrlPrefixContributor#setPrefixMap(Map)}
+     */
+    private static final String PREFIX_MAP_PROPERTY = "prefixMap";
 
     public BeanDefinition parse(Element element, ParserContext parserContext) {
         handlePrefixes(element, parserContext);
@@ -86,8 +95,8 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     }
 
     @SuppressWarnings("unchecked")
-    private void handleSuffixes(Element element, ParserContext parserContext) {
-        List<Element> prefixes = DomUtils.getChildElementsByTagName(element, SUFFIX_ELEMENT);
+    private void handlePrefixes(Element element, ParserContext parserContext) {
+        List<Element> prefixes = DomUtils.getChildElementsByTagName(element, PREFIX_ELEMENT);
         
         Map<String,String> prefixMap = new LinkedHashMap<String, String>();
         
@@ -99,7 +108,10 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
             String servletPath = getServletPath(pathAttribute, setServletPathAttribute, servletPathAttribute);
             
             prefixMap.put(pathAttribute.trim(), servletPath != null ? servletPath.trim() : null);
-        }   
+        }
+
+        RootBeanDefinition definition = newContributorDefinition(prefixMap);
+        registerDefinition(parserContext, definition);
     }
 
     String getServletPath(String pathAttribute, String setServletPathAttribute, String servletPathAttribute) {
@@ -119,13 +131,45 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
         return servletPath;
     }
 
+    RootBeanDefinition newContributorDefinition(Map<String, String> prefixMap) {
+        RootBeanDefinition definition = new RootBeanDefinition(ModuleUrlPrefixContributor.class);
+        MutablePropertyValues propertyValues = definition.getPropertyValues();
+        propertyValues.addPropertyValue(PREFIX_MAP_PROPERTY, prefixMap);
+        return definition;
+    }
+
     @SuppressWarnings("unchecked")
-    private void handlePrefixes(Element element, ParserContext parserContext) {
-        List<Element> prefixes = DomUtils.getChildElementsByTagName(element, PREFIX_ELEMENT);
-        for (Element suffixElement : prefixes) {
+    private void handleSuffixes(Element element, ParserContext parserContext) {
+        
+        List<Element> suffixes = DomUtils.getChildElementsByTagName(element, SUFFIX_ELEMENT);
+        
+        for (Element suffixElement : suffixes) {
             String extensionAttribute = suffixElement.getAttribute(EXTENSION_ATTRIBUTE);
             String servletNameAttribute = suffixElement.getAttribute(SERVLET_NAME_ATTTRIBUTE);
             String filterNamesAttribute = suffixElement.getAttribute(FILTER_NAMES);
+           
+            String[] filterNames = 
+                StringUtils.hasText(filterNamesAttribute) ? 
+                StringUtils.tokenizeToStringArray(filterNamesAttribute, " ,") :
+                null;
+            
+            String servletName = StringUtils.hasText(servletNameAttribute) ? 
+                    servletNameAttribute.trim() :
+                    null;
+
+            RootBeanDefinition definition = new RootBeanDefinition(ModuleInvokerContributor.class);
+            MutablePropertyValues propertyValues = definition.getPropertyValues();
+            propertyValues.addPropertyValue("suffix", extensionAttribute);
+            propertyValues.addPropertyValue("servletName", servletName);
+            propertyValues.addPropertyValue("filterNames", filterNames);
+            
+            registerDefinition(parserContext, definition);
         }
+    }
+
+    private void registerDefinition(ParserContext parserContext,
+            RootBeanDefinition definition) {
+        String beanName = parserContext.getReaderContext().generateBeanName(definition);
+        parserContext.getRegistry().registerBeanDefinition(beanName, definition);
     }
 }

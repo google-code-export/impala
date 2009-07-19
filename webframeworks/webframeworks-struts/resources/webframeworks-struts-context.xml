@@ -8,9 +8,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 	
-	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
-		<property name = "prefixes" value = "/struts"/>
-	</bean>
+	<web:mapping>
+		<web:prefix path = "/struts"/>
+	</web:mapping>
 	
 	<web:servlet id = "myServlet" 
 		delegatorServletName = "webframeworks-struts"

@@ -10,16 +10,9 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd"> 
         
-	<!--
 	<web:mapping>
 		<web:suffix extension = "*" servletName="example-servlet2"/> 
 	</web:mapping>
-	-->
-       
-    <bean id="invokerContributor" class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
-        <property name="suffix" value="*"/>
-        <property name="servletName" value="example-servlet2"/>
-    </bean>
     
 	<web:servlet id = "example-servlet2" 
 		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
