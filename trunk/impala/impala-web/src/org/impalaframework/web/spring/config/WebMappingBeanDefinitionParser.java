@@ -93,6 +93,8 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
         handleSuffixes(element, parserContext);
         return null;
     }
+    
+    /* ******************* methods to support prefix mappings ****************** */
 
     @SuppressWarnings("unchecked")
     private void handlePrefixes(Element element, ParserContext parserContext) {
@@ -138,6 +140,8 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
         return definition;
     }
 
+    /* ******************* methods to support suffix mappings ****************** */
+    
     @SuppressWarnings("unchecked")
     private void handleSuffixes(Element element, ParserContext parserContext) {
         
@@ -148,14 +152,9 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
             String servletNameAttribute = suffixElement.getAttribute(SERVLET_NAME_ATTTRIBUTE);
             String filterNamesAttribute = suffixElement.getAttribute(FILTER_NAMES);
            
-            String[] filterNames = 
-                StringUtils.hasText(filterNamesAttribute) ? 
-                StringUtils.tokenizeToStringArray(filterNamesAttribute, " ,") :
-                null;
+            String[] filterNames = getFilterNames(filterNamesAttribute);
             
-            String servletName = StringUtils.hasText(servletNameAttribute) ? 
-                    servletNameAttribute.trim() :
-                    null;
+            String servletName = getServletName(servletNameAttribute);
 
             RootBeanDefinition definition = new RootBeanDefinition(ModuleInvokerContributor.class);
             MutablePropertyValues propertyValues = definition.getPropertyValues();
@@ -167,7 +166,22 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
         }
     }
 
-    private void registerDefinition(ParserContext parserContext,
+    String getServletName(String servletNameAttribute) {
+        String servletName = StringUtils.hasText(servletNameAttribute) ? 
+                servletNameAttribute.trim() :
+                null;
+        return servletName;
+    }
+
+    String[] getFilterNames(String filterNamesAttribute) {
+        String[] filterNames = 
+            StringUtils.hasText(filterNamesAttribute) ? 
+            StringUtils.tokenizeToStringArray(filterNamesAttribute, " ,") :
+            null;
+        return filterNames;
+    }
+
+    void registerDefinition(ParserContext parserContext,
             RootBeanDefinition definition) {
         String beanName = parserContext.getReaderContext().generateBeanName(definition);
         parserContext.getRegistry().registerBeanDefinition(beanName, definition);
