@@ -115,14 +115,14 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
             String id = element.getAttribute(ID_ATTRIBUTE);
             
             Class<?> beanClass = getIntegrationHandlerFactoryClass();
-            RootBeanDefinition integrationServlet = new RootBeanDefinition(beanClass);
-            MutablePropertyValues propertyValues = integrationServlet.getPropertyValues();
+            RootBeanDefinition handlerDefinition = new RootBeanDefinition(beanClass);
+            MutablePropertyValues propertyValues = handlerDefinition.getPropertyValues();
             propertyValues.addPropertyValue(getHandlerNameProperty(), delegatorServletName);
             propertyValues.addPropertyValue(getHandlerClassProperty(), getIntegrationHandlerClassName());
             propertyValues.addPropertyValue(getDelegateHandlerProperty(), new RuntimeBeanReference(id));
             
-            String beanName = parserContext.getReaderContext().generateBeanName(integrationServlet);
-            parserContext.getRegistry().registerBeanDefinition(beanName, integrationServlet);
+            String beanName = parserContext.getReaderContext().generateBeanName(handlerDefinition);
+            parserContext.getRegistry().registerBeanDefinition(beanName, handlerDefinition);
         }
     }
 
