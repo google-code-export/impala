@@ -25,6 +25,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
+import org.springframework.util.FileCopyUtils;
 
 /**
  * @author Phil Zoio
@@ -85,6 +86,26 @@ public class ResourceUtils {
             throw new ExecutionException("Unable to read resource " + resource.getDescription(), e);
         }
         return reader;
+    }
+
+    public static String readText(Resource resource) {
+        Reader reader = null;
+        try {
+            reader = getReaderForResource(resource);
+            return FileCopyUtils.copyToString(reader);
+        }
+        catch (Exception e) {
+            throw new ExecutionException("Unable to read resource " + resource.getDescription(), e);
+        }
+        finally {
+            if (reader != null) {
+                try {
+                    reader.close();
+                }
+                catch (IOException e) {
+                }
+            }
+        }
     }
     
 }
