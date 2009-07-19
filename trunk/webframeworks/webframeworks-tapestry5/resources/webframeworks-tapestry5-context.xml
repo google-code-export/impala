@@ -8,6 +8,13 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
+	<!-- 
+	<web:mapping>
+		<web:prefix path = "/Tapestry"/> 
+		<web:suffix extension = "[none]" filterNames="webframeworks-tapestry5"/> 
+	</web:mapping> 
+	-->
+
 	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
 		<property name = "prefixes" value = "/Tapestry"/>
 	</bean>
