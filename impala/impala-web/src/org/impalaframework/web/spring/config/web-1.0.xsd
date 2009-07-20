@@ -9,7 +9,26 @@
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
 	
-	<xsd:element name="mapping" type = "xsd:anyType"/>
+	<xsd:element name="mapping">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+Documentation for mapping
+			]]></xsd:documentation>
+		</xsd:annotation>
+			
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="prefix" minOccurs="0"/>
+				<xsd:element ref="suffix" minOccurs="0"/>
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="prefix" type = "xsd:anyType">
+	</xsd:element>
+	
+	<xsd:element name="suffix" type = "xsd:anyType">
+	</xsd:element>
 	
 	<xsd:element name="filter">
 		<xsd:annotation>
