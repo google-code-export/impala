@@ -9,10 +9,14 @@
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
 	
+	<!-- Declarations for mapping element -->
+	
 	<xsd:element name="mapping">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-Documentation for mapping
+Container element for prefix and sufffix mappings. 
+The 'prefix' element is used to direct requests for particular URLs, based on the URI prefix, to the current module.
+The 'suffix' element is to map requests directed to the current module to particular filters or servlets contained within the module.
 			]]></xsd:documentation>
 		</xsd:annotation>
 			
@@ -27,18 +31,106 @@ Documentation for mapping
 	<xsd:element name="prefix">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-Documentation for prefix
+Used to direct request to the current module, based on URI prefix.
 			]]></xsd:documentation>
 		</xsd:annotation>
 			
 		<xsd:complexType>
-		    <xsd:attribute name="path" type="xsd:string" use="required"/>
-		    <xsd:attribute name="setServletPath" type="truefalse" use="optional"/>
-		    <xsd:attribute name="servletPath" type="xsd:string" use="optional"/>
+		    <xsd:attribute name="path" type="xsd:string" use="required">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+The prefix of the URL which the request should match. For example, if a request has the URI,
+/app/mypath1/mypathA, then the path '/mypath1' will match, as will '/mypath1/my', as will '/mypath1/mypathA'.
+
+Note that if another module provides a more precise match to a particular path, then the request will be directed
+to that module instead. For example, if module A contains a prefix element with path '/prefix1',
+but module B contains one with path '/prefix1/path1', then a request with URI /app/prefix1/path1resource
+will be directed to module B, not module A.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		    <xsd:attribute name="setServletPath" type="truefalse" use="optional">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+Whether to set the servlet path in the request passed to servlets or filters in this module. 
+Setting this value has the effect of altering the values returned by calls to 
+HttpServletRequest.getSerlvetPath() and the corresponding HttpServletRequest.getPathInfo().
+
+If the value for this attribute is set to 'true', and 'servletPath' attribute 
+is not specified, then getServletPath() returns the value specified using the 'path'
+attribute. However, is a value is specified using the 'servletPath' attribute is specified, 
+then this value is used.
+
+Calls to getServletPath() made outside the module are not affected. Here, value returned by the
+servlet container itself is returned.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		    <xsd:attribute name="servletPath" type="xsd:string" use="optional">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+If a value is set for this optional attribute, 
+then as long as 'setServletPath' is not set with a value of false, then sets 
+the servlet path in the request passed to servlets or filters in this module. 
+In other words, the value specified using the 'servletPath' attribute is returned
+by calls from within the module to getServletPath().
+
+Calls to getServletPath() made outside the module are not affected. Here, value returned by the
+servlet container itself is returned.
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
 		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="suffix" type = "xsd:anyType">
+	<xsd:element name="suffix">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+Used to map requests with a particular extension to a servlet and/or list of filters. For each request mapped to the module
+using the 'prefix' element, the 'suffix' element performs a second level mapping function within the module itself.
+
+Note that a suffix mapping is not required. If not present, then an implicit mapping will be created, using the following algorithm:
+- Impala first looks for a servlet with the same name as the module name. If found, all requests are mapped to this servlet.
+- If not found, Impala looks for a filter with the same name as the module. If found, all requests are mapped to this filter.
+- If not found, Impala checks to see if there is exactly one servlet registered within the module. If so, then all requests 
+are mapped to this servlet.
+- If no servlets are found, Impala checks to see if there is exactly one filter registered within the module. If so, then all requests 
+are mapped to this filter.
+- If in either of the above cases more than one filter or servlet is found, an exception is thrown, since in this case it is not
+possible to determine unambiguously what the filter or servlet mapping should be.
+			]]></xsd:documentation>
+		</xsd:annotation>
+			
+		<xsd:complexType>
+		    <xsd:attribute name="extension" type="xsd:string" use="required">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+The file extension in the URI for a request mapped to the module using the 'prefix' element.
+
+For example, if the request URI is '/app/prefix/mypath.htm'
+then the extension attribute required to match this URI this is 'htm'.
+
+Special values include:
+'*': 		denotes all extensions. Will match any URI mapped to the module using the prefix element.
+'[none]': 	used for URI's without file extensions. Will match a URI such as /app/prefix/resourceWithoutExtension
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		    <xsd:attribute name="servletName" type="xsd:string" use="optional">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		    <xsd:attribute name="filterNames" type="xsd:string" use="optional">				
+				<xsd:annotation>
+					<xsd:documentation><![CDATA[
+	
+					]]></xsd:documentation>
+				</xsd:annotation>
+			</xsd:attribute>
+		</xsd:complexType>
 	</xsd:element>
 	
 	<xsd:simpleType name="truefalse">
@@ -47,6 +139,8 @@ Documentation for prefix
 			<xsd:enumeration value="false"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+
+	<!-- Declarations for filter and servlet elements -->	
 	
 	<xsd:element name="filter">
 		<xsd:annotation>
