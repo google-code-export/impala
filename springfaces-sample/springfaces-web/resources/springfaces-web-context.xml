@@ -2,20 +2,18 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
 	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
 	   xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:web="http://www.impalaframework.org/schema/web"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<import resource="web-application-config.xml" />
 	
-	<bean class="org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor">
-		<property name = "prefixes" value = "/spring=/spring"/>
-	</bean>
-	
-    <bean class="org.impalaframework.web.servlet.invocation.ModuleInvokerContributor">
-        <property name="suffix" value="[none]"/>
-        <property name="servletName" value="springfaces-web"/>
-    </bean>
+	<web:mapping>
+		<web:prefix path = "/spring" setServletPath="true"/> 
+		<web:suffix extension = "[none]" servletName="springfaces-web"/> 
+	</web:mapping>
 	
     <bean class="org.impalaframework.web.listener.ServletContextListenerFactoryBean">
         <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
