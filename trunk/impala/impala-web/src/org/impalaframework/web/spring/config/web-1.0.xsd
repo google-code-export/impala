@@ -24,11 +24,29 @@ Documentation for mapping
 		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="prefix" type = "xsd:anyType">
+	<xsd:element name="prefix">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+Documentation for prefix
+			]]></xsd:documentation>
+		</xsd:annotation>
+			
+		<xsd:complexType>
+		    <xsd:attribute name="path" type="xsd:string" use="required"/>
+		    <xsd:attribute name="setServletPath" type="truefalse" use="optional"/>
+		    <xsd:attribute name="servletPath" type="xsd:string" use="optional"/>
+		</xsd:complexType>
 	</xsd:element>
 	
 	<xsd:element name="suffix" type = "xsd:anyType">
 	</xsd:element>
+	
+	<xsd:simpleType name="truefalse">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="true"/>
+			<xsd:enumeration value="false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 	
 	<xsd:element name="filter">
 		<xsd:annotation>
