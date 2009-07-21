@@ -2,6 +2,7 @@ package org.impalaframework.spring.service.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.service.bean.ParentFactoryBean;
 import org.impalaframework.spring.service.contribution.ServiceRegistryList;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
 import org.impalaframework.spring.service.contribution.ServiceRegistrySet;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
 import org.springframework.util.StringUtils;
+import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
 
 /**
@@ -34,7 +36,8 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         if (logger.isDebugEnabled()) {
             logger.debug("Setting up " + ServiceRegistryNamespaceHandler.class.getName());
         }
-        
+
+        registerBeanDefinitionParser("parent", new ParentBeanDefinitionParser());
         registerBeanDefinitionParser("export", new ExportBeanDefinitionParser());
         registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
         registerBeanDefinitionParser("list", new ListBeanDefinitionParser());
@@ -42,6 +45,18 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("map", new MapBeanDefinitionParser());
         registerBeanDefinitionParser("export-array", new ArrayExportDefinitionParser());
         registerBeanDefinitionParser("auto-export", new AutoExportBeanDefinitionParser());
+    }
+    
+    private static class ParentBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return ParentFactoryBean.class;
+        }
+        
+        @Override
+        protected boolean isEligibleAttribute(Attr attribute) {
+            return false;
+        }
     }
 
     private static class ExportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {

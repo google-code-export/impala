@@ -8,6 +8,17 @@
 		attributeFormDefault="unqualified">
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	
+	<xsd:element name="parent">
+		<xsd:annotation>
+			<xsd:documentation>
+	Used to create a local reference to a bean defined in a parent application context.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+		</xsd:complexType>
+	</xsd:element>
 
 	<xsd:element name="export">
 		<xsd:annotation>
