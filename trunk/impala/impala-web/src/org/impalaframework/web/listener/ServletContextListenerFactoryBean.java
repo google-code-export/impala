@@ -37,18 +37,18 @@ import org.springframework.web.context.ServletContextAware;
  * {@link #destroy()}.
  * @author Phil Zoio
  */
-public class ServletContextListenerFactoryBean implements ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean {
+public class ServletContextListenerFactoryBean implements ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean, FactoryBean {
 
     private ServletContext servletContext;
     
-    private String listenerClassName;
+    private String listenerClass;
     
     private ClassLoader classLoader;
 
     private ServletContextListener listener;
 
     public void afterPropertiesSet() throws Exception {
-        Object instantiate = InstantiationUtils.instantiate(listenerClassName, classLoader);
+        Object instantiate = InstantiationUtils.instantiate(listenerClass, classLoader);
         listener = ObjectUtils.cast(instantiate, ServletContextListener.class);
         listener.contextInitialized(new ServletContextEvent(servletContext));
     }
@@ -57,8 +57,8 @@ public class ServletContextListenerFactoryBean implements ServletContextAware, B
         listener.contextDestroyed(new ServletContextEvent(servletContext));
     }
 
-    public void setListenerClassName(String listenerClassName) {
-        this.listenerClassName = listenerClassName;
+    public void setListenerClass(String listenerClassName) {
+        this.listenerClass = listenerClassName;
     }
 
     public void setServletContext(ServletContext servletContext) {
@@ -71,6 +71,18 @@ public class ServletContextListenerFactoryBean implements ServletContextAware, B
     
     ServletContextListener getListener() {
         return listener;
+    }
+
+    public Object getObject() throws Exception {
+        return listener;
+    }
+
+    public Class<?> getObjectType() {
+        return ServletContextListener.class;
+    }
+
+    public boolean isSingleton() {
+        return true;
     }
 
 }

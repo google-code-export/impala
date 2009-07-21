@@ -32,6 +32,7 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
     private static final String SERVLET_ELEMENT =  "servlet";
     private static final String FILTER_ELEMENT =  "filter";
     private static final String MAPPING_ELEMENT =  "mapping";
+    private static final String CONTEXT_LISTENER_ELEMENT =  "context-listener";
     
     public void init() {
         
@@ -42,5 +43,6 @@ public class WebNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser(SERVLET_ELEMENT, new ServletBeanDefinitionParser());
         registerBeanDefinitionParser(FILTER_ELEMENT, new FilterBeanDefinitionParser());
         registerBeanDefinitionParser(MAPPING_ELEMENT, new WebMappingBeanDefinitionParser());
+        registerBeanDefinitionParser(CONTEXT_LISTENER_ELEMENT, new ContextListenerBeanDefinitionParser());
     }
 }
