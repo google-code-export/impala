@@ -10,28 +10,18 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 
 	<import resource="web-application-config.xml" />
 	
+    <web:context-listener listenerClass="com.sun.faces.config.ConfigureListener"/>
+    
+    <web:servlet id = "springfaces-web" 
+		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
+		initParameters = "setThreadContextClassLoader=true"/>
+
+    <web:servlet id = "faces-servlet" 
+		servletClass = "javax.faces.webapp.FacesServlet"/>
+	
 	<web:mapping>
 		<web:prefix path = "/spring" setServletPath="true"/> 
 		<web:suffix extension = "[none]" servletName="springfaces-web"/> 
 	</web:mapping>
-	
-    <bean class="org.impalaframework.web.listener.ServletContextListenerFactoryBean">
-        <property name = "listenerClassName" value = "com.sun.faces.config.ConfigureListener"/>
-    </bean> 
-
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-        <property name = "servletName" value = "faces-servlet"/>
-        <property name = "servletClass" value = "javax.faces.webapp.FacesServlet"/>
-    </bean> 
-    
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean" >
-        <property name = "servletName" value = "springfaces-web"/>
-        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>        
-        <property name = "initParameters">
-            <map>
-                <entry key="setThreadContextClassLoader" value = "true"/>
-            </map>
-        </property>
-    </bean> 
     
 </beans>
