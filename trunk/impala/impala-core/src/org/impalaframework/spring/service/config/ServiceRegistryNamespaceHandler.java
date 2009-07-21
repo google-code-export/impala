@@ -2,7 +2,10 @@ package org.impalaframework.spring.service.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.bean.NamedFactoryBean;
 import org.impalaframework.spring.service.bean.ParentFactoryBean;
+import org.impalaframework.spring.service.bean.ProxiedNamedFactoryBean;
+import org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean;
 import org.impalaframework.spring.service.contribution.ServiceRegistryList;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMap;
 import org.impalaframework.spring.service.contribution.ServiceRegistrySet;
@@ -15,8 +18,10 @@ import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
+import org.springframework.beans.factory.xml.AbstractSingleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
 import org.springframework.beans.factory.xml.NamespaceHandlerSupport;
+import org.springframework.beans.factory.xml.ParserContext;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Element;
@@ -37,6 +42,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
             logger.debug("Setting up " + ServiceRegistryNamespaceHandler.class.getName());
         }
 
+        registerBeanDefinitionParser("named-bean", new NamedBeanDefinitionParser());
         registerBeanDefinitionParser("parent", new ParentBeanDefinitionParser());
         registerBeanDefinitionParser("export", new ExportBeanDefinitionParser());
         registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
@@ -56,6 +62,38 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         @Override
         protected boolean isEligibleAttribute(Attr attribute) {
             return false;
+        }
+    }
+
+    private static class NamedBeanDefinitionParser extends AbstractSingleBeanDefinitionParser {
+
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            Boolean singletonAware = Boolean.valueOf(element.getAttribute("singletonAware"));
+            Boolean proxied = Boolean.valueOf(element.getAttribute("proxied"));
+            String proxyTypes = element.getAttribute("proxyTypes");
+            
+            //FIXME issue 218 - add test, and extract to separate file
+            
+            if (proxied || StringUtils.hasText(proxyTypes)) {
+                return ProxiedNamedFactoryBean.class;
+            }
+            
+            if (singletonAware) {
+                return SingletonAwareNamedFactoryBean.class;
+            }
+            
+            return NamedFactoryBean.class;
+        }
+        
+        @Override
+        protected void doParse(Element element, ParserContext parserContext, BeanDefinitionBuilder builder) {
+            
+            builder.addPropertyValue("beanName", element.getAttribute("beanName"));
+            String proxyTypes = element.getAttribute("proxyTypes");
+            if (StringUtils.hasText(proxyTypes)) {
+                builder.addPropertyValue("proxyTypes", proxyTypes);
+            }
         }
     }
 
@@ -83,6 +121,8 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
     }
     
     static class ImportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+        
+        //FIXME extract to separate class and test
         
         /**
          * Parses the <code>export</code> element. An example is below.
