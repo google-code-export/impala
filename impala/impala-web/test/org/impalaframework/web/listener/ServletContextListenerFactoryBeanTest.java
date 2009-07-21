@@ -37,7 +37,7 @@ public class ServletContextListenerFactoryBeanTest extends TestCase {
         bean = new ServletContextListenerFactoryBean();
         servletContext = createMock(ServletContext.class);
         bean.setServletContext(servletContext);
-        bean.setListenerClassName(TestListener.class.getName());
+        bean.setListenerClass(TestListener.class.getName());
         bean.setBeanClassLoader(ClassUtils.getDefaultClassLoader());
     }
 

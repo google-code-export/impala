@@ -9,6 +9,19 @@
 
 	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
 	
+	<xsd:element name = "context-listener">
+		<xsd:annotation>
+			<xsd:documentation><![CDATA[
+Creates a module level servlet context listener whose life cycle is tied to that of the module.
+'contextInitialized' is called when the module loads, and 'contextDestroyed' when the module is unloaded.
+			]]></xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID" use="optional"/>
+			<xsd:attribute name="listenerClass" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
 	<!-- Declarations for mapping element -->
 	
 	<xsd:element name="mapping">
