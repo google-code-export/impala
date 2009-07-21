@@ -19,6 +19,21 @@
 			<xsd:attribute name="id" type="xsd:ID"/>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:element name="named-bean">
+		<xsd:annotation>
+			<xsd:documentation>
+	TO BE ADDED
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="beanName" type="xsd:string"/>
+			<xsd:attribute name="singletonAware" type="truefalse" use="optional"/>
+			<xsd:attribute name="proxied" type="truefalse" use="optional"/>
+			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
+		</xsd:complexType>
+	</xsd:element>
 
 	<xsd:element name="export">
 		<xsd:annotation>
@@ -176,5 +191,12 @@
 			<xsd:attribute name="id" type="xsd:ID"/>
 		</xsd:complexType>
 	</xsd:element>
+	
+	<xsd:simpleType name="truefalse">
+		<xsd:restriction base="xsd:NMTOKEN">
+			<xsd:enumeration value="true"/>
+			<xsd:enumeration value="false"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 
 </xsd:schema>
