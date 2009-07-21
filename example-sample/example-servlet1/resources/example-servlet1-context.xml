@@ -18,8 +18,9 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 			<web:param name="name" value="value"/>
 		</web:init-parameters>
 	</web:servlet>
-
-    <bean name="entryService" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/> 
+	
+	<!-- Sets up ParentFactoryBean -->
+    <service:parent id="entryService"/> 
     
     <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
     <bean name="/servlet1/test.do1" class="TestController1">
