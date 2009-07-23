@@ -23,11 +23,27 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.util.Assert;
 
+/**
+ * Base class for registry implementations
+ * @author Phil Zoio
+ */
 @SuppressWarnings("unchecked")
 public class RegistrySupport {
 
-    private Map entries = new HashMap();
-    
+    private final Map entries;
+
+    public RegistrySupport() {
+        super();
+        this.entries = new HashMap();
+    }
+
+    public RegistrySupport(Map entries) {
+        super();
+        Assert.notNull(entries, "entries cannot be null");
+        this.entries = entries;
+    }
+
+
     public <T extends Object> T getEntry(String key, Class<T> type) {
         
         return getEntry(key, type, true);
@@ -69,6 +85,10 @@ public class RegistrySupport {
     
     public Map<String, Object> getEntries() {
         return Collections.unmodifiableMap(entries);
+    }
+    
+    public Object    removeEntry(String key) {
+        return this.entries.remove(key);
     }
     
 }
