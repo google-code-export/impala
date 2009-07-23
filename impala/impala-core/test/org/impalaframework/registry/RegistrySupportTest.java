@@ -27,4 +27,10 @@ public class RegistrySupportTest extends TestCase {
         assertEquals(null, registry.removeEntry("key"));
     }
     
+    public void testConcurrent() throws Exception {
+        ConcurrentRegistrySupport registry = new ConcurrentRegistrySupport();
+        registry.addRegistryItem("key", "value");
+        assertEquals("value", registry.getEntry("key", String.class));
+    }
+    
 }
