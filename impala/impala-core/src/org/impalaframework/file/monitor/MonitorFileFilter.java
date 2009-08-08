@@ -51,6 +51,16 @@ public class MonitorFileFilter implements FileFilter {
 
     public boolean accept(File file) {
 
+        final boolean doAccept = doAccept(file);
+        if (doAccept) {
+            //System.out.println("Accepted: " + doAccept + ": file - " + file.getName());
+        } else {
+            //System.out.println("Rejected: " + doAccept + ": file - " + file.getName());
+        }
+        return doAccept;
+    }
+
+    private boolean doAccept(File file) {
         String name = file.getName();
         if (name.startsWith(".")) {
             return false;
