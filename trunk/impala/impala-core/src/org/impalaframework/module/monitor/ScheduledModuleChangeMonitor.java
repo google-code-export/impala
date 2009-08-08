@@ -28,7 +28,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
+import org.impalaframework.file.monitor.MonitorFileFilter;
 import org.impalaframework.util.ArrayUtils;
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -157,7 +159,11 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
     
     void setDefaultsIfNecessary() {
         if (fileMonitor == null) {
-            fileMonitor = new FileMonitorImpl();
+            FileMonitorImpl fileMonitor = new FileMonitorImpl();
+            final List<String> includes = CollectionStringUtils.parseStringList("class");
+            final List<String> excludes = CollectionStringUtils.parseStringList("");
+            fileMonitor.setFileFilter(new MonitorFileFilter(includes, excludes));
+            this.fileMonitor = fileMonitor;
         }
 
         if (executor == null)
