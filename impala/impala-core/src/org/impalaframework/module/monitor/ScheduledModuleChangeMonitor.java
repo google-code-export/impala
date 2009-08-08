@@ -117,6 +117,8 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
                             // should be null except for case where item is
                             // removed
                             File[] files = ResourceUtils.getFiles(ri.resources);
+                            
+                            //get the last modified files
                             long lastModified = fileMonitor.lastModified(files);
 
                             if (lastModified > ri.lastModified) {

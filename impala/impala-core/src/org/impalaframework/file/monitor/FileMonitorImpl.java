@@ -15,6 +15,7 @@
 package org.impalaframework.file.monitor;
 
 import java.io.File;
+import java.io.FileFilter;
 
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.file.FileRecurser;
@@ -26,15 +27,21 @@ import org.impalaframework.file.FileRecurser;
  * @author Phil Zoio
  */
 public class FileMonitorImpl implements FileMonitor {
+    
+    private FileFilter fileFilter;
+    
+    public FileMonitorImpl() {
+        super();
+    }
 
     public long lastModified(File file) {
-        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
+        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler(fileFilter);
         new FileRecurser().recurse(handler, file);
         return handler.getLastModified();
     }
 
     public long lastModified(File[] files) {
-        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler();
+        FileMonitorRecurserHandler handler = new FileMonitorRecurserHandler(fileFilter);
         final FileRecurser fileRecurser = new FileRecurser();
         long lastModified = 0L;
         for (File file : files) {
@@ -42,6 +49,10 @@ public class FileMonitorImpl implements FileMonitor {
             lastModified = Math.max(lastModified, handler.getLastModified());
         }
         return lastModified;
+    }
+    
+    public void setFileFilter(FileFilter fileFilter) {
+        this.fileFilter = fileFilter;
     }
 
 }
