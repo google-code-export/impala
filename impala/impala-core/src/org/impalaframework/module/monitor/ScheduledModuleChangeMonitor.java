@@ -51,7 +51,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
     private int initialDelay = DEFAULT_INTERVAL_SECONDS;
 
     private int checkInterval = DEFAULT_INITIAL_DELAY_SECONDS;
-
+    
     private FileMonitor fileMonitor;
 
     private ScheduledExecutorService executor;

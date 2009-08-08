@@ -43,6 +43,7 @@ import org.impalaframework.facade.ImpalaInitClearTest;
 import org.impalaframework.facade.SimpleOperationsFacadeTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
+import org.impalaframework.file.monitor.MonitorFileFilterTest;
 import org.impalaframework.graph.GraphHelperTest;
 import org.impalaframework.graph.VertexTestCase;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
@@ -266,6 +267,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleStateChangeNotifierTest.class);
         suite.addTestSuite(ModuleStateHolderTest.class);
         suite.addTestSuite(ModuleUtilsTest.class);
+        suite.addTestSuite(MonitorFileFilterTest.class);
         suite.addTestSuite(NamedFactoryBeanTest.class);
         suite.addTestSuite(NamedServiceAutoExportPostProcessorTest.class);
         suite.addTestSuite(NamedServiceProxyFactoryBeanTest.class);
