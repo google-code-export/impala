@@ -16,6 +16,7 @@ package org.impalaframework.file.monitor;
 
 import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -68,8 +69,15 @@ public class FileMonitorImplTest extends TestCase {
             long f2time = f2.lastModified();
             long f3time = f3.lastModified();
 
-            long lastModified = new FileMonitorImpl().lastModified(file);
-            long lastModifiedMany = new FileMonitorImpl().lastModified(new File[]{file});
+            FileFilter fileFilter = new FileFilter() {
+                public boolean accept(File pathname) {
+                    return true;
+                }
+            };
+            FileMonitorImpl fileMonitorImpl = new FileMonitorImpl();
+            fileMonitorImpl.setFileFilter(fileFilter);
+            long lastModified = fileMonitorImpl.lastModified(file);
+            long lastModifiedMany = fileMonitorImpl.lastModified(new File[]{file});
             
             System.out.println("f1time: " + f1time);
             System.out.println("f2time: " + f2time);

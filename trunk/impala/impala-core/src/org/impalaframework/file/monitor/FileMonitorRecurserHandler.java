@@ -30,8 +30,18 @@ public class FileMonitorRecurserHandler extends BaseFileRecurseHandler {
     
     long date = 0L;
     
+    private FileFilter fileFilter;
+    
+    public FileMonitorRecurserHandler() {
+    }
+    
+    public FileMonitorRecurserHandler(FileFilter fileFilter) {
+        super();
+        this.fileFilter = fileFilter;
+    }
+
     public FileFilter getDirectoryFilter() {
-        return null;
+        return this.fileFilter;
     }
 
     public void handleFile(File subfile) {
