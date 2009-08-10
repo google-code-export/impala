@@ -76,6 +76,12 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
                 StringPropertyValue stagingDirectory = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY, WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT);
                 configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY, stagingDirectory);
             }
+            
+            StringPropertyValue fileIncludes = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES, WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES_DEFAULT);
+            configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES, fileIncludes);
+
+            StringPropertyValue fileExcludes = new StringPropertyValue(propertySource, WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES, WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES_DEFAULT);
+            configSettings.addProperty(WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES, fileExcludes);
         }
     }
 
