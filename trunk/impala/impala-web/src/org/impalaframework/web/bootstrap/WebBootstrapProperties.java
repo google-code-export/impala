@@ -90,16 +90,18 @@ public interface WebBootstrapProperties {
     String AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT = "../staging";
     
     /**
-     * 
+     * The extensions which are explicitly included when determining the last 
+     * modification timestamp for auto-reload.
      */
-    String AUTO_RELOAD_FILE_INCLUDES = "auto.reload.file.includes";
+    String AUTO_RELOAD_FILE_INCLUDES = "auto.reload.extension.includes";
     
     String AUTO_RELOAD_FILE_INCLUDES_DEFAULT = "";
     
     /**
-     * 
+     * The extensions which are explicitly excluded when determining the last 
+     * modification timestamp for auto-reload.
      */
-    String AUTO_RELOAD_FILE_EXCLUDES = "auto.reload.file.excludes";
+    String AUTO_RELOAD_FILE_EXCLUDES = "auto.reload.extension.excludes";
     
     String AUTO_RELOAD_FILE_EXCLUDES_DEFAULT = "";
     
