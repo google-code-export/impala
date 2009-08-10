@@ -26,14 +26,13 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.file.monitor.FileMonitorImpl;
 import org.impalaframework.file.monitor.MonitorFileFilter;
 import org.impalaframework.util.ArrayUtils;
-import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.ResourceUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.core.io.Resource;
 
 /**
@@ -53,6 +52,10 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
     private int initialDelay = DEFAULT_INTERVAL_SECONDS;
 
     private int checkInterval = DEFAULT_INITIAL_DELAY_SECONDS;
+    
+    private String[] autoReloadFileIncludes;
+    
+    private String[] autoReloadFileExcludes;
     
     private FileMonitor fileMonitor;
 
@@ -160,8 +163,8 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
     void setDefaultsIfNecessary() {
         if (fileMonitor == null) {
             FileMonitorImpl fileMonitor = new FileMonitorImpl();
-            final List<String> includes = CollectionStringUtils.parseStringList("");
-            final List<String> excludes = CollectionStringUtils.parseStringList("");
+            final List<String> includes = autoReloadFileIncludes != null ? Arrays.asList(autoReloadFileIncludes) : new ArrayList<String>();
+            final List<String> excludes = autoReloadFileExcludes != null ? Arrays.asList(autoReloadFileExcludes) : new ArrayList<String>();
             fileMonitor.setFileFilter(new MonitorFileFilter(includes, excludes));
             this.fileMonitor = fileMonitor;
         }
@@ -193,6 +196,14 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
 
     public void setCheckInterval(int interval) {
         this.checkInterval = interval;
+    }
+    
+    public void setAutoReloadFileIncludes(String[] autoReloadIncludes) {
+        this.autoReloadFileIncludes = autoReloadIncludes;
+    }
+    
+    public void setAutoReloadFileExcludes(String[] autoReloadExcludes) {
+        this.autoReloadFileExcludes = autoReloadExcludes;
     }
 
     /* ************************* ResourceInfo private class ************************** */
