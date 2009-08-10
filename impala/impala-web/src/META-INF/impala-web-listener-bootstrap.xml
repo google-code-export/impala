@@ -31,12 +31,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </bean>
 
     <bean id="autoDeployFileIncludes" parent = "propertyParent">
-         <property name="name" value="auto.reload.file.includes"/>
+         <property name="name" value="auto.reload.extension.includes"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES_DEFAULT]"/>
     </bean>
 
     <bean id="autoDeployFileExcludes" parent = "propertyParent">
-         <property name="name" value="auto.reload.file.excludes"/>
+         <property name="name" value="auto.reload.extension.excludes"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES_DEFAULT]"/>
     </bean>
         
