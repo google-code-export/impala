@@ -160,7 +160,7 @@ public class ScheduledModuleChangeMonitor implements ModuleChangeMonitor {
     void setDefaultsIfNecessary() {
         if (fileMonitor == null) {
             FileMonitorImpl fileMonitor = new FileMonitorImpl();
-            final List<String> includes = CollectionStringUtils.parseStringList("class");
+            final List<String> includes = CollectionStringUtils.parseStringList("");
             final List<String> excludes = CollectionStringUtils.parseStringList("");
             fileMonitor.setFileFilter(new MonitorFileFilter(includes, excludes));
             this.fileMonitor = fileMonitor;
