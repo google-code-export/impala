@@ -90,6 +90,20 @@ public interface WebBootstrapProperties {
     String AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT = "../staging";
     
     /**
+     * 
+     */
+    String AUTO_RELOAD_FILE_INCLUDES = "auto.reload.file.includes";
+    
+    String AUTO_RELOAD_FILE_INCLUDES_DEFAULT = "";
+    
+    /**
+     * 
+     */
+    String AUTO_RELOAD_FILE_EXCLUDES = "auto.reload.file.excludes";
+    
+    String AUTO_RELOAD_FILE_EXCLUDES_DEFAULT = "";
+    
+    /**
      * Whether {@link ServletContext} attributes and resources should be partitioned
      * across modules. This makes it possible to set attributes and make resources
      * visible within modules only through {@link ServletContext} methods.

@@ -29,6 +29,16 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
          <property name="name" value="auto.reload.monitoring.type"/>
          <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT]"/>
     </bean>
+
+    <bean id="autoDeployFileIncludes" parent = "propertyParent">
+         <property name="name" value="auto.reload.file.includes"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployFileExcludes" parent = "propertyParent">
+         <property name="name" value="auto.reload.file.excludes"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES_DEFAULT]"/>
+    </bean>
         
     <bean id="scheduledModuleChangeMonitor"
         class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
@@ -42,6 +52,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="touchFile" ref="touchFile" />
         <property name="checkInterval" ref="autoDeployCheckInterval" />
         <property name="initialDelay" ref="autoDeployCheckDelay" />
+        <property name="autoReloadFileIncludes" ref="autoDeployFileIncludes" />
+        <property name="autoReloadFileExcludes" ref="autoDeployFileExcludes" />
     </bean>
     
     <bean id="defaultModuleRuntimeMonitor" 
