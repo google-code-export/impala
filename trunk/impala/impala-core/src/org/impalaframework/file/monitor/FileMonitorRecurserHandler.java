@@ -49,7 +49,6 @@ public class FileMonitorRecurserHandler extends BaseFileRecurseHandler {
     }
 
     public void handleDirectory(File directory) {
-        date = Math.max(date, directory.lastModified());
     }
 
     public long getLastModified() {

@@ -19,6 +19,8 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.util.Assert;
 
 /**
@@ -37,6 +39,8 @@ import org.springframework.util.Assert;
  */
 public class MonitorFileFilter implements FileFilter {
     
+    private Log logger = LogFactory.getLog(MonitorFileFilter.class);
+    
     private final List<String> includes;
     
     private final List<String> excludes;
@@ -53,17 +57,24 @@ public class MonitorFileFilter implements FileFilter {
 
         final boolean doAccept = doAccept(file);
         if (doAccept) {
-            //System.out.println("Accepted: " + doAccept + ": file - " + file.getName());
+            if (logger.isDebugEnabled())
+                logger.debug("Checking for timestamp for file: " + file.getName());
         } else {
-            //System.out.println("Rejected: " + doAccept + ": file - " + file.getName());
+            if (logger.isTraceEnabled())
+            logger.trace("Not checking for timestamp for file: " + file.getName());
         }
         return doAccept;
     }
 
     private boolean doAccept(File file) {
+
         String name = file.getName();
         if (name.startsWith(".")) {
             return false;
+        }  
+        
+        if (file.isDirectory()) {
+            return true;
         }
             
         if (includes.isEmpty() && excludes.isEmpty()) {
