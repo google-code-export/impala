@@ -146,6 +146,7 @@ import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
 import org.impalaframework.spring.service.bean.ParentFactoryBeanTest;
 import org.impalaframework.spring.service.bean.ProxiedNamedFactoryBeanTest;
+import org.impalaframework.spring.service.config.NamedBeanDefinitionParserTest;
 import org.impalaframework.spring.service.config.ServiceRegistryNamespaceHandlerTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryListTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMapTest;
@@ -271,6 +272,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(MonitorFileFilterTest.class);
         suite.addTestSuite(NamedFactoryBeanTest.class);
         suite.addTestSuite(NamedServiceAutoExportPostProcessorTest.class);
+        suite.addTestSuite(NamedBeanDefinitionParserTest.class);
         suite.addTestSuite(NamedServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(ObjectUtilsTest.class);
         suite.addTestSuite(ObjectMapUtilsTest.class);

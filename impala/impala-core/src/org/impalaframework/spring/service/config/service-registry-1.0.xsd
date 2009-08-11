@@ -28,7 +28,7 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:attribute name="id" type="xsd:ID"/>
-			<xsd:attribute name="beanName" type="xsd:string"/>
+			<xsd:attribute name="beanName" type="xsd:string" use="required"/>
 			<xsd:attribute name="singletonAware" type="truefalse" use="optional"/>
 			<xsd:attribute name="proxied" type="truefalse" use="optional"/>
 			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
