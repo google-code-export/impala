@@ -22,7 +22,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 /**
  * @author Phil Zoio
  */
-public class ProxedNamedFactoryBeanTest extends TestCase {
+public class ProxiedNamedFactoryBeanTest extends TestCase {
     
     private ClassPathXmlApplicationContext parentContext;
     private ClassPathXmlApplicationContext childContext;

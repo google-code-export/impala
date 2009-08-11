@@ -145,6 +145,7 @@ import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
 import org.impalaframework.spring.service.bean.ParentFactoryBeanTest;
+import org.impalaframework.spring.service.bean.ProxiedNamedFactoryBeanTest;
 import org.impalaframework.spring.service.config.ServiceRegistryNamespaceHandlerTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryListTest;
 import org.impalaframework.spring.service.contribution.ServiceRegistryMapTest;
@@ -288,6 +289,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(PropertySourceValueFactoryBeanTest.class);
         suite.addTestSuite(PropertyUtilsTest.class);
         suite.addTestSuite(PropertyValueTest.class);
+        suite.addTestSuite(ProxiedNamedFactoryBeanTest.class);
         suite.addTestSuite(RadixTreeImplTest.class);
         suite.addTestSuite(RadixTreeSupplementaryTest.class);
         suite.addTestSuite(ReflectionUtilsTest.class);
