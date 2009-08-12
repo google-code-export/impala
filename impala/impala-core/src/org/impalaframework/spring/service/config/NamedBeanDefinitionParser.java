@@ -36,8 +36,6 @@ public class NamedBeanDefinitionParser extends AbstractSingleBeanDefinitionParse
         Boolean proxied = Boolean.valueOf(element.getAttribute("proxied"));
         String proxyTypes = element.getAttribute("proxyTypes");
         
-        //FIXME issue 218 - add test, and extract to separate file
-        
         if (proxied || StringUtils.hasText(proxyTypes)) {
             return ProxiedNamedFactoryBean.class;
         }
