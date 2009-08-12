@@ -23,7 +23,14 @@
 	<xsd:element name="named-bean">
 		<xsd:annotation>
 			<xsd:documentation>
-	TO BE ADDED
+	The named bean element is used to inject a named delegate bean which is already accessible from the current application context.
+	The 'beanName' attribute is mandatory as it is used to look up the bean. 
+	If 'singletonAware' is set to 'true', then the named bean's FactoryBean will be aware of the delegate bean's singleton status.
+	If 'proxied' is set to true, then bean created using this element will be a proxy of the delegate bean. This allows you, for example, 
+	to create a singleton proxy of a prototype delegate bean. In other words, clients of the delegate bean can inject the proxy, and 
+	treat the reference as a singleton, even though behind the scenes there is actually a proxy at work. When 'proxyTypes' is specified, 
+	then an interface-based proxy is created using the specified proxy types. If not specified, then a class-based proxy using CGLIB is created.
+	Note that if 'proxyTypes' is set, then 'proxied' is implicitly true. Otherwise it is implicitly false.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
