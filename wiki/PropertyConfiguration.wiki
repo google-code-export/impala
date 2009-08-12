@@ -68,6 +68,16 @@ timestamp of the touch file is detected.
 *touch.file*: The touch file resource which will be monitored. If not present and `use.touch.file`
 is true, then `auto.reload.modules` is effectively turned off.
 
+*auto.reload.extension.includes*: The extensions which are explicitly included when determining the last 
+modification timestamp for auto reloading modules. If specified, any file which ends with one of the extensions specified will be included
+in the last modification timestamp check. For example, if `auto.reload.extension.includes` is set to `class,xml`, only Java class files and 
+XML files will be checked for modifications. If, for example, only a property file in the module is changed, the module won't be reloaded.
+This property is useful for helping to ensure that modules don't reload too 'eagerly'.
+
+*auto.reload.extension.excludes*: The extensions which are explicitly excluded when determining the last modification timestamp for auto-reload.
+ For example, if `auto.reload.extension.excludes` is set to `sql`, and a file in the module ending with 'sql' is changed, the 
+module won't be reloaded. Like `auto.reload.extension.includes`, this property is also useful for helping to ensure that modules don't reload too 'eagerly'.
+
 *auto.reload.check.interval*: The period in seconds between successive checks for modifications when 
 `auto.reload.modules` is used.
 
