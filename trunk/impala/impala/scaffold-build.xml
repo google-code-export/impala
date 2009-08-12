@@ -33,6 +33,10 @@
 
 	<target name="scaffold:input-web-project" unless="web.project.name">
 		<input message="Please enter name of web module:" addproperty="web.project.name" defaultvalue="web" />
+	</target>
+
+	<target name="scaffold:input-servlet-version" unless="servlet.api.version">
+		<input message="Please enter servlet API version:" addproperty="servlet.api.version" defaultvalue="2.5" validargs="2.4,2.5"/>
 	</target>	
 	
 	<target name="scaffold:input-test-project" unless="test.project.name">
@@ -66,6 +70,7 @@
 								scaffold:input-main-project,
 								scaffold:input-module-project,
 								scaffold:input-web-project,
+								scaffold:input-servlet-version,
 								scaffold:input-test-project,
 								scaffold:input-repository-project,
 								scaffold:input-project-prefix,
@@ -255,8 +260,13 @@
 		<fail if="web.already.exists" message="The location ${web.project.location} already exists. You probably already have a module at this location."/>
 		
 		<copy todir="${web.project.location}" filtering="true">
-			<fileset dir="${impala.home}/modules/war" excludes = "**/module-context.xml">
+			<fileset dir="${impala.home}/modules/war" excludes = "**/module-context.xml,**/WEB-INF/web-*.xml">
 			</fileset>
+			<filterset refid="scaffoldFilter"/>
+		</copy>
+		
+		<copy file = "${impala.home}/modules/war/context/WEB-INF/web-${servlet.api.version}.xml" 
+			tofile="${web.project.location}/context/WEB-INF/web.xml" filtering="true">
 			<filterset refid="scaffoldFilter"/>
 		</copy>
 	
