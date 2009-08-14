@@ -114,6 +114,7 @@
 	<target name="scaffold:newmodule-confirm" depends="
 								scaffold:input-workspace-root,
 								scaffold:input-parent-project,
+								scaffold:input-build-project,
 								scaffold:input-new-project,
 								scaffold:input-module-type-name,
 								scaffold:input-repository-project,
