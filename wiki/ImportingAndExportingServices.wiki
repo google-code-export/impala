@@ -291,3 +291,16 @@ Note also that because the map key being is not the default, it must be explicit
 }}}
 
 In the example above, the value for the sender attribute is used as the key for each map entry.
+
+----
+----
+
+== Miscellaneous elements ==
+
+=== 'parent' element ===
+
+TO ADD
+
+=== 'named-bean' element ===
+
+TO ADD
