@@ -299,6 +299,8 @@ In the example above, the value for the sender attribute is used as the key for 
 
 === 'parent' element ===
 
+----
+
 TO ADD
 
 === 'named-bean' element ===
