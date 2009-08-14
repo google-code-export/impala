@@ -7,9 +7,10 @@
 
 	<echo>Project using workspace.root: ${workspace.root}</echo>
 	<echo>Project using impala home: ${impala.home}</echo>
-	
+
 	<property file = "build.properties"/>
 	<property file = "web.properties"/>
+	<property file = "shared.properties"/>
 	
 	<import file = "${impala.home}/project-build.xml"/>
 	<import file = "${impala.home}/shared-build.xml"/>
