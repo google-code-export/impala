@@ -13,18 +13,18 @@ import @project.package.name@.@main.project.name@.MessageService;
 
 
 public class MessageController  implements Controller {
-	private MessageService messageService;
+    private MessageService messageService;
 
-	public void setMessageService(MessageService messageService) {
-		this.messageService = messageService;
-	}
+    public void setMessageService(MessageService messageService) {
+        this.messageService = messageService;
+    }
 
-	public ModelAndView handleRequest(HttpServletRequest arg0,
-			HttpServletResponse arg1) throws Exception {
-		HashMap<String, String> map = new HashMap<String, String>();
-		map.put("message", messageService.getMessage());
+    public ModelAndView handleRequest(HttpServletRequest arg0,
+            HttpServletResponse arg1) throws Exception {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("message", messageService.getMessage());
 
-		ModelAndView mav = new ModelAndView("test", map);
-		return mav;
-	}
+        ModelAndView mav = new ModelAndView("test", map);
+        return mav;
+    }
 }

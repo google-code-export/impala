@@ -108,7 +108,7 @@ public class SpringServiceBeanUtils {
         //FIXME test
         throw new InvalidStateException("Cannot get bean definition as bean factory [" 
                 + beanFactory.getClass().getName()
-        		+ "] does not implement [" + BeanDefinitionRegistry.class
+                + "] does not implement [" + BeanDefinitionRegistry.class
                 + "] or " + BeanDefinitionExposing.class.getName() + "]");
     }
     

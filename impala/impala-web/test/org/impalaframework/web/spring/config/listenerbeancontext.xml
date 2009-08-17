@@ -5,8 +5,8 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
-	
-	<web:context-listener id = "listener" 
-		listenerClass = "org.impalaframework.web.spring.config.TestContextListener"/>
-		
+    
+    <web:context-listener id = "listener" 
+        listenerClass = "org.impalaframework.web.spring.config.TestContextListener"/>
+        
 </beans>

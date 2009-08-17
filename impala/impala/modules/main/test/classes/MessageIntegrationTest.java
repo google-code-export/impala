@@ -26,17 +26,17 @@ import @project.package.name@.@main.project.name@.MessageService;
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(MessageIntegrationTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(MessageIntegrationTest.class);
+    }
 
-	public void testIntegration() {
-		MessageService service = Impala.getBean("messageService", MessageService.class);
-		System.out.println(service.getMessage());
-	}
+    public void testIntegration() {
+        MessageService service = Impala.getBean("messageService", MessageService.class);
+        System.out.println(service.getMessage());
+    }
 
-	public RootModuleDefinition getModuleDefinition() {	
-		return new TestDefinitionSource("@full.main.project.name@", "@full.module.project.name@").getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() { 
+        return new TestDefinitionSource("@full.main.project.name@", "@full.module.project.name@").getModuleDefinition();
+    }
 
 }

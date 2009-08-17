@@ -117,7 +117,7 @@ public class ServiceRegistryMonitor implements
                 if (logger.isDebugEnabled()) {
                     logger.debug("Service entry " + entry + " filtered out as bean reference is static, but target " +
                             ObjectUtils.identityToString(serviceActivityNotifiable) +
-                    		"does not support non-static reference");
+                            "does not support non-static reference");
                 }
                 return;
             }

@@ -23,25 +23,25 @@ import junit.framework.TestCase;
  */
 public class RadixTreeSupplementaryTest extends TestCase {
 
-	public void testFindContainedNode() throws Exception {
-		RadixTree<String> r = new RadixTreeImpl<String>();
-		r.insert("AB", "1");
-		r.insert("B", "2");
-		r.insert("BS", "11");
-		r.insert("BT1", "12");
-		r.insert("BT13", "13");
-		r.insert("BT14", "14");
-		
-		check(r, "BT11 4QY", "12");
-		check(r, "BT13", "13");
-		check(r, "BT134QY", "13");
-		check(r, "BT1", "12");
-		check(r, "BT15 4QY", "12");
-		check(r, "BT14ZXX", "14");
-	}
+    public void testFindContainedNode() throws Exception {
+        RadixTree<String> r = new RadixTreeImpl<String>();
+        r.insert("AB", "1");
+        r.insert("B", "2");
+        r.insert("BS", "11");
+        r.insert("BT1", "12");
+        r.insert("BT13", "13");
+        r.insert("BT14", "14");
+        
+        check(r, "BT11 4QY", "12");
+        check(r, "BT13", "13");
+        check(r, "BT134QY", "13");
+        check(r, "BT1", "12");
+        check(r, "BT15 4QY", "12");
+        check(r, "BT14ZXX", "14");
+    }
 
-	private void check(RadixTree<String> trie, final String selection, String expected) {
-		assertEquals(expected, trie.findContainedNode(selection).getValue());
-	}
-	
+    private void check(RadixTree<String> trie, final String selection, String expected) {
+        assertEquals(expected, trie.findContainedNode(selection).getValue());
+    }
+    
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:service="http://www.impalaframework.org/schema/service"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
@@ -13,8 +13,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     <service:export beanName="messageService"/>    
     -->
 
-	<bean id="messageService" class="@project.package.name@.@module.project.name@.MessageServiceImpl">
-		<property name = "message" value = "Hello World!"/>
-	</bean>
+    <bean id="messageService" class="@project.package.name@.@module.project.name@.MessageServiceImpl">
+        <property name = "message" value = "Hello World!"/>
+    </bean>
 
 </beans>

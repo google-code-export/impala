@@ -48,70 +48,70 @@ import org.springframework.web.servlet.HttpServletBean;
  * @author Phil Zoio
  */
 public class InternalFrameworkIntegrationServlet extends HttpServletBean implements ApplicationContextAware {
-	
-	private static final long serialVersionUID = 1L;
+    
+    private static final long serialVersionUID = 1L;
 
-	private WebApplicationContext applicationContext;
-	
-	private HttpServlet delegateServlet;
-	
-	/**
-	 * Determine whether to set the context class loader. This almost certainly
-	 * need to be true. Frameworks such as Struts which dynamically instantiate
-	 * classes typically use <code>Thread.currentThread().getContextClassLoader()</code> to 
-	 * retrieve the class loader with which to instantiate classes. This needs to be set correctly to the 
-	 * class loader of the current module's application context to ensure that resource contained within the module
+    private WebApplicationContext applicationContext;
+    
+    private HttpServlet delegateServlet;
+    
+    /**
+     * Determine whether to set the context class loader. This almost certainly
+     * need to be true. Frameworks such as Struts which dynamically instantiate
+     * classes typically use <code>Thread.currentThread().getContextClassLoader()</code> to 
+     * retrieve the class loader with which to instantiate classes. This needs to be set correctly to the 
+     * class loader of the current module's application context to ensure that resource contained within the module
      * (e.g. Struts action and form classes) can be found using the current thread's context class loader.
-	 */
-	private boolean setContextClassLoader = true;
+     */
+    private boolean setContextClassLoader = true;
 
-	private ClassLoader currentClassLoader;
+    private ClassLoader currentClassLoader;
 
-	private ThreadContextClassLoaderHttpServiceInvoker invoker;
-	
-	public InternalFrameworkIntegrationServlet() {
-		super();
-	}
+    private ThreadContextClassLoaderHttpServiceInvoker invoker;
+    
+    public InternalFrameworkIntegrationServlet() {
+        super();
+    }
 
-	@Override
-	public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		ClassLoader moduleClassLoader = applicationContext.getClassLoader();
-		if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
-			this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setContextClassLoader, moduleClassLoader);
-			this.currentClassLoader = moduleClassLoader;
-		}
-		
-		this.invoker.invoke(request, response, null);
-	}
-	
-	@Override
-	protected void initServletBean() throws ServletException {
-		final ServletContext servletContext = getServletContext();
-		final String servletName = getServletName();
-		ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
-	}
+    @Override
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        ClassLoader moduleClassLoader = applicationContext.getClassLoader();
+        if (this.invoker == null || this.currentClassLoader != moduleClassLoader) {
+            this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(delegateServlet, setContextClassLoader, moduleClassLoader);
+            this.currentClassLoader = moduleClassLoader;
+        }
+        
+        this.invoker.invoke(request, response, null);
+    }
+    
+    @Override
+    protected void initServletBean() throws ServletException {
+        final ServletContext servletContext = getServletContext();
+        final String servletName = getServletName();
+        ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
+    }
 
-	@Override
-	public void destroy() {
-		final ServletContext servletContext = getServletContext();
-		final String servletName = getServletName();
-		ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
-		super.destroy();
-	}	
-	
-	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
-	}
-	
-	/* ************************ injected setters ************************** */
+    @Override
+    public void destroy() {
+        final ServletContext servletContext = getServletContext();
+        final String servletName = getServletName();
+        ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
+        super.destroy();
+    }   
+    
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
+    }
+    
+    /* ************************ injected setters ************************** */
 
-	public void setDelegateServlet(HttpServlet delegateServlet) {
-		this.delegateServlet = delegateServlet;
-	}
+    public void setDelegateServlet(HttpServlet delegateServlet) {
+        this.delegateServlet = delegateServlet;
+    }
 
-	public void setSetContextClassLoader(boolean setContextClassLoader) {
-		this.setContextClassLoader = setContextClassLoader;
-	}
+    public void setSetContextClassLoader(boolean setContextClassLoader) {
+        this.setContextClassLoader = setContextClassLoader;
+    }
 
 }
