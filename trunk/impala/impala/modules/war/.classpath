@@ -9,7 +9,7 @@
 	<classpathentry kind="lib" path="/@full.repository.project.name@/main/impala-web-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-web-@impala.version@-sources.jar" exported="true"/>
 	<classpathentry kind="lib" path="/@full.repository.project.name@/web/spring-webmvc-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-webmvc-@spring.version@-sources.jar" exported="true"/>
 	<classpathentry kind="lib" path="/@full.repository.project.name@/web/jsp-api-@jspapi.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/web/servletapi-@servletapi.version@.jar" exported="true" />
+	<classpathentry kind="lib" path="/@full.repository.project.name@/web/servlet-api-@servletapi.version@.jar" exported="true" />
 	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-compiler-@jasper.version@.jar"/>
 	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-compiler-jdt-@jasper.version@.jar"/>
 	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-runtime-@jasper.version@.jar"/>

@@ -82,10 +82,10 @@
 		<echo>Main (root) project name: ${main.project.name}</echo>
 		<echo>First application module project name: ${module.project.name}</echo>
 		<echo>Web project name: ${web.project.name}</echo>
+		<echo>Servlet API version: ${servlet.api.version}</echo>
 		<echo>Tests project name: ${test.project.name}</echo>
 		<echo>Repository project name: ${repository.project.name}</echo>
 
-		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
 		
 		<property name = "copy.main.project" value = "true"/>
@@ -123,9 +123,11 @@
 		<property name="workspace.root.location" location="${workspace.root.location.input}" />
 
 		<echo>About to create new module of type '${module.type.name}' with name '${module.project.name}' create in ${workspace.root.location}</echo>
-		<echo>Repository project name: ${repository.project.name}</echo>
+		<echo>Repository project name: ${repository.project.name}</echo>		
+		<echo>Workspace root location: ${workspace.root.location}</echo>
+		<echo>Build project name: ${build.project.name}</echo>
+		<echo>Parent name: ${main.project.name}</echo>
 
-		<!-- FIXME offer better mechanism for continuing-->
 		<input message="Press return key to continue, or CTRL + C to quit ..." />
 		
 	</target>
@@ -140,7 +142,7 @@
 		<property name = "test.project.location" location = "${workspace.root.location}/${project.prefix}${test.project.name}"/>
 		<property name = "repository.project.location" location = "${workspace.root.location}/${project.prefix}${repository.project.name}"/>
 		
-		<filterset id = "scaffoldFilter">
+		<filterset id = "scaffoldFilter" onmissingfiltersfile="ignore">
 			<filter token="project.package.name" value="${project.package.name}" />
 			<filter token="project.prefix" value="${project.prefix}" />
 			<filter token="build.project.name" value="${build.project.name}" />
@@ -159,6 +161,7 @@
 			
 			<filter token="impala.version" value="${project.version}" />
 			<filtersfile file = "${impala.home}/modules/filter.properties"/>
+			<filtersfile file = "${impala.home}/modules/servlet-api-${servlet.api.version}.properties"/>
 		</filterset>
 		
 	</target>	
