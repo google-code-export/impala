@@ -9,7 +9,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="propertySource" class="org.impalaframework.spring.config.PropertySourceHolderFactoryBean"/>
 
  <bean id="propertyParent" class="org.impalaframework.spring.config.PropertySourceValueFactoryBean"
- 	abstract = "true">
+    abstract = "true">
      <property name="propertySource" ref="propertySource"/>
  </bean>
 

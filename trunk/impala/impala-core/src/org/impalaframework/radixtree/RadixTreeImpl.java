@@ -84,26 +84,26 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      * (non-Javadoc)
      * @see uk.co.rtd.radixtree.RadixTree#findContainedValue(java.lang.String)
      */
-	public T findContainedValue(final String searchKey) {
-		
-		TreeNode<T> node = findContainedNode(searchKey);
-		return node != null ? node.getValue() : null;
-	}    
+    public T findContainedValue(final String searchKey) {
+        
+        TreeNode<T> node = findContainedNode(searchKey);
+        return node != null ? node.getValue() : null;
+    }    
     
     /*
      * (non-Javadoc)
      * @see uk.co.rtd.radixtree.RadixTree#findContainedNode(java.lang.String)
      */
-	public TreeNode<T> findContainedNode(final String searchKey) {
-		
-	    NodeAwareVisitor<T> visitor = new NodeAwareVisitor<T>() {
+    public TreeNode<T> findContainedNode(final String searchKey) {
+        
+        NodeAwareVisitor<T> visitor = new NodeAwareVisitor<T>() {
             RadixTreeNode<T> result = null;
 
             public void visit(
-            		String key, 
-            		RadixTreeNode<T> parent,
+                    String key, 
+                    RadixTreeNode<T> parent,
                     RadixTreeNode<T> node) {
-            	result = node;
+                result = node;
             }
 
             public Object getResult() {
@@ -124,7 +124,7 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
         visit(searchKey, visitor);
         
         return (RadixTreeNode<T>) visitor.getCurrentRealNode();
-	}
+    }
 
 
     /*
@@ -206,11 +206,11 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      */
     public void insert(String key, T value) throws DuplicateKeyException {
         try {
-			insert(key, root, value);
-		} catch (DuplicateKeyException e) {
-			// re-throw the exception with 'key' in the message
-			throw new DuplicateKeyException("Duplicate key: '" + key + "'");
-		}
+            insert(key, root, value);
+        } catch (DuplicateKeyException e) {
+            // re-throw the exception with 'key' in the message
+            throw new DuplicateKeyException("Duplicate key: '" + key + "'");
+        }
         size.getAndIncrement();
     }
 
@@ -282,14 +282,14 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
             node.getChildren().add(n1);
             
             if(i < keylen) {
-	            RadixTreeNode<T> n2 = new RadixTreeNode<T>();
-	            n2.setKey(key.substring(i, keylen));
-	            n2.setReal(true);
-	            n2.setValue(value);
-	            
-	            node.getChildren().add(n2);
+                RadixTreeNode<T> n2 = new RadixTreeNode<T>();
+                n2.setKey(key.substring(i, keylen));
+                n2.setReal(true);
+                n2.setValue(value);
+                
+                node.getChildren().add(n2);
             } else {
-            	node.setValue(value);
+                node.setValue(value);
                 node.setReal(true);
             }
         }        
@@ -422,19 +422,19 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
      *            The Node from where onward to search
      */
     void visit(String prefix, 
-    		Visitor<T> visitor,
+            Visitor<T> visitor,
             RadixTreeNode<T> parent, 
             RadixTreeNode<T> node) {
-    	
+        
         int i = 0;
         int keylen = prefix.length();
         int nodelen = node.getKey().length();
 
         // match the prefix with node key
         while (i < keylen && i < nodelen) {
-        	
+            
             final String key = node.getKey();
-			if (prefix.charAt(i) != key.charAt(i)) {
+            if (prefix.charAt(i) != key.charAt(i)) {
                 break;
             }
             i++;
@@ -445,37 +445,37 @@ public class RadixTreeImpl<T> implements RadixTree<T> {
             visitor.visit(prefix, parent, node);
             
         }
-		else {
-			final String key = node.getKey();
-			
-			if (key.equals("") == true // either we are at the
-			        // root
-			        || (i < keylen && i >= nodelen)) {
-				
-				// OR we need to
-			    // traverse the children
-			    String newText = prefix.substring(i, keylen);
-			    
-			    final List<RadixTreeNode<T>> children = node.getChildren();
-				for (RadixTreeNode<T> child : children) {
-			        // recursively search the child nodes
-			        final String childKey = child.getKey();
-					if (childKey.startsWith(newText.charAt(0) + "")) {
-					    
-					    if (visitor instanceof NodeAwareVisitor) {
-					    if (child.isReal()) {
-					        if (newText.startsWith(childKey)) {
-					            ((NodeAwareVisitor<T>) visitor).setCurrentRealNode(child);
-					        }
-					    }
-					    }
-					    
-			            visit(newText, visitor, node, child);
-			            break;
-			        }
-			    }
-			}
-		}
+        else {
+            final String key = node.getKey();
+            
+            if (key.equals("") == true // either we are at the
+                    // root
+                    || (i < keylen && i >= nodelen)) {
+                
+                // OR we need to
+                // traverse the children
+                String newText = prefix.substring(i, keylen);
+                
+                final List<RadixTreeNode<T>> children = node.getChildren();
+                for (RadixTreeNode<T> child : children) {
+                    // recursively search the child nodes
+                    final String childKey = child.getKey();
+                    if (childKey.startsWith(newText.charAt(0) + "")) {
+                        
+                        if (visitor instanceof NodeAwareVisitor) {
+                        if (child.isReal()) {
+                            if (newText.startsWith(childKey)) {
+                                ((NodeAwareVisitor<T>) visitor).setCurrentRealNode(child);
+                            }
+                        }
+                        }
+                        
+                        visit(newText, visitor, node, child);
+                        break;
+                    }
+                }
+            }
+        }
     }
     
 

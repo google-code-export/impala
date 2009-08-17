@@ -40,7 +40,7 @@ package org.impalaframework.radixtree;
  * @param <T>
  */
 public interface Visitor<T> {
-	
+    
     /**
      * This method gets called by @link RadixTreeImpl#visit(String, Visitor)} 
      * when it finds a node matching key given to it.

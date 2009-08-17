@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
-	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-@jspapi.version@.xsd">
 
-	<bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-		<property name = "servletName" value = "@full.module.project.name@"/>
-		<property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
-	</bean>	
-	
-	<!-- add your controllers etc. here -->
+    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
+        <property name = "servletName" value = "@full.module.project.name@"/>
+        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+    </bean> 
+    
+    <!-- add your controllers etc. here -->
 
 </beans>

@@ -5,18 +5,18 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
-	
-	<web:filter id = "delegateFilter" 
-		delegatorFilterName = "delegator"
-		filterClass = "org.impalaframework.web.spring.config.MyFilter1" 
-		filterName = "myFilter1"
-		initParameters = "myAttribute=injectedValue"/>
-		
-	<web:filter id = "myFilter2"
-		filterClass = "org.impalaframework.web.spring.config.MyFilter2" 
-		factoryClass = "org.impalaframework.web.spring.config.ExtendedFilterFactoryBean" 
-		initParameters = "initParam=initValue">
-		<property name = "extraAttribute" value = "extraValue"/>
-	</web:filter>
+    
+    <web:filter id = "delegateFilter" 
+        delegatorFilterName = "delegator"
+        filterClass = "org.impalaframework.web.spring.config.MyFilter1" 
+        filterName = "myFilter1"
+        initParameters = "myAttribute=injectedValue"/>
+        
+    <web:filter id = "myFilter2"
+        filterClass = "org.impalaframework.web.spring.config.MyFilter2" 
+        factoryClass = "org.impalaframework.web.spring.config.ExtendedFilterFactoryBean" 
+        initParameters = "initParam=initValue">
+        <property name = "extraAttribute" value = "extraValue"/>
+    </web:filter>
 
 </beans>
