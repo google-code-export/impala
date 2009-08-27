@@ -32,7 +32,7 @@
         name="jetty:copy"
         depends="jetty:stage">
         
-        <!-- copy the jetty jars in -->
+        <!-- copy the jetty jars in, which are required in jetty classpath to start jetty -->
         <copy todir="${web.staging.dir}/jetty"
             flatten="true">
             <fileset dir="${repository.dir}" 
@@ -53,10 +53,6 @@
                 includes="**/launcher.jar"/>
         </copy>
         
-        <copy todir="${web.staging.dir}/${startup.config.dir}">
-            <fileset dir = "${external.web.config.dir}"/>
-        </copy>
-        
         <copy todir="${web.staging.dir}">
             <fileset dir = "${impala.home}/scripts" includes="*jetty*"/>
         </copy>
@@ -71,13 +67,6 @@
         <chmod perm = "755">
             <fileset dir = "${web.staging.dir}" includes = "*.sh"/>
         </chmod>
-        
-        <!-- this will only apply if there is a jetty directory -->
-        <copy todir="${web.staging.dir}/${startup.config.dir}"
-            failonerror="false">
-            <fileset dir = "jetty" includes="*.properties"/>
-        </copy>
-        
     </target>
     
     <target 
