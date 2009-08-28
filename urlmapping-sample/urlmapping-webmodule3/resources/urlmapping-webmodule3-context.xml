@@ -1,14 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
-http://www.springframework.org/schema/beans/spring-beans-2.5.xsd">
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.impalaframework.org/schema/web 
+http://impala.googlecode.com/svn/schema/web.xsd">
 
-    <bean class="org.impalaframework.web.spring.integration.ServletFactoryBean">
-        <property name = "servletName" value = "urlmapping-webmodule3"/>
-        <property name = "servletClass" value = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
-    </bean> 
+	<web:mapping>
+		<web:prefix path = "/module3"/> 
+		<web:suffix extension = "htm" servletName="urlmapping-webmodule3"/>
+	</web:mapping>    
+    
+    <web:servlet id = "urlmapping-webmodule3" 
+        servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
     
     <!-- add your controllers etc. here -->
 
