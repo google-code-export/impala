@@ -51,11 +51,19 @@ public class ModuleProxyFilter extends BaseModuleProxyFilter {
             RequestModuleMapping moduleMapping)
             throws IOException, ServletException {
         
-        String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+moduleMapping.getModuleName();
+        String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+ moduleMapping.getModuleName();
         Object attribute = context.getAttribute(attributeName);
         
         HttpServiceInvoker invoker = ObjectUtils.cast(attribute, HttpServiceInvoker.class);
-        logger.info("Found invoker for attribute '" + attributeName + "': " + invoker);
+        
+        if (logger.isInfoEnabled()) {
+        	if (invoker != null) {
+        		logger.info("Invoker for attribute '" + attributeName + "': " + invoker);
+        	}
+        	else {
+        		if (logger.isDebugEnabled()) logger.debug("No invoker found for attribute '" + attributeName);
+        	}
+        }
         
         if (invoker != null) {
             HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
