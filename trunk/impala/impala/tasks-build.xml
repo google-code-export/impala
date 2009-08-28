@@ -7,7 +7,7 @@
     <import file = "${impala.home}/classpath-build.xml"/>   
     
     <taskdef resource="org/impalaframework/build/ant/taskdef.properties"
-        classpathref = "full.classpath"
+        classpathref = "compile.classpath"
         onerror = "report"/>
             
 </project>
