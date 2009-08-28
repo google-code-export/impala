@@ -8,7 +8,7 @@ The Petclinic sample is based on the Spring Faces hotel booking application, whi
   * Spring Web Flow for the view controller
   * JSF (Facelets) for the view layer
 
-The original (not Impala) version of the application is hosted online [http://richweb.springframework.org/swf-booking-faces/spring/intro here]. Use this to get an idea of what the application is supposed to look like.
+The original (not Impala) version of the application is hosted online [http://richweb.springframework.org/swf-booking-faces/spring/intro here]. Use this to get an idea of what the application is supposed to look like. Of course, once its running in Impala it will look the same.
 
 == Project setup ==
 
