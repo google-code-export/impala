@@ -24,6 +24,15 @@ unzip impala-1.0-SNAPSHOT.zip
 Ensure that you have the _IMPALA_HOME_ environment property set correctly to the unzipped file location.
 Run the following command from the _IMPALA_HOME_ directory:
 
+On Windows:
+{{{
+cd %IMPALA_HOME%
+}}}
+and on Unix
+{{{
+cd $IMPALA_HOME
+}}}
+
 {{{
 ant newproject
 }}}
