@@ -32,7 +32,7 @@ and on Unix
 {{{
 cd $IMPALA_HOME
 }}}
-
+and then run
 {{{
 ant newproject
 }}}
