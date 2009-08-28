@@ -25,3 +25,4 @@ insert into Hotel (id, price, name, address, city, state, zip, country) values (
 insert into Hotel (id, price, name, address, city, state, zip, country) values (21, 220, 'Swissotel', '68 Market Street', 'Sydney', 'NSW', '2000', 'Australia')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (22, 250, 'Meliá White House', 'Albany Street', 'Regents Park London', '', 'NW13UP', 'Great Britain')
 insert into Hotel (id, price, name, address, city, state, zip, country) values (23, 210, 'Hotel Allegro', '171 West Randolph Street', 'Chicago', 'IL', '60601', 'USA')
+update Hotel set rating = '*****'

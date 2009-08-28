@@ -30,6 +30,8 @@ public class Hotel implements Serializable {
 
     private String country;
 
+    private String rating;
+
     private BigDecimal price;
 
     @Id
@@ -90,7 +92,15 @@ public class Hotel implements Serializable {
 	this.country = country;
     }
 
-    @Column(precision = 6, scale = 2)
+    public String getRating() {
+		return rating;
+	}
+
+	public void setRating(String continent) {
+		this.rating = continent;
+	}
+
+	@Column(precision = 6, scale = 2)
     public BigDecimal getPrice() {
 	return price;
     }
