@@ -1,0 +1,6 @@
+<parent>
+    <names>
+    urlmapping-root
+    urlmapping-web
+    </names>
+</parent>
