@@ -5,6 +5,7 @@ Currently their are two samples which are used to showcase Impala.
 
  * [SamplesPetclinic Petclinic sample]: a version of the Spring Framework Petclinic application, adapted for Impala. Features Hibernate and Spring MVC.
  * [SamplesWebframework Web frameworks sample]: a sample demonstrating integration with popular Java web frameworks, Struts, Tapestry and Wicket.
+ * [SamplesSpringFaces Spring Faces sample]: a version of the Spring Faces hotel booking application, adapted for Impala. Features JPA, JSF and Spring Web Flow.
  * [SamplesExample Examples sample]: a testbed for Impala features, designed more for Impala developers rather than users.
  * [SamplesOSGi OSGi sample]: a testbed for Impala's OSGi support.
  
