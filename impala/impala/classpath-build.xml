@@ -14,12 +14,12 @@
     
     <path id = "full.classpath">
         <path refid="compile.classpath"/>
-        <fileset erroronmissingdir = "false" dir = "${deploy.dir}" includes="*.jar"/>
+        <fileset dir = "${deploy.dir}" includes="*.jar"/>
     </path>
     
     <path id = "test.classpath">
         <path refid="compile.classpath"/>
-        <fileset erroronmissingdir = "false" dir = "${deploy.dir}" includes="*.jar"/>
+        <fileset dir = "${deploy.dir}" includes="*.jar"/>
     </path> 
     
     <path id = "interactive.classpath">
