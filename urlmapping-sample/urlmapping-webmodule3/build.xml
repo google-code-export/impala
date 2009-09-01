@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<project name="Build urlmapping-webmodule3" basedir=".">
+<project name="Build urlmapping-webremote" basedir=".">
 
     <property environment="env"/>
     <property name = "workspace.root" location = ".."/>
