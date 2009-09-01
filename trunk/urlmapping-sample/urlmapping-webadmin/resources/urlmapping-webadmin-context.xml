@@ -8,6 +8,8 @@ http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.impalaframework.org/schema/web 
 http://impala.googlecode.com/svn/schema/web.xsd">
 
+	<import resource="classpath:urlmapping-web-common.xml"/>
+
 	<web:mapping>
 		<web:prefix path = "/module2"/> 
 		<web:suffix extension = "htm" servletName="urlmapping-webmodule2"/>

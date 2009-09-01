@@ -6,11 +6,6 @@
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <bean name="/message.htm" class="org.impalaframework.urlmapping.web.MessageController">
-        <property name = "messageService" ref = "messageService"/>
-    </bean> 
-    <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
-    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-          <property name="suffix" value=".jsp"/>
-    </bean>
+	<!-- No beans defined in this context -->
+
 </beans>
