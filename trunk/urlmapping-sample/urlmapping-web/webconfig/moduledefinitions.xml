@@ -2,8 +2,8 @@
     <names>
     urlmapping-root
     urlmapping-web
-    urlmapping-webmodule1
-    urlmapping-webmodule2
-    urlmapping-webmodule3
+    urlmapping-webview
+    urlmapping-webadmin
+    urlmapping-webremote
     </names>
 </parent>
