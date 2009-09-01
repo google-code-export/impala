@@ -2,6 +2,7 @@ web from org.springframework:spring-webmvc:2.5.5
 web from javax.servlet:servlet-api:2.5
 web from javax.servlet.jsp:jsp-api:2.1
 web from org.freemarker:freemarker:2.3.15
+web from org.springframework.webflow:org.springframework.js:2.0.5.RELEASE
 jetty from org.mortbay.jetty:jetty:6.1.14
 jetty from org.mortbay.jetty:jetty-util:6.1.14
 jetty from tomcat:jasper-runtime:5.5.15 source="false"
