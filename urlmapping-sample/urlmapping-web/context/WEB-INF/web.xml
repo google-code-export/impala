@@ -4,9 +4,9 @@
           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
           version="2.5">
     
-    <display-name>Enter display name here</display-name>
+    <display-name>URL Mapping example</display-name>
 
-    <description>Enter description here</description>
+    <description>URL Mapping example</description>
     
     <context-param>
         <param-name>contextLoaderClassName</param-name>
@@ -17,17 +17,21 @@
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
     </listener>
     
-    <servlet>
-        <servlet-name>urlmapping-web</servlet-name>
-        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
+    <filter>
+        <filter-name>web</filter-name>
+        <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
+        <init-param>
+                <param-name>modulePrefix</param-name>
+                <param-value>urlmapping-web</param-value>
+        </init-param>
+        <load-on-startup>2</load-on-startup>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>urlmapping-web</servlet-name>
-        <url-pattern>*.htm</url-pattern>
-    </servlet-mapping>
-
+    <filter-mapping>
+        <filter-name>web</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
