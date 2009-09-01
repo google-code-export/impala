@@ -7,6 +7,8 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.impalaframework.org/schema/web 
 http://impala.googlecode.com/svn/schema/web.xsd">
+	
+	<import resource="urlmapping-web-common.xml"/>
 
 	<web:mapping>
 		<web:prefix path = "/module1"/> 
