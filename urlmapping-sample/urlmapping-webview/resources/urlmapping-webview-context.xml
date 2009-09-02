@@ -24,5 +24,7 @@ http://impala.googlecode.com/svn/schema/web.xsd">
         initParameters = "cacheTimeout=10"/>
     
     <!-- add your controllers etc. here -->
+    
+    <bean class="org.impalaframework.urlmapping.webview.MessageViewController"/>
 
 </beans>
