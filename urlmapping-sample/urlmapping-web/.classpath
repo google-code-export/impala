@@ -7,9 +7,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/urlmapping-root"/>
 	<classpathentry exported="true" kind="lib" path="/urlmapping-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/urlmapping-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/urlmapping-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/urlmapping-repository/main/spring-webmvc-2.5.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/urlmapping-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/urlmapping-repository/web/spring-webmvc-2.5.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/urlmapping-repository/web/servlet-api-2.5.jar" sourcepath="/urlmapping-repository/web/servlet-api-2.5-sources.jar"/>
 	<classpathentry kind="lib" path="/urlmapping-repository/web/jsp-api-2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="/urlmapping-repository/web/servlet-api-2.5.jar"/>
 	<classpathentry kind="lib" path="/urlmapping-repository/jetty/jasper-compiler-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/urlmapping-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/urlmapping-repository/jetty/jasper-runtime-5.5.15.jar"/>
