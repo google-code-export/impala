@@ -1,9 +1,5 @@
-<html>
-<link rel="stylesheet" type="text/css" href="css/style.css" >
-<head>
+<#include "header.ftl"/>
 
-</head>
-<body>
-<p>Here's the template</p>
-</body>
-</html>
+<p>Part of the page</p>
+
+<#include "footer.ftl"/>
