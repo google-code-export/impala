@@ -2,11 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans" 
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:web="http://www.impalaframework.org/schema/web"
+       xmlns:service="http://www.impalaframework.org/schema/service"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
 http://www.impalaframework.org/schema/web 
-http://impala.googlecode.com/svn/schema/web.xsd">
+http://impala.googlecode.com/svn/schema/web.xsd
+http://www.impalaframework.org/schema/service 
+http://impala.googlecode.com/svn/schema/service-registry.xsd">
 	
 	<import resource="urlmapping-web-common.xml"/>
 
@@ -23,8 +26,13 @@ http://impala.googlecode.com/svn/schema/web.xsd">
         servletClass = "org.springframework.js.resource.ResourceServlet"
         initParameters = "cacheTimeout=10"/>
     
+    <!-- This optional declaration simply makes the parent bean relationship explicit -->
+    <service:parent id="messageService"/> 
+    
     <!-- add your controllers etc. here -->
     
-    <bean class="org.impalaframework.urlmapping.webview.MessageViewController"/>
+    <bean class="org.impalaframework.urlmapping.webview.MessageViewController">
+    	<property name = "messageService" ref = "messageService"/>
+    </bean>
 
 </beans>
