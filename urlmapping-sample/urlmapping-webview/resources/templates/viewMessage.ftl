@@ -1,5 +1,5 @@
 <#include "header.ftl"/>
 
-<p>Part of the page</p>
+<p>A message from the message service: ${message}</p>
 
 <#include "footer.ftl"/>
