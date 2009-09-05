@@ -20,6 +20,8 @@ public class MessageRemoteController {
         
         response.setContentType("application/xml");
         model.put("message", messageService.getMessage());
+        
+        //need to explicitly return view name as response argument has been used
         return "viewMessage";
     }
     
