@@ -2,4 +2,4 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" >
 <head>
 
-<h1>URL Mapping Sample</h1>
+<h1><a href = "../index.html">URL Mapping Sample</a></h1>
