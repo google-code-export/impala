@@ -11,13 +11,22 @@ http://impala.googlecode.com/svn/schema/web.xsd">
 	<import resource="classpath:urlmapping-web-common.xml"/>
 
 	<web:mapping>
-		<web:prefix path = "/webadmin"/> 
+		<web:prefix path = "/webadmin" setServletPath="true"/> 
 		<web:suffix extension = "htm" servletName="urlmapping-webadmin"/>
+		<web:suffix extension = "css" servletName="urlmapping-resources"/>
 	</web:mapping>    
     
     <web:servlet id = "urlmapping-webadmin" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
-    
+            
+    <web:servlet id = "urlmapping-resources" 
+        servletClass = "org.springframework.js.resource.ResourceServlet"
+        initParameters = "cacheTimeout=10"/>
+        
     <!-- add your controllers etc. here -->
-
+    
+    <bean class="org.impalaframework.urlmapping.webadmin.MessageAdminController">
+    	<property name = "messageService" ref = "messageService"/>
+    </bean>
+    
 </beans>
