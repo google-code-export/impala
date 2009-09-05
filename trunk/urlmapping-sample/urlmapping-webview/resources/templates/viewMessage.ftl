@@ -1,5 +1,5 @@
-<#include "header.ftl"/>
+<#include "webviewHeader.ftl"/>
 
 <p>A message from the message service: ${message}</p>
 
-<#include "footer.ftl"/>
+<#include "webviewFooter.ftl"/>
