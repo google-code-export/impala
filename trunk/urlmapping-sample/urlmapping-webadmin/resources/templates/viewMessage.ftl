@@ -17,6 +17,9 @@ Update message to be displayed to user.
 <input type = "submit" value = "Update"/>
 </form>
 
-<a href = "../webview/viewMessage.htm">Back to message display screen</a>
+<p>
+<a href = "../webview/viewMessage.htm">Back to message display screen</a><br/>
+<a href = "../webremote/viewMessage.xml">Message returned in XML format</a>
+</p>
 
 <#include "webadminFooter.ftl"/>
