@@ -9,13 +9,17 @@ http://www.impalaframework.org/schema/web
 http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<web:mapping>
-		<web:prefix path = "/webremote"/> 
-		<web:suffix extension = "htm" servletName="urlmapping-webremote"/>
+		<web:prefix path = "/webremote" setServletPath = "true"/> 
+		<web:suffix extension = "xml" servletName="urlmapping-webremote"/>
 	</web:mapping>    
     
     <web:servlet id = "urlmapping-webremote" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
     
     <!-- add your controllers etc. here -->
-
+    
+    <bean class="org.impalaframework.urlmapping.webremote.MessageRemoteController">
+    	<property name = "messageService" ref = "messageService"/>
+    </bean>
+    
 </beans>
