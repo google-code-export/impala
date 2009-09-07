@@ -1,6 +1,6 @@
 body, p, li, h1, h2, h3 {
 	font-family: Helvetica, Sans-serif;
-	color: #393;
+	color: #333;
 }
 
 input {
@@ -14,13 +14,13 @@ a {
 }
 
 pre {
-	color: #999;	
+	color: #393;	
 	border: 1px solid #666;
 	padding: 10px;
 }
 
 code {
-	color: #666;	
+	color: #393;	
 }
 
 strong {
@@ -28,5 +28,5 @@ strong {
 }
 
 p {
-	color: #555;
+	color: #333;
 }
