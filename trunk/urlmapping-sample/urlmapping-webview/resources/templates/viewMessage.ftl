@@ -62,7 +62,7 @@ are mapped to the dispatcher servlet, and ones with the extension <code>css</cod
 &lt;/web:mapping&gt;
 </pre> 
 Note that you can map each extension to one servlet, and as many filters as you like. 
-There are two special case values for <code>extension</code>. <code>[none]</code> is used to map URLs for paths without a file extension, and 
+There are two special case values for <code>extension</code>. The value <code>[none]</code> is used to map URLs for paths without a file extension, and 
 <code>*</code> is used to map all requests to a particular servlet and/or set of filters.
 <br/>
 <br/>

@@ -1,3 +1,32 @@
+body, p, li, h1, h2, h3 {
+	font-family: Helvetica, Sans-serif;
+	color: #393;
+}
+
+input {
+	font-family: Helvetica, Sans-serif;
+	color: #333;
+}
+
+a {
+	text-decoration: none;
+	background-color: #eee;
+}
+
+pre {
+	color: #999;	
+	border: 1px solid #666;
+	padding: 10px;
+}
+
+code {
+	color: #666;	
+}
+
+strong {
+	color: #333;
+}
+
 p {
-	color: blue;
+	color: #555;
 }
