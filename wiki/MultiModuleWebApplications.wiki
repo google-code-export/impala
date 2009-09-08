@@ -22,10 +22,15 @@ Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Imp
 This style of development is illustrated in the [SamplesURLMapping URL mapping sample] - here's the 
 [http://impala.googlecode.com/svn/trunk/urlmapping-sample/urlmapping-web/context/WEB-INF/web.xml the full web.xml for the application].
 
+-----
+-----
+
 == Setting up a multi-module application ==
 
 The [SamplesURLMapping URL mapping sample] is fairly well documented. This page describes in a bit more detail the bits which go into
 a multi-module application.
+
+-----
 
 === Setting up the web.xml ===
 
@@ -34,6 +39,8 @@ entry points into your application from the outside world. Since _web.xml_ canno
 the entire application, it is not a very convenient place to host application configuration and definitions in a dynamic module applications.
 However, you cannot do away with the _web.xml_ altogether. In the example above, the `ModuleProxyFilter` is used to direct requests to 
 servlets. Alternatively, you can use `ModuleProxyServlet` for this purpose.
+
+-----
 
 === Request to module mapping ===
 
