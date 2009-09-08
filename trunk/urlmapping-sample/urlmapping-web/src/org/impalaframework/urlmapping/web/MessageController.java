@@ -6,10 +6,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@SuppressWarnings("unchecked")
 public class MessageController {
     
-    @SuppressWarnings("unchecked")
     @RequestMapping("/notes.htm")
-    public void viewMessage(Map model) {
+    public void notes(Map model) {
+    }    
+    
+    @RequestMapping("/intro.htm")
+    public void intro(Map model) {
     }
 }

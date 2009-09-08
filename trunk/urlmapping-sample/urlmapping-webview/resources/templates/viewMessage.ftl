@@ -7,8 +7,4 @@
 <a href = "../webremote/viewMessage.xml">Message returned in XML format</a>
 </p>
 
-<hr/>
-
-<a href = "../main/notes.htm">Technical notes for the application</a>
-
 <#include "webviewFooter.ftl"/>

@@ -8,9 +8,14 @@ input {
 	color: #333;
 }
 
-a {
+a, a:visited, a:active, a:hover {
 	text-decoration: none;
 	background-color: #eee;
+	color: #00f;
+}
+
+a:hover {
+	color: #00c;	
 }
 
 pre {
@@ -21,12 +26,4 @@ pre {
 
 code {
 	color: #393;	
-}
-
-strong {
-	color: #333;
-}
-
-p {
-	color: #333;
 }

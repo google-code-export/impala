@@ -1,6 +1,6 @@
 <#include "header.ftl"/>
 
-<h3>Technical Notes</h3>
+<h2>Technical Notes</h2>
 
 <ul>
 <li>
