@@ -27,7 +27,7 @@ This style of development is illustrated in the [SamplesURLMapping URL mapping s
 The [SamplesURLMapping URL mapping sample] is fairly well documented. This page describes in a bit more detail the bits which go into
 a multi-module application.
 
-== web.xml ==
+=== Setting up the web.xml ===
 
 In a typical Java enterprise application, the _web.xml_ is used to define servlets and filters, which are among the main  
 entry points into your application from the outside world. Since _web.xml_ cannot be reloaded, added to or modified without reloading
@@ -35,7 +35,7 @@ the entire application, it is not a very convenient place to host application co
 However, you cannot do away with the _web.xml_ altogether. In the example above, the `ModuleProxyFilter` is used to direct requests to 
 servlets. Alternatively, you can use `ModuleProxyServlet` for this purpose.
 
-== Request to module mapping ==
+=== Request to module mapping ===
 
 The question is, how does Impala know how to map requests to different modules. This capability, used by both `ModuleProxyFilter` and 
 `ModuleProxyServlet`, is encapsulated in the `RequestModuleMapper` interface.
@@ -43,7 +43,7 @@ The question is, how does Impala know how to map requests to different modules. 
 As a user of Impala, you won't need to interact with this interface directly, but it is worth knowing about it.
 Impala provides implementations of this interface. 
 
-=== Simple path prefix mapping ===
+==== Simple path prefix mapping ====
 
 The *first* does a mapping based on the first part of the URL after the context path.
 For example, in the URL:
@@ -73,7 +73,7 @@ by allowing you to specify a module prefix as an init parameter of `ModuleProxyF
 
 In this case, the URL `http://localhost:8080/application/module1/someresource.htm` will be mapped to the module `myapp-module1`.
 
-=== Explicit path prefix mapping ===
+==== Explicit path prefix mapping ====
 
 The forthcoming version of Impala (1.0M7) allows you to explicitly configure which prefixes are mapped to which modules. 
 This gives you a lot of flexibility in defining which URLs get mapped to which module.
