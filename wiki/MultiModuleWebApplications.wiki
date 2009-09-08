@@ -35,7 +35,7 @@ the entire application, it is not a very convenient place to host application co
 However, you cannot do away with the _web.xml_ altogether. In the example above, the `ModuleProxyFilter` is used to direct requests to 
 servlets. Alternatively, you can use `ModuleProxyServlet` for this purpose.
 
-== !RequestModuleMapper ==
+== Request to module mapping ==
 
 The question is, how does Impala know how to map requests to different modules. This capability, used by both `ModuleProxyFilter` and 
 `ModuleProxyServlet`, is encapsulated in the `RequestModuleMapper` interface.
