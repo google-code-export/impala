@@ -1,0 +1,8 @@
+#summary Developing multi-module web applications
+
+= Overview =
+
+Basically, the idea behind the multi-module web application is to reduce dependency on the web.xml (which is static, cannot be reloaded or added
+to). Instead, Impala allows you to delegate requests to modules, and allow these modules to host filters, servlets, resources, etc.
+Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Impala and to provide a catch-all filter mapping.
+This style of development is illustrated in the [SamplesURLMapping URL mapping sample].
