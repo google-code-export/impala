@@ -1,30 +1,15 @@
 package org.impalaframework.urlmapping.web;
 
-import java.util.HashMap;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
-
-import org.impalaframework.urlmapping.root.MessageService;
-
-
-public class MessageController  implements Controller {
-    private MessageService messageService;
-
-    public void setMessageService(MessageService messageService) {
-        this.messageService = messageService;
-    }
-
-    public ModelAndView handleRequest(HttpServletRequest arg0,
-            HttpServletResponse arg1) throws Exception {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("message", messageService.getMessage());
-
-        ModelAndView mav = new ModelAndView("test", map);
-        return mav;
+@Controller
+public class MessageController {
+    
+    @SuppressWarnings("unchecked")
+    @RequestMapping("/notes.htm")
+    public void viewMessage(Map model) {
     }
 }
