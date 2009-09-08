@@ -115,6 +115,10 @@ http://impala.googlecode.com/svn/schema/web.xsd">
 The key line here is the `<web:prefix path = "/main" setServletPath="true"/>`, which basically says: map to the current module 
 requests with URLs starting with `http://localhost:8080/myapp/main`.
 
+You can define as many `web:mapping` elements as you like in your Spring context and file, and in each of these,
+you can define as many `web:prefix` elements as you like. You can even define multiple paths to the same resource, although can't think of 
+why you would ever want to do this!
+
 
 
 
