@@ -235,3 +235,9 @@ Defines a contract for `ModuleStateChangeListener`s to subscribe to changes in a
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateChangeListener.java ModuleStateChangeListener] ===
 
 Classes implementing `ModuleStateChangeListener` and subscribing to `ModuleStateChangeNotifier` can be notified of module state changes events.
+
+== Web Interfaces ==
+
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-web/src/org/impalaframework/web/integration/RequestModuleMapper.java RequestModuleMapper] ===
+
+This interface defines a mechanism for directing requests to modules.
