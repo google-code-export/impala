@@ -38,4 +38,85 @@ servlets. Alternatively, you can use `ModuleProxyServlet` for this purpose.
 == !RequestModuleMapper ==
 
 The question is, how does Impala know how to map requests to different modules. This capability, used by both `ModuleProxyFilter` and 
- `ModuleProxyServlet`, is encapsulated in the `RequestModuleMapper` interface.
+`ModuleProxyServlet`, is encapsulated in the `RequestModuleMapper` interface.
+
+As a user of Impala, you won't need to interact with this interface directly, but it is worth knowing about it.
+Impala provides implementations of this interface. 
+
+=== Simple path prefix mapping ===
+
+The *first* does a mapping based on the first part of the URL after the context path.
+For example, in the URL:
+
+{{{
+http://localhost:8080/application/module1/someresource.htm
+}}}
+
+the first part of the URL after the context path is _module1_. By default, `ModuleProxyFilter` will attempt to direct this request to a module
+named _module1_. 
+
+Quite a common practice with Impala is to have modules belonging to a common application sharing a prefix. Suppose for example you are using the 
+prefix _myapp_, and that rather than having a module named _module1_, you have a module named _myapp-module1_. Impala caters for this situation
+by allowing you to specify a module prefix as an init parameter of `ModuleProxyFilter` or `ModuleProxyServlet`. For example:
+
+{{{
+<filter>
+    <filter-name>web</filter-name>
+    <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
+    <init-param>
+            <param-name>modulePrefix</param-name>
+            <param-value>myapp-</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+</filter>
+}}}
+
+In this case, the URL `http://localhost:8080/application/module1/someresource.htm` will be mapped to the module `myapp-module1`.
+
+=== Explicit path prefix mapping ===
+
+The forthcoming version of Impala (1.0M7) allows you to explicitly configure which prefixes are mapped to which modules. 
+This gives you a lot of flexibility in defining which URLs get mapped to which module.
+
+In order to take advantage of this feature, you will need to enable the `module.prefix.mapping.enabled` property in _impala.properties_.
+
+{{{
+module.prefix.mapping.enabled=true
+}}}
+
+With this done, you can then specify within the modules themselves, which paths are mapped to the current module. In the [SamplesURLMapping URL mapping sample],
+requests are mapped to the module _urlmapping-web_ using the `prefix` element from the new Impala web namespace. In the file _urlmapping-web-context.xml_,
+the following declarations are found:
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/web 
+http://impala.googlecode.com/svn/schema/web.xsd">
+
+	<import resource="urlmapping-web-common.xml"/>
+
+	<web:mapping>
+		<web:prefix path = "/main" setServletPath="true"/> 
+		...
+	</web:mapping>    
+    
+    <!-- servlet and/or filter definitions, controllers, etc -->
+    ...
+
+</beans>
+}}}
+
+The key line here is the `<web:prefix path = "/main" setServletPath="true"/>`, which basically says: map to the current module 
+requests with URLs starting with `http://localhost:8080/myapp/main`.
+
+
+
+
+
+
