@@ -2,7 +2,7 @@
 
 = Overview =
 
-Basically, the idea behind the multi-module web application is to reduce dependency on the web.xml (which is static, cannot be reloaded or added
+Basically, the idea behind the multi-module web application is to reduce dependency on the _web.xml_ (which is static, cannot be reloaded or added
 to). Instead, Impala allows you to delegate requests to modules, and allow these modules to host filters, servlets, resources, etc.
 Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Impala and to provide a catch-all filter mapping:
 
@@ -19,4 +19,23 @@ Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Imp
 </filter-mapping>
 }}}
 
-This style of development is illustrated in the [SamplesURLMapping URL mapping sample].
+This style of development is illustrated in the [SamplesURLMapping URL mapping sample] - here's the 
+[http://impala.googlecode.com/svn/trunk/urlmapping-sample/urlmapping-web/context/WEB-INF/web.xml the full web.xml for the application].
+
+== Setting up a multi-module application ==
+
+The [SamplesURLMapping URL mapping sample] is fairly well documented. This page describes in a bit more detail the bits which go into
+a multi-module application.
+
+== web.xml ==
+
+In a typical Java enterprise application, the _web.xml_ is used to define servlets and filters, which are among the main  
+entry points into your application from the outside world. Since _web.xml_ cannot be reloaded, added to or modified without reloading
+the entire application, it is not a very convenient place to host application configuration and definitions in a dynamic module applications.
+However, you cannot do away with the _web.xml_ altogether. In the example above, the `ModuleProxyFilter` is used to direct requests to 
+servlets. Alternatively, you can use `ModuleProxyServlet` for this purpose.
+
+== RequestModuleMapper ==
+
+The question is, how does Impala know how to map requests to different modules. This capability, used by both `ModuleProxyFilter` and 
+ `ModuleProxyServlet`, is encapsulated in the `RequestModuleMapper` interface.
