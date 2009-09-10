@@ -11,7 +11,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd"> 
         
 	<web:mapping>
-		<web:suffix extension = "*" servletName="example-servlet2"/> 
+		<web:to-resource extension = "*" servletName="example-servlet2"/> 
 	</web:mapping>
     
 	<web:servlet id = "example-servlet2" 

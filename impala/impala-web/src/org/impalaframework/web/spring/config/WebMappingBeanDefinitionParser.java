@@ -39,13 +39,13 @@ import org.w3c.dom.Element;
  */
 public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     
-    private static final String SUFFIX_ELEMENT = "suffix";
-    private static final String PREFIX_ELEMENT = "prefix";
+    private static final String TO_RESOURCE_ELEMENT = "to-resource";
+    private static final String TO_MDOULE_ELEMENT = "to-module";
 
     /**
-     * Path used to map an entry in a 'prefix' element to the current module
+     * Prefix used to map an entry in a 'to-module' element to the current module
      */
-    private static final String PATH_ATTRIBUTE = "path";
+    private static final String PREFIX_ATTRIBUTE = "prefix";
     
     /**
      * Whether to set the servlet path in the request passed to servlets or filters in this module. If 
@@ -98,21 +98,21 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
 
     @SuppressWarnings("unchecked")
     private void handlePrefixes(Element element, ParserContext parserContext) {
-        List<Element> prefixes = DomUtils.getChildElementsByTagName(element, PREFIX_ELEMENT);
+        List<Element> toModules = DomUtils.getChildElementsByTagName(element, TO_MDOULE_ELEMENT);
         
-        Map<String,String> prefixMap = new LinkedHashMap<String, String>();
+        Map<String,String> toModulesMap = new LinkedHashMap<String, String>();
         
-        for (Element prefixElement : prefixes) {
-            String pathAttribute = prefixElement.getAttribute(PATH_ATTRIBUTE);
-            String setServletPathAttribute = prefixElement.getAttribute(SET_SERVLET_PATH_ATTRIBUTE);
-            String servletPathAttribute = prefixElement.getAttribute(SERVLET_PATH_ATTRIBUTE);
+        for (Element toModulesElement : toModules) {
+            String pathAttribute = toModulesElement.getAttribute(PREFIX_ATTRIBUTE);
+            String setServletPathAttribute = toModulesElement.getAttribute(SET_SERVLET_PATH_ATTRIBUTE);
+            String servletPathAttribute = toModulesElement.getAttribute(SERVLET_PATH_ATTRIBUTE);
             
             String servletPath = getServletPath(pathAttribute, setServletPathAttribute, servletPathAttribute);
             
-            prefixMap.put(pathAttribute.trim(), servletPath != null ? servletPath.trim() : null);
+            toModulesMap.put(pathAttribute.trim(), servletPath != null ? servletPath.trim() : null);
         }
 
-        RootBeanDefinition definition = newContributorDefinition(prefixMap);
+        RootBeanDefinition definition = newContributorDefinition(toModulesMap);
         registerDefinition(parserContext, definition);
     }
 
@@ -145,7 +145,7 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     @SuppressWarnings("unchecked")
     private void handleSuffixes(Element element, ParserContext parserContext) {
         
-        List<Element> suffixes = DomUtils.getChildElementsByTagName(element, SUFFIX_ELEMENT);
+        List<Element> suffixes = DomUtils.getChildElementsByTagName(element, TO_RESOURCE_ELEMENT);
         
         for (Element suffixElement : suffixes) {
             String extensionAttribute = suffixElement.getAttribute(EXTENSION_ATTRIBUTE);
