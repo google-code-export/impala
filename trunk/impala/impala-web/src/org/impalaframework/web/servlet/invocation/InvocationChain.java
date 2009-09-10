@@ -27,7 +27,10 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Implements Filter and Servlet invocation chain. 
@@ -40,6 +43,8 @@ import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
  * @author Phil Zoio
  */
 public class InvocationChain implements HttpServiceInvoker, FilterChain {
+    
+    private static final Log logger = LogFactory.getLog(InvocationChain.class);
     
     private final List<Filter> filters = new ArrayList<Filter>();
     private final Servlet servlet;
@@ -72,8 +77,11 @@ public class InvocationChain implements HttpServiceInvoker, FilterChain {
             int currentCount = filterCount;
             filterCount++;
             
-            System.out.println("Getting filter for " + currentCount);
             Filter filter = filters.get(currentCount);
+
+            if (logger.isDebugEnabled()) 
+                logger.debug("Getting filter for " + currentCount + ObjectUtils.identityToString(filter));
+            
             filter.doFilter(request, response, this);
         }
         else if (servlet != null) {
