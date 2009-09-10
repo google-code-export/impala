@@ -14,9 +14,9 @@ http://impala.googlecode.com/svn/schema/service-registry.xsd">
 	<import resource="urlmapping-web-common.xml"/>
 
 	<web:mapping>
-		<web:prefix path = "/webview" setServletPath="true"/> 
-		<web:suffix extension = "htm" servletName="urlmapping-webview" filterNames = "characterEncodingFilter,sysoutLoggingFilter"/>
-		<web:suffix extension = "css" servletName="urlmapping-resources"/>
+		<web:to-module prefix = "/webview" setServletPath="true"/> 
+		<web:to-resource extension = "htm" servletName="urlmapping-webview" filterNames = "characterEncodingFilter,sysoutLoggingFilter"/>
+		<web:to-resource extension = "css" servletName="urlmapping-resources"/>
 	</web:mapping>    
    
 <web:servlet id = "urlmapping-webview" 

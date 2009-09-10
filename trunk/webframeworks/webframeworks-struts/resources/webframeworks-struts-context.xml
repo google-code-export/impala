@@ -9,7 +9,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 	
 	<web:mapping>
-		<web:prefix path = "/struts"/>
+		<web:to-module prefix = "/struts"/>
 	</web:mapping>
 	
 	<web:servlet id = "myServlet" 

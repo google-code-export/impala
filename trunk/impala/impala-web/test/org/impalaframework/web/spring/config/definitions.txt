@@ -1,7 +1,7 @@
 <mapping>
-    <prefix path = "/path1"/>
-    <prefix path = "/path2" setServletPath = "true"/>
-    <prefix path = "/path3" servletPath = "/path3modified"/>
-    <suffix extension = "do" servletName="doServlet"/> 
-    <suffix extension = "css" filterNames="cssFilter1,cssFilter2" servletName = "cssServlet"/> 
+    <to-module prefix = "/path1"/>
+    <to-module prefix = "/path2" setServletPath = "true"/>
+    <to-module prefix = "/path3" servletPath = "/path3modified"/>
+    <to-resource extension = "do" servletName="doServlet"/> 
+    <to-resource extension = "css" filterNames="cssFilter1,cssFilter2" servletName = "cssServlet"/> 
 </mapping>

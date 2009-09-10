@@ -11,9 +11,9 @@ http://impala.googlecode.com/svn/schema/web.xsd">
 	<import resource="urlmapping-web-common.xml"/>
 
 	<web:mapping>
-		<web:prefix path = "/main" setServletPath="true"/> 
-		<web:suffix extension = "htm" servletName="urlmapping-web"/>
-		<web:suffix extension = "css" servletName="urlmapping-resources"/>
+		<web:to-module prefix = "/main" setServletPath="true"/> 
+		<web:to-resource extension = "htm" servletName="urlmapping-web"/>
+		<web:to-resource extension = "css" servletName="urlmapping-resources"/>
 	</web:mapping>    
     
     <web:servlet id = "urlmapping-web" 

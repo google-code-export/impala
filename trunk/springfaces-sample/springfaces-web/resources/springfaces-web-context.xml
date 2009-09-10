@@ -20,8 +20,8 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		servletClass = "javax.faces.webapp.FacesServlet"/>
 	
 	<web:mapping>
-		<web:prefix path = "/spring" setServletPath="true"/> 
-		<web:suffix extension = "[none]" servletName="springfaces-web"/> 
+		<web:to-module prefix = "/spring" setServletPath="true"/> 
+		<web:to-resource extension = "[none]" servletName="springfaces-web"/> 
 	</web:mapping>
     
 </beans>

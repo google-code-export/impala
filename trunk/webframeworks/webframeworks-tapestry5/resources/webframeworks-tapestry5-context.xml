@@ -9,8 +9,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<web:mapping>
-		<web:prefix path = "/Tapestry"/> 
-		<web:suffix extension = "[none]" filterNames="webframeworks-tapestry5"/> 
+		<web:to-module prefix = "/Tapestry"/> 
+		<web:to-resource extension = "[none]" filterNames="webframeworks-tapestry5"/> 
 	</web:mapping>
 	
 	<web:filter id = "myFilter" 
