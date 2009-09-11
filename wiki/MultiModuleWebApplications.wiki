@@ -2,8 +2,11 @@
 
 = Overview =
 
-Basically, the idea behind the multi-module web application is to reduce dependency on the _web.xml_ (which is static, cannot be reloaded or added
-to). Instead, Impala allows you to delegate requests to modules, and allow these modules to host filters, servlets, resources, etc.
+A core idea behind the multi-module web application is to reduce dependency on the _web.xml_ (which is static, cannot be reloaded or added
+to). So while it is possible to map to multiple modules through servlets registered in _web.xml_, it tends to be cumbersome and 
+a lot less flexible than the approach described below.
+
+Instead, Impala allows you to delegate requests to modules, and allow these modules to host filters, servlets, resources, etc.
 Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Impala and to provide a catch-all filter mapping:
 
 {{{
@@ -21,6 +24,9 @@ Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Imp
 
 This style of development is illustrated in the [SamplesURLMapping URL mapping sample] - here's the 
 [http://impala.googlecode.com/svn/trunk/urlmapping-sample/urlmapping-web/context/WEB-INF/web.xml the full web.xml for the application].
+
+*Note:* if you only wish to use a single web tier module exposed through a single _web.xml_-registered servlet, then you can find out
+more about this approach in SingleModuleWebApplications.
 
 -----
 -----
