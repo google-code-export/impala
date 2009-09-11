@@ -162,8 +162,12 @@ has two servlet and two filter definitions. In the next section we explain how t
 The servlets and filters are set up using the new Impala `web` namespace. Internally, the creation of servlets and filters is 
 done through `ServletFactoryBean` and `FilterFactoryBean`.
 
-Notice that the first entry has a special role within the module. The `InternalModuleServlet` is an extension of 
+Notice that the first servlet does not have a servlet class specified. The default used is
+`org.impalaframework.web.spring.servlet.InternalModuleServlet`, which is an extension of 
 the Spring `Dispatcher` servlet, and as such, provides the entry point to any Spring MVC-based controllers defined within the module.
+It is theoretically possible to define multiple such servlets, although it would be pointless. The convention is to define
+one which has the same name as the module itself.
+
 See this page for more [WebNamespaceHandler details on defining servlets and filters] using the new web namespace handler.
 
 -----
