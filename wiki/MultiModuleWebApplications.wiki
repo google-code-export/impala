@@ -183,7 +183,7 @@ The following example is taken from the _urlmapping-webview_ module in the [Samp
 
 {{{
 <web:mapping>
-	<web:to-module prefix = "/webview" setServletPath="true"/> 
+	...
 	<web:to-handler extension = "htm" servletName="urlmapping-webview" filterNames = "characterEncodingFilter,sysoutLoggingFilter"/>
 	<web:to-handler extension = "css" servletName="urlmapping-resources"/>
 </web:mapping>    
