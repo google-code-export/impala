@@ -25,6 +25,8 @@ Indeed, it is possible to reduce your dependency on web.xml to bootstrapping Imp
 This style of development is illustrated in the [SamplesURLMapping URL mapping sample] - here's the 
 [http://impala.googlecode.com/svn/trunk/urlmapping-sample/urlmapping-web/context/WEB-INF/web.xml the full web.xml for the application].
 
+Much of the configuration is done through Impala's new [WebNamespaceHandler web namespace handler].
+
 *Note:* if you only wish to use a single web tier module exposed through a single _web.xml_-registered servlet, then you can find out
 more about this approach in SingleModuleWebApplications.
 

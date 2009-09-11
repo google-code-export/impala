@@ -1,0 +1,5 @@
+#summary Using the Web Namespace
+
+This page describes web namespace handler.
+
+TO BE ADDED
