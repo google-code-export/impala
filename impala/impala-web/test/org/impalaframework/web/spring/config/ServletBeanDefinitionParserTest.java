@@ -26,6 +26,7 @@ import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
+import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -37,6 +38,23 @@ public class ServletBeanDefinitionParserTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         MyServlet1.reset();
+    }
+
+    @SuppressWarnings("unchecked")
+    public void testDefault() throws Exception {
+        
+        GenericWebApplicationContext context = new GenericWebApplicationContext();
+        context.setServletContext(new AttributeServletContext());
+        
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+        reader.loadBeanDefinitions(new ClassPathResource("org/impalaframework/web/spring/config/defaultservletcontext.xml"));
+        
+        context.refresh();
+        
+        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        assertEquals(1, factoryBeans.size());
+        ServletFactoryBean firstValue = (ServletFactoryBean) ObjectMapUtils.getFirstValue(factoryBeans);
+        assertTrue(firstValue.getObject() instanceof InternalModuleServlet);
     }
 
     @SuppressWarnings("unchecked")

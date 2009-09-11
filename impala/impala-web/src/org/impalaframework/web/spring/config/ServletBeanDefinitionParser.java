@@ -17,6 +17,10 @@ package org.impalaframework.web.spring.config;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
+import org.impalaframework.web.spring.servlet.InternalModuleServlet;
+import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.util.StringUtils;
+import org.w3c.dom.Element;
 
 
 /**
@@ -37,8 +41,26 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
         super();
     }
 
+    /**
+     * Suppport default handler class
+     */
+    protected void handlerHandlerClass(Element element, BeanDefinitionBuilder builder) {
+        final String attribute = element.getAttribute(getHandlerClassAttribute());
+        if (!StringUtils.hasText(attribute)) {
+            builder.addPropertyValue(getHandlerClassProperty(), getDefaultHandlerClass());
+        }
+    }
+    
+    protected String getHandlerClassAttribute() {
+        return SERVLET_CLASS_PROPERTY;
+    }
+
     protected Class<?> getDefaultFactoryBeanClass() {
         return ServletFactoryBean.class;
+    }
+    
+    protected Class<?> getDefaultHandlerClass() {
+        return InternalModuleServlet.class;
     }
 
     protected Class<?> getIntegrationHandlerClass() {
