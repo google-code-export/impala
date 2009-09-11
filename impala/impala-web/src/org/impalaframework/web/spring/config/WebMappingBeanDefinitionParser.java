@@ -39,7 +39,7 @@ import org.w3c.dom.Element;
  */
 public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     
-    private static final String TO_RESOURCE_ELEMENT = "to-resource";
+    private static final String TO_RESOURCE_ELEMENT = "to-handler";
     private static final String TO_MDOULE_ELEMENT = "to-module";
 
     /**

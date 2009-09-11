@@ -14,7 +14,7 @@ http://impala.googlecode.com/svn/schema/web.xsd">
 		Note that this line is actually not necessary, as if no extension mapping is present, 
 		one is created by default for all request which reach the module 
 		to a servlet or filter with the same name as the module.
-		<web:to-resource extension = "xml" servletName="urlmapping-webremote"/>
+		<web:to-handler extension = "xml" servletName="urlmapping-webremote"/>
 		-->
 	</web:mapping>    
     
