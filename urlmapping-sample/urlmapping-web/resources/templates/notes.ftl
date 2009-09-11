@@ -48,8 +48,8 @@ are mapped to the dispatcher servlet, and ones with the extension <code>css</cod
 <pre>
 &lt;web:mapping&gt;
 	...
-	&lt;web:suffix extension = "htm" servletName="urlmapping-webview"/&gt;
-	&lt;web:suffix extension = "css" servletName="urlmapping-resources"/&gt;
+	&lt;web:to-handler extension = "htm" servletName="urlmapping-webview"/&gt;
+	&lt;web:to-handler extension = "css" servletName="urlmapping-resources"/&gt;
 &lt;/web:mapping&gt;
 </pre> 
 Note that you can map each extension to one servlet, and as many filters as you like. 
