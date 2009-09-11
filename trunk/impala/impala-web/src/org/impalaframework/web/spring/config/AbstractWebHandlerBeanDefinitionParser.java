@@ -89,6 +89,8 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         if (!StringUtils.hasText(element.getAttribute(handlerNameProperty))) {
             builder.addPropertyValue(getHandlerNameProperty(), element.getAttribute(ID_ATTRIBUTE));
         }
+        
+        handlerHandlerClass(element, builder);
 
         handleInitParameters(element, builder);
         
@@ -96,7 +98,10 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         
         handleDelegatorServletAttribute(element, parserContext);
     }
-    
+
+    protected void handlerHandlerClass(Element element, BeanDefinitionBuilder builder) {
+    }
+
     void handleInitParameters(Element element, BeanDefinitionBuilder builder) {
         
         Map<String,String> initParameters = new LinkedHashMap<String,String>();
@@ -165,6 +170,8 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
             }
         }
     }
+
+    protected abstract String getHandlerClassAttribute();
 
     protected abstract Class<?> getDefaultFactoryBeanClass();
 

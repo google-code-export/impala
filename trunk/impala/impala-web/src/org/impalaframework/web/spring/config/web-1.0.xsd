@@ -283,10 +283,11 @@ The value for the init parameter.
 	</xsd:element>
 	
 	<xsd:attributeGroup name="servletAttributes">
-		<xsd:attribute name="servletClass" type="xsd:string" use="required">				
+		<xsd:attribute name="servletClass" type="xsd:string" use="optional">				
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
-The class of the servlet declared using the 'servlet' element.
+The class of the servlet declared using the 'servlet' element. Note that if not provided, will default to 
+org.impalaframework.web.spring.servlet.InternalModuleServlet.
 				]]></xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>

@@ -36,7 +36,11 @@ public class FilterBeanDefinitionParser extends AbstractWebHandlerBeanDefinition
     public FilterBeanDefinitionParser() {
         super();
     }
-
+    
+    protected String getHandlerClassAttribute() {
+        return FILTER_CLASS_PROPERTY;
+    }
+    
     protected Class<?> getDefaultFactoryBeanClass() {
         return FilterFactoryBean.class;
     }
@@ -64,6 +68,5 @@ public class FilterBeanDefinitionParser extends AbstractWebHandlerBeanDefinition
     protected String getHandlerClassProperty() {
         return FILTER_CLASS_PROPERTY;
     }
-
     
 }
