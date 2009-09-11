@@ -21,7 +21,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 	
 	<web:mapping>
 		<web:to-module prefix = "/spring" setServletPath="true"/> 
-		<web:to-resource extension = "[none]" servletName="springfaces-web"/> 
+		<web:to-handler extension = "[none]" servletName="springfaces-web"/> 
 	</web:mapping>
     
 </beans>

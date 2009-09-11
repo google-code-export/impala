@@ -10,7 +10,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 
 	<web:mapping>
 		<web:to-module prefix = "/Tapestry"/> 
-		<web:to-resource extension = "[none]" filterNames="webframeworks-tapestry5"/> 
+		<web:to-handler extension = "[none]" filterNames="webframeworks-tapestry5"/> 
 	</web:mapping>
 	
 	<web:filter id = "myFilter" 

@@ -27,16 +27,16 @@ Creates a module level servlet context listener whose life cycle is tied to that
 	<xsd:element name="mapping">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
-Container element for to-module and to-resource mappings. 
+Container element for to-module and to-handler mappings. 
 The 'to-module' element is used to direct requests for particular URLs, based on the URI to-module, to the current module.
-The 'to-resource' element is to map requests directed to the current module to particular filters or servlets contained within the module.
+The 'to-handler' element is to map requests directed to the current module to particular filters or servlets contained within the module.
 			]]></xsd:documentation>
 		</xsd:annotation>
 			
 		<xsd:complexType>
 			<xsd:choice minOccurs="0" maxOccurs="unbounded">
 				<xsd:element ref="to-module" minOccurs="0"/>
-				<xsd:element ref="to-resource" minOccurs="0"/>
+				<xsd:element ref="to-handler" minOccurs="0"/>
 			</xsd:choice>
 		</xsd:complexType>
 	</xsd:element>
@@ -96,13 +96,13 @@ servlet container itself is returned.
 		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="to-resource">
+	<xsd:element name="to-handler">
 		<xsd:annotation>
 			<xsd:documentation><![CDATA[
 Used to map requests with a particular extension to a servlet and/or list of filters. For each request mapped to the module
-using the 'to-module' element, the 'to-resource' element performs a second level mapping function within the module itself.
+using the 'to-module' element, the 'to-handler' element performs a second level mapping function within the module itself.
 
-Note that a to-resource mapping is not required. If not present, then an implicit mapping will be created, using the following algorithm:
+Note that a to-handler mapping is not required. If not present, then an implicit mapping will be created, using the following algorithm:
 - Impala first looks for a servlet with the same name as the module name. If found, all requests are mapped to this servlet.
 - If not found, Impala looks for a filter with the same name as the module. If found, all requests are mapped to this filter.
 - If not found, Impala checks to see if there is exactly one servlet registered within the module. If so, then all requests 
