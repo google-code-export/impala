@@ -18,13 +18,13 @@
         <param-value>/WEB-INF/log4j.properties</param-value>
     </context-param>
     
+    <!--
+    Values omitted because they express default values
     <context-param>
         <param-name>contextLoaderClassName</param-name>
         <param-value>org.impalaframework.web.spring.loader.ExternalModuleContextLoader</param-value>
     </context-param>    
     
-    <!--
-      Note the next two entries are commented out because the express the default values
     <context-param>
         <param-name>bootstrapModulesResource</param-name>
         <param-value>moduledefinitions.xml</param-value>
