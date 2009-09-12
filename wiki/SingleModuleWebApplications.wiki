@@ -2,4 +2,46 @@
 
 = Overview =
 
-TO BE ADDED
+When working with vanilla Spring applications, servlets and filters are set up in _WEB-INF/web.xml_. Impala offers two choices:
+to set up these handlers in _web.xml_, and to set these up in the modules themselves.
+
+The [MultiModuleWebApplications module-based mechanism] for servlet and filter setup offers more flexibility when developing
+applications for which it is suitable to split the web tier into multiple modules. If only a single web tier module is
+required, an alternative is _web.xml_ setup mechanism is available, which is perhaps simpler to configure to begin with
+but less flexible in the options that it supports for multi-module applications.
+
+== An example ==
+
+The [SamplesPetclinic Petclinic sample] has a single Spring-MVC based web tier, and is convenient to use as an example.
+
+{{{
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="http://java.sun.com/xml/ns/j2ee"
+	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	      xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+	      version="2.4">
+  	...
+
+    <listener>
+        <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
+    </listener>
+    
+    <servlet>
+        <servlet-name>petclinic-web</servlet-name>
+        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>petclinic-web</servlet-name>
+        <url-pattern>*.htm</url-pattern>
+    </servlet-mapping>
+
+	...      
+</web-app>
+}}}
+
+Note the use of the `ImpalaContextLoaderListener`, which is a base class of the usual Spring `ContextLoaderListener`.
+
+The servlet used here is `org.impalaframework.web.spring.servlet.ExternalModuleServlet`. This class is a subclass of 
+the Spring `DispatcherServlet`.
