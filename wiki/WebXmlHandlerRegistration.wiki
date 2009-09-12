@@ -1,11 +1,11 @@
-#summary Developing single-module web applications
+#summary Web XML based servlet and filter registration
 
 = Overview =
 
 When working with vanilla Spring applications, servlets and filters are set up in _WEB-INF/web.xml_. Impala offers two choices:
 to set up these handlers in _web.xml_, and to set these up in the modules themselves.
 
-The [MultiModuleWebApplications module-based mechanism] for servlet and filter setup offers more flexibility when developing
+The [WebModuleBasedHandlerRegistration module-based mechanism] for servlet and filter setup offers more flexibility when developing
 applications for which it is suitable to split the web tier into multiple modules. If only a single web tier module is
 required, an alternative is _web.xml_ setup mechanism is available, which is perhaps simpler to configure to begin with
 but less flexible in the options that it supports for multi-module applications.
@@ -72,8 +72,8 @@ This means that your web modules are not actually that modular. If you wish to a
 you need to add your module into the `/WEB-INF/modules` directory, you will also need to add resources for the module into another directory
 or directories below the module context path.
 
-For this reason, for [MultiModuleWebApplications multi-module web applications], we recommend using the technique of 
-registering servlets and filters in the module itself, and reducing reliance on _web.xml_, as described [MultiModuleWebApplications here].
+For this reason, for [WebModuleBasedHandlerRegistration multi-module web applications], we recommend using the technique of 
+registering servlets and filters in the module itself, and reducing reliance on _web.xml_, as described [WebModuleBasedHandlerRegistration here].
 
 
 

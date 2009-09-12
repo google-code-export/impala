@@ -1,4 +1,4 @@
-#summary Developing multi-module web applications
+#summary Module based servlet and filter registration
 
 = Overview =
 
@@ -28,7 +28,7 @@ This style of development is illustrated in the [SamplesURLMapping URL mapping s
 Much of the configuration is done through Impala's new [WebNamespaceHandler web namespace handler].
 
 *Note:* if you only wish to use a single web tier module exposed through a single _web.xml_-registered servlet, then you can find out
-more about this approach in SingleModuleWebApplications.
+more about this approach in WebXmlHandlerRegistration.
 
 -----
 -----
