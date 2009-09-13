@@ -67,9 +67,9 @@ Impala provides a number of subclasses of `DispatcherServlet`. In this case, `Ex
 
 `ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. 
 In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the reason that _web.xml_ cannot be reloaded without reloading the entire application.
-You can also take this a step further by registering handlers [WebModuleBaseHandlerRegistration within the web modules themselves],
+You can also take this a step further by registering handlers [WebModuleBasedHandlerRegistration within the web modules themselves],
 something which is recommended for more complex multi-module web applications. However, in the 
-default sample application, handlers are still registered [WebXmlHandlerRegistration within the _web.xml_ itself].
+default sample application, handlers are still registered [WebXmlHandlerRegistration within the web.xml itself].
 
 === Module definitions === 
 
