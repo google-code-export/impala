@@ -265,6 +265,6 @@ auto.reload.modules=true
 session.module.protection=true
 }}}
 
-ADD LINK TO CONFIGURATION
+See [PropertyConfiguration details on the properties contained in this file].
 
 Apart from the initial setup, we've done just about all our work in the IDE. In [GettingStartedPart5 part five] we show you how deploy an Impala-based application to Tomcat using the built-in ANT support.
