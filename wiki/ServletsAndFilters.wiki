@@ -1,0 +1,249 @@
+#summary Servlets and filters provided with Impala
+
+=== Servlets ===
+
+Impala provides a number of servlets which can be used in your application, depending your usage scenario.
+
+==== !org.impalaframework.web.servlet.ExternalModuleServlet ====
+
+This is an extension of Spring MVC's `DispatcherSerlvet`. Use this servlet when
+  * You are using Spring MVC as your web framework.
+  * You are happy to declare the servlet in _web.xml_.
+  
+An example is shown below, taken from the [SamplesPetclinic Petclinic sample]:
+
+{{{
+<servlet>
+	<servlet-name>petclinic-web</servlet-name>
+    <servlet-class>org.impalaframework.web.servlet.ExternalModuleServlet</servlet-class>
+	<load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>petclinic-web</servlet-name>
+	<url-pattern>*.htm</url-pattern>
+</servlet-mapping>
+}}}
+
+When `ExternalModuleServlet` starts up. It will 'attach' itself to the module corresponding with the servlet name, in this case _petclinic-web_.
+The Spring application context it references will be updated each time the module reloads.
+
+==== !org.impalaframework.web.servlet.InternalModuleServlet ====
+
+Like `ExternalModuleServlet`, `InternalModuleServlet` is an extension of Spring's `DispatcherServlet`. One key difference
+is that it is configured within a module (not _web.xml_), and is hence internal to the module.
+
+Use this Servlet if:
+  * You are using Spring MVC as your web framework.
+  * you want to avoid coupling your module with _web.xml_.
+
+For example, if you want to design your application in such a way that the _web.xml_ does not need to have any knowledge of 
+other web modules, you can use this technique. An example configuration is shown below, taken from the module _example-servlet2_ in
+the [SamplesExample example samples] application:
+
+{{{
+<bean class="org.impalaframework.web.integration.ServletFactoryBean">
+	<property name = "servletName" value = "example-servlet2"/>
+	<property name = "servletClass" value = "org.impalaframework.web.servlet.InternalModuleServlet"/>
+</bean>	
+}}}
+
+Notice how `ServletFactoryBean` is used to configure, and also to provide life cycle calls, for the servlet instance.
+
+Another key difference with `ExternalModuleServlet` is that it is instantiated and destroyed each time the module 
+reloads, rather than just once for the lifetime of the application.
+
+You may be wondering how the an `InternalModuleServlet` gets to receive requests. After all, there is no entry in
+_web.xml_, and hence no servlet mapping. That is the role of `ModuleProxyServlet`, which meet in the next section.
+However, in order to be 'found' by `ModuleProxyServlet`, the `InternalModuleServlet` instance will on startup be registered 
+a `ServletContext` attribute with a module-specific name.
+
+==== !org.impalaframework.web.integration.ModuleProxyServlet ====
+
+We saw an example usage of `ModuleProxyServlet` earlier on this page. The role of `ModuleProxyServlet` is to forward
+requests to servlets such as `InternalModuleServlet` and `InternalFrameworkIntegrationServlet`, which we meet later.
+It implements a simple scheme to fulfil this role:
+
+  * it examples the first segment of the servlet path, that is, the portion of the path which comes after the context path on the URL.
+  For example, if the URL is `http://localhost:8080/myapp/myserlvet/somecontroller`, the `ModuleProxyServlet` will by default look in the 
+  `ServletContext` for a module servlet (say, an instance of `InternalModuleServlet`). 
+  * if it finds this entry, it will forward the request to this servlet.
+
+==== !org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet ====
+
+Like `ExternalModuleServlet`, `ExternalFrameworkIntegrationServlet` needs to be registered in _web.xml_. The big difference is that 
+it's fundamental role is to function as a bridge between the web application and a non-Spring MVC servlet which exists in a module.
+
+The configuration of this type of servlet consists of two elements. First, there is the registration of `ExternalFrameworkIntegrationServlet`
+in _web.xml_. This example is from the module _example-servlet4_ in
+the [SamplesExample example samples] application:
+
+{{{
+<servlet>
+    <servlet-name>example-servlet4</servlet-name>
+    <servlet-class>org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet</servlet-class>
+    <load-on-startup>4</load-on-startup>
+</servlet>
+<servlet-mapping>
+    <servlet-name>example-servlet4</servlet-name>
+    <url-pattern>*.do4</url-pattern>
+</servlet-mapping>
+}}}
+
+Secondly, there needs to be an entry for the Servlet to which requests will be delegated, which is in the module's 
+Spring configuration file _example-servlet4-context.xml_.
+
+{{{
+<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
+	<property name = "servletName" value = "delegateServlet"/>
+	<property name = "servletClass" value = "servlet.SomeFrameworkServlet"/>
+	<property name = "initParameters">
+		<map>
+			<entry key="controllerClassName" value = "servlet.ServletControllerDelegate"/>
+		</map>
+	</property>
+</bean>
+}}}
+
+Notice how the `ServletFactoryBean` is used to declare the non-Spring MVC Servlet. By default, the `ExternalFrameworkIntegrationServlet`
+looks for a servlet named `delegateServlet` to forward the request to.
+
+This configuration is suitable when:
+
+  * you want to or are happy to use the _web.xml_ to declare the path mapping to the servlet.
+  * you want to use Impala's dynamic reloading capability for an application not using Spring MVC.
+
+==== !org.impalaframework.web.integration.InternalFrameworkIntegrationServlet ====
+
+In the same way that `ExternalModuleServlet` has a sister servlet in the form of `InternalModuleServlet`, 
+`ExternalFrameworkIntegrationServlet` has a corresponding `InternalFrameworkIntegrationServlet`.
+
+Like `InternalModuleServlet`, `InternalFrameworkIntegrationServlet` is declared in the module's Spring configuration file,
+is instantiated per module reload, and receives requests via a `ModuleProxyServlet`. 
+
+And like `ExternalFrameworkIntegrationServlet`, `InternalFrameworkIntegrationServlet` is used as a bridge into a 
+non-Spring MVC servlet.
+
+The [SamplesWebframework web frameworks sample] uses `InternalFrameworkIntegrationServlet` for all of the examples. The 
+setup for Struts is shown below:
+
+{{{
+<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationServletFactoryBean">
+	<property name = "servletName" value = "webframeworks-struts"/>
+	<property name = "servletClass" value = "org.impalaframework.web.integration.InternalFrameworkIntegrationServlet"/>
+	<property name = "delegateServlet" ref = "delegateServlet"/>
+</bean>	
+
+<bean id = "delegateServlet" class="org.impalaframework.web.integration.ServletFactoryBean">
+	<property name = "servletName" value = "delegateServlet"/>
+	<property name = "servletClass" value = "struts.ReloadableActionServlet"/>
+	<property name = "initParameters">
+		<map>
+			<entry key="config" value = "/WEB-INF/struts-config.xml"/>
+		</map>
+	</property>
+</bean>
+}}}
+
+Notice how the `InternalFrameworkIntegrationServlet` is set up using an `InternalFrameworkIntegrationServletFactoryBean`.
+The delegate servlet is set up using the usual `ServletFactoryBean`. (The use of `struts.ReloadableActionServlet` instead of
+the usual Struts `ActionServlet` is to fix a minor bug in Struts 1.2.9 which prevents requests from reloading).
+
+=== Impala Filters ===
+
+For integrating with web frameworks which provide Servlet-based entry points, `InternalFrameworkIntegrationServlet` or `ExternalFrameworkIntegrationServlet`
+should be adequate. Some frameworks, however, only provide `Filter` based entry points. An example is Tapestry 5. Impala provides a couple of 
+filters to cater for these requirements.
+
+==== !org.impalaframework.web.integration.InternalFrameworkIntegrationFilter ====
+
+This usage of this class is very similar to `InternalFrameworkIntegrationServlet`, except that it works with filters rather than servlets, and
+passes through a `FilterChain` to the delegate filter. An example configuration is shown below, taken from the Tapestry 5 module in the 
+[SamplesWebframework web frameworks sample].
+
+{{{
+<bean class="org.impalaframework.web.integration.InternalFrameworkIntegrationFilterFactoryBean">
+	<property name = "filterName" value = "webframeworks-tapestry5"/>
+	<!-- this is a subclass of InternalFrameworkIntegrationFilter -->
+	<property name = "filterClass" value = "tapestry5.PathModificationIntegrationFilter"/>
+	<property name = "delegateFilter" ref = "delegateFilter"/>	
+	<property name = "initParameters">
+		<map>
+			<entry key="prefix" value = "/tapestry5"/>
+		</map>
+	</property>
+</bean>	
+
+<bean id = "delegateFilter" class="tapestry5.Tapestry5FilterFactoryBean">
+	<property name = "filterName" value = "delegateFilter"/>
+	<property name = "filterClass" value = "org.apache.tapestry5.spring.TapestrySpringFilter"/>
+	<property name = "applicationPackage" value = "tapestry5.application"/>
+</bean>
+}}}
+ 
+==== !org.impalaframework.web.integration.ModuleProxyFilter ====
+
+Just an `InternalFrameworkIntegrationServlet` can be 'found' and passed requests by `ModuleProxyServlet`, `ModuleProxyFilter`
+performs a similar role for `InternalFrameworkIntegrationFilter`. 
+
+It uses the same mechanism to look up an instance of `InternalFrameworkIntegrationFilter` from the `ServletContext` using a
+module-specific key, and passes the request to the filter if found. One subtle point worth noting about the way it uses a filter chain.
+Instead of passing the real filter chain to the delegate filter, it instead passes an instance of `InvocationAwareFilterChain`.
+`InvocationAwareFilterChain` has a `getWasInvoked` method which will return true if the filter was invoked. 
+
+When the `InternalFrameworkIntegrationFilter` has finished processing the request, `ModuleProxyFilter`  will check this method. 
+If it return true, the real `FilterChain` is invoked. This ensures that the next invocation in the filter chain does not occur in within the module
+itself.
+
+=== Thread context class loader ===
+
+The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, 
+rather than the library classes' class loader. 
+Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility
+of the correct module's classes.
+
+For more discussion on this point, see http://impalablog.blogspot.com/2008/10/using-threads-context-class-loader-in.html.
+
+=== Preserving module session state ===
+
+One of the problems with dynamic reloading of web modules is how to handle session state. The problem is occurs because after a module reload, 
+some of the objects held in the session may have been loaded using class loaders that have since been discarded. When the new module
+attempts to cast the session object, without any remedial action a `ClassCastException` will be thrown.
+
+Impala fixes this problem by wrapping the `HttpSession` with a `getAttribute` method which does the following:
+  * gets the object from the underlying session
+  * if an object is found, then the class of that object is inspected to determine whether its classloader is visible to that of the current
+  module's class loader. If so, it is returned as is.
+  * if the session object has an incompatible class loader, a check is performed to determine whether the object is serializable. If it is not
+  serializable, then the session attribute is discarded and the event is logged as a warning.
+  * if the item is serializable, then an attempt is made to clone the object using serialization. In the process, the state of the object is copied 
+  to the new instance, but equally importantly, the new object now has a class loader.
+  
+It should be noted that this mechanism is not guarranteed to work. For example, serialization may fail if the cloned object's class definition has changed in
+an incompatible way.
+
+In short, if you ensure that all your session objects use classes which implement `java.io.Serializable`, then you have at least a fighting chance of 
+having session state preserved through module reloads. Extra care should be taken if you intend to use in production environments 
+dynamic module reloading for modules which hold session state.
+
+A demonstration of the mechanism for preserving session state is available in the Struts module in the [SamplesWebframework web frameworks sample].
+
+== Caveats ==
+
+There are some important caveats to note regarding Impala's support for integration with web frameworks other than Spring MVC.
+
+1) At this point, the [SamplesWebframework web frameworks sample] demonstrates that tight integration with web frameworks is possible. The basic mechanisms needed for this integration are required:
+* ability to handle the thread context class loader to correctly.
+* the ability to give each module access to it's own Spring root web application context in a way that is transparent to the framework. In the web frameworks sample, for example, the web application context visible to the Struts module is different from the one visible to the Wicket module, even though they are accessed using the same `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`.
+* the ability to instantiate an aribitrary servlet within a module, and manage its life cycle correctly.
+2) This does not mean that there will not be issues. Each web framework is different, and makes it's own set of assumptions about the environment in which it operates. In a dynamic, multi-module environment, some of these assumptions may be stretched. Without further testing on a per framework basis, it is not possible to know where the problem points lie. 
+However, I believe that the problems are likely to be relatively minor and not too difficult to overcome on a case by case basis.
+3) Eventually, we can expect that for web frameworks that we decide to properly support, there will be integration projects which resolve these issues and provide a seamless integration with the web framework which will work out of the box.
+
+ 
+
+
+
+
+
+  
