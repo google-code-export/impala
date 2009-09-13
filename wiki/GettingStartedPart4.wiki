@@ -63,10 +63,13 @@ In a plain Spring MVC based web application, the Spring application context whic
 Impala's analogue is `ImpalaContextLoaderListener`, which extends `ContextLoaderListener` to initialise the Impala environment.
 
 Spring MVC applications are usually exposed via the servlet `org.springframework.web.servlet.DispatcherServlet`, or a subclass of this class. 
-Impala provides a number of subclasses of `DispatcherServlet`, but the favoured implementation is `ExternalModuleServlet`.
+Impala provides a number of subclasses of `DispatcherServlet`. In this case, `ExternalModuleServlet` is used.
 
 `ExternalModuleServlet` is so named because it provides a means by which the module definitions which comprise an Impala application are not defined within the _web.xml_ descriptor. 
 In fact, this reflects a deliberate strategy to keep as little configuration in _web.xml_ for the reason that _web.xml_ cannot be reloaded without reloading the entire application.
+You can also take this a step further by registering handlers [WebModuleBaseHandlerRegistration within the web modules themselves],
+something which is recommended for more complex multi-module web applications. However, in the 
+default sample application, handlers are still registered [WebXmlHandlerRegistration within the _web.xml_ itself].
 
 === Module definitions === 
 
