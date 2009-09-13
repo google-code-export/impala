@@ -20,7 +20,7 @@ Below are some of Impala's web application development features:
 == Initial setup of web application ==
 
 [WebApplicationBootstrapping Bootstrapping web applications]. 
-[WebApplicationAnatomy Anatomy of an Impala web application]. Describes briefly how different Impala configuration files are used during Impala and application load process.  
+[WebApplicationStructure Anatomy of an Impala web application]. Describes briefly how different Impala configuration files are used during Impala and application load process.  
   
 == Developing multi-module applications ==
 
