@@ -9,6 +9,12 @@ Impala fixes this problem by wrapping the `HttpSession` with a `getAttribute` me
   * if an object is found, then the class of that object is inspected to determine whether its classloader is visible to that of the current module's class loader. If so, it is returned as is.
   * if the session object has an incompatible class loader, a check is performed to determine whether the object is serializable. If it is not serializable, then the session attribute is discarded and the event is logged as a warning.
   * if the item is serializable, then an attempt is made to clone the object using serialization. In the process, the state of the object is copied to the new instance, but equally importantly, the new object now has a class loader.
+
+Note that in order to enable this mechanism you will need to set the following property in your _impala.properties_ file.
+
+{{{
+session.module.protection=true
+}}}
   
 It should be noted that this mechanism is not guaranteed to work. For example, serialization may fail if the cloned object's class definition has changed in an incompatible way.
 
