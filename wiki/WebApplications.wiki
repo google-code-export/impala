@@ -29,7 +29,7 @@ that is, the resources which will be found below the context path in a deployed 
 Impala also allows you to back a particular module using a javax.http.Filter, rather than a servlet.
 
 3) Impala also provides mechanisms which allows *reduced dependency on _WEB-INF/web.xml_*. For example, the _web.xml_ for the 
-[SamplesWebframework web frameworks sample] is shown below:
+[SamplesUrlMapping URL mapping sample] is shown below:
 
 {{{
 <web-app ...>
