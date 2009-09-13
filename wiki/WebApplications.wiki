@@ -2,8 +2,6 @@
 
 Impala has a lot of features designed to make using and working with web applications as powerful and seamless as possible.
 Impala provides flexible deployment options, and supports a large range of scenarios in enabling modular application development.
-Recent innovations enable support not only for Spring MVC-based web applications, but for web applications written using arbitrary Java 
-web frameworks (see the bottom of the page for a caveat on this).
 
 == Web deployment ==
 
@@ -11,57 +9,33 @@ Impala web applications can be launched in the Eclipse in an embedded Jetty Serv
 you can do all your web application development without having to run any build scripts. However, war based deployment is also supported.
 For more information, see the [GettingStarted tutorial].
 
-== Application development ==
+== Features ==
 
-Let's consider some of the *requirements* that Impala addresses:
+Below are some of Impala's web application development features:
 
-  * *modular web applications*: we want the advantages of modularity to be available for the web tier of our applications just as with any other tier. We want to have fine-grained control over what portions of our web applications will be deployed. This is not necessarily straightforward. For example, if we use the traditional approach to Spring web application deployment, then servlets, servlet mappings, filters and Spring application context locations are contained in _WEB-INF/web.xml_, which is only loaded up once at web application startup time, and cannot easily be reloaded without restarting the entire web application.
-  * *dynamic reloading support for other frameworks*: if we are developing our web tier using a framework which Impala doesn't support, then integration using the traditional Spring mechanism is possible, because Impala will still publish an `ApplicationContext` under the standard key defined in Spring's `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`. However, some of the benefit is lost, because if the full web application needs to reload each time one of the web application classes changes, development is much slower than it otherwise would have been.
-  * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. There's a discussion later on this page on how Impala handles this. 
+  * *modular web applications*: we have the advantages of modularity available for the web tier of our applications just as with any other tier. 
+  * *dynamic reloading support for other frameworks*: Impala provides the support not only for Spring MVC-based web applications, but for web applications written using arbitrary Java 
+web frameworks (see the bottom of the page for a caveat on this)
+  * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. See below in this page for more details. 
   
-== Impala's approach ==
+== Initial setup of web application ==
+
+[WebApplicationBootstrapping Bootstrapping web applications]  
+  
+== Developing multi-module applications ==
 
 1) Impala allows you to arrange your web tier modules in a hierarchy. Just as you have a root module for the application as a whole, 
 you also have a root module for the web tier, know as the _web root module_. The _web root module_ contains the servlet context resources,
 that is, the resources which will be found below the context path in a deployed application, such as styles, images, jsp files, etc.
 
-2) Impala provides web application modularity by adopting a servlet per module approach. Each web tier module is backed by it's own servlet.
-Impala also allows you to back a particular module using a javax.http.Filter, rather than a servlet.
+2) It is also possible to host resources in the modules themselves.
 
-3) Impala also provides mechanisms which allows *reduced dependency on _WEB-INF/web.xml_*. For example, the _web.xml_ for the 
-[SamplesUrlMapping URL mapping sample] is shown below:
+3) Impala provides web application modularity by allowing each module to be represented by at least one filter or servlet.
+It is also possible to have multiple filters or servlets servicing requests, per module.
 
-{{{
-<web-app ...>
-    
-    <display-name>URL Mapping example</display-name>
-    <description>URL Mapping example</description>
-
-    <listener>
-        <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
-    </listener>
-    
-    <filter>
-        <filter-name>web</filter-name>
-        <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
-        <load-on-startup>2</load-on-startup>
-    </filter>
-
-    <filter-mapping>
-        <filter-name>web</filter-name>
-        <url-pattern>/*</url-pattern>
-    </filter-mapping>
-
-    <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>
-    
-</web-app>
-}}}
-
-Note that apart from the `ContextLoaderListener`, there is just a single filter definition, for redirecting requests to 
-the various modules. The actual configuration of the servlets and filters involved is performed within the modules. Impala provides mechanisms 
-that allow the servlet and filter configuration to be provided.
+Note that Impala supports two styles of setting up handlers (filters and servlets) for your aplication:
+  * [WebXmlHandlerRegistration Standard _web.xml_ based handler registration]. This is simpler getting started but is much more limited in what you can achieve.
+  * [WebModuleBasedHandlerRegistration Module based handler registration]. This requires a little more understanding but offers much greater flexibility when developing multi-module applicaitons.
   
 == Other Features ==
 
@@ -69,16 +43,7 @@ that allow the servlet and filter configuration to be provided.
 
 Impala provides a number of servlets and filters which you can use in your application for different purposes.
 
-[ServletsAndFilters Servlets and Filters]
-
-=== Thread context class loader ===
-
-The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, 
-rather than the library classes' class loader. 
-Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility
-of the correct module's classes.
-
-For more discussion on this point, see http://impalablog.blogspot.com/2008/10/using-threads-context-class-loader-in.html.
+[ServletsAndFilters Impala servlets and filters]
 
 === Preserving module session state ===
 
@@ -103,6 +68,15 @@ having session state preserved through module reloads. Extra care should be take
 dynamic module reloading for modules which hold session state.
 
 A demonstration of the mechanism for preserving session state is available in the Struts module in the [SamplesWebframework web frameworks sample].
+
+=== Thread context class loader ===
+
+The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, 
+rather than the library classes' class loader. 
+Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility
+of the correct module's classes.
+
+For more discussion on this point, see http://impalablog.blogspot.com/2008/10/using-threads-context-class-loader-in.html.
 
 == Caveats ==
 
