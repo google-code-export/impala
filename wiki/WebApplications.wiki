@@ -14,8 +14,7 @@ For more information, see the [GettingStarted tutorial].
 Below are some of Impala's web application development features:
 
   * *modular web applications*: we have the advantages of modularity available for the web tier of our applications just as with any other tier. 
-  * *dynamic reloading support for other frameworks*: Impala provides the support not only for Spring MVC-based web applications, but for web applications written using arbitrary Java 
-web frameworks (see the bottom of the page for a caveat on this)
+  * *dynamic reloading support for other frameworks*: Impala provides the support not only for Spring MVC-based web applications, but for web applications written using arbitrary Java web frameworks (see the bottom of the page for a caveat on this)
   * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. See below in this page for more details. 
   
 == Initial setup of web application ==
