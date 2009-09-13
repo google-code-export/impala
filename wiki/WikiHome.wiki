@@ -42,7 +42,7 @@
 ==== Web ==== 
   * [WebApplications Web applications with Impala]
   * [PropertyConfiguration Impala properties]
-  * [ImpalaWebConfiguration Web configuration]
+  * [WebApplicationBootstrapping Web configuration]
 
 ==== Advanced ====
   * [InternalInterfaces Impala internal interfaces]

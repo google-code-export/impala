@@ -313,4 +313,4 @@ Issue 143 establishes a convention for Impala-specific configuration properties.
 
 *Note: Clients are encourage to use the named property style of configuration, rather than explicitly setting Impala Spring bootstrap context locations.*
 
-See ImpalaWebConfiguration for more details.
+See WebApplicationBootstrapping for more details.

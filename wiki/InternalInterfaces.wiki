@@ -224,7 +224,7 @@ An internal interface which is used to access instances of other Impala-specific
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/monitor/ModuleChangeMonitor.java ModuleChangeMonitor] ===
 
 `ModuleChangeMonitor` is used optionally to implement modification detection and automatically reload modules. 
-For the _web-listener-bootstrap_ [ImpalaWebConfiguration Impala configuration], a file system polling mechanism is used.
+For the _web-listener-bootstrap_ [WebApplicationBootstrapping Impala configuration], a file system polling mechanism is used.
 The alternative module reload trigger is currently a JMX console. An administration console is also planned.
 
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateChangeNotifier.java ModuleStateChangeNotifier] ===

@@ -60,7 +60,7 @@ Search and replace in all module.properties:
 Replace `context-locations` with `config-locations`.
 
 11)
-Change _impala.properties_ (and _impala-embedded.properties_) to use where possible to property based configuration (see ImpalaWebConfiguration). If you would like to stick with the old configuration method, replace `bootstrapLocations=` with `all.locations=` in `module.properties`.
+Change _impala.properties_ (and _impala-embedded.properties_) to use where possible to property based configuration (see WebApplicationBootstrapping). If you would like to stick with the old configuration method, replace `bootstrapLocations=` with `all.locations=` in `module.properties`.
 
 12)
 Fix any remaining errors, which can be picked up by running the application's test suite and deploying the web application.

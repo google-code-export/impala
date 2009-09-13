@@ -17,5 +17,5 @@ is running as a standalone application (for example, in integration tests), or i
 or in a war file in a servlet container such as Tomcat).
 
   * [ImpalaStandaloneConfiguration Configuring Impala in a standalone environment]
-  * [ImpalaWebConfiguration Configuring Impala in a web environment]
+  * [WebApplicationBootstrapping Configuring Impala in a web environment]
 
