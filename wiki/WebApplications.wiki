@@ -52,15 +52,11 @@ attempts to cast the session object, without any remedial action a `ClassCastExc
 
 Impala fixes this problem by wrapping the `HttpSession` with a `getAttribute` method which does the following:
   * gets the object from the underlying session
-  * if an object is found, then the class of that object is inspected to determine whether its classloader is visible to that of the current
-  module's class loader. If so, it is returned as is.
-  * if the session object has an incompatible class loader, a check is performed to determine whether the object is serializable. If it is not
-  serializable, then the session attribute is discarded and the event is logged as a warning.
-  * if the item is serializable, then an attempt is made to clone the object using serialization. In the process, the state of the object is copied 
-  to the new instance, but equally importantly, the new object now has a class loader.
+  * if an object is found, then the class of that object is inspected to determine whether its classloader is visible to that of the current module's class loader. If so, it is returned as is.
+  * if the session object has an incompatible class loader, a check is performed to determine whether the object is serializable. If it is not serializable, then the session attribute is discarded and the event is logged as a warning.
+  * if the item is serializable, then an attempt is made to clone the object using serialization. In the process, the state of the object is copied to the new instance, but equally importantly, the new object now has a class loader.
   
-It should be noted that this mechanism is not guaranteed to work. For example, serialization may fail if the cloned object's class definition has changed in
-an incompatible way.
+It should be noted that this mechanism is not guaranteed to work. For example, serialization may fail if the cloned object's class definition has changed in an incompatible way.
 
 In short, if you ensure that all your session objects use classes which implement `java.io.Serializable`, then you have at least a fighting chance of 
 having session state preserved through module reloads. Extra care should be taken if you intend to use in production environments 
@@ -70,10 +66,8 @@ A demonstration of the mechanism for preserving session state is available in th
 
 === Thread context class loader ===
 
-The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, 
-rather than the library classes' class loader. 
-Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility
-of the correct module's classes.
+The thread context class loader is used to allow Java libraries to application classes through the application classes' class loader, rather than the library classes' class loader. 
+Before invoking any module specific servlet or filter, Impala changes the context class loader so that other web frameworks have visibility of the correct module's classes.
 
 For more discussion on this point, see http://impalablog.blogspot.com/2008/10/using-threads-context-class-loader-in.html.
 
@@ -82,9 +76,9 @@ For more discussion on this point, see http://impalablog.blogspot.com/2008/10/us
 There are some important caveats to note regarding Impala's support for integration with web frameworks other than Spring MVC.
 
 1) At this point, the [SamplesWebframework web frameworks sample] demonstrates that tight integration with web frameworks is possible. The basic mechanisms needed for this integration are required:
-* ability to handle the thread context class loader to correctly.
-* the ability to give each module access to it's own Spring root web application context in a way that is transparent to the framework. In the web frameworks sample, for example, the web application context visible to the Struts module is different from the one visible to the Wicket module, even though they are accessed using the same `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`.
-* the ability to instantiate an aribitrary servlet within a module, and manage its life cycle correctly.
+  * ability to handle the thread context class loader to correctly.
+  * the ability to give each module access to it's own Spring root web application context in a way that is transparent to the framework. In the web frameworks sample, for example, the web application context visible to the Struts module is different from the one visible to the Wicket module, even though they are accessed using the same `WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE`.
+  * the ability to instantiate an aribitrary servlet within a module, and manage its life cycle correctly.
 2) This does not mean that there will not be issues. Each web framework is different, and makes it's own set of assumptions about the environment in which it operates. In a dynamic, multi-module environment, some of these assumptions may be stretched. Without further testing on a per framework basis, it is not possible to know where the problem points lie. 
 However, I believe that the problems are likely to be relatively minor and not too difficult to overcome on a case by case basis.
 3) Eventually, we can expect that for web frameworks that we decide to properly support, there will be integration projects which resolve these issues and provide a seamless integration with the web framework which will work out of the box.
