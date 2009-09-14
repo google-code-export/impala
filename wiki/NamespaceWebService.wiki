@@ -36,12 +36,42 @@ Container element for to-module and to-handler mappings.
 The 'to-module' element is used to direct requests for particular URLs, based on the URI to-module, to the current module.
 The 'to-handler' element is to map requests directed to the current module to particular filters or servlets contained within the module.
 
+An example of the `mapping` element is shown below, taken from the [SamplesURLMapping URL mapping sample]:
+
+{{{
+<web:mapping>
+	<web:to-module prefix = "/webview" setServletPath="true"/> 
+	<web:to-handler extension = "htm" servletName="urlmapping-webview" filterNames = "characterEncodingFilter,sysoutLoggingFilter"/>
+	<web:to-handler extension = "css" servletName="urlmapping-resources"/>
+</web:mapping>    
+  
+<web:servlet id = "urlmapping-webview" 
+    servletClass = "..."/>
+    
+<web:servlet id = "urlmapping-resources" 
+    servletClass = "..."
+    initParameters = "cacheTimeout=10"/>
+    
+<web:filter id = "characterEncodingFilter" 
+	filterClass = "..." 
+	initParameters = "forceEncoding=true,encoding=utf8">
+</web:filter>
+
+<web:filter id = "sysoutLoggingFilter" 
+	filterClass = "...">
+</web:filter>
+}}}
+
+In this example, requests beginning with _/webview/*_ are mapped to the current module. Once in the module, 
+requests ending with '*.htm' are mapped to the filters `characterEncodingFilter` and `sysoutLoggingFilter`, and
+to the servlet `urlmapping-webview`. Requests ending with '*.css' are mapped to the 'url-mapping' resources.
+
 === 'to-module' element ===
 
 Used to direct request to the current module, based on URI to-module.
 
 The prefix of the URL which the request should match. For example, if a request has the URI,
-/app/mypath1/mypathA, then the path '/mypath1' will match, as will '/mypath1/my', as will '/mypath1/mypathA'.
+'/app/mypath1/mypathA', then the path '/mypath1' will match, as will '/mypath1/my', as will '/mypath1/mypathA'.
 
 Note that if another module provides a more precise match to a particular path, then the request will be directed
 to that module instead. For example, if module A contains a to-module element with path '/prefix1',
@@ -52,14 +82,14 @@ will be directed to module B, not module A.
 
 Whether to set the servlet path in the request passed to servlets or filters in this module. 
 Setting this value has the effect of altering the values returned by calls to 
-HttpServletRequest.getSerlvetPath() and the corresponding HttpServletRequest.getPathInfo().
+`HttpServletRequest.getSerlvetPath()` and the corresponding `HttpServletRequest.getPathInfo()`.
 
 If the value for this attribute is set to 'true', and 'servletPath' attribute 
 is not specified, then getServletPath() returns the value specified using the 'path'
 attribute. However, is a value is specified using the 'servletPath' attribute is specified, 
 then this value is used.
 
-Calls to getServletPath() made outside the module are not affected. Here, value returned by the
+Calls to `getServletPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
 ==== 'servletPath' attribute ====
@@ -68,9 +98,9 @@ If a value is set for this optional attribute,
 then as long as 'setServletPath' is not set with a value of false, then sets 
 the servlet path in the request passed to servlets or filters in this module. 
 In other words, the value specified using the 'servletPath' attribute is returned
-by calls from within the module to getServletPath().
+by calls from within the module to `getServletPath()`.
 
-Calls to getServletPath() made outside the module are not affected. Here, value returned by the
+Calls to `getServletPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
 === 'to-handler' element ===
@@ -139,7 +169,7 @@ instantiating or destroying the servlet or filter instance.
 ==== 'initParameters' attribute ====
 
 Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
-Has the same effect as specifying `<init-param>` entries in web.xml. 
+Has the same effect as specifying `<init-param>` entries in _web.xml_. 
 
 The initParameters attribute allows these init parameters to be specified in a concise way.
 Individual entries are comma separated. Name and value pairs are separated by the equals sign.
@@ -158,7 +188,7 @@ then the definition in the 'init-parameters' element takes precedence.
 ==== 'init-parameters' element ====
 
 Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
-Has the same effect as specifying `<init-param>` entries in web.xml. 
+Has the same effect as specifying `<init-param>` entries in _web.xml_. 
 
 The `init-parameters` attribute allows init parameters using nested 'param' elements.
 For example:
