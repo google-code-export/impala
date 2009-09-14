@@ -1,5 +1,17 @@
 #summary Impala service namespace reference
 
+== Prelude ==
+
+In our examples, we will consider a bean contained in the exporting module:
+
+{{{
+<bean id="messageService" class="classes.MessageServiceImpl">
+    <property name="message" value="Hi Phil - a typed message"/>
+</bean>  
+}}}
+
+which will be exported and imported in various ways.
+
 == Adding the namespace headers ==
 
 Before using one of the `service` elements in your bean definition file, you will need to add the Impala service namespace declaration
