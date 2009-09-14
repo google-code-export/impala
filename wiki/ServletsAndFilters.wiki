@@ -185,6 +185,15 @@ setup for Struts is shown below:
 </bean>
 }}}
 
+Using the Impala `web` namespace, the above definitions can be condensed to the following:
+
+{{{
+<web:servlet id = "myServlet" 
+	delegatorServletName = "webframeworks-struts"
+	servletClass = "struts.ReloadableActionServlet" 
+	initParameters = "config=/WEB-INF/struts-config.xml"/>
+}}}
+
 Notice how the `InternalFrameworkIntegrationServlet` is set up using an `InternalFrameworkIntegrationServletFactoryBean`.
 The delegate servlet is set up using the usual `ServletFactoryBean`. (The use of `struts.ReloadableActionServlet` instead of
 the usual Struts `ActionServlet` is to fix a minor bug in Struts 1.2.9 which prevents requests from reloading).
