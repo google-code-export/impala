@@ -231,6 +231,18 @@ passes through a `FilterChain` to the delegate filter. An example configuration 
 	<property name = "applicationPackage" value = "tapestry5.application"/>
 </bean>
 }}}
+
+Using the Impala `web` namespace, this definition can be condensed to:
+
+{{{
+<web:filter id = "myFilter" 
+	delegatorFilterName = "webframeworks-tapestry5"
+	factoryClass = "tapestry5.Tapestry5FilterFactoryBean"
+	filterClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
+	initParameters = "prefix=/tapestry5">
+       <property name="applicationPackage" value="tapestry5.application"/>
+</web:filter>
+}}}
  
 ----
 
