@@ -139,12 +139,15 @@ instantiating or destroying the servlet or filter instance.
 ==== 'initParameters' attribute ====
 
 Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
-Has the same effect as specifying <init-param> entries in web.xml. 
+Has the same effect as specifying `<init-param>` entries in web.xml. 
 
 The initParameters attribute allows these init parameters to be specified in a concise way.
 Individual entries are comma separated. Name and value pairs are separated by the equals sign.
 For example:
+{{{
 	initParameters = "name1=value1,name2=value2" 
+}}}
+
 sets two init parameters, with values 'value1' and 'value2',
 respectively.
 
