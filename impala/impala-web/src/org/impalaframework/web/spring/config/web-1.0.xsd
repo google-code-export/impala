@@ -132,14 +132,14 @@ Special values include:
 		    <xsd:attribute name="servletName" type="xsd:string" use="optional">				
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	
+The name of a servlet registered within the module to which the request should be mapped. Can be omitted.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
 		    <xsd:attribute name="filterNames" type="xsd:string" use="optional">				
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-	
+Comma-separated list of names of servlets registered within the module to which the request should be mapped. Can be omitted.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
