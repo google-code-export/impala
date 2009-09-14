@@ -97,7 +97,7 @@ then the extension attribute required to match this URI this is 'htm'.
 
 Special values include:
   '*': denotes all extensions. Will match any URI mapped to the module using the to-module element.
-  '[none]': used for URI's without file extensions. Will match a URI such as /app/prefix/resourceWithoutExtension
+  '[none]': used for URI's without file extensions. Will match a URI such as _/app/prefix/resourceWithoutExtension_.
 
 ==== 'servletName' attribute ====
 
@@ -113,11 +113,11 @@ Comma-separated list of names of servlets registered within the module to which 
 	
 === 'filter' element ===
 
-Creates a javax.servlet.Filter who's life cycle is bound to that of the module.
+Creates a `javax.servlet.Filter` who's life cycle is bound to that of the module.
 
 === 'servlet' element ===
 
-Creates a javax.servlet.HttpServlet who's life cycle is bound to that of the module.
+Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the module.
 
 The `filter` and `servlet` elements define a common set of nested elements and attributes as described below.
 
@@ -130,8 +130,8 @@ in servlet or filter mappings.
 ==== 'factoryClass' attribute ====
 
 The FactoryBean class used to create and destroy the servlet or filter instance. If not specified, then
-defaults to org.impalaframework.web.spring.integration.ServletFactoryBean (for servlets) or 
-org.impalaframework.web.spring.integration.FilterFactoryBean (for filters).
+defaults to `org.impalaframework.web.spring.integration.ServletFactoryBean` (for servlets) or 
+`org.impalaframework.web.spring.integration.FilterFactoryBean` (for filters).
 
 You won't need to specify a value for this property unless you need to override the default mechanism for
 instantiating or destroying the servlet or filter instance.
