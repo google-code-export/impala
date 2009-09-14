@@ -126,8 +126,8 @@ For example, if the request URI is '/app/prefix/mypath.htm'
 then the extension attribute required to match this URI this is 'htm'.
 
 Special values include:
-  * `*`: denotes all extensions. Will match any URI mapped to the module using the to-module element.
-  * `[none]`: used for URI's without file extensions. Will match a URI such as _/app/prefix/resourceWithoutExtension_.
+  * `'*'`: denotes all extensions. Will match any URI mapped to the module using the to-module element.
+  * `'[none]'`: used for URI's without file extensions. Will match a URI such as _/app/prefix/resourceWithoutExtension_.
 
 ==== 'servletName' attribute ====
 
