@@ -260,7 +260,7 @@ When the `InternalFrameworkIntegrationFilter` has finished processing the reques
 If it return true, the real `FilterChain` is invoked. This ensures that the next invocation in the filter chain does not occur in within the module
 itself.
 
-An example configuration from the [SamplesUrlMapping URL mapping sample] is shown below:
+An example configuration from the [SamplesURLMapping URL mapping sample] is shown below:
 
 {{{
 <filter>
