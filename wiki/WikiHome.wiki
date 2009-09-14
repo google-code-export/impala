@@ -27,6 +27,14 @@
     
 === User Documentation ===
 
+==== Testing ==== 
+  * [InteractiveTestRunner Interactive Test Runner]
+
+==== Web ==== 
+  * [WebApplications Web applications with Impala]
+  * [PropertyConfiguration Impala properties]
+  * [WebApplicationBootstrapping Web configuration]
+
 ==== Configuration ==== 
   * [ModuleStructure Module structure]
   * [ModuleConfiguration Module configuration]
@@ -35,14 +43,6 @@
   * [ImportingAndExportingServices Using the service registry]
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
-
-==== Testing ==== 
-  * [InteractiveTestRunner Interactive Test Runner]
-
-==== Web ==== 
-  * [WebApplications Web applications with Impala]
-  * [PropertyConfiguration Impala properties]
-  * [WebApplicationBootstrapping Web configuration]
 
 ==== Advanced ====
   * [InternalInterfaces Impala internal interfaces]
