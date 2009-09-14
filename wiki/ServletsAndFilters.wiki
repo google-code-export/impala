@@ -28,6 +28,8 @@ An example is shown below, taken from the [SamplesPetclinic Petclinic sample]:
 When `ExternalModuleServlet` starts up. It will 'attach' itself to the module corresponding with the servlet name, in this case _petclinic-web_.
 The Spring application context it references will be updated each time the module reloads.
 
+----
+
 ==== `org.impalaframework.web.servlet.InternalModuleServlet` ====
 
 Like `ExternalModuleServlet`, `InternalModuleServlet` is an extension of Spring's `DispatcherServlet`. One key difference
@@ -58,6 +60,8 @@ _web.xml_, and hence no servlet mapping. That is the role of `ModuleProxyServlet
 However, in order to be 'found' by `ModuleProxyServlet`, the `InternalModuleServlet` instance will on startup be registered 
 a `ServletContext` attribute with a module-specific name.
 
+----
+
 ==== `org.impalaframework.web.integration.ModuleProxyServlet` ====
 
 We saw an example usage of `ModuleProxyServlet` earlier on this page. The role of `ModuleProxyServlet` is to forward
@@ -68,6 +72,8 @@ It implements a simple scheme to fulfil this role:
   For example, if the URL is `http://localhost:8080/myapp/myserlvet/somecontroller`, the `ModuleProxyServlet` will by default look in the 
   `ServletContext` for a module servlet (say, an instance of `InternalModuleServlet`). 
   * if it finds this entry, it will forward the request to this servlet.
+
+----
 
 ==== `org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet` ====
 
@@ -113,6 +119,8 @@ This configuration is suitable when:
   * you want to or are happy to use the _web.xml_ to declare the path mapping to the servlet.
   * you want to use Impala's dynamic reloading capability for an application not using Spring MVC.
 
+----
+
 ==== `org.impalaframework.web.integration.InternalFrameworkIntegrationServlet` ====
 
 In the same way that `ExternalModuleServlet` has a sister servlet in the form of `InternalModuleServlet`, 
@@ -155,6 +163,8 @@ For integrating with web frameworks which provide Servlet-based entry points, `I
 should be adequate. Some frameworks, however, only provide `Filter` based entry points. An example is Tapestry 5. Impala provides a couple of 
 filters to cater for these requirements.
 
+----
+
 ==== `org.impalaframework.web.integration.InternalFrameworkIntegrationFilter` ====
 
 This usage of this class is very similar to `InternalFrameworkIntegrationServlet`, except that it works with filters rather than servlets, and
@@ -181,6 +191,8 @@ passes through a `FilterChain` to the delegate filter. An example configuration 
 </bean>
 }}}
  
+----
+
 ==== `org.impalaframework.web.integration.ModuleProxyFilter` ====
 
 Just an `InternalFrameworkIntegrationServlet` can be 'found' and passed requests by `ModuleProxyServlet`, `ModuleProxyFilter`
