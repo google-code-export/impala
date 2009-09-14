@@ -87,6 +87,24 @@ It implements a simple scheme to fulfil this role:
   `ServletContext` for a module servlet (say, an instance of `InternalModuleServlet`). 
   * if it finds this entry, it will forward the request to this servlet.
 
+An example configuration from the [SamplesExample examples sample] application's _web.xml_ is shown below.
+
+{{{
+<servlet>
+    <servlet-name>example-redirector</servlet-name>
+    <servlet-class>org.impalaframework.web.spring.integration.ModuleProxyServlet</servlet-class>
+    <init-param>
+            <param-name>modulePrefix</param-name>
+            <param-value>example-</param-value>
+    </init-param>
+    <load-on-startup>2</load-on-startup>
+</servlet>
+<servlet-mapping>
+    <servlet-name>example-redirector</servlet-name>
+    <url-pattern>*.to</url-pattern>
+</servlet-mapping>
+}}}
+
 ----
 
 ==== `org.impalaframework.web.integration.ExternalFrameworkIntegrationServlet` ====
