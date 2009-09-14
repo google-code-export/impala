@@ -145,7 +145,7 @@ The initParameters attribute allows these init parameters to be specified in a c
 Individual entries are comma separated. Name and value pairs are separated by the equals sign.
 For example:
 {{{
-	initParameters = "name1=value1,name2=value2" 
+initParameters = "name1=value1,name2=value2" 
 }}}
 
 sets two init parameters, with values 'value1' and 'value2',
