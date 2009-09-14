@@ -19,20 +19,19 @@ Below are some of Impala's web application development features:
   
 == Impala Web Development Documentation ==
 
-[WebApplicationBootstrapping Bootstrapping web applications]. 
+[WebApplicationBootstrapping Bootstrapping web applications] - describes initial setup configuration. 
 
-[WebApplicationStructure Anatomy of an Impala web application]. 
-Describes briefly how different Impala configuration files are used during Impala and application load process.  
+[WebApplicationStructure Anatomy of an Impala web application] - describes briefly how different Impala configuration files are used during Impala and application load process.  
 
 [WebMultiModuleApplications Multi-module web application development]
   * [WebXmlHandlerRegistration Web XML based servlet and filter registration]
   * [WebModuleBasedHandlerRegistration Module based servlet and filter registration]
 
-[ServletsAndFilters Impala servlets and filters]
+[ServletsAndFilters Impala servlets and filters] - reference on servlets and filters provided by Impala.
 
-[WebSessionManagement Session management with module reloads]
+[WebSessionManagement Session management with module reloads] - describes how session state is preserved for reloaded module classes.
 
-[WebThirdPartyFrameworks Third party frameworks support]
+[WebThirdPartyFrameworks Third party frameworks support] - background and info on getting Impala working with web frameworks other than Spring MVC.
 
 
 
