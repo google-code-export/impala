@@ -33,6 +33,8 @@ Below are some of Impala's web application development features:
 
 [WebThirdPartyFrameworks Third party frameworks support] - background and info on getting Impala working with web frameworks other than Spring MVC.
 
+[WebNamespaceHandler WebNamespaceHandler] - reference for the Impala `web` namespace, which simplifies servlet and filter registration, especially for [WebModuleBasedHandlerRegistration module-based servlets and filters].
+
 
 
 
