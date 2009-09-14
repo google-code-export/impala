@@ -174,11 +174,8 @@ Note that init parameters can alternatively specified using the contained 'initP
 If both the 'init-parameters' element and the 'initParameters' attribute are specified, and both contain the same attribute name,
 then the definition in the 'init-parameters' element takes precedence.
 
-===== 'param' attribute =====
-
-Used to specify an individual parameter with an 'init-parameters' element declaration.
-
-The `name` attribute specifies the name of the init parameter, while the `value` attribute specifies the value for the init parameter.
+The nested `param` element is used to specify an individual parameter with an 'init-parameters' element declaration.
+Its `name` attribute specifies the name of the init parameter, while the `value` attribute specifies the value for the init parameter.
 
 ==== 'servletClass' attribute ====
 
