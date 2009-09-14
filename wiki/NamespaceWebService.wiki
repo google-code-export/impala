@@ -159,7 +159,7 @@ in servlet or filter mappings.
 
 ==== 'factoryClass' attribute ====
 
-The FactoryBean class used to create and destroy the servlet or filter instance. If not specified, then
+The `FactoryBean` class used to create and destroy the servlet or filter instance. If not specified, then
 defaults to `org.impalaframework.web.spring.integration.ServletFactoryBean` (for servlets) or 
 `org.impalaframework.web.spring.integration.FilterFactoryBean` (for filters).
 
