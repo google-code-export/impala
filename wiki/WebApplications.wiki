@@ -23,7 +23,7 @@ Below are some of Impala's web application development features:
 
 [WebApplicationStructure Anatomy of an Impala web application]. 
 Describes briefly how different Impala configuration files are used during Impala and application load process.  
-  
+
 [WebMultiModuleApplications Multi-module web application development]
   * [WebXmlHandlerRegistration Web XML based servlet and filter registration]
   * [WebModuleBasedHandlerRegistration Module based servlet and filter registration]
