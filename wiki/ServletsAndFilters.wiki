@@ -10,7 +10,7 @@ This is an extension of Spring MVC's `DispatcherSerlvet`. Use this servlet when
   * You are using Spring MVC as your web framework.
   * You are happy to declare the servlet in _web.xml_.
   
-An example is shown below, taken from the [SamplesPetclinic Petclinic sample]:
+An example is shown below, taken from the [SamplesExample examples sample]:
 
 {{{
 <servlet>
