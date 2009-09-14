@@ -17,43 +17,22 @@ Below are some of Impala's web application development features:
   * *dynamic reloading support for other frameworks*: Impala provides the support not only for Spring MVC-based web applications, but for web applications written using arbitrary Java web frameworks (see the bottom of the page for a caveat on this)
   * *objects held in the `HttpSession` should survive module reloads*, even if the class loader used to load the object originally saved in the session is discarded. See below in this page for more details. 
   
-== Initial setup of web application ==
+== Impala Web Development Documentation ==
 
 [WebApplicationBootstrapping Bootstrapping web applications]. 
 
 [WebApplicationStructure Anatomy of an Impala web application]. 
 Describes briefly how different Impala configuration files are used during Impala and application load process.  
   
-== Developing multi-module applications ==
-
-1) Impala allows you to arrange your web tier modules in a hierarchy. Just as you have a root module for the application as a whole, 
-you also have a root module for the web tier, know as the _web root module_. The _web root module_ contains the servlet context resources,
-that is, the resources which will be found below the context path in a deployed application, such as styles, images, jsp files, etc.
-
-2) It is also possible to host resources in the modules themselves.
-
-3) Impala provides web application modularity by allowing each module to be represented by at least one filter or servlet.
-It is also possible to have multiple filters or servlets servicing requests, per module.
-
-Note that Impala supports two styles of setting up handlers (filters and servlets) for your aplication:
-  * [WebXmlHandlerRegistration Standard _web.xml_ based handler registration]. This is simpler getting started but is much more limited in what you can achieve.
-  * [WebModuleBasedHandlerRegistration Module based handler registration]. This requires a little more understanding but offers much greater flexibility when developing multi-module applicaitons.
-  
-== Other Features ==
-
-=== Servlets and Filters ===
-
-Impala provides a number of servlets and filters which you can use in your application for different purposes.
+[WebMultiModuleApplications Multi-module web application development]
+  * [WebXmlHandlerRegistration Web XML based servlet and filter registration]
+  * [WebModuleBasedHandlerRegistration Module based servlet and filter registration]
 
 [ServletsAndFilters Impala servlets and filters]
 
-=== Multi-module session management ===
+[WebSessionManagement Session management with module reloads]
 
-See [WebSessionManagement mechanism for multi-module session management].
-
-=== Third party frameworks ===
-
-See [WebThirdPartyFrameworks third party frameworks support] documentation for more details on this.
+[WebThirdPartyFrameworks Third party frameworks support]
 
 
 
