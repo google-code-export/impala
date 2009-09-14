@@ -259,3 +259,18 @@ Instead of passing the real filter chain to the delegate filter, it instead pass
 When the `InternalFrameworkIntegrationFilter` has finished processing the request, `ModuleProxyFilter`  will check this method. 
 If it return true, the real `FilterChain` is invoked. This ensures that the next invocation in the filter chain does not occur in within the module
 itself.
+
+An example configuration from the [SamplesUrlMapping URL mapping sample] is shown below:
+
+{{{
+<filter>
+    <filter-name>web</filter-name>
+    <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
+    <load-on-startup>2</load-on-startup>
+</filter>
+
+<filter-mapping>
+    <filter-name>web</filter-name>
+    <url-pattern>/*</url-pattern>
+</filter-mapping>
+}}}
