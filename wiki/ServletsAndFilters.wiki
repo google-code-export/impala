@@ -4,7 +4,7 @@
 
 Impala provides a number of servlets which can be used in your application, depending your usage scenario.
 
-==== !org.impalaframework.web.servlet.ExternalModuleServlet ====
+==== `!org.impalaframework.web.servlet.ExternalModuleServlet` ====
 
 This is an extension of Spring MVC's `DispatcherSerlvet`. Use this servlet when
   * You are using Spring MVC as your web framework.
