@@ -50,6 +50,20 @@ the [SamplesExample example samples] application:
 </bean>	
 }}}
 
+Actually, it's much easier to configure this using the `servlet` element from the 
+Impala `web` namespace:
+
+{{{
+<web:servlet id = "example-servlet2" 
+  servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+}}}
+
+or, since `InternalModuleServlet` is the default servlet class if none is specified, simply:
+
+{{{
+<web:servlet id = "example-servlet2"/>
+}}}
+
 Notice how `ServletFactoryBean` is used to configure, and also to provide life cycle calls, for the servlet instance.
 
 Another key difference with `ExternalModuleServlet` is that it is instantiated and destroyed each time the module 
