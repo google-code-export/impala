@@ -33,7 +33,7 @@
 ==== Web ==== 
   * [WebApplications Web applications with Impala]
   * [PropertyConfiguration Impala properties]
-  * [WebApplicationBootstrapping Web configuration]
+  * [WebApplicationBootstrapping Initial setup]
 
 ==== Configuration ==== 
   * [ModuleStructure Module structure]
