@@ -16,6 +16,7 @@ package org.impalaframework.classloader.graph;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Properties;
 
@@ -70,6 +71,22 @@ public class GraphBasedClassLoaderTest extends TestCase {
         factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
         factory.setModuleLocationResolver(new TestClassResolver());
         dependencyManager.unfreeze();
+    }
+    
+    public void testFindResources() throws Exception {
+
+        //finds copy in impala-core/bin directory
+        ClassLoader eClassLoader = factory.newClassLoader(dependencyManager, eDefinition);
+        final ArrayList<URL> eList = Collections.list(eClassLoader.getResources("beanset.properties"));
+        assertEquals(1, eList.size());
+        System.out.println(eList.get(0));
+        
+        //note that bClassLoader finds two copies, as there is also a copy in the module-b/bin directory
+        //however does not find copy in impala-core directory
+        ClassLoader bClassLoader = factory.newClassLoader(dependencyManager, bDefinition);
+        final ArrayList<URL> bList = Collections.list(bClassLoader.getResources("beanset.properties"));
+        assertEquals(2, bList.size());
+        System.out.println(bList.get(0));
     }
     
     public void testFreeze() throws Exception {
