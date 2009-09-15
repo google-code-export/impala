@@ -52,7 +52,8 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             ClassLoader parentClassLoader,
             DelegateClassLoader delegateClassLoader,
             ClassRetriever classRetriever, 
-            ModuleDefinition definition, boolean loadParentFirst) {
+            ModuleDefinition definition, 
+            boolean loadParentFirst) {
         
         super(parentClassLoader);
         this.moduleDefinition = definition;
@@ -177,7 +178,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     
     /**
      * Attempt to load a resource, first by calling
-     * <code>getCustomResource</code>. If the resource is not found
+     * <code>getLocalResource</code>. If the resource is not found
      * <code>super.getResource(name)</code> is called.
      */
     @Override
@@ -197,7 +198,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /**
-     * Returns enumeration of local resource, combined with those of parent
+     * Returns enumeration of local resource, combined with those of superclass's
      * class loader.
      */
     @Override
@@ -207,8 +208,8 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         URL localResource = getLocalResource(name);
         if (localResource != null) {
             List<URL> combined = new ArrayList<URL>();
-            ArrayList<URL> list = Collections.list(resources);
             combined.add(localResource);
+            ArrayList<URL> list = Collections.list(resources);
             combined.addAll(list);
             return Collections.enumeration(combined);
         }
