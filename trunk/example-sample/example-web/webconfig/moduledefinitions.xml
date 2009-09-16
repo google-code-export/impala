@@ -11,32 +11,35 @@
     </names>
     <modules>  
         <module>
+            <name>example-dao</name>
+            <config-locations>
+                <config-location>example-dao-context.xml</config-location>
+            </config-locations>
+            <type>application</type>
+        </module>  
+        <module>
             <name>example-web</name>
             <config-locations>
                 <config-location>example-web.xml</config-location>
             </config-locations>
-            <type>WEB_ROOT</type>
         </module>
         <module>
             <name>example-servlet1</name>
             <config-locations>
                 <config-location>example-servlet1-context.xml</config-location>
             </config-locations>
-            <type>WEB</type>
         </module>
         <module>
             <name>example-servlet2</name>
             <config-locations>
                 <config-location>example-servlet2-context.xml</config-location>
             </config-locations>
-            <type>WEB</type>
         </module>
         <module>
             <name>example-servlet3</name>
             <config-locations>
                 <config-location>example-servlet3-context.xml</config-location>
             </config-locations>
-            <type>WEB</type>
         </module>
     </modules>
 </root>
