@@ -9,10 +9,7 @@
     example-servlet3
     example-servlet4
     </names>
-    <modules>
-        <module>
-            <name>example-service</name>
-        </module>   
+    <modules>  
         <module>
             <name>example-web</name>
             <config-locations>
@@ -25,21 +22,21 @@
             <config-locations>
                 <config-location>example-servlet1-context.xml</config-location>
             </config-locations>
-            <type>SERVLET</type>
+            <type>WEB</type>
         </module>
         <module>
             <name>example-servlet2</name>
             <config-locations>
                 <config-location>example-servlet2-context.xml</config-location>
             </config-locations>
-            <type>SERVLET</type>
+            <type>WEB</type>
         </module>
         <module>
             <name>example-servlet3</name>
             <config-locations>
                 <config-location>example-servlet3-context.xml</config-location>
             </config-locations>
-            <type>SERVLET</type>
+            <type>WEB</type>
         </module>
     </modules>
 </root>
