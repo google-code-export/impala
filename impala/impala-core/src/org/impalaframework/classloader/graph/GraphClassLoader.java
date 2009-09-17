@@ -61,7 +61,20 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         this.delegateClassLoader = delegateClassLoader;
         this.loadParentFirst = loadParentFirst;     
     }
-
+    
+    /**
+     * Attempts to load class for given name. If {@link #loadParentFirst} is set true, 
+     * then will first delegate to the parent class loader, which will typically either be the 
+     * system class loader or the web application class loader for web applications.
+     * It will then attempt to load the class from one of the modules, starting with the 
+     * root module and modules without other dependencies, finally ending searching within
+     * the current module (the module with with which this class loader instance is associated).
+     * 
+     *  Note that if {@link #loadParentFirst} is set to false, then the module graph is searched 
+     *  first before delegating to the parent class loader. This is particularly useful in environments
+     *  where certain modules are on the system class path (for example, when running integration tests as a 
+     *  test suite within Eclipse).
+     */
     @Override
     public Class<?> loadClass(String className) throws ClassNotFoundException {
         
@@ -109,6 +122,16 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         throw new ClassNotFoundException("Unable to find class " + className);
     }
 
+    /**
+     * Implements the mechanism for loading a class within the module.
+     * 
+     * First checks to see whether the class is present in the local class loader cache.
+     * If not, and <code>tryDelegate</code> is true, then will pass the request to the {@link #delegateClassLoader}
+     * instance, which will attempts to load the class from dependent modules.
+     * 
+     * Finally, if the class is not found, then attempts to load it locally within the current module.
+     * If the class is still not found, a {@link ClassNotFoundException} is thrown.
+     */
     public Class<?> loadCustomClass(String className, boolean tryDelegate) throws ClassNotFoundException,
             ClassFormatError {
         
@@ -153,6 +176,9 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return clazz;
     }
 
+    /**
+     * Returns true if classes loaded by the specified class loader are visible to the current class loader.
+     */
     public boolean hasVisibilityOf(ClassLoader classLoader){
         if (classLoader == this) {
             return true;
@@ -178,8 +204,20 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     
     /**
      * Attempt to load a resource, first by calling
-     * <code>getLocalResource</code>. If the resource is not found
-     * <code>super.getResource(name)</code> is called.
+     * <code>getLocalResource</code>. If the resource is not found, the
+     * {@link #delegateClassLoader} is asked to locate the resource.
+     * 
+     * If neither the local class loader nor the delegates can find the
+     * resource, this means it is not within the module class path. At this
+     * point, the rest of the class path is searched via a
+     * <code>super.getResource(name)</code> class.
+     * 
+     * Note that while class loading first delegates the class loading request,
+     * resource loading effectively works in reverse. When delegating the
+     * resource loading request, modules nearest to the current module are
+     * checked first. The check for the resource is only delegated to the system
+     * or web application class loader if the resource is not found within the
+     * module hierarchy.
      */
     @Override
     public URL getResource(String name) {
@@ -198,8 +236,18 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /**
-     * Returns enumeration of local resource, combined with those of parent 
+     * Returns enumeration of local resource, combined with those of parent
      * class loader.
+     * 
+     * The implementation of {@link #getResources(String)} is pretty
+     * conservative. For a given resource name, only one resource URL will ever
+     * be found from within the module hierarchy. Also, only the current module
+     * is searched. It's ancestor and dependent modules are not searched for the
+     * resource.
+     * 
+     * The module resource, if found, is returned as an {@link Enumeration}
+     * which also includes the resources obtained from the standard or
+     * application class loader via the super{@link #getResources(String)} call.
      */
     @Override
     public Enumeration<URL> getResources(String name) throws IOException {
@@ -220,6 +268,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     /**
      * Attempts to find a resource from one of the file system locations
      * specified in a constructor.
+     * 
      * @param name the name of the resource to load
      * @return a <code>URL</code> instance, if the resource can be found,
      * otherwise null.
