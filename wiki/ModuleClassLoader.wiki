@@ -33,5 +33,41 @@ http://impala.googlecode.com/svn/wiki/images/modules-graph.png
 
 == Class loading ==
 
+=== Current Module ===
+
+Whether the class is found will depend on what the *current module* is. So what do we mean by 'current module'. If a module is in the process of being
+loaded (for example, if a Spring application context is created), then the current module is the one being loaded. Once the application is running
+the current module may take a couple of different meanings. For a web application processing an HTTP request, the current module will initially be the
+one to which the request is first directed. However, the request may then involve calls to code defined in other modules.
+
+Impala will change the thread's context class loader so that it reflects the module processing the request. This means that if code in the 
+module needs to load classes after the module has loaded, it will be able do so using the same class loader which loaded the code in the first place.
+
+=== Load order ===
+
+Suppose you attempt to load the class named `D` which is contained within the module D. If the current module is D, then Impala 
+will first attempt to load the module using the class loader associated with the root module A. 
+Failing to find it there, it will look in B, then C, and then in D.
+
+What if we are currently in module B, and attempt to load class `D`. In this case, it will only look in modules A and B.
+It will fail to find the class, and throw a `ClassNotFoundException`.
+
+=== Loading third party libraries ===
+
+Our example above only considers loading of a module class. What about third party classes, for example, contained in _WEB-INF/lib_ in a web
+application, or in the Java standard libraries?
+
+These classes will be loaded in exactly the same way as in standard standalone or web applications, following the standard class loader
+delegation model.
+
+All that remains to be determined is how the third party class loading mechanism and module class loading mechanisms fit together. 
+Which will be searched first?
+
+Actually, this depends on the Impala property 'parent.classloader.first'. If this is set to true, then Impala will first delegate to the system/web application
+class loader, only using the module class loader if unable to find the class. If set to false, Impala will first use the module class loader, only then delegating
+to the system/application class loader if the class is not found.
+
+So why is this option available, and what are its consequences?
+
 
 == Resource loading ==
