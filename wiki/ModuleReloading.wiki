@@ -14,7 +14,7 @@ file, which contains metadata about the module, and one or more Spring applicati
 containing bean definitions.
 
 An example is shown below:
-http://impala.googlecode.com/svn/wiki/images/url_mapping.jpg
+http://impala.googlecode.com/svn/wiki/images/url_mapping.png
 
 A module can be deployed from a folder on the file system (for example, the _bin_ directory of your Eclipse project)
 or from a jar in your web application (typically, contained in the _/WEB-INF/modules_ directory).
