@@ -49,6 +49,7 @@ import org.impalaframework.graph.VertexTestCase;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.DependencyManagerErrorTest;
+import org.impalaframework.module.definition.DependencyManagerGraphTest;
 import org.impalaframework.module.definition.DependencyManagerTest;
 import org.impalaframework.module.definition.ModuleDefinitionToStringTest;
 import org.impalaframework.module.definition.ModuleDefinitionUtilsTest;
@@ -228,6 +229,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(DelegatingServiceRegistryTest.class);
         suite.addTestSuite(DependencyManagerErrorTest.class);
         suite.addTestSuite(DependencyManagerTest.class);
+        suite.addTestSuite(DependencyManagerGraphTest.class);
         suite.addTestSuite(DirectoryResourceTest.class);
         suite.addTestSuite(DynamicPropertiesFactoryBeanTest.class);
         suite.addTestSuite(DefaultServiceProxyFactoryCreatorTest.class);
