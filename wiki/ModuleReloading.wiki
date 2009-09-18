@@ -64,7 +64,7 @@ Suppose, for the same initial starting point, module A was explicitly reloaded, 
   * load D
   
 Impala will automatically unload and then reload dependency of any modules you explicitly choose to load, and do so in the correct order.
-  
+
 *Finally*, module load operations are applied. In the case of unloading modules, the life cycle methods will result in the closing of
 Spring application contexts, and the discarding of class loaders associated with the unloaded modules. 
 Beans previously exported to the service registry will be removed.
