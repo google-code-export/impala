@@ -13,6 +13,9 @@ Typically, it will contain classes as well resources. Significant among these wi
 file, which contains metadata about the module, and one or more Spring application context definition files, 
 containing bean definitions.
 
+An example is shown below:
+http://impala.googlecode.com/svn/wiki/images/url_mapping.jpg
+
 A module can be deployed from a folder on the file system (for example, the _bin_ directory of your Eclipse project)
 or from a jar in your web application (typically, contained in the _/WEB-INF/modules_ directory).
 In both cases, the folder or jar will contain the resources present in your Eclipse class path, with Java files compiled, of course.

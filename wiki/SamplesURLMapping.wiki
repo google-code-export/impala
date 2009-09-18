@@ -14,6 +14,10 @@ svn co http://impala.googlecode.com/svn/trunk/urlmapping-sample urlmapping-sampl
 
 Then open an Eclipse workspace in the new _urlmapping-sample_ folder, and import all the projects into the workspace.
 
+The workspace should look something like this:
+
+http://impala.googlecode.com/svn/wiki/images/url_mapping.jpg
+
 == Run the sample ==
 
 From within Eclipse, run `StartServer` as a web application. Then connect using the URL:
