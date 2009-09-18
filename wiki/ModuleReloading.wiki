@@ -1,6 +1,6 @@
-#summary Module Reloading
+#summary How module reloading works in Impala
 
-This page describes module reloading in Impala.
+This page describes module reloading in Impala, but also gives a bit more background on how modules are represented.
 
 == Module Representation ==
 
