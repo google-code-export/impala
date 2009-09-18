@@ -1,0 +1,37 @@
+#summary Understanding Impala's module class loader
+
+The main class loader used in Impala is [GraphClassLoader http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/classloader/graph/GraphClassLoader.java]
+which takes that name because it supports dependencies between modules arranged in a graph, rather than simply a hierarchical or tree-style relationship.
+
+== An example ==
+
+Impala's Graph class loader allows you to express dependencies between modules in the form of a graph. What does this mean.
+
+=== Hierarchical relationships ===
+
+Suppose you have a root module A, which has children B and C. In this case
+  * The classes in module A will be visible to classes in modules B and C. 
+  * However, the classes in B will not be visible to the classes in C, and vice versa.
+  * Also, the classes in B will not be visible to A, and neither will the classes in C be visible to A.
+  
+What I describe above is a hierarchical relationship, shown below:
+
+http://impala.googlecode.com/svn/wiki/images/modules-hierarchy.png
+
+It allows class loader relationships to be expressed on a parent child basis.
+
+=== Graph-based relationships ===
+
+While this offers a fair amount of flexibility, it is not really sufficient for many real world applications.
+
+Suppose we introduce a new module D, which we would like to be a child of B. However, suppose we would like 
+some of the classes that we define in D to also depend on classes in C. With a simple parent to child or hiearchical relationship, 
+this is not possible. Instead, we need a graph based relationship, which allows classes in individual modules to have
+visibility of classes from multiple dependent modules.
+
+http://impala.googlecode.com/svn/wiki/images/modules-graph.png
+
+== Class loading ==
+
+
+== Resource loading ==
