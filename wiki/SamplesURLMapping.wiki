@@ -16,7 +16,7 @@ Then open an Eclipse workspace in the new _urlmapping-sample_ folder, and import
 
 The workspace should look something like this:
 
-http://impala.googlecode.com/svn/wiki/images/url_mapping.jpg
+http://impala.googlecode.com/svn/wiki/images/url_mapping.png
 
 == Run the sample ==
 
