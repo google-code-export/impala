@@ -17,7 +17,7 @@ An example is shown below:
 
 http://impala.googlecode.com/svn/wiki/images/url_mapping.png
 
-For more details, see ModuleStructure.
+For more details on the structuring of modules, see ModuleStructure.
 
 A module can be deployed from a folder on the file system (for example, the _bin_ directory of your Eclipse project)
 or from a jar in your web application (typically, contained in the _/WEB-INF/modules_ directory).
