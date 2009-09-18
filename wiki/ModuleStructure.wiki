@@ -78,7 +78,7 @@ will end up in the _WEB-INF/classes_ directory of the web application.
 The key Impala-specific files in this folder are:
   * _impala.properties_: the property file used to configure Impala itself. You can use this file to specify the application context files which should be 
   loaded when Impala is initialised (yes, Impala is initialised as a Spring application context). It also contains various Impala-specific configuration properties.
-  * _impala-embedded.properties: an alternative to _impala.properties_ when Impala is run embedded within the IDE. The structure of the 
+  * _impala-embedded.properties_: an alternative to _impala.properties_ when Impala is run embedded within the IDE. The structure of the 
   project at runtime can vary depending, for example, whether you are running Impala within a WAR file or running embedded it within Eclipse.
   The different settings in these respective files reflect these differences.
   * _module_definitions.xml_: this is the module definition descriptor which lists the modules to be loaded by the web application. It also can be used
