@@ -1,6 +1,6 @@
 #summary Understanding Impala's module class loader
 
-The main class loader used in Impala is [GraphClassLoader http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/classloader/graph/GraphClassLoader.java]
+The main class loader used in Impala is [http://impala.googlecode.com/svn/trunk/impala/impala-core/src/org/impalaframework/classloader/graph/GraphClassLoader.java GraphClassLoader]
 which takes that name because it supports dependencies between modules arranged in a graph, rather than simply a hierarchical or tree-style relationship.
 
 == An example ==
