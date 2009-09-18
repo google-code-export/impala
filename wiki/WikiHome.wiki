@@ -45,6 +45,7 @@
   * [ImpalaJMX Impala JMX]
 
 ==== Advanced ====
+  * [ModuleReloading How module reloading works]
   * [InternalInterfaces Impala internal interfaces]
   * [BootstrapContexts Setting Impala's bootstrap Spring context locations]
   * [ExtendingImpala Extending Impala]
