@@ -34,12 +34,12 @@ public class DependencyManagerGraphTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        manager = new DependencyManager(rootDefinition);
-        manager.unfreeze();
     }
     
     public void testGetDirectDependees() throws Exception {
         rootDefinition = definitionSet1();
+        manager = new DependencyManager(rootDefinition);
+        manager.unfreeze();
         Collection<ModuleDefinition> allModules = manager.getAllModules();
         assertModules("root,b,c,d", allModules);
     }
@@ -60,10 +60,10 @@ public class DependencyManagerGraphTest extends TestCase {
         ModuleDefinition b = newDefinition(definitions, a, "b", null);
         
         //c is child of a
-        ModuleDefinition c = newDefinition(definitions, a, "c", null);
+        newDefinition(definitions, a, "c", null);
         
         //d is child of b but depends on b
-        ModuleDefinition d = newDefinition(definitions, b, "d", "c");
+        newDefinition(definitions, b, "d", "c");
         
         return a;
     }
