@@ -71,6 +71,6 @@ So why is this option available, and what are its consequences?
 
 The reason why this option is available is that at times it is necessary to run Impala in environments where module classes are also on the system class path. If class loading was always delegated first to the system class loader, then it would not be possible to reload these modules. In this case, the module class path is searched first, then the system class path.
 
-So when can this cause problems? The answer is if modules contain classes which are also present in third party jars. In this case, which of the classes gets loaded will depend on whether `parent.classloader.first` is set true or false. Obviously, this is an undesirable situation - in order to protect against it, it is important that modules classes are contained in packages which follow a well defined naming convention which prevents these types of clashes from occurring.
+So when can this cause problems? The answer is if modules contain classes which are also present in third party jars. In this case, which of the classes gets loaded will depend on whether `parent.classloader.first` is set true or false. Obviously, this is an undesirable situation - but in general it should not be a problem. In order to protect against this situation, it is important that modules classes are contained in packages which follow a well defined naming convention which prevents these types of clashes from occurring.
 
 == Resource loading ==
