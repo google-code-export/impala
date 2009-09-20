@@ -153,15 +153,52 @@ An example is shown below:
 </web:filter>
 }}}
 
+==== 'filterClass' attribute ====
+
+The class of the filter declared using the 'filter' element. There is no default for this attribute.
+
+==== 'filterName' attribute ====
+
+The name of the filter declared using the 'filter' element. Used to identify the filter when performing
+URL to filter mappings. If not specified, the 'id' attribute is used for this purpose.
+
+==== 'delegatorFilterName' attribute ====
+
+This optional attribute is used if the registered filter is fronting a non-Spring MVC-based web framework. In this case,
+a delegator filter can automatically be registered on this filter's behalf. This delegator performs some
+additional functions required for integration with non-Spring MVC filters such as setting the thread
+context class loader.
+
+The name of the delegator filter is given using this attribute.
+
 === 'servlet' element ===
 
-Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the module.
+Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the module. An example is shown below:
 
 {{{
 <web:servlet id = "urlmapping-resources" 
     servletClass = "org.springframework.js.resource.ResourceServlet"
     initParameters = "cacheTimeout=10"/>
 }}}
+
+==== 'servletClass' attribute ====
+
+The class of the servlet declared using the 'servlet' element. Note that if not provided, will default to 
+`org.impalaframework.web.spring.servlet.InternalModuleServlet`.
+
+==== 'servletName' attribute ====
+
+The name of the servlet declared using the 'servlet' element. Used to identify the servlet when performing
+URL to servlet mappings. If not specified, the 'id' attribute is used for this purpose.
+
+==== 'delegatorServletName' attribute ====
+
+This optional attribute is used if the registered servlet is not a Spring MVC servlet. In this case,
+a delegator servlet can automatically be registered on this servlet's behalf. This delegator performs some
+additional functions required for integration with non-Spring MVC servlets such as setting the thread
+context class loader.
+
+=== Attributes used by both the 'servlet' and 'filter' elements ===
 
 The `filter` and `servlet` elements define a common set of nested elements and attributes as described below.
 
@@ -221,37 +258,3 @@ then the definition in the 'init-parameters' element takes precedence.
 The nested `param` element is used to specify an individual parameter with an 'init-parameters' element declaration.
 Its `name` attribute specifies the name of the init parameter, while the `value` attribute specifies the value for the init parameter.
 
-==== 'servletClass' attribute ====
-
-The class of the servlet declared using the 'servlet' element. Note that if not provided, will default to 
-`org.impalaframework.web.spring.servlet.InternalModuleServlet`.
-
-==== 'filterClass' attribute ====
-
-The class of the filter declared using the 'filter' element. There is no default for this attribute.
-
-==== 'servletName' attribute ====
-
-The name of the servlet declared using the 'servlet' element. Used to identify the servlet when performing
-URL to servlet mappings. If not specified, the 'id' attribute is used for this purpose.
-
-==== 'delegatorServletName' attribute ====
-
-This optional attribute is used if the registered servlet is not a Spring MVC servlet. In this case,
-a delegator servlet can automatically be registered on this servlet's behalf. This delegator performs some
-additional functions required for integration with non-Spring MVC servlets such as setting the thread
-context class loader.
-
-==== 'filterName' attribute ====
-
-The name of the filter declared using the 'filter' element. Used to identify the filter when performing
-URL to filter mappings. If not specified, the 'id' attribute is used for this purpose.
-
-==== 'delegatorFilterName' attribute ====
-
-This optional attribute is used if the registered filter is fronting a non-Spring MVC-based web framework. In this case,
-a delegator filter can automatically be registered on this filter's behalf. This delegator performs some
-additional functions required for integration with non-Spring MVC filters such as setting the thread
-context class loader.
-
-The name of the delegator filter is given using this attribute.
