@@ -25,12 +25,12 @@ this with a schema location.
 
 == Mapping Elements ==
 
-=== `context-listener` element ===
+=== context-listener element ===
 
 Creates a module level servlet context listener whose life cycle is tied to that of the module.
 `contextInitialized()` is called when the module loads, and `contextDestroyed()` when the module is unloaded.
 
-=== `mapping` element ===
+=== mapping element ===
 
 Container element for to-module and to-handler mappings. 
 The `to-module` element is used to direct requests for particular URLs, based on the URI to-module, to the current module.
@@ -66,7 +66,7 @@ In this example, requests beginning with _/webview/*_ are mapped to the current 
 requests ending with `*.htm` are mapped to the filters `characterEncodingFilter` and `sysoutLoggingFilter`, and
 to the servlet `urlmapping-webview`. Requests ending with `*.css` are mapped to the `url-mapping` resources.
 
-=== `to-module` element ===
+=== to-module element ===
 
 Used to direct request to the current module, based on URI to-module.
 
@@ -78,7 +78,7 @@ to that module instead. For example, if module A contains a to-module element wi
 but module B contains one with path _/prefix1/path1_, then a request with URI _/app/prefix1/path1resource_
 will be directed to module B, not module A.
 
-==== `setServletPath` attribute ====
+==== setServletPath attribute ====
 
 Whether to set the servlet path in the request passed to servlets or filters in this module. 
 Setting this value has the effect of altering the values returned by calls to 
@@ -92,7 +92,7 @@ then this value is used.
 Calls to `getServletPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
-==== `servletPath` attribute ====
+==== servletPath attribute ====
 
 If a value is set for this optional attribute, 
 then as long as `setServletPath` is not set with a value of false, then sets 
@@ -103,7 +103,7 @@ by calls from within the module to `getServletPath()`.
 Calls to `getServletPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
-=== `to-handler` element ===
+=== to-handler element ===
 
 Used to map requests with a particular extension to a servlet and/or list of filters. For each request mapped to the module
 using the `to-module` element, the `to-handler` element performs a second level mapping function within the module itself.
@@ -118,7 +118,7 @@ are mapped to this filter.
 - If in either of the above cases more than one filter or servlet is found, an exception is thrown, since in this case it is not
 possible to determine unambiguously what the filter or servlet mapping should be.
 
-==== `extension` attribute ====
+==== extension attribute ====
 
 The file extension in the URI for a request mapped to the module using the `to-module` element.
 
@@ -129,11 +129,11 @@ Special values include:
   * `'*'`: denotes all extensions. Will match any URI mapped to the module using the to-module element.
   * `'[none]'`: used for URI's without file extensions. Will match a URI such as _/app/prefix/resourceWithoutExtension_.
 
-==== `servletName` attribute ====
+==== servletName attribute ====
 
 The name of a servlet registered within the module to which the request should be mapped. Can be omitted.
 
-==== `filterNames` attribute ====
+==== filterNames attribute ====
 
 Comma-separated list of names of servlets registered within the module to which the request should be mapped. Can be omitted.
 
@@ -141,7 +141,7 @@ Comma-separated list of names of servlets registered within the module to which 
 
 == Handler Elements ==
 	
-=== `filter` element ===
+=== filter element ===
 
 Creates a `javax.servlet.Filter` who's life cycle is bound to that of the module.
 An example is shown below:
@@ -153,16 +153,16 @@ An example is shown below:
 </web:filter>
 }}}
 
-==== `filterClass` attribute ====
+==== filterClass attribute ====
 
 The class of the filter declared using the `filter` element. There is no default for this attribute.
 
-==== `filterName` attribute ====
+==== filterName attribute ====
 
 The name of the filter declared using the `filter` element. Used to identify the filter when performing
 URL to filter mappings. If not specified, the `id` attribute is used for this purpose.
 
-==== `delegatorFilterName` attribute ====
+==== delegatorFilterName attribute ====
 
 This optional attribute is used if the registered filter is fronting a non-Spring MVC-based web framework. In this case,
 a delegator filter can automatically be registered on this filter's behalf. This delegator performs some
@@ -171,7 +171,7 @@ context class loader.
 
 The name of the delegator filter is given using this attribute.
 
-=== `servlet` element ===
+=== servlet element ===
 
 Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the module. An example is shown below:
 
@@ -181,17 +181,17 @@ Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the m
     initParameters = "cacheTimeout=10"/>
 }}}
 
-==== `servletClass` attribute ====
+==== servletClass attribute ====
 
 The class of the servlet declared using the `servlet` element. Note that if not provided, will default to 
 `org.impalaframework.web.spring.servlet.InternalModuleServlet`.
 
-==== `servletName` attribute ====
+==== servletName attribute ====
 
 The name of the servlet declared using the `servlet` element. Used to identify the servlet when performing
 URL to servlet mappings. If not specified, the `id` attribute is used for this purpose.
 
-==== `delegatorServletName` attribute ====
+==== delegatorServletName attribute ====
 
 This optional attribute is used if the registered servlet is not a Spring MVC servlet. In this case,
 a delegator servlet can automatically be registered on this servlet's behalf. This delegator performs some
@@ -202,13 +202,13 @@ context class loader.
 
 The `filter` and `servlet` elements define a common set of nested elements and attributes as described below.
 
-==== `id` attribute ====
+==== id attribute ====
 
 The id for this bean. If the servletName (for servlets) or filterName (for filters) attribute is not specified
 then the id is used to specify the name of the servlet or filter, which is in turn used to identify the filter
 in servlet or filter mappings.
 
-==== `factoryClass` attribute ====
+==== factoryClass attribute ====
 
 The `FactoryBean` class used to create and destroy the servlet or filter instance. If not specified, then
 defaults to `org.impalaframework.web.spring.integration.ServletFactoryBean` (for servlets) or 
@@ -217,7 +217,7 @@ defaults to `org.impalaframework.web.spring.integration.ServletFactoryBean` (for
 You won't need to specify a value for this property unless you need to override the default mechanism for
 instantiating or destroying the servlet or filter instance.
 
-==== `initParameters` attribute ====
+==== initParameters attribute ====
 
 Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
 Has the same effect as specifying `<init-param>` entries in _web.xml_. 
@@ -236,7 +236,7 @@ Note that init parameters can alternatively specified using the contained `init-
 If both the `init-parameters` element and the `initParameters` attribute are specified, and both contain the same attribute name,
 then the definition in the `init-parameters` element takes precedence.
 
-==== `init-parameters` element ====
+==== init-parameters element ====
 
 Optionally, used to specify init parameters which are passed to the servlet or filter instance. 
 Has the same effect as specifying `<init-param>` entries in _web.xml_. 
