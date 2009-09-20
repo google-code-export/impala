@@ -41,14 +41,14 @@ public class DependencyManagerGraphTest extends TestCase {
         manager = new DependencyManager(rootDefinition);
         manager.unfreeze();
         Collection<ModuleDefinition> allModules = manager.getAllModules();
-        assertModules("root,b,c,d", allModules);
+        assertModules("root,f,b,c,g,d,e", allModules);
     }
 
     private SimpleRootModuleDefinition definitionSet1() {
         List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
         
         //root has no sibling or dependencies
-        SimpleRootModuleDefinition a = new SimpleRootModuleDefinition(
+        SimpleRootModuleDefinition root = new SimpleRootModuleDefinition(
                 "root", 
                 new String[] {"root.xml"}, 
                 null, 
@@ -56,16 +56,26 @@ public class DependencyManagerGraphTest extends TestCase {
                 null, 
                 null);
         
-        //b is child of a
-        ModuleDefinition b = newDefinition(definitions, a, "b", null);
+        //f is a sibling of root
+        ModuleDefinition f = newDefinition(definitions, null, "f", null);
+        root.addSibling(f);        
+
+        //g is a child of f
+        newDefinition(definitions, f, "g", null);
         
-        //c is child of a
-        newDefinition(definitions, a, "c", null);
+        //b is child of root
+        ModuleDefinition b = newDefinition(definitions, root, "b", null);
         
-        //d is child of b but depends on b
-        newDefinition(definitions, b, "d", "c");
+        //d is a child of b
+        ModuleDefinition d = newDefinition(definitions, b, "d", null);
         
-        return a;
+        //c is also child of root
+        newDefinition(definitions, root, "c", null);
+        
+        //e is child of d but depends on c
+        newDefinition(definitions, d, "e", "c");
+        
+        return root;
     }
     
 }

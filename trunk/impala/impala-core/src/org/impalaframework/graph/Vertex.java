@@ -116,7 +116,7 @@ public final class Vertex implements Comparable<Vertex>
     }
 
     /**
-     * Add a dependecy to this Vertex.  The Vertex that this one depends on will
+     * Add a dependency to this Vertex.  The Vertex that this one depends on will
      * be marked as referenced and then added to the list of dependencies.  The
      * list is checked before the dependency is added.
      *
