@@ -45,7 +45,7 @@ For example, suppose your application consists of loaded modules A, B, C and D, 
   * A is the parent of B and C
   * D is the child of B but depends on C 
  
-Suppose also that you have module E which is also a child C, but is not loaded.
+Suppose also that you have module E which is also a child A, but is not loaded.
 
 Now suppose your new module metadata structure involves the addition of E, but the removal of C. The following sequence of operations will be determined:
 
