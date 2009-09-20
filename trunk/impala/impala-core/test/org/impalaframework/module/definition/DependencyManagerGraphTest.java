@@ -41,7 +41,12 @@ public class DependencyManagerGraphTest extends TestCase {
         manager = new DependencyManager(rootDefinition);
         manager.unfreeze();
         Collection<ModuleDefinition> allModules = manager.getAllModules();
-        assertModules("root,f,b,c,g,d,e", allModules);
+        assertModules("root,f,b,c,g,d,h,e", allModules);
+        
+        assertModules("root,b,c,d,e", manager.getOrderedModuleDependencies("e"));
+        assertModules("f,root,g,c,h", manager.getOrderedModuleDependencies("h"));
+        
+        assertModules("c,h,e", manager.getOrderedModuleDependants("c"));
     }
 
     private SimpleRootModuleDefinition definitionSet1() {
@@ -56,13 +61,6 @@ public class DependencyManagerGraphTest extends TestCase {
                 null, 
                 null);
         
-        //f is a sibling of root
-        ModuleDefinition f = newDefinition(definitions, null, "f", null);
-        root.addSibling(f);        
-
-        //g is a child of f
-        newDefinition(definitions, f, "g", null);
-        
         //b is child of root
         ModuleDefinition b = newDefinition(definitions, root, "b", null);
         
@@ -74,6 +72,15 @@ public class DependencyManagerGraphTest extends TestCase {
         
         //e is child of d but depends on c
         newDefinition(definitions, d, "e", "c");
+        
+        //f is a sibling of root
+        ModuleDefinition f = newDefinition(definitions, null, "f", null);
+        root.addSibling(f);        
+
+        //g is a child of f
+        ModuleDefinition g = newDefinition(definitions, f, "g", null);
+        
+        newDefinition(definitions, g, "h", "c");
         
         return root;
     }
