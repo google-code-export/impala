@@ -144,10 +144,24 @@ Comma-separated list of names of servlets registered within the module to which 
 === 'filter' element ===
 
 Creates a `javax.servlet.Filter` who's life cycle is bound to that of the module.
+An example is shown below:
+
+{{{
+<web:filter id = "characterEncodingFilter" 
+	filterClass = "org.springframework.web.filter.CharacterEncodingFilter" 
+	initParameters = "forceEncoding=true,encoding=utf8">
+</web:filter>
+}}}
 
 === 'servlet' element ===
 
 Creates a `javax.servlet.HttpServlet` who's life cycle is bound to that of the module.
+
+{{{
+<web:servlet id = "urlmapping-resources" 
+    servletClass = "org.springframework.js.resource.ResourceServlet"
+    initParameters = "cacheTimeout=10"/>
+}}}
 
 The `filter` and `servlet` elements define a common set of nested elements and attributes as described below.
 
