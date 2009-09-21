@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class MessageAdminController {
     
     private UpdatableMessageService messageService;
-	
+    
     @RequestMapping("/viewMessage.htm")
-	public void viewMessage(Map model,
-	        @RequestParam(value="result", required=false) String result) {
-	    model.put("message", messageService.getMessage());
+    public void viewMessage(Map model,
+            @RequestParam(value="result", required=false) String result) {
+        model.put("message", messageService.getMessage());
         model.put("result", result);
-	}
+    }
     
     @RequestMapping("/updateMessage.htm")
     public String updateMessage(
