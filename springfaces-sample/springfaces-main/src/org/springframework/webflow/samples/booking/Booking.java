@@ -52,162 +52,162 @@ public class Booking implements Serializable {
     }
 
     public Booking(Hotel hotel, User user) {
-	this.hotel = hotel;
-	this.user = user;
-	Calendar calendar = Calendar.getInstance();
-	setCheckinDate(calendar.getTime());
-	calendar.add(Calendar.DAY_OF_MONTH, 1);
-	setCheckoutDate(calendar.getTime());
+    this.hotel = hotel;
+    this.user = user;
+    Calendar calendar = Calendar.getInstance();
+    setCheckinDate(calendar.getTime());
+    calendar.add(Calendar.DAY_OF_MONTH, 1);
+    setCheckoutDate(calendar.getTime());
     }
 
     @Transient
     public BigDecimal getTotal() {
-	return hotel.getPrice().multiply(new BigDecimal(getNights()));
+    return hotel.getPrice().multiply(new BigDecimal(getNights()));
     }
 
     @Transient
     public int getNights() {
-	if (checkinDate == null || checkoutDate == null) {
-	    return 0;
-	} else {
-	    return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
-	}
+    if (checkinDate == null || checkoutDate == null) {
+        return 0;
+    } else {
+        return (int) (checkoutDate.getTime() - checkinDate.getTime()) / 1000 / 60 / 60 / 24;
+    }
     }
 
     @Id
     @GeneratedValue(strategy = GenerationType.TABLE)
     public Long getId() {
-	return id;
+    return id;
     }
 
     public void setId(Long id) {
-	this.id = id;
+    this.id = id;
     }
 
     @Basic
     @Temporal(TemporalType.DATE)
     public Date getCheckinDate() {
-	return checkinDate;
+    return checkinDate;
     }
 
     public void setCheckinDate(Date datetime) {
-	this.checkinDate = datetime;
+    this.checkinDate = datetime;
     }
 
     @ManyToOne
     public Hotel getHotel() {
-	return hotel;
+    return hotel;
     }
 
     public void setHotel(Hotel hotel) {
-	this.hotel = hotel;
+    this.hotel = hotel;
     }
 
     @ManyToOne
     public User getUser() {
-	return user;
+    return user;
     }
 
     public void setUser(User user) {
-	this.user = user;
+    this.user = user;
     }
 
     @Basic
     @Temporal(TemporalType.DATE)
     public Date getCheckoutDate() {
-	return checkoutDate;
+    return checkoutDate;
     }
 
     public void setCheckoutDate(Date checkoutDate) {
-	this.checkoutDate = checkoutDate;
+    this.checkoutDate = checkoutDate;
     }
 
     public String getCreditCard() {
-	return creditCard;
+    return creditCard;
     }
 
     public void setCreditCard(String creditCard) {
-	this.creditCard = creditCard;
+    this.creditCard = creditCard;
     }
 
     @Transient
     public String getDescription() {
-	DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-	return hotel == null ? null : hotel.getName() + ", " + df.format(getCheckinDate()) + " to "
-		+ df.format(getCheckoutDate());
+    DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+    return hotel == null ? null : hotel.getName() + ", " + df.format(getCheckinDate()) + " to "
+        + df.format(getCheckoutDate());
     }
 
     public boolean isSmoking() {
-	return smoking;
+    return smoking;
     }
 
     public void setSmoking(boolean smoking) {
-	this.smoking = smoking;
+    this.smoking = smoking;
     }
 
     public int getBeds() {
-	return beds;
+    return beds;
     }
 
     public void setBeds(int beds) {
-	this.beds = beds;
+    this.beds = beds;
     }
 
     public String getCreditCardName() {
-	return creditCardName;
+    return creditCardName;
     }
 
     public void setCreditCardName(String creditCardName) {
-	this.creditCardName = creditCardName;
+    this.creditCardName = creditCardName;
     }
 
     public int getCreditCardExpiryMonth() {
-	return creditCardExpiryMonth;
+    return creditCardExpiryMonth;
     }
 
     public void setCreditCardExpiryMonth(int creditCardExpiryMonth) {
-	this.creditCardExpiryMonth = creditCardExpiryMonth;
+    this.creditCardExpiryMonth = creditCardExpiryMonth;
     }
 
     public int getCreditCardExpiryYear() {
-	return creditCardExpiryYear;
+    return creditCardExpiryYear;
     }
 
     public void setCreditCardExpiryYear(int creditCardExpiryYear) {
-	this.creditCardExpiryYear = creditCardExpiryYear;
+    this.creditCardExpiryYear = creditCardExpiryYear;
     }
 
     @Transient
     public Amenity getAmenities() {
-	return amenities;
+    return amenities;
     }
 
     public void setAmenities(Amenity amenities) {
-	this.amenities = amenities;
+    this.amenities = amenities;
     }
 
     /*
     public void validateEnterBookingDetails(ValidationContext context) {
-	MessageContext messages = context.getMessageContext();
-	if (checkinDate.before(today())) {
-	    messages.addMessage(new MessageBuilder().error().source("checkinDate").code(
-		    "booking.checkinDate.beforeToday").build());
-	} else if (checkoutDate.before(checkinDate)) {
-	    messages.addMessage(new MessageBuilder().error().source("checkoutDate").code(
-		    "booking.checkoutDate.beforeCheckinDate").build());
-	}
+    MessageContext messages = context.getMessageContext();
+    if (checkinDate.before(today())) {
+        messages.addMessage(new MessageBuilder().error().source("checkinDate").code(
+            "booking.checkinDate.beforeToday").build());
+    } else if (checkoutDate.before(checkinDate)) {
+        messages.addMessage(new MessageBuilder().error().source("checkoutDate").code(
+            "booking.checkoutDate.beforeCheckinDate").build());
+    }
     }
     */
 
     private Date today() {
-	Calendar calendar = Calendar.getInstance();
-	calendar.add(Calendar.DAY_OF_MONTH, -1);
-	return calendar.getTime();
+    Calendar calendar = Calendar.getInstance();
+    calendar.add(Calendar.DAY_OF_MONTH, -1);
+    return calendar.getTime();
     }
 
     @Override
     public String toString() {
-	return "Booking(" + user + "," + hotel + ")";
+    return "Booking(" + user + "," + hotel + ")";
     }
 
 }

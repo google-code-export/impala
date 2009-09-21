@@ -20,10 +20,10 @@ import org.impalaframework.facade.Impala;
 import org.impalaframework.module.ModuleDefinitionSource;
 
 public abstract class BaseIntegrationTest extends TestCase implements ModuleDefinitionSource {
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		Impala.init(this);
-	}
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        Impala.init(this);
+    }
 }

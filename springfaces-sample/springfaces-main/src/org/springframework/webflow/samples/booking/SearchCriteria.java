@@ -27,51 +27,51 @@ public class SearchCriteria implements Serializable {
     private String sortBy = "name";
 
     public String getSortBy() {
-	return sortBy;
+    return sortBy;
     }
 
     public void setSortBy(String sortBy) {
-	this.sortBy = sortBy;
+    this.sortBy = sortBy;
     }
 
     public String getSearchString() {
-	return searchString;
+    return searchString;
     }
 
     public void setSearchString(String searchString) {
-	this.searchString = searchString;
+    this.searchString = searchString;
     }
 
     public int getPageSize() {
-	return pageSize;
+    return pageSize;
     }
 
     public void setPageSize(int pageSize) {
-	this.pageSize = pageSize;
+    this.pageSize = pageSize;
     }
 
     public int getPage() {
-	return page;
+    return page;
     }
 
     public void setPage(int page) {
-	this.page = page;
+    this.page = page;
     }
 
     public void nextPage() {
-	page++;
+    page++;
     }
 
     public void previousPage() {
-	page--;
+    page--;
     }
 
     public void resetPage() {
-	page = 0;
-	sortBy = "name";
+    page = 0;
+    sortBy = "name";
     }
 
     public String toString() {
-	return "[Search Criteria searchString = '" + searchString + "'";
+    return "[Search Criteria searchString = '" + searchString + "'";
     }
 }
