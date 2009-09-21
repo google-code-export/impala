@@ -236,7 +236,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /**
-     * Returns enumeration of local resource, combined with those of parent
+     * Returns enumeration of local resources, combined with those of parent
      * class loader.
      * 
      * The implementation of {@link #getResources(String)} is pretty
@@ -253,12 +253,11 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     public Enumeration<URL> getResources(String name) throws IOException {
         Enumeration<URL> resources = super.getResources(name);
         
-        URL localResource = getLocalResource(name);
-        if (localResource != null) {
+        Enumeration<URL> localResources = getLocalResources(name);
+        if (localResources != null) {
             List<URL> combined = new ArrayList<URL>();
-            combined.add(localResource);
-            ArrayList<URL> list = Collections.list(resources);
-            combined.addAll(list);
+            combined.addAll(Collections.list(localResources));
+            combined.addAll(Collections.list(resources));
             return Collections.enumeration(combined);
         }
         
@@ -275,6 +274,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      */
     protected URL getLocalResource(String name) {
         return classRetriever.findResource(name);
+    }
+    
+    protected Enumeration<URL> getLocalResources(String name) {
+        return classRetriever.findResources(name);
     }
     
     Map<String, Class<?>> getLoadedClasses() {

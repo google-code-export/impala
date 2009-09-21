@@ -21,6 +21,7 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Arrays;
 import java.util.Enumeration;
+import java.util.NoSuchElementException;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -101,8 +102,17 @@ public class URLClassRetriever implements ClassRetriever {
             }
         } catch (IOException e) {
             if (logger.isDebugEnabled()) {
-                logger.debug("iO exception caught in findResources(): ", e);
+                logger.debug("IO exception caught in findResources(): ", e);
             }
+            
+            return new Enumeration<URL>() {
+                public boolean hasMoreElements() {
+                    return false;
+                }
+                public URL nextElement() {
+                    throw new NoSuchElementException();
+                }
+            };
         }
         
         return findResource;

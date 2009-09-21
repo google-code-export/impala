@@ -15,6 +15,9 @@
 package org.impalaframework.classloader;
 
 import java.io.File;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import junit.framework.TestCase;
 
@@ -40,6 +43,15 @@ public class URLClassRetrieverTest extends TestCase {
         
         assertNull(retriever.getClassBytes("duffclass"));
         assertNotNull(retriever.getClassBytes("example.test.MyTestClass"));
+    }
+    
+    public void testMultipleResources() throws Exception {
+        File file1 = new File("../impala-core/files/MyTestClass.jar");
+        File file2 = new File("../impala-core/files/impala-classloader/module-a/bin");
+        retriever = new URLClassRetriever(new File[]{ file1, file2 });
+        ArrayList<URL> list = Collections.list(retriever.findResources("example/test/MyTestClass.class"));
+        System.out.println(list);
+        assertEquals(2, list.size());
     }
 
     public void testFindResourceFromJar() {
