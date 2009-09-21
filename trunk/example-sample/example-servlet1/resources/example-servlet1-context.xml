@@ -10,16 +10,16 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
-	<web:servlet id = "servletId" 
-		servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
-		servletName = "myServlet"
-		initParameters = "name2=value2,name3=value3">
-		<web:init-parameters>
-			<web:param name="name" value="value"/>
-		</web:init-parameters>
-	</web:servlet>
-	
-	<!-- Sets up ParentFactoryBean -->
+    <web:servlet id = "servletId" 
+        servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
+        servletName = "myServlet"
+        initParameters = "name2=value2,name3=value3">
+        <web:init-parameters>
+            <web:param name="name" value="value"/>
+        </web:init-parameters>
+    </web:servlet>
+    
+    <!-- Sets up ParentFactoryBean -->
     <service:parent id="entryService"/> 
     
     <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->

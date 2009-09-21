@@ -54,97 +54,97 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     Imports a bean registered using the name 'prototypeMessageService' with scope='prototype'
     -->
     <service:import id="prototypeMessageService" 
-    	proxyTypes="interfaces.MessageService"/>
-    	
+        proxyTypes="interfaces.MessageService"/>
+        
     <!-- 
     Imports a bean created using a non-static factory bean, registered using the name 'nonstaticFactoryBeanMessageService'
     -->
     <service:import id="nonstaticFactoryBeanMessageService" 
-    	proxyTypes="interfaces.MessageService"/>
+        proxyTypes="interfaces.MessageService"/>
      
     <!-- 
     Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
     -->     
     <service:import id="typedMessageService" exportTypes="interfaces.MessageService"/>
-	
+    
     <!-- 
     Imports a bean exported using the name 'myNamedMessageService', and proxied using the type interfaces.MessageService
     -->     
-	<service:import id="namedMessageService" 
-		proxyTypes="interfaces.MessageService"
-		exportName="myNamedMessageService"/>
-	
+    <service:import id="namedMessageService" 
+        proxyTypes="interfaces.MessageService"
+        exportName="myNamedMessageService"/>
+    
     <!-- 
     Imports a bean exported using the filter '(message=*)"', and proxied using the type interfaces.MessageService
     --> 
-	<service:import id="filteredMessageService" 
-		proxyTypes="interfaces.MessageService"
-		filterExpression="(message=*)"/>
-		
+    <service:import id="filteredMessageService" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
     <!-- 
     Creates a list from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
     --> 
-	<service:list id="messageServiceList" 
-		proxyTypes="interfaces.MessageService"
-		filterExpression="(message=*)"/>
-		
+    <service:list id="messageServiceList" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
     <!-- 
     Creates a set from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
     --> 
-	<service:set id="messageServiceSet" 
-		proxyTypes="interfaces.MessageService"
-		filterExpression="(message=*)"/>
-		
+    <service:set id="messageServiceSet" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
     <!-- 
     Creates a list from beans exported using the filter '(message=*)"'. 
     In this example, will match any bean of correct type which is exported with a 'message' attribute.
     Each entry is proxied using the type interfaces.MessageService,
     and keyed on the 'message' attribute.
     --> 
-	<service:map id="messageServiceMap" 
-		proxyTypes="interfaces.MessageService"
-		mapKey="message"
-		filterExpression="(message=*)"/>
+    <service:map id="messageServiceMap" 
+        proxyTypes="interfaces.MessageService"
+        mapKey="message"
+        filterExpression="(message=*)"/>
 
-	<!-- 
-	replaced old service import definitions
-	
-	<bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
-	     <property name="exportTypes" value="interfaces.MessageService"/>
-	</bean>
-	
-	<bean id="namedMessageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
-	     <property name="proxyTypes" value="interfaces.MessageService"/>
-	     <property name="exportName" value="myNamedMessageService"/>
-	</bean>
-	
-	<bean id="filteredMessageService" class="org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean">
-	     <property name="proxyTypes" value="interfaces.MessageService"/>
-	     <property name="filterExpression" value="(message=*)"/>
-	</bean>
+    <!-- 
+    replaced old service import definitions
+    
+    <bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
+         <property name="exportTypes" value="interfaces.MessageService"/>
+    </bean>
+    
+    <bean id="namedMessageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+         <property name="proxyTypes" value="interfaces.MessageService"/>
+         <property name="exportName" value="myNamedMessageService"/>
+    </bean>
+    
+    <bean id="filteredMessageService" class="org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean">
+         <property name="proxyTypes" value="interfaces.MessageService"/>
+         <property name="filterExpression" value="(message=*)"/>
+    </bean>
     -->
     
-    		
-	<!-- 
-	service:import entries with problems:
-	
-	No exportTypes, exportName or filterExpression
-	<service:import id="noRestrictionMessageService" proxyTypes="interfaces.MessageService"/>	
-	
-	No proxyTypes specified
-	<service:import id="namedMessageServiceNoType" 
-		exportName="myNamedMessageService"/>	
+            
+    <!-- 
+    service:import entries with problems:
+    
+    No exportTypes, exportName or filterExpression
+    <service:import id="noRestrictionMessageService" proxyTypes="interfaces.MessageService"/>   
+    
+    No proxyTypes specified
+    <service:import id="namedMessageServiceNoType" 
+        exportName="myNamedMessageService"/>    
      
     Export name and export types cannot both be specified
     <service:import id="typedAndNamedMessageService" 
-		exportTypes="interfaces.MessageService" 
-		exportName="myNamedMessageService"/>
-		
+        exportTypes="interfaces.MessageService" 
+        exportName="myNamedMessageService"/>
+        
     Export name and filter expression cannot both be specified
-	<service:import id="filteredAndNamedMessageService" 
-		proxyTypes="interfaces.MessageService" 
-		exportName="myNamedMessageService"
-		filterExpression="(message=*)"/>
+    <service:import id="filteredAndNamedMessageService" 
+        proxyTypes="interfaces.MessageService" 
+        exportName="myNamedMessageService"
+        filterExpression="(message=*)"/>
      -->
      
 </beans>
