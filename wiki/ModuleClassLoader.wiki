@@ -83,11 +83,42 @@ Typically, this is done via two methods defined in `java.lang.ClassLoader`:
 
 These two methods tend to serve their own set distinct set of use cases within an application, including an Impala application.
 
-=== URL getResource(name) ===
+In both cases, there is a key difference between resource loading and class loading. With class loading, it is normally to 
+delegate to parent class loader first, only loading classes locally if parent (or dependent) class loaders cannot find the class.
+With resource loading, it works better in reverse. If you are looking for a particular resource, you are better off first attempting to
+find it locally, only delegating to parent or dependent class loaders if unable to find it locally.
 
-TBD
+=== URL getResource(String) ===
 
-=== Enumeration<URL> getResources(name) ===
+`getResource(String)` is normally used to load a specific resource, such as a configuration file or a view template.
+Impala's graph-based class loader does this by attempting to load the class locally. It will then delegate it to other module class loaders, 
+which will in turn attempt to find the resource locally. Only if none of the module class loaders are able to find the resource within
+any of the local module class paths is the search passed on to the system class loader.
 
-TBD
+The question then is in what order is the search delegated to modules? The answer is in the exact reverse of the order in which 
+the module class paths are searched when loading classes.
+
+=== Enumeration<URL> getResources(String) ===
+
+`getResources(String)` is used in a Spring application for two distinct purposes.
+  * first, to find certain configuration files. For example, `getResources(String)` is used to locate pluggable Spring configuration XML namespace and schema handlers.
+  * secondly, to enable class path scanning, for example, to auto-detect and read Spring bean definitions from classes which have been marked with Java 5 annotations such as `@Service`, `@Component` and `@Controller`.
+
+The use of `getResources(String)` for these two purposes creates slightly conflicting requirements for Impala's `getResources` implementation:
+  * for the first, `getResources` needs to be able to search very widely across the class path. For example, the XML namespace handler configuration files are derived from all the files on the class path named _META-INF/spring.handlers_. In this case, the files will need to be found in Spring and Impala library jars, and possibly others.
+  * for the second, `getResources` really only needs to search locally. For example, when scanning for component definitions which should be loaded for the current module, we really want to restrict our search to the current module's local class path. Classes which reside in other modules can in turn be found using class path scanners set up in the Spring configuration files for these modules.
+  
+In order to address both these requirements, Impala uses the following strategy in it's `getResources(String)` implementation:
+  * Impala first gets an `Enumeration` of local `URLs` from the current class path.
+  * It then adds these to the `Enumeration` of `URLs` obtained from calling the system class loader's `getResource(String)` implementation.
+
+In other words, Impala will not delegate a `getResources(String)` call to other modules in the application. However, it will delegate it to
+the system class loader.
+
+There are a couple of implications for this approach which should be borne in mind:
+  * if you need to new namespace handlers and other similar types of resources to be found using `getResources(String)`, these should be packaged in a third party library, and not in a module. For more information on how this is done, see `ExtendingImpala`.
+  * you can safely use class path scanners in your application without having to worry about whether this will result in beans from the current module being instantiated by dependent modules. It is advisable to make sure that all classes in a particular module share a common base package not used by any of your third party libraries. Using this approach can make it simple and efficient to set up class path scanning for your application.
+  
+
+   
 
