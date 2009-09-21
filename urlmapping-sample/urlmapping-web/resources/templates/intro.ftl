@@ -43,9 +43,9 @@ message to the user.
 the message as an XML document.</li>
 </ul>
 
-<p><a href = "webview/viewMessage.htm">Click here</a> to view message, which shows a page from the <strong>urlmapping-webview</strong> module.</p>
-<p><a href = "webadmin/viewMessage.htm">Click here</a> to update message which displays to you, through a form from the 
+<p><a href = "../webview/viewMessage.htm">Click here</a> to view message, which shows a page from the <strong>urlmapping-webview</strong> module.</p>
+<p><a href = "../webadmin/viewMessage.htm">Click here</a> to update message which displays to you, through a form from the 
 <strong>urlmapping-webadmin</strong> module.</p>
-<p><a href = "webremote/viewMessage.xml">Click here</a> to view message in XML format from the <strong>urlmapping-webremote</strong> module.</p>
+<p><a href = "../webremote/viewMessage.xml">Click here</a> to view message in XML format from the <strong>urlmapping-webremote</strong> module.</p>
 
 <#include "footer.ftl"/>
