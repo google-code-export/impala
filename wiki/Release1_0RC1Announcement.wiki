@@ -4,4 +4,6 @@ Impala 1.0 RC1 ...
 
 See the [http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0RC1&can=1 full list of issues covered for milestone 1.0 RC1].
 
+Compatibility: [http://code.google.com/p/impala/issues/list?q=label%3AMilestone-Release1.0RC1 label%3ABackward-Compatibility Backward Compatible issues]
+
 If you like Impala and would like to support the project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
