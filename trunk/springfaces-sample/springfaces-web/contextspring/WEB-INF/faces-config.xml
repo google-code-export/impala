@@ -4,8 +4,8 @@
   "http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
 
 <faces-config>
-	<application>
-		<!-- Enables Facelets -->
-		<view-handler>com.sun.facelets.FaceletViewHandler</view-handler>  
-	</application>
+    <application>
+        <!-- Enables Facelets -->
+        <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>  
+    </application>
 </faces-config>

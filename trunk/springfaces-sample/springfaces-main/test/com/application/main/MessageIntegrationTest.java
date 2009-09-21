@@ -20,15 +20,15 @@ import org.impalaframework.module.RootModuleDefinition;
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
-	public static void main(String[] args) {
-		InteractiveTestRunner.run(MessageIntegrationTest.class);
-	}
+    public static void main(String[] args) {
+        InteractiveTestRunner.run(MessageIntegrationTest.class);
+    }
 
-	public void testIntegration() {
-	}
+    public void testIntegration() {
+    }
 
-	public RootModuleDefinition getModuleDefinition() {	
-		return new TestDefinitionSource("springfaces-main", "springfaces-dataaccess").getModuleDefinition();
-	}
+    public RootModuleDefinition getModuleDefinition() { 
+        return new TestDefinitionSource("springfaces-main", "springfaces-dataaccess").getModuleDefinition();
+    }
 
 }
