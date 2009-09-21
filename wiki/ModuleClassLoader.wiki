@@ -74,3 +74,20 @@ The reason why this option is available is that at times it is necessary to run 
 So when can this cause problems? The answer is if modules contain classes which are also present in third party jars. In this case, which of the classes gets loaded will depend on whether `parent.classloader.first` is set true or false. Obviously, this is an undesirable situation - but in general it should not be a problem. In order to protect against this situation, it is important that modules classes are contained in packages which follow a well defined naming convention which prevents these types of clashes from occurring.
 
 == Resource loading ==
+
+Apart from loading classes, the other main purpose of class loaders is to load resources on the class path.
+
+Typically, this is done via two methods defined in `java.lang.ClassLoader`:
+  * `public URL getResource(String name)`
+  * `public Enumeration<URL> getResources(String name)`
+
+These two methods tend to serve their own set distinct set of use cases within an application, including an Impala application.
+
+=== URL getResource(name) ===
+
+TBD
+
+=== Enumeration<URL> getResources(name) ===
+
+TBD
+
