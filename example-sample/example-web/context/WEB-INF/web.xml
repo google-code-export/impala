@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app xmlns="http://java.sun.com/xml/ns/j2ee"
-	      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	      xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
-	      version="2.4">
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
+          version="2.4">
     <listener>
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
     </listener>
@@ -24,8 +24,8 @@
         <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
         <load-on-startup>2</load-on-startup>
         <init-param>
-        	<param-name>setThreadContextClassLoader</param-name>
-        	<param-value>true</param-value>
+            <param-name>setThreadContextClassLoader</param-name>
+            <param-value>true</param-value>
         </init-param>
     </servlet>
     <servlet-mapping>
