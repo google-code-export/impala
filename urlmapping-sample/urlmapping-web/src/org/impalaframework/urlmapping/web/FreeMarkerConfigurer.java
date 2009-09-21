@@ -18,44 +18,44 @@ import freemarker.template.TemplateException;
  * @author Phil Zoio
  */
 public class FreeMarkerConfigurer extends
-		org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
-		implements ApplicationContextAware {
+        org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer
+        implements ApplicationContextAware {
 
-	private ClassLoader classLoader;
-	private String prefix;
+    private ClassLoader classLoader;
+    private String prefix;
 
-	@Override
-	public void afterPropertiesSet() throws IOException, TemplateException {
-		super.setPreTemplateLoaders(new TemplateLoader[] { 
-				new ClassLoaderTemplateLoader(prefix != null ? prefix : "", classLoader),
-				new ClassLoaderTemplateLoader("shared", classLoader)
-				});
-		super.afterPropertiesSet();
-	}
+    @Override
+    public void afterPropertiesSet() throws IOException, TemplateException {
+        super.setPreTemplateLoaders(new TemplateLoader[] { 
+                new ClassLoaderTemplateLoader(prefix != null ? prefix : "", classLoader),
+                new ClassLoaderTemplateLoader("shared", classLoader)
+                });
+        super.afterPropertiesSet();
+    }
 
-	public void setApplicationContext(ApplicationContext applicationContext)
-			throws BeansException {
-		this.classLoader = applicationContext.getClassLoader();
-	}
-	
-	class ClassLoaderTemplateLoader extends URLTemplateLoader {
+    public void setApplicationContext(ApplicationContext applicationContext)
+            throws BeansException {
+        this.classLoader = applicationContext.getClassLoader();
+    }
+    
+    class ClassLoaderTemplateLoader extends URLTemplateLoader {
 
-		private ClassLoader classLoader;
+        private ClassLoader classLoader;
 
-		private String prefix;
+        private String prefix;
 
-		public ClassLoaderTemplateLoader(String prefix, ClassLoader classLoader) {
-			super();
-			this.prefix = canonicalizePrefix(prefix);
-			this.classLoader = classLoader;
-		}
+        public ClassLoaderTemplateLoader(String prefix, ClassLoader classLoader) {
+            super();
+            this.prefix = canonicalizePrefix(prefix);
+            this.classLoader = classLoader;
+        }
 
-		@Override
-		protected URL getURL(String name) {
-			String resource = prefix + name;	
-			return classLoader.getResource(resource);
-		}
+        @Override
+        protected URL getURL(String name) {
+            String resource = prefix + name;    
+            return classLoader.getResource(resource);
+        }
 
-	}	
+    }   
 
 }

@@ -8,13 +8,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.impalaframework.org/schema/web 
 http://impala.googlecode.com/svn/schema/web.xsd">
 
-	<import resource="urlmapping-web-common.xml"/>
+    <import resource="urlmapping-web-common.xml"/>
 
-	<web:mapping>
-		<web:to-module prefix = "/main" setServletPath="true"/> 
-		<web:to-handler extension = "htm" servletName="urlmapping-web"/>
-		<web:to-handler extension = "css" servletName="urlmapping-resources"/>
-	</web:mapping>    
+    <web:mapping>
+        <web:to-module prefix = "/main" setServletPath="true"/> 
+        <web:to-handler extension = "htm" servletName="urlmapping-web"/>
+        <web:to-handler extension = "css" servletName="urlmapping-resources"/>
+    </web:mapping>    
     
     <web:servlet id = "urlmapping-web" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>

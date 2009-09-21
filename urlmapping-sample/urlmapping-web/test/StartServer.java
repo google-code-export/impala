@@ -18,7 +18,7 @@ import org.mortbay.resource.Resource;
 
 public class StartServer {
     public static void main(String[] args) {
-    	Resource.setDefaultUseCaches(false);
+        Resource.setDefaultUseCaches(false);
         System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
         StartJetty.main(new String[]{"8080", "../urlmapping-web/context", "/web"});
     }

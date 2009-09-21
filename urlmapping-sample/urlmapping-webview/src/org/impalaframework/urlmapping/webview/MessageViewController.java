@@ -11,13 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class MessageViewController {
     
     private MessageService messageService;
-	
+    
     @RequestMapping("/viewMessage.htm")
-	public void viewMessage(Map model) {
-	    model.put("message", messageService.getMessage());
-	}
-	
-	public void setMessageService(MessageService messageService) {
+    public void viewMessage(Map model) {
+        model.put("message", messageService.getMessage());
+    }
+    
+    public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
 

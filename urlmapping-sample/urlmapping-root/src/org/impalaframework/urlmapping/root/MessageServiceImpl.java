@@ -8,8 +8,8 @@ public class MessageServiceImpl implements UpdatableMessageService {
         this.message = message;
     }
     
-	public String getMessage() {
-		return message;
-	}
+    public String getMessage() {
+        return message;
+    }
 
 }
