@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="Impala Tasks Build">
+    
+    <description>Contains entries for setting up tasks</description>
+        
+    <fail unless = "impala.home" message = "'impala.home' property not set"/>
+    <import file = "${impala.home}/classpath-build.xml"/>   
+    
+    <taskdef resource="org/impalaframework/build/ant/taskdef.properties"
+        classpathref = "compile.classpath"
+        onerror = "report"/>
+            
+</project>

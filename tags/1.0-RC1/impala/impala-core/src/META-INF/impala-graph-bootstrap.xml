@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+ <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.graph.GraphClassLoaderRegistry"/> 
+ 
+ <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactory"
+        init-method = "init">
+     <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
+     <property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>
+     <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
+     <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
+ </bean>    
+ 
+ <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">
+     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>    
+     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
+     <property name="externalRootModuleName" ref="externalRootModuleName"/>          
+ </bean>
+ 
+ <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
+     <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
+ </bean>
+    
+ <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.graph.StickyGraphModificationExtractor">
+     <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
+ </bean>
+ 
+ <!-- ############## Spring modules support ############### -->
+ 
+ <bean id="graphBeanVisibilityType" parent = "propertyParent">
+     <property name="name" value="graph.bean.visibility.type"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="springModuleRuntime" parent="baseModuleRuntime" 
+    class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime"> 
+    <property name = "applicationContextLoader" ref="applicationContextLoader"/>  
+    <property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>   
+ </bean>
+
+</beans>

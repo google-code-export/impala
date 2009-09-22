@@ -1,0 +1,102 @@
+/*
+ * Copyright 2007-2008 the original author or authors.
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+
+package org.impalaframework.web.integration;
+
+import java.io.IOException;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+
+/**
+ * <p>
+ * Base implementation of Servlet who's job it is to figure out the mapping to a particular request and
+ * redirect this to the correct module servlet instance. 
+ * 
+ * @author Phil Zoio
+ */
+public abstract class BaseModuleProxyServlet extends HttpServlet {
+
+    private static final Log logger = LogFactory.getLog(BaseModuleProxyServlet.class);  
+    
+    private static final long serialVersionUID = 1L;
+    
+    private RequestModuleMapper requestModuleMapper;
+    
+    public BaseModuleProxyServlet() {
+        super();
+    }
+
+    @Override
+    public void init(ServletConfig config) throws ServletException {
+        super.init(config);
+        this.requestModuleMapper = newRequestModuleMapper(config);
+        this.requestModuleMapper.init(config);
+    }
+
+    protected RequestModuleMapper newRequestModuleMapper(ServletConfig config) {
+        final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
+        return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
+    }
+
+    @Override
+    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        
+        ModuleProxyUtils.maybeLogRequest(request, logger);
+        
+        ServletContext context = getServletContext();
+        doService(request, response, context);
+        
+    }
+
+    void doService(HttpServletRequest request, HttpServletResponse response,
+            ServletContext context)
+            throws ServletException, IOException {
+        
+        RequestModuleMapping moduleMapping = getModuleMapping(request);
+        
+        if (moduleMapping != null) {
+            
+            processMapping(context, request, response, moduleMapping);
+            
+        } else {
+            logger.warn("Not possible to figure out module name from servlet path " + request.getRequestURI());
+        }
+    }
+
+    protected abstract void processMapping(
+            ServletContext context,
+            HttpServletRequest request, 
+            HttpServletResponse response,
+            RequestModuleMapping moduleMapping) throws ServletException,
+            IOException;
+
+    RequestModuleMapping getModuleMapping(HttpServletRequest request) {
+        return requestModuleMapper.getModuleForRequest(request);
+    }
+
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
+    }
+    
+}
