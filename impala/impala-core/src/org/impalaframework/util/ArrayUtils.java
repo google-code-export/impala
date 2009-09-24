@@ -1,6 +1,3 @@
-package org.impalaframework.util;
-
-import java.util.ArrayList;
 /*
  * Copyright 2007-2008 the original author or authors.
  * 
@@ -14,6 +11,10 @@ import java.util.ArrayList;
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
+
+package org.impalaframework.util;
+
+import java.util.ArrayList;
 
 import java.util.List;
 
