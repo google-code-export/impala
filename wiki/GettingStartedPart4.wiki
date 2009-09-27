@@ -6,7 +6,9 @@ An important feature of Impala is support for web development. An important requ
 
 Apart from these capabilities, a Spring MVC web application will look no different from a typical web application, since it uses an otherwise identical programming model. 
 
-We'll take a look at how Impala supports web applications next.
+*Note*: the style of web applications covered here are best suited to single module web applications, or multi-module web applications without complex dynamic requirements. Impala also supports a style of web application development which allows you to reduce your reliance on _web.xml_ to a minimum, with servlets, filters and mappings to these configured within the module itself. See WebModuleBasedHandlerRegistration.
+
+We'll take a look at how Impala supports web applications in the generated starter application next.
 
 == Web project ==
 
