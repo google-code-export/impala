@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.utils.WebPathUtils;
 
 /**
  * <p>
@@ -62,7 +63,7 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
     @Override
     public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         
-        ModuleProxyUtils.maybeLogRequest(request, logger);
+        WebPathUtils.maybeLogRequest(request, logger);
         
         ServletContext context = getServletContext();
         doService(request, response, context);

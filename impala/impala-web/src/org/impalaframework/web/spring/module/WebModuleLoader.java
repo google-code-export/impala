@@ -18,7 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
-import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvokerBuilder;
+import org.impalaframework.web.spring.integration.ModuleHttpServiceInvokerBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.web.context.ServletContextAware;

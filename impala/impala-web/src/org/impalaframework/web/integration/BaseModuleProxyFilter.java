@@ -31,6 +31,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.utils.WebPathUtils;
 
 /**
  * Base implementation of filter which directs requests to modules
@@ -73,7 +74,7 @@ public abstract class BaseModuleProxyFilter implements Filter {
         HttpServletRequest request = ObjectUtils.cast(servletRequest, HttpServletRequest.class);
         HttpServletResponse response = ObjectUtils.cast(servletResponse, HttpServletResponse.class);
 
-        ModuleProxyUtils.maybeLogRequest(request, logger);
+        WebPathUtils.maybeLogRequest(request, logger);
         
         ServletContext context = filterConfig.getServletContext();
         doFilter(request, response, context, chain);

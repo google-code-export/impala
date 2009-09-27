@@ -19,6 +19,7 @@ import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.utils.WebPathUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -41,9 +42,9 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
     
     public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         String uri = request.getRequestURI();
-        final String moduleName = ModuleProxyUtils.getTopLevelPathSegment(uri);
+        final String moduleName = WebPathUtils.getTopLevelPathSegment(uri);
         
-        if (ModuleProxyUtils.getTopLevelPathSegment(uri) == null) {
+        if (WebPathUtils.getTopLevelPathSegment(uri) == null) {
             return null;
         }
         

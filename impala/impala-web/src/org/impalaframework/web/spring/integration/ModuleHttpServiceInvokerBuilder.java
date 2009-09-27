@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.invocation;
+package org.impalaframework.web.spring.integration;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +34,8 @@ import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBean;
-import org.impalaframework.web.spring.integration.FilterFactoryBean;
-import org.impalaframework.web.spring.integration.ServletFactoryBean;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
+import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
