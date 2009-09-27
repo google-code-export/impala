@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.invocation;
+package org.impalaframework.web.spring.integration;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -30,7 +30,10 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBean;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
+import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
+import org.impalaframework.web.spring.integration.ModuleHttpServiceInvokerBuilder;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 

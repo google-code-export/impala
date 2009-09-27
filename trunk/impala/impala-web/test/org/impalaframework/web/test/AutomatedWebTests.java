@@ -25,7 +25,6 @@ import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleIntegrationUtilsTest;
 import org.impalaframework.web.integration.ModuleProxyFilterTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
-import org.impalaframework.web.integration.ModuleProxyUtilsTest;
 import org.impalaframework.web.integration.PrefixTreeHolderTest;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapperTest;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBeanTest;
@@ -37,7 +36,6 @@ import org.impalaframework.web.module.path.ServletPathRequestModuleMapperTest;
 import org.impalaframework.web.resolver.ServletContextModuleLocationResolverTest;
 import org.impalaframework.web.resource.ServletContextResourceLoaderTest;
 import org.impalaframework.web.servlet.invocation.InvocationChainTest;
-import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvokerBuilderTest;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockInvokerTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
@@ -60,6 +58,7 @@ import org.impalaframework.web.spring.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBeanTest;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletTest;
+import org.impalaframework.web.spring.integration.ModuleHttpServiceInvokerBuilderTest;
 import org.impalaframework.web.spring.integration.ModuleUrlPrefixContributorTest;
 import org.impalaframework.web.spring.integration.ServletFactoryBeanTest;
 import org.impalaframework.web.spring.loader.BaseImpalaContextLoaderTest;
@@ -73,6 +72,7 @@ import org.impalaframework.web.spring.module.WebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
+import org.impalaframework.web.utils.ModuleProxyUtilsTest;
 
 public class AutomatedWebTests {
 

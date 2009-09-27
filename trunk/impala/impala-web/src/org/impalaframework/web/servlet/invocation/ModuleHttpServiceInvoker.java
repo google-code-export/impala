@@ -30,8 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.util.ObjectMapUtils;
-import org.impalaframework.web.integration.ModuleProxyUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
+import org.impalaframework.web.utils.WebPathUtils;
 
 /**
  * Implementation of {@link HttpServiceInvoker} responsible for invoking filters or servlets registered within the module.
@@ -95,7 +95,7 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         else {
             //check suffix of request
             String uri = request.getRequestURI();
-            suffix = ModuleProxyUtils.getSuffix(uri);
+            suffix = WebPathUtils.getSuffix(uri);
             if (suffix == null) {
                 suffix = EMPTY_SUFFIX;
             }
@@ -153,11 +153,11 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         return maybeGlobal;
     }
     
-    Map<String, List<Filter>> getFilters() {
+    public Map<String, List<Filter>> getFilters() {
         return Collections.unmodifiableMap(filters);
     }
     
-    Map<String, Servlet> getServlets() {
+    public Map<String, Servlet> getServlets() {
         return Collections.unmodifiableMap(servlets);
     } 
     

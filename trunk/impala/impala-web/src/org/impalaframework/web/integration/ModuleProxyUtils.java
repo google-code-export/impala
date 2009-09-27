@@ -14,9 +14,7 @@
 
 package org.impalaframework.web.integration;
 
-import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.logging.Log;
 import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.util.ClassUtils;
@@ -27,22 +25,6 @@ import org.springframework.util.ClassUtils;
  */
 public class ModuleProxyUtils {
 
-    public static void maybeLogRequest(HttpServletRequest request, Log logger) {
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Request context path: " + request.getContextPath());
-            logger.debug("Request local address: " + request.getLocalAddr());
-            logger.debug("Request local name: " + request.getLocalName());
-            logger.debug("Request path info: " + request.getPathInfo());
-            logger.debug("Request path translated: " + request.getPathTranslated());
-            logger.debug("Request query string: " + request.getQueryString());
-            logger.debug("Request servlet path: " + request.getServletPath());
-            logger.debug("Request request URI: " + request.getRequestURI());
-            logger.debug("Request request URL: " + request.getRequestURL());
-            logger.debug("Request session ID: " + request.getRequestedSessionId());
-        }
-    }
-    
     public static RequestModuleMapper newRequestModuleMapper(final String requestModuleMapperClass) {
         if (requestModuleMapperClass != null) {
             //remember, ClassUtils will use the thread context class loader if it is available
@@ -52,39 +34,4 @@ public class ModuleProxyUtils {
             return new ServletPathRequestModuleMapper();
         }
     }
-
-    public static String getTopLevelPathSegment(String uri) {
-        //request URI includes context path, so that should be stripped off
-        String toCheck = uri.startsWith("/") ? uri.substring(1) : uri;
-        
-        //we are dealing with the top level path
-        String[] split = toCheck.split("/");
-        
-        if (split.length == 1) {
-            return null;
-        }
-        return split[1];
-    }
-    
-    public static String getSuffix(String uri) {
-        final int lastSlashIndex = uri.lastIndexOf('/');
-        
-        final String toCheck;
-        if (lastSlashIndex > 0) {
-            toCheck = uri.substring(lastSlashIndex+1);
-        } else {
-            toCheck = uri;
-        }
-        
-        final String extension;
-        
-        final int dotIndex = toCheck.lastIndexOf('.');
-        if (dotIndex >= 0) {
-            extension = toCheck.substring(dotIndex + 1);
-        } else {
-            extension = null;
-        }
-        
-        return extension;
-     }
 }

@@ -16,8 +16,6 @@ package org.impalaframework.web;
 
 import java.io.File;
 
-import org.impalaframework.web.StartJetty;
-
 import junit.framework.TestCase;
 
 public class StartJettyTest extends TestCase {
