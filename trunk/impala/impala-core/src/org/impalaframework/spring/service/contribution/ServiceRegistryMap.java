@@ -4,9 +4,9 @@ import java.util.Map;
 
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.contribution.BaseServiceRegistryMap;
+import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.SpringServiceEndpoint;
 import org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator;
-import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
 import org.impalaframework.spring.service.proxy.StaticServiceReferenceProxyFactorySource;
 import org.springframework.aop.framework.ProxyFactory;

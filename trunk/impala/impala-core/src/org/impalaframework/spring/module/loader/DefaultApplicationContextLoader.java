@@ -17,7 +17,7 @@ package org.impalaframework.spring.module.loader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
-import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 

@@ -16,7 +16,7 @@ package org.impalaframework.spring.service.registry.config;
 
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
-import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
+import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.proxy.ProxyFactoryCreatorAware;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;

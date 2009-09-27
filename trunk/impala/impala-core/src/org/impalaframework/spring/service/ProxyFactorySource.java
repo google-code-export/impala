@@ -12,9 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.spring.service.proxy;
+package org.impalaframework.spring.service;
 
-import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
 /**

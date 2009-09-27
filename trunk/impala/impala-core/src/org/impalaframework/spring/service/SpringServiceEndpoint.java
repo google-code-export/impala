@@ -15,7 +15,6 @@
 package org.impalaframework.spring.service;
 
 import org.impalaframework.service.ServiceEndpoint;
-import org.impalaframework.spring.service.proxy.ProxyFactoryCreator;
 
 public interface SpringServiceEndpoint extends ServiceEndpoint {
     public void setProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator);

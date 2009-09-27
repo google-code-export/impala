@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import org.impalaframework.spring.service.ProxyFactorySource;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
