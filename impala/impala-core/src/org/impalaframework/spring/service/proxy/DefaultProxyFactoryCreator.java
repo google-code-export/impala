@@ -16,6 +16,8 @@ package org.impalaframework.spring.service.proxy;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.service.ProxyFactoryCreator;
+import org.impalaframework.spring.service.ProxyFactorySource;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
 
