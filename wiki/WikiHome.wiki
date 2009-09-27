@@ -55,6 +55,10 @@
   * [Solutions Real world solutions]
   * [Compatibility Non-backward compatible changes across versions]
   
+=== Migration ===
+  * [Migration_1_0M6 Migration to 1.0 M6]
+  * [Migration_10RC1 Migration to 1.0 RC1]  
+  
 == Developer Pages ==
   
   * [GetInvolved Get Involved]
