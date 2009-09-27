@@ -14,4 +14,6 @@ Impala's improved web multi-module request routing capabilities, and the [Sample
 
 See the [http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0RC1&can=1 full list of issues covered for milestone 1.0 RC1].
 
+If you are migrating from a previous version, please take a look at the [Migration_1_0RC1 1.0 RC1 migration guide].
+
 If you like Impala and would like to support the project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
