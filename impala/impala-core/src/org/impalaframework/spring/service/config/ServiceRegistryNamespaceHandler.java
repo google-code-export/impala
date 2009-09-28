@@ -67,11 +67,6 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         protected Class<?> getBeanClass(Element element) {
             return ParentFactoryBean.class;
         }
-        
-        @Override
-        protected boolean isEligibleAttribute(Attr attribute) {
-            return false;
-        }
     }
     
     private static class ExportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {

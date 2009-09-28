@@ -55,8 +55,20 @@ public class ParentFactoryBean extends BaseExistingBeanExposingFactoryBean
         return serviceBeanReference.isStatic();
     }
 
+    /**
+     * This will be called by the container after {@link #setParentBeanName(String)}.
+     * Thus if value is set using {@link #setParentBeanName(String)}, then this method will have no effect
+     */
     public void setBeanName(String beanName) {
-        this.beanName = beanName;
+        if (this.beanName == null) {
+            this.beanName = beanName;
+        }
     }
+    
+    /* ******************** Injected setters ******************** */
+    
+    public void setParentBeanName(String beanName) {
+        this.beanName = beanName;
+    }    
 
 }
