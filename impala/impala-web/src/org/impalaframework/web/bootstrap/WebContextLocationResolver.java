@@ -29,6 +29,7 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
         super.addCustomLocations(configSettings, propertySource);
         addJarModuleLocation(configSettings, propertySource);
         addAutoReloadListener(configSettings, propertySource);
+        addJmxOperations(configSettings, propertySource);
         
         BooleanPropertyValue servletContextPartitioned = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT, WebBootstrapProperties.PARTITIONED_SERVLET_CONTEXT_DEFAULT);
         BooleanPropertyValue sessionModuleProtected = new BooleanPropertyValue(propertySource, WebBootstrapProperties.SESSION_MODULE_PROTECTION, WebBootstrapProperties.SESSION_MODULE_PROTECTION_DEFAULT);
@@ -47,6 +48,15 @@ public class WebContextLocationResolver extends SimpleContextLocationResolver {
         
         if (!embeddedMode.getValue()) {
             configSettings.add("META-INF/impala-web-jar-module-bootstrap.xml");
+        }
+    }
+
+    protected void addJmxOperations(ConfigurationSettings configSettings, PropertySource propertySource) {
+        BooleanPropertyValue enableJmxOperations = new BooleanPropertyValue(propertySource, WebBootstrapProperties.ENABLE_WEB_JMX_OPERATIONS, WebBootstrapProperties.ENABLE_WEB_JMX_OPERATIONS_DEFAULT);
+        configSettings.addProperty(WebBootstrapProperties.ENABLE_WEB_JMX_OPERATIONS, enableJmxOperations);
+        
+        if (enableJmxOperations.getValue()) {
+            configSettings.add("META-INF/impala-web-jmx-bootstrap.xml");
         }
     }
 

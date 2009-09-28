@@ -86,6 +86,19 @@ public class WebContextLocationResolverTest extends TestCase {
         assertLocations("impala-web-jar-module-bootstrap.xml");
     }
     
+    public void testEnableJmx() throws Exception {
+        //default is false
+        resolver.addJmxOperations(configSettings, propertySource);
+        assertLocations();
+    }
+    
+    public void testEnableJmxDefault() throws Exception {
+        //default is to deploy as jar modules
+        properties.setProperty("enable.web.jmx.operations", "true");
+        resolver.addJmxOperations(configSettings, propertySource);
+        assertLocations("impala-web-jmx-bootstrap.xml");
+    }
+    
     public void testJarModuleLocation() throws Exception {
         properties.setProperty("embedded.mode", "true");
         resolver.addJarModuleLocation(configSettings, propertySource);
