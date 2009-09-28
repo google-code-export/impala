@@ -92,6 +92,11 @@ public class CollectionStringUtilsTest extends TestCase {
         }
     }
     
+    public void testEmptyLong() throws Exception {
+
+        List<Long> list = CollectionStringUtils.parseLongList("");
+        assertTrue(list.isEmpty());
+    }
     
     public void testParseStringList() throws Exception {
         String input = "value 1, 2007-06-11 16:15:32 \n 3 ";
