@@ -151,7 +151,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
 
 
     private ModuleClassLoader newModuleClassLoader() {
-        ModuleClassLoader moduleClassLoader = new ModuleClassLoader(new File[]{ new File("../impala-web/bin")});
+        ModuleClassLoader moduleClassLoader = new ModuleClassLoader(new File[]{ new File("../impala-web/bin"), new File("../impala-web/testbin")});
         return moduleClassLoader;
     }
 

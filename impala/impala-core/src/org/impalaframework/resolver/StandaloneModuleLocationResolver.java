@@ -53,7 +53,7 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
         mergeProperty(LocationConstants.MODULE_CLASS_DIR_PROPERTY, LocationConstants.MODULE_CLASS_DIR_DEFAULT, null);
 
         // the parent directory in which tests are expected to be found
-        mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "bin", null);
+        mergeProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, LocationConstants.MODULE_TEST_DIR_DEFAULT, null);
     }
 
     public List<Resource> getModuleTestClassLocations(String moduleName) {
