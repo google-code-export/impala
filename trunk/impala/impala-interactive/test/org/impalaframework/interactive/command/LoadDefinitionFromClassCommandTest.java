@@ -20,6 +20,7 @@ import org.impalaframework.command.framework.CommandInfo;
 import org.impalaframework.command.framework.CommandLineInputCapturer;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.command.framework.GlobalCommandState;
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.command.CommandStateConstants;
 import org.impalaframework.interactive.command.LoadDefinitionFromClassCommand;
@@ -37,6 +38,7 @@ public class LoadDefinitionFromClassCommandTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        System.setProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY, "testbin");
         Impala.clear();
         GlobalCommandState.getInstance().reset();
         fromClassCommand = new LoadDefinitionFromClassCommand();
@@ -44,6 +46,12 @@ public class LoadDefinitionFromClassCommandTest extends TestCase {
         commandState = new CommandState();
         setInputCapturer();
         GlobalCommandState.getInstance().addValue(CommandStateConstants.DIRECTORY_NAME, "impala-interactive");
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
+        System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
     }
 
     public final void testNotSetFromClassCommand() {

@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 public class TestClassLoaderTest extends TestCase {
 
     public void testLoadClassString() throws Exception {
-        TestClassLoader tcl = new TestClassLoader(new File[] {new File("../impala-interactive/bin")}, "org.impalaframework.interactive.testrun.AJUnitTest");
+        TestClassLoader tcl = new TestClassLoader(new File[] {new File("../impala-interactive/testbin")}, "org.impalaframework.interactive.testrun.AJUnitTest");
 
         // check that this class loader loads the named class
         Class<?> cls = Class.forName("org.impalaframework.interactive.testrun.AJUnitTest", false, tcl);
