@@ -20,6 +20,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -39,13 +40,29 @@ public abstract class CollectionStringUtils {
 
         String delimiters = ",\n";
         return parseList(listString, delimiters, stringConverter);
+    }    
+    
+    /**
+     * Generates a list of Long from the underlying list, assuming that they
+     * are separated by a new line or comma. Uses
+     * {@link Long#valueOf(String)} to convert String values to list.
+     * Note that the character '\\' can be used to escape delimiters, so
+     * that these can appear in values.
+     * @param listString the input String
+     * @return a list of Strings, values trimmed, in the input order
+     */
+    @SuppressWarnings("unchecked")
+    public static List<Long> parseLongList(String listString) {
+
+        String delimiters = ",\n";
+        return parseList(listString, delimiters, longConverter);
     }
     
     /**
      * Generates a list of Objects from the underlying list, assuming that they
      * are separated by a new line or comma. Uses
-     * {@link ParseUtils#parseObject(String)} to convert String values to map
-     * values.Note that the character '\\' can be used to escape delimiters, so
+     * {@link ParseUtils#parseObject(String)} to convert String values to list values.
+     * Note that the character '\\' can be used to escape delimiters, so
      * that these can appear in values.
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
@@ -239,6 +256,21 @@ public abstract class CollectionStringUtils {
 
         public Object convertValue(String text) {
             return text;
+        }
+        
+    };
+    
+    private static ValueConverter longConverter = new ValueConverter() {
+
+        public Object convertValue(String text) {
+            Long value;
+            try {
+                value = Long.valueOf(text);
+            }
+            catch (NumberFormatException e) {
+                throw new ExecutionException("Value '" + text + "' is not a number");
+            }            
+            return value;
         }
         
     };
