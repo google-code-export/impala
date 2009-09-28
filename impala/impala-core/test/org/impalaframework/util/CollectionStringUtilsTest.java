@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import org.impalaframework.exception.ExecutionException;
+
 import junit.framework.TestCase;
 
 public class CollectionStringUtilsTest extends TestCase {
@@ -28,7 +30,7 @@ public class CollectionStringUtilsTest extends TestCase {
         compareTokenize("a:b:c:,d", "a,b\nc,\\,d");
         compareTokenize("a:b:c:d\\", "a,b,c,d\\");
     }
-
+    
     private void compareTokenize(String expected, String initial) {
         assertEquals(Arrays.asList(expected.split(":")), Arrays.asList(CollectionStringUtils.tokenize(initial, ",\n")));
     }
@@ -66,6 +68,30 @@ public class CollectionStringUtilsTest extends TestCase {
         Object actual = map.get("name=2");
         assertEquals("value2", actual);
     }
+
+    public void testLong() throws Exception {
+
+        String input = "1, 2,3  ";
+        List<Long> list = CollectionStringUtils.parseLongList(input);
+        
+        assertEquals(3, list.size());
+        assertEquals(new Long(1), list.get(0));
+        assertEquals(new Long(2), list.get(1));
+        assertEquals(new Long(3), list.get(2));
+    } 
+    
+    public void testInvalidLong() throws Exception {
+
+        String input = "not a number";
+        try {
+            CollectionStringUtils.parseLongList(input);
+            fail();
+        }
+        catch (ExecutionException e) {
+           assertEquals("Value 'not a number' is not a number", e.getMessage());
+        }
+    }
+    
     
     public void testParseStringList() throws Exception {
         String input = "value 1, 2007-06-11 16:15:32 \n 3 ";
