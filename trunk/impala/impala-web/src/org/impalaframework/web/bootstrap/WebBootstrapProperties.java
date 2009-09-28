@@ -166,5 +166,13 @@ public interface WebBootstrapProperties {
     String WEB_MODULE_PREFIX = "web.module.prefix";
 
     String WEB_MODULE_PREFIX_DEFAULT = "";
+    
+    /**
+     * Whether to enable web JMX operations, contained in the context file impala-web-jmx-bootstrap.xml
+     */
+    String ENABLE_WEB_JMX_OPERATIONS = "enable.web.jmx.operations";
+
+    boolean ENABLE_WEB_JMX_OPERATIONS_DEFAULT = false;
+
 
 }
