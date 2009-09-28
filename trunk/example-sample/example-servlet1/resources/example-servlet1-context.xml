@@ -22,6 +22,9 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <!-- Sets up ParentFactoryBean -->
     <service:parent id="entryService"/> 
     
+    <!-- Example of using ParentFactoryBean with alternative bean name -->
+    <service:parent id="parentEntryService" parentBeanName="entryService"/> 
+    
     <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
     <bean name="/servlet1/test.do1" class="TestController1">
         <property name = "entryService" ref = "entryService"/>

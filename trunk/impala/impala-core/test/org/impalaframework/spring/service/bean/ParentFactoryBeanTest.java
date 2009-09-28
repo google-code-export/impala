@@ -44,6 +44,10 @@ public class ParentFactoryBeanTest extends TestCase {
         
         assertSame(singletonParent.getClass().getName(), singletonChild.getClass().getName());
         assertTrue(singletonParent == singletonChild);
+        
+        Object renamedChild = childContext.getBean("renamedParent");
+        assertSame(renamedChild.getClass().getName(), singletonChild.getClass().getName());
+        assertTrue(singletonParent == renamedChild);
     }
     
     public void testNoParent() throws Exception {

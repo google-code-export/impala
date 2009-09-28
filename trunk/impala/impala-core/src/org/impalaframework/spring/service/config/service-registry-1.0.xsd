@@ -17,6 +17,7 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="parentBeanName" type="xsd:string" use="optional"/>
 		</xsd:complexType>
 	</xsd:element>
 	
