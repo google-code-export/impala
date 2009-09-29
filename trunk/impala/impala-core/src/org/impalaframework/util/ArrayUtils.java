@@ -30,6 +30,13 @@ public abstract class ArrayUtils {
     }
     
     /**
+     * Returns false if source array is null or empty
+     */
+    public static <T extends Object> boolean notNullOrEmpty(T[] array) {
+        return !isNullOrEmpty(array);
+    }
+    
+    /**
      * Trims individual elements in source array
      */
     public static String[] trim(String[] array) {

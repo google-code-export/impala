@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import java.util.Arrays;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.NoServiceException;
@@ -33,6 +35,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
     private DelegatingServiceRegistry serviceRegistry;
     private ClassLoader classLoader;
     private DefaultProxyFactoryCreator proxyFactoryCreator;
+    private Class<?>[] exportTypes;
 
     @Override
     protected void setUp() throws Exception {
@@ -44,6 +47,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         bean.setServiceRegistry(serviceRegistry);
         
         classLoader = ClassUtils.getDefaultClassLoader();
+        exportTypes = new Class<?>[] { Child.class };
     }
     
     public void testWithBeanName() throws Exception {
@@ -59,9 +63,19 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         }
         catch (NoServiceException e) {
         }
-
+        
+        //now register using types. Will still not be able to find
         Child service = newChild();
-        serviceRegistry.addService("someBean", "pluginName", new StaticServiceBeanReference(service), classLoader);
+        serviceRegistry.addService(null, "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+            e.printStackTrace();
+        }
+
+        serviceRegistry.addService("someBean", "moduleName", new StaticServiceBeanReference(service), classLoader);
         child.childMethod();
     }   
     
@@ -82,7 +96,7 @@ public class NamedServiceProxyFactoryBeanTest extends TestCase {
         }
 
         Child service = newChild();
-        serviceRegistry.addService("exportBean", "pluginName",  new StaticServiceBeanReference(service), classLoader);
+        serviceRegistry.addService("exportBean", "moduleName",  new StaticServiceBeanReference(service), classLoader);
         child.childMethod();
     }
     

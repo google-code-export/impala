@@ -20,6 +20,8 @@ import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
+import org.impalaframework.util.ArrayUtils;
+import org.springframework.util.Assert;
 
 /**
  * Supports retrieving of target object from service registry for particular bean name.
@@ -31,21 +33,35 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
 
     private final String beanName;
     private final ServiceRegistry serviceRegistry;
-    private final Class<?>[] interfaces;
+    private final Class<?>[] proxyTypes;
+    private final Class<?>[] exportTypes;
     private final Class<?> concreteClass;
-    private final boolean exportTypesOnly;
 
-    public BeanRetrievingServiceRegistryTargetSource(ServiceRegistry serviceRegistry, String beanName, Class<?>[] interfaces, boolean exportTypesOnly) {
+    public BeanRetrievingServiceRegistryTargetSource(
+            ServiceRegistry serviceRegistry, 
+            String beanName, 
+            Class<?>[] proxyTypes, 
+            Class<?>[] exportTypes) {
+        
         super();
         this.beanName = beanName;
         this.serviceRegistry = serviceRegistry;
-        this.interfaces = interfaces;
-        this.exportTypesOnly = exportTypesOnly;
+        this.proxyTypes = proxyTypes;
+        this.exportTypes = exportTypes;
+        
+        if (beanName == null) {
+            Assert.isTrue(ArrayUtils.notNullOrEmpty(exportTypes), "exportTypes and bean name cannot both be null/empty");
+        }
+        
+        if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
+            Assert.isTrue(ArrayUtils.notNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be null/empty");
+            proxyTypes = exportTypes;
+        }
         
         //if we have just a single interface and this is a concrete class, then we can use this 
         //as the return value for getTargetClass
-        Class<?> firstClass = interfaces[0];
-        if (interfaces.length == 1 && !firstClass.isInterface()) {
+        Class<?> firstClass = proxyTypes[0];
+        if (proxyTypes.length == 1 && !firstClass.isInterface()) {
             if (Modifier.isFinal(firstClass.getModifiers())) {
                 throw new InvalidStateException("Cannot create proxy for " + firstClass + " as it is a final class");
             }
@@ -64,7 +80,9 @@ public class BeanRetrievingServiceRegistryTargetSource extends BaseServiceRegist
     }
 
     public ServiceRegistryEntry getServiceRegistryReference() {
-        return serviceRegistry.getService(exportTypesOnly ? null : beanName, interfaces, exportTypesOnly);
+        boolean exportTypesOnly = ArrayUtils.notNullOrEmpty(exportTypes);
+        Class<?>[] typesToUse = exportTypesOnly ? exportTypes : proxyTypes;
+        return serviceRegistry.getService(beanName, typesToUse, exportTypesOnly);
     }
 
 }

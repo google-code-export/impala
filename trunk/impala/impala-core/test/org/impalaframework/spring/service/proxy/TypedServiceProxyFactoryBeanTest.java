@@ -31,6 +31,8 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
     private DelegatingServiceRegistry serviceRegistry;
     private ClassLoader classLoader;
     private Class<?>[] exportTypes;
+    private Class<?>[] proxyClassTypes;
+    private Class<?>[] proxyInterfaceTypes;
 
     @Override
     protected void setUp() throws Exception {
@@ -41,10 +43,43 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
         
         classLoader = ClassUtils.getDefaultClassLoader();
         exportTypes = new Class<?>[] { Child.class };
-        bean.setBeanName("mybean");
+        proxyClassTypes = new Class<?>[] { TestChild.class };
+        proxyInterfaceTypes = new Class<?>[] { SubChild.class, GrandChild.class };
     }
     
-    public void testWithBeanName() throws Exception {
+    public void testWithExportTypesAndBeanName() throws Exception {
+        
+        bean.setBeanName("mybean");
+        bean.setExportTypes(exportTypes);
+        bean.afterPropertiesSet();
+
+        Child child = (Child) bean.getObject();
+
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+            e.printStackTrace();
+        }
+
+        //create service and register using export types
+        Child service = newChild();
+        serviceRegistry.addService(null, "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+            e.printStackTrace();
+        }
+        
+        //register using bean name too
+        serviceRegistry.addService("mybean", "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        child.childMethod();
+    }  
+    
+    public void testWithExportTypesOnly() throws Exception {
         bean.setExportTypes(exportTypes);
         bean.afterPropertiesSet();
 
@@ -59,19 +94,76 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
         }
 
         Child service = newChild();
-        serviceRegistry.addService(null, "pluginName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        serviceRegistry.addService(null, "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
         child.childMethod();
     }  
     
-    private Child newChild() {
-        return new Child() {
-            public void childMethod() {
-            }
+    public void testWithExportAndProxyClass() throws Exception {
+        bean.setExportTypes(exportTypes);
+        bean.setProxyTypes(proxyClassTypes);
+        bean.afterPropertiesSet();
 
-            public Parent tryGetParent() {
-                return null;
-            }
-        };
+        TestChild child = (TestChild) bean.getObject();
+
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+            e.printStackTrace();
+        }
+
+        Child service = newChild();
+        serviceRegistry.addService(null, "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        child.childMethod();
     }
     
+    public void testWithExportAndProxyInterfaces() throws Exception {
+        bean.setExportTypes(exportTypes);
+        bean.setProxyTypes(proxyInterfaceTypes);
+        bean.afterPropertiesSet();
+
+        //use one of the interfaces
+        SubChild child = (SubChild) bean.getObject();
+
+        try {
+            child.childMethod();
+            fail();
+        }
+        catch (NoServiceException e) {
+            e.printStackTrace();
+        }
+
+        Child service = newChild();
+        serviceRegistry.addService(null, "moduleName",  new StaticServiceBeanReference(service), Arrays.asList(exportTypes) , null, classLoader);
+        child.childMethod();
+        
+        //show we can also cast to one of the other interfaces
+        GrandChild grandChild = (GrandChild) child;
+        grandChild.childMethod();
+        
+        assertFalse(grandChild instanceof TestChild);
+    }
+    
+    private Child newChild() {
+        return new TestChild();
+    }
+    
+}
+
+interface SubChild extends Child {
+    
+}
+
+interface GrandChild extends Child {
+    
+}
+
+class TestChild implements SubChild, GrandChild {
+    public void childMethod() {
+    }
+
+    public Parent tryGetParent() {
+        return null;
+    }
 }
