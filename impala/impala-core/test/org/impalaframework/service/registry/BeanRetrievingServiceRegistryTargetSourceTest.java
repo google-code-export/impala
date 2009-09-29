@@ -22,7 +22,11 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
     }
 
     public void testGetUsingBean() {
-        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, "mybean", new Class[]{ Object.class }, false);
+        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, 
+                "mybean", //bean name null
+                new Class[]{ Object.class }, //proxy types non null
+                null //export types null
+                );
         
         assertNull(targetSource.getServiceRegistryReference());
         
@@ -37,7 +41,11 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
     }
     
     public void testGetUsingExportedType() {
-        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, null, new Class[]{ Object.class }, true);
+        BeanRetrievingServiceRegistryTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, 
+                null, //bean name null
+                null, //proxy types null
+                new Class[]{ Object.class } //export types non null
+        );
         
         assertNull(targetSource.getServiceRegistryReference());
         
@@ -51,5 +59,34 @@ public class BeanRetrievingServiceRegistryTargetSourceTest extends TestCase {
         
         assertNull(targetSource.getServiceRegistryReference());
     }
+    
+    public void testNoNameOrExportType() throws Exception {
+        try {
+            new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, 
+                    null, //bean name null
+                    new Class[]{ Object.class }, //proxy types non null
+                    null //export types null
+            );
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("exportTypes and bean name cannot both be null/empty", e.getMessage());
+        }
+    }
+    
+    public void testNoProxyOrExportType() throws Exception {
+        try {
+            new BeanRetrievingServiceRegistryTargetSource(serviceRegistry, 
+                    "name", //bean name null
+                    null, //proxy types null
+                    null //export types non null
+            );
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+            assertEquals("exportTypes and proxyTypes cannot both be null/empty", e.getMessage());
+        }
+    }
+
 
 }

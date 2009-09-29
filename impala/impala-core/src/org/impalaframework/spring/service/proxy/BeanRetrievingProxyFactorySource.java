@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BeanRetrievingServiceRegistryTargetSource;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.util.Assert;
 
@@ -32,38 +33,48 @@ public class BeanRetrievingProxyFactorySource extends BaseProxyFactorySource {
     
     private final ServiceRegistry serviceRegistry;
     private final Class<?>[] proxyTypes;
+    private final Class<?>[] exportTypes;
     private final String registryBeanName;
-    private final boolean exportTypesOnly;
 
     /**
      * Constructor
      * @param serviceRegistry the service registry
-     * @param interfaces the types to which the reference should be compatible
+     * @param proxyTypes the types to which the reference should be compatible
      * @param registryBeanName the name of the bean as registered in the service registry
-     * @param exportTypesOnly whether only to search for exported types
      */
     public BeanRetrievingProxyFactorySource(
             ServiceRegistry serviceRegistry,
-            Class<?>[] interfaces, 
-            String registryBeanName, 
-            boolean exportTypesOnly) {
+            Class<?>[] proxyTypes, 
+            Class<?>[] exportTypes, 
+            String registryBeanName) {
         
         super();
         
-        this.proxyTypes = interfaces;
+        this.exportTypes = exportTypes;
         this.serviceRegistry = serviceRegistry;
         this.registryBeanName = registryBeanName;
-        this.exportTypesOnly = exportTypesOnly;
+        
+        if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
+            Assert.isTrue(ArrayUtils.notNullOrEmpty(exportTypes));
+            this.proxyTypes = exportTypes;
+        } else {
+            this.proxyTypes = proxyTypes;
+        }
     }
 
     public void init() {
         
         Assert.notNull(this.serviceRegistry, "serviceRegistry cannot be null");
-        Assert.notNull(proxyTypes, "proxyTypes cannot be null");
-        Assert.notEmpty(proxyTypes, "proxyTypes cannot be empty");
+        
+        //BeanRetrievingServiceRegistryTargetSource implements rules on whether bean name, proxyTypes or exportTypes can and cannot be null
         
         //this will return a non-null value if single interface which is concrete class
-        ServiceEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(this.serviceRegistry, registryBeanName, proxyTypes, exportTypesOnly);
+        ServiceEndpointTargetSource targetSource = new BeanRetrievingServiceRegistryTargetSource(
+                this.serviceRegistry, 
+                registryBeanName, 
+                proxyTypes, 
+                exportTypes);
+        
         ProxyFactory proxyFactory = new ProxyFactory();
         
         if (targetSource.getTargetClass() == null) {

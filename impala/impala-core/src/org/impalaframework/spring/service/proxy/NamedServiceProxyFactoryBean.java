@@ -17,6 +17,7 @@ package org.impalaframework.spring.service.proxy;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.util.Assert;
 
 /**
  * The <code>NamedServiceProxyFactoryBean</code> works under the assumption that the service was exported against a named key.
@@ -42,8 +43,11 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean im
 
     protected ProxyFactory createProxyFactory() {
         String registryBeanName = getRegistryExportName();
+
+        Assert.notNull(registryBeanName, "Registry bean name cannot be null");
+        Assert.notNull(proxyTypes, "Proxy types cannot be null for " + NamedServiceProxyFactoryBean.class);
         
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, registryBeanName, false);
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, null, registryBeanName);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;

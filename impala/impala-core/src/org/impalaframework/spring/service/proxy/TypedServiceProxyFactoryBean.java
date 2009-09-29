@@ -15,6 +15,7 @@
 package org.impalaframework.spring.service.proxy;
 
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.util.Assert;
 
 /**
  * The <code>NamedTypesProxyFactoryBean</code> works under the assumption that the service was exported against a 
@@ -30,11 +31,16 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
     
     private Class<?>[] exportTypes;
 
+    private Class<?>[] proxyTypes;
+
     /* *************** Abstract superclass method implementation ************** */
 
     protected ProxyFactory createProxyFactory() {
         
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), exportTypes, getBeanName(), true);
+        Assert.notNull(exportTypes, "Export types cannot be null for " + TypedServiceProxyFactoryBean.class);
+        
+        //note that if proxy types are supplied, they will be used for proxies instead of export types
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, exportTypes, getBeanName());
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
@@ -44,6 +50,10 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
 
     public void setExportTypes(Class<?>[] proxyTypes) {
         this.exportTypes = proxyTypes;
+    }
+    
+    public void setProxyTypes(Class<?>[] proxyTypes) {
+        this.proxyTypes = proxyTypes;
     }
     
 }
