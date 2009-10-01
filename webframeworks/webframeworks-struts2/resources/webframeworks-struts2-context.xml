@@ -9,7 +9,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<web:mapping>
-		<web:to-module prefix = "/struts2" setServletPath = "true"/>
+		<web:to-module prefix = "/struts2"/>
 	</web:mapping>
 
 	<web:filter id = "myStruts2Filter"
