@@ -6,5 +6,6 @@
     webframeworks-struts
     webframeworks-struts2
     webframeworks-wicket
+    webframeworks-tapestry5
     </names>
 </parent>
