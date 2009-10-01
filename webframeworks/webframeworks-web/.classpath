@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="webconfig"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/webframeworks"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/webframeworks-repository/main/spring-webmvc-2.5.5-sources.jar"/>
@@ -15,8 +15,6 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jasper-runtime-5.5.15.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/commons-el-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/jsp-api-2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/servletapi-2.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/struts-1.2.9.jar" sourcepath="/webframeworks-repository/struts/struts-1.2.9-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-beanutils-1.7.0.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-digester-1.6.jar"/>
@@ -32,6 +30,14 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.18-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.18.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.18-sources.jar"/>
-	<classpathentry kind="lib" path="/webframeworks-repository/web/spring-webflow-1.0.5.jar" sourcepath="/webframeworks-repository/web/spring-webflow-1.0.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/spring-webflow-1.0.5.jar" sourcepath="/webframeworks-repository/web/spring-webflow-1.0.5-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/servlet-api-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/jsp-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/freemarker-2.3.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/ognl-2.7.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts-annotations-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts2-core-2.1.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/xwork-core-2.1.6.jar"/>
+	<classpathentry kind="lib" path="/webframeworks-repository/struts2/commons-fileupload-1.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

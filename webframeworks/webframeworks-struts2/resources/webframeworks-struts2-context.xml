@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:service="http://www.impalaframework.org/schema/service"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
+
+	<web:mapping>
+		<web:to-module prefix = "/struts2" setServletPath = "true"/>
+	</web:mapping>
+
+	<web:filter id = "myStruts2Filter"
+		delegatorFilterName = "webframeworks-struts2"
+		filterClass = "org.apache.struts2.dispatcher.FilterDispatcher"  >
+	</web:filter>
+	
+</beans>
