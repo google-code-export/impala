@@ -1,7 +1,7 @@
 web from org.springframework:spring-webmvc:2.5.5
 web from org.springframework:spring-webflow:1.0.5
-web from servletapi:servletapi:2.4 source="false"
-web from jspapi:jsp-api:2.0 source="false"
+web from javax.servlet:servlet-api:2.4
+web from javax.servlet:jsp-api:2.0
 jetty from org.mortbay.jetty:jetty:6.1.11
 jetty from org.mortbay.jetty:jetty-util:6.1.11
 jetty from xerces:xercesImpl:2.8.1
