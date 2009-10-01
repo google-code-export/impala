@@ -17,4 +17,8 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		filterClass = "org.apache.struts2.dispatcher.FilterDispatcher"  >
 	</web:filter>
 	
+	<!-- 
+	<bean id = "helloWorld" class = "org.impalaframework.webframeworks.struts2.HelloWorld"/>
+	-->
+	
 </beans>

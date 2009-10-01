@@ -4,7 +4,6 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class HelloWorld extends ActionSupport {
 
-
     private static final long serialVersionUID = 1L;
     
     public static final String MESSAGE = "Struts 2 is up and running ...";
