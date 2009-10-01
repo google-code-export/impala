@@ -6,7 +6,7 @@ public class HelloWorld extends ActionSupport {
 
     private static final long serialVersionUID = 1L;
     
-    public static final String MESSAGE = "Struts 2 is up and running ...";
+    public static final String MESSAGE = "Struts 2 is up and running now ...";
 
     public String execute() throws Exception {
         setMessage(MESSAGE);
