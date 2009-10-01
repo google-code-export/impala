@@ -11,4 +11,5 @@
             <result>/struts2/HelloWorld.jsp</result>
         </action>
     </package>
+    
 </struts>
