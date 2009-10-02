@@ -100,7 +100,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * calls the application context
      * {@link DelegatedExecutionOsgiBundleApplicationContext#startRefresh()}
      * method. Note that the rest of the refresh operation is called in 
-     * {@link #handleRefresh(ConfigurableApplicationContext)}.
+     * {@link #handleRefresh(ConfigurableApplicationContext, ModuleDefinition)}.
      */
     public ConfigurableApplicationContext newApplicationContext(
             ApplicationContext parent, final ModuleDefinition moduleDefinition,
@@ -160,7 +160,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     /**
      * Completes the second part of the refresh process by calling {@link DelegatedExecutionOsgiBundleApplicationContext#completeRefresh()}
      */
-    public void handleRefresh(ConfigurableApplicationContext context) {
+    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         DelegatedExecutionOsgiBundleApplicationContext dc = ObjectUtils.cast(context, DelegatedExecutionOsgiBundleApplicationContext.class);
         dc.completeRefresh();
     }

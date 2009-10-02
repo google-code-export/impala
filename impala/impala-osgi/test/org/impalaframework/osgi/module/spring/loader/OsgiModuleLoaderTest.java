@@ -168,7 +168,7 @@ public class OsgiModuleLoaderTest extends TestCase {
         replayMocks();
         replay(applicationContext);
         
-        moduleLoader.handleRefresh(applicationContext);
+        moduleLoader.handleRefresh(applicationContext, new SimpleModuleDefinition("moduleName"));
 
         verifyMocks();
         verify(applicationContext);

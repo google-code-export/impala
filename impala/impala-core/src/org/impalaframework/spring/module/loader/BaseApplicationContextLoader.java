@@ -119,7 +119,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
                 reader.loadBeanDefinitions(resources);
             }
 
-            moduleLoader.handleRefresh(context);
+            moduleLoader.handleRefresh(context, definition);
             return context;
         }
         finally {

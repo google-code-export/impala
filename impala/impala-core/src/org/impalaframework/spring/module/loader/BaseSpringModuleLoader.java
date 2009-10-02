@@ -85,7 +85,7 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
     public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
     }
     
-    public void handleRefresh(ConfigurableApplicationContext context) {
+    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         // refresh the application context - now we're ready to go
         context.refresh();
     }

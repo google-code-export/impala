@@ -70,10 +70,10 @@ public interface SpringModuleLoader extends ModuleLoader {
     /**
      * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
      */
-    void handleRefresh(ConfigurableApplicationContext context);
+    void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
     
     /**
      * Callback which can be used for any post-refresh operations
      */
-    void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition);
+    void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
 }

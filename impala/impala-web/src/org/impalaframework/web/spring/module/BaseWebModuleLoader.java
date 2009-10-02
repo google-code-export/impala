@@ -21,6 +21,7 @@ import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
+import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -76,6 +77,22 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         return context;
     }
+    
+    
+    @Override
+    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+        
+        //FIXME issue 248 - add extra test for this
+        
+        try {
+            ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
+            super.handleRefresh(context, moduleDefinition);
+        }
+        catch (Exception e) {
+            ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+        }
+    }
+    
     
     /**
      * Hook for subclasses to perform additional configuration on application context
