@@ -4,26 +4,17 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
 
-import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
 import org.impalaframework.web.servlet.wrapper.DelegatingWrapperServletContext;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.springframework.context.ApplicationContextAware;
 
 public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements ApplicationContextAware, ModuleDefinitionAware {
 
     private String applicationPackage;
-
-    @Override
-    protected void initFilterProperties(Filter servlet) {
-        //FIXME would be good to avoid having to do this here
-        ImpalaServletUtils.publishRootModuleContext(getServletContext(), getModuleDefintion().getName(), getApplicationContext());
-        super.initFilterProperties(servlet);
-    }
 
     @Override
     protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
