@@ -33,7 +33,7 @@ import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.util.NestedServletException;
 
 /**
- * Extension of <code>DispatcherServlet</code> for servlets which are defined
+ * Extension of {@link DispatcherServlet} for servlets which are defined
  * not in web.xml but internally within the module using the
  * <code>ServletFactoryBean</code>. At runtime, an instance can be retrieved
  * using <code>ModuleProxyServlet</code>
@@ -65,7 +65,6 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
         
         WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
         ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
-        ImpalaServletUtils.publishRootModuleContext(getServletContext(), getServletName(), applicationContext);
         
         this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(this, setThreadContextClassLoader, applicationContext.getClassLoader());
         return applicationContext;
@@ -90,7 +89,6 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
     public void destroy() {
         WebServletUtils.unpublishServlet(getServletContext(), getServletName());
         ImpalaServletUtils.unpublishWebApplicationContext(this);
-        ImpalaServletUtils.unpublishRootModuleContext(getServletContext(), getServletName());
         super.destroy();
     }
 

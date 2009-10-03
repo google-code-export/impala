@@ -89,6 +89,12 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
         // refresh the application context - now we're ready to go
         context.refresh();
     }
+    
+    /**
+    * Nothing to do in this implementation
+    */
+    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+    }
 
     protected Collection<ResourceLoader> getInjectedSpringLocationResourceLoaders() {
         return this.springLocationResourceLoaders;

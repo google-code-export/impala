@@ -73,7 +73,7 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
         SpringRuntimeModule springRuntimeModule = ObjectUtils.cast(runtimeModule, SpringRuntimeModule.class);
         final ConfigurableApplicationContext applicationContext = springRuntimeModule.getApplicationContext();
         
-        applicationContext.close();
+        applicationContextLoader.closeContext(runtimeModule.getModuleDefinition(), applicationContext);
     }
 
     /* ********************* protected methods ********************* */

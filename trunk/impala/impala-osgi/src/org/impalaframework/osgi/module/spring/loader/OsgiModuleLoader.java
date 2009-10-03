@@ -125,6 +125,12 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
         
         return applicationContext;
     }
+    
+    /**
+     * Nothing to do in this implementation
+     */
+    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+    }
 
     ImpalaOsgiApplicationContext newApplicationContext(
             ApplicationContext parent, final ModuleDefinition moduleDefinition) {

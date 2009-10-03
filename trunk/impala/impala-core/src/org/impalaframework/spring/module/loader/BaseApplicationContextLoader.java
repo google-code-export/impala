@@ -85,6 +85,30 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
         return context;
     }
 
+    /**
+     * If {@link ApplicationContext} is an instance of
+     * {@link ConfigurableApplicationContext}, then calls
+     * {@link ConfigurableApplicationContext#close()}. Also, prior to this, if
+     * module is associated with {@link SpringModuleLoader}, then
+     * {@link SpringModuleLoader#beforeClose(ApplicationContext, ModuleDefinition)}
+     * is called.
+     */
+    public void closeContext(ModuleDefinition moduleDefinition, ApplicationContext applicationContext) {
+        
+        Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");        
+        final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(moduleDefinition), false);
+        
+        if (loader instanceof SpringModuleLoader) {
+            SpringModuleLoader springModuleLoader = (SpringModuleLoader) loader;
+            springModuleLoader.beforeClose(applicationContext, moduleDefinition);
+        }
+        
+        if (applicationContext instanceof ConfigurableApplicationContext) {
+            ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) applicationContext;
+            configurableContext.close();
+        }
+    }
+
     protected void afterContextLoaded(ModuleDefinition definition,
             final ModuleLoader moduleLoader) {
     }

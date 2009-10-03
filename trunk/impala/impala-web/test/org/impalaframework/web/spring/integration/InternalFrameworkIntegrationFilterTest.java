@@ -60,8 +60,6 @@ public class InternalFrameworkIntegrationFilterTest extends TestCase {
     }
 
     public void testInitDestroy() throws ServletException {
-        servletContext.setAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-        servletContext.removeAttribute("module_myfilter:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
         replayMocks();
         filter.init(new IntegrationFilterConfig(new HashMap<String, String>(), servletContext, "myfilter"));
