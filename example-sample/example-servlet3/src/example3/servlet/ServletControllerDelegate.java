@@ -13,12 +13,12 @@ import javax.servlet.http.HttpSession;
 
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.Controller;
 
 import shared.SharedBean;
-
 import classes.Entry;
 
 public class ServletControllerDelegate implements Controller {
@@ -26,16 +26,22 @@ public class ServletControllerDelegate implements Controller {
     public ModelAndView handleRequest(HttpServletRequest request,
             HttpServletResponse response) throws Exception {
 
-        response.getWriter().println("Servlet controller delegate for example-servlet3");
+        response.getWriter().println("<html><head></head><body>");
+        response.getWriter().println("<h1>example-servlet3</h1>");
+        response.getWriter().println("Servlet controller delegate for example-servlet3. <br/><br/>No resources are served, the markup is generated within the servlet <strong>" 
+                + this.getClass().getName() + "</strong>");
         ApplicationContext applicationContext = (ApplicationContext) request.getAttribute("spring.context");
-        
+
+        response.getWriter().write("<p>Mapped via entry ModuleProxyServlet entry in web.xml, and integrated into this servlet using <strong>" 
+                + InternalFrameworkIntegrationServlet.class.getName()
+        		+ "</strong></p>");
         /*
         We can execute this because we have exposed the current application context as the "root" web application context
         via the ModuleAwareWrapperServletContext
         */
         SharedBean bean = (SharedBean) applicationContext.getBean("sharedBean");
         bean.executeMe();
-        response.getWriter().write("Just executed bean " + SharedBean.class.getName() + ": " + bean);
+        response.getWriter().write("<p>Just executed bean " + SharedBean.class.getName() + ": " + bean + "</p>");
         
         checkSession(request, response, applicationContext);
         
@@ -46,6 +52,7 @@ public class ServletControllerDelegate implements Controller {
         int count = 1996;
         Collection<Entry> entries = entryDAO.getEntriesWithCount(count);
         response.getWriter().println("Retrieved " + entries.size() + " entries of count " + count);
+        response.getWriter().println("</body></html>");
         
         return null;
     }
