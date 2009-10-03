@@ -76,4 +76,10 @@ public interface SpringModuleLoader extends ModuleLoader {
      * Callback which can be used for any post-refresh operations
      */
     void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+    
+    /**
+     * Callback which is called before application context is closed
+     */
+    void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition);
+    
 }

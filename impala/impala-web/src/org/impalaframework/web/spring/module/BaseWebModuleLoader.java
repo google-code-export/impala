@@ -96,6 +96,11 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
             throw new ExecutionException(e.getMessage(), e);
         }
     }
+    
+    @Override
+    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+        ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+    }
 
     protected void doHandleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         super.handleRefresh(context, moduleDefinition);

@@ -37,6 +37,14 @@ import org.springframework.context.ConfigurableApplicationContext;
  */
 public interface ApplicationContextLoader {
     
+    /**
+     * Implements strategy for loading application context on behalf of a particular module
+     */
     ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
+
+    /**
+     * Callback which performs 
+     */
+    void closeContext(ModuleDefinition moduleDefinition, ApplicationContext applicationContext);
     
 }

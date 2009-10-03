@@ -16,7 +16,6 @@ package org.impalaframework.web.spring.integration;
 
 import java.io.IOException;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -84,22 +83,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
         
         this.invoker.invoke(request, response, null);
     }
-    
-    @Override
-    protected void initServletBean() throws ServletException {
-        final ServletContext servletContext = getServletContext();
-        final String servletName = getServletName();
-        ImpalaServletUtils.publishRootModuleContext(servletContext, servletName, applicationContext);
-    }
 
-    @Override
-    public void destroy() {
-        final ServletContext servletContext = getServletContext();
-        final String servletName = getServletName();
-        ImpalaServletUtils.unpublishRootModuleContext(servletContext, servletName);
-        super.destroy();
-    }   
-    
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
     }

@@ -92,14 +92,18 @@ public class SpringModuleRuntimeTest extends TestCase {
     }
     
     public void testClose() throws Exception {
-        expect(definition1.getName()).andReturn("definition1");
-        applicationContext.close();
         
-        replay(definition1, applicationContext);
+        ApplicationContextLoader loader = createMock(ApplicationContextLoader.class);
+        moduleRuntime.setApplicationContextLoader(loader);
+        
+        expect(definition1.getName()).andReturn("definition1");
+        loader.closeContext(definition1, applicationContext);
+        
+        replay(definition1, applicationContext, loader);
         
         moduleRuntime.closeModule(new DefaultSpringRuntimeModule(definition1, applicationContext));
         
-        verify(definition1, applicationContext);
+        verify(definition1, applicationContext, loader);
     }
     
     public void testGetParentApplicationContextNull() throws Exception {

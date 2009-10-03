@@ -19,7 +19,6 @@ import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -65,9 +64,7 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
     private ClassLoader currentClassLoader;
 
     private ThreadContextClassLoaderHttpServiceInvoker invoker;
-
-    private ServletContext servletContext;
-
+    
     private FilterConfig filterConfig;
     
     public InternalFrameworkIntegrationFilter() {
@@ -79,10 +76,6 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
         this.filterConfig = config;
         
         ImpalaServletUtils.checkIsWebApplicationContext(filterConfig.getFilterName(), applicationContext);
-        servletContext = config.getServletContext();
-        final String filterName = config.getFilterName();
-        
-        ImpalaServletUtils.publishRootModuleContext(servletContext, filterName, applicationContext);
     }
 
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -101,11 +94,6 @@ public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter,
     }
 
     public void destroy() {
-        
-        final ServletContext servletContext = filterConfig.getServletContext();
-        final String filterName = filterConfig.getFilterName();
-        
-        ImpalaServletUtils.unpublishRootModuleContext(servletContext, filterName);
     }   
     
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

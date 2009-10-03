@@ -140,7 +140,6 @@ public class ExternalModuleServletTest extends TestCase {
         
         GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
         servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
-        servletContext.setAttribute("module_servletName:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
 
         replayMocks();
 

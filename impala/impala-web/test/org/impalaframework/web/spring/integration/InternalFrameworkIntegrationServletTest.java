@@ -57,8 +57,6 @@ public class InternalFrameworkIntegrationServletTest extends TestCase {
     }
 
     public void testInitDestroy() throws ServletException {
-        servletContext.setAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
-        servletContext.removeAttribute("module_myservlet:" + WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
 
         replayMocks();
         servlet.init(new IntegrationServletConfig(new HashMap<String, String>(), servletContext, "myservlet"));
