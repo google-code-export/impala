@@ -67,6 +67,7 @@ import org.impalaframework.web.spring.loader.ExternalContextLoaderTest;
 import org.impalaframework.web.spring.loader.ExternalModuleContextLoaderTest;
 import org.impalaframework.web.spring.loader.ImpalaContextLoaderListenerTest;
 import org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoaderTest;
+import org.impalaframework.web.spring.module.BaseWebModuleLoaderTest;
 import org.impalaframework.web.spring.module.RootWebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
@@ -79,6 +80,7 @@ public class AutomatedWebTests {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(BaseImpalaContextLoaderTest.class);
+        suite.addTestSuite(BaseWebModuleLoaderTest.class);
         suite.addTestSuite(CompositeRequestModuleMapperTest.class);
         suite.addTestSuite(ContextLoaderIntegrationTest.class);
         suite.addTestSuite(ContextListenerBeanDefinitionParserTest.class);
