@@ -16,6 +16,7 @@ package org.impalaframework.web.spring.module;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
@@ -82,15 +83,22 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     @Override
     public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         
-        //FIXME issue 248 - add extra test for this
-        
         try {
             ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
-            super.handleRefresh(context, moduleDefinition);
+            doHandleRefresh(context, moduleDefinition);
         }
-        catch (Exception e) {
+        catch (RuntimeException e) {
             ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+            throw e;
         }
+        catch (Throwable e) {
+            ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+            throw new ExecutionException(e.getMessage(), e);
+        }
+    }
+
+    protected void doHandleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+        super.handleRefresh(context, moduleDefinition);
     }
     
     
