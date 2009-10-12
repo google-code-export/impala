@@ -37,13 +37,13 @@ public interface OperationsFacade {
     /**
      * Reloads the named module
      */
-    boolean reload(String moduleName);
+    boolean reloadModule(String moduleName);
 
     /**
      * Reloads the first module encountered in the current module definition set whose name contains the <code>likeModuleName</code> String.
      * Used with caution to avoid unintentional results
      */
-    String reloadLike(String likeModuleName);
+    String reloadModuleLike(String likeModuleName);
 
     /**
      * Reloads all modules, starting from the root module
@@ -63,7 +63,7 @@ public interface OperationsFacade {
     /**
      * Unload and remove the named module from the currently loaded module definition set
      */
-    boolean remove(String moduleName);
+    boolean removeModule(String moduleName);
 
     /**
      * Add the specified module definition to the current module definition set, and load the associated runtime module
@@ -79,7 +79,7 @@ public interface OperationsFacade {
      * Finds the actual name of the first module found in the current module definition 
      * whose name contains the <code>likeModuleName</code> String.
      */
-    String findLike(String moduleName);
+    String findModuleNameLike(String moduleName);
 
     /**
      * Returns the {@link RuntimeModule} instance corresponding with the root module definition

@@ -28,7 +28,7 @@ public class DynamicModuleChangeListener extends BaseModuleChangeListener implem
         Set<String> modified = getModifiedModules(event);
         
         for (String pluginName : modified) {
-            Impala.reload(pluginName);
+            Impala.reloadModule(pluginName);
         }
     }
 }

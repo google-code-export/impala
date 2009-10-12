@@ -64,8 +64,8 @@ public class ReloadCommand implements TextParsingCommand {
         watch.start();
         String actualModule = null;
 
-        if (!Impala.reload(moduleToReload)) {
-            actualModule = Impala.reloadLike(moduleToReload);
+        if (!Impala.reloadModule(moduleToReload)) {
+            actualModule = Impala.reloadModuleLike(moduleToReload);
         } else {
             actualModule = moduleToReload;
         }

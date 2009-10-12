@@ -150,10 +150,10 @@ public class ImpalaTest extends TestCase {
         assertTrue(Impala.hasModule(plugin3));
 
         // show that this will return false
-        assertFalse(Impala.reload("unknown"));
+        assertFalse(Impala.reloadModule("unknown"));
 
         // now reload plugin1
-        assertTrue(Impala.reload(plugin1));
+        assertTrue(Impala.reloadModule(plugin1));
         assertTrue(Impala.hasModule(plugin1));
 
         final ConfigurableApplicationContext p13reloaded = getModule(plugin1);
@@ -165,7 +165,7 @@ public class ImpalaTest extends TestCase {
         assertSame(f1reloaded, f1);
 
         // now reload plugin2, which will also reload plugin3
-        assertTrue(Impala.reload(plugin2));
+        assertTrue(Impala.reloadModule(plugin2));
         assertTrue(Impala.hasModule(plugin2));
 
         final ConfigurableApplicationContext p23reloaded = getModule(plugin2);
@@ -181,16 +181,16 @@ public class ImpalaTest extends TestCase {
         assertSame(f3reloaded, f3);
 
         // show that this will return null
-        assertNull(Impala.reloadLike("unknown"));
+        assertNull(Impala.reloadModuleLike("unknown"));
 
         // now test reloadLike
-        assertEquals(plugin2, Impala.reloadLike("module2"));
+        assertEquals(plugin2, Impala.reloadModuleLike("module2"));
         f3reloaded = (FileMonitor) context3.getBean("bean3");
         service(f3reloaded);
 
         // now remove plugin2 (and by implication, child plugin3)
-        assertFalse(Impala.remove("unknown"));
-        assertTrue(Impala.remove(plugin2));
+        assertFalse(Impala.removeModule("unknown"));
+        assertTrue(Impala.removeModule(plugin2));
         assertFalse(Impala.hasModule(plugin2));
         // check that the child is gone too
         assertFalse(Impala.hasModule(plugin3));
