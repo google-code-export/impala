@@ -104,8 +104,8 @@ public class Impala {
      * @see #init(ModuleDefinitionSource)
      * @param the name of the module to reload
      */
-    public static boolean reload(String moduleName) {
-        return getFacade().reload(moduleName);
+    public static boolean reloadModule(String moduleName) {
+        return getFacade().reloadModule(moduleName);
     }
 
     /**
@@ -119,8 +119,8 @@ public class Impala {
      * @return the name of the actual module reloaded, or <code>null</code> if
      * none is found
      */
-    public static String reloadLike(String moduleName) {
-        return getFacade().reloadLike(moduleName);
+    public static String reloadModuleLike(String moduleName) {
+        return getFacade().reloadModuleLike(moduleName);
     }
     
     /**
@@ -159,13 +159,13 @@ public class Impala {
      * module will no longer be contained in the modified module definition. In
      * other words, <code>{@link #hasModule(String)}</code> will return false
      * for this <code>moduleName</code>.
-     * @param moduleName the namme of the module to remove.
+     * @param moduleName the name of the module to remove.
      * @return true if the module was removed, false if it wasn't there in the
 	 * first place.
 	 * @see #hasModule(String)
 	 */
-	public static boolean remove(String moduleName) {
-		return getFacade().remove(moduleName);
+	public static boolean removeModule(String moduleName) {
+		return getFacade().removeModule(moduleName);
 	}
 
 	/**
@@ -202,8 +202,8 @@ public class Impala {
 	 * @return the name of the actual module matched, or null if none can be
 	 * found
 	 */
-	public static String findLike(String moduleName) {
-		return getFacade().findLike(moduleName);
+	public static String findModuleNameLike(String moduleName) {
+		return getFacade().findModuleNameLike(moduleName);
 	}
 
 	/**
@@ -273,6 +273,16 @@ public class Impala {
 	public static RootModuleDefinition getRootModuleDefinition() {
 		return getFacade().getRootModuleDefinition();
 	}
+    
+	/**
+	 * Unloads root module, and clears the currently held {@link OperationsFacade} instance.
+	 */
+    public static void clear() {
+        if (facade != null) {
+            facade.unloadRootModule();
+        }
+        facade = null;
+    }
 
 	public static InternalOperationsFacade getFacade() {
 		if (facade == null) {
@@ -281,15 +291,6 @@ public class Impala {
 					+ ModuleDefinitionSource.class.getSimpleName() + ") been called?");
 		}
 		return facade;
-	}
-
-	/* ****************** package level methods ***************** */
-
-	public static void clear() {
-		if (facade != null) {
-			facade.unloadRootModule();
-		}
-		facade = null;
 	}
 
 }

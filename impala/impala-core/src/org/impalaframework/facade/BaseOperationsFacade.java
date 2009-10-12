@@ -92,17 +92,17 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
      * **************************** modifying operations * **************************
      */
 
-    public boolean reload(String moduleName) {
+    public boolean reloadModule(String moduleName) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.ReloadNamedModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
         return operation.execute(moduleOperationInput).isSuccess();
     }
 
-    public String reloadLike(String moduleName) {
-        String like = findLike(moduleName);
+    public String reloadModuleLike(String moduleName) {
+        String like = findModuleNameLike(moduleName);
         if (like != null) {
-            reload(like);
+            reloadModule(like);
         }
         return like;
     }
@@ -138,7 +138,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         operation.execute(null);
     }
 
-    public boolean remove(String moduleName) {
+    public boolean removeModule(String moduleName) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.RemoveModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
@@ -159,7 +159,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
     }
 
-    public String findLike(String moduleName) {
+    public String findModuleNameLike(String moduleName) {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
         if (definition != null) {
