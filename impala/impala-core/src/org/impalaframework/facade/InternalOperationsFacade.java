@@ -14,6 +14,15 @@
 
 package org.impalaframework.facade;
 
+/**
+ * Extension of {@link OperationsFacade} which exposes a method to return the {@link ModuleManagementFacade} instance.
+ * 
+ * @author Phil Zoio
+ */
 public interface InternalOperationsFacade extends OperationsFacade {
+    
+    /**
+     * Returns the {@link ModuleManagementFacade}, used for accessing internal Impala interfaces
+     */
     ModuleManagementFacade getModuleManagementFacade();
 }
