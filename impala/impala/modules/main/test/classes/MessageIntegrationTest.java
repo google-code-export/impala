@@ -31,8 +31,8 @@ public class MessageIntegrationTest extends BaseIntegrationTest {
     }
 
     public void testIntegration() {
-        MessageService service = Impala.getBean("messageService", MessageService.class);
-        System.out.println(service.getMessage());
+        RuntimeModule rootRuntimeModule = Impala.getRootRuntimeModule();
+        assertTrue(rootRuntimeModule instanceof SpringRuntimeModule);
     }
 
     public RootModuleDefinition getModuleDefinition() { 
