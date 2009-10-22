@@ -12,5 +12,11 @@
 then refresh this page.
 </p>
 
+<p>
+<s:url id="url" action="struts2/tutorial/LinkPage">
+</s:url>
+<s:a href="%{url}">Link page</s:a>
+</p>
+
     </body>
 </html>
