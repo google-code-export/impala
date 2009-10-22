@@ -9,6 +9,9 @@
         <action name="HelloWorld" class="org.impalaframework.webframeworks.struts2.HelloWorld">
             <result>/struts2/HelloWorld.jsp</result>
         </action>
+        <action name="LinkPage" class="org.impalaframework.webframeworks.struts2.LinkPage">
+            <result>/struts2/LinkPage.jsp</result>
+        </action>
     </package>
     
 </struts>
