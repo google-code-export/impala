@@ -15,9 +15,11 @@
 package @project.package.name@.@main.project.name@;
 
 import org.impalaframework.facade.Impala;
+import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.interactive.InteractiveTestRunner;
+import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.spring.module.SpringRuntimeModule;
 
 import @project.package.name@.@main.project.name@.BaseIntegrationTest;
 import @project.package.name@.@main.project.name@.MessageService;
