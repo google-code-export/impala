@@ -9,7 +9,6 @@ import @project.package.name@.@main.project.name@.BaseIntegrationTest;
 import @project.package.name@.@main.project.name@.MessageService;
 
 
-
 public class ProjectMessageIntegrationTest extends BaseIntegrationTest {
 
     public static void main(String[] args) {
