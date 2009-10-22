@@ -23,7 +23,6 @@ import @project.package.name@.@main.project.name@.BaseIntegrationTest;
 import @project.package.name@.@main.project.name@.MessageService;
 
 
-
 public class MessageIntegrationTest extends BaseIntegrationTest {
 
     public static void main(String[] args) {
