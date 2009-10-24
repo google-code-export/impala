@@ -8,7 +8,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/springfaces-main"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/springfaces-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/springfaces-repository/main/spring-webmvc-2.5.5-sources.jar"/>
-	<classpathentry kind="lib" path="/springfaces-repository/web/jsp-api-2.1.jar"/>
+	<classpathentry kind="lib" path="/springfaces-repository/web/jsp-api-2.1.jar" sourcepath="/springfaces-repository/web/jsp-api-2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/springfaces-repository/web/servlet-api-2.5.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/jetty/jetty-6.1.18.jar" sourcepath="/springfaces-repository/jetty/jetty-6.1.18-sources.jar"/>
 	<classpathentry kind="lib" path="/springfaces-repository/jetty/jetty-util-6.1.18.jar" sourcepath="/springfaces-repository/jetty/jetty-util-6.1.18-sources.jar"/>
