@@ -18,6 +18,7 @@ import java.io.IOException;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +45,8 @@ public class ServletInvokerUtils {
         if (target instanceof HttpServiceInvoker) {
             HttpServiceInvoker invoker = (HttpServiceInvoker) target;
             invoker.invoke(request, response, null);
-        } else if (target instanceof HttpServlet) {
-            HttpServlet servlet = (HttpServlet) target;
+        } else if (target instanceof Servlet) {
+            Servlet servlet = (Servlet) target;
             servlet.service(request, response);
         } else if (target instanceof Filter) {
             Filter filter = (Filter) target;
@@ -58,7 +59,7 @@ public class ServletInvokerUtils {
     }
 
     public static ReadWriteLockingInvoker getHttpServiceInvoker(
-            HttpServlet delegateServlet, 
+            Servlet delegateServlet, 
             WebApplicationContext wac,
             FrameworkLockHolder frameworkLockHolder, 
             boolean setThreadContextClassLoader) {

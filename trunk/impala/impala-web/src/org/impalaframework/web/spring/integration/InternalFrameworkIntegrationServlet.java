@@ -16,8 +16,8 @@ package org.impalaframework.web.spring.integration;
 
 import java.io.IOException;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -52,7 +52,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
 
     private WebApplicationContext applicationContext;
     
-    private HttpServlet delegateServlet;
+    private Servlet delegateServlet;
     
     /**
      * Determine whether to set the context class loader. This almost certainly
@@ -90,7 +90,7 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
     
     /* ************************ injected setters ************************** */
 
-    public void setDelegateServlet(HttpServlet delegateServlet) {
+    public void setDelegateServlet(Servlet delegateServlet) {
         this.delegateServlet = delegateServlet;
     }
 
