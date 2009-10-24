@@ -35,7 +35,7 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/xwork-core-2.1.6.jar" sourcepath="/webframeworks-repository/struts2/xwork-core-2.1.6-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/commons-fileupload-1.2.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts2-spring-plugin-2.1.8.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/jsf-facelets-1.1.14.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/jsf-facelets-1.1.14.jar" sourcepath="/webframeworks-repository/jsf/jsf-facelets-1.1.14-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/myfaces-api-1.2.5.jar" sourcepath="/webframeworks-repository/jsf/myfaces-api-1.2.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/myfaces-impl-1.2.5.jar" sourcepath="/webframeworks-repository/jsf/myfaces-impl-1.2.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/jsp-api-2.1.jar" sourcepath="/webframeworks-repository/web/jsp-api-2.1-sources.jar"/>
