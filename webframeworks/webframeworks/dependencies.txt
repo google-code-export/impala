@@ -1,4 +1,5 @@
 main from commons-logging:commons-logging:1.1
+main from commons-discovery:commons-discovery:0.4
 main from log4j:log4j:1.2.13
 main from org.springframework:spring:2.5.5
 main from cglib:cglib-nodep:2.1_3
