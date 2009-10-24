@@ -67,7 +67,7 @@ public class ModuleProxyFilter extends BaseModuleProxyFilter {
         
         if (invoker != null) {
             HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
-            invoker.invoke(wrappedRequest, response, null);
+            invoker.invoke(wrappedRequest, response, chain);
         }
         else {
             chain.doFilter(request, response);
