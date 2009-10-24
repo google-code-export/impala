@@ -16,8 +16,8 @@ package org.impalaframework.web.spring.integration;
 
 import java.io.IOException;
 
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -82,8 +82,8 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
             WebApplicationContext wac = createContext();
             
             //make sure that the delegate servlet is available
-            HttpServlet delegateServlet = ObjectUtils.cast(wac.getBean(delegateServletBeanName),
-                    HttpServlet.class);
+            Servlet delegateServlet = ObjectUtils.cast(wac.getBean(delegateServletBeanName),
+                    Servlet.class);
             
             if (delegateServlet == null) {
                 throw new ConfigurationException("No Servlet registered under name " + delegateServletBeanName);
@@ -98,7 +98,7 @@ public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
     }
 
     protected HttpServiceInvoker getInvoker(WebApplicationContext wac,
-            HttpServlet delegateServlet,
+            Servlet delegateServlet,
             FrameworkLockHolder frameworkLockHolder,
             boolean setThreadContextClassLoader) {
         

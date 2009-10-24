@@ -15,7 +15,6 @@
 package org.impalaframework.web.spring.integration;
 
 import javax.servlet.Servlet;
-import javax.servlet.http.HttpServlet;
 
 import org.impalaframework.exception.ConfigurationException;
 import org.springframework.util.Assert;
@@ -28,7 +27,7 @@ import org.springframework.util.Assert;
 public class InternalFrameworkIntegrationServletFactoryBean extends
         ServletFactoryBean {
 
-    private HttpServlet delegateServlet;
+    private Servlet delegateServlet;
     
     public Class<?> getObjectType() {
         return InternalFrameworkIntegrationServlet.class;
@@ -49,7 +48,7 @@ public class InternalFrameworkIntegrationServletFactoryBean extends
     
     /* *************** Injected setters ***************** */
 
-    public void setDelegateServlet(HttpServlet servlet) {
+    public void setDelegateServlet(Servlet servlet) {
         this.delegateServlet = servlet;
     }
 
