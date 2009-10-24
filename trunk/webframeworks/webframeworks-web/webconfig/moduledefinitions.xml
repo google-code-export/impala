@@ -7,5 +7,6 @@
     webframeworks-struts2
     webframeworks-wicket
     webframeworks-tapestry5
+    webframeworks-jsf
     </names>
 </parent>
