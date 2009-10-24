@@ -9,4 +9,5 @@
 		<variable-resolver>org.springframework.web.jsf.SpringBeanVariableResolver</variable-resolver>
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
+    
 </faces-config> 
