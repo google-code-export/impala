@@ -14,7 +14,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     
     <web:mapping>
         <web:to-module prefix = "/jsf" setServletPath="true"/> 
-        <web:to-handler extension = "[none]" servletName="webframeworks-jsf"/> 
+        <web:to-handler extension = "jsf" servletName="webframeworks-jsf"/> 
     </web:mapping>
     
 	<web:servlet id = "jsfServlet" 
