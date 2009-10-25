@@ -12,6 +12,14 @@
 	<h1>Welcome to JSF Sample</h1>
 	
 	<p>Welcome to the Impala JSF sample, using Facelets and Spring integration, but JSF-based view handling.</p>
+
+	<h:form>
+	<p>
+	<h:commandLink action="helloController.sayHello">
+	<h:outputText value="Click me"/>
+	</h:commandLink>
+	</p>
+	</h:form>
 </div>
 
 </ui:define>

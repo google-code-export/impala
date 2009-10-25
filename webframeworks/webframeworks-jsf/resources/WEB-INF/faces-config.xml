@@ -10,4 +10,10 @@
         <view-handler>com.sun.facelets.FaceletViewHandler</view-handler>
     </application>
     
+	<managed-bean>
+		<managed-bean-name>helloController</managed-bean-name>
+		<managed-bean-class>com.application.jsf.SayHelloController</managed-bean-class>
+		<managed-bean-scope>request</managed-bean-scope>
+	</managed-bean>    
+    
 </faces-config> 
