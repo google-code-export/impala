@@ -8,7 +8,7 @@ public class SayHelloController {
     
     public void sayHello() {
         System.out.println("Hello World from Phil again");
-        result = "Phil said 'Hi There' on date: " + new Date();
+        result = "Phil said 'Hi There' on date: " + new Date() + " from class " + this;
     }
     
     public String getResult() {
