@@ -15,7 +15,7 @@
 
 	<h:form>
 	<p>
-	<h:commandLink action="helloController.sayHello">
+	<h:commandLink action="#{helloController.sayHello}">
 	<h:outputText value="Click me"/>
 	</h:commandLink>
 	</p>
