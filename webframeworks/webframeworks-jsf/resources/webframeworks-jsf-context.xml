@@ -10,7 +10,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     
     <!-- Bean definitions here -->
     
-    <web:context-listener listenerClass="org.apache.myfaces.webapp.StartupServletContextListener"/>
+    <web:context-listener listenerClass="com.application.jsf.StartupServletContextListener"/>
     
     <web:mapping>
         <web:to-module prefix = "/jsf" setServletPath="true"/> 

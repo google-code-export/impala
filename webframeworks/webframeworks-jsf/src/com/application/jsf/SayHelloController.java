@@ -1,7 +1,17 @@
 package com.application.jsf;
 
+import java.util.Date;
+
 public class SayHelloController {
+    
+    private String result;
+    
     public void sayHello() {
-        System.out.println("Hello World");
+        System.out.println("Hello World from Phil again");
+        result = "Phil said 'Hi There' on date: " + new Date();
+    }
+    
+    public String getResult() {
+        return result;
     }
 }
