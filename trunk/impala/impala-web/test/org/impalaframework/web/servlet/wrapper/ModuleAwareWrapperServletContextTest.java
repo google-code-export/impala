@@ -88,5 +88,32 @@ public class ModuleAwareWrapperServletContextTest extends TestCase {
         
         verify(servletContext);
     }
+    
+    public void testGetModuleSpecificAttribute() throws Exception {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+
+        expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn("someValue");
+        
+        replay(servletContext);
+        
+        assertEquals("someValue", wrapperContext.getAttribute("myattribute"));
+
+        verify(servletContext);
+    }
+    
+    public void testGetSharedAttribute() throws Exception {
+        servletContext = createMock(ServletContext.class);
+        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+
+        expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn(null);
+        expect(servletContext.getAttribute("myattribute")).andReturn("someValue2");
+        
+        replay(servletContext);
+        
+        assertEquals("someValue2", wrapperContext.getAttribute("myattribute"));
+
+        verify(servletContext);
+    }
 
 }
