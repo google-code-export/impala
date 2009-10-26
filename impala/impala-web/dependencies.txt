@@ -1,6 +1,6 @@
 main from org.springframework:spring-webmvc:2.5.5 source=true
-jetty from servletapi:servletapi:2.4
-jetty from jspapi:jsp-api:2.0
+jetty from javax.servlet:servlet-api:2.5
+jetty from javax.servlet.jsp:jsp-api:2.1
 jetty from org.mortbay.jetty:jetty:6.1.11
 jetty from org.mortbay.jetty:jetty-util:6.1.11
 jetty from tomcat:jasper-runtime:5.5.15
