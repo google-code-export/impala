@@ -14,92 +14,33 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.servlet.ServletContext;
 
-import org.impalaframework.classloader.BaseURLClassLoader;
-import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.web.helper.WebServletUtils;
 
 /**
- * Implementation of <code>ServletContext</code> which overrides some methods
- * in the <code>DelegatingWrapperServletContext</code> superclass. Note that
- * this class does not include any special behaviour for
- * <code>getRealPath</code>. Calls to this method are delegated to the
- * wrapped <code>ServletContext</code>.
+ * Extension of {@link BaseModuleAwareWrapperServletContext}
+ * which provides specialised implementation of {@link #getAttribute(String)}.
  * 
  * @author Phil Zoio
  */
 public class ModuleAwareWrapperServletContext extends
-        DelegatingWrapperServletContext {
-    
-    private final ClassLoader moduleClassLoader;
-    private final String moduleName;
+        BaseModuleAwareWrapperServletContext {
 
-    public ModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
-        super(realContext);
-        if (moduleClassLoader instanceof BaseURLClassLoader) {
-            //use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
-            this.moduleClassLoader = new NonDelegatingResourceClassLoader((BaseURLClassLoader) moduleClassLoader);
-        } else {
-            this.moduleClassLoader = moduleClassLoader;
-        }
-        this.moduleName = moduleName;
+	public ModuleAwareWrapperServletContext(ServletContext realContext,
+            String moduleName, ClassLoader moduleClassLoader) {
+        super(realContext, moduleName, moduleClassLoader);
     }
-    
+
     /**
-     * First attempts to find resource in module's class path. If not found,
-     * calls the superclass, which results in a search to the usual
-     * <code>ServletContext</code> resource directory. This allows resources
-     * which would otherwise need to be placed in a servlet context folder (e.g.
-     * WEB-INF) to instead be placed in the module class path. Note that only
-     * the locations associated explicitly with the module's class loader are
-	 * searched. Parent locations are not searched.
-	 */
-	@Override
-	public URL getResource(String path) throws MalformedURLException {
-		
-		String tempPath = path;
-		
-		//remove the leading slash
-		if (tempPath.startsWith("/")) {
-			tempPath = tempPath.substring(1);
-		}
-		
-		URL resource = moduleClassLoader.getResource(tempPath);
-		if (resource != null) return resource;
-		
-		return super.getResource(path);
-	}
-
-	/**
-	 * Exhibits same behaviour are {@link #getResource(String)}, but
-	 * returns <code>InputStream</code> instead of <code>URL</code>.
-	 */
-	@Override
-    public InputStream getResourceAsStream(String path)
-    {
-        try
-        {
-            URL url= this.getResource(path);
-            if (url == null)
-                return null;
-            return url.openStream();
-        }
-        catch(Exception e)
-        {
-            log(e.getMessage(), e);
-            return null;
-        }
-    }
-
-	@Override
+     * For a given attribute name, first looks using a key constructed using the current module name 
+     * as prefix. Only if not finding the attribute using this key, it searches using the
+     * raw value supplied through the <code>name</code> parameter.
+     */
+    @Override
 	public Object getAttribute(String name) {
 		
-		String moduleKey = WebServletUtils.getModuleServletContextKey(moduleName, name);
+		String moduleKey = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
 		Object moduleAttribute = super.getAttribute(moduleKey);
 		if (moduleAttribute != null) {
 			return moduleAttribute;
