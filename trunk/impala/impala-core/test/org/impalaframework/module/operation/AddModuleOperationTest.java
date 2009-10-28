@@ -53,7 +53,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
         
         replayMocks();
 
-        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
         
         verifyMocks();
     }

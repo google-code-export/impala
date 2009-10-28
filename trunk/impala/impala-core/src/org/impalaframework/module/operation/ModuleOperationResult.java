@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  */
 public class ModuleOperationResult {
 
-    public static final ModuleOperationResult FALSE = new ModuleOperationResult(new TransitionResultSet());
+    public static final ModuleOperationResult EMPTY = new ModuleOperationResult(new TransitionResultSet());
     
     private final TransitionResultSet transitionResultSet;
 

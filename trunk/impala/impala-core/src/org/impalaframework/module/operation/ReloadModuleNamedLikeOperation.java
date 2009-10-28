@@ -69,7 +69,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
             return new ModuleOperationResult(transitionResultSet, resultMap);
         }
         else {
-            return ModuleOperationResult.FALSE;
+            return ModuleOperationResult.EMPTY;
         }
     }
 

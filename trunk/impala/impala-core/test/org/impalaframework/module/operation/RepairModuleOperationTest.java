@@ -75,7 +75,7 @@ public class RepairModuleOperationTest extends BaseModuleOperationTest {
         replayMocks();
         replay(moduleDefinitionSource);
 
-        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
         
         verifyMocks();
         verify(moduleDefinitionSource);
