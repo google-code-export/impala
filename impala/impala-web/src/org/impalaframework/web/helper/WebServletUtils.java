@@ -42,7 +42,19 @@ public abstract class WebServletUtils {
     }
 
     public static String getModuleServletContextKey(String moduleName, String attributeName) {
-        return "module_" + moduleName + ":" + attributeName;
+        //FIXME add test
+        
+        String moduleServletContextPrefix = getModuleServletContextPrefix(moduleName);
+        
+        if (!attributeName.startsWith(moduleServletContextPrefix)) {
+            return moduleServletContextPrefix + attributeName;
+        }
+        
+        return attributeName;
+    }
+
+    public static String getModuleServletContextPrefix(String moduleName) {
+        return "module_" + moduleName + ":";
     }
 
     public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {

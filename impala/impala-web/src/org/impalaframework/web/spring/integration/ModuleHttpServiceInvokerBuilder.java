@@ -242,7 +242,7 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
     }
 
     private String getAttributeName() {
-        return ModuleHttpServiceInvoker.class.getName()+ "." + moduleName;
+        return "shared:" + ModuleHttpServiceInvoker.class.getName()+ "." + moduleName;
     }
     
     private Map<String, FilterFactoryBean> buildFiltersByName(Map<String, FilterFactoryBean> filterFactoryBeans) {

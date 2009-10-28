@@ -14,85 +14,31 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import java.net.MalformedURLException;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 
-import static org.easymock.EasyMock.*;
-
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContext;
-import org.springframework.util.ClassUtils;
-
 import junit.framework.TestCase;
+
+import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperServletContextTest extends TestCase {
 
     private ServletContext servletContext;
-
-    public void testGetResourceOnClassPath() throws MalformedURLException {
-        servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-        
-        replay(servletContext);
-        
-        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
-        assertNotNull(wrapperContext.getResource("parentTestContext.xml"));
-        assertNotNull(wrapperContext.getResource("/parentTestContext.xml"));
-        
-        verify(servletContext);
-    }
+    private ModuleAwareWrapperServletContext wrapperContext;
     
-
-    public void testGetResourceNotClassPath() throws MalformedURLException {
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
         servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-        
-        expect(servletContext.getResource("nopresent.xml")).andReturn(null);
-        expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
-        
-        replay(servletContext);
-        
-        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
-        wrapperContext.getResource("nopresent.xml");
-        wrapperContext.getResource("/nopresent.xml");
-        
-        verify(servletContext);
-    }
-    
-    public void testGetResourceAsStreamOnClassPath() throws MalformedURLException {
-        servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-        
-        replay(servletContext);
-        
-        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
-        assertNotNull(wrapperContext.getResourceAsStream("parentTestContext.xml"));
-        assertNotNull(wrapperContext.getResourceAsStream("/parentTestContext.xml"));
-        
-        verify(servletContext);
-    }
-    
-
-    public void testGetResourceAsStreamNotClassPath() throws MalformedURLException {
-        servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-        
-        expect(servletContext.getResource("nopresent.xml")).andReturn(null);
-        expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
-        
-        replay(servletContext);
-        
-        //in both cases the item is found on the classpath, so no call to underlying servletContext is made
-        wrapperContext.getResourceAsStream("nopresent.xml");
-        wrapperContext.getResourceAsStream("/nopresent.xml");
-        
-        verify(servletContext);
+        wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
     }
     
     public void testGetModuleSpecificAttribute() throws Exception {
-        servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-
+        
         expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn("someValue");
         
         replay(servletContext);
@@ -103,9 +49,7 @@ public class ModuleAwareWrapperServletContextTest extends TestCase {
     }
     
     public void testGetSharedAttribute() throws Exception {
-        servletContext = createMock(ServletContext.class);
-        ModuleAwareWrapperServletContext wrapperContext = new ModuleAwareWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
-
+        
         expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn(null);
         expect(servletContext.getAttribute("myattribute")).andReturn("someValue2");
         
@@ -114,6 +58,12 @@ public class ModuleAwareWrapperServletContextTest extends TestCase {
         assertEquals("someValue2", wrapperContext.getAttribute("myattribute"));
 
         verify(servletContext);
+    }
+    
+    public void testGetWriteKeyToUse() throws Exception {
+        assertEquals("", wrapperContext.getWriteKeyToUse(""));
+        assertEquals("mykey", wrapperContext.getWriteKeyToUse("mykey"));
+        assertEquals("mykey", wrapperContext.getWriteKeyToUse("shared:mykey"));
     }
 
 }

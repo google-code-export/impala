@@ -36,7 +36,7 @@ public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
         
         if (enablePartitionedServletContext) {
             Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-            return new ModuleAwareWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
+            return new PartitionedWrapperServletContext(servletContext, moduleDefinition.getName(), classLoader);
         }
         return servletContext;
     }

@@ -66,7 +66,7 @@ public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
         expect(beanFactory.getBeansOfType(FilterFactoryBean.class)).andReturn(ObjectMapUtils.newMap("f1", newFilter("myfilter")));
         expect(beanFactory.getBeansOfType(ServletFactoryBean.class)).andReturn(ObjectMapUtils.newMap("s1", newServlet("myservlet")));
         expect(beanFactory.getBeansOfType(ModuleInvokerContributor.class)).andReturn(ObjectMapUtils.newMap("c", moduleInvokerContributor));
-        servletContext.setAttribute(eq(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule"), isA(ModuleHttpServiceInvoker.class));
+        servletContext.setAttribute(eq("shared:"+ModuleHttpServiceInvoker.class.getName()+"."+"mymodule"), isA(ModuleHttpServiceInvoker.class));
 
         replay(beanFactory, servletContext);
         builder.afterPropertiesSet();
@@ -76,7 +76,7 @@ public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
     public void testDestroy() throws Exception {
         reset(beanFactory);
         
-        servletContext.removeAttribute(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule");
+        servletContext.removeAttribute("shared:"+ModuleHttpServiceInvoker.class.getName()+"."+"mymodule");
         replay(beanFactory, servletContext);
         builder.destroy();
         verify(beanFactory, servletContext);
