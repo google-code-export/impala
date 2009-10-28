@@ -25,18 +25,22 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.ReflectionUtils;
 import org.springframework.util.Assert;
 
 /**
- * An implementation of <code>ServletContext</code> which simply delegates to
- * the underlying <code>ServletContext</code> in it. Subclasses can override
+ * An implementation of {@link ServletContext} which simply delegates to
+ * the underlying {@link ServletContext} in it. Subclasses can override
  * specific methods.
  * 
  * @author Phil Zoio
  */
 public class DelegatingWrapperServletContext implements ServletContext, DelegatingServletContext {
 
+    private static final Log logger = LogFactory.getLog(DelegatingWrapperServletContext.class);
+    
     private ServletContext realContext;
 
     public DelegatingWrapperServletContext(ServletContext realContext) {
@@ -139,7 +143,9 @@ public class DelegatingWrapperServletContext implements ServletContext, Delegati
 
     public Object getAttribute(String name) {
         Object value = realContext.getAttribute(name);
-        System.out.println("Getting attribute for name: " + name + " - " + value);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Getting attribute for name: " + name + " - " + value);
+        }
         return value;
     }
 
@@ -149,12 +155,16 @@ public class DelegatingWrapperServletContext implements ServletContext, Delegati
     }
 
     public void removeAttribute(String name) {
-        System.out.println("Removing attribute: " + name);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Removing attribute: " + name);
+        }
         realContext.removeAttribute(name);
     }
 
     public void setAttribute(String name, Object value) {
-        System.out.println("Setting attribute for name: " + name + " - " + value);
+        if (logger.isTraceEnabled()) {
+            logger.trace("Setting attribute for name: " + name + " - " + value);
+        }
         realContext.setAttribute(name, value);
     }
 
