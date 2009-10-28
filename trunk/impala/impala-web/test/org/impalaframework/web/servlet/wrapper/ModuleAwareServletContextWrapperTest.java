@@ -42,7 +42,7 @@ public class ModuleAwareServletContextWrapperTest extends TestCase {
     public void testPartitionedContext() {
         wrapper.setEnablePartitionedServletContext(true);
         final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
-        assertTrue(wrappedContext instanceof ModuleAwareWrapperServletContext);
+        assertTrue(wrappedContext instanceof PartitionedWrapperServletContext);
     }
 
 }

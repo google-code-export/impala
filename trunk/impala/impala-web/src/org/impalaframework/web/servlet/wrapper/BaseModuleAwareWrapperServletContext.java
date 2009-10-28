@@ -22,6 +22,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
+import org.impalaframework.web.helper.WebServletUtils;
 
 /**
  * Abstract implementation of <code>ServletContext</code> which overrides some methods
@@ -37,6 +38,8 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     
     private final ClassLoader moduleClassLoader;
     private final String moduleName;
+
+    protected String SHARED_PREFIX = "shared:";
 
     public BaseModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
         super(realContext);
@@ -94,6 +97,35 @@ public abstract class BaseModuleAwareWrapperServletContext extends
             return null;
         }
     }
+	
+    /**
+     * For a given attribute name, first looks using a key constructed using the current module name 
+     * as prefix. Only if not finding the attribute using this key, it searches using the
+     * raw value supplied through the <code>name</code> parameter.
+     */
+    @Override
+    public final Object getAttribute(String name) {
+
+        String moduleKey = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
+        Object moduleAttribute = super.getAttribute(moduleKey);
+        if (moduleAttribute != null) {
+            return moduleAttribute;
+        }
+        
+        return super.getAttribute(name);
+    }
+	
+    @Override
+    public void removeAttribute(String name) {
+        super.removeAttribute(getWriteKeyToUse(name));
+    }
+    
+    @Override
+    public void setAttribute(String name, Object value) {
+        super.setAttribute(getWriteKeyToUse(name), value);
+    }
+    
+    protected abstract String getWriteKeyToUse(String name);
 	
 	protected final String getModuleName() {
         return moduleName;

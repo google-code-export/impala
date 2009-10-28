@@ -16,11 +16,11 @@ package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.helper.WebServletUtils;
+import org.springframework.util.Assert;
 
 /**
  * Extension of {@link BaseModuleAwareWrapperServletContext}
- * which provides specialised implementation of {@link #getAttribute(String)}.
+ * which provides specialized implementation of {@link #getAttribute(String)}.
  * 
  * @author Phil Zoio
  */
@@ -28,35 +28,22 @@ public class ModuleAwareWrapperServletContext extends
         BaseModuleAwareWrapperServletContext {
 
 	public ModuleAwareWrapperServletContext(ServletContext realContext,
-            String moduleName, ClassLoader moduleClassLoader) {
+            String moduleName, 
+            ClassLoader moduleClassLoader) {
         super(realContext, moduleName, moduleClassLoader);
     }
+	
+	protected String getWriteKeyToUse(String name) {
 
-    /**
-     * For a given attribute name, first looks using a key constructed using the current module name 
-     * as prefix. Only if not finding the attribute using this key, it searches using the
-     * raw value supplied through the <code>name</code> parameter.
-     */
-    @Override
-	public Object getAttribute(String name) {
-		
-		String moduleKey = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
-		Object moduleAttribute = super.getAttribute(moduleKey);
-		if (moduleAttribute != null) {
-			return moduleAttribute;
-		}
-		
-		return super.getAttribute(name);
-	}
-
-	@Override
-	public void removeAttribute(String name) {
-		super.removeAttribute(name);
-	}
-
-	@Override
-	public void setAttribute(String name, Object value) {
-		super.setAttribute(name, value);
-	}
+        Assert.notNull(name);
+        
+        final String keyToUse;
+        if (name.startsWith(SHARED_PREFIX)) {
+            keyToUse = name.substring(SHARED_PREFIX.length());
+        } else {
+            keyToUse = name;
+        }
+        return keyToUse;
+    }
 
 }

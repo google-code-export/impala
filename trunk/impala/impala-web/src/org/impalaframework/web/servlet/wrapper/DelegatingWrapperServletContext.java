@@ -35,7 +35,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DelegatingWrapperServletContext implements ServletContext {
+public class DelegatingWrapperServletContext implements ServletContext, DelegatingServletContext {
 
     private ServletContext realContext;
 
@@ -43,15 +43,6 @@ public class DelegatingWrapperServletContext implements ServletContext {
         super();
         Assert.notNull(realContext);
         this.realContext = realContext;
-    }
-
-    public Object getAttribute(String name) {
-        return realContext.getAttribute(name);
-    }
-
-    @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
-        return realContext.getAttributeNames();
     }
 
     public ServletContext getContext(String uriPath) {
@@ -146,15 +137,28 @@ public class DelegatingWrapperServletContext implements ServletContext {
         realContext.log(message, throwable);
     }
 
+    public Object getAttribute(String name) {
+        Object value = realContext.getAttribute(name);
+        System.out.println("Getting attribute for name: " + name + " - " + value);
+        return value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public Enumeration getAttributeNames() {
+        return realContext.getAttributeNames();
+    }
+
     public void removeAttribute(String name) {
+        System.out.println("Removing attribute: " + name);
         realContext.removeAttribute(name);
     }
 
     public void setAttribute(String name, Object value) {
+        System.out.println("Setting attribute for name: " + name + " - " + value);
         realContext.setAttribute(name, value);
     }
 
-    protected ServletContext getRealContext() {
+    public ServletContext getRealContext() {
         return realContext;
     }
     

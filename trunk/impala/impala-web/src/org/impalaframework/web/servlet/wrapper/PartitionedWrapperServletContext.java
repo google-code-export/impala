@@ -14,11 +14,22 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 
+import org.impalaframework.web.helper.WebServletUtils;
+import org.springframework.util.Assert;
+
 /**
- * Extension of {@link BaseModuleAwareWrapperServletContext}.
- * 
+ * Extension of {@link BaseModuleAwareWrapperServletContext}. Basically used to
+ * partition the servlet context so that only writes to the
+ * {@link ServletContext} attributes using module-based prefix. However, it does
+ * allow you to read shared attributes, that is, those without the module-based
+ * prefix.
  * @author Phil Zoio
  */
 public class PartitionedWrapperServletContext extends
@@ -29,6 +40,47 @@ public class PartitionedWrapperServletContext extends
             String moduleName, 
             ClassLoader moduleClassLoader) {
         super(realContext, moduleName, moduleClassLoader);
+    }
+    
+    /**
+     * Retrieves only the attributes which have the module specific prefix
+     * for this module. Note, however, that {@link #getAttribute(String)}
+     * will also get shared values, but it cannot set or remove them, 
+     * or iterate through them.
+     */
+    @SuppressWarnings("unchecked")
+    public Enumeration getAttributeNames() {
+
+        Enumeration attributeNames = super.getAttributeNames();
+        List<String> list = new ArrayList<String>();
+        
+        String prefix = WebServletUtils.getModuleServletContextPrefix(this.getModuleName());
+        while (attributeNames.hasMoreElements()) {
+            Object nextElement = attributeNames.nextElement();
+            String asString = nextElement.toString();
+            if (asString.startsWith(prefix)) {
+                list.add(asString);
+            }
+        }
+        
+        return Collections.enumeration(list);
+    };
+
+    /**
+     * Determines which key is used for writing values to the servlet context.
+     * 
+     */
+    protected String getWriteKeyToUse(String name) {
+
+        Assert.notNull(name);
+        
+        final String keyToUse;
+        if (name.startsWith(SHARED_PREFIX)) {
+            keyToUse = name.substring(SHARED_PREFIX.length());
+        } else {
+            keyToUse = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
+        }
+        return keyToUse;
     }
     
 }
