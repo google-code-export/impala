@@ -37,7 +37,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
         
         replayMocks();
 
-        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, null)));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(null, null, null)));
         
         verifyMocks();
         

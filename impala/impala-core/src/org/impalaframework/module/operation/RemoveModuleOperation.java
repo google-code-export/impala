@@ -46,7 +46,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
         TransitionResultSet transitionResultSet = removeModule(moduleStateHolder, calculator, moduleToRemove);
         
         boolean hasResults = transitionResultSet.hasResults();
-        return hasResults ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.FALSE;
+        return hasResults ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.EMPTY;
     }
     
     protected TransitionResultSet removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,

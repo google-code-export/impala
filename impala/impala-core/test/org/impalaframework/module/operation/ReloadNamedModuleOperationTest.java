@@ -55,7 +55,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         replayMocks();
 
         //returns fallse because no module transitions found
-        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
         
         verifyMocks();
     }
