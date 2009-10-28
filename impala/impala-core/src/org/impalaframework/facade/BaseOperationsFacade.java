@@ -26,6 +26,7 @@ import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
@@ -92,13 +93,20 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
      * **************************** modifying operations * **************************
      */
 
+    /**
+     * Attempts to reload named module. Returns true if module is found and is successfully reloaded
+     */
     public boolean reloadModule(String moduleName) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.ReloadNamedModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-        return operation.execute(moduleOperationInput).isSuccess();
+        ModuleOperationResult result = operation.execute(moduleOperationInput);
+        return result.isSuccess();
     }
 
+    /**
+     * Reload module with name which contains that of supplied module name. Returns name of actual module reloaded.
+     */
     public String reloadModuleLike(String moduleName) {
         String like = findModuleNameLike(moduleName);
         if (like != null) {
@@ -107,6 +115,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         return like;
     }
 
+    /**
+     * Attempts to reload the root module
+     */
     public void reloadRootModule() {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
@@ -121,6 +132,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         operation.execute(input);
     }
     
+    /**
+     * Attempts to repair any modules which are in an error state
+     */
     public void repairModules() {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
@@ -132,12 +146,18 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         operation.execute(input);
     }
 
+    /**
+     * Unloads all modules, starting from the root module
+     */
     public void unloadRootModule() {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.CloseRootModuleOperation);
         operation.execute(null);
     }
 
+    /**
+     * Unloads and removes the named module
+     */
     public boolean removeModule(String moduleName) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.RemoveModuleOperation);
@@ -145,6 +165,9 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         return operation.execute(moduleOperationInput).isSuccess();
     }
 
+    /**
+     * Adds the module as determined by the supplied module definition
+     */
     public void addModule(final ModuleDefinition moduleDefinition) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.AddModuleOperation);
@@ -154,11 +177,18 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
     /* **************************** getters ************************** */
 
+    /**
+     * Returns true of a module definition is present for the named module
+     */
     public boolean hasModule(String moduleName) {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         return (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
     }
 
+    /**
+     * Returns the name of the module which matches the supplied module name, that is, the
+     * first module found whose name contains that of the supplied module name
+     */
     public String findModuleNameLike(String moduleName) {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         ModuleDefinition definition = rootModuleDefinition.findChildDefinition(moduleName, false);
@@ -168,18 +198,13 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         return null;
     }
 
+    /**
+     * Gets the {@link RuntimeModule} associated with the root module
+     */
     public RuntimeModule getRootRuntimeModule() {
         RuntimeModule runtimeModule = getModuleStateHolder().getRootModule();
         if (runtimeModule == null) {
             throw new NoServiceException("No root application has been loaded");
-        }
-        return runtimeModule;
-    }
-
-    public RuntimeModule getModuleContext(String moduleName) {
-        RuntimeModule runtimeModule = getModuleStateHolder().getModule(moduleName);
-        if (runtimeModule == null) {
-            throw new NoServiceException("No runtime module " + moduleName + " is available");
         }
         return runtimeModule;
     }
@@ -194,7 +219,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
     @SuppressWarnings("unchecked")
     public <T extends Object> T getModuleBean(String moduleName, String beanName, Class<T> t) {
         
-        RuntimeModule runtimeModule = getModuleContext(moduleName);
+        RuntimeModule runtimeModule = getRuntimeModule(moduleName);
         return (T) checkBeanType(runtimeModule, beanName, t);
     }
 
