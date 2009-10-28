@@ -62,7 +62,7 @@ public class ModuleManagementOperationsTest extends TestCase {
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("moduleName", "moduleName");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newSuccessTransitionResultSet(), true, resultMap));
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newSuccessTransitionResultSet(), resultMap));
         replayMocks();
 
         assertEquals("Successfully reloaded moduleName", operations.reloadModule("someModule"));
@@ -75,7 +75,7 @@ public class ModuleManagementOperationsTest extends TestCase {
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("moduleName", "moduleName");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newFailedTransitionResultSet(), true, resultMap));
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newFailedTransitionResultSet(), resultMap));
         replayMocks();
 
         assertEquals("One or more module operations failed: stuff went wrong1", operations.reloadModule("someModule"));
@@ -86,7 +86,7 @@ public class ModuleManagementOperationsTest extends TestCase {
     public void testModuleNotFound() {
         
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(new TransitionResultSet(), false));
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(new TransitionResultSet()));
 
         replayMocks();
 

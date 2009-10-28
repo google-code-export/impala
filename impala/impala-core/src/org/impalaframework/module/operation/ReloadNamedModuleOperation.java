@@ -64,7 +64,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
             TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
 
             boolean result = !transitions.getModuleTransitions().isEmpty();
-            return result ? new ModuleOperationResult(transitionResultSet, true) : ModuleOperationResult.FALSE;
+            return result ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.FALSE;
         }
         
         return ModuleOperationResult.FALSE;

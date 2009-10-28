@@ -33,18 +33,12 @@ public class ModuleOperationResult {
 
     private final Map<String, Object> outputParameters;
 
+    @SuppressWarnings("unchecked")
     public ModuleOperationResult(TransitionResultSet transitionResultSet) {
-        this(transitionResultSet, true);
-    }
-    
-    public ModuleOperationResult(TransitionResultSet transitionResultSet, final boolean success) {
-        super();
-        Assert.notNull(transitionResultSet, "transitionResultSet cannot be null");
-        this.outputParameters = Collections.emptyMap();
-        this.transitionResultSet = transitionResultSet;
+        this(transitionResultSet, Collections.EMPTY_MAP);
     }
 
-    public ModuleOperationResult(TransitionResultSet transitionResultSet, final boolean success, final Map<String, Object> outputValues) {
+    public ModuleOperationResult(TransitionResultSet transitionResultSet, final Map<String, Object> outputValues) {
         super();
         Assert.notNull(transitionResultSet, "transitionResultSet cannot be null");
         Assert.notNull(outputValues);
