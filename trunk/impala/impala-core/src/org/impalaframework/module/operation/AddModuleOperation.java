@@ -45,7 +45,7 @@ public class AddModuleOperation extends BaseModuleOperation {
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
         
         TransitionResultSet transitionResultSet = addModule(moduleStateHolder, calculator, moduleToAdd);
-        return new ModuleOperationResult(transitionResultSet, true);
+        return new ModuleOperationResult(transitionResultSet);
     }
     
     protected TransitionResultSet addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,

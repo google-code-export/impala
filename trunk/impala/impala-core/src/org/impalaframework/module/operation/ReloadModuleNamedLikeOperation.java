@@ -66,7 +66,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
 
             Map<String, Object> resultMap = new HashMap<String, Object>();
             resultMap.put("moduleName", foundModuleName);
-            return new ModuleOperationResult(transitionResultSet, true, resultMap);
+            return new ModuleOperationResult(transitionResultSet, resultMap);
         }
         else {
             return ModuleOperationResult.FALSE;
