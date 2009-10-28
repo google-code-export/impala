@@ -19,6 +19,12 @@ import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
+import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionResult;
+import org.impalaframework.module.spi.TransitionResultSet;
+
 public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest {
 
     private ModuleOperationRegistry moduleOperationRegistry;
@@ -58,7 +64,8 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
         
         expect(newDefinition.getName()).andReturn("mymodule2");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "mymodule2"))).andReturn(ModuleOperationResult.TRUE);
+        TransitionResultSet transitionResultSet = newTransitionResultSet();
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "mymodule2"))).andReturn(new ModuleOperationResult(transitionResultSet));
         
         replayMocks();
         replay(moduleOperationRegistry);
@@ -87,11 +94,17 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         replay(moduleOperation);
 
         ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "mymodule"));
-        assertEquals(false, result.isSuccess());
+        assertFalse(result.hasResults());
         
         verifyMocks();
         verify(moduleOperationRegistry);
         verify(moduleOperation);
+    }
+
+    private TransitionResultSet newTransitionResultSet() {
+        TransitionResultSet transitionResultSet = new TransitionResultSet();
+        transitionResultSet.addResult(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, new SimpleModuleDefinition("mymodule2")), new TransitionResult());
+        return transitionResultSet;
     }
 
 }

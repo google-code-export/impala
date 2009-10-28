@@ -18,6 +18,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleRuntime;
@@ -57,7 +58,7 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
                 RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
                 moduleStateHolder.putModule(moduleName, runtimeModule);
             }
-            catch (RuntimeException e) {
+            catch (Throwable e) {
                 
                 try {
                     serviceRegistry.evictModuleServices(moduleName);
@@ -65,8 +66,15 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
                     logger.error("Error evicting modules from module: " + moduleName, ee);
                 }
                 
+                //FIXME test
+                
                 logger.error("Failed to handle loading of application module: " + moduleName, e);
-                success = false;
+                
+                if (e instanceof RuntimeException) {
+                    throw (RuntimeException)e;
+                } else {
+                    throw new ExecutionException(e.getMessage(), e);
+                }
             }
 
         }
@@ -93,8 +101,15 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
                 moduleRuntime.closeModule(runtimeModule);
             }
             catch (RuntimeException e) {
+                
+                //test
+                
                 logger.error("Failed to handle unloading of application module " + moduleDefinition, e);
-                success = false;
+                if (e instanceof RuntimeException) {
+                    throw (RuntimeException)e;
+                } else {
+                    throw new ExecutionException(e.getMessage(), e);
+                }
             }
         }
         return success;

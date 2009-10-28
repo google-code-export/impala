@@ -29,6 +29,8 @@ import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionProcessor;
+import org.impalaframework.module.spi.TransitionResult;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.springframework.util.Assert;
@@ -55,7 +57,9 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
         super();
     }
 
-    public void processTransitions(TransitionSet transitions) {
+    public TransitionResultSet processTransitions(TransitionSet transitions) {
+
+        TransitionResultSet resultSet = new TransitionResultSet();
         
         try {
             Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
@@ -72,8 +76,16 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
                 ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
 
                 TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-                transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+                
+                try {
+                    transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+                    resultSet.addResult(change, new TransitionResult());
+                }
+                catch (Throwable error) {
+                    resultSet.addResult(change, new TransitionResult(error));
+                }
             
+                //FIXME this should be notified of error
                 if (moduleStateChangeNotifier != null) {
                     moduleStateChangeNotifier.notify(this, change);
                 }
@@ -81,6 +93,8 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
         } finally {
             rootModuleDefinition = transitions.getNewRootModuleDefinition();
         }
+        
+        return resultSet;
     }
     
     public RuntimeModule getExternalRootModule() {

@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.expect;
 import java.util.Collections;
 
 import org.impalaframework.module.ModuleState;
+import org.impalaframework.module.spi.TransitionResultSet;
 
 public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
 
@@ -48,7 +49,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         newDefinition.setState(ModuleState.STALE);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
         expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
         
         replayMocks();

@@ -16,6 +16,8 @@ package org.impalaframework.module.operation;
 
 import static org.easymock.EasyMock.expect;
 
+import org.impalaframework.module.spi.TransitionResultSet;
+
 public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
 
     @Override
@@ -31,11 +33,11 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
         expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
 
-        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, null)));
+        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, null)));
         
         verifyMocks();
         

@@ -20,6 +20,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
@@ -56,8 +57,8 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
         
         TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
-        moduleStateHolder.processTransitions(transitions);
-        return ModuleOperationResult.TRUE;
+        TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
+        return new ModuleOperationResult(transitionResultSet);
     }
 
     protected ModificationExtractorType getModificationExtractorType() {

@@ -28,6 +28,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
@@ -124,7 +125,8 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
             servletContext.log("Closing modules and root application context hierarchy");
 
             ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
-            boolean success = operation.execute(null).isSuccess();
+            ModuleOperationResult execute = operation.execute(null);
+            boolean success = execute.isSuccess();
 
             if (!success) {
                 // this is the fallback in case the rootDefinition is null
