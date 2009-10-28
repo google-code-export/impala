@@ -20,6 +20,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
@@ -43,11 +44,11 @@ public class AddModuleOperation extends BaseModuleOperation {
         ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
         
-        addModule(moduleStateHolder, calculator, moduleToAdd);
-        return new ModuleOperationResult(true);
+        TransitionResultSet transitionResultSet = addModule(moduleStateHolder, calculator, moduleToAdd);
+        return new ModuleOperationResult(transitionResultSet, true);
     }
     
-    protected void addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+    protected TransitionResultSet addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
             ModuleDefinition moduleDefinition) {
 
         RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
@@ -80,7 +81,7 @@ public class AddModuleOperation extends BaseModuleOperation {
         }
 
         TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-        moduleStateHolder.processTransitions(transitions);
+        return moduleStateHolder.processTransitions(transitions);
     }   
     
 }

@@ -17,6 +17,7 @@ package org.impalaframework.module.operation;
 import java.util.Collections;
 import java.util.Map;
 
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.springframework.util.Assert;
 
 /**
@@ -26,41 +27,68 @@ import org.springframework.util.Assert;
  */
 public class ModuleOperationResult {
 
-    public static final ModuleOperationResult TRUE = new ModuleOperationResult(true);
-
-    public static final ModuleOperationResult FALSE = new ModuleOperationResult(false);
-
-    private final boolean success;
+    public static final ModuleOperationResult FALSE = new ModuleOperationResult(new TransitionResultSet());
+    
+    private final TransitionResultSet transitionResultSet;
 
     private final Map<String, Object> outputParameters;
 
-    public ModuleOperationResult(final boolean success) {
+    public ModuleOperationResult(TransitionResultSet transitionResultSet) {
+        this(transitionResultSet, true);
+    }
+    
+    public ModuleOperationResult(TransitionResultSet transitionResultSet, final boolean success) {
         super();
-        this.success = success;
+        Assert.notNull(transitionResultSet, "transitionResultSet cannot be null");
         this.outputParameters = Collections.emptyMap();
+        this.transitionResultSet = transitionResultSet;
     }
 
-    public ModuleOperationResult(final boolean success, final Map<String, Object> outputValues) {
+    public ModuleOperationResult(TransitionResultSet transitionResultSet, final boolean success, final Map<String, Object> outputValues) {
         super();
-        this.success = success;
+        Assert.notNull(transitionResultSet, "transitionResultSet cannot be null");
         Assert.notNull(outputValues);
         this.outputParameters = outputValues;
+        this.transitionResultSet = transitionResultSet;
     }
 
     public Map<String, Object> getOutputParameters() {
         return outputParameters;
     }
+    
+    public TransitionResultSet getTransitionResultSet() {
+        return transitionResultSet;
+    }
+
+    public boolean hasResults() {
+        return transitionResultSet.hasResults();
+    }
 
     public boolean isSuccess() {
-        return success;
+        return transitionResultSet.isSuccess() && transitionResultSet.hasResults();
+    }
+    
+    public boolean isErrorFree() {
+        return transitionResultSet.isSuccess();
+    }
+    
+    @Override
+    public String toString() {
+        return "ModuleOperationResult [outputParameters=" + outputParameters
+                + ", transitionResultSet=" + transitionResultSet + "]";
     }
 
     @Override
     public int hashCode() {
-        final int PRIME = 31;
+        final int prime = 31;
         int result = 1;
-        result = PRIME * result + ((outputParameters == null) ? 0 : outputParameters.hashCode());
-        result = PRIME * result + (success ? 1231 : 1237);
+        result = prime
+                * result
+                + ((outputParameters == null) ? 0 : outputParameters.hashCode());
+        result = prime
+                * result
+                + ((transitionResultSet == null) ? 0 : transitionResultSet
+                        .hashCode());
         return result;
     }
 
@@ -72,14 +100,18 @@ public class ModuleOperationResult {
             return false;
         if (getClass() != obj.getClass())
             return false;
-        final ModuleOperationResult other = (ModuleOperationResult) obj;
+        ModuleOperationResult other = (ModuleOperationResult) obj;
         if (outputParameters == null) {
             if (other.outputParameters != null)
                 return false;
         }
         else if (!outputParameters.equals(other.outputParameters))
             return false;
-        if (success != other.success)
+        if (transitionResultSet == null) {
+            if (other.transitionResultSet != null)
+                return false;
+        }
+        else if (!transitionResultSet.equals(other.transitionResultSet))
             return false;
         return true;
     }

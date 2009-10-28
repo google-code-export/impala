@@ -20,6 +20,7 @@ import java.util.Map;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.springframework.util.Assert;
 
 /**
@@ -60,11 +61,12 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
             
             ModuleOperation operation = moduleOperationRegistry.getOperation(
                     ModuleOperationConstants.ReloadNamedModuleOperation);
-            operation.execute(new ModuleOperationInput(null, null, foundModuleName));
+            ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, foundModuleName));
+            TransitionResultSet transitionResultSet = execute.getTransitionResultSet();
 
             Map<String, Object> resultMap = new HashMap<String, Object>();
             resultMap.put("moduleName", foundModuleName);
-            return new ModuleOperationResult(true, resultMap);
+            return new ModuleOperationResult(transitionResultSet, true, resultMap);
         }
         else {
             return ModuleOperationResult.FALSE;

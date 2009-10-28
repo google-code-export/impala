@@ -19,6 +19,7 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -48,11 +49,11 @@ public class CloseRootModuleOperation extends BaseModuleOperation {
         if (rootModuleDefinition != null) {
             logger.info("Shutting down application context");
             TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
-            moduleStateHolder.processTransitions(transitions);
-            return ModuleOperationResult.TRUE;
+            TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
+            return new ModuleOperationResult(transitionResultSet, true);
         }
         else {
-            return ModuleOperationResult.FALSE;
+            return new ModuleOperationResult(new TransitionResultSet(), false);
         }
     }
 

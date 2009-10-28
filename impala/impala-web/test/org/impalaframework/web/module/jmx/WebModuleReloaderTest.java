@@ -69,7 +69,7 @@ public class WebModuleReloaderTest extends TestCase {
         
         expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.TRUE);
+        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.FALSE);
     
         replayMocks();
         reloader.reloadModules();

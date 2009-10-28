@@ -14,8 +14,8 @@
 
 package org.impalaframework.web.spring.loader;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
@@ -30,7 +30,6 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.spring.loader.BaseImpalaContextLoader;
 import org.springframework.web.context.WebApplicationContext;
 
 public class BaseImpalaContextLoaderTest extends TestCase {
@@ -52,11 +51,14 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         BaseImpalaContextLoader contextLoader = newContextLoader();
 
         servletContext.log("Closing modules and root application context hierarchy");
+        servletContext.log("Closing Spring root WebApplicationContext");
+        servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
+        
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
         
         expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.TRUE);
+        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.FALSE);
         
         facade.close();
 

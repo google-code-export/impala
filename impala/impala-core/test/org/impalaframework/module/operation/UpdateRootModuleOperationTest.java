@@ -22,6 +22,7 @@ import org.easymock.EasyMock;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModificationExtractor;
+import org.impalaframework.module.spi.TransitionResultSet;
 
 public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
 
@@ -61,13 +62,12 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
         
         RootModuleDefinition existingDefinition = getExistingDefinition();
         expect(strictModificationExtractor.getTransitions(existingDefinition, newDefinition)).andReturn(transitionSet);
-
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
         replay(moduleDefinitionSource);
 
-        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
         
         verifyMocks();
         verify(moduleDefinitionSource);

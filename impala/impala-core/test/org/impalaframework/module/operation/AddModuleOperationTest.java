@@ -17,6 +17,7 @@ package org.impalaframework.module.operation;
 import static org.easymock.EasyMock.expect;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.TransitionResultSet;
 
 public class AddModuleOperationTest extends BaseModuleOperationTest {
 
@@ -48,11 +49,11 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
         
         newDefinition.addChildModuleDefinition(moduleDefinition);
         
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
 
-        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
+        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
         
         verifyMocks();
     }

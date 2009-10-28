@@ -20,6 +20,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
@@ -42,17 +43,19 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
         
         ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
-        boolean result = removeModule(moduleStateHolder, calculator, moduleToRemove);
-        return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
+        TransitionResultSet transitionResultSet = removeModule(moduleStateHolder, calculator, moduleToRemove);
+        
+        boolean hasResults = transitionResultSet.hasResults();
+        return hasResults ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.FALSE;
     }
     
-    protected boolean removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+    protected TransitionResultSet removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
             String moduleToRemove) {
         
         RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
         
         if (oldRootDefinition == null) {
-            return false;
+            return new TransitionResultSet();
         }
         
         RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
@@ -62,8 +65,8 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
             if (definitionToRemove instanceof RootModuleDefinition) {
                 //we're removing the rootModuleDefinition
                 TransitionSet transitions = calculator.getTransitions(oldRootDefinition, null);
-                moduleStateHolder.processTransitions(transitions);
-                return true;
+                TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
+                return transitionResultSet;
             }
             else {
                 ModuleDefinition parent = definitionToRemove.getParentDefinition();
@@ -73,8 +76,8 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
                     definitionToRemove.setParentDefinition(null);
 
                     TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-                    moduleStateHolder.processTransitions(transitions);
-                    return true;
+                    TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
+                    return transitionResultSet;
                 }
                 else {
                     throw new InvalidStateException("Module to remove does not have a parent module. "
@@ -82,7 +85,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
                 }
             }
         }
-        return false;
+        return new TransitionResultSet();
     }
     
 }

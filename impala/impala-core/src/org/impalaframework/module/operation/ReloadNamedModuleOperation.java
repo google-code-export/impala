@@ -21,6 +21,7 @@ import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
@@ -60,10 +61,10 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
             childDefinition.setState(ModuleState.STALE);
 
             TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-            moduleStateHolder.processTransitions(transitions);
+            TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
 
             boolean result = !transitions.getModuleTransitions().isEmpty();
-            return result ? ModuleOperationResult.TRUE : ModuleOperationResult.FALSE;
+            return result ? new ModuleOperationResult(transitionResultSet, true) : ModuleOperationResult.FALSE;
         }
         
         return ModuleOperationResult.FALSE;

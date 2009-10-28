@@ -21,7 +21,12 @@ import static org.easymock.EasyMock.verify;
 import org.easymock.EasyMock;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionResult;
+import org.impalaframework.module.spi.TransitionResultSet;
 
 public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
@@ -44,12 +49,14 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         childDefinition.setParentDefinition(null);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
         replay(childDefinition);
 
-        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "myModule")));
+        ModuleOperationResult execute = operation.doExecute(new ModuleOperationInput(null, null, "myModule"));
+        assertTrue(execute.hasResults());
+        assertTrue(execute.isSuccess());
 
         verifyMocks();
         verify(childDefinition);
@@ -61,21 +68,25 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-        moduleStateHolder.processTransitions(transitionSet);
+        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
 
-        assertEquals(ModuleOperationResult.TRUE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
+        ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "root"));
+        assertTrue(result.hasResults());
+        assertTrue(result.isSuccess());
 
         verifyMocks();
     }
-    
+
     public final void testRootIsNull() {
         expect(moduleStateHolder.getRootModuleDefinition()).andReturn(null);
 
         replayMocks();
 
-        assertEquals(ModuleOperationResult.FALSE, operation.doExecute(new ModuleOperationInput(null, null, "root")));
+        ModuleOperationResult execute = operation.doExecute(new ModuleOperationInput(null, null, "root"));
+        assertFalse(execute.hasResults());
+        assertFalse(execute.isSuccess());
 
         verifyMocks();
     }
@@ -97,7 +108,13 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
         moduleStateHolder.processTransitions(transitionSet);
     }
-
+    
+    private TransitionResultSet newTransitionResultSet() {
+        TransitionResultSet result = new TransitionResultSet();
+        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("myModule")), new TransitionResult());
+        return result;
+    }
+    
 }
 
 class TestPluginStateManager extends DefaultModuleStateHolder {
