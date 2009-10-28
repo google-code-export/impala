@@ -37,6 +37,10 @@ public class TransitionResult {
     boolean isSuccess() {
         return (error == null);
     }
+    
+    public Throwable getError() {
+        return error;
+    }
 
     @Override
     public String toString() {

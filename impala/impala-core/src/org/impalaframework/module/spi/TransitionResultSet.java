@@ -29,11 +29,6 @@ public class TransitionResultSet {
     public void addResult(ModuleStateChange stateChange, TransitionResult result) {
         results.put(stateChange, result);
     }
-    
-    public boolean succeededWithoutErrors() {
-        //FIXME implement
-        return true;
-    }
 
     @Override
     public String toString() {
@@ -45,6 +40,9 @@ public class TransitionResultSet {
     }
 
     public boolean isSuccess() {
+        
+        //FIXME test
+        
         if (results.isEmpty()) {
             return true;
         }
@@ -57,6 +55,19 @@ public class TransitionResultSet {
             }
         }
         return true;
+    }
+    
+    public Throwable getFirstError() {
+        
+        //FIXME test
+        Set<ModuleStateChange> keySet = results.keySet();
+        for (ModuleStateChange moduleStateChange : keySet) {
+            TransitionResult transitionResult = results.get(moduleStateChange);
+            if (!transitionResult.isSuccess()) {
+                return transitionResult.getError();
+            }
+        }
+        return null;
     }
 
     @Override

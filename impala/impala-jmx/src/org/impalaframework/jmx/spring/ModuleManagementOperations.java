@@ -19,6 +19,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.util.ExceptionUtils;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedOperationParameter;
@@ -43,8 +44,15 @@ public class ModuleManagementOperations {
         
         try {
             ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, moduleName));
-            if (execute.isSuccess()) {
-                return "Successfully reloaded " + execute.getOutputParameters().get("moduleName");
+            
+            TransitionResultSet transitionResultSet = execute.getTransitionResultSet();
+            if (transitionResultSet.hasResults()) {
+                if (transitionResultSet.isSuccess()) {
+                    return "Successfully reloaded " + execute.getOutputParameters().get("moduleName");
+                } else {
+                    Throwable error = transitionResultSet.getFirstError();
+                    return "One or more module operations failed: " + (error != null ? error.getMessage() : "error is null"); 
+                }
             } else {
                 return "Could not find module " + moduleName;
             }

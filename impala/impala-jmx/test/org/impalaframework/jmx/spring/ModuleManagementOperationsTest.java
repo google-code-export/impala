@@ -18,18 +18,20 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
+import static org.impalaframework.module.spi.TransitionResultSetTest.newFailedTransitionResultSet;
+import static org.impalaframework.module.spi.TransitionResultSetTest.newSuccessTransitionResultSet;
 
 import java.util.HashMap;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.jmx.spring.ModuleManagementOperations;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 
 public class ModuleManagementOperationsTest extends TestCase {
@@ -59,11 +61,24 @@ public class ModuleManagementOperationsTest extends TestCase {
 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
-        resultMap.put("moduleName", "somePlugin");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(true, resultMap));
+        resultMap.put("moduleName", "moduleName");
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newSuccessTransitionResultSet(), true, resultMap));
         replayMocks();
 
-        assertEquals("Successfully reloaded somePlugin", operations.reloadModule("someplugin"));
+        assertEquals("Successfully reloaded moduleName", operations.reloadModule("someModule"));
+
+        verifyMocks();
+    }
+
+    public void testReloadFailed() {
+
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
+        HashMap<String, Object> resultMap = new HashMap<String, Object>();
+        resultMap.put("moduleName", "moduleName");
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newFailedTransitionResultSet(), true, resultMap));
+        replayMocks();
+
+        assertEquals("One or more module operations failed: stuff went wrong1", operations.reloadModule("someModule"));
 
         verifyMocks();
     }
@@ -71,11 +86,11 @@ public class ModuleManagementOperationsTest extends TestCase {
     public void testModuleNotFound() {
         
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andReturn(new ModuleOperationResult(false));
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(new TransitionResultSet(), false));
 
         replayMocks();
 
-        assertEquals("Could not find module someplugin", operations.reloadModule("someplugin"));
+        assertEquals("Could not find module someModule", operations.reloadModule("someModule"));
 
         verifyMocks();
     }
@@ -83,11 +98,11 @@ public class ModuleManagementOperationsTest extends TestCase {
     public void testThrowException() {
 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someplugin"))).andThrow(new IllegalStateException());
+        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andThrow(new IllegalStateException());
 
         replayMocks();
 
-        assertTrue(operations.reloadModule("someplugin").contains("IllegalStateException"));
+        assertTrue(operations.reloadModule("someModule").contains("IllegalStateException"));
 
         verifyMocks();
     }
