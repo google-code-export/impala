@@ -14,42 +14,35 @@
 
 package org.impalaframework.module.spi;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Holds the result of a set of module transition changes
+ * Holds the result of a set of module transition changes.
+ * @see ModuleStateChange
+ * @see TransitionResult
  * @author Phil Zoio
  */
 public class TransitionResultSet {
     
-    private final Map<ModuleStateChange,TransitionResult> results = new LinkedHashMap<ModuleStateChange, TransitionResult>();
-    
-    public void addResult(ModuleStateChange stateChange, TransitionResult result) {
-        results.put(stateChange, result);
-    }
-
-    @Override
-    public String toString() {
-        return "TransitionResultSet [results=" + results + "]";
+    private final List<TransitionResult> list = new ArrayList<TransitionResult>();
+        
+    public void addResult(TransitionResult result) {
+        list.add(result);
     }
 
     public boolean hasResults() {
-        return (!results.isEmpty());
+        return (!list.isEmpty());
     }
 
     public boolean isSuccess() {
         
-        //FIXME test
-        
-        if (results.isEmpty()) {
+        if (list.isEmpty()) {
             return true;
         }
-        
-        Set<ModuleStateChange> keySet = results.keySet();
-        for (ModuleStateChange moduleStateChange : keySet) {
-            TransitionResult transitionResult = results.get(moduleStateChange);
+
+        for (TransitionResult transitionResult : list) {
             if (!transitionResult.isSuccess()) {
                 return false;
             }
@@ -58,11 +51,8 @@ public class TransitionResultSet {
     }
     
     public Throwable getFirstError() {
-        
-        //FIXME test
-        Set<ModuleStateChange> keySet = results.keySet();
-        for (ModuleStateChange moduleStateChange : keySet) {
-            TransitionResult transitionResult = results.get(moduleStateChange);
+       
+        for (TransitionResult transitionResult : list) {
             if (!transitionResult.isSuccess()) {
                 return transitionResult.getError();
             }
@@ -70,11 +60,20 @@ public class TransitionResultSet {
         return null;
     }
 
+    public List<TransitionResult> getResults() {
+        return Collections.unmodifiableList(list);
+    }
+    
+    @Override
+    public String toString() {
+        return "TransitionResultSet [results=" + list + "]";
+    }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((results == null) ? 0 : results.hashCode());
+        result = prime * result + ((list == null) ? 0 : list.hashCode());
         return result;
     }
 
@@ -87,15 +86,13 @@ public class TransitionResultSet {
         if (getClass() != obj.getClass())
             return false;
         TransitionResultSet other = (TransitionResultSet) obj;
-        if (results == null) {
-            if (other.results != null)
+        if (list == null) {
+            if (other.list != null)
                 return false;
         }
-        else if (!results.equals(other.results))
+        else if (!list.equals(other.list))
             return false;
         return true;
     }
-    
-    
-    
+
 }
