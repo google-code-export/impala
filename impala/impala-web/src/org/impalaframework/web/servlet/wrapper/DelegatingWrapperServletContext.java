@@ -141,17 +141,17 @@ public class DelegatingWrapperServletContext implements ServletContext, Delegati
         realContext.log(message, throwable);
     }
 
+    @SuppressWarnings("unchecked")
+    public Enumeration getAttributeNames() {
+        return realContext.getAttributeNames();
+    }
+    
     public Object getAttribute(String name) {
         Object value = realContext.getAttribute(name);
         if (logger.isTraceEnabled()) {
             logger.trace("Getting attribute for name: " + name + " - " + value);
         }
         return value;
-    }
-
-    @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
-        return realContext.getAttributeNames();
     }
 
     public void removeAttribute(String name) {
