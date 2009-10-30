@@ -66,7 +66,8 @@ public class ServiceRegistryMapTest extends TestCase {
         
         verify(serviceRegistry);
     }
-    
+
+    @SuppressWarnings("unchecked")
     public void testWithMapKey() throws Exception {
         List<String> service = new ArrayList<String>();
         
