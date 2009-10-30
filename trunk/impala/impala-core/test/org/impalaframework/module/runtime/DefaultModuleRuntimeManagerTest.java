@@ -19,6 +19,7 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Map;
 
@@ -29,6 +30,8 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.service.ServiceRegistry;
+import org.impalaframework.service.ServiceRegistryEntry;
 
 public class DefaultModuleRuntimeManagerTest extends TestCase {
 
@@ -41,6 +44,8 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
     private ModuleDefinition moduleDefinition;
 
     private DefaultModuleRuntimeManager manager;
+
+    private ServiceRegistry serviceRegistry;
     
     @Override
     protected void setUp() throws Exception {
@@ -49,11 +54,13 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
         moduleRuntime = createMock(ModuleRuntime.class);
         moduleDefinition = createMock(ModuleDefinition.class);
         runtimeModule = createMock(RuntimeModule.class);
+        serviceRegistry = createMock(ServiceRegistry.class);
         
         manager = new DefaultModuleRuntimeManager();
         manager.setModuleStateHolder(moduleStateHolder);
         Map<String, ModuleRuntime> singletonMap = Collections.singletonMap("spring", moduleRuntime);
         manager.setModuleRuntimes(singletonMap);
+        manager.setServiceRegistry(serviceRegistry);
     }
     
     public void testInitModuleAlreadyPresent() {
@@ -79,11 +86,34 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
         expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andReturn(runtimeModule);
         moduleStateHolder.putModule("mymodule", runtimeModule);
         
-        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule, serviceRegistry);
         
         assertTrue(manager.initModule(moduleDefinition));
         
-        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule, serviceRegistry);
+    }
+    
+
+    public void testInitCreateNewModuleWithFailure() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        expect(moduleStateHolder.getModule("mymodule")).andReturn(null);
+        expect(moduleDefinition.getRuntimeFramework()).andReturn("spring");
+        
+        //create new runtime module
+        expect(moduleRuntime.loadRuntimeModule(moduleDefinition)).andThrow(new RuntimeException("It bombed"));
+        expect(serviceRegistry.evictModuleServices("mymodule")).andReturn(new ArrayList<ServiceRegistryEntry>());
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule, serviceRegistry);
+        
+        try {
+            manager.initModule(moduleDefinition);
+            fail();
+        }
+        catch (RuntimeException e) {   
+        }
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule, serviceRegistry);
     }
     
     public void testGetRuntimeFramework() {
@@ -111,6 +141,24 @@ public class DefaultModuleRuntimeManagerTest extends TestCase {
         replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
         
         assertTrue(manager.closeModule(moduleDefinition));
+        
+        verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+    }
+    
+    public void testCloseModuleFail() {
+        
+        expect(moduleDefinition.getName()).andReturn("mymodule");
+        //no module apparently present
+        expect(moduleStateHolder.removeModule("mymodule")).andThrow(new IllegalStateException("It bombed"));
+        
+        replay(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
+        
+        try {
+            manager.closeModule(moduleDefinition);
+            fail();
+        }
+        catch (IllegalStateException e) {
+        }
         
         verify(moduleRuntime, moduleStateHolder, moduleDefinition, runtimeModule);
     }

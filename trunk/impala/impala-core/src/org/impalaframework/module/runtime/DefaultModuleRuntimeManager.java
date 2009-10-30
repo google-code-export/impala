@@ -102,8 +102,6 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
             }
             catch (RuntimeException e) {
                 
-                //test
-                
                 logger.error("Failed to handle unloading of application module " + moduleDefinition, e);
                 if (e instanceof RuntimeException) {
                     throw (RuntimeException)e;
