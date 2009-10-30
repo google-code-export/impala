@@ -19,12 +19,13 @@ import javax.servlet.ServletContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -74,26 +75,8 @@ public class FrameworkServletContextCreator  {
 		if (!initialized) {
 			
 			ModuleStateChangeNotifier moduleStateChangeNotifier = facade.getModuleStateChangeNotifier();
-			moduleStateChangeNotifier.addListener(new ModuleStateChangeListener() {
-
-				public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {
-					try {
-						servlet.init();
-					}
-					catch (Exception e) {
-						logger.error("Unable to reinitialize servlet " + servlet.getServletName(), e);
-					}
-				}
-
-				public String getModuleName() {
-					return servletName;
-				}
-
-				public String getTransition() {
-					return Transition.UNLOADED_TO_LOADED;
-				}
-				
-			});
+			ModuleStateChangeListener listener = newModuleStateChangeListener(servletName);
+            moduleStateChangeNotifier.addListener(listener);
 			this.initialized = true;
 		}
 		
@@ -111,5 +94,35 @@ public class FrameworkServletContextCreator  {
 			throw new ConfigurationException("No module registered under the name of servlet '" + servletName + "'");
 		}
 	}
+
+    ModuleStateChangeListener newModuleStateChangeListener(final String servletName) {
+        
+        ModuleStateChangeListener listener = new ModuleStateChangeListener() {
+
+        	public void moduleStateChanged(ModuleStateHolder moduleStateHolder, TransitionResult result) {
+        	    
+        		if (!result.isInError()) {
+        		    try {
+        				servlet.init();
+        			}
+        			catch (Exception e) {
+        				throw new ExecutionException("Unable to reinitialize servlet " + servletName, e);
+        			}
+        		} else {
+        		    logger.warn("Not attempting to initialize servlet " + servletName + " as module loading failed");
+        		}
+        	}
+
+        	public String getModuleName() {
+        		return servletName;
+        	}
+
+        	public String getTransition() {
+        		return Transition.UNLOADED_TO_LOADED;
+        	}
+        	
+        };
+        return listener;
+    }
 
 }

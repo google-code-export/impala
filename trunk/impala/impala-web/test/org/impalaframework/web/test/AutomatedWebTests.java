@@ -47,12 +47,12 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequ
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.servlet.wrapper.PartitionedWrapperServletContextTest;
-import org.impalaframework.web.spring.bean.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.config.ContextListenerBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.FilterBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.ServletBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.WebMappingBeanDefinitionParserTest;
+import org.impalaframework.web.spring.helper.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
 import org.impalaframework.web.spring.helper.WebServletUtilsTest;
 import org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServletTest;

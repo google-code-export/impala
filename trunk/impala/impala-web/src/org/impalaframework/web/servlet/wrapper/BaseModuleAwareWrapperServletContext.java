@@ -115,11 +115,19 @@ public abstract class BaseModuleAwareWrapperServletContext extends
         return super.getAttribute(name);
     }
 	
+    /**
+     * Calls the superclass's {@link #removeAttribute(String)} with the possibly modified attribute
+     * name as determined by {@link #getWriteKeyToUse(String)}.
+     */
     @Override
     public void removeAttribute(String name) {
         super.removeAttribute(getWriteKeyToUse(name));
     }
     
+    /**
+     * Calls the superclass's {@link #setAttribute(String)} with the possibly modified attribute
+     * name as determined by {@link #getWriteKeyToUse(String)}.
+     */
     @Override
     public void setAttribute(String name, Object value) {
         super.setAttribute(getWriteKeyToUse(name), value);

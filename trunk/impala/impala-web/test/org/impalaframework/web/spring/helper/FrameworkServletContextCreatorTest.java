@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.spring.bean;
+package org.impalaframework.web.spring.helper;
 
 import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -26,13 +26,19 @@ import junit.framework.TestCase;
 
 import org.easymock.classextension.EasyMock;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.source.InternalModuleDefinitionSource;
+import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.ModuleStateChangeListener;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.web.WebConstants;
-import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.spring.servlet.ExternalModuleServlet;
 
 public class FrameworkServletContextCreatorTest extends TestCase {
@@ -49,6 +55,39 @@ public class FrameworkServletContextCreatorTest extends TestCase {
         creator = new FrameworkServletContextCreator(servlet);
         servletConfig = EasyMock.createMock(ServletConfig.class);
         servletContext = EasyMock.createMock(ServletContext.class);
+    }
+
+    public void testNewStateChangeListenerOK() throws Exception {
+        
+        ModuleStateChangeListener listener = creator.newModuleStateChangeListener("myServlet");
+
+        replayMocks();
+        
+        ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, new SimpleModuleDefinition("myModule"));
+        TransitionResult transitionResult = new TransitionResult(moduleStateChange);
+        
+        try {
+            listener.moduleStateChanged(createMock(ModuleStateHolder.class),transitionResult);
+            fail();
+        }
+        catch (ExecutionException e) {
+        }
+        
+        verifyMocks();
+    }
+    
+    public void testNewStateChangeListenerException() throws Exception {
+        
+        ModuleStateChangeListener listener = creator.newModuleStateChangeListener("myServlet");
+
+        replayMocks();
+        
+        ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, new SimpleModuleDefinition("myModule"));
+        TransitionResult transitionResult = new TransitionResult(moduleStateChange, new RuntimeException());
+        
+        listener.moduleStateChanged(createMock(ModuleStateHolder.class),transitionResult);
+        
+        verifyMocks();
     }
     
     public void testImpalaNotConfigured() {
