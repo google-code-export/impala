@@ -59,6 +59,7 @@ import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
 import org.impalaframework.module.holder.ModuleStateChangeNotifierTest;
+import org.impalaframework.module.holder.TransitionsLoggerTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
@@ -75,6 +76,7 @@ import org.impalaframework.module.operation.AddModuleOperationTest;
 import org.impalaframework.module.operation.CloseRootModuleOperationTest;
 import org.impalaframework.module.operation.LockingModuleOperationTest;
 import org.impalaframework.module.operation.ModuleOperationRegistryTest;
+import org.impalaframework.module.operation.ModuleOperationResultTest;
 import org.impalaframework.module.operation.ReloadNamedModuleLikeOperationTest;
 import org.impalaframework.module.operation.ReloadNamedModuleOperationTest;
 import org.impalaframework.module.operation.RemoveModuleOperationTest;
@@ -170,6 +172,7 @@ import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSo
 import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessorTest;
 import org.impalaframework.util.ArrayUtilsTest;
 import org.impalaframework.util.CollectionStringUtilsTest;
+import org.impalaframework.util.ExceptionUtilsTest;
 import org.impalaframework.util.FileUtilsTest;
 import org.impalaframework.util.InstantiationUtilsTest;
 import org.impalaframework.util.MemoryUtilsTest;
@@ -237,6 +240,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(DynamicPropertiesFactoryBeanTest.class);
         suite.addTestSuite(DefaultServiceProxyFactoryCreatorTest.class);
         suite.addTestSuite(EmptyExportTypeDeriverTest.class);
+        suite.addTestSuite(ExceptionUtilsTest.class);
         suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
         suite.addTestSuite(FileMonitorImplTest.class);
         suite.addTestSuite(FileUtilsTest.class);
@@ -270,6 +274,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleDefinitionToStringTest.class);
         suite.addTestSuite(ModuleDefinitionUtilsTest.class);
         suite.addTestSuite(ModuleLoaderRegistryTest.class);
+        suite.addTestSuite(ModuleOperationResultTest.class);
         suite.addTestSuite(ModuleOperationRegistryTest.class);
         suite.addTestSuite(ModuleStateChangeNotifierTest.class);
         suite.addTestSuite(ModuleStateHolderTest.class);
@@ -348,6 +353,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SystemPropertiesPropertySourceTest.class);
         suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
         suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
+        suite.addTestSuite(TransitionsLoggerTest.class);
         suite.addTestSuite(TransitionProcessorRegistryTest.class);
         suite.addTestSuite(TransitionResultSetTest.class);
         suite.addTestSuite(TypeHelperTest.class);
