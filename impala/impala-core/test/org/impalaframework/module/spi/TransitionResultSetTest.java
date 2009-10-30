@@ -43,16 +43,21 @@ public class TransitionResultSetTest extends TestCase {
     
     public static TransitionResultSet newSuccessTransitionResultSet() {
         TransitionResultSet result = new TransitionResultSet();
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module1")), new TransitionResult());
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module2")), new TransitionResult());
+        ModuleStateChange stateChange1 = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module1"));
+        result.addResult(new TransitionResult(stateChange1));
+        ModuleStateChange stateChange2 = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module2"));
+        result.addResult(new TransitionResult(stateChange2));
         return result;
-    }
+    }     
     
     public static TransitionResultSet newFailedTransitionResultSet() {
         TransitionResultSet result = new TransitionResultSet();
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module1")), new TransitionResult());
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module2")), new TransitionResult(new RuntimeException("stuff went wrong1")));
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module3")), new TransitionResult(new RuntimeException("stuff went wrong2")));
+        ModuleStateChange stateChange1 = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module1"));
+        result.addResult(new TransitionResult(stateChange1));
+        ModuleStateChange stateChange2 = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module2"));
+        result.addResult(new TransitionResult(stateChange2, new RuntimeException("stuff went wrong1")));
+        ModuleStateChange stateChange3 = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("module3"));
+        result.addResult(new TransitionResult(stateChange3, new RuntimeException("stuff went wrong1")));
         return result;
     }
 

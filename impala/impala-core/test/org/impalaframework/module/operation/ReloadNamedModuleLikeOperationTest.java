@@ -14,16 +14,13 @@
 
 package org.impalaframework.module.operation;
 
+import static org.easymock.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.createMock;
-import static org.easymock.classextension.EasyMock.expect;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
-import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.spi.ModuleStateChange;
-import org.impalaframework.module.spi.Transition;
-import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
+import org.impalaframework.module.spi.TransitionResultSetTest;
 
 public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest {
 
@@ -64,7 +61,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
         
         expect(newDefinition.getName()).andReturn("mymodule2");
-        TransitionResultSet transitionResultSet = newTransitionResultSet();
+        TransitionResultSet transitionResultSet = TransitionResultSetTest.newSuccessTransitionResultSet();
         expect(moduleOperation.execute(new ModuleOperationInput(null, null, "mymodule2"))).andReturn(new ModuleOperationResult(transitionResultSet));
         
         replayMocks();
@@ -99,12 +96,6 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         verifyMocks();
         verify(moduleOperationRegistry);
         verify(moduleOperation);
-    }
-
-    private TransitionResultSet newTransitionResultSet() {
-        TransitionResultSet transitionResultSet = new TransitionResultSet();
-        transitionResultSet.addResult(new ModuleStateChange(Transition.UNLOADED_TO_LOADED, new SimpleModuleDefinition("mymodule2")), new TransitionResult());
-        return transitionResultSet;
     }
 
 }
