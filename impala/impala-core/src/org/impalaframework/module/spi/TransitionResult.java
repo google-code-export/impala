@@ -20,18 +20,18 @@ package org.impalaframework.module.spi;
  */
 public class TransitionResult {
 
-    //FIXME test
+    private final ModuleStateChange moduleStateChange;
     
     private final Throwable error;
 
-    public TransitionResult() {
-        super();
-        this.error = null;
+    public TransitionResult(ModuleStateChange moduleStateChange) {
+        this(moduleStateChange, null);
     }
     
-    public TransitionResult(Throwable error) {
+    public TransitionResult(ModuleStateChange moduleStateChange, Throwable error) {
         super();
         this.error = error;
+        this.moduleStateChange = moduleStateChange;
     }
     
     boolean isSuccess() {
@@ -42,9 +42,18 @@ public class TransitionResult {
         return error;
     }
 
+    public boolean isInError() {
+        return (error != null);
+    }
+    
+    public ModuleStateChange getModuleStateChange() {
+        return moduleStateChange;
+    }
+
     @Override
     public String toString() {
-        return "TransitionResult [error=" + error + "]";
+        return "TransitionResult [error=" + error 
+            + ", moduleStateChange=" + moduleStateChange + "]";
     }
     
 }
