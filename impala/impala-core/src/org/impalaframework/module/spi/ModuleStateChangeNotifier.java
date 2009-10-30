@@ -26,7 +26,7 @@ package org.impalaframework.module.spi;
  */
 public interface ModuleStateChangeNotifier {
 
-    void notify(ModuleStateHolder moduleStateHolder, ModuleStateChange change);
+    void notify(ModuleStateHolder moduleStateHolder, TransitionResult transitionResult);
     public void addListener(ModuleStateChangeListener listener);
     public boolean removeListener(ModuleStateChangeListener listener);
     

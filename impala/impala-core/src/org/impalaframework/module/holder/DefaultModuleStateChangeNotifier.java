@@ -18,18 +18,37 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResult;
 
+/**
+ * Default implementation of {@link ModuleStateChangeNotifier} interfaces.
+ * @author Phil Zoio
+ */
 public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifier {
 
+    private static final Log logger = LogFactory.getLog(DefaultModuleStateChangeNotifier.class);
+    
     private List<ModuleStateChangeListener> listeners = new LinkedList<ModuleStateChangeListener>();
 
-    public void notify(ModuleStateHolder moduleStateHolder, ModuleStateChange change) {
-        ModuleDefinition moduleDefinition = change.getModuleDefinition();
+    /**
+     * For each of the registered {@link ModuleStateChangeListener} listener
+     * instances, the {@link ModuleStateChangeListener#getTransition()} is
+     * called to determine whether the listener's
+     * {@link ModuleStateChangeListener#moduleStateChanged(ModuleStateHolder, ModuleStateChange)}
+     * should be called.
+     */
+    public void notify(ModuleStateHolder moduleStateHolder, TransitionResult transitionResult) {
+        
+        ModuleStateChange moduleStateChange = transitionResult.getModuleStateChange();
+        
+        ModuleDefinition moduleDefinition = moduleStateChange.getModuleDefinition();
 
         for (ModuleStateChangeListener moduleStateChangeListener : listeners) {
             String moduleName = moduleStateChangeListener.getModuleName();
@@ -47,15 +66,19 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
                 String transition = moduleStateChangeListener.getTransition();
 
                 if (transition != null) {
-                    if (!transition.equals(change.getTransition())) {
+                    if (!transition.equals(moduleStateChange.getTransition())) {
                         notify = false;
                     }
                 }
-
             }
 
             if (notify) {
-                moduleStateChangeListener.moduleStateChanged(moduleStateHolder, change);
+                try {
+                    moduleStateChangeListener.moduleStateChanged(moduleStateHolder, transitionResult);
+                }
+                catch (Exception e) {
+                    logger.error(e.getMessage(), e);
+                }
             }
         }
     }
@@ -76,5 +99,5 @@ public class DefaultModuleStateChangeNotifier implements ModuleStateChangeNotifi
     List<ModuleStateChangeListener> getListeners() {
         return Collections.unmodifiableList(listeners);
     }
-
+    
 }
