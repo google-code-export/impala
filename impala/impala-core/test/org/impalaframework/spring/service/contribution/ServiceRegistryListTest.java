@@ -58,6 +58,7 @@ public class ServiceRegistryListTest extends TestCase {
         classLoader = ClassUtils.getDefaultClassLoader();
     }
     
+    @SuppressWarnings("unchecked")
     public void testWithList() throws Exception {
 
         serviceRegistry = createMock(ServiceRegistry.class);
