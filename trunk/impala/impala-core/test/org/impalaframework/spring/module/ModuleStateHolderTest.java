@@ -27,7 +27,6 @@ import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
