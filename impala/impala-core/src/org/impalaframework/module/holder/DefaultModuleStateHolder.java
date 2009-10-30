@@ -53,6 +53,8 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     
     private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
 
+    private TransitionsLogger transitionsLogger = new TransitionsLogger();
+    
     public DefaultModuleStateHolder() {
         super();
     }
@@ -77,19 +79,25 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
                 TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
                 
+                TransitionResult result;
+      
                 try {
                     transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
-                    resultSet.addResult(change, new TransitionResult());
+                    result = new TransitionResult(change);
                 }
                 catch (Throwable error) {
-                    resultSet.addResult(change, new TransitionResult(error));
+                    result = new TransitionResult(change, error);
                 }
+                
+                resultSet.addResult(result);
             
-                //FIXME this should be notified of error
-                if (moduleStateChangeNotifier != null) {
-                    moduleStateChangeNotifier.notify(this, change);
+                if (result.getError() == null && moduleStateChangeNotifier != null) {
+                    moduleStateChangeNotifier.notify(this, result);
                 }
             }
+            
+            transitionsLogger.logTransitions(resultSet);
+            
         } finally {
             rootModuleDefinition = transitions.getNewRootModuleDefinition();
         }
