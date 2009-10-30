@@ -111,7 +111,8 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
     
     private TransitionResultSet newTransitionResultSet() {
         TransitionResultSet result = new TransitionResultSet();
-        result.addResult(new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("myModule")), new TransitionResult());
+        ModuleStateChange stateChange = new ModuleStateChange(Transition.LOADED_TO_UNLOADED, new SimpleModuleDefinition("myModule"));
+        result.addResult(new TransitionResult(stateChange));
         return result;
     }
     
