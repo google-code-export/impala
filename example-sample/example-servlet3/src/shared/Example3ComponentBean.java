@@ -10,7 +10,7 @@ public class Example3ComponentBean implements InitializingBean, BeanNameAware {
     private String beanName;
     
     public void afterPropertiesSet() throws Exception {
-        System.out.println(">>>>>>>>>> Starting example 3 bean: " + beanName);
+        System.out.println(">>>>>>>>>> Starting example 3 bean now: " + beanName);
     }
     
     public void setBeanName(String name) {
