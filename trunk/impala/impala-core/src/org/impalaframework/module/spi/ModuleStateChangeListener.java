@@ -23,7 +23,7 @@ package org.impalaframework.module.spi;
  */
 public interface ModuleStateChangeListener {
 
-    public void moduleStateChanged(ModuleStateHolder moduleStateHolder, ModuleStateChange change);
+    public void moduleStateChanged(ModuleStateHolder moduleStateHolder, TransitionResult transitionResult);
 
     /**
      * If listener is only interested in a particular module, then listener

@@ -22,6 +22,7 @@ import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.Transition;
+import org.impalaframework.module.spi.TransitionResult;
 
 import static org.easymock.EasyMock.*;
 
@@ -93,16 +94,18 @@ public class ModuleStateChangeNotifierTest extends TestCase {
     }
 
     public void testNotify() throws Exception {
+
+        TransitionResult transitionResult = new TransitionResult(change);
         
         //listener1 returns the same module name as current name, so is notified
         expect(listener1.getModuleName()).andReturn("myModule");
         expect(listener1.getTransition()).andReturn(null);
-        listener1.moduleStateChanged(moduleStateHolder, change);
+        listener1.moduleStateChanged(moduleStateHolder, transitionResult);
 
         //listener2 returns null for module name, so is notified
         expect(listener2.getModuleName()).andReturn(null);
         expect(listener2.getTransition()).andReturn(null);
-        listener2.moduleStateChanged(moduleStateHolder, change);
+        listener2.moduleStateChanged(moduleStateHolder, transitionResult);
 
         //listener3 returns a different module name as current name, so is not notified
         expect(listener3.getModuleName()).andReturn("anotherModule");
@@ -110,7 +113,7 @@ public class ModuleStateChangeNotifierTest extends TestCase {
         //listener4 returns name of matching transition
         expect(listener4.getModuleName()).andReturn(null);
         expect(listener4.getTransition()).andReturn(Transition.UNLOADED_TO_LOADED);
-        listener4.moduleStateChanged(moduleStateHolder, change);
+        listener4.moduleStateChanged(moduleStateHolder, transitionResult);
         
         //listener5 returns name of non-matching transition
         expect(listener5.getModuleName()).andReturn(null);
@@ -123,7 +126,7 @@ public class ModuleStateChangeNotifierTest extends TestCase {
         replay(listener4);
         replay(listener5);
         replay(moduleStateHolder);
-        notifier.notify(moduleStateHolder, change);
+        notifier.notify(moduleStateHolder, transitionResult);
 
         verify(listener1);
         verify(listener2);
