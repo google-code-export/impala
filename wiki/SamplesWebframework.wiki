@@ -6,7 +6,7 @@ The web frameworks sample demonstrates tight integration with a number of web fr
 
 It also features a JMX console for module reloading.
 
-Examples are created for Struts 1, Tapestry 5 and Wicket.
+Examples are created for Struts 1, Struts2, Tapestry 5, Wicket and JSF.
 
 == Project setup ==
 
