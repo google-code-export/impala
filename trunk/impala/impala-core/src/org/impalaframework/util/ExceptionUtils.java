@@ -19,6 +19,7 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.impalaframework.exception.CallStackException;
+import org.springframework.util.Assert;
 
 /**
  * <p>
@@ -57,5 +58,52 @@ public class ExceptionUtils {
 	public static String callStackAsString() {
 		return getStackTrace(new CallStackException());
 	}
+	
+   public static String returnException(Throwable e) {
+        Throwable cause = getRootCause(e);
+        return getStackTraceString(cause, " ", Integer.MAX_VALUE);
+    }
+
+    public static String getStackTraceString(Throwable cause, String delimiter, int maxLines) {
+        StringWriter stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        printWriter.print(cause.getMessage() + delimiter);
+        printWriter.print("(" + cause.getClass().getName() + ")" + delimiter);
+        printWriter.println();
+        
+        StackTraceElement[] stackTrace = cause.getStackTrace();
+        for (int i = 0; i < stackTrace.length; i++) {
+            printWriter.print(stackTrace[i] + delimiter);
+            if (i >= maxLines) break;
+        }
+        return stringWriter.toString();
+    }
+
+    public static Throwable getRootCause(Throwable e) {
+        Assert.notNull(e);
+        
+        Throwable cause = e;
+        while ((cause.getCause()) != null && cause != cause.getCause()) {
+            cause = cause.getCause();
+        }
+        return cause;
+    }
+
+    public static String getFullExceptionAsString(Throwable exception, int maxLinesPerException) {
+        String stackTraceString = getStackTraceString(exception, "\n", maxLinesPerException);
+        stackTraceString = ExceptionUtils.maybeAddRootCause(exception, stackTraceString, maxLinesPerException);
+        return stackTraceString;
+    }
+
+    public static String maybeAddRootCause(Throwable exception,
+            String stackTraceString, int maxLinesPerException) {
+        Throwable rootCause = getRootCause(exception);
+        if (rootCause != exception) {
+            stackTraceString += "\n------------- \nCaused by\n" + 
+                getStackTraceString(rootCause, "\n", maxLinesPerException);
+        }
+        return stackTraceString;
+    }
+
 
 }
