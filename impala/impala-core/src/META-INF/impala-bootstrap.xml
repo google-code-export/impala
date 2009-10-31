@@ -251,13 +251,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>     
  </bean>
  
+ <!-- ############## Miscellaneous definitions ############### -->
+
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
-    <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
-    <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/> 
     <property name="externalRootModuleName" ref="externalRootModuleName"/>           
  </bean>
- 
- <!-- ############## Miscellaneous definitions ############### -->
  
  <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.ModuleClassLoaderRegistry"/>
     

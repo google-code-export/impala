@@ -21,11 +21,7 @@ import java.util.Map;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.TransitionResultSet;
-import org.impalaframework.module.spi.TransitionSet;
-import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.springframework.util.StringUtils;
 
 /**
@@ -37,23 +33,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     private String externalRootModuleName;
     
     private RootModuleDefinition rootModuleDefinition;
-
-    private TransitionProcessorRegistry transitionProcessorRegistry;
-    
-    private ModuleStateChangeNotifier moduleStateChangeNotifier;
     
     private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
     
     public DefaultModuleStateHolder() {
         super();
-    }
-
-    public final TransitionResultSet processTransitions(TransitionSet transitions) {
-        
-        DefaultTransitionManager transitionManager = new DefaultTransitionManager();
-        transitionManager.setModuleStateChangeNotifier(moduleStateChangeNotifier);
-        transitionManager.setTransitionProcessorRegistry(transitionProcessorRegistry);
-        return transitionManager.processTransitions(this, transitions);
     }
     
     public RuntimeModule getExternalRootModule() {
@@ -110,14 +94,6 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     }
 
     /* ******************** injected setters ******************** */
-    
-    public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
-        this.transitionProcessorRegistry = transitionProcessorRegistry;
-    }
-
-    public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {
-        this.moduleStateChangeNotifier = moduleStateChangeNotifier;
-    }
 
     public void setExternalRootModuleName(String rootModuleName) {
         this.externalRootModuleName = rootModuleName;
