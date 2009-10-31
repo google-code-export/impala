@@ -26,6 +26,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
         operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
+        operation.setTransitionManager(transitionManager);
         return operation;
     }
     
@@ -33,7 +34,7 @@ public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
         expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
 

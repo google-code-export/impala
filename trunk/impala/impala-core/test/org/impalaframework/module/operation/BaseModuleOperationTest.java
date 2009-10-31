@@ -26,6 +26,7 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionSet;
 
 public abstract class BaseModuleOperationTest extends TestCase {
@@ -52,6 +53,8 @@ public abstract class BaseModuleOperationTest extends TestCase {
 
     protected TransitionSet transitionSet;
 
+    protected TransitionManager transitionManager;
+
 
     protected abstract LockingModuleOperation getOperation();
     
@@ -60,6 +63,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
         super.setUp();
         moduleManagementFacade = createMock(ModuleManagementFacade.class);
         moduleStateHolder = createMock(ModuleStateHolder.class);
+        transitionManager = createMock(TransitionManager.class);
         strictModificationExtractor = createMock(ModificationExtractor.class);
         stickyModificationExtractor = createMock(ModificationExtractor.class);
         repairModificationExtractor = createMock(ModificationExtractor.class);
@@ -80,6 +84,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
     protected void replayMocks() {
         replay(moduleManagementFacade);
         replay(moduleStateHolder);
+        replay(transitionManager);
         replay(strictModificationExtractor);
         replay(stickyModificationExtractor);
         replay(repairModificationExtractor);
@@ -91,6 +96,7 @@ public abstract class BaseModuleOperationTest extends TestCase {
     protected void verifyMocks() {
         verify(moduleManagementFacade);
         verify(moduleStateHolder);
+        verify(transitionManager);
         verify(strictModificationExtractor);
         verify(repairModificationExtractor);
         verify(originalDefinition);

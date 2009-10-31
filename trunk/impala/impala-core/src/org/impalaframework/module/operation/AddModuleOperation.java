@@ -81,7 +81,7 @@ public class AddModuleOperation extends BaseModuleOperation {
         }
 
         TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-        return moduleStateHolder.processTransitions(transitions);
+        return getTransitionManager().processTransitions(moduleStateHolder, transitions);
     }   
     
 }
