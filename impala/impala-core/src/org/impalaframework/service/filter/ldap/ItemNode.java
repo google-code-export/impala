@@ -64,7 +64,7 @@ abstract class ItemNode extends BaseNode implements FilterNode {
             }
         }
         
-        if (value instanceof Collection) {
+        if (value instanceof Collection<?>) {
             return matchCollection((Collection<?>)value);
         }
         
