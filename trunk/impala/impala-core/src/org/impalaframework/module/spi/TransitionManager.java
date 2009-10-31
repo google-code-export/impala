@@ -12,11 +12,8 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.spi;
 
-import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.TransitionResultSet;
-import org.impalaframework.module.spi.TransitionSet;
 
 /**
  * Managers processing of transitions, based on the supplied set of {@link TransitionSet}
@@ -24,6 +21,11 @@ import org.impalaframework.module.spi.TransitionSet;
  */
 public interface TransitionManager {
 
+    /**
+     * Defines mechanism for processing transitions, taking
+     * {@link TransitionSet}, and returning {@link TransitionResultSet},
+     * applying changes to the {@link ModuleStateHolder}
+     */
     TransitionResultSet processTransitions(
             ModuleStateHolder moduleStateHolder,
             TransitionSet transitions);

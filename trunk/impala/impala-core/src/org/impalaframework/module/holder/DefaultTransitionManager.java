@@ -23,6 +23,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
