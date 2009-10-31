@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.transition;
 
 import java.util.Collection;
 
@@ -28,7 +28,6 @@ import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
-import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.springframework.util.Assert;
 
 /**

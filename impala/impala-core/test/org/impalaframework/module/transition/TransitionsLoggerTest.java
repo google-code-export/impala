@@ -12,11 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.transition;
 
 import static org.impalaframework.module.spi.TransitionResultSetTest.*;
 
 import org.impalaframework.module.spi.TransitionResultSet;
+import org.impalaframework.module.transition.TransitionsLogger;
 
 import junit.framework.TestCase;
 
