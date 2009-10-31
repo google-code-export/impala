@@ -61,7 +61,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
             childDefinition.setState(ModuleState.STALE);
 
             TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-            TransitionResultSet transitionResultSet = moduleStateHolder.processTransitions(transitions);
+            TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, transitions);
 
             boolean result = !transitions.getModuleTransitions().isEmpty();
             return result ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.EMPTY;

@@ -23,6 +23,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
@@ -60,7 +61,8 @@ public class JMXBootstrapContextTest extends TestCase {
                 .getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
 
         ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
-        moduleStateHolder.processTransitions(transitions);
+        TransitionManager transitionManager = facade.getTransitionManager();
+        transitionManager.processTransitions(moduleStateHolder, transitions);
 
         ModuleManagementOperations operations = (ModuleManagementOperations) facade.getBean("moduleManagementOperations");
 

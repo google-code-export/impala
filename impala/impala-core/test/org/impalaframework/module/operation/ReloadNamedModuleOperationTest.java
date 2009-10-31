@@ -28,6 +28,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
         operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
+        operation.setTransitionManager(transitionManager);
         return operation;
     }
     
@@ -49,7 +50,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         newDefinition.setState(ModuleState.STALE);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(new TransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(new TransitionResultSet());
         expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
         
         replayMocks();

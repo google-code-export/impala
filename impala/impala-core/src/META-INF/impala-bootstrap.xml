@@ -20,6 +20,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
      <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
+     <property name="transitionManager" ref="transitionManager"/>
      <property name="moduleStateHolder" ref="moduleStateHolder"/>
      <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
      <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
@@ -32,6 +33,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="baseModuleOperation" abstract="true">
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
      <property name="moduleStateHolder" ref="moduleStateHolder"/>
+     <property name="transitionManager" ref="transitionManager"/>
      <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
      
@@ -242,6 +244,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="externalRootModuleName" parent = "propertyParent">
      <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="transitionManager" class="org.impalaframework.module.holder.DefaultTransitionManager">
+    <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
+    <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>     
  </bean>
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">

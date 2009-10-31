@@ -48,7 +48,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
         super();
     }
 
-    public TransitionResultSet processTransitions(TransitionSet transitions) {
+    public final TransitionResultSet processTransitions(TransitionSet transitions) {
         
         DefaultTransitionManager transitionManager = new DefaultTransitionManager();
         transitionManager.setModuleStateChangeNotifier(moduleStateChangeNotifier);

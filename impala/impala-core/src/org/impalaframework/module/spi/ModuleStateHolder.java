@@ -31,8 +31,6 @@ import org.impalaframework.module.RuntimeModule;
  * @author Phil Zoio
  */
 public interface ModuleStateHolder extends ModuleDefinitionSource {
-        
-    TransitionResultSet processTransitions(TransitionSet transitions);
 
     RuntimeModule getExternalRootModule();
     

@@ -26,6 +26,7 @@ import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
@@ -93,6 +94,12 @@ public interface ModuleManagementFacade extends BeanFactory {
      * dynamic updates to have necessary concurrency protection
      */
     FrameworkLockHolder getFrameworkLockHolder();
+    
+    /**
+     * Returns the instance of {@link TransitionManager} used to process transitions to reflect the 
+     * metadata changes necessary for the current module change operation
+     */
+    TransitionManager getTransitionManager();
 
     /**
      * Used to shut down Impala runtime

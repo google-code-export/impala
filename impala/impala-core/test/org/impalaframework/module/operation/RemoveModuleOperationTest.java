@@ -33,6 +33,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
         operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
+        operation.setTransitionManager(transitionManager);
         return operation;
     }
 
@@ -47,7 +48,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         childDefinition.setParentDefinition(null);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
-        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(newTransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
         replay(childDefinition);
@@ -66,7 +67,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
         
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-        expect(moduleStateHolder.processTransitions(transitionSet)).andReturn(newTransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
 
@@ -104,7 +105,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 
         expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
-        moduleStateHolder.processTransitions(transitionSet);
+        transitionManager.processTransitions(moduleStateHolder, transitionSet);
     }
     
     private TransitionResultSet newTransitionResultSet() {

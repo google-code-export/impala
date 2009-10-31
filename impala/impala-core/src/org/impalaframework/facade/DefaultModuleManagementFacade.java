@@ -23,6 +23,7 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -51,6 +52,8 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     private ModificationExtractorRegistry modificationExtractorRegistry;
 
     private TransitionProcessorRegistry transitionProcessorRegistry;
+    
+    private TransitionManager transitionManager;
 
     private ModuleStateHolder moduleStateHolder;
 
@@ -68,6 +71,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         Assert.notNull(moduleLoaderRegistry, "moduleLoaderRegistry cannot be null");
         Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
         Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
+        Assert.notNull(transitionManager, "transitionManager cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
         Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
         Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
@@ -97,6 +101,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
     public TransitionProcessorRegistry getTransitionProcessorRegistry() {
         return transitionProcessorRegistry;
+    }
+    
+    public TransitionManager getTransitionManager() {
+        return transitionManager;
     }
 
     public ModuleStateHolder getModuleStateHolder() {
@@ -143,6 +151,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
     public void setTransitionProcessorRegistry(TransitionProcessorRegistry transitionProcessorRegistry) {
         this.transitionProcessorRegistry = transitionProcessorRegistry;
+    }
+    
+    public void setTransitionManager(TransitionManager transitionManager) {
+        this.transitionManager = transitionManager;
     }
 
     public void setModuleStateChangeNotifier(ModuleStateChangeNotifier moduleStateChangeNotifier) {

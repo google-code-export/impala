@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.operation;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
@@ -70,7 +71,7 @@ public class RepairModuleOperationTest extends BaseModuleOperationTest {
         
         expect(repairModificationExtractor.getTransitions(isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
     
-        moduleStateHolder.processTransitions(isA(TransitionSet.class));
+        transitionManager.processTransitions(eq(moduleStateHolder), isA(TransitionSet.class));
         
         replayMocks();
         replay(moduleDefinitionSource);
