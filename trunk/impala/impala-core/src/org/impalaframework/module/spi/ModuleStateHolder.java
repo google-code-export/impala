@@ -54,4 +54,6 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
     RuntimeModule removeModule(String name);
     
+    void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition);
+    
 }

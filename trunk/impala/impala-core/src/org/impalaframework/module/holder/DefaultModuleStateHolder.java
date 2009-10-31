@@ -14,34 +14,25 @@
 
 package org.impalaframework.module.holder;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
-import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.TransitionProcessor;
-import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
-import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
 /**
+ * Holds the runtime module state for an Impala application
  * @author Phil Zoio
  */
 public class DefaultModuleStateHolder implements ModuleStateHolder {
-
-    private static Log logger = LogFactory.getLog(DefaultModuleStateHolder.class);
     
     private String externalRootModuleName;
     
@@ -52,57 +43,17 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
     
     private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
-
-    private TransitionsLogger transitionsLogger = new TransitionsLogger();
     
     public DefaultModuleStateHolder() {
         super();
     }
 
     public TransitionResultSet processTransitions(TransitionSet transitions) {
-
-        TransitionResultSet resultSet = new TransitionResultSet();
         
-        try {
-            Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
-
-            Collection<? extends ModuleStateChange> changes = transitions.getModuleTransitions();
-
-            for (ModuleStateChange change : changes) {
-                
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Processing module state change: " + change);
-                }
-                
-                String transition = change.getTransition();
-                ModuleDefinition currentModuleDefinition = change.getModuleDefinition();
-
-                TransitionProcessor transitionProcessor = transitionProcessorRegistry.getTransitionProcessor(transition);
-                
-                TransitionResult result;
-      
-                try {
-                    transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
-                    result = new TransitionResult(change);
-                }
-                catch (Throwable error) {
-                    result = new TransitionResult(change, error);
-                }
-                
-                resultSet.addResult(result);
-            
-                if (result.getError() == null && moduleStateChangeNotifier != null) {
-                    moduleStateChangeNotifier.notify(this, result);
-                }
-            }
-            
-            transitionsLogger.logTransitions(resultSet);
-            
-        } finally {
-            rootModuleDefinition = transitions.getNewRootModuleDefinition();
-        }
-        
-        return resultSet;
+        DefaultTransitionManager transitionManager = new DefaultTransitionManager();
+        transitionManager.setModuleStateChangeNotifier(moduleStateChangeNotifier);
+        transitionManager.setTransitionProcessorRegistry(transitionProcessorRegistry);
+        return transitionManager.processTransitions(this, transitions);
     }
     
     public RuntimeModule getExternalRootModule() {
@@ -154,9 +105,7 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
         return getRootModuleDefinition();
     }
 
-    /* ************************* protected methods ************************* */
-
-    protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
+    public void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
         this.rootModuleDefinition = rootModuleDefinition;
     }
 

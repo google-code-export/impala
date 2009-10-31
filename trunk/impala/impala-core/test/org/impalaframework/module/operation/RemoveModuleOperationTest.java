@@ -20,9 +20,7 @@ import static org.easymock.EasyMock.verify;
 
 import org.easymock.EasyMock;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionResult;
@@ -116,13 +114,4 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         return result;
     }
     
-}
-
-class TestPluginStateManager extends DefaultModuleStateHolder {
-
-    @Override
-    protected void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
-        super.setRootModuleDefinition(rootModuleDefinition);
-    }
-
 }

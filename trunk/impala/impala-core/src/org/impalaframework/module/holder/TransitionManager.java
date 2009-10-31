@@ -12,17 +12,20 @@
  * the License.
  */
 
-package org.impalaframework.spring.module;
+package org.impalaframework.module.holder;
 
-import org.impalaframework.module.RootModuleDefinition;
-import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TransitionResultSet;
+import org.impalaframework.module.spi.TransitionSet;
 
-class TestModuleStateHolder extends DefaultModuleStateHolder {
+/**
+ * Managers processing of transitions, based on the supplied set of {@link TransitionSet}
+ * @author Phil Zoio
+ */
+public interface TransitionManager {
 
-    @Override
-    protected void setRootModuleDefinition(
-            RootModuleDefinition rootModuleDefinition) {
-        super.setRootModuleDefinition(rootModuleDefinition);
-    }
-    
+    TransitionResultSet processTransitions(
+            ModuleStateHolder moduleStateHolder,
+            TransitionSet transitions);
+
 }

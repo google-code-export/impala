@@ -28,6 +28,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.StrictModificationExtractor;
@@ -51,7 +52,7 @@ public class ModuleStateHolderTest extends TestCase {
 
     public void testProcessTransitions() {
         
-        TestModuleStateHolder moduleStateHolder = new TestModuleStateHolder();
+        DefaultModuleStateHolder moduleStateHolder = new DefaultModuleStateHolder();
         ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
         ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 

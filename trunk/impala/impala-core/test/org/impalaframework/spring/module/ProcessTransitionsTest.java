@@ -26,6 +26,7 @@ import java.util.Set;
 import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
@@ -41,7 +42,7 @@ public class ProcessTransitionsTest extends TestCase {
     private ApplicationContextLoader loader;
     private ConfigurableApplicationContext parentContext;
     private ConfigurableApplicationContext childContext;
-    private TestModuleStateHolder moduleStateHolder;
+    private DefaultModuleStateHolder moduleStateHolder;
     private LoadTransitionProcessor loadTransitionProcessor;
     private UnloadTransitionProcessor unloadTransitionProcessor;
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
@@ -71,7 +72,7 @@ public class ProcessTransitionsTest extends TestCase {
         moduleStateChangeNotifier = createMock(ModuleStateChangeNotifier.class);
         moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
 
-        moduleStateHolder = new TestModuleStateHolder();
+        moduleStateHolder = new DefaultModuleStateHolder();
         
         TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
         loadTransitionProcessor = new LoadTransitionProcessor();
