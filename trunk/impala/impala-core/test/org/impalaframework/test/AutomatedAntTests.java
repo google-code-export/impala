@@ -134,7 +134,7 @@ import org.impalaframework.spring.config.PropertySourceHolderFactoryBeanTest;
 import org.impalaframework.spring.config.PropertySourceValueFactoryBeanTest;
 import org.impalaframework.spring.facade.ImpalaTest;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
-import org.impalaframework.spring.module.ModuleStateHolderTest;
+import org.impalaframework.spring.module.TransitionManagerTest;
 import org.impalaframework.spring.module.ProcessTransitionsTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.module.SpringModuleRuntimeTest;
@@ -277,7 +277,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleOperationResultTest.class);
         suite.addTestSuite(ModuleOperationRegistryTest.class);
         suite.addTestSuite(ModuleStateChangeNotifierTest.class);
-        suite.addTestSuite(ModuleStateHolderTest.class);
+        suite.addTestSuite(TransitionManagerTest.class);
         suite.addTestSuite(ModuleUtilsTest.class);
         suite.addTestSuite(MonitorFileFilterTest.class);
         suite.addTestSuite(NamedFactoryBeanTest.class);

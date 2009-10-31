@@ -16,8 +16,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>    
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">
-     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>    
-     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
      <property name="externalRootModuleName" ref="externalRootModuleName"/>          
  </bean>
  
