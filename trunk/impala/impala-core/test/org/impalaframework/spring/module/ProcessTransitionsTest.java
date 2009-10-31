@@ -27,12 +27,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
-import org.impalaframework.module.holder.DefaultTransitionManager;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionSet;
+import org.impalaframework.module.transition.DefaultTransitionManager;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;

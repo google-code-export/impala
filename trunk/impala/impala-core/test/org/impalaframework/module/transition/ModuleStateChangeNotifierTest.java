@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.transition;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,6 +23,7 @@ import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionResult;
+import org.impalaframework.module.transition.DefaultModuleStateChangeNotifier;
 
 import static org.easymock.EasyMock.*;
 

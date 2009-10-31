@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.module.holder;
+package org.impalaframework.module.transition;
 
 import java.util.List;
 

@@ -246,10 +246,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
  </bean>
  
- <bean id="transitionManager" class="org.impalaframework.module.holder.DefaultTransitionManager">
+ <bean id="transitionManager" class="org.impalaframework.module.transition.DefaultTransitionManager">
     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>     
  </bean>
+    
+ <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.transition.DefaultModuleStateChangeNotifier"/>
  
  <!-- ############## Miscellaneous definitions ############### -->
 
@@ -258,8 +260,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.ModuleClassLoaderRegistry"/>
-    
- <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.holder.DefaultModuleStateChangeNotifier"/>
  
  <bean id="exportTypeDeriver" class="org.impalaframework.service.registry.internal.EmptyExportTypeDeriver"/>
  
