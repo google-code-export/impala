@@ -172,6 +172,10 @@ recording module state.
 
 A registry of `TransitionProcessor`s, keyed on the operation they are supposed to perform.
 
+=== [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/TransitionManager.java TransitionManager] ===
+
+`TransitionManager` handles the mechanism of calling the `TransitionProcessor` instances and collection the results of each operation in a `TransitionResultSet` instance.
+
 === [http://code.google.com/p/impala/source/browse/trunk/impala/impala-core/src/org/impalaframework/module/spi/ModuleStateHolder.java ModuleStateHolder] ===
 
 The main job of the `ModuleStateHolder` is to maintain information on the state of modules loaded. This includes references to 
