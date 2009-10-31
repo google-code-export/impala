@@ -118,11 +118,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="name" value="workspace.root"/>
      <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.WORKSPACE_ROOT_DEFAULT]"/>
  </bean>
- 
- <bean id="externalRootModuleName" parent = "propertyParent">
-     <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
-     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
- </bean>
     
  <bean id="applicationVersion" parent = "propertyParent">
      <property name="name" value="application.version"/>
@@ -204,7 +199,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </property> 
  </bean>
  
- <!-- ############## Module management definitions ############### -->
+ <!-- ############## Modification extractor definitions ############### -->
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.StrictModificationExtractor"/>
     
@@ -220,12 +215,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             <entry key="repair" value-ref="repairModificationExtractor"/>
         </map>
     </property> 
- </bean>    
+ </bean> 
  
- <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
-    <property name = "moduleStateHolder" ref="moduleStateHolder"/>
-    <property name = "serviceRegistry" ref="serviceRegistry"/>
- </bean>
+ <!-- ############## Transition processor definitions ############### -->
     
  <bean id="loadTransitionProcessor" class="org.impalaframework.module.transition.LoadTransitionProcessor">    
     <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>      
@@ -245,6 +237,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             <entry key="unloadTransitionProcessor" value="LOADED_TO_UNLOADED"/>
         </map>
     </property> 
+ </bean>
+ 
+ <bean id="externalRootModuleName" parent = "propertyParent">
+     <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
  </bean>
  
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
@@ -273,7 +270,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
-
+   
+ <!-- ############## Module runtime manager ############### -->
+ 
+ <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
+    <property name = "moduleStateHolder" ref="moduleStateHolder"/>
+    <property name = "serviceRegistry" ref="serviceRegistry"/>
+ </bean>
+ 
  <!-- ############## Spring modules support ############### -->
     
  <bean id="springRootModuleLoader" 
