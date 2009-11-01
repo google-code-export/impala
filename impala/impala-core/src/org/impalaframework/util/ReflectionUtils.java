@@ -33,15 +33,40 @@ public class ReflectionUtils {
     
     private static final Log logger = LogFactory.getLog(ReflectionUtils.class);
     
-    @SuppressWarnings("unchecked")
+    /**
+     * Gets field value for named field from supplied object, returning it as 
+     */
     public static <T extends Object> T getFieldValue(Object object, String fieldName, Class<T> clazz) {
+        
         Assert.notNull(object, "object cannot be null");
+        
         try {
-            Field declaredField = object.getClass().getDeclaredField(fieldName);
-            makeAccessible(declaredField);
-            return (T)declaredField.get(object);
+            Class<? extends Object> objectClass = object.getClass();
+            Field declaredField = null;
+            
+            while (objectClass != null && declaredField == null) {
+                try {
+                    declaredField = objectClass.getDeclaredField(fieldName);
+                }
+                catch (NoSuchFieldException e) {
+                }
+                objectClass = objectClass.getSuperclass();
+            }
+            
+            //FIXME test
+            
+            if (declaredField != null) {
+                makeAccessible(declaredField);
+                Object value = declaredField.get(object);
+                return ObjectUtils.cast(value, clazz);
+            }
+            return null;
+        }
+        catch (ExecutionException e) {
+            throw e;
         }
         catch (Exception e) {
+            e.printStackTrace();
             if (logger.isDebugEnabled()) {
                 logger.debug(e.getMessage(), e);
             }

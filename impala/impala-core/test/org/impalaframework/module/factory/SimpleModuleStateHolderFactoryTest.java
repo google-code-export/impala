@@ -15,6 +15,7 @@
 package org.impalaframework.module.factory;
 
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.util.ReflectionUtils;
 
@@ -27,6 +28,15 @@ public class SimpleModuleStateHolderFactoryTest extends TestCase {
         factory.setExternalRootModuleName("rootModule");
         ModuleStateHolder moduleStateHolder = factory.newModuleStateHolder();
         assertTrue(moduleStateHolder instanceof DefaultModuleStateHolder);
+        
+        assertEquals("rootModule",  ReflectionUtils.getFieldValue(moduleStateHolder, "externalRootModuleName", String.class));
+    }
+    
+    public void testNewGraphModuleStateHolder() {
+        SimpleModuleStateHolderFactory factory = new GraphModuleStateHolderFactory();
+        factory.setExternalRootModuleName("rootModule");
+        ModuleStateHolder moduleStateHolder = factory.newModuleStateHolder();
+        assertTrue(moduleStateHolder instanceof GraphModuleStateHolder);
         
         assertEquals("rootModule",  ReflectionUtils.getFieldValue(moduleStateHolder, "externalRootModuleName", String.class));
     }
