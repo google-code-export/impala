@@ -31,6 +31,10 @@ import org.impalaframework.module.spi.TransitionSet;
 import org.springframework.util.Assert;
 
 /**
+ * Default implementation of {@link TransitionManager}, responsible for calling
+ * {@link TransitionProcessor} instances and collecting the results of these operations
+ * in a {@link TransitionResultSet} instance.
+ * 
  * @author Phil Zoio
  */
 public class DefaultTransitionManager implements TransitionManager {
