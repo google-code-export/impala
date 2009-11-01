@@ -21,7 +21,7 @@ import org.impalaframework.util.ReflectionUtils;
 
 import junit.framework.TestCase;
 
-public class SimpleModuleStateHolderFactoryTest extends TestCase {
+public class ModuleStateHolderFactoryTest extends TestCase {
 
     public void testNewModuleStateHolder() {
         SimpleModuleStateHolderFactory factory = new SimpleModuleStateHolderFactory();
