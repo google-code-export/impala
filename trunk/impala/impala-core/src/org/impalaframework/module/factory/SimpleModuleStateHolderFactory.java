@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.factory;
 
+import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateHolderFactory;
 
@@ -23,8 +24,20 @@ import org.impalaframework.module.spi.ModuleStateHolderFactory;
  */
 public class SimpleModuleStateHolderFactory implements ModuleStateHolderFactory {
     
+    private String externalRootModuleName;
+    
     public ModuleStateHolder newModuleStateHolder() {
-        return null;
+        DefaultModuleStateHolder defaultModuleStateHolder = newDefaultModuleStateHolder();
+        defaultModuleStateHolder.setExternalRootModuleName(externalRootModuleName);
+        return defaultModuleStateHolder;
+    }
+
+    protected DefaultModuleStateHolder newDefaultModuleStateHolder() {
+        return new DefaultModuleStateHolder();
+    }
+    
+    public void setExternalRootModuleName(String externalRootModuleName) {
+        this.externalRootModuleName = externalRootModuleName;
     }
     
 }

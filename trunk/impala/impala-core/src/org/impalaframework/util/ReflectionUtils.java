@@ -15,6 +15,7 @@
 package org.impalaframework.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.security.AccessController;
@@ -23,10 +24,30 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 
 public class ReflectionUtils {
+    
+    private static final Log logger = LogFactory.getLog(ReflectionUtils.class);
+    
+    @SuppressWarnings("unchecked")
+    public static <T extends Object> T getFieldValue(Object object, String fieldName, Class<T> clazz) {
+        Assert.notNull(object, "object cannot be null");
+        try {
+            Field declaredField = object.getClass().getDeclaredField(fieldName);
+            makeAccessible(declaredField);
+            return (T)declaredField.get(object);
+        }
+        catch (Exception e) {
+            if (logger.isDebugEnabled()) {
+                logger.debug(e.getMessage(), e);
+            }
+            return null;
+        }
+    }
     
     /**
      * Finds the constructor corresponding with the given parameter types
@@ -65,6 +86,18 @@ public class ReflectionUtils {
                 
                 public Object run() {
                     constructor.setAccessible(true);
+                    return null;
+                }
+            });
+        }
+    }
+    
+    static void makeAccessible(final Field field) {
+        if (!field.isAccessible()) {
+            AccessController.doPrivileged(new PrivilegedAction<Object>(){
+                
+                public Object run() {
+                    field.setAccessible(true);
                     return null;
                 }
             });
