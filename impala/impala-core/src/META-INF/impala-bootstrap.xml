@@ -241,11 +241,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     </property> 
  </bean>
  
- <bean id="externalRootModuleName" parent = "propertyParent">
-     <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
-     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
- </bean>
- 
  <bean id="transitionManager" class="org.impalaframework.module.transition.DefaultTransitionManager">
     <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>     
     <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>     
@@ -254,7 +249,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="moduleStateChangeNotifier" class="org.impalaframework.module.transition.DefaultModuleStateChangeNotifier"/>
  
  <!-- ############## Miscellaneous definitions ############### -->
-
+ 
+ <bean id="externalRootModuleName" parent = "propertyParent">
+     <property name="name" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME]"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
+ </bean>
+ 
  <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
     <property name="externalRootModuleName" ref="externalRootModuleName"/>           
  </bean>
@@ -337,8 +337,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="name" value="proxy.missing.service.retry.interval"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL_DEFAULT]"/>
  </bean>
- 
- 
+
  <bean id="proxyFactoryCreator" class="org.impalaframework.spring.service.proxy.DefaultProxyFactoryCreator">
      <property name="allowNoService" ref="proxyAllowNoService"/>
      <property name="setContextClassLoader" ref="proxySetContextClassLoader"/>
