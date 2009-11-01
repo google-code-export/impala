@@ -14,19 +14,24 @@
 
 package org.impalaframework.module.factory;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
+import org.impalaframework.module.holder.graph.GraphClassLoaderRegistry;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
-import org.impalaframework.module.spi.ClassLoaderRegistryFactory;
 
+public class ClassLoaderRegistryFactoryTest extends TestCase {
 
-/**
- * Represents mechanism for creating a {@link ClassLoaderRegistry} instance.
- * @author Phil Zoio
- */
-public class SimpleClassLoaderRegistryFactory implements ClassLoaderRegistryFactory {
-
-    public ClassLoaderRegistry newClassLoaderRegistry() {
-        return new ModuleClassLoaderRegistry();
+    public void testNewModuleClassLoaderRegistry() {
+        SimpleClassLoaderRegistryFactory factory = new SimpleClassLoaderRegistryFactory();
+        ClassLoaderRegistry classLoaderRegistry = factory.newClassLoaderRegistry();
+        assertTrue(classLoaderRegistry instanceof ModuleClassLoaderRegistry);
     }
     
+    public void testNewGraphClassLoaderRegistry() {
+        GraphClassLoaderRegistryFactory factory = new GraphClassLoaderRegistryFactory();
+        ClassLoaderRegistry classLoaderRegistry = factory.newClassLoaderRegistry();
+        assertTrue(classLoaderRegistry instanceof GraphClassLoaderRegistry);
+    }
+
 }

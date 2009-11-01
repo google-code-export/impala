@@ -58,7 +58,8 @@ import org.impalaframework.module.definition.SimpleGraphRootModuleDefinitionTest
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
-import org.impalaframework.module.factory.SimpleModuleStateHolderFactoryTest;
+import org.impalaframework.module.factory.ClassLoaderRegistryFactoryTest;
+import org.impalaframework.module.factory.ModuleStateHolderFactoryTest;
 import org.impalaframework.module.factory.SimpleServiceRegistryFactoryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
@@ -218,6 +219,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(CascadingModuleLocationResolverTest.class);
         suite.addTestSuite(ChildModuleContainerTest.class);
         suite.addTestSuite(ClassPathResourceLoaderTest.class);  
+        suite.addTestSuite(ClassLoaderRegistryFactoryTest.class);
         suite.addTestSuite(ClassLoaderAwareSerializationStreamFactoryTest.class);   
         suite.addTestSuite(ClassLoaderUtilsTest.class);
         suite.addTestSuite(CloseRootModuleOperationTest.class);
@@ -279,6 +281,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleOperationResultTest.class);
         suite.addTestSuite(ModuleOperationRegistryTest.class);
         suite.addTestSuite(ModuleStateChangeNotifierTest.class);
+        suite.addTestSuite(ModuleStateHolderFactoryTest.class);
         suite.addTestSuite(TransitionManagerTest.class);
         suite.addTestSuite(ModuleUtilsTest.class);
         suite.addTestSuite(MonitorFileFilterTest.class);
@@ -339,7 +342,6 @@ public class AutomatedAntTests {
         suite.addTestSuite(SimpleOperationsFacadeTest.class);
         suite.addTestSuite(SimpleParentContextTest.class);
         suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
-        suite.addTestSuite(SimpleModuleStateHolderFactoryTest.class);
         suite.addTestSuite(SimpleServiceRegistryFactoryTest.class);
         suite.addTestSuite(SimpleSpringContextTest.class);
         suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
