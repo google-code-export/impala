@@ -14,17 +14,57 @@
 
 package org.impalaframework.module.factory;
 
+import org.impalaframework.module.application.ImpalaApplication;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationFactory;
+import org.impalaframework.module.spi.ClassLoaderRegistry;
+import org.impalaframework.module.spi.ClassLoaderRegistryFactory;
+import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.ModuleStateHolderFactory;
+import org.impalaframework.module.spi.ServiceRegistryFactory;
+import org.impalaframework.service.ServiceRegistry;
+import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 
 /**
  * Represents mechanism for creating an {@link Application} instance.
  * @author Phil Zoio
  */
-public class SimpleApplicationFactory implements ApplicationFactory {
+public class SimpleApplicationFactory implements ApplicationFactory, InitializingBean {
+    
+    private ClassLoaderRegistryFactory classLoaderRegistryFactory;
+    
+    private ModuleStateHolderFactory moduleStateHolderFactory;
+    
+    private ServiceRegistryFactory serviceRegistryFactory;
+    
+    private Application application;
 
+    public void afterPropertiesSet() throws Exception {
+        Assert.notNull(classLoaderRegistryFactory, "classLoaderRegistryFactory cannot be null");
+        Assert.notNull(moduleStateHolderFactory, "moduleStateHolderFactory cannot be null");
+        Assert.notNull(serviceRegistryFactory, "serviceRegistryFactory cannot be null");
+        
+        ClassLoaderRegistry classLoaderRegistry = classLoaderRegistryFactory.newClassLoaderRegistry();
+        ModuleStateHolder moduleStateHolder = moduleStateHolderFactory.newModuleStateHolder();
+        ServiceRegistry serviceRegistry = serviceRegistryFactory.newServiceRegistry();
+        this.application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
+    }
+    
     public Application getApplication() {
-        return null;
+        return this.application;
+    }
+
+    public void setClassLoaderRegistryFactory(ClassLoaderRegistryFactory classLoaderRegistryFactory) {
+        this.classLoaderRegistryFactory = classLoaderRegistryFactory;
+    }
+
+    public void setModuleStateHolderFactory(ModuleStateHolderFactory moduleStateHolderFactory) {
+        this.moduleStateHolderFactory = moduleStateHolderFactory;
+    }
+
+    public void setServiceRegistryFactory(ServiceRegistryFactory serviceRegistryFactory) {
+        this.serviceRegistryFactory = serviceRegistryFactory;
     }
     
 }
