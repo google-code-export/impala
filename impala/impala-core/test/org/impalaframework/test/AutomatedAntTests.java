@@ -58,6 +58,7 @@ import org.impalaframework.module.definition.SimpleGraphRootModuleDefinitionTest
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
+import org.impalaframework.module.factory.SimpleServiceRegistryFactoryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
@@ -134,10 +135,10 @@ import org.impalaframework.spring.config.PropertySourceHolderFactoryBeanTest;
 import org.impalaframework.spring.config.PropertySourceValueFactoryBeanTest;
 import org.impalaframework.spring.facade.ImpalaTest;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessorTest;
-import org.impalaframework.spring.module.TransitionManagerTest;
 import org.impalaframework.spring.module.ProcessTransitionsTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.module.SpringModuleRuntimeTest;
+import org.impalaframework.spring.module.TransitionManagerTest;
 import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContextTest;
 import org.impalaframework.spring.module.graph.SpringGraphModuleRuntimeTest;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoaderTest;
@@ -337,6 +338,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SimpleOperationsFacadeTest.class);
         suite.addTestSuite(SimpleParentContextTest.class);
         suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
+        suite.addTestSuite(SimpleServiceRegistryFactoryTest.class);
         suite.addTestSuite(SimpleSpringContextTest.class);
         suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
         suite.addTestSuite(SpringGraphModuleRuntimeTest.class); 
