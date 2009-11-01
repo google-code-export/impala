@@ -18,6 +18,7 @@ import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.service.ServiceRegistry;
+import org.springframework.util.Assert;
 
 /**
  * Holds mutable application state held by the Impala runtime
@@ -37,6 +38,11 @@ public class ImpalaApplication implements Application {
             ServiceRegistry serviceRegistry) {
         
         super();
+
+        Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
+        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+        Assert.notNull(serviceRegistry, "serviceRegistry cannot be null");
+        
         this.classLoaderRegistry = classLoaderRegistry;
         this.moduleStateHolder = moduleStateHolder;
         this.serviceRegistry = serviceRegistry;
