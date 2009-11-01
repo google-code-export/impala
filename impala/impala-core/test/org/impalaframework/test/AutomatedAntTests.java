@@ -58,6 +58,7 @@ import org.impalaframework.module.definition.SimpleGraphRootModuleDefinitionTest
 import org.impalaframework.module.definition.SimpleModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleRootModuleDefinitionTest;
 import org.impalaframework.module.definition.SimpleSpringContextTest;
+import org.impalaframework.module.factory.SimpleModuleStateHolderFactoryTest;
 import org.impalaframework.module.factory.SimpleServiceRegistryFactoryTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
@@ -338,6 +339,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SimpleOperationsFacadeTest.class);
         suite.addTestSuite(SimpleParentContextTest.class);
         suite.addTestSuite(SimpleRootModuleDefinitionTest.class);
+        suite.addTestSuite(SimpleModuleStateHolderFactoryTest.class);
         suite.addTestSuite(SimpleServiceRegistryFactoryTest.class);
         suite.addTestSuite(SimpleSpringContextTest.class);
         suite.addTestSuite(SingleStringModuleDefinitionSourceTest.class);
