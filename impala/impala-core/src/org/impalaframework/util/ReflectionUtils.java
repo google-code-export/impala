@@ -34,7 +34,8 @@ public class ReflectionUtils {
     private static final Log logger = LogFactory.getLog(ReflectionUtils.class);
     
     /**
-     * Gets field value for named field from supplied object, returning it as 
+     * Gets field value for named field from supplied object, returning it as
+     * instance of supplied type denoted by <code>clazz</code>.
      */
     public static <T extends Object> T getFieldValue(Object object, String fieldName, Class<T> clazz) {
         
