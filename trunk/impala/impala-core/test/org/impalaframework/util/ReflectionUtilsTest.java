@@ -19,9 +19,40 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.impalaframework.exception.ExecutionException;
+
 import junit.framework.TestCase;
 
 public class ReflectionUtilsTest extends TestCase {
+    
+    public void testGetFieldValue() throws Exception {
+        TestExample object = new TestExample();
+        object.setMyField("myValue");
+        object.setSuperField("superField");
+        
+        //working case
+        assertEquals("myValue", ReflectionUtils.getFieldValue(object, "myField", String.class));
+        //superclass
+        assertEquals("superField", ReflectionUtils.getFieldValue(object, "superField", String.class));
+        
+        //wrong type - throws exception
+        try {
+            ReflectionUtils.getFieldValue(object, "myField", Integer.class);
+            fail();
+        }
+        catch (ExecutionException e) {
+            assertTrue(e.getMessage().contains("is not an instance of"));
+        }
+        
+        //field missing
+        try {
+            ReflectionUtils.getFieldValue(object, "missingField", String.class);
+            fail();
+        }
+        catch (ExecutionException e) {
+            assertTrue(e.getMessage().contains("does not appear to contain"));
+        }
+    }
     
     public void testFindConstructors() throws Exception {
         final Constructor<?> constructor = ReflectionUtils.findConstructor(String.class, new Class[]{ String.class });
@@ -79,7 +110,30 @@ public class ReflectionUtilsTest extends TestCase {
     }
 }
 
-class TestExample {
+class TestSuper {
+    private String superField;
+    
+    public void setSuperField(String superField) {
+        this.superField = superField;
+    }
+    
+    public String getSuperField() {
+        return superField;
+    }
+}
+
+class TestExample extends TestSuper {
+    
+    private String myField;
+    
+    public String getMyField() {
+        return myField;
+    }
+
+    public void setMyField(String myField) {
+        this.myField = myField;
+    }
+
     void method1(Map<?, ?> context) {
     }
 

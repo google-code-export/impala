@@ -54,14 +54,14 @@ public class ReflectionUtils {
                 objectClass = objectClass.getSuperclass();
             }
             
-            //FIXME test
-            
             if (declaredField != null) {
                 makeAccessible(declaredField);
                 Object value = declaredField.get(object);
                 return ObjectUtils.cast(value, clazz);
+            } 
+            else {
+                throw new ExecutionException(object.getClass().getName() + " does not appear to contain field '" + fieldName + "'");
             }
-            return null;
         }
         catch (ExecutionException e) {
             throw e;
