@@ -367,5 +367,25 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </map>
     </property> 
  </bean>
+
+ <!-- ############## Factory definitions ############### --> 
  
+ <bean id="serviceRegistryFactory" class="org.impalaframework.module.factory.SimpleServiceRegistryFactory"/> 
+ 
+ <bean id="classLoaderRegistryFactory" class="org.impalaframework.module.factory.SimpleClassLoaderRegistryFactory"/> 
+ 
+ <bean id="moduleStateHolderFactory" class="org.impalaframework.module.factory.SimpleModuleStateHolderFactory">
+    <property name="externalRootModuleName" ref="externalRootModuleName"/>           
+ </bean> 
+ 
+ <bean id="applicationFactory" class="org.impalaframework.module.factory.SimpleApplicationFactory">
+    <property name="serviceRegistryFactory" ref="serviceRegistryFactory"/>
+    <property name="classLoaderRegistryFactory" ref="classLoaderRegistryFactory"/>           
+    <property name="moduleStateHolderFactory" ref="moduleStateHolderFactory"/>                      
+ </bean>  
+ 
+ <bean id="applicationManager" class="org.impalaframework.module.application.SimpleApplicationManager">
+    <property name="applicationFactory" ref="applicationFactory"/>           
+ </bean> 
+  
 </beans>
