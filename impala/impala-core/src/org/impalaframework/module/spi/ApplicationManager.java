@@ -15,11 +15,13 @@
 package org.impalaframework.module.spi;
 
 /**
- * Represents mechanism for creating an {@link Application} instance.
+ * Defines functionality for accessing/managing applications. Currently only exposes a
+ * method to get current application ({@link #getCurrentApplication()}).
+ * 
  * @author Phil Zoio
  */
-public interface ApplicationFactory {
+public interface ApplicationManager {
 
-    public Application newApplication();
+    public Application getCurrentApplication();
     
 }

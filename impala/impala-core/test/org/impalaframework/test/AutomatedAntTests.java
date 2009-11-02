@@ -46,6 +46,7 @@ import org.impalaframework.file.monitor.FileMonitorImplTest;
 import org.impalaframework.file.monitor.MonitorFileFilterTest;
 import org.impalaframework.graph.GraphHelperTest;
 import org.impalaframework.graph.VertexTestCase;
+import org.impalaframework.module.application.SimpleApplicationManagerTest;
 import org.impalaframework.module.definition.ChildModuleContainerTest;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSourceTest;
 import org.impalaframework.module.definition.DependencyManagerErrorTest;
@@ -336,6 +337,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ServiceRegistryNamespaceHandlerTest.class);
         suite.addTestSuite(SharedClassLoaderFactoryTest.class);
         suite.addTestSuite(SimpleApplicationFactoryTest.class);
+        suite.addTestSuite(SimpleApplicationManagerTest.class);
         suite.addTestSuite(SimpleContextLocationResolverTest.class);
         suite.addTestSuite(SimpleGraphModuleDefinitionTest.class);
         suite.addTestSuite(SimpleGraphRootModuleDefinitionTest.class);

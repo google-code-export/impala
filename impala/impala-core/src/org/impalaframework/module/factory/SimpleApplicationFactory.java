@@ -23,7 +23,6 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateHolderFactory;
 import org.impalaframework.module.spi.ServiceRegistryFactory;
 import org.impalaframework.service.ServiceRegistry;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
@@ -34,7 +33,7 @@ import org.springframework.util.Assert;
  * and {@link ServiceRegistryFactory}, respectively.
  * @author Phil Zoio
  */
-public class SimpleApplicationFactory implements ApplicationFactory, InitializingBean {
+public class SimpleApplicationFactory implements ApplicationFactory {
     
     private ClassLoaderRegistryFactory classLoaderRegistryFactory;
     
@@ -42,12 +41,11 @@ public class SimpleApplicationFactory implements ApplicationFactory, Initializin
     
     private ServiceRegistryFactory serviceRegistryFactory;
     
-    private Application application;
-
     /**
-     * Sets up the {@link Application} instance.
+     * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
      */
-    public void afterPropertiesSet() throws Exception {
+    public Application newApplication() { 
+            
         Assert.notNull(classLoaderRegistryFactory, "classLoaderRegistryFactory cannot be null");
         Assert.notNull(moduleStateHolderFactory, "moduleStateHolderFactory cannot be null");
         Assert.notNull(serviceRegistryFactory, "serviceRegistryFactory cannot be null");
@@ -55,14 +53,9 @@ public class SimpleApplicationFactory implements ApplicationFactory, Initializin
         ClassLoaderRegistry classLoaderRegistry = classLoaderRegistryFactory.newClassLoaderRegistry();
         ModuleStateHolder moduleStateHolder = moduleStateHolderFactory.newModuleStateHolder();
         ServiceRegistry serviceRegistry = serviceRegistryFactory.newServiceRegistry();
-        this.application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
-    }
+        Application application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
     
-    /**
-     * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
-     */
-    public Application getApplication() {
-        return this.application;
+        return application;
     }
 
     public void setClassLoaderRegistryFactory(ClassLoaderRegistryFactory classLoaderRegistryFactory) {
