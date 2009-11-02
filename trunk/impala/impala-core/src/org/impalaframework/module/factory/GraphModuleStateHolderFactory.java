@@ -16,10 +16,10 @@ package org.impalaframework.module.factory;
 
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
-import org.impalaframework.module.spi.ModuleStateHolder;
 
 /**
- * Represents mechanism for creating a {@link ModuleStateHolder} instance.
+ * Extension of {@link SimpleModuleStateHolderFactory} whose implementation of {@link #newDefaultModuleStateHolder()}
+ * returns an instance of {@link GraphModuleStateHolder} instead of {@link DefaultModuleStateHolder}.
  * @author Phil Zoio
  */
 public class GraphModuleStateHolderFactory extends SimpleModuleStateHolderFactory {

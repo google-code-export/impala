@@ -27,7 +27,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
- * Represents mechanism for creating an {@link Application} instance.
+ * Creates {@link Application} instance, specifically instantiating an
+ * {@link ImpalaApplication} using the {@link ClassLoaderRegistry},
+ * {@link ModuleStateHolder} and {@link ServiceRegistry} obtained via the
+ * wired-in {@link ClassLoaderRegistryFactory}, {@link ModuleStateHolderFactory}
+ * and {@link ServiceRegistryFactory}, respectively.
  * @author Phil Zoio
  */
 public class SimpleApplicationFactory implements ApplicationFactory, InitializingBean {
@@ -40,6 +44,9 @@ public class SimpleApplicationFactory implements ApplicationFactory, Initializin
     
     private Application application;
 
+    /**
+     * Sets up the {@link Application} instance.
+     */
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(classLoaderRegistryFactory, "classLoaderRegistryFactory cannot be null");
         Assert.notNull(moduleStateHolderFactory, "moduleStateHolderFactory cannot be null");
@@ -51,6 +58,9 @@ public class SimpleApplicationFactory implements ApplicationFactory, Initializin
         this.application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
     }
     
+    /**
+     * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
+     */
     public Application getApplication() {
         return this.application;
     }

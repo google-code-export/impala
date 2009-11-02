@@ -18,9 +18,10 @@ import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ClassLoaderRegistryFactory;
 
-
 /**
- * Represents mechanism for creating a {@link ClassLoaderRegistry} instance.
+ * Implementation of {@link ClassLoaderRegistry} instance which simply returns a
+ * {@link ModuleClassLoaderRegistry} instance in its
+ * {@link #newClassLoaderRegistry()} implementation.
  * @author Phil Zoio
  */
 public class SimpleClassLoaderRegistryFactory implements ClassLoaderRegistryFactory {
