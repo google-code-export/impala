@@ -13,6 +13,7 @@ import org.springframework.beans.factory.InitializingBean;
 public class SimpleApplicationManager implements InitializingBean, ApplicationManager {
 
     private ApplicationFactory applicationFactory;
+    
     private Application application;
     
     public void afterPropertiesSet() throws Exception {

@@ -39,5 +39,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>  
     <property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>   
  </bean>
-
+ 
+ <!-- ############## Factory definitions ############### -->
+ 
+ <bean id="classLoaderRegistryFactory" class="org.impalaframework.module.factory.GraphClassLoaderRegistryFactory"/> 
+ 
+ <bean id="moduleStateHolderFactory" class="org.impalaframework.module.factory.GraphModuleStateHolderFactory">
+    <property name="externalRootModuleName" ref="externalRootModuleName"/>           
+ </bean>
+ 
 </beans>
