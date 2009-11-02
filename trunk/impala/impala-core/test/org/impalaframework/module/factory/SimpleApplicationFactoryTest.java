@@ -15,6 +15,7 @@
 package org.impalaframework.module.factory;
 
 import org.impalaframework.module.application.ImpalaApplication;
+import org.impalaframework.module.spi.Application;
 
 import junit.framework.TestCase;
 
@@ -25,12 +26,13 @@ public class SimpleApplicationFactoryTest extends TestCase {
         factory.setClassLoaderRegistryFactory(new SimpleClassLoaderRegistryFactory());
         factory.setServiceRegistryFactory(new SimpleServiceRegistryFactory());
         factory.setModuleStateHolderFactory(new SimpleModuleStateHolderFactory());
+
+        Application application = factory.newApplication();
+        assertTrue(application instanceof ImpalaApplication);
         
-        assertNull(factory.getApplication());
-        
-        factory.afterPropertiesSet();
-        
-        assertTrue(factory.getApplication() instanceof ImpalaApplication);
+        assertNotNull(application.getClassLoaderRegistry());
+        assertNotNull(application.getModuleStateHolder());
+        assertNotNull(application.getClassLoaderRegistry());
     }
 
 }
