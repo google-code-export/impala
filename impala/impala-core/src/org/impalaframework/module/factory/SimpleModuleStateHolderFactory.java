@@ -19,7 +19,10 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.ModuleStateHolderFactory;
 
 /**
- * Represents mechanism for creating a {@link ModuleStateHolder} instance.
+ * Creates a {@link ModuleStateHolder} instance. The method {@link #newDefaultModuleStateHolder()}
+ * returns an instance of {@link DefaultModuleStateHolder}, which has the {@link #externalRootModuleName}
+ * injected into it.
+ * 
  * @author Phil Zoio
  */
 public class SimpleModuleStateHolderFactory implements ModuleStateHolderFactory {

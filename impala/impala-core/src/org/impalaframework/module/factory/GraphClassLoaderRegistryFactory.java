@@ -20,7 +20,9 @@ import org.impalaframework.module.spi.ClassLoaderRegistryFactory;
 
 
 /**
- * Represents mechanism for creating a {@link ClassLoaderRegistry} instance.
+ * Implementation of {@link ClassLoaderRegistry} instance which simply returns a
+ * {@link GraphClassLoaderRegistry} instance in its
+ * {@link #newClassLoaderRegistry()} implementation.
  * @author Phil Zoio
  */
 public class GraphClassLoaderRegistryFactory implements ClassLoaderRegistryFactory {

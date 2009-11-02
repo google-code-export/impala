@@ -25,7 +25,14 @@ import org.impalaframework.service.registry.internal.ServiceEntryRegistryDelegat
 import org.impalaframework.service.registry.internal.ServiceEventListenerRegistryDelegate;
 
 /**
- * Represents mechanism for creating a {@link ServiceRegistry} instance.
+ * Creates instance of {@link DelegatingServiceRegistry} in
+ * {@link #newServiceEntryRegistry()} implementation. Also creates instances of
+ * {@link InvokingServiceEventListenerRegistry} (
+ * {@link ServiceEventListenerRegistryDelegate} ) and
+ * {@link ServiceEntryRegistry} ( {@link ServiceEntryRegistryDelegate} ).
+ * Subclasses can override each of the methods responsible for creating these
+ * instances.
+ * 
  * @author Phil Zoio
  */
 public class SimpleServiceRegistryFactory implements ServiceRegistryFactory {
