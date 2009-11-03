@@ -21,6 +21,5 @@ public class StickyGraphModificationExtractor extends GraphModificationExtractor
     protected GraphAwareModificationExtractor newDelegate() {
         return new StickyGraphModificationExtractorDelegate();
     }
-
     
 }

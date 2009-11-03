@@ -27,7 +27,9 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.springframework.util.ClassUtils;
 
 public class SimpleModuleRuntimeTest extends TestCase {
@@ -35,6 +37,7 @@ public class SimpleModuleRuntimeTest extends TestCase {
     private SimpleModuleRuntime runtime;
     private ClassLoaderFactory classLoaderFactory;
     private ClassLoaderRegistry classLoaderRegistry;
+    private Application application;
 
     @Override
     protected void setUp() throws Exception {
@@ -43,16 +46,17 @@ public class SimpleModuleRuntimeTest extends TestCase {
         classLoaderFactory = createMock(ClassLoaderFactory.class);
         classLoaderRegistry = createMock(ClassLoaderRegistry.class);
         runtime.setClassLoaderFactory(classLoaderFactory);
-        runtime.setClassLoaderRegistry(classLoaderRegistry);
+ 
+        application = TestApplicationManager.newApplicationManager(classLoaderRegistry, null, null).getCurrentApplication();
     }
 
     public void testDoLoadModule() {
         final SimpleModuleDefinition definition = new SimpleModuleDefinition("mymodule");
-        expect(classLoaderFactory.newClassLoader(null, definition)).andReturn(ClassUtils.getDefaultClassLoader());
+        expect(classLoaderFactory.newClassLoader(application, null, definition)).andReturn(ClassUtils.getDefaultClassLoader());
         
         replay(classLoaderFactory, classLoaderRegistry);
         
-        final RuntimeModule module = runtime.doLoadModule(definition);
+        final RuntimeModule module = runtime.doLoadModule(application, definition);
         assertTrue(module instanceof SimpleRuntimeModule);
         
         verify(classLoaderFactory, classLoaderRegistry);
@@ -63,11 +67,11 @@ public class SimpleModuleRuntimeTest extends TestCase {
         final SimpleModuleDefinition definition = new SimpleModuleDefinition(parent, "mymodule");
         final ModuleClassLoader parentClassLoader = new ModuleClassLoader(new File[] {new File("./")});
         expect(classLoaderRegistry.getClassLoader("parent")).andReturn(parentClassLoader);
-        expect(classLoaderFactory.newClassLoader(parentClassLoader, definition)).andReturn(ClassUtils.getDefaultClassLoader());
+        expect(classLoaderFactory.newClassLoader(application, parentClassLoader, definition)).andReturn(ClassUtils.getDefaultClassLoader());
         
         replay(classLoaderFactory, classLoaderRegistry);
         
-        final RuntimeModule module = runtime.doLoadModule(definition);
+        final RuntimeModule module = runtime.doLoadModule(application, definition);
         assertTrue(module instanceof SimpleRuntimeModule);
         
         verify(classLoaderFactory, classLoaderRegistry);

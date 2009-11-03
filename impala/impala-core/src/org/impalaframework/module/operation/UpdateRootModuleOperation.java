@@ -43,21 +43,21 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
     public ModuleOperationResult doExecute(Application application, ModuleOperationInput moduleOperationInput) {
 
         Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         
         //note that the module definition source is externally supplied
         ModuleDefinitionSource newModuleDefinitionSource = moduleOperationInput.getModuleDefinitionSource();
         Assert.notNull(newModuleDefinitionSource, "moduleDefinitionSource is required as it specifies the new module definition to apply in " + this.getClass().getName());
         
         RootModuleDefinition newModuleDefinition = newModuleDefinitionSource.getModuleDefinition();
-        RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource();
+        RootModuleDefinition oldModuleDefinition = getExistingModuleDefinitionSource(application);
         
         ModificationExtractorType modificationExtractorType = getModificationExtractorType();
         
         // figure out the modules to reload
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
         
-        TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
+        TransitionSet transitions = calculator.getTransitions(application, oldModuleDefinition, newModuleDefinition);
         TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
         return new ModuleOperationResult(transitionResultSet);
     }
@@ -66,7 +66,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
         return ModificationExtractorType.STRICT;
     }
 
-    protected RootModuleDefinition getExistingModuleDefinitionSource() {
+    protected RootModuleDefinition getExistingModuleDefinitionSource(Application application) {
         return null;
     }
 }

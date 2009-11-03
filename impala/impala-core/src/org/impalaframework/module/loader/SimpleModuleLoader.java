@@ -19,6 +19,7 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
@@ -45,7 +46,7 @@ public class SimpleModuleLoader implements ModuleLoader {
     /**
      * Uses wired in {@link ClassLoaderFactory} to return new class loader instance.
      */
-    public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+    public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
         ClassLoader classLoader = null;
         if (parent != null) {
             classLoader = parent.getClassLoader();
@@ -53,7 +54,7 @@ public class SimpleModuleLoader implements ModuleLoader {
         else {
             classLoader = ClassUtils.getDefaultClassLoader();
         }
-        return getClassLoaderFactory().newClassLoader(classLoader, moduleDefinition);
+        return getClassLoaderFactory().newClassLoader(application, classLoader, moduleDefinition);
     }
     
     /**

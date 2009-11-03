@@ -21,6 +21,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.util.InstantiationUtils;
 
 /**
@@ -291,6 +292,10 @@ public class Impala {
 					+ ModuleDefinitionSource.class.getSimpleName() + ") been called?");
 		}
 		return facade;
+	}
+	
+	public static Application getCurrentApplication() {
+	    return getFacade().getModuleManagementFacade().getApplicationManager().getCurrentApplication();
 	}
 
 }

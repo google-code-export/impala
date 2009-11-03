@@ -15,6 +15,7 @@
 package org.impalaframework.spring.module.loader;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.service.ProxyFactoryCreator;
@@ -25,21 +26,18 @@ import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
  * @author Phil Zoio
  */
 public class DefaultApplicationContextLoader extends BaseApplicationContextLoader {
-
-    private ServiceRegistry serviceRegistry;
     
     private ProxyFactoryCreator serviceProxyFactoryCreator;
 
     public DefaultApplicationContextLoader() {
     }
     
-    protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+    protected void addBeanPostProcessors(Application application, ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+        
+        ServiceRegistry serviceRegistry = application.getServiceRegistry();
+        
         beanFactory.addBeanPostProcessor(new ServiceRegistryPostProcessor(serviceRegistry, serviceProxyFactoryCreator));
         beanFactory.addBeanPostProcessor(new ModuleDefinitionPostProcessor(definition));
-    }
-    
-    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
     }
     
     public void setServiceProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator) {

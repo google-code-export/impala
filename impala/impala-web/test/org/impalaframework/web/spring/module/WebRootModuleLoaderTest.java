@@ -55,7 +55,7 @@ public class WebRootModuleLoaderTest extends TestCase {
     public final void testNewApplicationContext() {
         final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
         final GenericApplicationContext parent = new GenericApplicationContext();
-        final GenericWebApplicationContext applicationContext = loader.newApplicationContext(parent, new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), classLoader);
+        final GenericWebApplicationContext applicationContext = loader.newApplicationContext(null, parent, new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), classLoader);
 
         assertNotNull(applicationContext);
         assertNotNull(applicationContext.getBeanFactory());

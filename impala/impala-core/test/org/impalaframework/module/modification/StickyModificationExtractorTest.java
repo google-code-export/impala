@@ -26,12 +26,22 @@ import org.impalaframework.module.definition.ModuleDefinitionWalker;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.modification.StickyModificationExtractor;
 import org.impalaframework.module.modification.StrictModificationExtractor;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionSet;
 
 public class StickyModificationExtractorTest extends TestCase {
+    
+    private Application application;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        application = TestApplicationManager.newApplicationManager().getCurrentApplication();
+    }
     
     /**
      * This test demonstrates that after getting the transitions, the {@link RootModuleDefinition} is frozen
@@ -41,7 +51,7 @@ public class StickyModificationExtractorTest extends TestCase {
         RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
 
         ModificationExtractor calculator = new StrictModificationExtractor();
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         RootModuleDefinition newRoot = transitions.getNewRootModuleDefinition();
         
         ModuleDefinitionWalker.walkRootDefinition(newRoot, new ModuleDefinitionCallback(){
@@ -52,7 +62,7 @@ public class StickyModificationExtractorTest extends TestCase {
             }
             
         });
-        calculator.getTransitions(newRoot, parentSpec2);
+        calculator.getTransitions(application, newRoot, parentSpec2);
     }   
     
     
@@ -66,7 +76,7 @@ public class StickyModificationExtractorTest extends TestCase {
         new SimpleModuleDefinition(plugin4, "plugin6");
 
         ModificationExtractor calculator = new StrictModificationExtractor();
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         
         Iterator<? extends ModuleStateChange> iterator = doAssertions(transitions, 4);
         
@@ -76,7 +86,7 @@ public class StickyModificationExtractorTest extends TestCase {
         
         //now show that the sticky calculator has the same set of changes, but omits the last one
         ModificationExtractor stickyCalculator = new StickyModificationExtractor();
-        TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet stickyTransitions = stickyCalculator.getTransitions(application, parentSpec1, parentSpec2);
         doAssertions(stickyTransitions, 3);
     }
     
@@ -86,7 +96,7 @@ public class StickyModificationExtractorTest extends TestCase {
 
         //now show that the sticky calculator has the same set of changes, but omits the last one
         ModificationExtractor stickyCalculator = new StickyModificationExtractor();
-        TransitionSet stickyTransitions = stickyCalculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet stickyTransitions = stickyCalculator.getTransitions(application, parentSpec1, parentSpec2);
         
         Collection<? extends ModuleStateChange> moduleTransitions = stickyTransitions.getModuleTransitions();
         assertEquals(1, moduleTransitions.size());

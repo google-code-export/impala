@@ -20,10 +20,17 @@ import org.impalaframework.bootstrap.CoreBootstrapProperties;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ModuleRuntime;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.SpringModuleRuntime;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * Implementation of {@link ModuleRuntime} which encapsulates a Spring module runtime backed by a graph class loading.
+ * @author Phil Zoio
+ */
 public class SpringGraphModuleRuntime extends SpringModuleRuntime {
     
     private static final String GRAPH_ORDERED = "graphOrdered";
@@ -34,9 +41,9 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
     private String beanVisibilityType = PARENT_FIRST;
 
     @Override
-    protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
+    protected ApplicationContext getParentApplicationContext(Application application, ModuleDefinition definition) {
         
-        ApplicationContext parentApplicationContext = internalGetParentApplicationContext(definition);
+        ApplicationContext parentApplicationContext = internalGetParentApplicationContext(application, definition);
         
         if (parentApplicationContext == null) {
             return null;
@@ -50,13 +57,15 @@ public class SpringGraphModuleRuntime extends SpringModuleRuntime {
             return parentApplicationContext;
         }
         
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+        
         if (beanVisibilityType.equals(PARENT_FIRST)) {
-            GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
+            GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(moduleStateHolder, GraphModuleStateHolder.class);
             return new ParentFirstBeanGraphInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);     
         }
         
         if (beanVisibilityType.equals(GRAPH_ORDERED)) {
-            GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(getModuleStateHolder(), GraphModuleStateHolder.class);
+            GraphModuleStateHolder graphModuleStateHolder = ObjectUtils.cast(moduleStateHolder, GraphModuleStateHolder.class);
             return new GraphOrderedBeanInheritanceStrategy().getParentApplicationContext(graphModuleStateHolder, parentApplicationContext, definition);
         }
     

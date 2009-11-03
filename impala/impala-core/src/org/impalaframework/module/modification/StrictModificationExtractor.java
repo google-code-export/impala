@@ -22,6 +22,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.Transition;
@@ -35,7 +36,7 @@ import org.impalaframework.module.spi.TransitionSet;
  */
 public class StrictModificationExtractor implements ModificationExtractor {
 
-    public final TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
+    public final TransitionSet getTransitions(Application application, RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
         
         if (originalDefinition == null && newDefinition == null) {
             throw new IllegalArgumentException("Either originalDefinition or newDefinition must be non-null");

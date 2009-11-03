@@ -31,9 +31,12 @@ import org.springframework.util.ClassUtils;
 
 public class GraphClassLoaderTest extends TestCase {
     
+    private GraphClassLoaderRegistry classLoaderRegistry;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        classLoaderRegistry = new GraphClassLoaderRegistry();
     }
 
     public void testClassLoader() throws Exception {
@@ -46,10 +49,9 @@ public class GraphClassLoaderTest extends TestCase {
         
         DependencyManager dependencyManager = new DependencyManager(rootDefinition);
         GraphClassLoaderFactory factory = new GraphClassLoaderFactory();
-        factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
         factory.setModuleLocationResolver(resolver);
         
-        GraphClassLoader rootClassLoader = factory.newClassLoader(dependencyManager, rootDefinition);
+        GraphClassLoader rootClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, rootDefinition);
         
         System.out.println(rootClassLoader);
         String lineSeparator = System.getProperty("line.separator");
@@ -59,7 +61,7 @@ public class GraphClassLoaderTest extends TestCase {
         
         ModuleDefinition moduleDefinition6 = rootDefinition.findChildDefinition("sample-module6", true);
         
-        GraphClassLoader definition6Loader = factory.newClassLoader(dependencyManager, moduleDefinition6);
+        GraphClassLoader definition6Loader = factory.newClassLoader(classLoaderRegistry, dependencyManager, moduleDefinition6);
         System.out.println(definition6Loader);
         
         assertEquals(

@@ -50,15 +50,15 @@ public class BootstrapContextTest extends TestCase {
         
         assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.ROOT));
         assertNotNull(registry.getModuleLoader("spring-"+ModuleTypes.APPLICATION));
-        ModuleStateHolder moduleStateHolder = (ModuleStateHolder) context.getBean("moduleStateHolder");
 
-        RootModuleDefinition definition = new Provider().getModuleDefinition();
-        TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(null, definition);
-        TransitionManager transitionManager = (TransitionManager) context.getBean("transitionManager");
-        
         ApplicationManager applicationManager = (ApplicationManager) context.getBean("applicationManager");
         Application application = applicationManager.getCurrentApplication();
         
+        RootModuleDefinition definition = new Provider().getModuleDefinition();
+        TransitionSet transitions = calculatorRegistry.getModificationExtractor(ModificationExtractorType.STRICT).getTransitions(application, null, definition);
+        TransitionManager transitionManager = (TransitionManager) context.getBean("transitionManager");
+        
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
         ConfigurableApplicationContext parentContext = SpringModuleUtils.getRootSpringContext(moduleStateHolder);

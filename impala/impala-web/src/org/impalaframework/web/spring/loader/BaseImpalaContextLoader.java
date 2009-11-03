@@ -99,7 +99,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);       
         operation.execute(application, input);
 
-        ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(facade.getModuleStateHolder());
+        ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(application.getModuleStateHolder());
 
         if (context == null) {
             throw new InvalidStateException("Root application context is null");

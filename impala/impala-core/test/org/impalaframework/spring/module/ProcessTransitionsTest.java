@@ -89,7 +89,6 @@ public class ProcessTransitionsTest extends TestCase {
         unloadTransitionProcessor = new UnloadTransitionProcessor();
         SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
         moduleRuntime.setApplicationContextLoader(loader);
-        moduleRuntime.setModuleStateHolder(moduleStateHolder);
         
         loadTransitionProcessor.setModuleRuntimeManager(moduleRuntimeManager);
         
@@ -106,7 +105,7 @@ public class ProcessTransitionsTest extends TestCase {
         ModuleStateChange moduleStateChange = new ModuleStateChange(Transition.UNLOADED_TO_LOADED, rootModuleDefinition);
         
         //expectations (round 1 - loading of parent)
-        expect(moduleRuntimeManager.initModule(rootModuleDefinition)).andReturn(true);
+        expect(moduleRuntimeManager.initModule(application, rootModuleDefinition)).andReturn(true);
         
         replayMocks();
         

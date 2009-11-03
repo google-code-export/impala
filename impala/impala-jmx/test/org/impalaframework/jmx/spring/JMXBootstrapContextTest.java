@@ -59,9 +59,9 @@ public class JMXBootstrapContextTest extends TestCase {
         RootModuleDefinition moduleDefinition = new Provider().getModuleDefinition();
 
         TransitionSet transitions = facade.getModificationExtractorRegistry()
-                .getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, moduleDefinition);
+                .getModificationExtractor(ModificationExtractorType.STICKY).getTransitions(null, null, moduleDefinition);
 
-        ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = facade.getApplicationManager().getCurrentApplication().getModuleStateHolder();
         TransitionManager transitionManager = facade.getTransitionManager();
         
         ApplicationManager applicationManager = facade.getApplicationManager();

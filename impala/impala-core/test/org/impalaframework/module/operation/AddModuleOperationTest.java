@@ -24,7 +24,6 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
     protected LockingModuleOperation getOperation() {
         AddModuleOperation operation = new AddModuleOperation();
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-        operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
         operation.setTransitionManager(transitionManager);
         return operation;
@@ -46,7 +45,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
         expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(originalDefinition);
         expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
         
-        expect(stickyModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+        expect(stickyModificationExtractor.getTransitions(application, originalDefinition, newDefinition)).andReturn(transitionSet);
         
         newDefinition.addChildModuleDefinition(moduleDefinition);
         

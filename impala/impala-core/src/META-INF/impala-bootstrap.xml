@@ -21,7 +21,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
      <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
      <property name="transitionManager" ref="transitionManager"/>
-     <property name="moduleStateHolder" ref="moduleStateHolder"/>
      <property name="applicationManager" ref="applicationManager"/>
      <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
      <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
@@ -33,7 +32,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
  <bean id="baseModuleOperation" abstract="true">
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
-     <property name="moduleStateHolder" ref="moduleStateHolder"/>
      <property name="transitionManager" ref="transitionManager"/>
      <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
  </bean>
@@ -256,32 +254,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXTERNAL_ROOT_MODULE_NAME_DEFAULT]"/>
  </bean>
  
- <bean id="moduleStateHolder" class="org.impalaframework.module.holder.DefaultModuleStateHolder">
-    <property name="externalRootModuleName" ref="externalRootModuleName"/>           
- </bean>
- 
- <bean id="classLoaderRegistry" class="org.impalaframework.module.holder.ModuleClassLoaderRegistry"/>
- 
- <bean id="exportTypeDeriver" class="org.impalaframework.service.registry.internal.EmptyExportTypeDeriver"/>
- 
- <bean id="entryRegistryDelegate" class="org.impalaframework.service.registry.internal.ServiceEntryRegistryDelegate">
-    <property name="exportTypeDeriver" ref="exportTypeDeriver"/>         
- </bean>
- 
- <bean id="listenerRegistryDelegate" class="org.impalaframework.service.registry.internal.ServiceEventListenerRegistryDelegate"/>
- 
- <bean id="serviceRegistry" class="org.impalaframework.service.registry.internal.DelegatingServiceRegistry">   
-    <property name="entryRegistryDelegate" ref="entryRegistryDelegate"/>         
-    <property name="listenerRegistryDelegate" ref="listenerRegistryDelegate"/>      
- </bean>
- 
  <bean id="registryContributionProcessor" class="org.impalaframework.spring.module.registry.RegistryContributionProcessor"/>
    
  <!-- ############## Module runtime manager ############### -->
  
  <bean id="moduleRuntimeManager" class="org.impalaframework.module.runtime.DefaultModuleRuntimeManager">
-    <property name = "moduleStateHolder" ref="moduleStateHolder"/>
-    <property name = "serviceRegistry" ref="serviceRegistry"/>
  </bean>
  
  <!-- ############## Spring modules support ############### -->
@@ -312,10 +289,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "delegatingContextLoaderRegistry" ref="delegatingContextLoaderRegistry"/>    
     <property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
-    <property name = "serviceRegistry" ref="serviceRegistry"/>    
  </bean>    
  
- <bean id="springModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
  </bean>
  
@@ -348,15 +324,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <!-- ############## Simple modules support ############### --> 
  
- <bean id="simpleModuleRuntime" parent="baseModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
+ <bean id="simpleModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>     
  </bean>
  
  <!-- ############## Module runtime contributions ############### --> 
  
- <bean id="baseModuleRuntime" abstract="true">
-    <property name = "classLoaderRegistry" ref = "classLoaderRegistry"/>    
-    <property name = "moduleStateHolder" ref="moduleStateHolder"/>    
+ <bean id="baseModuleRuntime" abstract="true"> 
  </bean>
 
  <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">

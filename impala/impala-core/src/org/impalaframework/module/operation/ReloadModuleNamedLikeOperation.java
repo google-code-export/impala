@@ -49,7 +49,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
                 "moduleName is required as it specifies the name used to match the module to reload in "
                         + this.getClass().getName());
         
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
         ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, false);

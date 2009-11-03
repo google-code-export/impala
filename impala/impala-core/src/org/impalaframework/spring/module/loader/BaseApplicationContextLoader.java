@@ -20,6 +20,7 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.runtime.ModuleRuntimeUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.ApplicationContextLoader;
 import org.impalaframework.spring.module.DelegatingContextLoader;
@@ -48,7 +49,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
     public BaseApplicationContextLoader() {
     }
 
-    public ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent) {
+    public ConfigurableApplicationContext loadContext(Application application, ModuleDefinition definition, ApplicationContext parent) {
 
         Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
         Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
@@ -63,7 +64,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 
             if (moduleLoader != null) {
                 if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
-                context = loadApplicationContext(moduleLoader, parent, definition);
+                context = loadApplicationContext(application, moduleLoader, parent, definition);
                 moduleLoader.afterRefresh(context, definition);
             }
             else if (delegatingLoader != null) {
@@ -113,22 +114,22 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
             final ModuleLoader moduleLoader) {
     }
 
-    private ConfigurableApplicationContext loadApplicationContext(final SpringModuleLoader moduleLoader,
-            ApplicationContext parent, ModuleDefinition definition) {
+    private ConfigurableApplicationContext loadApplicationContext(Application application,
+            final SpringModuleLoader moduleLoader, ApplicationContext parent, ModuleDefinition definition) {
 
         ClassLoader existing = ClassUtils.getDefaultClassLoader();
 
         // note that existing class loader is not used to figure out parent
-        ClassLoader classLoader = moduleLoader.newClassLoader(definition, parent);
+        ClassLoader classLoader = moduleLoader.newClassLoader(application, definition, parent);
 
         try {
             Thread.currentThread().setContextClassLoader(classLoader);
             
             if (logger.isDebugEnabled()) logger.debug("Setting class loader to " + classLoader);
 
-            ConfigurableApplicationContext context = moduleLoader.newApplicationContext(parent, definition, classLoader);
+            ConfigurableApplicationContext context = moduleLoader.newApplicationContext(application, parent, definition, classLoader);
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
-            addBeanPostProcessors(definition, beanFactory);
+            addBeanPostProcessors(application, definition, beanFactory);
             
             BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
 
@@ -151,7 +152,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
         }
     }
 
-    protected void addBeanPostProcessors(ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
+    protected void addBeanPostProcessors(Application application, ModuleDefinition definition, ConfigurableListableBeanFactory beanFactory) {
     }
     
     /* **************************** injected setters ************************** */

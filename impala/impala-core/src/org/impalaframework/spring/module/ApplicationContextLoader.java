@@ -16,6 +16,7 @@ package org.impalaframework.spring.module;
 
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -39,8 +40,9 @@ public interface ApplicationContextLoader {
     
     /**
      * Implements strategy for loading application context on behalf of a particular module
+     * @param application TODO
      */
-    ConfigurableApplicationContext loadContext(ModuleDefinition definition, ApplicationContext parent);
+    ConfigurableApplicationContext loadContext(Application application, ModuleDefinition definition, ApplicationContext parent);
 
     /**
      * Callback which performs 

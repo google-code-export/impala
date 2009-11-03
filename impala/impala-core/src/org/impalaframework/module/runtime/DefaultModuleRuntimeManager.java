@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -38,24 +39,23 @@ import org.impalaframework.service.ServiceRegistry;
 public class DefaultModuleRuntimeManager extends RegistrySupport implements ModuleRuntimeManager, Registry<ModuleRuntime> {
 
     private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
-
-    private ModuleStateHolder moduleStateHolder;
     
-    private ServiceRegistry serviceRegistry;
-    
-    public boolean initModule(ModuleDefinition currentDefinition) {
+    public boolean initModule(Application application, ModuleDefinition currentDefinition) {
         
         boolean success = true;
         
         final String moduleName = currentDefinition.getName();
         logger.info("Loading definition " + moduleName);
         
+        final ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+        final ServiceRegistry serviceRegistry = application.getServiceRegistry();
+        
         if (moduleStateHolder.getModule(moduleName) == null) {
 
             ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
             
             try {
-                RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(currentDefinition);
+                RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(application, currentDefinition);
                 moduleStateHolder.putModule(moduleName, runtimeModule);
             }
             catch (Throwable e) {
@@ -65,8 +65,6 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
                 } catch (Exception ee) {
                     logger.error("Error evicting modules from module: " + moduleName, ee);
                 }
-                
-                //FIXME test
                 
                 logger.error("Failed to handle loading of application module: " + moduleName, e);
                 
@@ -87,18 +85,20 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
         return success;
     }
     
-    public boolean closeModule(ModuleDefinition currentDefinition) {
+    public boolean closeModule(Application application, ModuleDefinition currentDefinition) {
 
         final String moduleDefinition = currentDefinition.getName();
         logger.info("Unloading module " + moduleDefinition);
 
         boolean success = true;
 
+        final ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+        
         RuntimeModule runtimeModule = moduleStateHolder.removeModule(moduleDefinition);
         if (runtimeModule != null) {
             try {
                 ModuleRuntime moduleRuntime = getModuleRuntime(currentDefinition);
-                moduleRuntime.closeModule(runtimeModule);
+                moduleRuntime.closeModule(application, runtimeModule);
             }
             catch (RuntimeException e) {
                 
@@ -121,14 +121,6 @@ public class DefaultModuleRuntimeManager extends RegistrySupport implements Modu
 
     public void addItem(String name, ModuleRuntime moduleRuntime) {
         super.addRegistryItem(name, moduleRuntime);
-    }
-
-    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-        this.moduleStateHolder = moduleStateHolder;
-    }
-
-    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
     }
 
     public void setModuleRuntimes(Map<String, ModuleRuntime> moduleRuntimes) {

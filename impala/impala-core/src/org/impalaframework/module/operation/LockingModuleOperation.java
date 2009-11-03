@@ -34,12 +34,9 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     
     private FrameworkLockHolder frameworkLockHolder;
 
-    private ModuleStateHolder moduleStateHolder;
-
     public ModuleOperationResult execute(
             Application application, ModuleOperationInput moduleOperationInput) {
-        
-        Assert.notNull(moduleStateHolder);
+       
         Assert.notNull(frameworkLockHolder);
         
         ModuleOperationResult execute = null;
@@ -54,14 +51,6 @@ public abstract class LockingModuleOperation implements ModuleOperation {
 
     protected abstract ModuleOperationResult doExecute(
             Application application, ModuleOperationInput moduleOperationInput);
-
-    protected ModuleStateHolder getModuleStateHolder() {
-        return moduleStateHolder;
-    }
-
-    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-        this.moduleStateHolder = moduleStateHolder;
-    }
 
     public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
         this.frameworkLockHolder = frameworkLockHolder;

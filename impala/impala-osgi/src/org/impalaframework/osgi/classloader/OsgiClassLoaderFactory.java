@@ -16,6 +16,7 @@ package org.impalaframework.osgi.classloader;
 
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -31,7 +32,7 @@ public class OsgiClassLoaderFactory implements ClassLoaderFactory, BundleContext
     
     private BundleContext bundleContext;
 
-    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+    public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
         
         Bundle bundle = findAndCheckBundle(moduleDefinition);
         return BundleDelegatingClassLoader.createBundleClassLoaderFor(bundle);

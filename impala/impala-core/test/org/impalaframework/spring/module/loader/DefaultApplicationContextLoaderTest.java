@@ -38,7 +38,6 @@ import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationManager;
-import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleUtils;
@@ -78,7 +77,7 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
         ModuleLoaderRegistry registry = facade.getModuleLoaderRegistry();
         ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader(){
             @Override
-            public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+            public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
                 return this.getClass().getClassLoader();
             }};
             
@@ -95,10 +94,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
         applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
         registry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
-        moduleStateHolder = (DefaultModuleStateHolder) facade.getModuleStateHolder();
-        
-        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
+        ApplicationManager applicationManager = facade.getApplicationManager();
         application = applicationManager.getCurrentApplication();
+        moduleStateHolder = (DefaultModuleStateHolder) application.getModuleStateHolder();
     }
 
     public void testResourceBasedValue() {

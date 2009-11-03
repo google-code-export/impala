@@ -41,6 +41,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
     private TestDependencyManager dependencyManager;
     private GraphClassLoaderFactory factory;
     private ModuleDefinition bDefinition;
+    private GraphClassLoaderRegistry classLoaderRegistry;
 
     @Override
     protected void setUp() throws Exception {
@@ -68,7 +69,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
         
         dependencyManager = new TestDependencyManager(definitions);
         factory = new GraphClassLoaderFactory();
-        factory.setClassLoaderRegistry(new GraphClassLoaderRegistry());
+        classLoaderRegistry = new GraphClassLoaderRegistry();
         factory.setModuleLocationResolver(new TestClassResolver());
         dependencyManager.unfreeze();
     }
@@ -76,13 +77,13 @@ public class GraphBasedClassLoaderTest extends TestCase {
     public void testFindResources() throws Exception {
 
         //finds copy in impala-core/bin directory
-        GraphClassLoader eClassLoader = factory.newClassLoader(dependencyManager, eDefinition);
+        GraphClassLoader eClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, eDefinition);
         final ArrayList<URL> eList = Collections.list(eClassLoader.getLocalResources("beanset.properties"));
         assertEquals(0, eList.size());
         
         //note that bClassLoader finds two copies, as there is also a copy in the module-b/bin directory
         //however does not find copy in impala-core directory
-        GraphClassLoader bClassLoader = factory.newClassLoader(dependencyManager, bDefinition);
+        GraphClassLoader bClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, bDefinition);
         final ArrayList<URL> bList = Collections.list(bClassLoader.getLocalResources("beanset.properties"));
         assertEquals(1, bList.size());
         System.out.println(bList.get(0));
@@ -108,14 +109,14 @@ public class GraphBasedClassLoaderTest extends TestCase {
     }
     
     public void testResourceLoading() throws Exception {
-        ClassLoader aClassLoader = factory.newClassLoader(dependencyManager, aDefinition);
+        ClassLoader aClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, aDefinition);
         URL resource = aClassLoader.getResource("moduleA.txt");
         assertNotNull(resource);
         
         URL object = aClassLoader.getResource("java/lang/Object.class");
         assertNotNull(object);
         
-        ClassLoader bClassLoader = factory.newClassLoader(dependencyManager, bDefinition);
+        ClassLoader bClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, bDefinition);
         resource = bClassLoader.getResource("moduleA.txt");
         assertNotNull(resource);
 
@@ -130,7 +131,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
     }
     
     public void testMultiResourceLoading() throws Exception {
-        ClassLoader aClassLoader = factory.newClassLoader(dependencyManager, aDefinition);
+        ClassLoader aClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, aDefinition);
         Properties loadAllProperties = PropertiesLoaderUtils.loadAllProperties("beanset.properties", aClassLoader);
         
         //test that properties from beanset.properties in moduleA class space and on default class path are picked up
@@ -140,7 +141,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
 
     public void testClassLoader() throws Exception {
 
-        ClassLoader eClassLoader = factory.newClassLoader(dependencyManager, eDefinition);
+        ClassLoader eClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, eDefinition);
         System.out.println(eClassLoader.toString());
         
         System.out.println(eClassLoader.loadClass("E"));
@@ -151,7 +152,7 @@ public class GraphBasedClassLoaderTest extends TestCase {
         
         Object cfromE = eClassLoader.loadClass("CImpl").newInstance();
         
-        ClassLoader cClassLoader = factory.newClassLoader(dependencyManager, cDefinition);
+        ClassLoader cClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, cDefinition);
         System.out.println(cClassLoader.toString());
         
         Object cfromC = cClassLoader.loadClass("CImpl").newInstance();

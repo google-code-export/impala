@@ -76,33 +76,29 @@ public class TransitionManagerTest extends TestCase {
         registry.addItem("spring-"+ModuleTypes.APPLICATION, applicationModuleLoader);
         DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();
         contextLoader.setModuleLoaderRegistry(registry);
-        contextLoader.setServiceRegistry(new DelegatingServiceRegistry());
         contextLoader.setDelegatingContextLoaderRegistry(new DelegatingContextLoaderRegistry());
         
         TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
         LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
         SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
         moduleRuntime.setApplicationContextLoader(contextLoader);
-        moduleRuntime.setModuleStateHolder(moduleStateHolder);
-        moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
         ModuleRuntime springModuleRuntime = moduleRuntime;
         Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
         DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();
         manager.setModuleRuntimes(moduleRuntimes);
-        manager.setModuleStateHolder(moduleStateHolder);
         
         loadTransitionProcessor.setModuleRuntimeManager(manager);
         UnloadTransitionProcessor unloadTransitionProcessor = new UnloadTransitionProcessor();
         transitionProcessors.addItem(Transition.UNLOADED_TO_LOADED, loadTransitionProcessor);
         transitionProcessors.addItem(Transition.LOADED_TO_UNLOADED, unloadTransitionProcessor);
         transitionManager.setTransitionProcessorRegistry(transitionProcessors);     
+
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(new ModuleClassLoaderRegistry(), moduleStateHolder, new DelegatingServiceRegistry());
+        Application application = applicationManager.getCurrentApplication();
         
         RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
         ModificationExtractor calculator = new StrictModificationExtractor();
-        TransitionSet transitions = calculator.getTransitions(null, test1Definition);
-       
-        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
-        Application application = applicationManager.getCurrentApplication();
+        TransitionSet transitions = calculator.getTransitions(application, null, test1Definition);
         
         transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
@@ -111,7 +107,7 @@ public class TransitionManagerTest extends TestCase {
         noService((FileMonitor) context.getBean("bean3"));
 
         RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
-        transitions = calculator.getTransitions(test1Definition, test2Definition);
+        transitions = calculator.getTransitions(application, test1Definition, test2Definition);
         transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
         context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);

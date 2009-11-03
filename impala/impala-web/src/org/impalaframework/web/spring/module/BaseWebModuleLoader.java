@@ -18,6 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
@@ -55,8 +56,8 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         this.servletContext = servletContext;
     }
 
-    public final GenericWebApplicationContext newApplicationContext(ApplicationContext parent,
-            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+    public final GenericWebApplicationContext newApplicationContext(Application application,
+            ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
         
         ServletContext wrappedServletContext = servletContext;
         

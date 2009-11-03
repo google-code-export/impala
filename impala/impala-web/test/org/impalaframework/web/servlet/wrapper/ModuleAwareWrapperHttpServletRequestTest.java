@@ -26,7 +26,9 @@ import javax.servlet.http.HttpSession;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
@@ -42,6 +44,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
     private ModuleManagementFacade moduleManagementFacade;
     private ModuleStateHolder moduleStateHolder;
     private SpringRuntimeModule springRuntimeModule;
+    private ApplicationManager applicationManager;
 
     @Override
     protected void setUp() throws Exception {
@@ -53,13 +56,15 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
         wrapperRequest = new ModuleAwareWrapperHttpServletRequest(request, servletContext, new RequestModuleMapping("/mymodule", "mymodule", null) );
+        
+        applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }
     
     public void testGetSession() {
     
         expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
-        expect(moduleManagementFacade.getModuleStateHolder()).andReturn(moduleStateHolder);
+        expect(moduleManagementFacade.getApplicationManager()).andReturn(applicationManager);
         expect(moduleStateHolder.getModule("mymodule")).andReturn(springRuntimeModule);
         
         replayMocks();

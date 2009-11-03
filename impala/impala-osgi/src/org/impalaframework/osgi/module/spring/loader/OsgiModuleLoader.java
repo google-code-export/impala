@@ -19,6 +19,7 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.osgi.util.OsgiUtils;
@@ -55,8 +56,6 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     private ModuleLocationResolver moduleLocationResolver;
 
     private ClassLoaderFactory classLoaderFactory;
-    
-    private ServiceRegistry serviceRegistry;
     
     private ProxyFactoryCreator serviceProxyFactoryCreator;
 
@@ -103,17 +102,17 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * {@link #handleRefresh(ConfigurableApplicationContext, ModuleDefinition)}.
      */
     public ConfigurableApplicationContext newApplicationContext(
-            ApplicationContext parent, final ModuleDefinition moduleDefinition,
-            ClassLoader classLoader) {
+            Application application, ApplicationContext parent,
+            final ModuleDefinition moduleDefinition, ClassLoader classLoader) {
 
         Bundle bundle = findBundle(moduleDefinition);
-        final ImpalaOsgiApplicationContext applicationContext = newApplicationContext(parent, moduleDefinition);
+        final ImpalaOsgiApplicationContext applicationContext = newApplicationContext(application, parent, moduleDefinition);
         
         final BundleContext bc = bundle.getBundleContext();
         applicationContext.setBundleContext(bc);
         
         final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
-        final ClassLoader newClassLoader = newClassLoader(moduleDefinition, parent);
+        final ClassLoader newClassLoader = newClassLoader(application, moduleDefinition, parent);
         
         applicationContext.setClassLoader(newClassLoader);
         applicationContext.setConfigResources(springConfigResources);
@@ -133,7 +132,10 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     }
 
     ImpalaOsgiApplicationContext newApplicationContext(
-            ApplicationContext parent, final ModuleDefinition moduleDefinition) {
+            Application application, ApplicationContext parent, final ModuleDefinition moduleDefinition) {
+        
+        final ServiceRegistry serviceRegistry = application.getServiceRegistry();
+        
         final ImpalaOsgiApplicationContext applicationContext = new ImpalaOsgiApplicationContext(parent) {
 
             @Override
@@ -151,9 +153,9 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * Finds the bundle whose name matches the module name. The uses the wired in
      * {@link #classLoaderFactory} to return the bundle-specific class loader instance.
      */
-    public ClassLoader newClassLoader(ModuleDefinition moduleDefinition,
-            ApplicationContext parent) {        
-        return classLoaderFactory.newClassLoader(null, moduleDefinition);
+    public ClassLoader newClassLoader(Application application,
+            ModuleDefinition moduleDefinition, ApplicationContext parent) {        
+        return classLoaderFactory.newClassLoader(application, null, moduleDefinition);
     }   
 
     public BeanDefinitionReader newBeanDefinitionReader(
@@ -197,10 +199,6 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
         this.moduleLocationResolver = moduleLocationResolver;
-    }
-    
-    public void setServiceRegistry(ServiceRegistry serviceRegistry) {
-        this.serviceRegistry = serviceRegistry;
     }
 
     public void setServiceProxyFactoryCreator(ProxyFactoryCreator serviceProxyFactoryCreator) {

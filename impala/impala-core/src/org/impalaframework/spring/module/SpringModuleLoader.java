@@ -15,6 +15,7 @@
 package org.impalaframework.spring.module;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.TypeReader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -58,7 +59,7 @@ public interface SpringModuleLoader extends ModuleLoader {
     /**
      * Returns a new {@link ConfigurableApplicationContext} instance which contains the module's declarative services
      */
-    ConfigurableApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
+    ConfigurableApplicationContext newApplicationContext(Application application, ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader);
     
     /**
      * Returns a new {@link BeanDefinitionReader} which may be used to read the module definitions. If this 

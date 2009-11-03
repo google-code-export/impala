@@ -17,24 +17,33 @@ package org.impalaframework.module.runtime;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ClassLoaderRegistry;
+import org.impalaframework.module.spi.ModuleRuntime;
 import org.springframework.util.Assert;
 
+/**
+ * Implementation of {@link ModuleRuntime} which encapsulates a Spring module runtime.
+ * @author Phil Zoio
+ */
 public class SimpleModuleRuntime extends BaseModuleRuntime {
     
     private ClassLoaderFactory classLoaderFactory;
     
     @Override
-    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
         Assert.notNull(definition);
         Assert.notNull(classLoaderFactory);
+        
+        final ClassLoaderRegistry classLoaderRegistry = application.getClassLoaderRegistry();
         
         ClassLoader parentClassLoader = null;
         final ModuleDefinition parentDefinition = definition.getParentDefinition();
 
         if (parentDefinition != null) {
-            parentClassLoader = getClassLoaderRegistry().getClassLoader(parentDefinition.getName());
+            parentClassLoader = classLoaderRegistry.getClassLoader(parentDefinition.getName());
         }
-        final ClassLoader classLoader = classLoaderFactory.newClassLoader(parentClassLoader, definition);
+        final ClassLoader classLoader = classLoaderFactory.newClassLoader(application, parentClassLoader, definition);
         return new SimpleRuntimeModule(classLoader, definition);
     }
 

@@ -23,6 +23,7 @@ import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.Transition;
@@ -36,7 +37,7 @@ import org.impalaframework.module.spi.TransitionSet;
  */
 public class RepairModificationExtractor implements ModificationExtractor {
 
-    public TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
+    public TransitionSet getTransitions(Application application, RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition) {
 
         List<ModuleStateChange> transitions = new ArrayList<ModuleStateChange>();
         

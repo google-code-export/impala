@@ -47,7 +47,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
             return false;
         }
 
-        boolean success = moduleRuntimeManager.initModule(currentDefinition);
+        boolean success = moduleRuntimeManager.initModule(application, currentDefinition);
         
         if (!success) {
 

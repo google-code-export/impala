@@ -5,7 +5,9 @@ import java.util.Collection;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionSet;
 
 import junit.framework.TestCase;
@@ -19,7 +21,9 @@ public class RepairModificationExtractorTest extends TestCase {
         definition.findChildDefinition("plugin3", true).setState(ModuleState.DEPENDENCY_FAILED);
         definition.findChildDefinition("plugin4", true).setState(ModuleState.DEPENDENCY_FAILED);
         
-        TransitionSet transitions = new RepairModificationExtractor().getTransitions(definition, null);
+        Application application = TestApplicationManager.newApplicationManager().getCurrentApplication();
+        
+        TransitionSet transitions = new RepairModificationExtractor().getTransitions(application, definition, null);
         assertEquals(definition, transitions.getNewRootModuleDefinition());
         
         Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();

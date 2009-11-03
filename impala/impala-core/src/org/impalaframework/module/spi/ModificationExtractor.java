@@ -41,6 +41,6 @@ public interface ModificationExtractor {
     /**
      * Returns the transitions required to convert from one module hierarchy to another
      */
-    TransitionSet getTransitions(RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition);
+    TransitionSet getTransitions(Application application, RootModuleDefinition originalDefinition, RootModuleDefinition newDefinition);
 
 }

@@ -31,6 +31,8 @@ import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor;
 import org.impalaframework.module.monitor.ModuleChangeMonitor;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -43,6 +45,7 @@ public class BaseModuleRuntimeTest extends TestCase {
     private ModuleLocationResolver moduleLocationResolver;
     private List<Resource> resources;
     private ModuleClassLoaderRegistry classLoaderRegistry;
+    private Application application;
 
     @Override
     protected void setUp() throws Exception {
@@ -50,12 +53,13 @@ public class BaseModuleRuntimeTest extends TestCase {
 
         classLoaderRegistry = new ModuleClassLoaderRegistry();
         moduleRuntime = new TestModuleRuntime();    
-        moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
         
         definition1 = createMock(ModuleDefinition.class);
         monitor = createMock(ModuleChangeMonitor.class);
         moduleLocationResolver = createMock(ModuleLocationResolver.class);
         resources = new ArrayList<Resource>();
+        
+        application = TestApplicationManager.newApplicationManager(classLoaderRegistry, null, null).getCurrentApplication();
     }
     
     public void testAfterModuleLoadedNull() throws Exception {
@@ -86,7 +90,7 @@ public class BaseModuleRuntimeTest extends TestCase {
         
         replay(definition1, monitor, moduleLocationResolver);
         
-        final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(definition1);
+        final RuntimeModule runtimeModule = moduleRuntime.loadRuntimeModule(application, definition1);
         assertTrue(runtimeModule instanceof SimpleRuntimeModule);
         assertEquals(definition1, runtimeModule.getModuleDefinition());
         assertEquals(ClassUtils.getDefaultClassLoader(), classLoaderRegistry.getClassLoader("myName"));
@@ -99,19 +103,18 @@ public class BaseModuleRuntimeTest extends TestCase {
         moduleRuntime = new TestModuleRuntime() {
 
             @Override
-            protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+            protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
                 throw new RuntimeException();
             }
             
         };
-        moduleRuntime.setClassLoaderRegistry(classLoaderRegistry);
         
         expect(definition1.getName()).andReturn("myName");
         
         replay(definition1, monitor, moduleLocationResolver);
         
         try {
-            moduleRuntime.loadRuntimeModule(definition1);
+            moduleRuntime.loadRuntimeModule(application, definition1);
             fail();
         }
         catch (RuntimeException e) {
@@ -129,7 +132,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 
         final ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
         classLoaderRegistry.addClassLoader("myName", classLoader);
-        moduleRuntime.closeModule(new SimpleRuntimeModule(classLoader, definition1));
+        moduleRuntime.closeModule(application, new SimpleRuntimeModule(classLoader, definition1));
         assertNull(classLoaderRegistry.getClassLoader("myName"));
         
         verify(definition1, monitor, moduleLocationResolver);
@@ -139,7 +142,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 class TestModuleRuntime extends BaseModuleRuntime {
 
     @Override
-    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
         return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
     }
 

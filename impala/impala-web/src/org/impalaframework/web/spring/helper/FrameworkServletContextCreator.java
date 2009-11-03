@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -70,7 +71,8 @@ public class FrameworkServletContextCreator  {
 		ModuleManagementFacade facade = ImpalaServletUtils.getModuleManagementFacade(servletContext);
 
 		final String servletName = servlet.getServletName();
-		ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
+		Application application = facade.getApplicationManager().getCurrentApplication();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
 		
 		if (!initialized) {
 			

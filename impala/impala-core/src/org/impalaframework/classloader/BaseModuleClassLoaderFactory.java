@@ -19,6 +19,7 @@ import java.net.URL;
 import java.util.List;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
@@ -40,7 +41,7 @@ public abstract class BaseModuleClassLoaderFactory implements ClassLoaderFactory
 
     public abstract ClassLoader newClassLoader(ClassLoader parent, URL[] urls);
 
-    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+    public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
         Assert.notNull(moduleLocationResolver);
         Assert.notNull(moduleDefinition);
         
