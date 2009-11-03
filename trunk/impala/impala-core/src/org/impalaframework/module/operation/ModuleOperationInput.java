@@ -37,7 +37,9 @@ public class ModuleOperationInput {
     // the module to be operated on
     private final String moduleName;
 
-    public ModuleOperationInput(ModuleDefinitionSource moduleDefinitionSource, ModuleDefinition moduleDefinition,
+    public ModuleOperationInput(
+            ModuleDefinitionSource moduleDefinitionSource, 
+            ModuleDefinition moduleDefinition,
             String moduleName) {
         super();
         this.moduleDefinitionSource = moduleDefinitionSource;
