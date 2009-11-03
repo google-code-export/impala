@@ -32,6 +32,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.jmx.WebModuleReloader;
 
@@ -66,7 +67,8 @@ public class WebModuleReloaderTest extends TestCase {
     public final void testReloadModules() {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
         expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
-        
+
+        expect(impalaBootstrapFactory.getApplicationManager()).andReturn(TestApplicationManager.newApplicationManager());
         expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
         expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);

@@ -22,6 +22,8 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -38,9 +40,9 @@ public class WebModuleReloader implements ServletContextAware {
         
         Assert.notNull(servletContext);
 
-        ModuleManagementFacade factory = (ModuleManagementFacade) servletContext
+        ModuleManagementFacade facade = (ModuleManagementFacade) servletContext
                 .getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
-        if (factory == null) {
+        if (facade == null) {
             throw new ConfigurationException(
                     "No instance of "
                             + ModuleManagementFacade.class.getName()
@@ -56,10 +58,13 @@ public class WebModuleReloader implements ServletContextAware {
                             + " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE");
 
         }
+        
+        ApplicationManager applicationManager = facade.getApplicationManager();
+        Application application = applicationManager.getCurrentApplication();
 
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
         
-        ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
         operation.execute(moduleOperationInput);
     }
 
