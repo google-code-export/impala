@@ -29,6 +29,9 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -38,6 +41,8 @@ public class BaseImpalaContextLoaderTest extends TestCase {
     private ModuleManagementFacade facade;
     private ModuleOperationRegistry moduleOperationRegistry;
     private ModuleOperation moduleOperation;
+    private ApplicationManager applicationManager;
+    private Application application;
     
     @Override
     protected void setUp() throws Exception {
@@ -45,7 +50,10 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         servletContext = createMock(ServletContext.class);
         facade = createMock(ModuleManagementFacade.class);
         moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
-        moduleOperation = createMock(ModuleOperation.class);}
+        moduleOperation = createMock(ModuleOperation.class);
+        applicationManager = TestApplicationManager.newApplicationManager();
+        application = applicationManager.getCurrentApplication();
+    }
 
     public final void testClose() {
         BaseImpalaContextLoader contextLoader = newContextLoader();
@@ -55,10 +63,11 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-        
+
+        expect(facade.getApplicationManager()).andReturn(applicationManager);
         expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.EMPTY);
+        expect(moduleOperation.execute(application, null)).andReturn(ModuleOperationResult.EMPTY);
         
         facade.close();
 
@@ -74,10 +83,11 @@ public class BaseImpalaContextLoaderTest extends TestCase {
 
         servletContext.log("Closing modules and root application context hierarchy");
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-        
+
+        expect(facade.getApplicationManager()).andReturn(applicationManager);
         expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(null)).andReturn(ModuleOperationResult.EMPTY);
+        expect(moduleOperation.execute(application, null)).andReturn(ModuleOperationResult.EMPTY);
 
         servletContext.log("Closing Spring root WebApplicationContext");
         facade.close();

@@ -22,10 +22,13 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionSet;
 
@@ -55,6 +58,9 @@ public abstract class BaseModuleOperationTest extends TestCase {
 
     protected TransitionManager transitionManager;
 
+    protected ApplicationManager applicationManager;
+
+    protected Application application;
 
     protected abstract LockingModuleOperation getOperation();
     
@@ -78,7 +84,12 @@ public abstract class BaseModuleOperationTest extends TestCase {
         newDefinition = createMock(RootModuleDefinition.class);
         transitionSet = createMock(TransitionSet.class);
         frameworkLockHolder = createMock(FrameworkLockHolder.class);
+        
+        applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
+        application = applicationManager.getCurrentApplication();
+        
         operation = getOperation();
+        
     }
 
     protected void replayMocks() {

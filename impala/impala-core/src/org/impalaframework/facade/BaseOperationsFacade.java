@@ -92,7 +92,8 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
     public void init(ModuleDefinitionSource source) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.IncrementalUpdateRootModuleOperation);
-        operation.execute(new ModuleOperationInput(source, null, null));
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+        execute(operation, moduleOperationInput);
     }
 
     /*
@@ -106,7 +107,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.ReloadNamedModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-        ModuleOperationResult result = operation.execute(moduleOperationInput);
+        ModuleOperationResult result = execute(operation, moduleOperationInput);
         return result.isSuccess();
     }
 
@@ -128,14 +129,14 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         RootModuleDefinition rootModuleDefinition = getModuleStateHolder().getRootModuleDefinition();
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.CloseRootModuleOperation);
-        operation.execute(null);
+        execute(operation, null);
         ConstructedModuleDefinitionSource newModuleDefinitionSource = new ConstructedModuleDefinitionSource(
                 rootModuleDefinition);
 
         ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
         operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.UpdateRootModuleOperation);
-        operation.execute(input);
+        execute(operation, input);
     }
     
     /**
@@ -149,7 +150,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
                 rootModuleDefinition);
 
         ModuleOperationInput input = new ModuleOperationInput(newModuleDefinitionSource, null, null);
-        operation.execute(input);
+        execute(operation, input);
     }
 
     /**
@@ -158,7 +159,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
     public void unloadRootModule() {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.CloseRootModuleOperation);
-        operation.execute(null);
+        execute(operation, null);
     }
 
     /**
@@ -168,7 +169,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.RemoveModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-        return operation.execute(moduleOperationInput).isSuccess();
+        return execute(operation, moduleOperationInput).isSuccess();
     }
 
     /**
@@ -178,7 +179,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(
                 ModuleOperationConstants.AddModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
-        operation.execute(moduleOperationInput);
+        execute(operation, moduleOperationInput);
     }
 
     /* **************************** getters ************************** */
@@ -263,8 +264,13 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         }
         return moduleStateHolder;
     }
+    
+    protected final ModuleOperationResult execute(ModuleOperation operation, ModuleOperationInput moduleOperationInput) {
+        return operation.execute(applicationManager.getCurrentApplication(), moduleOperationInput);
+    }
 
     /* **************************** private methods ************************** */
+
 
     private <T> Object checkBeanType(RuntimeModule runtimeModule, String beanName, Class<T> requiredType) {
         Assert.notNull(requiredType);

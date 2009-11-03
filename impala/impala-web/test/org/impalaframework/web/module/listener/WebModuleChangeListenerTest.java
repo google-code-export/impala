@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.module.listener;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -34,6 +35,8 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.listener.WebModuleChangeListener;
@@ -79,10 +82,13 @@ public class WebModuleChangeListenerTest extends TestCase {
         ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-        expect(facade.getApplicationManager()).andReturn(TestApplicationManager.newApplicationManager());
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager();
+        Application application = applicationManager.getCurrentApplication();
+        
+        expect(facade.getApplicationManager()).andReturn(applicationManager);
         expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
+        expect(moduleOperation.execute(eq(application), isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
         
         replay(servletContext);
         replay(facade);

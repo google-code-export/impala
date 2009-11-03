@@ -97,7 +97,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
         
         ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);       
-        operation.execute(input);
+        operation.execute(application, input);
 
         ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(facade.getModuleStateHolder());
 
@@ -130,7 +130,9 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
             servletContext.log("Closing modules and root application context hierarchy");
 
             ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
-            ModuleOperationResult execute = operation.execute(null);
+            Application application = facade.getApplicationManager().getCurrentApplication();
+            
+            ModuleOperationResult execute = operation.execute(application, null);
             boolean success = execute.isSuccess();
 
             if (!success) {

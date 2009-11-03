@@ -19,6 +19,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.util.ExceptionUtils;
@@ -49,7 +50,9 @@ public class ModuleManagementOperations {
         ModuleOperation operation = moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation);
         
         try {
-            ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, moduleName));
+            
+            Application application = applicationManager.getCurrentApplication();
+            ModuleOperationResult execute = operation.execute(application, new ModuleOperationInput(null, null, moduleName));
             
             TransitionResultSet transitionResultSet = execute.getTransitionResultSet();
             if (transitionResultSet.hasResults()) {

@@ -36,6 +36,9 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleUtils;
@@ -62,6 +65,8 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
     private DefaultModuleStateHolder moduleStateHolder;
 
     private ModuleManagementFacade facade;
+
+    private Application application;
 
     public void setUp() {   
         ClassPathXmlApplicationContext appContext = new ClassPathXmlApplicationContext("META-INF/impala-bootstrap.xml");
@@ -91,6 +96,9 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
         registry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
         moduleStateHolder = (DefaultModuleStateHolder) facade.getModuleStateHolder();
+        
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
+        application = applicationManager.getCurrentApplication();
     }
 
     public void testResourceBasedValue() {
@@ -218,13 +226,13 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
     private void addModule(ModuleDefinition moduleDefinition) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.AddModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, moduleDefinition, null);
-        operation.execute(moduleOperationInput);
+        operation.execute(application, moduleOperationInput);
     }
 
     private void removeModule(String moduleName) {
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.RemoveModuleOperation);
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-        operation.execute(moduleOperationInput).isSuccess();
+        operation.execute(application, moduleOperationInput).isSuccess();
     }
 
     class RecordingModuleChangeMonitor implements ModuleChangeMonitor {

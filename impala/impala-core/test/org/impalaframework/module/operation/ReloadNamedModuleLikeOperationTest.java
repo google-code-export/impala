@@ -43,7 +43,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
     
     public final void testInvalidArgs() {
         try {
-            operation.execute(new ModuleOperationInput(null, null, null));
+            operation.execute(application, new ModuleOperationInput(null, null, null));
         }
         catch (IllegalArgumentException e) {
             assertEquals("moduleName is required as it specifies the name used to match the module to reload in org.impalaframework.module.operation.ReloadModuleNamedLikeOperation", e.getMessage());
@@ -62,13 +62,13 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         
         expect(newDefinition.getName()).andReturn("mymodule2");
         TransitionResultSet transitionResultSet = TransitionResultSetTest.newSuccessTransitionResultSet();
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "mymodule2"))).andReturn(new ModuleOperationResult(transitionResultSet));
+        expect(moduleOperation.execute(application, new ModuleOperationInput(null, null, "mymodule2"))).andReturn(new ModuleOperationResult(transitionResultSet));
         
         replayMocks();
         replay(moduleOperationRegistry);
         replay(moduleOperation);
 
-        ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "mymodule"));
+        ModuleOperationResult result = operation.doExecute(application, new ModuleOperationInput(null, null, "mymodule"));
         assertEquals(true, result.isSuccess());
         assertEquals("mymodule2", result.getOutputParameters().get("moduleName"));
         
@@ -90,7 +90,7 @@ public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest 
         replay(moduleOperationRegistry);
         replay(moduleOperation);
 
-        ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "mymodule"));
+        ModuleOperationResult result = operation.doExecute(application, new ModuleOperationInput(null, null, "mymodule"));
         assertFalse(result.hasResults());
         
         verifyMocks();

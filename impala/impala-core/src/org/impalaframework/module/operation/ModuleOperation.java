@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.operation;
 
+import org.impalaframework.module.spi.Application;
+
 /**
  * {@link ModuleOperation} is an abstraction which models user initiated
  * operations on modules. Examples include:
@@ -31,5 +33,5 @@ package org.impalaframework.module.operation;
  * @author Phil Zoio
  */
 public interface ModuleOperation {  
-    public ModuleOperationResult execute(ModuleOperationInput moduleOperationInput);
+    public ModuleOperationResult execute(Application application, ModuleOperationInput moduleOperationInput);
 }

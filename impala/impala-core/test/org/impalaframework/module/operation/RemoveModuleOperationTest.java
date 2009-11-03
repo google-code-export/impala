@@ -53,7 +53,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         replayMocks();
         replay(childDefinition);
 
-        ModuleOperationResult execute = operation.doExecute(new ModuleOperationInput(null, null, "myModule"));
+        ModuleOperationResult execute = operation.doExecute(application, new ModuleOperationInput(null, null, "myModule"));
         assertTrue(execute.hasResults());
         assertTrue(execute.isSuccess());
 
@@ -71,7 +71,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
         replayMocks();
 
-        ModuleOperationResult result = operation.doExecute(new ModuleOperationInput(null, null, "root"));
+        ModuleOperationResult result = operation.doExecute(application, new ModuleOperationInput(null, null, "root"));
         assertTrue(result.hasResults());
         assertTrue(result.isSuccess());
 
@@ -83,7 +83,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
         replayMocks();
 
-        ModuleOperationResult execute = operation.doExecute(new ModuleOperationInput(null, null, "root"));
+        ModuleOperationResult execute = operation.doExecute(application, new ModuleOperationInput(null, null, "root"));
         assertFalse(execute.hasResults());
         assertFalse(execute.isSuccess());
 
@@ -92,7 +92,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
 
     public final void testInvalidArgs() {
         try {
-            operation.execute(new ModuleOperationInput(null, null, null));
+            operation.execute(application, new ModuleOperationInput(null, null, null));
         }
         catch (IllegalArgumentException e) {
             assertEquals(

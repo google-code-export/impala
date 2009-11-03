@@ -32,7 +32,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
     
     public final void testInvalidArgs() {
         try {
-            operation.execute(new ModuleOperationInput(null, null, null));
+            operation.execute(application, new ModuleOperationInput(null, null, null));
         }
         catch (IllegalArgumentException e) {
             assertEquals("moduleName is required as it specifies the name of the module to add in org.impalaframework.module.operation.AddModuleOperation", e.getMessage());
@@ -54,7 +54,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
         
         replayMocks();
 
-        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(null, moduleDefinition, null)));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(application, new ModuleOperationInput(null, moduleDefinition, null)));
         
         verifyMocks();
     }
