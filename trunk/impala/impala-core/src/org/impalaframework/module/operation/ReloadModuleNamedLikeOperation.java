@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.springframework.util.Assert;
@@ -40,7 +41,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
         super();
     }
 
-    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+    public ModuleOperationResult doExecute(Application application, ModuleOperationInput moduleOperationInput) {
 
         Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
         String moduleToReload = moduleOperationInput.getModuleName();
@@ -61,7 +62,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
             
             ModuleOperation operation = moduleOperationRegistry.getOperation(
                     ModuleOperationConstants.ReloadNamedModuleOperation);
-            ModuleOperationResult execute = operation.execute(new ModuleOperationInput(null, null, foundModuleName));
+            ModuleOperationResult execute = operation.execute(application, new ModuleOperationInput(null, null, foundModuleName));
             TransitionResultSet transitionResultSet = execute.getTransitionResultSet();
 
             Map<String, Object> resultMap = new HashMap<String, Object>();

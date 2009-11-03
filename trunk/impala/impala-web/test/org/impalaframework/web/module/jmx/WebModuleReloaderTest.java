@@ -14,6 +14,7 @@
 
 package org.impalaframework.web.module.jmx;
 
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
@@ -32,6 +33,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.jmx.WebModuleReloader;
@@ -50,6 +52,8 @@ public class WebModuleReloaderTest extends TestCase {
 
     private ModuleDefinitionSource moduleDefinitionSource;
 
+    private ApplicationManager applicationManager;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -62,16 +66,17 @@ public class WebModuleReloaderTest extends TestCase {
 
         moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
         moduleOperation = createMock(ModuleOperation.class);
+        applicationManager = TestApplicationManager.newApplicationManager();
     }
 
     public final void testReloadModules() {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
         expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
 
-        expect(impalaBootstrapFactory.getApplicationManager()).andReturn(TestApplicationManager.newApplicationManager());
+        expect(impalaBootstrapFactory.getApplicationManager()).andReturn(applicationManager);
         expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
+        expect(moduleOperation.execute(eq(applicationManager.getCurrentApplication()), isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
     
         replayMocks();
         reloader.reloadModules();

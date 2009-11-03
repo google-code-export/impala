@@ -65,7 +65,7 @@ public class WebModuleReloader implements ServletContextAware {
         ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
         
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
-        operation.execute(moduleOperationInput);
+        operation.execute(application, moduleOperationInput);
     }
 
     public void setServletContext(ServletContext servletContext) {

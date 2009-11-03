@@ -45,7 +45,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
     
     public final void testInvalidArgs() {
         try {
-            operation.execute(new ModuleOperationInput(null, null, null));
+            operation.execute(application, new ModuleOperationInput(null, null, null));
         }
         catch (IllegalArgumentException e) {
             assertEquals("moduleDefinitionSource is required as it specifies the new module definition to apply in org.impalaframework.module.operation.UpdateRootModuleOperation", e.getMessage());
@@ -68,7 +68,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
         replayMocks();
         replay(moduleDefinitionSource);
 
-        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(application, new ModuleOperationInput(moduleDefinitionSource, null, null)));
         
         verifyMocks();
         verify(moduleDefinitionSource);

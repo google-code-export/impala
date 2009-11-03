@@ -34,7 +34,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
     
     public final void testInvalidArgs() {
         try {
-            operation.execute(new ModuleOperationInput(null, null, null));
+            operation.execute(application, new ModuleOperationInput(null, null, null));
         }
         catch (IllegalArgumentException e) {
             assertEquals("moduleName is required as it specifies the name of the module to reload in org.impalaframework.module.operation.ReloadNamedModuleOperation", e.getMessage());
@@ -56,7 +56,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         replayMocks();
 
         //returns fallse because no module transitions found
-        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(new ModuleOperationInput(null, null, "mymodule")));
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(application, new ModuleOperationInput(null, null, "mymodule")));
         
         verifyMocks();
     }

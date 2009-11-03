@@ -18,6 +18,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -40,7 +41,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
         super();
     }
 
-    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+    public ModuleOperationResult doExecute(Application application, ModuleOperationInput moduleOperationInput) {
 
         Assert.notNull(moduleOperationInput, "moduleOperationInput cannot be null");
         String moduleToReload = moduleOperationInput.getModuleName();

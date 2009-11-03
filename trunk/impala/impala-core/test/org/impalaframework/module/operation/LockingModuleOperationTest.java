@@ -19,8 +19,10 @@ import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 
 public class LockingModuleOperationTest extends TestCase {
 
@@ -30,25 +32,26 @@ public class LockingModuleOperationTest extends TestCase {
 
             @Override
             protected ModuleOperationResult doExecute(
-                    ModuleOperationInput moduleOperationInput) {
+                    Application application, ModuleOperationInput moduleOperationInput) {
                 System.out.println("After locking, before unlocking");
                 return null;
             }
             
         };
         
-        FrameworkLockHolder moduleStateHolder = createMock(FrameworkLockHolder.class);
-        operation.setFrameworkLockHolder(moduleStateHolder);
+        FrameworkLockHolder frameworkLockHolder = createMock(FrameworkLockHolder.class);
+        operation.setFrameworkLockHolder(frameworkLockHolder);
         operation.setModuleStateHolder(createMock(ModuleStateHolder.class));
         
-        moduleStateHolder.writeLock();
-        moduleStateHolder.writeUnlock();
+        frameworkLockHolder.writeLock();
+        frameworkLockHolder.writeUnlock();
         
-        replay(moduleStateHolder);
+        replay(frameworkLockHolder);
         
-        operation.execute(null);
+        Application application = TestApplicationManager.newApplicationManager().getCurrentApplication();
+        operation.execute(application, null);
         
-        verify(moduleStateHolder);
+        verify(frameworkLockHolder);
     }
 
 }

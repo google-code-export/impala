@@ -16,6 +16,7 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -38,7 +39,7 @@ public class CloseRootModuleOperation extends BaseModuleOperation {
         super();
     }
 
-    public ModuleOperationResult doExecute(ModuleOperationInput moduleOperationInput) {
+    public ModuleOperationResult doExecute(Application application, ModuleOperationInput moduleOperationInput) {
         
         ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();

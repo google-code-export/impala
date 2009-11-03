@@ -14,13 +14,14 @@
 
 package org.impalaframework.module.operation;
 
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.springframework.util.Assert;
 
 /**
  * Base implementation of {@link ModuleOperation} which delegates to template method
- * {@link #doExecute(ModuleOperationInput)}. {@link ModuleOperation#execute(ModuleOperationInput)}
+ * {@link #doExecute(Application, ModuleOperationInput)}. {@link ModuleOperation#execute(Application, ModuleOperationInput)}
  * is final, wrapping the operation in a call to {@link ModuleStateHolder#writeLock()}, followed by a 
  * call to {@link ModuleStateHolder#writeUnlock()} in a finally block.
  * 
@@ -36,7 +37,7 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     private ModuleStateHolder moduleStateHolder;
 
     public ModuleOperationResult execute(
-            ModuleOperationInput moduleOperationInput) {
+            Application application, ModuleOperationInput moduleOperationInput) {
         
         Assert.notNull(moduleStateHolder);
         Assert.notNull(frameworkLockHolder);
@@ -44,7 +45,7 @@ public abstract class LockingModuleOperation implements ModuleOperation {
         ModuleOperationResult execute = null;
         try {
             frameworkLockHolder.writeLock();
-            execute = doExecute(moduleOperationInput);
+            execute = doExecute(application, moduleOperationInput);
         } finally {
             frameworkLockHolder.writeUnlock();
         }
@@ -52,7 +53,7 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     }
 
     protected abstract ModuleOperationResult doExecute(
-            ModuleOperationInput moduleOperationInput);
+            Application application, ModuleOperationInput moduleOperationInput);
 
     protected ModuleStateHolder getModuleStateHolder() {
         return moduleStateHolder;

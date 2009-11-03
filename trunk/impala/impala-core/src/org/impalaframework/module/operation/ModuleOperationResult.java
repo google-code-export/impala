@@ -17,11 +17,12 @@ package org.impalaframework.module.operation;
 import java.util.Collections;
 import java.util.Map;
 
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.springframework.util.Assert;
 
 /**
- * Encapsulates the result of a {@link ModuleOperation#execute(ModuleOperationInput)} invocation. 
+ * Encapsulates the result of a {@link ModuleOperation#execute(Application, ModuleOperationInput)} invocation. 
  * 
  * @author Phil Zoio
  */

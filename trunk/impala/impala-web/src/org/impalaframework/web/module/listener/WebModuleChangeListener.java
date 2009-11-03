@@ -65,7 +65,7 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
                 ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
                 
                 ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
-                operation.execute(moduleOperationInput);
+                operation.execute(application, moduleOperationInput);
             }
         }
     }

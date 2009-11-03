@@ -31,6 +31,8 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
@@ -47,6 +49,8 @@ public class ModuleManagementOperationsTest extends TestCase {
     
     private TransitionSet moduleModificationSet;
 
+    private Application application;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -57,7 +61,9 @@ public class ModuleManagementOperationsTest extends TestCase {
         moduleModificationSet = createMock(TransitionSet.class);
         operations.setModuleOperationRegistry(moduleOperationRegistry);
         
-        operations.setApplicationManager(TestApplicationManager.newApplicationManager(null, null, null));
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, null, null);
+        application = applicationManager.getCurrentApplication();
+        operations.setApplicationManager(applicationManager);
     }
 
     public void testReload() {
@@ -65,7 +71,7 @@ public class ModuleManagementOperationsTest extends TestCase {
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("moduleName", "moduleName");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newSuccessTransitionResultSet(), resultMap));
+        expect(moduleOperation.execute(application, new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newSuccessTransitionResultSet(), resultMap));
         replayMocks();
 
         assertEquals("Successfully reloaded moduleName", operations.reloadModule("someModule"));
@@ -78,7 +84,7 @@ public class ModuleManagementOperationsTest extends TestCase {
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
         HashMap<String, Object> resultMap = new HashMap<String, Object>();
         resultMap.put("moduleName", "moduleName");
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newFailedTransitionResultSet(), resultMap));
+        expect(moduleOperation.execute(application, new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(newFailedTransitionResultSet(), resultMap));
         replayMocks();
 
         assertEquals("One or more module operations failed: stuff went wrong1", operations.reloadModule("someModule"));
@@ -89,7 +95,7 @@ public class ModuleManagementOperationsTest extends TestCase {
     public void testModuleNotFound() {
         
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(new TransitionResultSet()));
+        expect(moduleOperation.execute(application, new ModuleOperationInput(null, null, "someModule"))).andReturn(new ModuleOperationResult(new TransitionResultSet()));
 
         replayMocks();
 
@@ -101,7 +107,7 @@ public class ModuleManagementOperationsTest extends TestCase {
     public void testThrowException() {
 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(new ModuleOperationInput(null, null, "someModule"))).andThrow(new IllegalStateException());
+        expect(moduleOperation.execute(application, new ModuleOperationInput(null, null, "someModule"))).andThrow(new IllegalStateException());
 
         replayMocks();
 
