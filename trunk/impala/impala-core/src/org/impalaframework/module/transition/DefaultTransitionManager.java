@@ -75,7 +75,7 @@ public class DefaultTransitionManager implements TransitionManager {
                 TransitionResult result;
       
                 try {
-                    transitionProcessor.process(transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+                    transitionProcessor.process(application, transitions.getNewRootModuleDefinition(), currentModuleDefinition);
                     result = new TransitionResult(change);
                 }
                 catch (Throwable error) {

@@ -24,6 +24,8 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 
 public class ReloadTransitionProcessorTest extends TestCase {
@@ -38,6 +40,8 @@ public class ReloadTransitionProcessorTest extends TestCase {
 
     private ModuleDefinition definition;
 
+    private Application application;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -49,39 +53,40 @@ public class ReloadTransitionProcessorTest extends TestCase {
 
         rootDefinition = new SimpleRootModuleDefinition("project1", "p1");
         definition = new SimpleModuleDefinition(rootDefinition, "p3");
+        application = TestApplicationManager.newApplicationManager().getCurrentApplication();
     }
 
     public final void testBothTrue() {
 
-        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
-        expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
+        expect(unloadTransitionProcessor.process(application, rootDefinition, definition)).andReturn(true);
+        expect(loadTransitionProcessor.process(application, rootDefinition, definition)).andReturn(true);
 
         replayMocks();
 
-        assertTrue(processor.process(rootDefinition, definition));
+        assertTrue(processor.process(application, rootDefinition, definition));
 
         verifyMocks();
     }
 
     public final void testUnloadFalse() {
 
-        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
+        expect(unloadTransitionProcessor.process(application, rootDefinition, definition)).andReturn(false);
 
         replayMocks();
 
-        assertFalse(processor.process(rootDefinition, definition));
+        assertFalse(processor.process(application, rootDefinition, definition));
 
         verifyMocks();
     }
 
     public final void testLoadFalse() {
 
-        expect(unloadTransitionProcessor.process(rootDefinition, definition)).andReturn(true);
-        expect(loadTransitionProcessor.process(rootDefinition, definition)).andReturn(false);
+        expect(unloadTransitionProcessor.process(application, rootDefinition, definition)).andReturn(true);
+        expect(loadTransitionProcessor.process(application, rootDefinition, definition)).andReturn(false);
 
         replayMocks();
 
-        assertFalse(processor.process(rootDefinition, definition));
+        assertFalse(processor.process(application, rootDefinition, definition));
 
         verifyMocks();
     }

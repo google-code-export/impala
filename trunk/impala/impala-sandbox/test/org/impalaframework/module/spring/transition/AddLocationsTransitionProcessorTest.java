@@ -26,7 +26,9 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
 import org.impalaframework.module.holder.SharedModuleDefinitionSources;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.spring.module.SpringModuleLoader;
 import org.springframework.beans.factory.support.BeanDefinitionReader;
@@ -45,6 +47,8 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 
 	private BeanDefinitionReader beanDefinitionReader;
 
+    private Application application;
+
 	public final void testProcess() {
 		ModuleLoaderRegistry registry = new ModuleLoaderRegistry();
 
@@ -57,6 +61,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		context = createMock(ConfigurableApplicationContext.class);
 		moduleLoader = createMock(SpringModuleLoader.class);
 		beanDefinitionReader = createMock(BeanDefinitionReader.class);
+        application = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null).getCurrentApplication();
 
 		registry.addItem(originalSpec.getType(), moduleLoader);
 
@@ -73,7 +78,7 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 		expect(beanDefinitionReader.loadBeanDefinitions(aryEq(resources3))).andReturn(0);
 
 		replayMocks();
-		processor.process(newSpec, newSpec);
+		processor.process(application, newSpec, newSpec);
 		verifyMock();
 	}
 

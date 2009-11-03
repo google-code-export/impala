@@ -16,6 +16,7 @@ package org.impalaframework.module.transition;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
 
@@ -25,15 +26,15 @@ public class ReloadTransitionProcessor implements TransitionProcessor {
 
     private TransitionProcessor unloadTransitionProcessor;
 
-    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
         Assert.notNull(loadTransitionProcessor);
         Assert.notNull(unloadTransitionProcessor);
 
         boolean success = true;
 
-        success = unloadTransitionProcessor.process(rootDefinition, currentDefinition);
+        success = unloadTransitionProcessor.process(application, rootDefinition, currentDefinition);
         if (success) {
-            success = loadTransitionProcessor.process(rootDefinition, currentDefinition);
+            success = loadTransitionProcessor.process(application, rootDefinition, currentDefinition);
         }
 
         return success;

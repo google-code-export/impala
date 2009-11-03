@@ -21,6 +21,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.runtime.ModuleRuntimeUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionProcessor;
@@ -42,7 +43,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public boolean process(RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
+	public boolean process(Application application, RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
 
 		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(newRootDefinition));
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);

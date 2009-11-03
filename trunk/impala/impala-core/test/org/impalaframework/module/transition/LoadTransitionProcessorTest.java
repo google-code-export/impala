@@ -29,17 +29,21 @@ import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
+import org.impalaframework.module.spi.TestApplicationManager;
 
 public class LoadTransitionProcessorTest extends TestCase {
 
     private LoadTransitionProcessor processor;
     private ModuleRuntimeManager moduleRuntimeManager;
+    private Application application;
 
     public void setUp() {
         processor = new LoadTransitionProcessor();
         moduleRuntimeManager = createMock(ModuleRuntimeManager.class);
         processor.setModuleRuntimeManager(moduleRuntimeManager);
+        application = TestApplicationManager.newApplicationManager().getCurrentApplication();
     }
     
     public void testProcess() {
@@ -58,7 +62,7 @@ public class LoadTransitionProcessorTest extends TestCase {
         replay(moduleRuntimeManager);
         
         for (ModuleDefinition moduleDefinition : modules) {
-            processor.process(a, moduleDefinition);
+            processor.process(application, a, moduleDefinition);
         }
         
         verify(moduleRuntimeManager);
