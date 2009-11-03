@@ -19,6 +19,8 @@ import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleLoader;
@@ -68,6 +70,11 @@ public interface ModuleManagementFacade extends BeanFactory {
      * Used by the framework to hold and manage module state
      */
     ModuleStateHolder getModuleStateHolder();
+    
+    /**
+     * Returns the {@link ApplicationManager} manager used to access {@link Application} instances 
+     */
+    ApplicationManager getApplicationManager();
 
     /**
      * Holds registry of predefined {@link ModuleOperation} instances

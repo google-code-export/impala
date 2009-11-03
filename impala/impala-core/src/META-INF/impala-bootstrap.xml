@@ -22,6 +22,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="transitionProcessorRegistry" ref="transitionProcessorRegistry"/>
      <property name="transitionManager" ref="transitionManager"/>
      <property name="moduleStateHolder" ref="moduleStateHolder"/>
+     <property name="applicationManager" ref="applicationManager"/>
      <property name="moduleStateChangeNotifier" ref="moduleStateChangeNotifier"/>
      <property name="typeReaderRegistry" ref="typeReaderRegistry"/>
      <property name="moduleRuntimeManager" ref="moduleRuntimeManager"/>

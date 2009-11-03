@@ -19,6 +19,7 @@ import java.lang.reflect.Method;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
@@ -55,8 +56,11 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     
     private TransitionManager transitionManager;
 
+    @Deprecated
     private ModuleStateHolder moduleStateHolder;
 
+    private ApplicationManager applicationManager;
+    
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
     
     private TypeReaderRegistry typeReaderRegistry;
@@ -73,6 +77,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
         Assert.notNull(transitionManager, "transitionManager cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+        Assert.notNull(applicationManager, "applicationManager cannot be null");
         Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
         Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
         Assert.notNull(moduleRuntimeManager , "moduleRuntimeManager cannot be null");
@@ -110,6 +115,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     public ModuleStateHolder getModuleStateHolder() {
         return moduleStateHolder;
     }
+    
+    public ApplicationManager getApplicationManager() {
+        return applicationManager;
+    }
 
     public ModuleStateChangeNotifier getModuleStateChangeNotifier() {
         return moduleStateChangeNotifier;
@@ -143,6 +152,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
 
     public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
         this.moduleStateHolder = moduleStateHolder;
+    }
+    
+    public void setApplicationManager(ApplicationManager applicationManager) {
+        this.applicationManager = applicationManager;
     }
 
     public void setModuleLoaderRegistry(ModuleLoaderRegistry moduleLoaderRegistry) {
