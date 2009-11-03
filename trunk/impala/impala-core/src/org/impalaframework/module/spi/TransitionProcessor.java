@@ -22,5 +22,7 @@ import org.impalaframework.module.RootModuleDefinition;
  * @author Phil Zoio
  */
 public interface TransitionProcessor {
+    
     public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition);
+    
 }
