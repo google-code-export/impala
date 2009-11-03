@@ -29,6 +29,8 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
@@ -89,6 +91,9 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
         // add items to servlet context
         servletContext.setAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE, moduleDefinitionSource);
         servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, facade);
+
+        ApplicationManager applicationManager = facade.getApplicationManager();
+        Application application = applicationManager.getCurrentApplication();
         
         ModuleOperationInput input = new ModuleOperationInput(moduleDefinitionSource, null, null);
         ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.UpdateRootModuleOperation);       

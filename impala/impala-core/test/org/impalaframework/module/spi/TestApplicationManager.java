@@ -39,6 +39,10 @@ public class TestApplicationManager implements ApplicationManager {
             ServiceRegistry serviceRegistry) {
         return new TestApplicationManager(new TestApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry));
     }
+
+    public static ApplicationManager newApplicationManager() {
+        return new TestApplicationManager(new TestApplication(null, null, null));
+    }
     
     
 }

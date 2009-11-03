@@ -40,6 +40,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.definition.ConstructedModuleDefinitionSource;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.source.InternalXmlModuleDefinitionSource;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.osgi.startup.OsgiContextStarter;
 import org.impalaframework.resolver.ModuleLocationResolver;
@@ -129,6 +130,8 @@ public class ImpalaActivatorTest extends TestCase {
         
         expect(applicationContext.getBean("moduleManagementFacade")).andReturn(moduleManagementFacade);
         expect(moduleManagementFacade.getModuleStateHolder()).andReturn(null);
+        expect(moduleManagementFacade.getApplicationManager()).andReturn(TestApplicationManager.newApplicationManager());
+        
         expect(bundleContext.registerService(eq(OperationsFacade.class.getName()), isA(SimpleOperationsFacade.class), (Dictionary) isNull())).andReturn(null);
         
         replayMocks();

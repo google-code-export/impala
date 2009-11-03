@@ -34,6 +34,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.listener.WebModuleChangeListener;
 
@@ -73,24 +74,25 @@ public class WebModuleChangeListenerTest extends TestCase {
         ServletContext servletContext = createMock(ServletContext.class);
         final WebModuleChangeListener listener = new WebModuleChangeListener();
         listener.setServletContext(servletContext);
-        ModuleManagementFacade bootstrapFactory = createMock(ModuleManagementFacade.class);
+        ModuleManagementFacade facade = createMock(ModuleManagementFacade.class);
         ModuleOperationRegistry moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
         ModuleOperation moduleOperation = createMock(ModuleOperation.class);
 
-        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(bootstrapFactory);
-        expect(bootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
+        expect(facade.getApplicationManager()).andReturn(TestApplicationManager.newApplicationManager());
+        expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
         expect(moduleOperation.execute(isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
         
         replay(servletContext);
-        replay(bootstrapFactory);
+        replay(facade);
         replay(moduleOperationRegistry);
         replay(moduleOperation);
         
         listener.moduleContentsModified(event);
 
         verify(servletContext);
-        verify(bootstrapFactory);
+        verify(facade);
         verify(moduleOperationRegistry);
         verify(moduleOperation);
 

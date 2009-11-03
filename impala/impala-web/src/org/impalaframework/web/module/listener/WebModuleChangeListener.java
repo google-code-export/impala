@@ -27,6 +27,8 @@ import org.impalaframework.module.monitor.ModuleContentChangeListener;
 import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.web.context.ServletContextAware;
 
@@ -51,13 +53,17 @@ public class WebModuleChangeListener extends BaseModuleChangeListener implements
         Set<String> modified = getModifiedModules(event);
 
         if (!modified.isEmpty()) {
-            ModuleManagementFacade factory = WebServletUtils.getModuleManagementFacade(servletContext);
+            
+            ModuleManagementFacade factory = WebServletUtils.getModuleManagementFacade(servletContext);                
+            ApplicationManager applicationManager = factory.getApplicationManager();
+            Application application = applicationManager.getCurrentApplication();
 
             for (String moduleName : modified) {
 
                 logger.info("Processing modified module " + moduleName);
 
                 ModuleOperation operation = factory.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadNamedModuleOperation);
+                
                 ModuleOperationInput moduleOperationInput = new ModuleOperationInput(null, null, moduleName);
                 operation.execute(moduleOperationInput);
             }

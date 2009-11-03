@@ -63,7 +63,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         Assert.notNull(facade, "facade cannot be null");
         this.facade = facade;
         this.moduleStateHolder = facade.getModuleStateHolder();
-        //this.applicationManager = facade.getApplicationManager();
+        this.applicationManager = facade.getApplicationManager();
     }
 
     public BaseOperationsFacade() {
