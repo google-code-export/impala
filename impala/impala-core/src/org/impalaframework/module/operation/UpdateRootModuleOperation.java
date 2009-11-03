@@ -58,7 +58,7 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
         
         TransitionSet transitions = calculator.getTransitions(oldModuleDefinition, newModuleDefinition);
-        TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, transitions);
+        TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
         return new ModuleOperationResult(transitionResultSet);
     }
 

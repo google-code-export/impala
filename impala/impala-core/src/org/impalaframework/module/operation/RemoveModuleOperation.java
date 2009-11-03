@@ -44,14 +44,14 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
         
         ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
-        TransitionResultSet transitionResultSet = removeModule(moduleStateHolder, calculator, moduleToRemove);
+        TransitionResultSet transitionResultSet = removeModule(moduleStateHolder, application, calculator, moduleToRemove);
         
         boolean hasResults = transitionResultSet.hasResults();
         return hasResults ? new ModuleOperationResult(transitionResultSet) : ModuleOperationResult.EMPTY;
     }
     
-    protected TransitionResultSet removeModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
-            String moduleToRemove) {
+    protected TransitionResultSet removeModule(ModuleStateHolder moduleStateHolder, Application application,
+            ModificationExtractor calculator, String moduleToRemove) {
         
         RootModuleDefinition oldRootDefinition = moduleStateHolder.getRootModuleDefinition();
         
@@ -66,7 +66,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
             if (definitionToRemove instanceof RootModuleDefinition) {
                 //we're removing the rootModuleDefinition
                 TransitionSet transitions = calculator.getTransitions(oldRootDefinition, null);
-                TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, transitions);
+                TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
                 return transitionResultSet;
             }
             else {
@@ -77,7 +77,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
                     definitionToRemove.setParentDefinition(null);
 
                     TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-                    TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, transitions);
+                    TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
                     return transitionResultSet;
                 }
                 else {

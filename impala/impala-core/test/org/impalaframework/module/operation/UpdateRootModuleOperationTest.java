@@ -63,7 +63,7 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
         
         RootModuleDefinition existingDefinition = getExistingDefinition();
         expect(strictModificationExtractor.getTransitions(existingDefinition, newDefinition)).andReturn(transitionSet);
-        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(new TransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
         replay(moduleDefinitionSource);

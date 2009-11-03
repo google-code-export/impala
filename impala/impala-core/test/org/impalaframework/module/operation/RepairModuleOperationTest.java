@@ -71,7 +71,7 @@ public class RepairModuleOperationTest extends BaseModuleOperationTest {
         
         expect(repairModificationExtractor.getTransitions(isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
     
-        transitionManager.processTransitions(eq(moduleStateHolder), isA(TransitionSet.class));
+        transitionManager.processTransitions(eq(moduleStateHolder), application, isA(TransitionSet.class));
         
         replayMocks();
         replay(moduleDefinitionSource);

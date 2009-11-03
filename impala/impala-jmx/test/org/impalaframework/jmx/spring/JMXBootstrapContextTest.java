@@ -17,10 +17,11 @@ package org.impalaframework.jmx.spring;
 import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.jmx.spring.ModuleManagementOperations;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModificationExtractorType;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionManager;
@@ -62,7 +63,11 @@ public class JMXBootstrapContextTest extends TestCase {
 
         ModuleStateHolder moduleStateHolder = facade.getModuleStateHolder();
         TransitionManager transitionManager = facade.getTransitionManager();
-        transitionManager.processTransitions(moduleStateHolder, transitions);
+        
+        ApplicationManager applicationManager = facade.getApplicationManager();
+        Application application = applicationManager.getCurrentApplication();
+        
+        transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
         ModuleManagementOperations operations = (ModuleManagementOperations) facade.getBean("moduleManagementOperations");
 

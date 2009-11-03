@@ -50,7 +50,7 @@ public class AddModuleOperationTest extends BaseModuleOperationTest {
         
         newDefinition.addChildModuleDefinition(moduleDefinition);
         
-        expect(transitionManager.processTransitions(moduleStateHolder, transitionSet)).andReturn(new TransitionResultSet());
+        expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(new TransitionResultSet());
         
         replayMocks();
 
