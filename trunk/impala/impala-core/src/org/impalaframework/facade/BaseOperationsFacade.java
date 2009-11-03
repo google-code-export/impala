@@ -27,6 +27,7 @@ import org.impalaframework.module.operation.ModuleOperation;
 import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.startup.ClassPathApplicationContextStarter;
 import org.impalaframework.startup.ContextStarter;
@@ -47,7 +48,10 @@ import org.springframework.util.Assert;
  */
 public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
+    @Deprecated
     private ModuleStateHolder moduleStateHolder = null;
+    
+    private ApplicationManager applicationManager;
 
     private ModuleManagementFacade facade;
 
@@ -59,6 +63,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         Assert.notNull(facade, "facade cannot be null");
         this.facade = facade;
         this.moduleStateHolder = facade.getModuleStateHolder();
+        //this.applicationManager = facade.getApplicationManager();
     }
 
     public BaseOperationsFacade() {
@@ -247,6 +252,16 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         }
         return facade;
     }
+    
+    /* **************************** protected methods ************************** */
+
+    protected ModuleStateHolder getModuleStateHolder() {
+        
+        if (moduleStateHolder == null) {
+            throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
+        }
+        return moduleStateHolder;
+    }
 
     /* **************************** private methods ************************** */
 
@@ -269,12 +284,4 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         }
         return bean;
     }
-
-    protected ModuleStateHolder getModuleStateHolder() {
-        if (moduleStateHolder == null) {
-            throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
-        }
-        return moduleStateHolder;
-    }
-
 }
