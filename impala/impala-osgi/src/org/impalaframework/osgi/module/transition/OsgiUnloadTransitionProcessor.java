@@ -16,6 +16,7 @@ package org.impalaframework.osgi.module.transition;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.transition.UnloadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
 import org.osgi.framework.Bundle;
@@ -24,7 +25,7 @@ import org.springframework.osgi.context.BundleContextAware;
 
 /**
  * Extends {@link UnloadTransitionProcessor} by uninstalling bundle, but only after performing the 
- * superclass's {@link #process(RootModuleDefinition, ModuleDefinition)} operation.
+ * superclass's {@link #process(Application, RootModuleDefinition, ModuleDefinition)} operation.
  * @author Phil Zoio
  */
 public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor implements BundleContextAware {
@@ -36,10 +37,10 @@ public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor imp
     }
 
     @Override
-    public boolean process(RootModuleDefinition newRootDefinition,
-            ModuleDefinition currentDefinition) {
+    public boolean process(Application application,
+            RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
         
-        boolean process = super.process(newRootDefinition, currentDefinition);
+        boolean process = super.process(application, newRootDefinition, currentDefinition);
         
         boolean unload = findAndUnloadBundle(currentDefinition);
         return (process & unload);

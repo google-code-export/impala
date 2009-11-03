@@ -17,7 +17,10 @@ package org.impalaframework.module.spi;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 
-
+/**
+ * Defines mechanism for processing a particular transition, given the supplied {@link RootModuleDefinition} and definition for the current module
+ * @author Phil Zoio
+ */
 public interface TransitionProcessor {
-    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition);
+    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentModuleDefinition);
 }

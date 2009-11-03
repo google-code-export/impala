@@ -19,6 +19,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.runtime.ModuleRuntimeUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.transition.LoadTransitionProcessor;
 import org.impalaframework.osgi.util.OsgiUtils;
@@ -45,11 +46,11 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
     }
 
     @Override
-    public boolean process(RootModuleDefinition newRootDefinition,
-            ModuleDefinition currentDefinition) {
+    public boolean process(Application application,
+            RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
         
         findAndStartBundle(currentDefinition);
-        return super.process(newRootDefinition, currentDefinition);
+        return super.process(application, newRootDefinition, currentDefinition);
     }
 
     void findAndStartBundle(ModuleDefinition currentDefinition) {

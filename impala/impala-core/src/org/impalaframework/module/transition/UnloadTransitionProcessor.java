@@ -19,6 +19,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.springframework.util.Assert;
@@ -29,7 +30,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
     private ModuleRuntimeManager moduleRuntimeManager;  
     
-    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
+    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
         
         Assert.notNull(moduleDefinition);
         Assert.notNull(moduleRuntimeManager);

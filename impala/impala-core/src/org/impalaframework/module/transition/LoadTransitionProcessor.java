@@ -22,6 +22,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 
@@ -35,7 +36,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
         super();
     }
 
-    public boolean process(RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
 
         final String definitionName = currentDefinition.getName();
         logger.info("Loading definition " + definitionName);
