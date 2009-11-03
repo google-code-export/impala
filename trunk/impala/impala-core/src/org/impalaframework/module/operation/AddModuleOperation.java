@@ -45,11 +45,14 @@ public class AddModuleOperation extends BaseModuleOperation {
         ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
         
-        TransitionResultSet transitionResultSet = addModule(moduleStateHolder, calculator, moduleToAdd);
+        TransitionResultSet transitionResultSet = addModule(moduleStateHolder, application, calculator, moduleToAdd);
         return new ModuleOperationResult(transitionResultSet);
     }
     
-    protected TransitionResultSet addModule(ModuleStateHolder moduleStateHolder, ModificationExtractor calculator,
+    protected TransitionResultSet addModule(
+            ModuleStateHolder moduleStateHolder, 
+            Application application,
+            ModificationExtractor calculator, 
             ModuleDefinition moduleDefinition) {
 
         RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
@@ -82,7 +85,7 @@ public class AddModuleOperation extends BaseModuleOperation {
         }
 
         TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
-        return getTransitionManager().processTransitions(moduleStateHolder, transitions);
+        return getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
     }   
     
 }

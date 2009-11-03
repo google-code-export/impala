@@ -27,9 +27,12 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.holder.DefaultModuleStateHolder;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.DefaultTransitionManager;
@@ -49,6 +52,7 @@ public class ProcessTransitionsTest extends TestCase {
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
     private ModuleRuntimeManager moduleRuntimeManager;
     private DefaultTransitionManager transitionManager;
+    private Application application;
     
     private void replayMocks() {
         replay(loader);
@@ -76,6 +80,9 @@ public class ProcessTransitionsTest extends TestCase {
 
         moduleStateHolder = new DefaultModuleStateHolder();
         transitionManager = new DefaultTransitionManager();
+        
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
+        application = applicationManager.getCurrentApplication();
         
         TransitionProcessorRegistry transitionProcessors = new TransitionProcessorRegistry();
         loadTransitionProcessor = new LoadTransitionProcessor();
@@ -105,7 +112,7 @@ public class ProcessTransitionsTest extends TestCase {
         
         Set<ModuleStateChange> singleton = Collections.singleton(moduleStateChange);
         TransitionSet transitionSet = new TransitionSet(singleton, rootModuleDefinition);
-        transitionManager.processTransitions(moduleStateHolder, transitionSet);
+        transitionManager.processTransitions(moduleStateHolder, application, transitionSet);
         verifyMocks();
     }
     

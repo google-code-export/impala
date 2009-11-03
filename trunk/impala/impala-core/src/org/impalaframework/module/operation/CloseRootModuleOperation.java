@@ -50,7 +50,7 @@ public class CloseRootModuleOperation extends BaseModuleOperation {
         if (rootModuleDefinition != null) {
             logger.info("Shutting down application context");
             TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
-            TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, transitions);
+            TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
             return new ModuleOperationResult(transitionResultSet);
         }
         else {

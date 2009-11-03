@@ -33,8 +33,11 @@ import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
 import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.modification.StrictModificationExtractor;
 import org.impalaframework.module.runtime.DefaultModuleRuntimeManager;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleRuntime;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionSet;
 import org.impalaframework.module.transition.DefaultTransitionManager;
@@ -97,7 +100,11 @@ public class TransitionManagerTest extends TestCase {
         RootModuleDefinition test1Definition = newTest1().getModuleDefinition();
         ModificationExtractor calculator = new StrictModificationExtractor();
         TransitionSet transitions = calculator.getTransitions(null, test1Definition);
-        transitionManager.processTransitions(moduleStateHolder, transitions);
+       
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
+        Application application = applicationManager.getCurrentApplication();
+        
+        transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
         ConfigurableApplicationContext context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
         service((FileMonitor) context.getBean("bean1"));
@@ -105,7 +112,7 @@ public class TransitionManagerTest extends TestCase {
 
         RootModuleDefinition test2Definition = newTest2().getModuleDefinition();
         transitions = calculator.getTransitions(test1Definition, test2Definition);
-        transitionManager.processTransitions(moduleStateHolder, transitions);
+        transitionManager.processTransitions(moduleStateHolder, application, transitions);
 
         context = SpringModuleUtils.getRootSpringContext(moduleStateHolder);
         service((FileMonitor) context.getBean("bean1"));

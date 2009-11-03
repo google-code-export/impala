@@ -20,6 +20,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -51,7 +52,7 @@ public class DefaultTransitionManager implements TransitionManager {
         super();
     }
 
-    public TransitionResultSet processTransitions(ModuleStateHolder moduleStateHolder, TransitionSet transitions) {
+    public TransitionResultSet processTransitions(ModuleStateHolder moduleStateHolder, Application application, TransitionSet transitions) {
 
         TransitionResultSet resultSet = new TransitionResultSet();
         
