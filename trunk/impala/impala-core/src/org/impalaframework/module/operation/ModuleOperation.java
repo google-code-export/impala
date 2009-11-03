@@ -33,5 +33,12 @@ import org.impalaframework.module.spi.Application;
  * @author Phil Zoio
  */
 public interface ModuleOperation {  
+    
+    /**
+     * Applies the module operation on the supplied {@link Application} instance, using the parameters contained in {@link ModuleOperationInput}
+     * @param application an {@link Application} instance, typically obtained using {@link org.impalaframework.module.spi.ApplicationManager#getCurrentApplication()}
+     * @param moduleOperationInput contains metadata parameter information for the operation
+     * @return a {@link ModuleOperationResult} instance, which encapsulates results on the operations executed
+     */
     public ModuleOperationResult execute(Application application, ModuleOperationInput moduleOperationInput);
 }
