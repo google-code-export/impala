@@ -31,6 +31,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionSet;
 
@@ -55,6 +56,8 @@ public class ModuleManagementOperationsTest extends TestCase {
         rootModuleDefinition = createMock(RootModuleDefinition.class);
         moduleModificationSet = createMock(TransitionSet.class);
         operations.setModuleOperationRegistry(moduleOperationRegistry);
+        
+        operations.setApplicationManager(TestApplicationManager.newApplicationManager(null, null, null));
     }
 
     public void testReload() {
