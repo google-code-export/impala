@@ -33,8 +33,9 @@ public interface ModuleLoader {
     
     /**
      * returns a new class loader for the module
+     * @param application TODO
      */
-    ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent);
+    ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent);
     
     /**
      * Return an array of {@link Resource} instances which represent the locations from which module classes and resources are to be loaded

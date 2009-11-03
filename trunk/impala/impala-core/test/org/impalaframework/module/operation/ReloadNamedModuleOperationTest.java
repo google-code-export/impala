@@ -26,7 +26,6 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
     protected LockingModuleOperation getOperation() {
         ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-        operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
         operation.setTransitionManager(transitionManager);
         return operation;
@@ -49,7 +48,7 @@ public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
         expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);
         newDefinition.setState(ModuleState.STALE);
         
-        expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+        expect(strictModificationExtractor.getTransitions(application, originalDefinition, newDefinition)).andReturn(transitionSet);
         expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(new TransitionResultSet());
         expect(transitionSet.getModuleTransitions()).andReturn(Collections.EMPTY_LIST);
         

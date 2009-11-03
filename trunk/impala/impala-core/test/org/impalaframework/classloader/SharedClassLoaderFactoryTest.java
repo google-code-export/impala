@@ -24,7 +24,7 @@ public class SharedClassLoaderFactoryTest extends TestCase {
         SharedClassLoaderFactory factory = new SharedClassLoaderFactory();
         ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
         factory.setBeanClassLoader(defaultClassLoader);
-        assertSame(defaultClassLoader, factory.newClassLoader(null, null));
+        assertSame(defaultClassLoader, factory.newClassLoader(null, null, null));
     }
 
 }

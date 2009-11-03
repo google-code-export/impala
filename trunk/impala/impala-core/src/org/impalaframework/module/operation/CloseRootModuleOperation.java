@@ -41,7 +41,7 @@ public class CloseRootModuleOperation extends BaseModuleOperation {
 
     public ModuleOperationResult doExecute(Application application, ModuleOperationInput moduleOperationInput) {
         
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         ModificationExtractorRegistry modificationExtractorRegistry = getModificationExtractorRegistry();
         ModificationExtractor calculator = modificationExtractorRegistry
                 .getModificationExtractor(ModificationExtractorType.STRICT);
@@ -49,7 +49,7 @@ public class CloseRootModuleOperation extends BaseModuleOperation {
         
         if (rootModuleDefinition != null) {
             logger.info("Shutting down application context");
-            TransitionSet transitions = calculator.getTransitions(rootModuleDefinition, null);
+            TransitionSet transitions = calculator.getTransitions(application, rootModuleDefinition, null);
             TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
             return new ModuleOperationResult(transitionResultSet);
         }

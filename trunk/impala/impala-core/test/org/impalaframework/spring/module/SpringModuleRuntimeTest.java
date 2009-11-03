@@ -23,7 +23,9 @@ import junit.framework.TestCase;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.springframework.context.ConfigurableApplicationContext;
 
 public class SpringModuleRuntimeTest extends TestCase {
@@ -34,6 +36,7 @@ public class SpringModuleRuntimeTest extends TestCase {
     private ModuleDefinition definition1;
     private ModuleDefinition definition2;
     private ModuleDefinition definition3;
+    private Application application;
 
     @Override
     protected void setUp() throws Exception {
@@ -41,14 +44,14 @@ public class SpringModuleRuntimeTest extends TestCase {
         
         moduleRuntime = new SpringModuleRuntime();
         moduleStateHolder = createMock(ModuleStateHolder.class);
-        moduleRuntime.setModuleStateHolder(moduleStateHolder);
-        moduleRuntime.setClassLoaderRegistry(new ModuleClassLoaderRegistry());
         
         applicationContext = createMock(ConfigurableApplicationContext.class);
         
         definition1 = createMock(ModuleDefinition.class);
         definition2 = createMock(ModuleDefinition.class);
         definition3 = createMock(ModuleDefinition.class);
+
+        application = TestApplicationManager.newApplicationManager(new ModuleClassLoaderRegistry(), moduleStateHolder, null).getCurrentApplication();
     }
     
     public void testGetParentApplicationContextWithNonSpringModule() throws Exception {
@@ -69,7 +72,7 @@ public class SpringModuleRuntimeTest extends TestCase {
         
         replay(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
         
-        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
+        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(application, definition3));
         
         verify(definition1, definition2, definition3, module1, module2, module3, moduleStateHolder);
     }
@@ -86,7 +89,7 @@ public class SpringModuleRuntimeTest extends TestCase {
         
         replay(definition1, definition2, definition3, module1, module3, moduleStateHolder);
         
-        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(definition3));
+        assertSame(applicationContext, moduleRuntime.getParentApplicationContext(application, definition3));
         
         verify(definition1, definition2, definition3, module1, module3, moduleStateHolder);
     }
@@ -101,7 +104,7 @@ public class SpringModuleRuntimeTest extends TestCase {
         
         replay(definition1, applicationContext, loader);
         
-        moduleRuntime.closeModule(new DefaultSpringRuntimeModule(definition1, applicationContext));
+        moduleRuntime.closeModule(application, new DefaultSpringRuntimeModule(definition1, applicationContext));
         
         verify(definition1, applicationContext, loader);
     }
@@ -112,7 +115,7 @@ public class SpringModuleRuntimeTest extends TestCase {
         
         replay(definition1, definition2, definition3, moduleStateHolder);
         
-        assertNull(moduleRuntime.getParentApplicationContext(definition3));
+        assertNull(moduleRuntime.getParentApplicationContext(application, definition3));
         
         verify(definition1, definition2, definition3, moduleStateHolder);
     }

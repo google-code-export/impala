@@ -19,7 +19,9 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.runtime.BaseModuleRuntime;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleRuntime;
+import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.util.ObjectUtils;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -27,7 +29,7 @@ import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link ModuleRuntime} which uses Spring-specific {@link ApplicationContextLoader} to 
- * return a {@link SpringRuntimeModule} in the {@link #loadRuntimeModule(ModuleDefinition)} method.
+ * return a {@link SpringRuntimeModule} in the {@link #loadRuntimeModule(Application, ModuleDefinition)} method.
  * 
  * @author Phil Zoio
  */
@@ -46,12 +48,12 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
     }
     
     @Override
-    protected RuntimeModule doLoadModule(ModuleDefinition definition) {
+    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
 
         Assert.notNull(definition);
         Assert.notNull(applicationContextLoader);
         
-        ApplicationContext parentContext = getParentApplicationContext(definition);
+        ApplicationContext parentContext = getParentApplicationContext(application, definition);
         
         if (logger.isDebugEnabled()) logger.debug("Loading runtime module for module definition " + definition);
         
@@ -59,7 +61,7 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
             logger.trace("Parent application context: " + parentContext);
         }
         
-        ConfigurableApplicationContext context = applicationContextLoader.loadContext(definition, parentContext);
+        ConfigurableApplicationContext context = applicationContextLoader.loadContext(application, definition, parentContext);
         
         if (logger.isTraceEnabled()) {
             logger.trace("New application context: " + parentContext);
@@ -82,19 +84,23 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
      * Retrieves {@link ApplicationContext} associated with module definition's parent defintion, if this is not null.
      * If module definition has no parent, then returns null.
      */
-    protected ApplicationContext getParentApplicationContext(ModuleDefinition definition) {
-        return internalGetParentApplicationContext(definition);
+    protected ApplicationContext getParentApplicationContext(Application application, ModuleDefinition definition) {
+        return internalGetParentApplicationContext(application, definition);
     }
 
     protected ApplicationContext internalGetParentApplicationContext(
-            ModuleDefinition definition) {
+            Application application, ModuleDefinition definition) {
+        
         ConfigurableApplicationContext parentContext = null;
         ModuleDefinition parentDefinition = definition.getParentDefinition();
         
         while (parentDefinition != null) {
             
             final String parentName = parentDefinition.getName();
-            final RuntimeModule parentModule = getModuleStateHolder().getModule(parentName);
+            
+            final ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+            
+            final RuntimeModule parentModule = moduleStateHolder.getModule(parentName);
             if (parentModule instanceof SpringRuntimeModule) {
                 SpringRuntimeModule springRuntimeModule = (SpringRuntimeModule) parentModule;
                 parentContext = springRuntimeModule.getApplicationContext();

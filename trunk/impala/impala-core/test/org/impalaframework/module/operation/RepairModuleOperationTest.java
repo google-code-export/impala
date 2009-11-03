@@ -35,7 +35,6 @@ public class RepairModuleOperationTest extends BaseModuleOperationTest {
     protected LockingModuleOperation getOperation() {
         RepairModulesOperation operation = new RepairModulesOperation();
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-        operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
         return operation;
     }
@@ -69,7 +68,7 @@ public class RepairModuleOperationTest extends BaseModuleOperationTest {
         TransitionSet set = new TransitionSet(new ArrayList<ModuleStateChange>(), definition);
         expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(definition);
         
-        expect(repairModificationExtractor.getTransitions(isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
+        expect(repairModificationExtractor.getTransitions(application, isA(RootModuleDefinition.class), isA(RootModuleDefinition.class))).andReturn(set);
     
         transitionManager.processTransitions(eq(moduleStateHolder), application, isA(TransitionSet.class));
         

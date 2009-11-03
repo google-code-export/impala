@@ -45,7 +45,8 @@ abstract class GraphModificationTestUtils {
 
     static Collection<? extends ModuleStateChange> assertTransitions(GraphModificationExtractorDelegate graphModificationExtractor, SimpleRootModuleDefinition root1,
             SimpleRootModuleDefinition root2, String expectedUnloads, String expectedLoads) {
-        final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(root1, root2).getModuleTransitions();
+        
+        final Collection<? extends ModuleStateChange> transitions = graphModificationExtractor.getTransitions(null, root1, root2).getModuleTransitions();
         
         List<String> loads = new ArrayList<String>();
         List<String> unloads = new ArrayList<String>();

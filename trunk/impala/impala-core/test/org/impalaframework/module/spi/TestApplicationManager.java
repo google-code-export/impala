@@ -42,7 +42,6 @@ public class TestApplicationManager implements ApplicationManager {
 
     public static ApplicationManager newApplicationManager() {
         return new TestApplicationManager(new TestApplication(null, null, null));
-    }
-    
+    }   
     
 }

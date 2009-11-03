@@ -16,6 +16,7 @@ package org.impalaframework.module.operation;
 
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.modification.RepairModificationExtractor;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModificationExtractorType;
 
 /**
@@ -33,8 +34,8 @@ public class RepairModulesOperation extends UpdateRootModuleOperation {
     }
 
     @Override
-    protected RootModuleDefinition getExistingModuleDefinitionSource() {
-        return getModuleStateHolder().cloneRootModuleDefinition();
+    protected RootModuleDefinition getExistingModuleDefinitionSource(Application application) {
+        return application.getModuleStateHolder().cloneRootModuleDefinition();
     }
 
     protected ModificationExtractorType getModificationExtractorType() {

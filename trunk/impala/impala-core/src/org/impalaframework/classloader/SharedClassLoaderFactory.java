@@ -17,13 +17,14 @@ package org.impalaframework.classloader;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 
 /**
  * Trivial implementation of {@link ClassLoader}. Exposes
  * {@link BeanClassLoaderAware#setBeanClassLoader(ClassLoader)} to capture the
  * class loader which loads the Impala application context. Simply returns this
- * when {@link #newClassLoader(ClassLoader, ModuleDefinition)} is called.
+ * when {@link #newClassLoader(Application, ClassLoader, ModuleDefinition)} is called.
  * 
  * @author Phil Zoio
  */
@@ -33,7 +34,7 @@ public class SharedClassLoaderFactory implements ClassLoaderFactory, BeanClassLo
     
     private ClassLoader classLoader;
     
-    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+    public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Returning shared class loader " + classLoader);

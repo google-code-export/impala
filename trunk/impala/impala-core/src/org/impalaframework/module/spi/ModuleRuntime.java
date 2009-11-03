@@ -17,24 +17,25 @@ package org.impalaframework.module.spi;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
-import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Abstraction for loading a {@link RuntimeModule} from a {@link ModuleDefinition}.
  * The default implementation is Spring based. It will load a {@link org.impalaframework.spring.module.SpringRuntimeModule},
- * which will itself contain a {@link ConfigurableApplicationContext} instance.
+ * which will itself contain a {@link org.springframework.context.ConfigurableApplicationContext} instance.
  * @author Phil Zoio
  */
 public interface ModuleRuntime {
     
     String getRuntimeName();
     
-    RuntimeModule loadRuntimeModule(ModuleDefinition definition);
+    /**
+     * Defines functionality for loading a {@link RuntimeModule} instance.
+     */
+    RuntimeModule loadRuntimeModule(Application application, ModuleDefinition definition);
     
-    public RuntimeModule getRootRuntimeModule();
-
-    public RuntimeModule getRuntimeModule(String moduleName);
-
-    void closeModule(RuntimeModule runtimeModule);
+    /**
+     * Defines functionality for closing/unloading a {@link RuntimeModule} instance.
+     */
+    void closeModule(Application application, RuntimeModule runtimeModule);
     
 }

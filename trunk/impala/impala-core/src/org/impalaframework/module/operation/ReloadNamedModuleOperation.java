@@ -48,7 +48,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
         Assert.notNull(moduleToReload, "moduleName is required as it specifies the name of the module to reload in "
                 + this.getClass().getName());
 
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
         RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
@@ -61,7 +61,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
         if (childDefinition != null) {
             childDefinition.setState(ModuleState.STALE);
 
-            TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
+            TransitionSet transitions = calculator.getTransitions(application, oldRootDefinition, newRootDefinition);
             TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
 
             boolean result = !transitions.getModuleTransitions().isEmpty();

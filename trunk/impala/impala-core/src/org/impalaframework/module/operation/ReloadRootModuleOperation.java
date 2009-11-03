@@ -15,6 +15,7 @@
 package org.impalaframework.module.operation;
 
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.spi.Application;
 
 /**
  * Implementation of {@link ModuleOperation} which encapsulates mechanism for updating the root module,
@@ -34,8 +35,8 @@ public class ReloadRootModuleOperation extends UpdateRootModuleOperation {
 	}
 
 	@Override
-	protected RootModuleDefinition getExistingModuleDefinitionSource() {
-		return getModuleStateHolder().cloneRootModuleDefinition();
+	protected RootModuleDefinition getExistingModuleDefinitionSource(Application application) {
+		return application.getModuleStateHolder().cloneRootModuleDefinition();
 	}
 	
 }

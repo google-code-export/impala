@@ -15,6 +15,7 @@
 package org.impalaframework.spring.module.loader;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 
@@ -28,10 +29,10 @@ public class ApplicationModuleLoader extends BaseSpringModuleLoader {
     }
 
     @Override
-    public GenericApplicationContext newApplicationContext(ApplicationContext parent,
-            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+    public GenericApplicationContext newApplicationContext(Application application,
+            ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
         //note that if parent is null, the module must be a sibling of root
-        return super.newApplicationContext(parent, moduleDefinition, classLoader);
+        return super.newApplicationContext(application, parent, moduleDefinition, classLoader);
     }
     
 }

@@ -15,6 +15,7 @@
 package org.impalaframework.classloader;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.spi.Application;
 
 /**
  * Interface representing a factory for {@link ClassLoader}s.
@@ -22,5 +23,5 @@ import org.impalaframework.module.ModuleDefinition;
  * @author Phil Zoio
  */
 public interface ClassLoaderFactory {
-    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition);
+    public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition);
 }

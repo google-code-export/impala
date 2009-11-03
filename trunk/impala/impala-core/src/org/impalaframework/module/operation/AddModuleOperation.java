@@ -42,19 +42,19 @@ public class AddModuleOperation extends BaseModuleOperation {
         ModuleDefinition moduleToAdd = moduleOperationInput.getModuleDefinition();
         Assert.notNull(moduleToAdd, "moduleName is required as it specifies the name of the module to add in " + this.getClass().getName());
         
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STICKY);
         
-        TransitionResultSet transitionResultSet = addModule(moduleStateHolder, application, calculator, moduleToAdd);
+        TransitionResultSet transitionResultSet = addModule(application, calculator, moduleToAdd);
         return new ModuleOperationResult(transitionResultSet);
     }
     
     protected TransitionResultSet addModule(
-            ModuleStateHolder moduleStateHolder, 
-            Application application,
-            ModificationExtractor calculator, 
+            Application application, 
+            ModificationExtractor calculator,
             ModuleDefinition moduleDefinition) {
 
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+        
         RootModuleDefinition oldRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
         RootModuleDefinition newRootDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
@@ -84,7 +84,7 @@ public class AddModuleOperation extends BaseModuleOperation {
             moduleDefinition.setParentDefinition(newParent);
         }
 
-        TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
+        TransitionSet transitions = calculator.getTransitions(application, oldRootDefinition, newRootDefinition);
         return getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
     }   
     

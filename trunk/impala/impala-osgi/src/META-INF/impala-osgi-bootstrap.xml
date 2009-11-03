@@ -7,15 +7,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
 
  <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OsgiClassLoaderFactory"/>
  
- <bean id="moduleStateHolder" class="org.impalaframework.module.holder.graph.GraphModuleStateHolder">
- </bean>
- 
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
-     <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
  </bean>
     
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.graph.StickyGraphModificationExtractor">
-     <property name = "moduleStateHolder" ref = "moduleStateHolder"/>
  </bean> 
  
  <bean id="baseModuleLoader" abstract="true">
@@ -25,15 +20,13 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
  <bean id="rootModuleLoader" 
      parent="baseModuleLoader"
-     class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">          
-    <property name = "serviceRegistry" ref="serviceRegistry"/> 
+     class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>       
  </bean>    
     
  <bean id="applicationModuleLoader" 
      parent="baseModuleLoader"
      class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
-    <property name = "serviceRegistry" ref="serviceRegistry"/>      
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
  </bean>
  

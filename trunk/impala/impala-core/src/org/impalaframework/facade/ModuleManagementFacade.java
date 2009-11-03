@@ -27,7 +27,6 @@ import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
-import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.module.spi.TypeReader;
@@ -65,11 +64,6 @@ public interface ModuleManagementFacade extends BeanFactory {
      * {@link ModuleDefinition}s via the {@link ModificationExtractor}s
      */
     TransitionProcessorRegistry getTransitionProcessorRegistry();
-
-    /**
-     * Used by the framework to hold and manage module state
-     */
-    ModuleStateHolder getModuleStateHolder();
     
     /**
      * Returns the {@link ApplicationManager} manager used to access {@link Application} instances 

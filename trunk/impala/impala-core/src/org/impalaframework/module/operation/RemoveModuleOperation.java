@@ -42,7 +42,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
         String moduleToRemove = moduleOperationInput.getModuleName();
         Assert.notNull(moduleToRemove, "moduleName is required as it specifies the name of the module to remove in " + this.getClass().getName());
         
-        ModuleStateHolder moduleStateHolder = getModuleStateHolder();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(ModificationExtractorType.STRICT);
         TransitionResultSet transitionResultSet = removeModule(moduleStateHolder, application, calculator, moduleToRemove);
         
@@ -65,7 +65,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
         if (definitionToRemove != null) {
             if (definitionToRemove instanceof RootModuleDefinition) {
                 //we're removing the rootModuleDefinition
-                TransitionSet transitions = calculator.getTransitions(oldRootDefinition, null);
+                TransitionSet transitions = calculator.getTransitions(application, oldRootDefinition, null);
                 TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
                 return transitionResultSet;
             }
@@ -76,7 +76,7 @@ public class RemoveModuleOperation  extends BaseModuleOperation {
                     
                     definitionToRemove.setParentDefinition(null);
 
-                    TransitionSet transitions = calculator.getTransitions(oldRootDefinition, newRootDefinition);
+                    TransitionSet transitions = calculator.getTransitions(application, oldRootDefinition, newRootDefinition);
                     TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
                     return transitionResultSet;
                 }

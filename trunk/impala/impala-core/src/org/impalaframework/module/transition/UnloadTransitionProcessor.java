@@ -34,7 +34,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
         
         Assert.notNull(moduleDefinition);
         Assert.notNull(moduleRuntimeManager);
-        boolean closeModule = moduleRuntimeManager.closeModule(moduleDefinition);
+        boolean closeModule = moduleRuntimeManager.closeModule(application, moduleDefinition);
         
         if (closeModule) {
             moduleDefinition.setState(ModuleState.UNLOADED);

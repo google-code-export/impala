@@ -20,6 +20,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleTestUtils;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
@@ -48,7 +49,7 @@ public class BaseSpringModuleLoaderTest extends TestCase {
                 return null;
             }
 
-            public ClassLoader newClassLoader(ModuleDefinition moduleDefinition, ApplicationContext parent) {
+            public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
                 return null;
             }
         };
@@ -56,7 +57,7 @@ public class BaseSpringModuleLoaderTest extends TestCase {
         GenericApplicationContext parentContext = new GenericApplicationContext();
         SimpleRootModuleDefinition rootDefinition = new SimpleRootModuleDefinition("project1", "context.xml");
         ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
-        GenericApplicationContext context = loader.newApplicationContext(parentContext, rootDefinition, classLoader);
+        GenericApplicationContext context = loader.newApplicationContext(null, parentContext, rootDefinition, classLoader);
 
         ModuleTestUtils.checkHasPostProcessor(false, context, ModuleDefinitionPostProcessor.class);
     }

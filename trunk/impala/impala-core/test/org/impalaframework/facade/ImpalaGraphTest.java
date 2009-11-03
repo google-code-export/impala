@@ -23,6 +23,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.source.InternalModuleDefinitionSource;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;
@@ -50,7 +51,8 @@ public class ImpalaGraphTest extends TestCase implements ModuleDefinitionSource 
     public void testGraph() throws Exception {
     
         Impala.init(this);
-        ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
+        Application application = Impala.getCurrentApplication();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         Map<String, RuntimeModule> moduleContexts = moduleStateHolder.getRuntimeModules();
         System.out.println(moduleContexts);
         assertEquals(5, moduleContexts.size());

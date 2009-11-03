@@ -18,15 +18,25 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionSet;
 
 public class GraphModificationExtractorDelegateTest extends TestCase {
+    
+    private Application application;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        application = TestApplicationManager.newApplicationManager().getCurrentApplication(); 
+    }
 
     public void testGetTransitions() {
         GraphModificationExtractorDelegate delegate = new GraphModificationExtractorDelegate();
         SimpleRootModuleDefinition rootDefinitionOld = rootDefinition("orig");
         SimpleRootModuleDefinition rootDefinitionNew = rootDefinition("new");
-        TransitionSet transitions = delegate.getTransitions(rootDefinitionOld, rootDefinitionNew);
+        TransitionSet transitions = delegate.getTransitions(application, rootDefinitionOld, rootDefinitionNew);
         assertEquals(2, transitions.getModuleTransitions().size());
         
         assertNotNull(delegate.getNewDependencyManager());

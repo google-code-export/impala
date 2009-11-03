@@ -23,21 +23,28 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModuleStateChange;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionSet;
 
 public class ModificationExtractorTest extends TestCase {
 
     private StrictModificationExtractor calculator;
+    private Application application;
 
     public void setUp() {
         calculator = new StrictModificationExtractor();
+
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager();
+        application = applicationManager.getCurrentApplication();
     }
 
     public void testNull() {
         try {
-            calculator.getTransitions(null, null);
+            calculator.getTransitions(application, null, null);
             fail();
         }
         catch (IllegalArgumentException e) {
@@ -47,10 +54,10 @@ public class ModificationExtractorTest extends TestCase {
 
     public void testGetSimpleTransitions() {
         RootModuleDefinition rootModuleDefinition = ModificationTestUtils.spec("app-context.xml", "plugin1, plugin2");
-        TransitionSet transitionsFromOriginal = calculator.getTransitions(rootModuleDefinition, null);
+        TransitionSet transitionsFromOriginal = calculator.getTransitions(application, rootModuleDefinition, null);
         assertEquals(null, transitionsFromOriginal.getNewRootModuleDefinition());
 
-        TransitionSet transitionsToNew = calculator.getTransitions(null, rootModuleDefinition);
+        TransitionSet transitionsToNew = calculator.getTransitions(application, null, rootModuleDefinition);
         assertEquals(rootModuleDefinition, transitionsToNew.getNewRootModuleDefinition());
     }
 
@@ -58,7 +65,7 @@ public class ModificationExtractorTest extends TestCase {
         RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
         RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context2.xml", "plugin1, plugin2");
 
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         assertEquals(parentSpec2, transitions.getNewRootModuleDefinition());
 
         Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();
@@ -90,7 +97,7 @@ public class ModificationExtractorTest extends TestCase {
         RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
         parentSpec2.findChildDefinition("plugin1", true).setState(ModuleState.STALE);
 
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         assertEquals(parentSpec2, transitions.getNewRootModuleDefinition());
 
         Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();
@@ -111,7 +118,7 @@ public class ModificationExtractorTest extends TestCase {
         RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
         parentSpec2.findChildDefinition("plugin1", true).setState(ModuleState.STALE);
 
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         assertEquals(parentSpec2, transitions.getNewRootModuleDefinition());
 
         Collection<? extends ModuleStateChange> moduleTransitions = transitions.getModuleTransitions();
@@ -138,7 +145,7 @@ public class ModificationExtractorTest extends TestCase {
         RootModuleDefinition parentSpec1 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin2");
         RootModuleDefinition parentSpec2 = ModificationTestUtils.spec("app-context1.xml", "plugin1, plugin3, plugin2, plugin4");
 
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         assertEquals(parentSpec2, transitions.getNewRootModuleDefinition());
 
         Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();
@@ -162,7 +169,7 @@ public class ModificationExtractorTest extends TestCase {
         ModuleDefinition plugin2 = parentSpec2.findChildDefinition("plugin2", true);
         new SimpleModuleDefinition(plugin2, "plugin4");
 
-        TransitionSet transitions = calculator.getTransitions(parentSpec1, parentSpec2);
+        TransitionSet transitions = calculator.getTransitions(application, parentSpec1, parentSpec2);
         assertEquals(parentSpec2, transitions.getNewRootModuleDefinition());
 
         Collection<? extends ModuleStateChange> pluginTransitions = transitions.getModuleTransitions();

@@ -23,7 +23,6 @@ import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleRuntimeManager;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
-import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.transition.TransitionProcessorRegistry;
 import org.impalaframework.module.type.TypeReaderRegistry;
@@ -56,9 +55,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     
     private TransitionManager transitionManager;
 
-    @Deprecated
-    private ModuleStateHolder moduleStateHolder;
-
     private ApplicationManager applicationManager;
     
     private ModuleStateChangeNotifier moduleStateChangeNotifier;
@@ -76,7 +72,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         Assert.notNull(modificationExtractorRegistry, "modificationExtractorRegistry cannot be null");
         Assert.notNull(transitionProcessorRegistry, "transitionProcessorRegistry cannot be null");
         Assert.notNull(transitionManager, "transitionManager cannot be null");
-        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
         Assert.notNull(applicationManager, "applicationManager cannot be null");
         Assert.notNull(moduleStateChangeNotifier, "moduleStateChangeNotifier cannot be null");
         Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
@@ -110,10 +105,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     
     public TransitionManager getTransitionManager() {
         return transitionManager;
-    }
-
-    public ModuleStateHolder getModuleStateHolder() {
-        return moduleStateHolder;
     }
     
     public ApplicationManager getApplicationManager() {
@@ -150,10 +141,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         this.moduleOperationRegistry = moduleOperationRegistry;
     }
 
-    public void setModuleStateHolder(ModuleStateHolder moduleStateHolder) {
-        this.moduleStateHolder = moduleStateHolder;
-    }
-    
     public void setApplicationManager(ApplicationManager applicationManager) {
         this.applicationManager = applicationManager;
     }

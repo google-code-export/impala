@@ -40,7 +40,7 @@ public class OsgiClassLoaderFactoryTest extends TestCase {
     }
     
     public void testNewClassLoader() throws Exception {
-        final ClassLoader classLoader = factory.newClassLoader(ClassUtils.getDefaultClassLoader(), EasyMock.createMock(ModuleDefinition.class));
+        final ClassLoader classLoader = factory.newClassLoader(null, ClassUtils.getDefaultClassLoader(), EasyMock.createMock(ModuleDefinition.class));
         assertTrue(classLoader instanceof BundleDelegatingClassLoader);
     }
 

@@ -28,10 +28,12 @@ import junit.framework.TestCase;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateChangeListener;
 import org.impalaframework.module.spi.ModuleStateChangeNotifier;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.DefaultSpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
@@ -57,6 +59,8 @@ public class ExternalModuleServletTest extends TestCase {
 
     private ExternalModuleServlet servlet;
 
+    private ApplicationManager applicationManager;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
@@ -77,6 +81,8 @@ public class ExternalModuleServletTest extends TestCase {
                 return servletConfig;
             }
         };
+        
+        applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }
 
     public final void testNull() {
@@ -213,7 +219,7 @@ public class ExternalModuleServletTest extends TestCase {
     private void commonExpections() {
         expect(servletConfig.getServletContext()).andReturn(servletContext);
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-        expect(facade.getModuleStateHolder()).andReturn(moduleStateHolder);
+        expect(facade.getApplicationManager()).andReturn(applicationManager);
         expect(facade.getModuleStateChangeNotifier()).andReturn(notifier);
         notifier.addListener(isA(ModuleStateChangeListener.class));
         expect(servletConfig.getServletName()).andReturn("servletName");

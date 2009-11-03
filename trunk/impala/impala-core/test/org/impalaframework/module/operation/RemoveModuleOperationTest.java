@@ -31,7 +31,6 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
     protected LockingModuleOperation getOperation() {
         RemoveModuleOperation operation = new RemoveModuleOperation();
         operation.setModificationExtractorRegistry(modificationExtractorRegistry);
-        operation.setModuleStateHolder(moduleStateHolder);
         operation.setFrameworkLockHolder(frameworkLockHolder);
         operation.setTransitionManager(transitionManager);
         return operation;
@@ -47,7 +46,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(newDefinition.removeChildModuleDefinition("myModule")).andReturn(childDefinition);
         childDefinition.setParentDefinition(null);
         
-        expect(strictModificationExtractor.getTransitions(originalDefinition, newDefinition)).andReturn(transitionSet);
+        expect(strictModificationExtractor.getTransitions(application, originalDefinition, newDefinition)).andReturn(transitionSet);
         expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
@@ -66,7 +65,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
         expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
         expect(newDefinition.findChildDefinition("root", true)).andReturn(newDefinition);
         
-        expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+        expect(strictModificationExtractor.getTransitions(application, originalDefinition, null)).andReturn(transitionSet);
         expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(newTransitionResultSet());
 
         replayMocks();
@@ -104,7 +103,7 @@ public class RemoveModuleOperationTest extends BaseModuleOperationTest {
     public final void testExecuteFound() {
         expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalDefinition);
 
-        expect(strictModificationExtractor.getTransitions(originalDefinition, null)).andReturn(transitionSet);
+        expect(strictModificationExtractor.getTransitions(application, originalDefinition, null)).andReturn(transitionSet);
         transitionManager.processTransitions(moduleStateHolder, application, transitionSet);
     }
     

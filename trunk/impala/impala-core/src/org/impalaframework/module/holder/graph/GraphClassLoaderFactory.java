@@ -25,14 +25,16 @@ import org.impalaframework.classloader.graph.DelegateClassLoader;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.DependencyManager;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
  * {@link ClassLoaderFactory} implementation which returns a class loader representing the module
- * as per the second argument to {@link #newClassLoader(ClassLoader, Object)}. Returns
+ * as per the second argument to {@link #newClassLoader(Application, ClassLoader, Object)}. Returns
  * {@link GraphClassLoader} instance, that is, a class loader instance designed specifically
  * to be used when modules are arranged in a graph, rather than in a hierarchy.
  */
@@ -40,19 +42,16 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
     private ModuleLocationResolver moduleLocationResolver;
     
-    private GraphClassLoaderRegistry classLoaderRegistry;
-
-    private GraphModuleStateHolder moduleStateHolder;   
-    
     private boolean parentClassLoaderFirst;
     
     public void init() {
         Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-        Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
-        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
     }
     
-    public ClassLoader newClassLoader(ClassLoader parent, ModuleDefinition moduleDefinition) {
+    public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
+
+        final GraphModuleStateHolder moduleStateHolder = ObjectUtils.cast(application.getModuleStateHolder(), GraphModuleStateHolder.class);
+        final GraphClassLoaderRegistry classLoaderRegistry = ObjectUtils.cast(application.getClassLoaderRegistry(), GraphClassLoaderRegistry.class);
         
         if (classLoaderRegistry.getApplicationClassLoader() == null) {
             classLoaderRegistry.setApplicationClassLoader(parent);
@@ -63,10 +62,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         
         Assert.notNull(newDependencyManager, "new dependency manager not available. Cannot create graph based class loader");
         
-        return newClassLoader(newDependencyManager, moduleDefinition);
+        return newClassLoader(classLoaderRegistry, newDependencyManager, moduleDefinition);
     }
     
-    public GraphClassLoader newClassLoader(DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
+    public GraphClassLoader newClassLoader(GraphClassLoaderRegistry classLoaderRegistry, DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
         
         String moduleName = moduleDefinition.getName();
         GraphClassLoader classLoader = classLoaderRegistry.getClassLoader(moduleName);
@@ -80,7 +79,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
         for (ModuleDefinition dependency : dependencies) {
             if (dependency.getName().equals(moduleDefinition.getName())) continue;
-            classLoaders.add(newClassLoader(dependencyManager, dependency));
+            classLoaders.add(newClassLoader(classLoaderRegistry, dependencyManager, dependency));
         }
         
         ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
@@ -96,14 +95,6 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         final File[] files = ResourceUtils.getFiles(classLocations);
         URLClassRetriever classLoader = new URLClassRetriever(files);
         return classLoader;
-    }
-    
-    public void setModuleStateHolder(GraphModuleStateHolder graphModuleStateHolder) {
-        this.moduleStateHolder = graphModuleStateHolder;
-    }
-
-    public void setClassLoaderRegistry(GraphClassLoaderRegistry classLoaderRegistry) {
-        this.classLoaderRegistry = classLoaderRegistry;
     }
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {

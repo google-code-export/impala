@@ -34,7 +34,7 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
 
     private DependencyManager dependencyManager;
     private GraphClassLoaderFactory factory;
-    private GraphClassLoaderRegistry graphClassLoaderRegistry;
+    private GraphClassLoaderRegistry classLoaderRegistry;
     private ModuleDefinition a;
     private ModuleDefinition b;
     private ModuleDefinition g;
@@ -42,9 +42,8 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        graphClassLoaderRegistry = new GraphClassLoaderRegistry();
+        classLoaderRegistry = new GraphClassLoaderRegistry();
         factory = new GraphClassLoaderFactory();
-        factory.setClassLoaderRegistry(graphClassLoaderRegistry);
         factory.setModuleLocationResolver(new TestClassResolver());
         List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
         
@@ -60,15 +59,15 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
     
     public void testClassLoader() throws Exception {
         
-        GraphClassLoader aClassLoader = factory.newClassLoader(dependencyManager, a);
+        GraphClassLoader aClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, a);
         Object aImpl = aClassLoader.loadClass("AImpl").newInstance();
         
-        assertNotNull(graphClassLoaderRegistry.getClassLoader("module-a"));
+        assertNotNull(classLoaderRegistry.getClassLoader("module-a"));
         
-        GraphClassLoader bClassLoader = factory.newClassLoader(dependencyManager, b);
+        GraphClassLoader bClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, b);
         Object aImplFromB = bClassLoader.loadClass("AImpl").newInstance();
 
-        assertNotNull(graphClassLoaderRegistry.getClassLoader("module-b"));
+        assertNotNull(classLoaderRegistry.getClassLoader("module-b"));
         
         //notice the same class object gets returned here
         assertSame(aImpl.getClass(), aImplFromB.getClass());
@@ -84,7 +83,7 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
         } catch (ClassNotFoundException e) {
         }
         
-        GraphClassLoader newbClassLoader = factory.newClassLoader(dependencyManager, b);
+        GraphClassLoader newbClassLoader = factory.newClassLoader(classLoaderRegistry, dependencyManager, b);
         Object newaImplFromB = newbClassLoader.loadClass("AImpl").newInstance();
         
         //can still use new class loader
@@ -105,17 +104,17 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
     public void testRecursiveClassLoader() throws Exception {
 
         //notice how can recursively create class loaders on dependent modules
-        factory.newClassLoader(dependencyManager, g);
-        assertNotNull(graphClassLoaderRegistry.getClassLoader("module-a"));
-        assertNotNull(graphClassLoaderRegistry.getClassLoader("module-g"));
+        factory.newClassLoader(classLoaderRegistry, dependencyManager, g);
+        assertNotNull(classLoaderRegistry.getClassLoader("module-a"));
+        assertNotNull(classLoaderRegistry.getClassLoader("module-g"));
         
     }
     
     public void testAttemptAddNewClassLoader() throws Exception {
 
-        factory.newClassLoader(dependencyManager, a);
+        factory.newClassLoader(classLoaderRegistry, dependencyManager, a);
         try {
-            graphClassLoaderRegistry.addClassLoader("module-a", EasyMock.createMock(GraphClassLoader.class));
+            classLoaderRegistry.addClassLoader("module-a", EasyMock.createMock(GraphClassLoader.class));
         } catch (InvalidStateException e) {
             assertEquals("Class loader registry already contains class loader for module 'module-a'", e.getMessage());
         }

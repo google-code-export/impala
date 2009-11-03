@@ -21,6 +21,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.loader.SimpleModuleLoader;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.spring.module.SpringModuleLoader;
 import org.impalaframework.spring.resource.ClassPathResourceLoader;
 import org.impalaframework.spring.resource.CompositeResourceLoader;
@@ -43,7 +44,7 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
 
     private Collection<ResourceLoader> springLocationResourceLoaders;
     
-    public GenericApplicationContext newApplicationContext(ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
+    public GenericApplicationContext newApplicationContext(Application application, ApplicationContext parent, ModuleDefinition definition, ClassLoader classLoader) {
         Assert.notNull(classLoader, "classloader cannot be null");
         
         DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();

@@ -41,14 +41,14 @@ public class LockingModuleOperationTest extends TestCase {
         
         FrameworkLockHolder frameworkLockHolder = createMock(FrameworkLockHolder.class);
         operation.setFrameworkLockHolder(frameworkLockHolder);
-        operation.setModuleStateHolder(createMock(ModuleStateHolder.class));
         
         frameworkLockHolder.writeLock();
         frameworkLockHolder.writeUnlock();
         
         replay(frameworkLockHolder);
         
-        Application application = TestApplicationManager.newApplicationManager().getCurrentApplication();
+        ModuleStateHolder moduleStateHolder = createMock(ModuleStateHolder.class);
+        Application application = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null).getCurrentApplication();
         operation.execute(application, null);
         
         verify(frameworkLockHolder);

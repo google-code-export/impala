@@ -30,6 +30,9 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.osgi.spring.ImpalaOsgiApplicationContext;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.service.ServiceRegistry;
@@ -77,7 +80,6 @@ public class OsgiModuleLoaderTest extends TestCase {
         moduleLoader.setClassLoaderFactory(classLoaderFactory);
         moduleLoader.setModuleLocationResolver(moduleLocationResolver);
         moduleLoader.setBundleContext(bundleContext);
-        moduleLoader.setServiceRegistry(serviceRegistry);
     }
     
     public void testGetClassLocations() throws Exception {
@@ -132,7 +134,7 @@ public class OsgiModuleLoaderTest extends TestCase {
     
         expect(bundle.getBundleContext()).andStubReturn(bundleContext);
         applicationContext.setBundleContext(bundleContext);
-        expect(moduleLoader.newClassLoader(moduleDefinition, null)).andReturn(defaultClassLoader);
+        expect(moduleLoader.newClassLoader(null, moduleDefinition, null)).andReturn(defaultClassLoader);
         applicationContext.setClassLoader(defaultClassLoader);
         applicationContext.setConfigResources((Resource[]) anyObject());
         applicationContext.setDisplayName(isA(String.class));
@@ -141,7 +143,7 @@ public class OsgiModuleLoaderTest extends TestCase {
         replayMocks();
         replay(applicationContext);
         
-        final ConfigurableApplicationContext newContext = moduleLoader.newApplicationContext(null, moduleDefinition, defaultClassLoader);
+        final ConfigurableApplicationContext newContext = moduleLoader.newApplicationContext(null, null, moduleDefinition, defaultClassLoader);
         assertSame(applicationContext, newContext);
 
         verifyMocks();
@@ -149,7 +151,11 @@ public class OsgiModuleLoaderTest extends TestCase {
     }
     
     public void testConstructNewApplicationContext() throws Exception {
-        final ImpalaOsgiApplicationContext newApplicationContext = moduleLoader.newApplicationContext(null, new SimpleModuleDefinition("mymodule"));
+        
+        ApplicationManager applicationManager = TestApplicationManager.newApplicationManager(null, null, serviceRegistry);
+        Application application = applicationManager.getCurrentApplication();
+        
+        final ImpalaOsgiApplicationContext newApplicationContext = moduleLoader.newApplicationContext(application, null, new SimpleModuleDefinition("mymodule"));
         final String className = newApplicationContext.getClass().getName();
         assertFalse(className.equals(ImpalaOsgiApplicationContext.class.getName()));
         assertTrue(newApplicationContext instanceof ImpalaOsgiApplicationContext);
@@ -215,11 +221,11 @@ class TestModuleLoader extends OsgiModuleLoader {
 
     @Override
     ImpalaOsgiApplicationContext newApplicationContext(
-            ApplicationContext parent, ModuleDefinition moduleDefinition) {
+            Application application, ApplicationContext parent, ModuleDefinition moduleDefinition) {
         if (applicationContext != null) {
             return applicationContext;
         }
-        return super.newApplicationContext(parent, moduleDefinition);
+        return super.newApplicationContext(application, parent, moduleDefinition);
     }
     
 }

@@ -47,9 +47,6 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public abstract class BaseOperationsFacade implements InternalOperationsFacade {
-
-    @Deprecated
-    private ModuleStateHolder moduleStateHolder = null;
     
     private ApplicationManager applicationManager;
 
@@ -62,7 +59,6 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
     public BaseOperationsFacade(ModuleManagementFacade facade) {
         Assert.notNull(facade, "facade cannot be null");
         this.facade = facade;
-        this.moduleStateHolder = facade.getModuleStateHolder();
         this.applicationManager = facade.getApplicationManager();
     }
 
@@ -81,7 +77,6 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
         this.facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
                 ModuleManagementFacade.class);
-        this.moduleStateHolder = facade.getModuleStateHolder();
         this.applicationManager = facade.getApplicationManager();
     }
 
@@ -259,10 +254,10 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
 
     protected ModuleStateHolder getModuleStateHolder() {
         
-        if (moduleStateHolder == null) {
+        if (applicationManager == null) {
             throw new NoServiceException("Module state holder not present. Has Impala been initialized?");
         }
-        return moduleStateHolder;
+        return applicationManager.getCurrentApplication().getModuleStateHolder();
     }
     
     protected final ModuleOperationResult execute(ModuleOperation operation, ModuleOperationInput moduleOperationInput) {

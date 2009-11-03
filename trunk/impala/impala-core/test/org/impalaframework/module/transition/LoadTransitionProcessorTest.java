@@ -56,8 +56,8 @@ public class LoadTransitionProcessorTest extends TestCase {
         
         Collection<ModuleDefinition> modules = ModuleDefinitionUtils.getDependentModules(a, "a");
         
-        expect(moduleRuntimeManager.initModule(a1)).andReturn(true);
-        expect(moduleRuntimeManager.initModule(a2)).andReturn(false);
+        expect(moduleRuntimeManager.initModule(application, a1)).andReturn(true);
+        expect(moduleRuntimeManager.initModule(application, a2)).andReturn(false);
         
         replay(moduleRuntimeManager);
         

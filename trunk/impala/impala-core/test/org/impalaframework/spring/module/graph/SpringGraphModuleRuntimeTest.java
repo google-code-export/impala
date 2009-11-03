@@ -15,7 +15,9 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.module.source.InternalModuleDefinitionSource;
+import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
+import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -79,14 +81,14 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
             @Override
             protected ApplicationContext internalGetParentApplicationContext(
-                    ModuleDefinition definition) {
+                    Application application, ModuleDefinition definition) {
                 return EasyMock.createMock(ApplicationContext.class);
             }
             
         };
         moduleRuntime.setBeanVisibilityType("duff");
         try {
-            moduleRuntime.getParentApplicationContext(null);
+            moduleRuntime.getParentApplicationContext(TestApplicationManager.newApplicationManager().getCurrentApplication(), null);
         } catch (ConfigurationException e) {
             assertEquals("Invalid value for property graph.bean.visibility.type. Permissible values are [none, parentOnly, parentFirst, graphOrdered]", e.getMessage());
         }
@@ -98,7 +100,8 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
         System.out.println(getModuleDefinition());
         
         Impala.init(this);
-        ModuleStateHolder moduleStateHolder = Impala.getFacade().getModuleManagementFacade().getModuleStateHolder();
+        Application application = Impala.getCurrentApplication();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
         
         BaseBeanGraphInheritanceStrategy strategy = new ParentFirstBeanGraphInheritanceStrategy();
         assertTrue(strategy.getDelegateGetBeanCallsToParent());
