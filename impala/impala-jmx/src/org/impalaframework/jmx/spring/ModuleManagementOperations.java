@@ -19,6 +19,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
 import org.impalaframework.module.operation.ModuleOperationResult;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.util.ExceptionUtils;
 import org.springframework.jmx.export.annotation.ManagedOperation;
@@ -31,6 +32,8 @@ import org.springframework.util.Assert;
 public class ModuleManagementOperations {
 
     private ModuleOperationRegistry moduleOperationRegistry;
+    
+    private ApplicationManager applicationManager;
 
     public void init() {
         Assert.notNull(moduleOperationRegistry);
@@ -40,6 +43,9 @@ public class ModuleManagementOperations {
     @ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
     public String reloadModule(String moduleName) {
 
+        Assert.notNull(applicationManager, "applicationManager cannot be null");
+        Assert.notNull(moduleOperationRegistry, "moduleOperationRegistry cannot be null");
+        
         ModuleOperation operation = moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadModuleNamedLikeOperation);
         
         try {
@@ -64,6 +70,10 @@ public class ModuleManagementOperations {
 
     public void setModuleOperationRegistry(ModuleOperationRegistry moduleOperationRegistry) {
         this.moduleOperationRegistry = moduleOperationRegistry;
+    }
+    
+    public void setApplicationManager(ApplicationManager applicationManager) {
+        this.applicationManager = applicationManager;
     }
 
 }
