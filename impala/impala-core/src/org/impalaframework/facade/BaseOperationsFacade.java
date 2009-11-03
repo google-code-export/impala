@@ -82,6 +82,7 @@ public abstract class BaseOperationsFacade implements InternalOperationsFacade {
         this.facade = ObjectUtils.cast(applicationContext.getBean("moduleManagementFacade"),
                 ModuleManagementFacade.class);
         this.moduleStateHolder = facade.getModuleStateHolder();
+        this.applicationManager = facade.getApplicationManager();
     }
 
     protected ContextStarter getContextStarter() {
