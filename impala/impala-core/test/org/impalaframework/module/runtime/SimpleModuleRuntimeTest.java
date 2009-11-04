@@ -52,7 +52,7 @@ public class SimpleModuleRuntimeTest extends TestCase {
 
     public void testDoLoadModule() {
         final SimpleModuleDefinition definition = new SimpleModuleDefinition("mymodule");
-        expect(classLoaderFactory.newClassLoader(application, null, definition)).andReturn(ClassUtils.getDefaultClassLoader());
+        expect(classLoaderFactory.newClassLoader(application, ClassUtils.getDefaultClassLoader(), definition)).andReturn(ClassUtils.getDefaultClassLoader());
         
         replay(classLoaderFactory, classLoaderRegistry);
         

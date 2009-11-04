@@ -24,6 +24,7 @@ import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeMonitor;
 import org.springframework.util.Assert;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
 
 /**
@@ -121,6 +122,11 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         if (parentDefinition != null) {
             parentClassLoader = classLoaderRegistry.getClassLoader(parentDefinition.getName());
         }
+        
+        if (parentClassLoader == null) {
+            parentClassLoader = ClassUtils.getDefaultClassLoader();
+        }
+        
         final ClassLoader classLoader = classLoaderFactory.newClassLoader(application, parentClassLoader, definition);
         return doLoadModule(application, classLoader, definition);
     }
