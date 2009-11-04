@@ -33,7 +33,6 @@ public interface ModuleLoader {
     
     /**
      * returns a new class loader for the module
-     * @param application TODO
      */
     ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent);
     

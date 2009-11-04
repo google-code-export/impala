@@ -134,7 +134,6 @@ public class OsgiModuleLoaderTest extends TestCase {
     
         expect(bundle.getBundleContext()).andStubReturn(bundleContext);
         applicationContext.setBundleContext(bundleContext);
-        expect(moduleLoader.newClassLoader(null, moduleDefinition, null)).andReturn(defaultClassLoader);
         applicationContext.setClassLoader(defaultClassLoader);
         applicationContext.setConfigResources((Resource[]) anyObject());
         applicationContext.setDisplayName(isA(String.class));
