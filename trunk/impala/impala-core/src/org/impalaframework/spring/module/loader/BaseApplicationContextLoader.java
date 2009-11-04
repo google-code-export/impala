@@ -49,7 +49,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
     public BaseApplicationContextLoader() {
     }
 
-    public ConfigurableApplicationContext loadContext(Application application, ModuleDefinition definition, ApplicationContext parent) {
+    public ConfigurableApplicationContext loadContext(Application application, ClassLoader classLoader, ModuleDefinition definition, ApplicationContext parent) {
 
         Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");
         Assert.notNull(delegatingContextLoaderRegistry, DelegatingContextLoaderRegistry.class.getName() + " cannot be null");
@@ -64,7 +64,7 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
 
             if (moduleLoader != null) {
                 if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
-                context = loadApplicationContext(application, moduleLoader, parent, definition);
+                context = loadApplicationContext(application, classLoader, moduleLoader, parent, definition);
                 moduleLoader.afterRefresh(context, definition);
             }
             else if (delegatingLoader != null) {
@@ -114,8 +114,11 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
             final ModuleLoader moduleLoader) {
     }
 
-    private ConfigurableApplicationContext loadApplicationContext(Application application,
-            final SpringModuleLoader moduleLoader, ApplicationContext parent, ModuleDefinition definition) {
+    private ConfigurableApplicationContext loadApplicationContext(
+            Application application,
+            ClassLoader newClassLoader, 
+            SpringModuleLoader moduleLoader, 
+            ApplicationContext parent, ModuleDefinition definition) {
 
         ClassLoader existing = ClassUtils.getDefaultClassLoader();
 

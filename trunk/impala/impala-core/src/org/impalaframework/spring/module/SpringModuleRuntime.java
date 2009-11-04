@@ -61,7 +61,7 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
             logger.trace("Parent application context: " + parentContext);
         }
         
-        ConfigurableApplicationContext context = applicationContextLoader.loadContext(application, definition, parentContext);
+        ConfigurableApplicationContext context = applicationContextLoader.loadContext(application, classLoader, definition, parentContext);
         
         if (logger.isTraceEnabled()) {
             logger.trace("New application context: " + parentContext);
