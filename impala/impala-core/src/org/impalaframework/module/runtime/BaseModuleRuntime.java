@@ -87,8 +87,12 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
         doCloseModule(runtimeModule);
     }
+    
+    /* ********************* Abstract methods ********************* */
 
-    /* ********************* Protected final methods ********************* */
+    protected abstract void doCloseModule(RuntimeModule runtimeModule);
+
+    /* ********************* Protected methods ********************* */
 
     /**
      * Lets a {@link ModuleRuntimeMonitor} know that module loading is about to start, if one is wired in.
@@ -107,9 +111,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
             moduleRuntimeMonitor.afterModuleLoaded(definition);
         }
     }
-
-    protected abstract void doCloseModule(RuntimeModule runtimeModule);
-
+    
     protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
         final ClassLoaderRegistry classLoaderRegistry = application.getClassLoaderRegistry();
         
@@ -122,8 +124,6 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         final ClassLoader classLoader = classLoaderFactory.newClassLoader(application, parentClassLoader, definition);
         return doLoadModule(application, classLoader, definition);
     }
-    
-    /* ********************* protected methods ********************* */
     
     /* ********************* wired in setters ********************* */
 
