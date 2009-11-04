@@ -41,8 +41,9 @@ public interface ApplicationContextLoader {
     /**
      * Implements strategy for loading application context on behalf of a particular module
      * @param application TODO
+     * @param classLoader TODO
      */
-    ConfigurableApplicationContext loadContext(Application application, ModuleDefinition definition, ApplicationContext parent);
+    ConfigurableApplicationContext loadContext(Application application, ClassLoader classLoader, ModuleDefinition definition, ApplicationContext parent);
 
     /**
      * Callback which performs 
