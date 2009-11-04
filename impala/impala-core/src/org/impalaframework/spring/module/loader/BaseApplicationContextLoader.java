@@ -118,12 +118,10 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
             Application application,
             ClassLoader classLoader, 
             SpringModuleLoader moduleLoader, 
-            ApplicationContext parent, ModuleDefinition definition) {
+            ApplicationContext parent, 
+            ModuleDefinition definition) {
 
         ClassLoader existing = ClassUtils.getDefaultClassLoader();
-
-        // note that existing class loader is not used to figure out parent
-        //ClassLoader classLoader = moduleLoader.newClassLoader(application, definition, parent);
 
         try {
             Thread.currentThread().setContextClassLoader(classLoader);

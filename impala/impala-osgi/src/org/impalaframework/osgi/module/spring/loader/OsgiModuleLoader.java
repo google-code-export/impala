@@ -102,8 +102,10 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * {@link #handleRefresh(ConfigurableApplicationContext, ModuleDefinition)}.
      */
     public ConfigurableApplicationContext newApplicationContext(
-            Application application, ApplicationContext parent,
-            final ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+            Application application, 
+            ApplicationContext parent,
+            final ModuleDefinition moduleDefinition, 
+            ClassLoader classLoader) {
 
         Bundle bundle = findBundle(moduleDefinition);
         final ImpalaOsgiApplicationContext applicationContext = newApplicationContext(application, parent, moduleDefinition);
@@ -112,9 +114,8 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
         applicationContext.setBundleContext(bc);
         
         final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
-        final ClassLoader newClassLoader = newClassLoader(application, moduleDefinition, parent);
         
-        applicationContext.setClassLoader(newClassLoader);
+        applicationContext.setClassLoader(classLoader);
         applicationContext.setConfigResources(springConfigResources);
 
         applicationContext.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, applicationContext));
