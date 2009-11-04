@@ -26,6 +26,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.classloader.TestClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.holder.ModuleClassLoaderRegistry;
@@ -53,6 +54,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 
         classLoaderRegistry = new ModuleClassLoaderRegistry();
         moduleRuntime = new TestModuleRuntime();    
+        moduleRuntime.setClassLoaderFactory(new TestClassLoaderFactory());
         
         definition1 = createMock(ModuleDefinition.class);
         monitor = createMock(ModuleChangeMonitor.class);
@@ -86,6 +88,7 @@ public class BaseModuleRuntimeTest extends TestCase {
     
     public void testLoad() throws Exception {
         
+        expect(definition1.getParentDefinition()).andReturn(null);
         expect(definition1.getName()).andReturn("myName");
         
         replay(definition1, monitor, moduleLocationResolver);
@@ -142,7 +145,7 @@ public class BaseModuleRuntimeTest extends TestCase {
 class TestModuleRuntime extends BaseModuleRuntime {
 
     @Override
-    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
+    protected RuntimeModule doLoadModule(Application application, ClassLoader classLoader, ModuleDefinition definition) {
         return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
     }
 

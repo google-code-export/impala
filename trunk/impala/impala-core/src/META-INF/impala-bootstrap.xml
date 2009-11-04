@@ -292,7 +292,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>    
  
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
-    <property name = "applicationContextLoader" ref="applicationContextLoader"/>    
+    <property name = "applicationContextLoader" ref="applicationContextLoader"/>
+    <property name = "classLoaderFactory" ref="classLoaderFactory"/>         
  </bean>
  
  <bean id="proxyAllowNoService" parent = "propertyParent">
