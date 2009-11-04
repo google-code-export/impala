@@ -22,11 +22,8 @@ import org.impalaframework.classloader.CustomClassLoaderFactory;
 import org.impalaframework.classloader.ModuleClassLoader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
-import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
-import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -39,8 +36,6 @@ public class ApplicationModuleLoaderTest extends TestCase {
     private static final String plugin1 = "sample-module1";
 
     private static final String plugin2 = "sample-module2";
-
-    private static final String plugin3 = "sample-module3";
     
     private static final String rootProjectName = "impala-core";
 
@@ -49,8 +44,6 @@ public class ApplicationModuleLoaderTest extends TestCase {
     private ModuleDefinitionSource source;
 
     private ModuleDefinition p2;
-
-    private ModuleDefinition p3;
 
     public void setUp() {
         StandaloneModuleLocationResolver locationResolver = new StandaloneModuleLocationResolver();
@@ -62,21 +55,6 @@ public class ApplicationModuleLoaderTest extends TestCase {
 
         source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
         p2 = source.getModuleDefinition().getChildModuleDefinition(plugin2);
-        p3 = new SimpleModuleDefinition(p2, plugin3);
-    }
-
-    public void testGetClassLoader() {
-
-        ClassLoader classLoader2 = moduleLoader.newClassLoader(null, p2, null);
-        assertTrue(classLoader2 instanceof ModuleClassLoader);
-        assertTrue(classLoader2.getParent().getClass().equals(this.getClass().getClassLoader().getClass()));
-
-        GenericApplicationContext parentContext = new GenericApplicationContext();
-        parentContext.setClassLoader(classLoader2);
-
-        ClassLoader classLoader3 = moduleLoader.newClassLoader(null, p3, parentContext);
-        assertTrue(classLoader3 instanceof ModuleClassLoader);
-        assertSame(classLoader2, classLoader3.getParent());
     }
     
     public final void testGetClassLocations() {

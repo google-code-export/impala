@@ -28,6 +28,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.util.ClassUtils;
 
 public class BeanSetApplicationModuleLoaderTest extends TestCase {
 
@@ -82,8 +83,7 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 		BeansetApplicationModuleLoader moduleLoader = new BeansetApplicationModuleLoader();
 		moduleLoader.setModuleLocationResolver(locationResolver);
 		moduleLoader.setClassLoaderFactory(classLoaderFactory);
-		ClassLoader classLoader = moduleLoader.newClassLoader(null,
-						definition, parent);
+		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		child = moduleLoader.newApplicationContext(null, parent, definition, classLoader);
 		XmlBeanDefinitionReader xmlReader = moduleLoader.newBeanDefinitionReader(child, definition);
 		xmlReader.setBeanClassLoader(classLoader);
