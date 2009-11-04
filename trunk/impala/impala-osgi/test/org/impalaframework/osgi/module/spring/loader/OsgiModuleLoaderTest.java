@@ -26,7 +26,6 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
@@ -49,7 +48,6 @@ public class OsgiModuleLoaderTest extends TestCase {
 
     private OsgiModuleLoader moduleLoader;
     private BundleContext bundleContext;
-    private ClassLoaderFactory classLoaderFactory;
     private ModuleLocationResolver moduleLocationResolver;
     private ServiceRegistry serviceRegistry;
     private Bundle bundle;
@@ -58,7 +56,6 @@ public class OsgiModuleLoaderTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         bundleContext = createMock(BundleContext.class);
-        classLoaderFactory = createMock(ClassLoaderFactory.class);
         moduleLocationResolver = createMock(ModuleLocationResolver.class);
         serviceRegistry = createMock(ServiceRegistry.class);
         bundle = createMock(Bundle.class);
@@ -77,7 +74,6 @@ public class OsgiModuleLoaderTest extends TestCase {
     }
 
     private void initLoader() {
-        moduleLoader.setClassLoaderFactory(classLoaderFactory);
         moduleLoader.setModuleLocationResolver(moduleLocationResolver);
         moduleLoader.setBundleContext(bundleContext);
     }
@@ -181,7 +177,6 @@ public class OsgiModuleLoaderTest extends TestCase {
     
     private void replayMocks() {
         replay(serviceRegistry);
-        replay(classLoaderFactory);
         replay(moduleLocationResolver);
         replay(bundleContext);
         replay(bundle);
@@ -189,7 +184,6 @@ public class OsgiModuleLoaderTest extends TestCase {
 
     private void verifyMocks() {
         verify(serviceRegistry);
-        verify(classLoaderFactory);
         verify(moduleLocationResolver);
         verify(bundleContext);
         verify(bundle);

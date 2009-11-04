@@ -16,7 +16,6 @@ package org.impalaframework.osgi.module.spring.loader;
 
 import java.util.List;
 
-import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.spi.Application;
@@ -54,8 +53,6 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     private BundleContext bundleContext;
     
     private ModuleLocationResolver moduleLocationResolver;
-
-    private ClassLoaderFactory classLoaderFactory;
     
     private ProxyFactoryCreator serviceProxyFactoryCreator;
 
@@ -148,15 +145,6 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
             }
         };
         return applicationContext;
-    }
-
-    /**
-     * Finds the bundle whose name matches the module name. The uses the wired in
-     * {@link #classLoaderFactory} to return the bundle-specific class loader instance.
-     */
-    public ClassLoader newClassLoader(Application application,
-            ModuleDefinition moduleDefinition, ApplicationContext parent) {        
-        return classLoaderFactory.newClassLoader(application, null, moduleDefinition);
     }   
 
     public BeanDefinitionReader newBeanDefinitionReader(
@@ -192,10 +180,6 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
         Bundle bundle = findBundle(moduleDefinition);
         OsgiUtils.checkBundle(moduleDefinition, bundle);
         return bundle;
-    }
-
-    public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
-        this.classLoaderFactory = classLoaderFactory;
     }
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
