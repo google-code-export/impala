@@ -24,6 +24,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.CustomClassLoaderFactory;
+import org.impalaframework.classloader.TestClassLoaderFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.file.FileMonitor;
 import org.impalaframework.module.RootModuleDefinition;
@@ -82,6 +83,8 @@ public class TransitionManagerTest extends TestCase {
         LoadTransitionProcessor loadTransitionProcessor = new LoadTransitionProcessor();
         SpringModuleRuntime moduleRuntime = new SpringModuleRuntime();
         moduleRuntime.setApplicationContextLoader(contextLoader);
+        moduleRuntime.setClassLoaderFactory(new TestClassLoaderFactory());
+        
         ModuleRuntime springModuleRuntime = moduleRuntime;
         Map<String, ModuleRuntime> moduleRuntimes = Collections.singletonMap("spring", springModuleRuntime);
         DefaultModuleRuntimeManager manager = new DefaultModuleRuntimeManager();

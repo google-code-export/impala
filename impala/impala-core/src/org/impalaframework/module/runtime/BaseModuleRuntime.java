@@ -16,6 +16,7 @@ package org.impalaframework.module.runtime;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.Application;
@@ -38,6 +39,8 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
     private static Log logger = LogFactory.getLog(BaseModuleRuntime.class);
     
     private ModuleRuntimeMonitor moduleRuntimeMonitor;
+    
+    private ClassLoaderFactory classLoaderFactory;
     
     /* ********************* ModuleRuntime method implementation ********************* */
 
@@ -107,13 +110,30 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
 
     protected abstract void doCloseModule(RuntimeModule runtimeModule);
 
-    protected abstract RuntimeModule doLoadModule(Application application, ModuleDefinition definition);
+    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
+        final ClassLoaderRegistry classLoaderRegistry = application.getClassLoaderRegistry();
+        
+        ClassLoader parentClassLoader = null;
+        final ModuleDefinition parentDefinition = definition.getParentDefinition();
+
+        if (parentDefinition != null) {
+            parentClassLoader = classLoaderRegistry.getClassLoader(parentDefinition.getName());
+        }
+        final ClassLoader classLoader = classLoaderFactory.newClassLoader(application, parentClassLoader, definition);
+        return doLoadModule(application, classLoader, definition);
+    }
     
     /* ********************* protected methods ********************* */
     
     /* ********************* wired in setters ********************* */
 
+    protected abstract RuntimeModule doLoadModule(Application application, ClassLoader classLoader, ModuleDefinition parentDefinition);
+
     public void setModuleRuntimeMonitor(ModuleRuntimeMonitor moduleRuntimeMonitor) {
         this.moduleRuntimeMonitor = moduleRuntimeMonitor;
+    }
+    
+    public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
+        this.classLoaderFactory = classLoaderFactory;
     }
 }

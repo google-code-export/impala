@@ -48,7 +48,7 @@ public class SpringModuleRuntime extends BaseModuleRuntime implements ModuleRunt
     }
     
     @Override
-    protected RuntimeModule doLoadModule(Application application, ModuleDefinition definition) {
+    protected RuntimeModule doLoadModule(Application application, ClassLoader classLoader, ModuleDefinition definition) {
 
         Assert.notNull(definition);
         Assert.notNull(applicationContextLoader);
