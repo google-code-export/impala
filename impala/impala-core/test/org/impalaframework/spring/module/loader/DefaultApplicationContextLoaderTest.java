@@ -43,7 +43,6 @@ import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.impalaframework.spring.module.SpringModuleUtils;
 import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessor;
 import org.impalaframework.util.ObjectUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.core.io.Resource;
@@ -75,23 +74,17 @@ public class DefaultApplicationContextLoaderTest extends TestCase {
         StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
 
         ModuleLoaderRegistry registry = facade.getModuleLoaderRegistry();
-        ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader(){
-            @Override
-            public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
-                return this.getClass().getClassLoader();
-            }};
+        ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
             
         rootModuleLoader.setModuleLocationResolver(resolver);
 
         CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
-        rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
         classLoaderFactory.setModuleLocationResolver(resolver);
         
         registry.addItem(ModuleTypes.ROOT, rootModuleLoader) ;
         ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
         applicationModuleLoader.setModuleLocationResolver(resolver);
 
-        applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
         registry.addItem(ModuleTypes.APPLICATION, applicationModuleLoader);
 
         ApplicationManager applicationManager = facade.getApplicationManager();

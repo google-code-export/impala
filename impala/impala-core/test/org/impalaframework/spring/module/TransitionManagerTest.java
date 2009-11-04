@@ -66,12 +66,10 @@ public class TransitionManagerTest extends TestCase {
         
         ApplicationModuleLoader rootModuleLoader = new ApplicationModuleLoader();
         rootModuleLoader.setModuleLocationResolver(resolver);
-        rootModuleLoader.setClassLoaderFactory(classLoaderFactory);
         
         registry.addItem("spring-"+ModuleTypes.ROOT, rootModuleLoader);
         ApplicationModuleLoader applicationModuleLoader = new ApplicationModuleLoader();
         applicationModuleLoader.setModuleLocationResolver(resolver);
-        applicationModuleLoader.setClassLoaderFactory(classLoaderFactory);
         
         registry.addItem("spring-"+ModuleTypes.APPLICATION, applicationModuleLoader);
         DefaultApplicationContextLoader contextLoader = new DefaultApplicationContextLoader();

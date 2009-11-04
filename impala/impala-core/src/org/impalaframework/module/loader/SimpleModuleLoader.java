@@ -16,17 +16,12 @@ package org.impalaframework.module.loader;
 
 import java.util.List;
 
-import org.impalaframework.classloader.ClassLoaderFactory;
-import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.util.ResourceUtils;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 
 /**
  * Class providing basic implementation of {@link ModuleLoader} methods.
@@ -35,26 +30,10 @@ import org.springframework.util.ClassUtils;
  */
 public class SimpleModuleLoader implements ModuleLoader {
 
-    private ClassLoaderFactory classLoaderFactory;
     private ModuleLocationResolver moduleLocationResolver;
     
     public void init() {
         Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-        Assert.notNull(classLoaderFactory, "classloader cannot be null");
-    }
-    
-    /**
-     * Uses wired in {@link ClassLoaderFactory} to return new class loader instance.
-     */
-    public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
-        ClassLoader classLoader = null;
-        if (parent != null) {
-            classLoader = parent.getClassLoader();
-        }
-        else {
-            classLoader = ClassUtils.getDefaultClassLoader();
-        }
-        return getClassLoaderFactory().newClassLoader(application, classLoader, moduleDefinition);
     }
     
     /**
@@ -69,23 +48,12 @@ public class SimpleModuleLoader implements ModuleLoader {
     }
     
     /* ****************** protected methods ************** */
-    
-    protected ClassLoaderFactory getClassLoaderFactory() {
-        if (classLoaderFactory == null) {
-            throw new ConfigurationException("No " + ClassLoaderFactory.class.getName() + " set. Check your definition for " + this.getClass().getName());
-        }
-        return classLoaderFactory;
-    }
 
     protected ModuleLocationResolver getClassLocationResolver() {
         return moduleLocationResolver;
     }
     
     /* ****************** injection setter methods ************** */
-
-    public void setClassLoaderFactory(ClassLoaderFactory classLoaderFactory) {
-        this.classLoaderFactory = classLoaderFactory;
-    }
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
         this.moduleLocationResolver = moduleLocationResolver;

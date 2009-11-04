@@ -20,13 +20,9 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleTestUtils;
-import org.impalaframework.module.spi.Application;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
-import org.impalaframework.spring.module.loader.ApplicationModuleLoader;
-import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
@@ -46,10 +42,6 @@ public class BaseSpringModuleLoaderTest extends TestCase {
         BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
 
             public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
-                return null;
-            }
-
-            public ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent) {
                 return null;
             }
         };

@@ -14,7 +14,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean> 
  
  <bean id="baseModuleLoader" abstract="true">
-     <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
      <property name = "moduleLocationResolver" ref="moduleLocationResolver"/>
  </bean>        
     

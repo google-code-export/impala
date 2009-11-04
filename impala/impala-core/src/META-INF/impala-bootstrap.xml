@@ -172,7 +172,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
     
  <bean id="baseModuleLoader" abstract="true" init-method="init">
-     <property name = "classLoaderFactory" ref = "classLoaderFactory"/>
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
  </bean>
  

@@ -15,7 +15,6 @@
 package org.impalaframework.module.spi;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 
 /**
@@ -30,12 +29,7 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public interface ModuleLoader {
-    
-    /**
-     * returns a new class loader for the module
-     */
-    ClassLoader newClassLoader(Application application, ModuleDefinition moduleDefinition, ApplicationContext parent);
-    
+        
     /**
      * Return an array of {@link Resource} instances which represent the locations from which module classes and resources are to be loaded
      */
