@@ -38,6 +38,4 @@ public interface Application {
     
     public ServiceRegistry getServiceRegistry();
 
-    public void close();
-
 }

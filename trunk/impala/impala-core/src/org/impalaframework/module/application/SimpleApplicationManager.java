@@ -1,5 +1,6 @@
 package org.impalaframework.module.application;
 
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationFactory;
 import org.impalaframework.module.spi.ApplicationManager;
@@ -14,6 +15,8 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
 
     private ApplicationFactory applicationFactory;
     
+    private ModuleManagementFacade moduleManagementFacade;
+    
     private Application application;
     
     public void afterPropertiesSet() throws Exception {
@@ -25,11 +28,14 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
     }
     
     public void close() {
-        this.application.close();
     }
     
     public void setApplicationFactory(ApplicationFactory applicationFactory) {
         this.applicationFactory = applicationFactory;
+    }
+    
+    public void setModuleManagementFacade(ModuleManagementFacade moduleManagementFacade) {
+        this.moduleManagementFacade = moduleManagementFacade;
     }
     
 }
