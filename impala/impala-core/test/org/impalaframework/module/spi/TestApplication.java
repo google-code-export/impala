@@ -51,8 +51,5 @@ public class TestApplication implements Application {
     public ServiceRegistry getServiceRegistry() {
         return serviceRegistry;
     }
-
-    public void close() {
-    }
     
 }

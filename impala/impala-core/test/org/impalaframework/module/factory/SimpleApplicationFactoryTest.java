@@ -14,13 +14,10 @@
 
 package org.impalaframework.module.factory;
 
-import static org.easymock.EasyMock.createMock;
+import junit.framework.TestCase;
 
-import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.application.ImpalaApplication;
 import org.impalaframework.module.spi.Application;
-
-import junit.framework.TestCase;
 
 public class SimpleApplicationFactoryTest extends TestCase {
 
@@ -28,8 +25,7 @@ public class SimpleApplicationFactoryTest extends TestCase {
         SimpleApplicationFactory factory = new SimpleApplicationFactory();
         factory.setClassLoaderRegistryFactory(new SimpleClassLoaderRegistryFactory());
         factory.setServiceRegistryFactory(new SimpleServiceRegistryFactory());
-        factory.setModuleStateHolderFactory(new SimpleModuleStateHolderFactory());
-        factory.setModuleManagementFacade(createMock(ModuleManagementFacade.class));   
+        factory.setModuleStateHolderFactory(new SimpleModuleStateHolderFactory());   
 
         Application application = factory.newApplication();
         assertTrue(application instanceof ImpalaApplication);

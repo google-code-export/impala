@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.application;
 
-import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -32,24 +31,14 @@ public class ImpalaApplication implements Application {
     private final ModuleStateHolder moduleStateHolder;
     
     private final ServiceRegistry serviceRegistry;
-
-    /**
-     * Flag to indicate that {@link #close()} hase been called.
-     * Once this is the case, the application cannot be used.
-     */
-    private boolean closed;
-
-    private ModuleManagementFacade facade;
     
     public ImpalaApplication(
-            ModuleManagementFacade facade,
-            ClassLoaderRegistry classLoaderRegistry, 
+            ClassLoaderRegistry classLoaderRegistry,
             ModuleStateHolder moduleStateHolder, 
             ServiceRegistry serviceRegistry) {
         
         super();
 
-        Assert.notNull(facade, "facade cannot be null");
         Assert.notNull(classLoaderRegistry, "classLoaderRegistry cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
         Assert.notNull(serviceRegistry, "serviceRegistry cannot be null");
@@ -57,7 +46,6 @@ public class ImpalaApplication implements Application {
         this.classLoaderRegistry = classLoaderRegistry;
         this.moduleStateHolder = moduleStateHolder;
         this.serviceRegistry = serviceRegistry;
-        this.facade = facade;
     }
 
     public ClassLoaderRegistry getClassLoaderRegistry() {
@@ -70,17 +58,6 @@ public class ImpalaApplication implements Application {
 
     public ServiceRegistry getServiceRegistry() {
         return serviceRegistry;
-    }
-
-    public void close() {
-        //ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
-        //Application application = facade.getApplicationManager().getCurrentApplication();
-        
-        //ModuleOperationResult execute = operation.execute(application, null);
-    }
-    
-    public boolean isClosed() {
-        return this.closed;
     }
     
 }
