@@ -26,12 +26,8 @@ import junit.framework.TestCase;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.operation.ModuleOperation;
-import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationRegistry;
-import org.impalaframework.module.operation.ModuleOperationResult;
-import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationManager;
-import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.web.WebConstants;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -42,7 +38,6 @@ public class BaseImpalaContextLoaderTest extends TestCase {
     private ModuleOperationRegistry moduleOperationRegistry;
     private ModuleOperation moduleOperation;
     private ApplicationManager applicationManager;
-    private Application application;
     
     @Override
     protected void setUp() throws Exception {
@@ -51,8 +46,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         facade = createMock(ModuleManagementFacade.class);
         moduleOperationRegistry = createMock(ModuleOperationRegistry.class);
         moduleOperation = createMock(ModuleOperation.class);
-        applicationManager = TestApplicationManager.newApplicationManager();
-        application = applicationManager.getCurrentApplication();
+        applicationManager = createMock(ApplicationManager.class);
     }
 
     public final void testClose() {
@@ -65,9 +59,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
 
         expect(facade.getApplicationManager()).andReturn(applicationManager);
-        expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(application, null)).andReturn(ModuleOperationResult.EMPTY);
+        expect(applicationManager.close()).andReturn(true);
         
         facade.close();
 
@@ -85,9 +77,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
 
         expect(facade.getApplicationManager()).andReturn(applicationManager);
-        expect(facade.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
-        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
-        expect(moduleOperation.execute(application, null)).andReturn(ModuleOperationResult.EMPTY);
+        expect(applicationManager.close()).andReturn(true);
 
         servletContext.log("Closing Spring root WebApplicationContext");
         facade.close();
@@ -131,6 +121,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         verify(servletContext);
         verify(facade);
         verify(moduleOperationRegistry);
+        verify(applicationManager);
         verify(moduleOperation);
     }
 
@@ -138,6 +129,7 @@ public class BaseImpalaContextLoaderTest extends TestCase {
         replay(servletContext);
         replay(facade);
         replay(moduleOperationRegistry);
+        replay(applicationManager);
         replay(moduleOperation);
     }
     
