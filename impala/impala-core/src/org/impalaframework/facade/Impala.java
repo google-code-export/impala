@@ -22,6 +22,7 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.util.InstantiationUtils;
 
 /**
@@ -294,6 +295,10 @@ public class Impala {
 		return facade;
 	}
 	
+	/**
+	 * Returns the current application instance
+	 * @see ApplicationManager#getCurrentApplication()
+	 */
 	public static Application getCurrentApplication() {
 	    return getFacade().getModuleManagementFacade().getApplicationManager().getCurrentApplication();
 	}

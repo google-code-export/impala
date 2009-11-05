@@ -16,6 +16,8 @@ package org.impalaframework.classloader;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
+import org.impalaframework.module.spi.ClassLoaderRegistry;
+import org.impalaframework.module.spi.ModuleStateHolder;
 
 /**
  * Interface representing a factory for {@link ClassLoader}s.
@@ -23,5 +25,14 @@ import org.impalaframework.module.spi.Application;
  * @author Phil Zoio
  */
 public interface ClassLoaderFactory {
+    
+    /**
+     * Method for creating a new {@link ClassLoader}
+     * @param application the current {@link Application} instance. This allow access to the {@link ClassLoaderRegistry}
+     * the {@link ModuleStateHolder}, which is required for some {@link ClassLoaderFactory} implementations.
+     * @param parent the parent {@link ClassLoader} instance
+     * @param moduleDefinition the {@link ModuleDefinition} for the module for which the classloader is being created.
+     * @return a new {@link ClassLoader} instance.
+     */
     public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition);
 }

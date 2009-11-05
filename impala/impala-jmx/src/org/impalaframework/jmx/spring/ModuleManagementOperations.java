@@ -29,6 +29,10 @@ import org.springframework.jmx.export.annotation.ManagedOperationParameters;
 import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
 
+/**
+ * Exposes JMX-based module reload operations.
+ * @author Phil Zoio
+ */
 @ManagedResource(objectName = "impala:service=moduleManagementOperations", description = "MBean exposing configuration operations Impala application")
 public class ModuleManagementOperations {
 
@@ -40,6 +44,11 @@ public class ModuleManagementOperations {
         Assert.notNull(moduleOperationRegistry);
     }
 
+    /**
+     * Reloads a named module
+     * @param moduleName the name of the module to reload. Uses the operation {@link ModuleOperationConstants#ReloadModuleNamedLikeOperation}.
+     * If supplied module name does not exactly match a named module, then module will be loaded 
+     */
     @ManagedOperation(description = "Operation to reload a module")
     @ManagedOperationParameters( { @ManagedOperationParameter(name = "Module name", description = "Name of module to reload") })
     public String reloadModule(String moduleName) {

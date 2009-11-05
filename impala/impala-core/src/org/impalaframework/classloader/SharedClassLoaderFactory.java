@@ -34,6 +34,9 @@ public class SharedClassLoaderFactory implements ClassLoaderFactory, BeanClassLo
     
     private ClassLoader classLoader;
     
+    /**
+     * Returns the wired in {@link ClassLoader} instance.
+     */
     public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
         
         if (logger.isDebugEnabled()) {
