@@ -44,4 +44,7 @@ public class TestApplicationManager implements ApplicationManager {
         return new TestApplicationManager(new TestApplication(null, null, null));
     }   
     
+    public void close() {
+    }
+    
 }

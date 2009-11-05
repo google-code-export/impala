@@ -356,7 +356,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="applicationFactory" class="org.impalaframework.module.factory.SimpleApplicationFactory">
     <property name="serviceRegistryFactory" ref="serviceRegistryFactory"/>
     <property name="classLoaderRegistryFactory" ref="classLoaderRegistryFactory"/>           
-    <property name="moduleStateHolderFactory" ref="moduleStateHolderFactory"/>                      
+    <property name="moduleStateHolderFactory" ref="moduleStateHolderFactory"/>           
+    <property name="moduleManagementFacade" ref="moduleManagementFacade"/>                          
  </bean>  
  
  <bean id="applicationManager" class="org.impalaframework.module.application.SimpleApplicationManager">
