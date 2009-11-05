@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.factory;
 
+import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.application.ImpalaApplication;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationFactory;
@@ -41,6 +42,8 @@ public class SimpleApplicationFactory implements ApplicationFactory {
     
     private ServiceRegistryFactory serviceRegistryFactory;
     
+    private ModuleManagementFacade moduleManagementFacade;
+    
     /**
      * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
      */
@@ -53,7 +56,7 @@ public class SimpleApplicationFactory implements ApplicationFactory {
         ClassLoaderRegistry classLoaderRegistry = classLoaderRegistryFactory.newClassLoaderRegistry();
         ModuleStateHolder moduleStateHolder = moduleStateHolderFactory.newModuleStateHolder();
         ServiceRegistry serviceRegistry = serviceRegistryFactory.newServiceRegistry();
-        Application application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
+        Application application = new ImpalaApplication(moduleManagementFacade, classLoaderRegistry, moduleStateHolder, serviceRegistry);
     
         return application;
     }
@@ -68,6 +71,10 @@ public class SimpleApplicationFactory implements ApplicationFactory {
 
     public void setServiceRegistryFactory(ServiceRegistryFactory serviceRegistryFactory) {
         this.serviceRegistryFactory = serviceRegistryFactory;
+    }
+    
+    public void setModuleManagementFacade(ModuleManagementFacade moduleManagementFacade) {
+        this.moduleManagementFacade = moduleManagementFacade;
     }
     
 }

@@ -24,6 +24,10 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
         return this.application;
     }
     
+    public void close() {
+        this.application.close();
+    }
+    
     public void setApplicationFactory(ApplicationFactory applicationFactory) {
         this.applicationFactory = applicationFactory;
     }
