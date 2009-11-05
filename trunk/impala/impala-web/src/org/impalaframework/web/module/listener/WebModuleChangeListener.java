@@ -33,9 +33,11 @@ import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.web.context.ServletContextAware;
 
 /**
- * {@link ModuleContentChangeListener} implementation which initiates a module reload on 
- * detecting change of module contents.
+ * {@link ModuleContentChangeListener} implementation which initiates a module reload for the current
+ * application instance, after detecting change of module contents. In order for this to work, the
+ * Impala property <code>auto.reload</code> needs to be set.
  * 
+ * @see ApplicationManager#getCurrentApplication()
  * @author Phil Zoio
  */
 public class WebModuleChangeListener extends BaseModuleChangeListener implements

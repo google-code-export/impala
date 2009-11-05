@@ -30,6 +30,13 @@ import org.springframework.jmx.export.annotation.ManagedResource;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
+/**
+ * Supports JMX-based reloading of module definition metadata and module runtime for current application.
+ * In order for this to work the Impala property <code>enable.web.jmx.operations</code> must be set.
+ * 
+ * @see ApplicationManager#getCurrentApplication()
+ * @author Phil Zoio
+ */
 @ManagedResource(objectName = "impala:service=webModuleOperations", description = "MBean exposing reconfiguration of web application")
 public class WebModuleReloader implements ServletContextAware {
 
