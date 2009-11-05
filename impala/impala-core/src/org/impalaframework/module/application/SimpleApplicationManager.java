@@ -1,6 +1,9 @@
 package org.impalaframework.module.application;
 
 import org.impalaframework.facade.ModuleManagementFacade;
+import org.impalaframework.module.operation.ModuleOperation;
+import org.impalaframework.module.operation.ModuleOperationConstants;
+import org.impalaframework.module.operation.ModuleOperationResult;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationFactory;
 import org.impalaframework.module.spi.ApplicationManager;
@@ -27,7 +30,10 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
         return this.application;
     }
     
-    public void close() {
+    public boolean close() {
+        ModuleOperation operation = moduleManagementFacade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+        ModuleOperationResult execute = operation.execute(application, null);
+        return execute.isErrorFree();
     }
     
     public void setApplicationFactory(ApplicationFactory applicationFactory) {
