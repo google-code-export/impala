@@ -78,7 +78,6 @@ public abstract class BaseModuleProxyFilter implements Filter {
         
         ServletContext context = filterConfig.getServletContext();
         doFilter(request, response, context, chain);
-        
     }
 
     void doFilter(HttpServletRequest request, HttpServletResponse response,
