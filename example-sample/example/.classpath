@@ -38,6 +38,8 @@
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/jcl104-over-slf4j-1.4.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/slf4j-api-1.4.3.jar" sourcepath="/example-repository/main/slf4j-api-1.4.3-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/slf4j-log4j12-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/aspectj/aspectjrt-1.5.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/aspectj/aspectjweaver-1.5.4.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/example-extension"/>
 	<classpathentry kind="lib" path="/example-repository/web/servlet-api-2.4.jar"/>
 	<classpathentry kind="lib" path="/example-repository/web/jsp-api-2.0.jar"/>

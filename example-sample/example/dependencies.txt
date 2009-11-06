@@ -11,6 +11,9 @@ main from net.sf.ehcache:ehcache:1.3.0
 main from org.hibernate:hibernate:3.2.3.ga
 main from hsqldb:hsqldb:1.8.0.7 
 
+aspectj from org.aspectj:aspectjrt:1.5.4
+aspectj from org.aspectj:aspectjweaver:1.5.4
+
 test from junit:junit:3.8.1
 test from dbunit:dbunit:2.1
 test from org.easymock:easymock:2.2
