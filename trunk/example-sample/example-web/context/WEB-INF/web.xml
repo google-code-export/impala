@@ -58,4 +58,15 @@
         <servlet-name>example-servlet4</servlet-name>
         <url-pattern>*.do4</url-pattern>
     </servlet-mapping>
+    
+    <!-- Logs application context -->
+    <servlet>
+        <servlet-name>cxlog</servlet-name>
+        <servlet-class>org.impalaframework.example.extension.servlet.AppContextLoggingServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cxlog</servlet-name>
+        <url-pattern>/logcontext</url-pattern>
+    </servlet-mapping>
 </web-app>
