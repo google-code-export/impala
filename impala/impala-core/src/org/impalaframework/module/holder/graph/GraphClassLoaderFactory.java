@@ -83,11 +83,19 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         }
         
         ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
-        ClassLoader classLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
+        ClassLoader parentClassLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
         
-        GraphClassLoader gcl = new GraphClassLoader(classLoaderToUse , new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
+        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, resourceLoader, classLoaders, parentClassLoaderToUse);
         classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
         return gcl;
+    }
+
+    protected GraphClassLoader newGraphClassLoader(
+            ModuleDefinition moduleDefinition, 
+            ClassRetriever resourceLoader,
+            List<GraphClassLoader> classLoaders, 
+            ClassLoader parentClassLoader) {
+        return new GraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
     }
     
     ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
@@ -95,6 +103,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         final File[] files = ResourceUtils.getFiles(classLocations);
         URLClassRetriever classLoader = new URLClassRetriever(files);
         return classLoader;
+    }
+    
+    protected final boolean isParentClassLoaderFirst() {
+        return parentClassLoaderFirst;
     }
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
