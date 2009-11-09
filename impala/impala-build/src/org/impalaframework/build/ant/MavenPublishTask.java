@@ -5,6 +5,7 @@ import java.io.FileFilter;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
+import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Echo;
 
@@ -46,26 +47,19 @@ public class MavenPublishTask extends Task {
         copy.setProject(getProject());
         copy.setPreserveLastModified(true);
         
-        Echo echo = new Echo();
-        echo.setProject(getProject());
-        
         final File organisationDirectory = getOrganisationDirectory();
         for (ArtifactOutput artifactOutput : ads) {
 
             File targetFile = artifactOutput.getOutputLocation(organisationDirectory, false);
-            copy.setFile(artifactOutput.getSrcFile());
-            copy.setTofile(targetFile);
-            copy.execute();
-            copy.init();
+            File srcFile = artifactOutput.getSrcFile();
+            copy(copy, srcFile, targetFile);
             
             if (artifactOutput.getSourceSrcFile() != null) {
                 File targetSourceFile = artifactOutput.getOutputLocation(organisationDirectory, true);
-                copy.setFile(artifactOutput.getSourceSrcFile());
-                copy.setTofile(targetSourceFile);
-                copy.execute();
-                copy.init();
+                File sourceSrcFile = artifactOutput.getSourceSrcFile();
+                copy(copy, sourceSrcFile, targetSourceFile);
             }
-            
+
             String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
               "<modelVersion>4.0.0</modelVersion>\n" + 
               "<groupId>" + artifactOutput.getOrganisation() + 
@@ -78,12 +72,52 @@ public class MavenPublishTask extends Task {
 
             File pomFile = artifactOutput.getOutputLocation(organisationDirectory, ".pom");
             
-            echo.setFile(pomFile);
-            echo.addText(pomText);
+            if (pomFile.exists()) {
+                pomFile.delete();
+            }
             
-            echo.execute();
+            writePom(pomText, pomFile);
+            writeChecksum(pomFile, pomFile);
         }
         
+    }
+
+    private void copy(Copy copy, File srcFile, File targetFile) {
+        copy.setFile(srcFile);
+        copy.setTofile(targetFile);
+        copy.execute();
+        copy.init();
+        
+        writeChecksum(srcFile, targetFile);
+    }
+
+    private void writeChecksum(File srcFile, File targetFile) {
+        Checksum checksum = new Checksum();
+        checksum.setProject(getProject());
+        checksum.setAlgorithm("SHA1");
+        checksum.setFile(srcFile);
+        String property = MavenPublishTask.class.getName()+".checksum.property."+srcFile.getAbsolutePath();
+        checksum.setProperty(property);
+        checksum.execute();
+        
+        Echo echo = new Echo();
+        echo.setProject(getProject());
+        
+        File checksumFile = new File(targetFile.getParentFile(), targetFile.getName()+".sha1");
+        
+        echo.setFile(checksumFile);
+        String checksumValue = getProject().getProperty(property);
+        System.out.println("Value for file " + srcFile + ": " + checksumValue);
+        echo.addText(checksumValue);
+        echo.execute();
+    }
+
+    private void writePom(String pomText, File pomFile) {
+        Echo echo = new Echo();
+        echo.setProject(getProject());
+        echo.setFile(pomFile);
+        echo.addText(pomText);
+        echo.execute();
     }
 
     File getOrganisationDirectory() {
@@ -207,6 +241,5 @@ public class MavenPublishTask extends Task {
     public void setDestDir(File destDir) {
         this.destDir = destDir;
     }
-
 
 }
