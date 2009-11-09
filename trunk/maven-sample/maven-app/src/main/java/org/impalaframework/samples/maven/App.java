@@ -1,4 +1,4 @@
-package com.mycompany.app;
+package org.impalaframework.samples.maven;
 
 /**
  * Hello world!
