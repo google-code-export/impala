@@ -38,15 +38,44 @@
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
       <version>1.1</version>
+      <exclusions>
+      	 <exclusion>
+	       <groupId>logkit</groupId>
+	       <artifactId>logkit</artifactId>
+      	 </exclusion>
+      	 <exclusion>
+	       <groupId>avalon-framework</groupId>
+	       <artifactId>avalon-framework</artifactId>
+      	 </exclusion>
+      	 <exclusion>
+	       <groupId>javax.servlet</groupId>
+	       <artifactId>servlet-api</artifactId>
+      	 </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
       <version>1.2.13</version>
+    </dependency>  
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-core</artifactId>
+      <version>2.5.5</version>
     </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
-      <artifactId>spring</artifactId>
+      <artifactId>spring-beans</artifactId>
+      <version>2.5.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>2.5.5</version>
+    </dependency>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context-support</artifactId>
       <version>2.5.5</version>
     </dependency>
     <dependency>
