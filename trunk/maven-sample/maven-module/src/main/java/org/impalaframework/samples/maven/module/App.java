@@ -1,4 +1,4 @@
-package org.impalaframework.samples.maven;
+package org.impalaframework.samples.maven.module;
 
 /**
  * Hello world!

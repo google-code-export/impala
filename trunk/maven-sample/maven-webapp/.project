@@ -2,7 +2,7 @@
   <name>maven-webapp</name>
   <comment/>
   <projects>
-    <project>maven-app</project>
+    <project>maven-main</project>
   </projects>
   <buildSpec>
     <buildCommand>
