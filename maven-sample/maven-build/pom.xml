@@ -8,7 +8,7 @@
   <artifactId>app</artifactId>
   <packaging>pom</packaging>
   <modules>
-    <module>../maven-app</module>
+    <module>../maven-main</module>
     <module>../maven-webapp</module>
   </modules>
 </project>

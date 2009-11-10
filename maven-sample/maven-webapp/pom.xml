@@ -15,7 +15,7 @@
   <dependencies>
     <dependency>
       <groupId>org.impalaframework.samples.maven</groupId>
-      <artifactId>maven-app</artifactId>
+      <artifactId>maven-main</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
@@ -114,7 +114,7 @@
         <configuration>
           <webResources>
             <resource>
-              <directory>webconfig</directory>
+              <directory>../maven-webapp/webconfig</directory>
             </resource>
           </webResources>
         </configuration>
