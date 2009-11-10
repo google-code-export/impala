@@ -6,7 +6,9 @@
   <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-logging/commons-logging/1.1/commons-logging-1.1.jar" sourcepath="M2_REPO/commons-logging/commons-logging/1.1/commons-logging-1.1-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-command/1.0-SNAPSHOT/impala-command-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-command/1.0-SNAPSHOT/impala-command-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-core/1.0-SNAPSHOT/impala-core-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-core/1.0-SNAPSHOT/impala-core-1.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-interactive/1.0-SNAPSHOT/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-interactive/1.0-SNAPSHOT/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-jmx/1.0-SNAPSHOT/impala-jmx-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-jmx/1.0-SNAPSHOT/impala-jmx-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
