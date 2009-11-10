@@ -9,6 +9,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>../maven-main</module>
+    <module>../maven-module</module>
     <module>../maven-webapp</module>
   </modules>
 </project>
