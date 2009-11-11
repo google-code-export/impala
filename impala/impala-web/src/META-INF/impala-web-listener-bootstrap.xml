@@ -83,8 +83,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     
     <bean id="baseModuleRuntime" abstract="true">
         <property name="moduleRuntimeMonitor" ref="moduleRuntimeMonitor" />
-        <property name="classLoaderRegistry" ref="classLoaderRegistry" />
-        <property name="moduleStateHolder" ref="moduleStateHolder" />
     </bean>
 
 </beans>
