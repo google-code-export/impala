@@ -17,6 +17,7 @@ package org.impalaframework.resolver;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -35,21 +36,28 @@ public class FileModuleResourceFinder implements ModuleResourceFinder {
     protected List<Resource> getResources(String workspaceRootPath, String moduleName) {
         List<Resource> resources = new ArrayList<Resource>();
         
-        maybeAddResource(resources, moduleName, workspaceRootPath, classDirectory); 
-        maybeAddResource(resources, moduleName, workspaceRootPath, resourceDirectory); 
+        maybeAddResources(resources, moduleName, workspaceRootPath, classDirectory); 
+        maybeAddResources(resources, moduleName, workspaceRootPath, resourceDirectory); 
         return resources;
     }
 
-    private void maybeAddResource(List<Resource> resources, String moduleName,
+    private void maybeAddResources(List<Resource> resources, String moduleName,
             String workspaceRootPath, String moduleClassDirectory) {
         
         if (moduleClassDirectory != null) {
-            String path = PathUtils.getPath(workspaceRootPath, moduleName);
-            path = PathUtils.getPath(path, moduleClassDirectory);
+        
+            //split using "," separator
+            List<String> classDirectories = CollectionStringUtils.parseStringList(moduleClassDirectory);
             
-            Resource resource = new FileSystemResource(path);
-            if (resource.exists()) {
-                resources.add(resource);
+            for (String classDirectory : classDirectories) {
+                
+                String path = PathUtils.getPath(workspaceRootPath, moduleName);
+                path = PathUtils.getPath(path, classDirectory);
+                
+                Resource resource = new FileSystemResource(path);
+                if (resource.exists()) {
+                    resources.add(resource);
+                }                
             }
         }
     }
