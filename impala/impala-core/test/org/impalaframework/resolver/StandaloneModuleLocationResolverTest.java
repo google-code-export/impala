@@ -14,6 +14,7 @@
 
 package org.impalaframework.resolver;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -43,25 +44,52 @@ public class StandaloneModuleLocationResolverTest extends TestCase {
         System.clearProperty(LocationConstants.MODULE_TEST_DIR_PROPERTY);
         System.clearProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY);
         System.clearProperty(LocationConstants.APPLICATION_VERSION);
+        
+        File file = new File(System.getProperty("java.io.tmpdir"), "tmpclasses");
+        File file2 = new File(file, "tmpclasses");
+        file2.delete();
+        file.delete();        
+    }
+    
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
-    public void testGetPluginClassLocations() throws IOException {
+    public void testGetModuleClassLocations() throws IOException {
         props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-        props.put("module.class.dir", "deploy/classes");
+        props.put("module.class.dir", "tmpclasses");
+        
+        setupFiles();
+        
         resolver = new StandaloneModuleLocationResolver(props);
         Resource[] locations = ResourceUtils.toArray(resolver.getApplicationModuleClassLocations("myplugin"));
         Resource actual = locations[0];
-        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/deploy/classes");
+        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/tmpclasses");
         assertEquals(expected.getFile(), actual.getFile());
     }
 
+    private void setupFiles() {
+        File file = new File(System.getProperty("java.io.tmpdir"), "myplugin");
+        file.mkdir();
+        
+        File file2 = new File(file, "tmpclasses");
+        file2.mkdir();
+        
+        assertTrue(file2.exists());
+    }
+
     public void testGetModuleTestLocations() throws IOException {
+        
         props.put("workspace.root", System.getProperty("java.io.tmpdir"));
-        props.put("module.test.dir", "deploy/testclasses");
+        props.put("module.test.dir", "tmpclasses");
+        
+        setupFiles();
+        
         resolver = new StandaloneModuleLocationResolver(props);
-        Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("project"));
+        Resource[] locations = ResourceUtils.toArray(resolver.getModuleTestClassLocations("myplugin"));
         Resource actual = locations[0];
-        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/project/deploy/testclasses");
+        Resource expected = new FileSystemResource(System.getProperty("java.io.tmpdir") + "/myplugin/tmpclasses");
         assertEquals(expected.getFile(), actual.getFile());
     }
 

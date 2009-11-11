@@ -16,12 +16,13 @@ package org.impalaframework.resolver;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
 import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
@@ -109,10 +110,18 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
     }
 
     protected List<Resource> getResources(String moduleName, String classDir) {
-        String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
-        path = PathUtils.getPath(path, classDir);
-        Resource resource = new FileSystemResource(path);
-        return Collections.singletonList(resource);
+        List<String> classDirs = CollectionStringUtils.parseStringList(classDir);
+        List<Resource> resources = new ArrayList<Resource>();
+        
+        for (String cdir : classDirs) {
+            String path = PathUtils.getPath(getRootDirectoryPath(), moduleName);
+            path = PathUtils.getPath(path, cdir);
+            Resource resource = new FileSystemResource(path);
+            if (resource.exists()) {
+                resources.add(resource);
+            }
+        }
+        return resources;
     }
 
 }
