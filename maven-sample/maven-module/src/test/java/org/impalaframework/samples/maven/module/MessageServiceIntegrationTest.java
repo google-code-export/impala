@@ -2,6 +2,7 @@ package org.impalaframework.samples.maven.module;
 
 import junit.framework.TestCase;
 
+import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.Impala;
 import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.interactive.definition.source.TestDefinitionSource;
@@ -12,6 +13,8 @@ import org.impalaframework.samples.maven.MessageService;
 public class MessageServiceIntegrationTest extends TestCase implements ModuleDefinitionSource {
     
     public static void main(String[] args) {
+        System.setProperty("impala."+LocationConstants.MODULE_CLASS_DIR_PROPERTY, "target/classes");
+        System.setProperty("impala."+LocationConstants.MODULE_TEST_DIR_PROPERTY, "target/test-classes");
         InteractiveTestRunner.run(MessageServiceIntegrationTest.class);
     }
     
@@ -27,6 +30,6 @@ public class MessageServiceIntegrationTest extends TestCase implements ModuleDef
     }
 
     public RootModuleDefinition getModuleDefinition() {
-        return new TestDefinitionSource("main", "module1").getModuleDefinition();
+        return new TestDefinitionSource("main", "module").getModuleDefinition();
     }
 }
