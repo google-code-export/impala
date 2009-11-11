@@ -24,7 +24,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.GRAPH_BEAN_VISIBILITY_TYPE_DEFAULT]"/>
  </bean>
  
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime"> 
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime"
+ 	parent="baseModuleRuntime"> 
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>       
     <property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>   
