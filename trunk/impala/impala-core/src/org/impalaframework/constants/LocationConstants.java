@@ -22,13 +22,13 @@ package org.impalaframework.constants;
 public interface LocationConstants {
 
     String MODULE_CLASS_DIR_PROPERTY = "module.class.dir";
-    String MODULE_CLASS_DIR_DEFAULT = "bin";
+    String MODULE_CLASS_DIR_DEFAULT = "bin,target/classes";
     
     String MODULE_RESOURCE_DIR_PROPERTY = "module.resource.dir";
-    String MODULE_RESOURCE_DIR_DEFAULT = "resources";
+    String MODULE_RESOURCE_DIR_DEFAULT = "resources,target/classes";
     
     String MODULE_TEST_DIR_PROPERTY = "module.test.dir";
-    String MODULE_TEST_DIR_DEFAULT = "bin";
+    String MODULE_TEST_DIR_DEFAULT = "bin,target/test-classes";
     
     String WORKSPACE_ROOT_PROPERTY = "workspace.root";
     String WORKSPACE_ROOT_DEFAULT = "../";
