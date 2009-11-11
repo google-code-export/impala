@@ -290,7 +290,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
  </bean>    
  
- <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime">
+ <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime"
+ 	parent="baseModuleRuntime">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>         
  </bean>
@@ -323,15 +324,17 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <!-- ############## Simple modules support ############### --> 
+  
+ <bean id="baseModuleRuntime" abstract="true"> 
+ </bean>
  
- <bean id="simpleModuleRuntime" class="org.impalaframework.module.runtime.SimpleModuleRuntime">
+ <bean id="simpleModuleRuntime" 
+ 	class="org.impalaframework.module.runtime.SimpleModuleRuntime"
+ 	parent="baseModuleRuntime">
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>     
  </bean>
  
  <!-- ############## Module runtime contributions ############### --> 
- 
- <bean id="baseModuleRuntime" abstract="true"> 
- </bean>
 
  <bean id="moduleRuntimeManagerContributions" class="org.impalaframework.spring.module.registry.NamedBeanRegistryContributor">
     <property name = "registryBeanName" value = "moduleRuntimeManager"/>
