@@ -2,7 +2,6 @@ package org.impalaframework.samples.maven.module;
 
 /**
  * Hello world!
- *
  */
 public class App 
 {
