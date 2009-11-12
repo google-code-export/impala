@@ -11,6 +11,7 @@
     <module>../maven-main</module>
     <module>../maven-module</module>
     <module>../maven-webapp</module>
+    <module>../maven-web</module>
   </modules>
   <build>
 	<plugins>
