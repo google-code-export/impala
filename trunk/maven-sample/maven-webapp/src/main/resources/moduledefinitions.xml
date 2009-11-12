@@ -1,0 +1,7 @@
+<parent>
+    <names>
+    maven-main
+    maven-module
+    maven-meb
+    </names>
+</parent>
