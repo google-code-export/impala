@@ -4,9 +4,9 @@
           xsi:schemaLocation="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
           version="2.5">
     
-    <display-name>URL Mapping example</display-name>
+    <display-name>Impala URL Mapping example</display-name>
 
-    <description>URL Mapping example</description>
+    <description>Impala URL Mapping example</description>
 
     <listener>
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
