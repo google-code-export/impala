@@ -20,6 +20,6 @@ Then open an Eclipse workspace in the new _webframeworks_ folder, and import all
 
 == Run the sample ==
 
-From within Eclipse, run `StartServer` as a web application. Then connect using the URL:
+From within Eclipse, run StartServer as a web application. Then connect using the URL:
 
 http://localhost:8080/webframeworks-web/

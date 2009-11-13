@@ -38,7 +38,7 @@ Now set up the database:
 To run the tests from Eclipse, simply run the main class `AllTests` as a JUnit test, 
 which is in the project _petclinic-tests_.
 
-To run up the web application, simply run the main class `StartServer`, 
+To run up the web application, simply run the main class StartServer, 
 which is in the project _petclinic-web_. This time, run it as a (main) Java application.
 
 Connect using the URL http://localhost:8080/petclinic-web/

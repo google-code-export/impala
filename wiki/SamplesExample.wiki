@@ -16,6 +16,6 @@ Then open an Eclipse workspace in the new _example-sample_ folder, and import al
 
 == Run the sample ==
 
-From within Eclipse, run `StartServer` as a web application. Then connect using the URL:
+From within Eclipse, run StartServer as a web application. Then connect using the URL:
 
 http://localhost:8080/example-web/
