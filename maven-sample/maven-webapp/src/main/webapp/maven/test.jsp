@@ -4,7 +4,9 @@
 <body>
 
 <h1>Welcome to Impala</h1>
-<p>If you can see this message, then you have successfully started up a minimal working multi-module application.</p>
+<p>If you can see this message, then you have successfully started up a minimal working multi-module application,
+set up using the <a href = "http://maven.apache.org/">Maven project conventions</a>.</p>
+
 <p>As the property <code>auto.reload.modules</code> is set true, any change you make to the application will
 be automatically detected, and the affected modules will be reloaded.</p>
 
