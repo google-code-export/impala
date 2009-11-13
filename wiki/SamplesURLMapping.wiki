@@ -20,6 +20,6 @@ http://impala.googlecode.com/svn/wiki/images/url_mapping.png
 
 == Run the sample ==
 
-From within Eclipse, run [StartServer `StartServer`] as a web application. Then connect using the URL:
+From within Eclipse, run StartServer as a web application. Then connect using the URL:
 
 http://localhost:8080/
