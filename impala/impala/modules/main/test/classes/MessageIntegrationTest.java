@@ -22,7 +22,6 @@ import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 
 import @project.package.name@.@main.project.name@.BaseIntegrationTest;
-import @project.package.name@.@main.project.name@.MessageService;
 
 
 public class MessageIntegrationTest extends BaseIntegrationTest {
