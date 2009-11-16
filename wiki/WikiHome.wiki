@@ -21,7 +21,7 @@
     * [SamplesSpringFaces Spring Faces sample]: a version of the Spring Faces hotel booking application. Features JPA, JSF and Spring Web Flow.
     * [SamplesURLMapping URL mapping sample]: demonstrates Impala's web multi-module support.
     * [SamplesExample Examples sample]: a testbed for Impala features, designed more for Impala developers rather than users.
-    * [SamplesMaven Maven sample]: sample which uses Maven as the build tool, and uses Maven project structure conventions.
+    * [SamplesMaven Maven sample]: a sample which uses Maven as the build tool, and uses Maven project structure conventions.
     * [SamplesOSGi OSGi sample]: a testbed for Impala's OSGi support.
   * [FirstSteps First steps]
   * Getting Started
