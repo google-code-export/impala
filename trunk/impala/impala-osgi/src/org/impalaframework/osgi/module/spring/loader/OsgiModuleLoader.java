@@ -61,7 +61,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     /**
      * Returns the class resource locations as determined by the wired in {@link ModuleLocationResolver#getApplicationModuleClassLocations(String)}.
      */
-    public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+    public Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition) {
         Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
         
         List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
@@ -72,7 +72,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * Finds the bundle whose name is the same as the module name. Then returns the context locations as an array of 
      * {@link OsgiBundleResource} instances.
      */
-    public Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+    public Resource[] getSpringConfigResources(String applicationId, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
         Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
         
         Bundle bundle = findAndCheckBundle(moduleDefinition);
@@ -92,11 +92,11 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
      * registers {@link ServiceRegistryPostProcessor} and
      * {@link ModuleDefinitionPostProcessor} {@link BeanPostProcessor}
      * instances. Wires in resources obtained suing
-     * {@link #getSpringConfigResources(ModuleDefinition, ClassLoader)}, and
+     * {@link #getSpringConfigResources(String, ModuleDefinition, ClassLoader)}, and
      * calls the application context
      * {@link DelegatedExecutionOsgiBundleApplicationContext#startRefresh()}
      * method. Note that the rest of the refresh operation is called in 
-     * {@link #handleRefresh(ConfigurableApplicationContext, ModuleDefinition)}.
+     * {@link #handleRefresh(String, ConfigurableApplicationContext, ModuleDefinition)}.
      */
     public ConfigurableApplicationContext newApplicationContext(
             Application application, 
@@ -110,7 +110,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
         final BundleContext bc = bundle.getBundleContext();
         applicationContext.setBundleContext(bc);
         
-        final Resource[] springConfigResources = getSpringConfigResources(moduleDefinition, classLoader);
+        final Resource[] springConfigResources = getSpringConfigResources("id", moduleDefinition, classLoader);
         
         applicationContext.setClassLoader(classLoader);
         applicationContext.setConfigResources(springConfigResources);
@@ -126,7 +126,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     /**
      * Nothing to do in this implementation
      */
-    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+    public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
     }
 
     ImpalaOsgiApplicationContext newApplicationContext(
@@ -148,8 +148,8 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     }   
 
     public BeanDefinitionReader newBeanDefinitionReader(
-            ConfigurableApplicationContext context,
-            ModuleDefinition moduleDefinition) {
+            String applicationId,
+            ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         //don't implement this as this is handled internally within ImpalaOsgiApplicationContext
         return null;
     }
@@ -157,7 +157,7 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     /**
      * Completes the second part of the refresh process by calling {@link DelegatedExecutionOsgiBundleApplicationContext#completeRefresh()}
      */
-    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+    public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         DelegatedExecutionOsgiBundleApplicationContext dc = ObjectUtils.cast(context, DelegatedExecutionOsgiBundleApplicationContext.class);
         dc.completeRefresh();
     }
@@ -165,8 +165,8 @@ public class OsgiModuleLoader implements SpringModuleLoader, BundleContextAware 
     /**
      * No operation is performed in this method implementation
      */
-    public void afterRefresh(ConfigurableApplicationContext context,
-            ModuleDefinition definition) {
+    public void afterRefresh(String applicationId,
+            ConfigurableApplicationContext context, ModuleDefinition definition) {
     }
 
     /* ************************* helper methods ************************ */

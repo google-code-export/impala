@@ -149,7 +149,7 @@ class TestModuleRuntime extends BaseModuleRuntime {
         return new SimpleRuntimeModule(ClassUtils.getDefaultClassLoader(), definition);
     }
 
-    public void doCloseModule(RuntimeModule runtimeModule) {
+    public void doCloseModule(String applicationId, RuntimeModule runtimeModule) {
     }
 
     public String getRuntimeName() {

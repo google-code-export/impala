@@ -40,7 +40,7 @@ public class RootWebModuleLoader extends BaseWebModuleLoader {
     private static Log logger = LogFactory.getLog(DefaultApplicationContextLoader.class);
 
     @Override
-    public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
+    public void afterRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition definition) {
         
         Object existingRoot = getServletContext().getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         if (existingRoot != null) {

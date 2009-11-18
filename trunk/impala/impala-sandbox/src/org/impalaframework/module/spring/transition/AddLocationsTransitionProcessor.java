@@ -52,8 +52,9 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		ClassLoader classLoader = parentContext.getClassLoader();
 
 		RootModuleDefinition existingModuleDefinition = moduleStateHolder.getRootModuleDefinition();
-		Resource[] existingResources = moduleLoader.getSpringConfigResources(existingModuleDefinition, classLoader);
-		Resource[] newResources = moduleLoader.getSpringConfigResources(newRootDefinition, classLoader);
+		String applicationId = application.getId();
+		Resource[] existingResources = moduleLoader.getSpringConfigResources(applicationId, existingModuleDefinition, classLoader);
+		Resource[] newResources = moduleLoader.getSpringConfigResources(applicationId, newRootDefinition, classLoader);
 
 		// compare difference
 		List<Resource> existingResourceList = newResourceList(existingResources);
@@ -66,8 +67,8 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 			}
 		}
 
-		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(parentContext,
-				newRootDefinition);
+		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(applicationId,
+				parentContext, newRootDefinition);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
 
 		return true;

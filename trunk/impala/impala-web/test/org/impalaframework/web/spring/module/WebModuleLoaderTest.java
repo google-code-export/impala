@@ -28,7 +28,7 @@ public class WebModuleLoaderTest extends TestCase {
 
     public final void testGetSpringConfigResources() throws IOException {
         WebModuleLoader moduleLoader = new WebModuleLoader();
-        Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
+        Resource[] springConfigResources = moduleLoader.getSpringConfigResources("id", new SimpleModuleDefinition(null, "plugin1", new String[]{"parentTestContext.xml"}), ClassUtils.getDefaultClassLoader());
     
         assertEquals(1, springConfigResources.length);
         Resource resource = springConfigResources[0];

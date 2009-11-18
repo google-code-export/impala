@@ -68,6 +68,9 @@ public class ImpalaServletUtilsTest extends TestCase {
     
     public void testRootModuleContext() throws Exception {
         final ApplicationContext applicationContext = createMock(ApplicationContext.class);
+        
+        //FIXME wire in an use WebAttributeQualifier
+        
         ImpalaServletUtils.publishRootModuleContext(servletContext, "myservlet", applicationContext);
         
         assertSame(applicationContext, ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));

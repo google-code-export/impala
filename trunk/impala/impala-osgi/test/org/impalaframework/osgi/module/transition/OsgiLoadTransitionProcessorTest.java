@@ -209,7 +209,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
             final SimpleModuleDefinition moduleDefinition,
             final Resource[] classLocations) {
         expect(moduleLoaderRegistry.getModuleLoader("spring-APPLICATION")).andReturn(moduleLoader);
-        expect(moduleLoader.getClassLocations(moduleDefinition)).andReturn(classLocations);
+        expect(moduleLoader.getClassLocations("id", moduleDefinition)).andReturn(classLocations);
     }
 
     @SuppressWarnings("unchecked")

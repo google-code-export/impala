@@ -41,9 +41,9 @@ public abstract class WebServletUtils {
         return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
     }
 
+    @Deprecated
     public static String getModuleServletContextKey(String moduleName, String attributeName) {
-        //FIXME add test
-        
+
         String moduleServletContextPrefix = getModuleServletContextPrefix(moduleName);
         
         if (!attributeName.startsWith(moduleServletContextPrefix)) {

@@ -39,7 +39,7 @@ public class SimpleModuleLoader implements ModuleLoader {
     /**
      * Used wired in {@link ModuleLocationResolver} to retrieve module class locations
      */
-    public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+    public Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition) {
         Assert.notNull(moduleDefinition);
         Assert.notNull(moduleLocationResolver);
         

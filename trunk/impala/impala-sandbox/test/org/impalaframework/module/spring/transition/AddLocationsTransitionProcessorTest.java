@@ -71,10 +71,10 @@ public class AddLocationsTransitionProcessorTest extends TestCase {
 
 		expect(moduleStateHolder.getRootModule()).andReturn(new DefaultSpringRuntimeModule(new SimpleModuleDefinition("newlocation"), context));
 		expect(moduleStateHolder.getRootModuleDefinition()).andReturn(originalSpec);
-		expect(moduleLoader.newBeanDefinitionReader(context, newSpec)).andReturn(beanDefinitionReader);
+		expect(moduleLoader.newBeanDefinitionReader("id", context, newSpec)).andReturn(beanDefinitionReader);
 		expect(context.getClassLoader()).andReturn(classLoader);
-		expect(moduleLoader.getSpringConfigResources(originalSpec, classLoader)).andReturn(resources1);
-		expect(moduleLoader.getSpringConfigResources(newSpec, classLoader)).andReturn(resources2);
+		expect(moduleLoader.getSpringConfigResources("id", originalSpec, classLoader)).andReturn(resources1);
+		expect(moduleLoader.getSpringConfigResources("id", newSpec, classLoader)).andReturn(resources2);
 		expect(beanDefinitionReader.loadBeanDefinitions(aryEq(resources3))).andReturn(0);
 
 		replayMocks();

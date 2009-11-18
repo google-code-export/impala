@@ -22,6 +22,7 @@ import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -82,11 +83,15 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     
     
     @Override
-    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+    public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+        
+        //FIXME wire in an use WebAttributeQualifier
+        
+        WebAttributeQualifier q;
         
         try {
             ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
-            doHandleRefresh(context, moduleDefinition);
+            doHandleRefresh(applicationId, context, moduleDefinition);
         }
         catch (RuntimeException e) {
             ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
@@ -99,12 +104,12 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     }
     
     @Override
-    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+    public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
         ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
     }
 
-    protected void doHandleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
-        super.handleRefresh(context, moduleDefinition);
+    protected void doHandleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+        super.handleRefresh(applicationId, context, moduleDefinition);
     }
     
     

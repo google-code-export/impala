@@ -87,7 +87,7 @@ public class OsgiModuleLoaderTest extends TestCase {
         
         replayMocks();
         
-        final Resource[] classLocations = moduleLoader.getClassLocations(new SimpleModuleDefinition("mymodule"));
+        final Resource[] classLocations = moduleLoader.getClassLocations("id", new SimpleModuleDefinition("mymodule"));
         assertSame(resource1, classLocations[0]);
         assertSame(resource2, classLocations[1]);
         assertEquals(2, classLocations.length);
@@ -98,7 +98,7 @@ public class OsgiModuleLoaderTest extends TestCase {
     public void testSpringConfigResources() throws Exception {
         replayMocks();
         
-        final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
+        final Resource[] springConfigResources = moduleLoader.getSpringConfigResources("id", new SimpleModuleDefinition("mymodule"), null);
         assertEquals(1, springConfigResources.length);
         assertEquals("mymodule-context.xml", springConfigResources[0].getFilename());
         assertTrue(springConfigResources[0] instanceof OsgiBundleResource);
@@ -112,7 +112,7 @@ public class OsgiModuleLoaderTest extends TestCase {
         replayMocks();
         
         try {
-            moduleLoader.getSpringConfigResources(new SimpleModuleDefinition("mymodule"), null);
+            moduleLoader.getSpringConfigResources("id", new SimpleModuleDefinition("mymodule"), null);
             fail();
         } catch (InvalidStateException e) {
             assertEquals("Unable to find bundle with name corresponding with module 'name=mymodule, configLocations=[], type=APPLICATION, dependencies=[], runtime=spring'. Check to see whether this module installed properly.", e.getMessage());
@@ -158,7 +158,7 @@ public class OsgiModuleLoaderTest extends TestCase {
     
     public void testNewBeanDefinitionReader() throws Exception {
         //does nothing
-        assertNull(moduleLoader.newBeanDefinitionReader(null, null));
+        assertNull(moduleLoader.newBeanDefinitionReader("id", null, null));
     }
     
     public void testDoRefresh() throws Exception {
@@ -169,7 +169,7 @@ public class OsgiModuleLoaderTest extends TestCase {
         replayMocks();
         replay(applicationContext);
         
-        moduleLoader.handleRefresh(applicationContext, new SimpleModuleDefinition("moduleName"));
+        moduleLoader.handleRefresh("id", applicationContext, new SimpleModuleDefinition("moduleName"));
 
         verifyMocks();
         verify(applicationContext);

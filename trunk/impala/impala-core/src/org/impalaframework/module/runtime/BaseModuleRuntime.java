@@ -86,12 +86,12 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         
         final ModuleDefinition moduleDefinition = runtimeModule.getModuleDefinition();
         classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
-        doCloseModule(runtimeModule);
+        doCloseModule(application.getId(), runtimeModule);
     }
     
     /* ********************* Abstract methods ********************* */
 
-    protected abstract void doCloseModule(RuntimeModule runtimeModule);
+    protected abstract void doCloseModule(String applicationId, RuntimeModule runtimeModule);
 
     /* ********************* Protected methods ********************* */
 
