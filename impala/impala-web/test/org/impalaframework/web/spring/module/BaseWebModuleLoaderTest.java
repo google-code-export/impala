@@ -46,8 +46,8 @@ public class BaseWebModuleLoaderTest extends TestCase {
         BaseWebModuleLoader moduleLoader = new BaseWebModuleLoader(){
             @Override
             protected void doHandleRefresh(
-                    ConfigurableApplicationContext context,
-                    ModuleDefinition moduleDefinition) {
+                    String applicationId,
+                    ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
             }
         };
         moduleLoader.setServletContext(servletContext);
@@ -55,7 +55,7 @@ public class BaseWebModuleLoaderTest extends TestCase {
         servletContext.setAttribute("module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT", context);  
         replay(servletContext);
         
-        moduleLoader.handleRefresh(context, moduleDefinition);
+        moduleLoader.handleRefresh("id", context, moduleDefinition);
         
         verify(servletContext);
     }
@@ -64,8 +64,8 @@ public class BaseWebModuleLoaderTest extends TestCase {
         BaseWebModuleLoader moduleLoader = new BaseWebModuleLoader(){
             @Override
             protected void doHandleRefresh(
-                    ConfigurableApplicationContext context,
-                    ModuleDefinition moduleDefinition) {
+                    String applicationId,
+                    ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
                 throw new RuntimeException();
             }
         };
@@ -76,7 +76,7 @@ public class BaseWebModuleLoaderTest extends TestCase {
         replay(servletContext);
         
         try {
-            moduleLoader.handleRefresh(context, moduleDefinition);
+            moduleLoader.handleRefresh("id", context, moduleDefinition);
             fail();
         }
         catch (RuntimeException e) {
@@ -93,7 +93,7 @@ public class BaseWebModuleLoaderTest extends TestCase {
         servletContext.removeAttribute("module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT");  
         replay(servletContext);
         
-        moduleLoader.beforeClose(context, moduleDefinition);
+        moduleLoader.beforeClose("id", context, moduleDefinition);
         
         verify(servletContext);
     }

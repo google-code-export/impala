@@ -68,7 +68,7 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader();
 		loader.setModuleLocationResolver(locationResolver);
 	
-		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(new GenericApplicationContext(), definition);
+		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader("id", new GenericApplicationContext(), definition);
 		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
 		assertTrue(definitions > 0);
 	}
@@ -79,9 +79,9 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 		moduleLoader.setModuleLocationResolver(locationResolver);
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		child = moduleLoader.newApplicationContext(null, parent, definition, classLoader);
-		XmlBeanDefinitionReader xmlReader = moduleLoader.newBeanDefinitionReader(child, definition);
+		XmlBeanDefinitionReader xmlReader = moduleLoader.newBeanDefinitionReader("id", child, definition);
 		xmlReader.setBeanClassLoader(classLoader);
-		xmlReader.loadBeanDefinitions(moduleLoader.getSpringConfigResources(definition, classLoader));
+		xmlReader.loadBeanDefinitions(moduleLoader.getSpringConfigResources("id", definition, classLoader));
 		child.refresh();
 	}
 

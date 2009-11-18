@@ -45,7 +45,8 @@ public interface ApplicationContextLoader {
 
     /**
      * Callback which performs 
+     * @param applicationId TODO
      */
-    void closeContext(ModuleDefinition moduleDefinition, ApplicationContext applicationContext);
+    void closeContext(String applicationId, ModuleDefinition moduleDefinition, ApplicationContext applicationContext);
     
 }

@@ -34,14 +34,14 @@ public class BaseSpringModuleLoaderTest extends TestCase {
         BaseSpringModuleLoader loader = new ApplicationModuleLoader();
         loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
         GenericApplicationContext context = new GenericApplicationContext();
-        XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader(context, new SimpleModuleDefinition("pluginName"));
+        XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader("id", context, new SimpleModuleDefinition("pluginName"));
         assertSame(context.getBeanFactory(), reader.getBeanFactory());
     }
 
     public void testNewApplicationContext() throws Exception {
         BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
 
-            public Resource[] getClassLocations(ModuleDefinition moduleDefinition) {
+            public Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition) {
                 return null;
             }
         };

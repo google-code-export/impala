@@ -57,7 +57,7 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
         return context;
     }
 
-    public final Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+    public final Resource[] getSpringConfigResources(String applicationId, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
         
         ModuleLocationsResourceLoader loader = new ModuleLocationsResourceLoader();
         Collection<ResourceLoader> resourceLoaders = getSpringLocationResourceLoaders();
@@ -78,15 +78,15 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
         return resourceLoaders;
     }
     
-    public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
+    public XmlBeanDefinitionReader newBeanDefinitionReader(String applicationId, ConfigurableApplicationContext context, ModuleDefinition definition) {
         final ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
         return new XmlBeanDefinitionReader(ModuleUtils.castToBeanDefinitionRegistry(beanFactory));
     }
 
-    public void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition definition) {
+    public void afterRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition definition) {
     }
     
-    public void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
+    public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         // refresh the application context - now we're ready to go
         context.refresh();
     }
@@ -94,7 +94,7 @@ public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implemen
     /**
     * Nothing to do in this implementation
     */
-    public void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
+    public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
     }
 
     protected Collection<ResourceLoader> getInjectedSpringLocationResourceLoaders() {

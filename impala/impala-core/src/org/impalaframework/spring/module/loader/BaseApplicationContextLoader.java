@@ -65,7 +65,9 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
             if (moduleLoader != null) {
                 if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using ModuleLoader " + moduleLoader);
                 context = loadApplicationContext(application, classLoader, moduleLoader, parent, definition);
-                moduleLoader.afterRefresh(context, definition);
+                
+                final String applicationId = application.getId();
+                moduleLoader.afterRefresh(applicationId, context, definition);
             }
             else if (delegatingLoader != null) {
                 if (logger.isDebugEnabled()) logger.debug("Loading module " + definition + " using DelegatingContextLoader " + moduleLoader);
@@ -91,17 +93,17 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
      * {@link ConfigurableApplicationContext}, then calls
      * {@link ConfigurableApplicationContext#close()}. Also, prior to this, if
      * module is associated with {@link SpringModuleLoader}, then
-     * {@link SpringModuleLoader#beforeClose(ApplicationContext, ModuleDefinition)}
+     * {@link SpringModuleLoader#beforeClose(String, ApplicationContext, ModuleDefinition)}
      * is called.
      */
-    public void closeContext(ModuleDefinition moduleDefinition, ApplicationContext applicationContext) {
+    public void closeContext(String applicationId, ModuleDefinition moduleDefinition, ApplicationContext applicationContext) {
         
         Assert.notNull(moduleLoaderRegistry, ModuleLoaderRegistry.class.getName() + " cannot be null");        
         final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(moduleDefinition), false);
         
         if (loader instanceof SpringModuleLoader) {
             SpringModuleLoader springModuleLoader = (SpringModuleLoader) loader;
-            springModuleLoader.beforeClose(applicationContext, moduleDefinition);
+            springModuleLoader.beforeClose(applicationId, applicationContext, moduleDefinition);
         }
         
         if (applicationContext instanceof ConfigurableApplicationContext) {
@@ -132,7 +134,8 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
             ConfigurableListableBeanFactory beanFactory = context.getBeanFactory();
             addBeanPostProcessors(application, definition, beanFactory);
             
-            BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(context, definition);
+            final String applicationId = application.getId();
+            BeanDefinitionReader reader = moduleLoader.newBeanDefinitionReader(applicationId, context, definition);
 
             if (reader != null) {
                 //if this is null, then we assume moduleLoader or refresh takes care of this
@@ -141,11 +144,11 @@ public class BaseApplicationContextLoader implements ApplicationContextLoader {
                     ((AbstractBeanDefinitionReader) reader).setBeanClassLoader(classLoader);
                 }
     
-                final Resource[] resources = moduleLoader.getSpringConfigResources(definition, classLoader);
+                final Resource[] resources = moduleLoader.getSpringConfigResources(applicationId, definition, classLoader);
                 reader.loadBeanDefinitions(resources);
             }
 
-            moduleLoader.handleRefresh(context, definition);
+            moduleLoader.handleRefresh(applicationId, context, definition);
             return context;
         }
         finally {

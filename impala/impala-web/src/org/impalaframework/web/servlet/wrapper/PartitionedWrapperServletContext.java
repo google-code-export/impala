@@ -39,6 +39,7 @@ public class PartitionedWrapperServletContext extends
             ServletContext realContext,
             String moduleName, 
             ClassLoader moduleClassLoader) {
+        //FIXME add application id
         super(realContext, moduleName, moduleClassLoader);
     }
     
@@ -78,6 +79,7 @@ public class PartitionedWrapperServletContext extends
         if (name.startsWith(SHARED_PREFIX)) {
             keyToUse = name.substring(SHARED_PREFIX.length());
         } else {
+            //FIXME wire in an use WebAttributeQualifier
             keyToUse = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
         }
         return keyToUse;

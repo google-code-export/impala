@@ -64,6 +64,7 @@ public abstract class ImpalaServletUtils {
         }
     }
 
+    @Deprecated
     public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
         
         String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
@@ -75,6 +76,7 @@ public abstract class ImpalaServletUtils {
         }
     }
 
+    @Deprecated
     public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
 
         String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
@@ -86,6 +88,7 @@ public abstract class ImpalaServletUtils {
         }
     }
     
+    @Deprecated
     public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
 
         String attributeName = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);

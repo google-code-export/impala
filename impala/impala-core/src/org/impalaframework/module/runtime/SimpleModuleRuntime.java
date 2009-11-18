@@ -30,7 +30,7 @@ public class SimpleModuleRuntime extends BaseModuleRuntime {
     }
 
     @Override
-    protected void doCloseModule(RuntimeModule runtimeModule) {
+    protected void doCloseModule(String applicationId, RuntimeModule runtimeModule) {
     }
 
     public String getRuntimeName() {

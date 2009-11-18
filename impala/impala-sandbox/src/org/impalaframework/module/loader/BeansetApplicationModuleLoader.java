@@ -35,7 +35,7 @@ public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 	}
 
 	@Override
-	public XmlBeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition definition) {
+	public XmlBeanDefinitionReader newBeanDefinitionReader(String applicationId, ConfigurableApplicationContext context, ModuleDefinition definition) {
 		if (definition instanceof BeansetModuleDefinition) {
 			BeansetModuleDefinition beanSetDefinition = (BeansetModuleDefinition) definition;
 			Map<String, Set<String>> overrides = beanSetDefinition.getOverrides();
@@ -55,7 +55,7 @@ public class BeansetApplicationModuleLoader extends ApplicationModuleLoader {
 			return xmlReader;
 		}
 		else {
-			return super.newBeanDefinitionReader(context, definition);
+			return super.newBeanDefinitionReader(applicationId, context, definition);
 		}
 	}
 	

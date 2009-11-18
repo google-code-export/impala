@@ -58,7 +58,7 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
                 
         //install if not present
         final ModuleLoader moduleLoader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(currentDefinition));
-        final Resource[] bundleLocations = moduleLoader.getClassLocations(currentDefinition);       
+        final Resource[] bundleLocations = moduleLoader.getClassLocations("id", currentDefinition);       
 
         //find bundle with name
         Bundle bundle = findBundle(currentDefinition);

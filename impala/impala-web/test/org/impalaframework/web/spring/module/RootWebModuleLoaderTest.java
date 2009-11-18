@@ -46,7 +46,7 @@ public class RootWebModuleLoaderTest extends TestCase {
         expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
         
         replay(servletContext);
-        moduleLoader.afterRefresh(applicationContext, moduleDefinition);
+        moduleLoader.afterRefresh("id", applicationContext, moduleDefinition);
         verify(servletContext);
     }
 
@@ -55,7 +55,7 @@ public class RootWebModuleLoaderTest extends TestCase {
         servletContext.setAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationContext);
         
         replay(servletContext);
-        moduleLoader.afterRefresh(applicationContext, moduleDefinition);
+        moduleLoader.afterRefresh("id", applicationContext, moduleDefinition);
         verify(servletContext);
     }
 

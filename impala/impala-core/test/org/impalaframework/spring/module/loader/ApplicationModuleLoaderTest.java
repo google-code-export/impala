@@ -57,7 +57,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
     }
     
     public final void testGetClassLocations() {
-        final Resource[] classLocations = moduleLoader.getClassLocations(p2);
+        final Resource[] classLocations = moduleLoader.getClassLocations("id", p2);
         for (Resource resource : classLocations) {
             assertTrue(resource instanceof FileSystemResource);
             assertTrue(resource.exists());
@@ -68,7 +68,7 @@ public class ApplicationModuleLoaderTest extends TestCase {
         File classLocation = new File("../sample-module2/bin");
         ModuleClassLoader classLoader = new ModuleClassLoader(new File[]{classLocation});
         
-        final Resource[] springConfigResources = moduleLoader.getSpringConfigResources(p2, classLoader);
+        final Resource[] springConfigResources = moduleLoader.getSpringConfigResources("id", p2, classLoader);
         assertEquals(1, springConfigResources.length);
         assertEquals(ClassPathResource.class, springConfigResources[0].getClass());
         assertEquals("class path resource [sample-module2-context.xml]", springConfigResources[0].getDescription());

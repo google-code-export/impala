@@ -100,7 +100,7 @@ public class SpringModuleRuntimeTest extends TestCase {
         moduleRuntime.setApplicationContextLoader(loader);
         
         expect(definition1.getName()).andReturn("definition1");
-        loader.closeContext(definition1, applicationContext);
+        loader.closeContext(application.getId(), definition1, applicationContext);
         
         replay(definition1, applicationContext, loader);
         

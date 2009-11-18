@@ -54,7 +54,7 @@ public interface SpringModuleLoader extends ModuleLoader {
     /**
      * Return an array of {@link Resource} instances which represent the Spring config locations for the module
      */
-    Resource[] getSpringConfigResources(ModuleDefinition moduleDefinition, ClassLoader classLoader);
+    Resource[] getSpringConfigResources(String applicationId, ModuleDefinition moduleDefinition, ClassLoader classLoader);
     
     /**
      * Returns a new {@link ConfigurableApplicationContext} instance which contains the module's declarative services
@@ -66,21 +66,21 @@ public interface SpringModuleLoader extends ModuleLoader {
      * method returns null, it is assumed that the {@link ConfigurableApplicationContext} instance already contains
      * its own {@link BeanDefinitionReader}.
      */
-    BeanDefinitionReader newBeanDefinitionReader(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+    BeanDefinitionReader newBeanDefinitionReader(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
     
     /**
      * A callback which will typically, although not always, be used to invoke the {@link ConfigurableApplicationContext#refresh()} method.
      */
-    void handleRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+    void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
     
     /**
      * Callback which can be used for any post-refresh operations
      */
-    void afterRefresh(ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
+    void afterRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition);
     
     /**
      * Callback which is called before application context is closed
      */
-    void beforeClose(ApplicationContext applicationContext, ModuleDefinition moduleDefinition);
+    void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition);
     
 }

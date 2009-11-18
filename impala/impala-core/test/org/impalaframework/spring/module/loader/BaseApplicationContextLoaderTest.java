@@ -49,7 +49,7 @@ public class BaseApplicationContextLoaderTest extends TestCase {
 
     public void testCloseContextNoModuleLoader() {
         replay(applicationContext, moduleLoader);
-        loader.closeContext(definition, new GenericApplicationContext());
+        loader.closeContext("id", definition, new GenericApplicationContext());
         verify(applicationContext, moduleLoader);
     }
 
@@ -61,7 +61,7 @@ public class BaseApplicationContextLoaderTest extends TestCase {
         applicationContext.close();
         
         replay(applicationContext, moduleLoader);
-        loader.closeContext(definition, applicationContext);
+        loader.closeContext("id", definition, applicationContext);
         verify(applicationContext, moduleLoader);
     }
 
@@ -70,11 +70,11 @@ public class BaseApplicationContextLoaderTest extends TestCase {
         SpringModuleLoader sm = (SpringModuleLoader) moduleLoader;
         moduleLoaderRegistry.addItem("spring-APPLICATION", moduleLoader);
         
-        sm.beforeClose(applicationContext, definition);
+        sm.beforeClose("id", applicationContext, definition);
         applicationContext.close();
         
         replay(applicationContext, moduleLoader);
-        loader.closeContext(definition, applicationContext);
+        loader.closeContext("id", definition, applicationContext);
         verify(applicationContext, moduleLoader);
     }
     
