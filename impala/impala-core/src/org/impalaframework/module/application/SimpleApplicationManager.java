@@ -23,7 +23,7 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
     private Application application;
     
     public void afterPropertiesSet() throws Exception {
-        this.application = applicationFactory.newApplication();
+        this.application = applicationFactory.newApplication(null);
     }
     
     public Application getCurrentApplication() {

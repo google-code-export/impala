@@ -32,10 +32,13 @@ public class ImpalaApplication implements Application {
     
     private final ServiceRegistry serviceRegistry;
     
+    private final String id;
+    
     public ImpalaApplication(
             ClassLoaderRegistry classLoaderRegistry,
             ModuleStateHolder moduleStateHolder, 
-            ServiceRegistry serviceRegistry) {
+            ServiceRegistry serviceRegistry,
+            String id) {
         
         super();
 
@@ -46,6 +49,7 @@ public class ImpalaApplication implements Application {
         this.classLoaderRegistry = classLoaderRegistry;
         this.moduleStateHolder = moduleStateHolder;
         this.serviceRegistry = serviceRegistry;
+        this.id = id != null ? id : "";
     }
 
     public ClassLoaderRegistry getClassLoaderRegistry() {
@@ -58,6 +62,10 @@ public class ImpalaApplication implements Application {
 
     public ServiceRegistry getServiceRegistry() {
         return serviceRegistry;
+    }
+    
+    public String getId() {
+        return id;
     }
     
 }

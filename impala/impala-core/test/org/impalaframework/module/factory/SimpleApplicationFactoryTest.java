@@ -27,7 +27,7 @@ public class SimpleApplicationFactoryTest extends TestCase {
         factory.setServiceRegistryFactory(new SimpleServiceRegistryFactory());
         factory.setModuleStateHolderFactory(new SimpleModuleStateHolderFactory());   
 
-        Application application = factory.newApplication();
+        Application application = factory.newApplication(null);
         assertTrue(application instanceof ImpalaApplication);
         
         assertNotNull(application.getClassLoaderRegistry());

@@ -32,7 +32,7 @@ public class SimpleApplicationManagerTest extends TestCase {
         manager.setApplicationFactory(applicationFactory);
         
         Application application = createMock(Application.class);
-        expect(applicationFactory.newApplication()).andReturn(application);
+        expect(applicationFactory.newApplication(null)).andReturn(application);
         
         replay(applicationFactory);
         
