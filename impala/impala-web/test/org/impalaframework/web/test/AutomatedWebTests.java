@@ -39,6 +39,7 @@ import org.impalaframework.web.servlet.invocation.InvocationChainTest;
 import org.impalaframework.web.servlet.invoker.ReadWriteLockInvokerTest;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtilsTest;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvokerTest;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifierTest;
 import org.impalaframework.web.servlet.wrapper.BaseModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactoryTest;
 import org.impalaframework.web.servlet.wrapper.MappedWrapperHttpServletRequestTest;
@@ -130,6 +131,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(TempFileModuleRuntimeMonitorTest.class);
         suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
         suite.addTestSuite(UrlPrefixRequestModuleMapperTest.class);
+        suite.addTestSuite(WebAttributeQualifierTest.class);
         suite.addTestSuite(WebContextLocationResolverTest.class);
         suite.addTestSuite(WebMappingBeanDefinitionParserTest.class);
         suite.addTestSuite(WebPlaceholderDelegatingContextLoaderTest.class);
