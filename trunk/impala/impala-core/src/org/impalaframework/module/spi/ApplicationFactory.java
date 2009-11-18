@@ -20,6 +20,6 @@ package org.impalaframework.module.spi;
  */
 public interface ApplicationFactory {
 
-    public Application newApplication();
+    public Application newApplication(String id);
     
 }

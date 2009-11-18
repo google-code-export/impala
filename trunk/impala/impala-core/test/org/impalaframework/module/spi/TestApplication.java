@@ -52,4 +52,8 @@ public class TestApplication implements Application {
         return serviceRegistry;
     }
     
+    public String getId() {
+        return "id";
+    }
+    
 }

@@ -32,10 +32,24 @@ import org.impalaframework.service.ServiceRegistry;
  */
 public interface Application {
     
+    /**
+     * Returns reference to {@link ClassLoaderRegistry} for current {@link Application} instance
+     */
     public ClassLoaderRegistry getClassLoaderRegistry();
     
+    /**
+     * Returns reference to {@link ModuleStateHolder} for current {@link Application} instance
+     */
     public ModuleStateHolder getModuleStateHolder();
     
+    /**
+     * Returns reference to {@link ServiceRegistry} for current {@link Application} instance
+     */
     public ServiceRegistry getServiceRegistry();
+    
+    /**
+     * Returns identifier for this {@link Application} instance
+     */
+    public String getId();
 
 }

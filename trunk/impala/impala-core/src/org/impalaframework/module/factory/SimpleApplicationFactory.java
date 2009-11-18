@@ -44,7 +44,7 @@ public class SimpleApplicationFactory implements ApplicationFactory {
     /**
      * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
      */
-    public Application newApplication() { 
+    public Application newApplication(String id) { 
             
         Assert.notNull(classLoaderRegistryFactory, "classLoaderRegistryFactory cannot be null");
         Assert.notNull(moduleStateHolderFactory, "moduleStateHolderFactory cannot be null");
@@ -53,7 +53,7 @@ public class SimpleApplicationFactory implements ApplicationFactory {
         ClassLoaderRegistry classLoaderRegistry = classLoaderRegistryFactory.newClassLoaderRegistry();
         ModuleStateHolder moduleStateHolder = moduleStateHolderFactory.newModuleStateHolder();
         ServiceRegistry serviceRegistry = serviceRegistryFactory.newServiceRegistry();
-        Application application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry);
+        Application application = new ImpalaApplication(classLoaderRegistry, moduleStateHolder, serviceRegistry, id);
     
         return application;
     }
