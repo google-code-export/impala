@@ -76,6 +76,11 @@
             <property name = "project.dir" value="./"/>
         </ant>      
     </target>
+	
+    <target name = "mvndeploy" 
+        depends = "shared:mvn-deploy"
+        description="Deploys to Maven repository">
+    </target>
     
     <target name = "tohome" 
         depends = "all, copytohome, publishlocal"
