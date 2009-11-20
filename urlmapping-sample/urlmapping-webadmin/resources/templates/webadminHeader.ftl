@@ -1,3 +1,3 @@
 <#include "header.ftl"/>
 
-<h2>Webview Module</h2>
+<h2>Webadmin Module</h2>
