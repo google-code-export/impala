@@ -11,18 +11,18 @@
 	   classpathref="maven-ant-tasks.classpath" />
 
 	<target name="mvn:deploy">
-		<artifact:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
+		<artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
 
 		<artifact:pom id="mypom" file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
 
 		<artifact:deploy 
 			file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
-			<remoteRepository url="file://localhost/www/repository"/>
+			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots"/>
 			<pom refid="mypom"/>
 		</artifact:deploy>
 		
 		<artifact:deploy file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar"  uniqueversion="false">
-			<remoteRepository url="file://localhost/www/repository"/>
+			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots"/>
 			<pom refid="mypom"/>
 		</artifact:deploy>
 	</target>
