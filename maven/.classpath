@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="lib" path="lib/maven-ant-tasks-2.0.10.jar" sourcepath="lib/maven-ant-tasks-2.1.10-sources.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
