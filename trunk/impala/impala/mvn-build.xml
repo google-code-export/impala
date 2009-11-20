@@ -10,7 +10,7 @@
 	   uri="antlib:org.apache.maven.artifact.ant"
 	   classpathref="maven-ant-tasks.classpath" />
 
-	<target name="mvn:deploy-remote">
+	<target name="mvn:deploy">
 		<artifact:install-provider artifactId="wagon-ssh" version="1.0-beta-2"/>
 
 		<artifact:pom id="mypom" file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
