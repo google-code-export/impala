@@ -9,21 +9,27 @@
 	<typedef resource="org/apache/maven/artifact/ant/antlib.xml"
 	   uri="antlib:org.apache.maven.artifact.ant"
 	   classpathref="maven-ant-tasks.classpath" />
+	
+    <target name="mvn:username" unless="mvn.username">
+        <input message="Maven repo user name:" addproperty="mvn.username" />
+    </target>
+    
+    <target name="mvn:password" unless="mvn.password">
+        <input message="Maven repo password:" addproperty="mvn.password" />
+    </target>
 
-	<target name="mvn:deploy">
+	<target name="mvn:deploy" depends = "mvn:username, mvn:password">
 		<artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
 
 		<artifact:pom id="mypom" file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
 
 		<artifact:deploy 
 			file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
-			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots"/>
+			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots">
+				<authentication username="${mvn.username}" password="${mvn.password}"/>
+			</remoteRepository>
 			<pom refid="mypom"/>
-		</artifact:deploy>
-		
-		<artifact:deploy file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar"  uniqueversion="false">
-			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots"/>
-			<pom refid="mypom"/>
+			<attach file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
 		</artifact:deploy>
 	</target>
 
