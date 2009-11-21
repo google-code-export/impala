@@ -65,7 +65,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
     /* ***************** InitializingBean implementation **************** */
     
-    public final void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() throws Exception {
         
         Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");      
         Assert.notNull(servletClass, "servletClass cannot be null");
@@ -111,6 +111,10 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
     protected ServletContext getServletContext() {
         return servletContext;
+    }
+    
+    protected Map<String, String> getInitParameters() {
+        return initParameters;
     }
     
     /* ***************** DisposableBean implementation **************** */
