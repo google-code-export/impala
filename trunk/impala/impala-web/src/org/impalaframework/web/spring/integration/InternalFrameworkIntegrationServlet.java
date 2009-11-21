@@ -87,6 +87,16 @@ public class InternalFrameworkIntegrationServlet extends HttpServletBean impleme
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         this.applicationContext = ImpalaServletUtils.checkIsWebApplicationContext(getServletName(), applicationContext);
     }
+
+    /* ************************ protected accessor method ************************** */
+    
+    protected Servlet getDelegateServlet() {
+        return delegateServlet;
+    }
+    
+    protected WebApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
     
     /* ************************ injected setters ************************** */
 
