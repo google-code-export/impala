@@ -57,6 +57,8 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
         
         //FIXME tests for all of this
         
+        //FIXME check how ModuleProxyServlet connects
+        
         //check the context attribute
         final Map<String, String> initParameters = super.getInitParameters();
         final String attribute = initParameters.get("contextAttribute");
