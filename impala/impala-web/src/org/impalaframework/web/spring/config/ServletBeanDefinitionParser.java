@@ -14,11 +14,15 @@
 
 package org.impalaframework.web.spring.config;
 
+import org.impalaframework.util.ReflectionUtils;
+import org.impalaframework.web.spring.ImpalaFrameworkServlet;
+import org.impalaframework.web.spring.integration.FrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Element;
 
@@ -44,11 +48,38 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
     /**
      * Suppport default handler class
      */
-    protected void handlerHandlerClass(Element element, BeanDefinitionBuilder builder) {
+    @Override
+    protected void handleHandlerClass(Element element, BeanDefinitionBuilder builder) {
         final String attribute = element.getAttribute(getHandlerClassAttribute());
         if (!StringUtils.hasText(attribute)) {
             builder.addPropertyValue(getHandlerClassProperty(), getDefaultHandlerClass());
         }
+    }
+    
+    @Override
+    protected Class<?> guessBeanClass(Element element) {
+
+        final String attribute = element.getAttribute(getHandlerClassAttribute());
+        if (StringUtils.hasText(attribute)) {
+            try {
+                
+                //FIXME - test
+                
+                // if servlet is FrameworkServlet subclass, but is not Impala-specific, 
+                // then use FrameworkIntegrationServletFactoryBean by default
+                
+                final Class<?> handlerClass = ClassUtils.forName(attribute);
+                if (ReflectionUtils.isSubclass(handlerClass, "org.springframework.web.servlet.FrameworkServlet")) {
+                    if (!ReflectionUtils.implementsInterface(handlerClass, ImpalaFrameworkServlet.class.getName())) {
+                        return FrameworkIntegrationServletFactoryBean.class;
+                    } 
+                }
+            }
+            catch (Throwable e) {
+            }
+        } 
+        
+        return super.guessBeanClass(element);
     }
     
     protected String getHandlerClassAttribute() {

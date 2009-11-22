@@ -23,13 +23,16 @@ import javax.servlet.http.HttpServlet;
 import junit.framework.TestCase;
 
 import org.impalaframework.util.ObjectMapUtils;
+import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.impalaframework.web.spring.servlet.InternalModuleServlet;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.servlet.DispatcherServlet;
 import org.springframework.web.servlet.HttpServletBean;
 
 public class ServletBeanDefinitionParserTest extends TestCase {
@@ -56,6 +59,30 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         ServletFactoryBean firstValue = (ServletFactoryBean) ObjectMapUtils.getFirstValue(factoryBeans);
         assertTrue(firstValue.getObject() instanceof InternalModuleServlet);
     }
+    
+    @SuppressWarnings("unchecked")
+    public void testDispatcherServlet() throws Exception {
+        
+        GenericWebApplicationContext context = new GenericWebApplicationContext();
+        context.setServletContext(new AttributeServletContext());
+        
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(context);
+        reader.loadBeanDefinitions(new ClassPathResource("org/impalaframework/web/spring/config/dispatcherservletcontext.xml"));
+        
+        context.refresh();
+        
+        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        assertEquals(1, factoryBeans.size());
+        ServletFactoryBean firstValue = (ServletFactoryBean) ObjectMapUtils.getFirstValue(factoryBeans);
+        final Object frameworkServlet = firstValue.getObject();
+        assertTrue(frameworkServlet instanceof InternalFrameworkIntegrationServlet);
+        
+        InternalFrameworkIntegrationServlet integrationServlet = (InternalFrameworkIntegrationServlet) frameworkServlet;
+        final DispatcherServlet dispatcherServlet = ReflectionUtils.getFieldValue(integrationServlet, "delegateServlet", DispatcherServlet.class);
+        
+        assertNotNull(dispatcherServlet);
+    }
+    
 
     @SuppressWarnings("unchecked")
     public void testServlet() throws Exception {
