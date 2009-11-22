@@ -61,10 +61,8 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
 
         final String attribute = element.getAttribute(getHandlerClassAttribute());
         if (StringUtils.hasText(attribute)) {
+            
             try {
-                
-                //FIXME - test
-                
                 // if servlet is FrameworkServlet subclass, but is not Impala-specific, 
                 // then use FrameworkIntegrationServletFactoryBean by default
                 
