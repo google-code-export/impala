@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
+import org.impalaframework.web.spring.ImpalaFrameworkServlet;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -40,7 +41,7 @@ import org.springframework.web.util.NestedServletException;
  * 
  * @author Phil Zoio
  */
-public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware, HttpServiceInvoker {
+public class InternalModuleServlet extends DispatcherServlet implements ApplicationContextAware, HttpServiceInvoker, ImpalaFrameworkServlet {
     
     private static final long serialVersionUID = 1L;
     
@@ -63,6 +64,8 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
             throws BeansException {
         onRefresh(applicationContext);
         
+        //FIXME check whether servlet should be published in this way
+        //FIXME also, can this not simply override the findApplicationContext method
         WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
         ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
         

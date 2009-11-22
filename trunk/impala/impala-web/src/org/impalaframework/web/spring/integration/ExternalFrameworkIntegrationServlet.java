@@ -27,6 +27,7 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtils;
+import org.impalaframework.web.spring.ImpalaFrameworkServlet;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
@@ -34,14 +35,14 @@ import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.servlet.FrameworkServlet;
 
 /**
- * Servlet base class which performs similar function to <code>BaseImpalaServlet</code>
+ * Servlet base class which performs similar function to <code>BaseExternalModuleServlet</code>
  * except that it does not participate in the Spring MVC dispatch infrastructure, hence
  * it subclasses directly from <code>FrameworkServlet</code>, and not from
  * <code>DispatcherServlet</code>.
  * 
  * @author Phil Zoio
  */
-public class ExternalFrameworkIntegrationServlet extends FrameworkServlet {
+public class ExternalFrameworkIntegrationServlet extends FrameworkServlet implements ImpalaFrameworkServlet {
 
     private static final long serialVersionUID = 1L;
     
