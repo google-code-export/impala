@@ -26,6 +26,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.invoker.ServletInvokerUtils;
+import org.impalaframework.web.spring.ImpalaFrameworkServlet;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
@@ -38,7 +39,7 @@ import org.springframework.web.util.NestedServletException;
  * properly synchronized
  * @author Phil Zoio
  */
-public abstract class BaseImpalaServlet extends DispatcherServlet implements HttpServiceInvoker {
+public abstract class BaseExternalModuleServlet extends DispatcherServlet implements HttpServiceInvoker, ImpalaFrameworkServlet {
 
     private static final long serialVersionUID = 1L;
 
@@ -50,7 +51,7 @@ public abstract class BaseImpalaServlet extends DispatcherServlet implements Htt
      */
     private boolean setThreadContextClassLoader;
 
-    public BaseImpalaServlet() {
+    public BaseExternalModuleServlet() {
         super();
     }
 

@@ -158,7 +158,7 @@ public class ExternalModuleServletTest extends TestCase {
 
         final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
         
-        BaseImpalaServlet servlet = getServlet(genericWebApplicationContext);
+        BaseExternalModuleServlet servlet = getServlet(genericWebApplicationContext);
         
         doInitWebapplicationContextTest(genericWebApplicationContext, servlet);
         assertTrue(servlet.getInvoker() instanceof ReadWriteLockingInvoker);
@@ -168,7 +168,7 @@ public class ExternalModuleServletTest extends TestCase {
 
         final GenericWebApplicationContext genericWebApplicationContext = new GenericWebApplicationContext();
         
-        BaseImpalaServlet servlet = getServlet(genericWebApplicationContext);
+        BaseExternalModuleServlet servlet = getServlet(genericWebApplicationContext);
         servlet.setSetThreadContextClassLoader(true);
         
         doInitWebapplicationContextTest(genericWebApplicationContext, servlet);
@@ -176,9 +176,9 @@ public class ExternalModuleServletTest extends TestCase {
         assertTrue(invoker instanceof ReadWriteLockingInvoker);
     }
 
-    private BaseImpalaServlet getServlet(
+    private BaseExternalModuleServlet getServlet(
             final GenericWebApplicationContext genericWebApplicationContext) {
-        BaseImpalaServlet servlet = new BaseImpalaServlet() {
+        BaseExternalModuleServlet servlet = new BaseExternalModuleServlet() {
             
             private static final long serialVersionUID = 1L;
 
@@ -199,7 +199,7 @@ public class ExternalModuleServletTest extends TestCase {
 
     private void doInitWebapplicationContextTest(
             final GenericWebApplicationContext genericWebApplicationContext,
-            BaseImpalaServlet servlet) {
+            BaseExternalModuleServlet servlet) {
         expect(servlet.getServletContext()).andReturn(servletContext);
         expect(servletConfig.getServletName()).andReturn("servletName");
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
