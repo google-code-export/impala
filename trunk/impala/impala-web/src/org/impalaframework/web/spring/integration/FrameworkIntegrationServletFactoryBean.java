@@ -16,9 +16,24 @@ package org.impalaframework.web.spring.integration;
 
 import java.util.Map;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FrameworkServlet;
 
+/**
+ * Extension of {@link ServletFactoryBean} which is designed specifically to
+ * handle non-Impala subclasses of Spring MVC's framework servlet. In addition
+ * to instantiating the servlet concerned (done in
+ * {@link ServletFactoryBean#afterPropertiesSet()}) this implementation will
+ * also instantiate {@link InternalFrameworkIntegrationServlet}, and set the
+ * Spring MVC's {@link FrameworkServlet} instance as a delegate. It will also
+ * publish the current {@link ApplicationContext} using the
+ * {@link FrameworkServlet#getServletContextAttributeName()}, so that the
+ * {@link FrameworkServlet} instance can find the application context to use,
+ * rather than instantiate its own.
+ * 
+ * @author Phil Zoio
+ */
 public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
 
     private String contextAttribute;
