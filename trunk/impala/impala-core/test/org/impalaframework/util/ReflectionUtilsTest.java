@@ -69,6 +69,24 @@ public class ReflectionUtilsTest extends TestCase {
         assertTrue(Arrays.equals(expected, interfaces));
     }
     
+    public void testImplementsInterface() throws Exception {
+        
+        assertTrue(ReflectionUtils.implementsInterface(ClassBottom.class, Interface3.class.getName()));
+        assertTrue(ReflectionUtils.implementsInterface(ClassBottom.class, Interface2.class.getName()));
+        assertTrue(ReflectionUtils.implementsInterface(ClassBottom.class, Interface1.class.getName()));
+        assertFalse(ReflectionUtils.implementsInterface(ClassBottom.class, Interface4.class.getName()));
+    }
+    
+    public void testIsSubclass() throws Exception {
+        
+        assertFalse(ReflectionUtils.isSubclass(ClassBottom.class, Interface3.class.getName()));
+        assertFalse(ReflectionUtils.isSubclass(ClassBottom.class, Interface2.class.getName()));
+        assertFalse(ReflectionUtils.isSubclass(ClassBottom.class, Interface1.class.getName()));
+        assertTrue(ReflectionUtils.isSubclass(ClassBottom.class, ClassMiddle.class.getName()));
+        assertTrue(ReflectionUtils.isSubclass(ClassBottom.class, ClassTop.class.getName()));
+        assertTrue(ReflectionUtils.isSubclass(ClassBottom.class, Object.class.getName()));
+    }
+    
     public void testInvokeMethod() {
 
         HashMap<?, ?> map = new HashMap<Object, Object>() {
@@ -99,7 +117,10 @@ public class ReflectionUtilsTest extends TestCase {
     
     interface Interface3 {
     }
-
+    
+    interface Interface4 {
+    }
+    
     class ClassTop implements Interface1 {
     }
     
