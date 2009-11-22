@@ -32,7 +32,7 @@ import org.springframework.web.servlet.HttpServletBean;
 /**
  * <p>
  * Servlet which is design to integrate with web frameworks other than Spring
- * MVC. Unlike <code>BaseImpalaServlet</code> it does not need a read-write
+ * MVC. Unlike <code>BaseExternalModuleServlet</code> it does not need a read-write
  * lock to synchronize updates to the <code>ApplicationContext</code> because
  * it shares the application context's life cycle. In it's <code>service</code>
  * method, it then passes control to the the wired in
