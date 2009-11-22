@@ -63,10 +63,18 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
             catch (Throwable e) {
                 throw new ExecutionException("Unable to load class: " + factoryClass + ": " + e.getMessage(), e);
             }
+        } 
+        Class<?> beanClass = guessBeanClass(element);
+        if (beanClass != null) {
+            return beanClass;
         }
         return getDefaultFactoryBeanClass();
     }
     
+    protected Class<?> guessBeanClass(Element element) {
+        return null;
+    }
+
     @Override
     protected boolean isEligibleAttribute(String attributeName) {
         
@@ -90,7 +98,7 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
             builder.addPropertyValue(getHandlerNameProperty(), element.getAttribute(ID_ATTRIBUTE));
         }
         
-        handlerHandlerClass(element, builder);
+        handleHandlerClass(element, builder);
 
         handleInitParameters(element, builder);
         
@@ -99,7 +107,7 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         handleDelegatorServletAttribute(element, parserContext);
     }
 
-    protected void handlerHandlerClass(Element element, BeanDefinitionBuilder builder) {
+    protected void handleHandlerClass(Element element, BeanDefinitionBuilder builder) {
     }
 
     void handleInitParameters(Element element, BeanDefinitionBuilder builder) {
