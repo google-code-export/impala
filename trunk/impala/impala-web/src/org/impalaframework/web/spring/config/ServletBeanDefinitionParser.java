@@ -74,6 +74,7 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
                 }
             }
             catch (Throwable e) {
+                //don't handle, simply fall back to superclass default
             }
         } 
         
