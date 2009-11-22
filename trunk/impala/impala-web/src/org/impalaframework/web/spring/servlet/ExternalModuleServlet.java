@@ -53,7 +53,7 @@ import org.springframework.web.context.WebApplicationContext;
  * @see org.springframework.web.servlet.FrameworkServlet;
  * @author Phil Zoio
  */
-public class ExternalModuleServlet extends BaseImpalaServlet {
+public class ExternalModuleServlet extends BaseExternalModuleServlet {
 
 	private static final long serialVersionUID = 1L;
 
