@@ -157,6 +157,55 @@ public class ReflectionUtils {
     }
     
     /**
+     * Returns whether a Class implements a particular interface. Does this in a way that
+     * will not introduce any hard Class dependencies.
+     */
+    public static boolean implementsInterface(Class<?> clazz, String interfaceName) {
+        
+        Assert.notNull(clazz);
+        Assert.notNull(interfaceName);
+
+        Class<?> c = clazz;
+        
+        while (c != null) {
+            Class<?>[] interfaces = c.getInterfaces();
+            if (interfaces != null) {
+                for (Class<?> iface : interfaces) {
+                    if (interfaceName.equals(iface.getName())) {
+                        return true;
+                    }
+                }
+            }
+            c = c.getSuperclass();
+        }
+        
+        return false;
+    }
+    
+    /**
+     * Returns whether a Class is a subclass of named class. Does this in a way that
+     * will not introduce any hard Class dependencies.
+     */
+    public static boolean isSubclass(Class<?> clazz, String parentClassName) {
+        
+        Assert.notNull(clazz);
+        Assert.notNull(parentClassName);
+
+        Class<?> c = clazz;
+
+        while (c != null) {
+            Class<?> superClass = c.getSuperclass();
+            
+            if (superClass != null && parentClassName.equals(superClass.getName())) {
+                return true;
+            }
+            c = superClass;
+        }
+        
+        return false;
+    }
+    
+    /**
      * Invokes the named method on the target
      * @param target the target of the method invocation
      * @param methodName the name of the method
