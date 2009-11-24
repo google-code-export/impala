@@ -16,16 +16,11 @@ package org.impalaframework.spring.config;
 
 import java.io.IOException;
 import java.util.Properties;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.exception.ExecutionException;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
@@ -33,22 +28,15 @@ import org.springframework.util.Assert;
  * Holds an instance of {@link Properties} which is used as the source for returning a value when 
  * {@link #getValue(String)} is called.
  * 
- * It also sets up a {@link ScheduledExecutorService} to periodically update the {@link Properties}.
  * @author Phil Zoio
  */
-public class DynamicPropertySource implements PropertySource, InitializingBean, Runnable, DisposableBean {
+public class DynamicPropertySource extends BaseDynamicPropertySource {
     
     private static final Log logger = LogFactory.getLog(DynamicPropertySource.class);   
-    
-    private int reloadInterval = 100;
-    
-    private int reloadInitialDelay = 10;
 
     private Properties properties;
     
     private DynamicPropertiesFactoryBean factoryBean;
-
-    private ScheduledExecutorService executorService;
     
     public synchronized String getValue(String name) {
         return properties.getProperty(name);
@@ -58,34 +46,11 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
 
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(factoryBean);
-        
-        run();
-        
-        //if we don't already have an executor service, create a single threaded executor
-        if (executorService == null) {
-            logger.info("No executor service wired in for '" + factoryBean + "'. Creating new single threaded executor");
-            executorService = Executors.newSingleThreadScheduledExecutor();
-        }
-
-        logger.info("Starting executor service for for '" + factoryBean + "'. Initial delay: " + reloadInitialDelay + " seconds, interval: " + reloadInterval + " seconds");
-        executorService.scheduleWithFixedDelay(this, reloadInitialDelay, reloadInterval, TimeUnit.SECONDS);
+        super.afterPropertiesSet();
     }
     
     /* ********************* disposable bean implementation ******************** */
-
-    public void destroy() throws Exception {
-        try {
-            logger.info("Shutting down executor service for " + factoryBean);
-            executorService.shutdown();
-        } catch (RuntimeException e) {
-            logger.error("Error shutting down service for " + factoryBean + ": " + e.getMessage(), e);
-        }
-    }
-    
-    public void run() {
-        update();
-    }
-
+   
     public synchronized void update() {
         if (properties != null) {
             logger.info("Checking for updates to properties from " + factoryBean);
@@ -99,21 +64,9 @@ public class DynamicPropertySource implements PropertySource, InitializingBean, 
             }
         }
     }
-
-    public void setReloadInterval(int reloadInterval) {
-        this.reloadInterval = reloadInterval;
-    }
-
-    public void setReloadInitialDelay(int reloadInitialDelay) {
-        this.reloadInitialDelay = reloadInitialDelay;
-    }
-
+    
     public void setFactoryBean(DynamicPropertiesFactoryBean factoryBean) {
         this.factoryBean = factoryBean;
-    }
-
-    public void setExecutorService(ScheduledExecutorService executorService) {
-        this.executorService = executorService;
-    }   
+    } 
 
 }
