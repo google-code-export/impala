@@ -14,7 +14,7 @@
 
 package org.impalaframework.web.spring.integration;
 
-import java.util.Collections;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.Servlet;
@@ -27,6 +27,7 @@ import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
+import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -68,16 +69,19 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     public void afterPropertiesSet() throws Exception {
         
         Assert.notNull(servletContext, "servletContext cannot be null - are you sure that the current module is configured as a web module?");      
-        Assert.notNull(servletClass, "servletClass cannot be null");
+        Assert.notNull(servletClass, "servletClass cannot be null");    
+
+        this.initParameters = (initParameters != null ? new HashMap<String, String>(initParameters) : new HashMap<String, String>());
         
         if (servletName == null) {
+            if (moduleDefintion == null) {
+                throw new BeanCreationException("No servlet name provide, and module definition is null");
+            }
             servletName = moduleDefintion.getName();
         }
         
         servlet = ObjectUtils.cast(BeanUtils.instantiateClass(servletClass), Servlet.class);
-        Map<String, String> emptyMap = Collections.emptyMap();
-        Map<String,String> parameterMap = (initParameters != null ? initParameters : emptyMap);
-        IntegrationServletConfig config = newServletConfig(parameterMap);
+        IntegrationServletConfig config = newServletConfig(initParameters);
         
         if (servlet instanceof ApplicationContextAware) {
             ApplicationContextAware awa = (ApplicationContextAware) servlet;

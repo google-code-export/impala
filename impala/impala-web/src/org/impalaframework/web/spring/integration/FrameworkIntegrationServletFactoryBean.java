@@ -16,6 +16,8 @@ package org.impalaframework.web.spring.integration;
 
 import java.util.Map;
 
+import javax.servlet.Servlet;
+
 import org.springframework.context.ApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.servlet.FrameworkServlet;
@@ -47,9 +49,7 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
     
     @Override
     public void afterPropertiesSet() throws Exception {
-        
-        startAfterPropertiesSet();
-        
+
         //this will set up the delegate servlet
         super.afterPropertiesSet();
         
@@ -68,11 +68,8 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
         integrationServlet.setDelegateServlet(delegate);
     }
 
-    void startAfterPropertiesSet() {
-        
-        //FIXME tests for all of this
-        
-        //FIXME check how ModuleProxyServlet connects
+    @Override
+    protected void initServletProperties(Servlet servlet) {
         
         //check the context attribute
         final Map<String, String> initParameters = super.getInitParameters();
@@ -81,10 +78,17 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
         if (attribute == null) {
             this.contextAttribute = "someattribute";
             initParameters.put("contextAttribute", this.contextAttribute);
+        } else {
+            this.contextAttribute = attribute;
         }
         
         //bind dispatcher servlet to context attribute
         getServletContext().setAttribute(contextAttribute, getApplicationContext());
+    }
+    
+    @Override
+    public Class<?> getObjectType() {
+        return InternalFrameworkIntegrationServlet.class;
     }
     
     @Override
@@ -99,7 +103,7 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
         
         getServletContext().removeAttribute(contextAttribute);
 
-        //FIXME only do this if publish context
+        //FIXME only do this if published context
         String attrName = FrameworkServlet.SERVLET_CONTEXT_PREFIX + getServletName();
         getServletContext().removeAttribute(attrName);
     }
