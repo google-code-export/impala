@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<xsd:schema xmlns="http://www.impalaframework.org/schema/dynamicproperties"
+		xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		xmlns:beans="http://www.springframework.org/schema/beans"
+		targetNamespace="http://www.impalaframework.org/schema/dynamicproperties"
+		elementFormDefault="qualified"
+		attributeFormDefault="unqualified">
+
+	<xsd:import namespace="http://www.springframework.org/schema/beans"/>
+	
+	<xsd:element name="boolean">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="date">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="double">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="float">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="int">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="long">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="string">
+		<xsd:annotation>
+			<xsd:documentation>
+
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attributeGroup ref="propertyAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:attributeGroup name="propertyAttributes">
+		<xsd:attribute name="id" type="xsd:ID"/>
+		<xsd:attribute name="name" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+				
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="propertySource" type="xsd:string" use="required">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+				
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	
+</xsd:schema>

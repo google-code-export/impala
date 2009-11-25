@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:dynaprop="http://www.impalaframework.org/schema/dynamicproperties"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode.com/svn/schema/dynamic-properties.xsd">
+        
+    <bean id="dynamicProperties" class="org.impalaframework.spring.config.ExternalDynamicPropertySource">
+        <property name="fileName" value="dynamic.properties"/>
+    </bean>
+    
+    <dynaprop:boolean id="booleanProperty" name="boolean.property" propertySource="dynamicProperties"/>
+
+</beans>
