@@ -60,7 +60,7 @@ The Spring configuration for this is shown below:
 The configuration is more complex than if you were simply using a `PropertyPlaceholderConfigurer`. However, it is dynamic,
 and the overall solution is much simpler than if you were using a lookup based mechanism in the code.
 
-Also, with Impala 1.0 RC2, the configuration is considerably simplified through the use of a [DynamicPropertiesNamespace dynamic properties namespace].
+Also, with Impala 1.0 RC2, the configuration is considerably simplified through the use of a [NamespaceDynamicProperties dynamic properties namespace].
 
 {{{
 <bean name="/servlet1/test.do1" class="TestController1">
