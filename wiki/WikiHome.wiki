@@ -53,7 +53,7 @@
   * [SpringNamespaces Spring namespaces]
     * [NamespaceReferenceService _service_ namespace]
     * [NamespaceWebReference _web_ namespace]
-    * [NamespaceDyanmicProperties _dynaprop_ (dynamic properties) namespace]
+    * [NamespaceDynamicProperties _dynaprop_ (dynamic properties) namespace]
 
 ==== Advanced ====
   * [ModuleReloading How module reloading works]
