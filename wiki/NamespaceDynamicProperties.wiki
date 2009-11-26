@@ -5,6 +5,8 @@
 The purpose of this namespace is to make it easier to configure `PropertySource` backed dynamic properties, as described 
 in the [DynamicProperties dynamic properties wiki page].
 
+Note that this feature is new with the forthcoming Impala 1.0 RC2.
+
 == Adding the namespace headers ==
 
 Before using one of the `service` elements in your bean definition file, you will need to add the Impala service namespace declaration
