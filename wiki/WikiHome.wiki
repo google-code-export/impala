@@ -50,6 +50,10 @@
   * [ImportingAndExportingServices Using the service registry]
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
+  * [SpringNamespaces Spring namespaces]
+    * [NamespaceReferenceService _service_ namespace]
+    * [NamespaceWebReference _web_ namespace]
+    * [NamespaceDyanmicProperties _dynaprop_ (dynamic properties) namespace]
 
 ==== Advanced ====
   * [ModuleReloading How module reloading works]
