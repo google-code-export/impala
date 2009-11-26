@@ -50,7 +50,7 @@
   * [ImportingAndExportingServices Using the service registry]
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
-  * [SpringNamespaces Spring namespaces]
+  * [NamespacesSpring Spring namespaces]
     * [NamespaceReferenceService service namespace]
     * [NamespaceWebReference web namespace]
     * [NamespaceDynamicProperties dynaprop (dynamic properties) namespace]
