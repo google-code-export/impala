@@ -51,9 +51,9 @@
   * [DynamicProperties Dynamic properties]
   * [ImpalaJMX Impala JMX]
   * [SpringNamespaces Spring namespaces]
-    * [NamespaceReferenceService _service_ namespace]
-    * [NamespaceWebReference _web_ namespace]
-    * [NamespaceDynamicProperties _dynaprop_ (dynamic properties) namespace]
+    * [NamespaceReferenceService service namespace]
+    * [NamespaceWebReference web namespace]
+    * [NamespaceDynamicProperties dynaprop (dynamic properties) namespace]
 
 ==== Advanced ====
   * [ModuleReloading How module reloading works]
