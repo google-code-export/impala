@@ -17,6 +17,12 @@ package org.impalaframework.spring.config;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.DatePropertyValue;
+import org.impalaframework.config.DoublePropertyValue;
+import org.impalaframework.config.FloatPropertyValue;
+import org.impalaframework.config.IntPropertyValue;
+import org.impalaframework.config.LongPropertyValue;
+import org.impalaframework.config.StringPropertyValue;
 import org.springframework.beans.factory.support.BeanDefinitionBuilder;
 import org.springframework.beans.factory.xml.AbstractSimpleBeanDefinitionParser;
 import org.springframework.beans.factory.xml.NamespaceHandler;
@@ -39,10 +45,93 @@ public class DynamicPropertiesNamespaceHandler extends NamespaceHandlerSupport {
             logger.debug("Setting up " + DynamicPropertiesNamespaceHandler.class.getName());
         }
 
-        registerBeanDefinitionParser("boolean", new BooeleanPropertyDefinitionParser());
+        registerBeanDefinitionParser("boolean", new BooleanPropertyDefinitionParser());
+        registerBeanDefinitionParser("date", new DatePropertyDefinitionParser());
+        registerBeanDefinitionParser("double", new DoublePropertyDefinitionParser());
+        registerBeanDefinitionParser("float", new FloatPropertyDefinitionParser());
+        registerBeanDefinitionParser("int", new IntPropertyDefinitionParser());
+        registerBeanDefinitionParser("long", new LongPropertyDefinitionParser());
+        registerBeanDefinitionParser("string", new StringPropertyDefinitionParser());
     }
     
-    private static class BooeleanPropertyDefinitionParser extends AbstractSimpleBeanDefinitionParser {
+    /**
+     * Parser for "boolean" element
+     * @author Phil Zoio
+     */
+    private static class BooleanPropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return BooleanPropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "date" element
+     * @author Phil Zoio
+     */
+    private static class DatePropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return DatePropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "double" element
+     * @author Phil Zoio
+     */
+    private static class DoublePropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return DoublePropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "float" element
+     * @author Phil Zoio
+     */
+    private static class FloatPropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return FloatPropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "int" element
+     * @author Phil Zoio
+     */
+    private static class IntPropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return IntPropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "int" element
+     * @author Phil Zoio
+     */
+    private static class LongPropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return LongPropertyValue.class;
+        }
+    }
+    
+    /**
+     * Parser for "string" element
+     * @author Phil Zoio
+     */
+    private static class StringPropertyDefinitionParser extends BasePropertyDefinitionParser {
+        @Override
+        protected Class<?> getBeanClass(Element element) {
+            return StringPropertyValue.class;
+        }
+    }
+    
+    private static class BasePropertyDefinitionParser extends AbstractSimpleBeanDefinitionParser {
         @Override
         protected Class<?> getBeanClass(Element element) {
             return BooleanPropertyValue.class;

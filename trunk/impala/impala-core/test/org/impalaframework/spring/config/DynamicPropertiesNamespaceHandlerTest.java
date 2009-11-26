@@ -14,9 +14,12 @@
 
 package org.impalaframework.spring.config;
 
+import java.text.SimpleDateFormat;
+import java.util.Properties;
+
 import junit.framework.TestCase;
 
-import org.impalaframework.config.BooleanPropertyValue;
+import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.core.io.ClassPathResource;
@@ -31,9 +34,23 @@ public class DynamicPropertiesNamespaceHandlerTest extends TestCase {
         reader.loadBeanDefinitions(new ClassPathResource("org/impalaframework/spring/config/dynamicproperties-context.xml"));
         
         context.refresh();
+        DynamicPropertiesBean bean = (DynamicPropertiesBean) context.getBean("testBean");
+        bean.print();
         
-        BooleanPropertyValue booleanProperty = (BooleanPropertyValue) context.getBean("booleanProperty");
-        assertEquals(true, booleanProperty.getValue());
+        assertEquals(true, bean.getBooleanValue());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("1999-12-12"), bean.getDateValue());
+        assertEquals(100.1, bean.getDoubleValue());
+        assertEquals(10.2F, bean.getFloatValue());
+        assertEquals(100, bean.getIntValue());
+        assertEquals(2010L, bean.getLongValue());
+        assertEquals("Phil", bean.getStringValue());
+        
+        StaticPropertiesPropertySource propertySource = (StaticPropertiesPropertySource) context.getBean("propertySource");
+        final Properties properties = propertySource.getProperties();
+        properties.setProperty("string.property", "Phil Z");
+        
+        //check that this updates
+        assertEquals("Phil Z", bean.getStringValue());
     }
     
 }
