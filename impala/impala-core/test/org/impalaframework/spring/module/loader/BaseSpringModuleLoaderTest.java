@@ -16,15 +16,12 @@ package org.impalaframework.spring.module.loader;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 import org.impalaframework.module.loader.ModuleTestUtils;
-import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.spring.module.ModuleDefinitionPostProcessor;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 
 public class BaseSpringModuleLoaderTest extends TestCase {
@@ -32,7 +29,6 @@ public class BaseSpringModuleLoaderTest extends TestCase {
     public void testNewBeanDefinitionReader() throws Exception {
         
         BaseSpringModuleLoader loader = new ApplicationModuleLoader();
-        loader.setModuleLocationResolver(new StandaloneModuleLocationResolver());
         GenericApplicationContext context = new GenericApplicationContext();
         XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader("id", context, new SimpleModuleDefinition("pluginName"));
         assertSame(context.getBeanFactory(), reader.getBeanFactory());
@@ -40,10 +36,6 @@ public class BaseSpringModuleLoaderTest extends TestCase {
 
     public void testNewApplicationContext() throws Exception {
         BaseSpringModuleLoader loader = new BaseSpringModuleLoader() {
-
-            public Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition) {
-                return null;
-            }
         };
         
         GenericApplicationContext parentContext = new GenericApplicationContext();

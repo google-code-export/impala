@@ -14,26 +14,13 @@
 
 package org.impalaframework.module.spi;
 
-import org.impalaframework.module.ModuleDefinition;
-import org.springframework.core.io.Resource;
 
 /**
- * <p>
- * <code>ModuleLoader</code> defines common operations shared by module loader
- * implementations regardless of the runtime (Spring, etc.). Modules based on
- * Spring will implement the sub-interface
- * {@link org.impalaframework.spring.module.SpringModuleLoader}
+ * Marker interface for module loader implementations
  * 
  * @see org.impalaframework.spring.module.DelegatingContextLoader
  * @see org.impalaframework.spring.module.SpringModuleLoader
  * @author Phil Zoio
  */
 public interface ModuleLoader {
-        
-    /**
-     * Return an array of {@link Resource} instances which represent the locations from which module classes and resources are to be loaded
-     */
-    @Deprecated
-    Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition);
-    
 }

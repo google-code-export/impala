@@ -14,49 +14,12 @@
 
 package org.impalaframework.module.loader;
 
-import java.util.List;
-
-import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.ModuleLoader;
-import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.util.ResourceUtils;
-import org.springframework.core.io.Resource;
-import org.springframework.util.Assert;
 
 /**
- * Class providing basic implementation of {@link ModuleLoader} methods.
+ * Implementation of {@link ModuleLoader} marker interface.
  * 
  * @author Phil Zoio
  */
 public class SimpleModuleLoader implements ModuleLoader {
-
-    private ModuleLocationResolver moduleLocationResolver;
-    
-    public void init() {
-        Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-    }
-    
-    /**
-     * Used wired in {@link ModuleLocationResolver} to retrieve module class locations
-     */
-    public Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition) {
-        Assert.notNull(moduleDefinition);
-        Assert.notNull(moduleLocationResolver);
-        
-        List<Resource> locations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-        return ResourceUtils.toArray(locations);
-    }
-    
-    /* ****************** protected methods ************** */
-
-    protected ModuleLocationResolver getClassLocationResolver() {
-        return moduleLocationResolver;
-    }
-    
-    /* ****************** injection setter methods ************** */
-
-    public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {
-        this.moduleLocationResolver = moduleLocationResolver;
-    }
-
 }

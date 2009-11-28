@@ -170,10 +170,6 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <!-- ############## Module loader definitions ############### -->
     
  <bean id="moduleLoaderRegistry" class="org.impalaframework.module.loader.ModuleLoaderRegistry"/>
-    
- <bean id="baseModuleLoader" abstract="true" init-method="init">
-     <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
- </bean>
  
  <!-- ############## Type reader definitions ############### -->
 
@@ -263,12 +259,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <!-- ############## Spring modules support ############### -->
     
  <bean id="springRootModuleLoader" 
-     parent="baseModuleLoader"
      class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
  </bean>    
     
  <bean id="springApplicationModuleLoader" 
-     parent="baseModuleLoader"
      class="org.impalaframework.spring.module.loader.ApplicationModuleLoader">
  </bean>    
 

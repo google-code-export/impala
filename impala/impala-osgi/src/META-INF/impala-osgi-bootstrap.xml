@@ -11,20 +11,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
     
  <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.graph.StickyGraphModificationExtractor">
- </bean> 
- 
- <bean id="baseModuleLoader" abstract="true">
-     <property name = "moduleLocationResolver" ref="moduleLocationResolver"/>
- </bean>        
+ </bean>  
     
  <bean id="rootModuleLoader" 
-     parent="baseModuleLoader"
      class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>       
  </bean>    
     
  <bean id="applicationModuleLoader" 
-     parent="baseModuleLoader"
      class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
     <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
  </bean>

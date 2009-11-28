@@ -25,7 +25,6 @@ import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
 /**
@@ -50,18 +49,9 @@ public class ApplicationModuleLoaderTest extends TestCase {
         moduleLoader = new ApplicationModuleLoader();
         CustomClassLoaderFactory classLoaderFactory = new CustomClassLoaderFactory();
         classLoaderFactory.setModuleLocationResolver(locationResolver);
-        moduleLoader.setModuleLocationResolver(locationResolver);
 
         source = new SimpleModuleDefinitionSource(rootProjectName, new String[] { "parentTestContext.xml" }, new String[] { plugin1, plugin2 });
         p2 = source.getModuleDefinition().getChildModuleDefinition(plugin2);
-    }
-    
-    public final void testGetClassLocations() {
-        final Resource[] classLocations = moduleLoader.getClassLocations("id", p2);
-        for (Resource resource : classLocations) {
-            assertTrue(resource instanceof FileSystemResource);
-            assertTrue(resource.exists());
-        }
     }
 
     public void testGetSpringLocations() {
