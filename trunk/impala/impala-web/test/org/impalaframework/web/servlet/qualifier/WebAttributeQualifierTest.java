@@ -14,18 +14,18 @@
 
 package org.impalaframework.web.servlet.qualifier;
 
-import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
 
 import junit.framework.TestCase;
 
 public class WebAttributeQualifierTest extends TestCase {
 
-    private WebAttributeQualifier qualifier;
+    private DefaultWebAttributeQualifier qualifier;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        qualifier = new WebAttributeQualifier();
+        qualifier = new DefaultWebAttributeQualifier();
     }
     
     public void testGetQualifiedAttributeName() throws Exception {
