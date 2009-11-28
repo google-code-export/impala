@@ -80,5 +80,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         </map>
     </property> 
  </bean>
+ 
+ <bean id="webAttributeQualifier" class="org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier"/>
 
 </beans>

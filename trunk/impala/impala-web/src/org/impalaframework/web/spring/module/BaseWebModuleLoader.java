@@ -30,6 +30,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
+import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
@@ -87,7 +88,10 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         //FIXME wire in an use DefaultWebAttributeQualifier
         
-        WebAttributeQualifier q;
+        WebAttributeQualifier q = null;
+        if (q != null) {
+        q.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
+        }
         
         try {
             ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
