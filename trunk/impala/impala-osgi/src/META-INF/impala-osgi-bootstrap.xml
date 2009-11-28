@@ -31,7 +31,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">
     <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>         
-    <property name = "moduleLoaderRegistry" ref="moduleLoaderRegistry"/>         
+    <property name = "moduleLocationResolver" ref="moduleLocationResolver"/>         
  </bean>
     
  <bean id="unloadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessor">    
