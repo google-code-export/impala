@@ -24,7 +24,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.Hashtable;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -32,8 +34,8 @@ import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.exception.InvalidStateException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.module.loader.ModuleLoaderRegistry;
 import org.impalaframework.module.spi.ModuleLoader;
+import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.spring.module.ApplicationContextLoader;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
@@ -44,7 +46,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
     
     private OsgiLoadTransitionProcessor processor;
     private BundleContext bundleContext;
-    private ModuleLoaderRegistry moduleLoaderRegistry;
+    private ModuleLocationResolver moduleLocationResolver;
     private ModuleLoader moduleLoader;
     private ApplicationContextLoader applicationContextLoader;
     private Bundle bundle;
@@ -58,7 +60,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
         bundle = createMock(Bundle.class);
         applicationContextLoader = createMock(ApplicationContextLoader.class);
         bundleContext = createMock(BundleContext.class);
-        moduleLoaderRegistry = createMock(ModuleLoaderRegistry.class);
+        moduleLocationResolver = createMock(ModuleLocationResolver.class);
         moduleLoader = createMock(ModuleLoader.class);
         resource = createMock(Resource.class);
         
@@ -68,7 +70,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
     private void initProcessor(Bundle bundle) {
         processor = new TestLoadProcessor(bundle);
         processor.setBundleContext(bundleContext);
-        processor.setModuleLoaderRegistry(moduleLoaderRegistry);
+        processor.setModuleLocationResolver(moduleLocationResolver);
     }
     
     public void testFindAndStartActiveBundle() throws BundleException, IOException {
@@ -105,25 +107,6 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
         verifyMocks();
     }
     
-    public void testNoBundleNullClassLocations() throws BundleException {
-        final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
-        final Resource[] classLocations = null;
-        
-        expectGetClassLocations(moduleDefinition, classLocations);
-        initProcessor(null);
-        
-        replayMocks();
-        
-        try {
-            processor.findAndStartBundle(moduleDefinition);
-            fail();
-        } catch (InvalidStateException e) {
-            assertTrue(e.getMessage().contains("returned null bundle class locations. Cannot install bundle for module 'myModule'"));
-        }
-        
-        verifyMocks();
-    }
-    
     public void testNoBundleEmptyClassLocations() throws BundleException {
         final SimpleModuleDefinition moduleDefinition = new SimpleModuleDefinition("myModule");
         final Resource[] classLocations = new Resource[0];
@@ -137,7 +120,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
             processor.findAndStartBundle(moduleDefinition);
             fail();
         } catch (InvalidStateException e) {
-            assertTrue(e.getMessage().contains("returned empty bundle class locations. Cannot install bundle for module 'myModule'"));
+            assertTrue(e.getMessage().contains("returned empty bundle class location array. Cannot install bundle for module 'myModule'"));
         }
         
         verifyMocks();
@@ -208,8 +191,8 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
     private void expectGetClassLocations(
             final SimpleModuleDefinition moduleDefinition,
             final Resource[] classLocations) {
-        expect(moduleLoaderRegistry.getModuleLoader("spring-APPLICATION")).andReturn(moduleLoader);
-        expect(moduleLoader.getClassLocations("id", moduleDefinition)).andReturn(classLocations);
+        final List<Resource> asList = classLocations != null ? Arrays.asList(classLocations) : null;
+        expect(moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName())).andReturn(asList);
     }
 
     @SuppressWarnings("unchecked")
@@ -220,7 +203,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
     
     private void replayMocks() {
         replay(bundleContext);
-        replay(moduleLoaderRegistry);
+        replay(moduleLocationResolver);
         replay(moduleLoader);
         replay(applicationContextLoader);
         replay(bundle);
@@ -229,7 +212,7 @@ public class OsgiLoadTransitionProcessorTest extends TestCase {
     
     private void verifyMocks() {
         verify(bundleContext);
-        verify(moduleLoaderRegistry);
+        verify(moduleLocationResolver);
         verify(moduleLoader);
         verify(applicationContextLoader);
         verify(bundle); 
