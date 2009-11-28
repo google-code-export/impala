@@ -22,7 +22,7 @@ import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleLoader;
 import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
-import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
@@ -87,7 +87,7 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         //FIXME wire in an use DefaultWebAttributeQualifier
         
-        DefaultWebAttributeQualifier q;
+        WebAttributeQualifier q;
         
         try {
             ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);

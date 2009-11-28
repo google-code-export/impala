@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 public class WebAttributeQualifierTest extends TestCase {
 
-    private DefaultWebAttributeQualifier qualifier;
+    private WebAttributeQualifier qualifier;
 
     @Override
     protected void setUp() throws Exception {
