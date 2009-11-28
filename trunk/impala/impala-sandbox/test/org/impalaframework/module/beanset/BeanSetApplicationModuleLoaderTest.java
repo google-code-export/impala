@@ -21,7 +21,6 @@ import junit.framework.TestCase;
 import org.impalaframework.module.definition.BeansetModuleDefinition;
 import org.impalaframework.module.definition.SimpleBeansetModuleDefinition;
 import org.impalaframework.module.loader.BeansetApplicationModuleLoader;
-import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -36,14 +35,6 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	private ConfigurableApplicationContext parent;
 
 	private ConfigurableApplicationContext child;
-
-	private StandaloneModuleLocationResolver locationResolver;
-	
-	@Override
-	protected void setUp() throws Exception {
-		super.setUp();
-		locationResolver = new StandaloneModuleLocationResolver();
-	}
 
 	public final void testInitialModuleDefinition() {
 		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
@@ -66,7 +57,6 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	public final void testNewBeanDefinitionReader() {
 		BeansetModuleDefinition definition = new SimpleBeansetModuleDefinition(plugin4);
 		BeansetApplicationModuleLoader loader = new BeansetApplicationModuleLoader();
-		loader.setModuleLocationResolver(locationResolver);
 	
 		XmlBeanDefinitionReader reader = loader.newBeanDefinitionReader("id", new GenericApplicationContext(), definition);
 		int definitions = reader.loadBeanDefinitions(new ClassPathResource("parentTestContext.xml"));
@@ -76,7 +66,6 @@ public class BeanSetApplicationModuleLoaderTest extends TestCase {
 	private void loadChild(BeansetModuleDefinition definition) {
 		parent = new ClassPathXmlApplicationContext("parentTestContext.xml");
 		BeansetApplicationModuleLoader moduleLoader = new BeansetApplicationModuleLoader();
-		moduleLoader.setModuleLocationResolver(locationResolver);
 		ClassLoader classLoader = ClassUtils.getDefaultClassLoader();
 		child = moduleLoader.newApplicationContext(null, parent, definition, classLoader);
 		XmlBeanDefinitionReader xmlReader = moduleLoader.newBeanDefinitionReader("id", child, definition);
