@@ -33,6 +33,7 @@ public interface ModuleLoader {
     /**
      * Return an array of {@link Resource} instances which represent the locations from which module classes and resources are to be loaded
      */
+    @Deprecated
     Resource[] getClassLocations(String applicationId, ModuleDefinition moduleDefinition);
     
 }
