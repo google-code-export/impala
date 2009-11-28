@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.loader.SimpleModuleLoader;
 import org.impalaframework.module.loader.ModuleUtils;
 import org.impalaframework.module.resource.ModuleLocationsResourceLoader;
 import org.impalaframework.module.spi.Application;
@@ -36,11 +35,11 @@ import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
- * Extension of {@link SimpleModuleLoader} which provides implementations for methods defined in {@link SpringModuleLoader}.
+ * Base implementation of {@link SpringModuleLoader} which provides implementations for methods defined in {@link SpringModuleLoader}.
  * 
  * @author Phil Zoio
  */
-public abstract class BaseSpringModuleLoader extends SimpleModuleLoader implements SpringModuleLoader {
+public abstract class BaseSpringModuleLoader implements SpringModuleLoader {
 
     private Collection<ResourceLoader> springLocationResourceLoaders;
     
