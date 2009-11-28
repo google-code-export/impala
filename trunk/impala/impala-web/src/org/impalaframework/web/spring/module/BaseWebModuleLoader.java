@@ -49,6 +49,8 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     private ServletContext servletContext;
     
     private ServletContextWrapper servletContextWrapper;
+    
+    private WebAttributeQualifier webAttributeQualifier;
 
     public BaseWebModuleLoader() {
     }
@@ -133,9 +135,15 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
+    
+    /* ********************** Injected setters ************************ */
 
     public void setServletContextWrapper(ServletContextWrapper servletContextWrapper) {
         this.servletContextWrapper = servletContextWrapper;
+    }
+    
+    public void setWebAttributeQualifier(WebAttributeQualifier webAttributeQualifier) {
+        this.webAttributeQualifier = webAttributeQualifier;
     }
     
 }

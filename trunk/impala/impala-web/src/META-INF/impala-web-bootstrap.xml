@@ -46,18 +46,21 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="springRootModuleLoader" 
      class="org.impalaframework.web.spring.module.RootWebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
+     <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>    
     
  <!-- looks for spring locations in servlet context -->
  <bean id="springWebRootModuleLoader" 
      class="org.impalaframework.web.spring.module.WebRootModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
+     <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>    
     
  <!-- looks for spring locations in class path -->
  <bean id="springWebModuleLoader" 
      class="org.impalaframework.web.spring.module.WebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
+     <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>    
     
  <bean id="webPlaceholderModuleLoader" class="org.impalaframework.web.spring.loader.WebPlaceholderDelegatingContextLoader"/>            
