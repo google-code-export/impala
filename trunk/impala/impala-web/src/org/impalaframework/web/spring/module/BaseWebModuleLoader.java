@@ -90,21 +90,21 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         //FIXME wire in an use DefaultWebAttributeQualifier
         
-        WebAttributeQualifier q = null;
-        if (q != null) {
-        q.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
-        }
+        String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
         
         try {
             ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
+            //servletContext.setAttribute(name, context);
             doHandleRefresh(applicationId, context, moduleDefinition);
         }
         catch (RuntimeException e) {
             ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+            //servletContext.removeAttribute(name);
             throw e;
         }
         catch (Throwable e) {
             ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+            //servletContext.removeAttribute(name);
             throw new ExecutionException(e.getMessage(), e);
         }
     }
@@ -112,6 +112,9 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     @Override
     public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
         ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
+
+        //String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
+        //servletContext.removeAttribute(name);
     }
 
     protected void doHandleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
