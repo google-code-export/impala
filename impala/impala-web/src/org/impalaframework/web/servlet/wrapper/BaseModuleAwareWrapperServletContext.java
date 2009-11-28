@@ -106,7 +106,7 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     @Override
     public final Object getAttribute(String name) {
 
-        //FIXME wire in an use WebAttributeQualifier
+        //FIXME wire in an use DefaultWebAttributeQualifier
         
         String moduleKey = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
         Object moduleAttribute = super.getAttribute(moduleKey);

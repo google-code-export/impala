@@ -25,7 +25,7 @@ import org.springframework.util.Assert;
  * {@link HttpSession} and {@link ServletContext}
  * @author Phil Zoio
  */
-public class WebAttributeQualifier {
+public class DefaultWebAttributeQualifier {
     
     private static final String SHARED_PREFIX = "shared:";
 

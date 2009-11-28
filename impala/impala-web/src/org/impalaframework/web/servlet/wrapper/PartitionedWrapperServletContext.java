@@ -79,7 +79,7 @@ public class PartitionedWrapperServletContext extends
         if (name.startsWith(SHARED_PREFIX)) {
             keyToUse = name.substring(SHARED_PREFIX.length());
         } else {
-            //FIXME wire in an use WebAttributeQualifier
+            //FIXME wire in an use DefaultWebAttributeQualifier
             keyToUse = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
         }
         return keyToUse;
