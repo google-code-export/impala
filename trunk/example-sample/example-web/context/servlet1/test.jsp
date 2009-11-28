@@ -6,7 +6,7 @@
 <h1>example-servlet1</h1>
 <p>
 This example comes from servlet1, which is mapped to the module 'module1' via 
-an entry in web.xml. It is mapped using the pattern '*.do'.
+an entry in web.xml. It is mapped using the pattern '*.do1'.
 to an instance of <strong>org.impalaframework.web.spring.servlet.ExternalModuleServlet</strong>.
 </p>
 
