@@ -55,30 +55,6 @@ public abstract class WebServletUtils {
 
     public static String getModuleServletContextPrefix(String moduleName) {
         return "module_" + moduleName + ":";
-    }
-
-    public static void publishServlet(ServletContext servletContext, String servletName, HttpServlet servlet) {
-        
-        String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
-        servletContext.setAttribute(attributeName , servlet);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Published Servlet with name '" + servletName
-                    + "' as ServletContext attribute with name [" + attributeName + "]");
-        }
-    }
-
-    public static void unpublishServlet(ServletContext servletContext, String servletName) {
-        
-        String attributeName = WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + servletName;
-        servletContext.removeAttribute(attributeName);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Removed Servlet with name '" + servletName
-                    + "' as ServletContext attribute with name [" + attributeName + "]");
-        }
-    }
-
-    
+    }  
     
 }

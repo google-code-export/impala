@@ -21,7 +21,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.servlet.invoker.ThreadContextClassLoaderHttpServiceInvoker;
 import org.impalaframework.web.spring.ImpalaFrameworkServlet;
@@ -64,11 +63,9 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
             throws BeansException {
         onRefresh(applicationContext);
         
-        //FIXME check whether servlet should be published in this way
         //FIXME also, can this not simply override the findApplicationContext method
-        WebServletUtils.publishServlet(getServletContext(), getServletName(), this);
         ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
-        
+
         this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(this, setThreadContextClassLoader, applicationContext.getClassLoader());
         return applicationContext;
     }   
@@ -90,7 +87,6 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
 
     @Override
     public void destroy() {
-        WebServletUtils.unpublishServlet(getServletContext(), getServletName());
         ImpalaServletUtils.unpublishWebApplicationContext(this);
         super.destroy();
     }

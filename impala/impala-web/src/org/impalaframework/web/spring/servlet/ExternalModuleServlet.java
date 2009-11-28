@@ -14,9 +14,6 @@
 
 package org.impalaframework.web.spring.servlet;
 
-import javax.servlet.ServletContext;
-
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreator;
 import org.springframework.beans.BeansException;
 import org.springframework.web.context.WebApplicationContext;
@@ -59,12 +56,6 @@ public class ExternalModuleServlet extends BaseExternalModuleServlet {
 
 	private FrameworkServletContextCreator helper;
 
-	/**
-	 * Override this using the init parameter publishServlet. Used to allow
-	 * servlet to be "found" by ModuleProxyServlet
-	 */
-	private boolean publishServlet;
-
 	public ExternalModuleServlet() {
 		super();
 		this.helper = new FrameworkServletContextCreator(this);
@@ -79,33 +70,7 @@ public class ExternalModuleServlet extends BaseExternalModuleServlet {
 	protected WebApplicationContext initWebApplicationContext()
 			throws BeansException {
 		WebApplicationContext initContext = super.initWebApplicationContext();
-		
-		if (publishServlet) {
-			publishServlet(initContext);
-		}
 		return initContext;
-	}
-
-	void publishServlet(WebApplicationContext initContext) {
-		final ServletContext servletContext = getServletContext();
-		final String servletName = getServletName();
-		
-		WebServletUtils.publishServlet(servletContext, servletName, this);
-	}
-
-	@Override
-	public void destroy() {
-		final ServletContext servletContext = getServletContext();
-		final String servletName = getServletName();
-		
-		WebServletUtils.unpublishServlet(servletContext, servletName);
-		super.destroy();
-	}
-
-	/* ************ injected properties ************ */
-
-	public void setPublishServlet(boolean publishServlet) {
-		this.publishServlet = publishServlet;
 	}
 	
 }
