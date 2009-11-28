@@ -28,10 +28,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.definition.SimpleRootModuleDefinition;
-import org.impalaframework.resolver.ModuleLocationResolver;
-import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.ClassUtils;
 import org.springframework.web.context.support.GenericWebApplicationContext;
@@ -46,9 +43,7 @@ public class WebRootModuleLoaderTest extends TestCase {
 
     public void setUp() {
         servletContext = createMock(ServletContext.class);
-        ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
         loader = new WebRootModuleLoader();
-        loader.setModuleLocationResolver(resolver);
         loader.setServletContext(servletContext);
     }
     
@@ -61,16 +56,6 @@ public class WebRootModuleLoaderTest extends TestCase {
         assertNotNull(applicationContext.getBeanFactory());
         assertSame(classLoader, applicationContext.getClassLoader());
         assertSame(servletContext, applicationContext.getServletContext());
-    }
-    
-    public final void testGetClassLocations() {
-        final String[] locations = new String[] {"context1", "context2"};
-        SimpleModuleDefinition definition = new SimpleModuleDefinition(new SimpleRootModuleDefinition(projectNames, new String[]{"loc"}), "impala-web", locations);
-        final Resource[] classLocations = loader.getClassLocations("id", definition);
-        for (Resource resource : classLocations) {
-            assertTrue(resource instanceof FileSystemResource);
-            assertTrue(resource.exists());
-        }
     }
     
     public void testGetSpringLocations() throws MalformedURLException {

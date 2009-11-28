@@ -44,21 +44,18 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="springRootModuleLoader" 
-     class="org.impalaframework.web.spring.module.RootWebModuleLoader"
-     parent = "baseModuleLoader">
+     class="org.impalaframework.web.spring.module.RootWebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>    
     
  <!-- looks for spring locations in servlet context -->
  <bean id="springWebRootModuleLoader" 
-     parent="baseModuleLoader"
      class="org.impalaframework.web.spring.module.WebRootModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>    
     
  <!-- looks for spring locations in class path -->
  <bean id="springWebModuleLoader" 
-     parent = "baseModuleLoader"
      class="org.impalaframework.web.spring.module.WebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
  </bean>    
