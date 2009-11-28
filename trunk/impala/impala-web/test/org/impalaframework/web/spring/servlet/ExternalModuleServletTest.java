@@ -137,22 +137,6 @@ public class ExternalModuleServletTest extends TestCase {
 
         verifyMocks();
     }
-
-    public final void testPublish() {
-        servlet.setPublishServlet(true);
-
-        expect(servlet.getServletContext()).andReturn(servletContext);
-        expect(servletConfig.getServletName()).andReturn("servletName");
-        
-        GenericWebApplicationContext applicationContext = new GenericWebApplicationContext();
-        servletContext.setAttribute(WebConstants.SERVLET_MODULE_ATTRIBUTE_PREFIX + "servletName", servlet);
-
-        replayMocks();
-
-        servlet.publishServlet(applicationContext);
-
-        verifyMocks();
-    }
     
     public void testInit() throws Exception {
 
