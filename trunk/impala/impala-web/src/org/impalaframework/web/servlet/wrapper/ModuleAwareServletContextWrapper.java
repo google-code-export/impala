@@ -35,6 +35,7 @@ public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
 
     public ServletContext wrapServletContext(
             ServletContext servletContext,
+            String applicationId,
             ModuleDefinition moduleDefinition, 
             ClassLoader classLoader) {
         
@@ -42,7 +43,7 @@ public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
         
         if (enablePartitionedServletContext) {
             Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-            return new PartitionedWrapperServletContext(servletContext, "", moduleDefinition.getName(), webAttributeQualifier, classLoader);
+            return new PartitionedWrapperServletContext(servletContext, applicationId, moduleDefinition.getName(), webAttributeQualifier, classLoader);
         }
         return servletContext;
     }

@@ -65,7 +65,7 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         ServletContext wrappedServletContext = servletContext;
         
         if (servletContextWrapper != null) {
-            wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, moduleDefinition, classLoader);
+            wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, application.getId(), moduleDefinition, classLoader);
         }
         
         final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();

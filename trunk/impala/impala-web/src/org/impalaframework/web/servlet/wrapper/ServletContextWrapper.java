@@ -27,6 +27,8 @@ import org.impalaframework.module.ModuleDefinition;
 public interface ServletContextWrapper {
 
     ServletContext wrapServletContext(ServletContext servletContext,
-            ModuleDefinition moduleDefinition, ClassLoader classLoader);
+            String applicationId, 
+            ModuleDefinition moduleDefinition, 
+            ClassLoader classLoader);
 
 }

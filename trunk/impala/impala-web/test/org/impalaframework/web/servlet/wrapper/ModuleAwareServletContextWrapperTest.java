@@ -18,6 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
 import org.springframework.util.ClassUtils;
 
@@ -38,13 +39,15 @@ public class ModuleAwareServletContextWrapperTest extends TestCase {
     }
 
     public void testIdentityWraper() {
-        assertSame(servletContext, wrapper.wrapServletContext(servletContext, null, null));
+        assertSame(servletContext, wrapper.wrapServletContext(servletContext, "", null, null));
     }
 
     public void testPartitionedContext() {
         wrapper.setEnablePartitionedServletContext(true);
-        final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
+        final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, "id", new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
         assertTrue(wrappedContext instanceof PartitionedWrapperServletContext);
+        PartitionedWrapperServletContext wrapperContext = (PartitionedWrapperServletContext) wrappedContext;
+        assertEquals("id", ReflectionUtils.invokeMethod(wrapperContext, "getApplicationId"));
     }
 
 }
