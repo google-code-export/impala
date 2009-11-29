@@ -26,7 +26,7 @@ public class WebServletUtilsTest extends TestCase {
     }
     
     public void testGetModuleServletContextKey() throws Exception {
-        assertEquals("module_moduleName:attributeName", WebServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
+        assertEquals("application__module_moduleName:attributeName", WebServletUtils.getModuleServletContextKey("moduleName", "attributeName"));
     }
 
 }

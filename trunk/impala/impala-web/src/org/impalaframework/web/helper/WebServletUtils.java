@@ -15,7 +15,6 @@
 package org.impalaframework.web.helper;
 
 import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServlet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,8 +52,9 @@ public abstract class WebServletUtils {
         return attributeName;
     }
 
+    @Deprecated
     public static String getModuleServletContextPrefix(String moduleName) {
-        return "module_" + moduleName + ":";
+        return "application__module_" + moduleName + ":";
     }  
     
 }

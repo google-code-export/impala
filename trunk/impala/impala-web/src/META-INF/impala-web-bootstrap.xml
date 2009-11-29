@@ -19,10 +19,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <bean id="servletContextWrapper" class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper">
      <property name = "enablePartitionedServletContext" ref = "enablePartitionedServletContext"/>
+     <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>
      
  <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory">
-     <property name = "enableModuleSessionProtection" ref = "enableModuleSessionProtection"/>
+     <property name = "enableModuleSessionProtection" ref = "enableModuleSessionProtection"/>     
+     <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>
  
  <!-- ############## Type reader definitions ############### -->
