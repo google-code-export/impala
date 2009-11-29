@@ -42,7 +42,7 @@ public class PartitionedWrapperServletContext extends
             WebAttributeQualifier webAttributeQualifier, 
             ClassLoader moduleClassLoader) {
         //FIXME add application id
-        super(realContext, moduleName, moduleClassLoader);
+        super(realContext, moduleName, webAttributeQualifier, moduleClassLoader);
     }
     
     /**
