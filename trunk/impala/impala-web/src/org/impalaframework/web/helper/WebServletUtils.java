@@ -39,22 +39,5 @@ public abstract class WebServletUtils {
         
         return ObjectUtils.cast(attribute, ModuleManagementFacade.class);
     }
-
-    @Deprecated
-    public static String getModuleServletContextKey(String moduleName, String attributeName) {
-
-        String moduleServletContextPrefix = getModuleServletContextPrefix(moduleName);
-        
-        if (!attributeName.startsWith(moduleServletContextPrefix)) {
-            return moduleServletContextPrefix + attributeName;
-        }
-        
-        return attributeName;
-    }
-
-    @Deprecated
-    public static String getModuleServletContextPrefix(String moduleName) {
-        return "application__module_" + moduleName + ":";
-    }  
     
 }

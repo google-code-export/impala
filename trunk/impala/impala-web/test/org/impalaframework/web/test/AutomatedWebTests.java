@@ -54,7 +54,6 @@ import org.impalaframework.web.spring.config.ServletBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.WebMappingBeanDefinitionParserTest;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
-import org.impalaframework.web.spring.helper.WebServletUtilsTest;
 import org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServletTest;
 import org.impalaframework.web.spring.integration.FilterFactoryBeanTest;
 import org.impalaframework.web.spring.integration.FrameworkIntegrationServletFactoryBeanTest;
@@ -141,7 +140,6 @@ public class AutomatedWebTests {
         suite.addTestSuite(WebModuleLoaderTest.class);
         suite.addTestSuite(WebModuleReloaderTest.class);
         suite.addTestSuite(WebScheduledModuleChangeMonitorTest.class);
-        suite.addTestSuite(WebServletUtilsTest.class);
         return suite;
     }
 }
