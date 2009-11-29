@@ -24,7 +24,6 @@ import org.impalaframework.spring.module.loader.BaseSpringModuleLoader;
 import org.impalaframework.spring.module.loader.ModuleLoaderUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
-import org.impalaframework.web.spring.helper.ImpalaServletUtils;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -88,23 +87,18 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     @Override
     public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         
-        Assert.notNull(webAttributeQualifier, "webAttributeQualifier cannot be null");
-        //FIXME wire in an use DefaultWebAttributeQualifier
-        
+        Assert.notNull(webAttributeQualifier, "webAttributeQualifier cannot be null");        
         String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
         
         try {
-           //ImpalaServletUtils.publishRootModuleContext(servletContext, moduleDefinition.getName(), context);
             servletContext.setAttribute(name, context);
             doHandleRefresh(applicationId, context, moduleDefinition);
         }
         catch (RuntimeException e) {
-            //ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
             servletContext.removeAttribute(name);
             throw e;
         }
         catch (Throwable e) {
-            //ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
             servletContext.removeAttribute(name);
             throw new ExecutionException(e.getMessage(), e);
         }
@@ -112,8 +106,7 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     
     @Override
     public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
-        //ImpalaServletUtils.unpublishRootModuleContext(servletContext, moduleDefinition.getName());
-
+ 
         String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
         servletContext.removeAttribute(name);
     }
@@ -121,7 +114,6 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     protected void doHandleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         super.handleRefresh(applicationId, context, moduleDefinition);
     }
-    
     
     /**
      * Hook for subclasses to perform additional configuration on application context
