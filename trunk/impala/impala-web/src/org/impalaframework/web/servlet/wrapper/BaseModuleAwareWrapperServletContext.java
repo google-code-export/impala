@@ -23,6 +23,7 @@ import javax.servlet.ServletContext;
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 
 /**
  * Abstract implementation of <code>ServletContext</code> which overrides some methods
@@ -35,13 +36,14 @@ import org.impalaframework.web.helper.WebServletUtils;
  */
 public abstract class BaseModuleAwareWrapperServletContext extends
         DelegatingWrapperServletContext {
-    
+
+    private final WebAttributeQualifier webAttributeQualifier;
     private final ClassLoader moduleClassLoader;
     private final String moduleName;
 
     protected String SHARED_PREFIX = "shared:";
 
-    public BaseModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, ClassLoader moduleClassLoader) {
+    public BaseModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
         super(realContext);
         if (moduleClassLoader instanceof BaseURLClassLoader) {
             //use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
@@ -49,6 +51,7 @@ public abstract class BaseModuleAwareWrapperServletContext extends
         } else {
             this.moduleClassLoader = moduleClassLoader;
         }
+        this.webAttributeQualifier = webAttributeQualifier;
         this.moduleName = moduleName;
     }
     
@@ -139,5 +142,9 @@ public abstract class BaseModuleAwareWrapperServletContext extends
 	
 	protected final String getModuleName() {
         return moduleName;
+    }
+	
+	protected final WebAttributeQualifier getWebAttributeQualifier() {
+        return webAttributeQualifier;
     }
 }
