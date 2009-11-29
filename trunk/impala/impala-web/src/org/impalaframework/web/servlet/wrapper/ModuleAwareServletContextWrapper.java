@@ -24,14 +24,13 @@ import org.springframework.util.Assert;
  * Implementation of <code>ServletContextWrapper</code> which returns a
  * <code>ModuleAwareWrapperServletContext</code> instance.
  * 
- * @see org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperServletContext
+ * @see org.impalaframework.web.servlet.wrapper.PartitionedWrapperServletContext
  * @author Phil Zoio
  */
 public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
     
     private boolean enablePartitionedServletContext;
     
-    //FIXME pass in 
     private WebAttributeQualifier webAttributeQualifier;
 
     public ServletContext wrapServletContext(ServletContext servletContext,
