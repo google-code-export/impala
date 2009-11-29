@@ -39,7 +39,7 @@ public class ModuleAwareWrapperServletContextTest extends TestCase {
     
     public void testGetModuleSpecificAttribute() throws Exception {
         
-        expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn("someValue");
+        expect(servletContext.getAttribute("application__module_mymodule:myattribute")).andReturn("someValue");
         
         replay(servletContext);
         
@@ -50,7 +50,7 @@ public class ModuleAwareWrapperServletContextTest extends TestCase {
     
     public void testGetSharedAttribute() throws Exception {
         
-        expect(servletContext.getAttribute("module_mymodule:myattribute")).andReturn(null);
+        expect(servletContext.getAttribute("application__module_mymodule:myattribute")).andReturn(null);
         expect(servletContext.getAttribute("myattribute")).andReturn("someValue2");
         
         replay(servletContext);

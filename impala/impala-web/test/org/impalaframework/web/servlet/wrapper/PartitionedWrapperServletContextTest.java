@@ -43,19 +43,19 @@ public class PartitionedWrapperServletContextTest extends TestCase {
     @SuppressWarnings("unchecked")
     public void testGetAttributeNames() throws Exception {
         AttributeServletContext realContext = new AttributeServletContext();
-        realContext.setAttribute("module_mymodule:mykey", "value1");
+        realContext.setAttribute("application__module_mymodule:mykey", "value1");
         realContext.setAttribute("mykey", "value2");
-        realContext.setAttribute("module_mymodule:anotherkey", "value3");
+        realContext.setAttribute("application__module_mymodule:anotherkey", "value3");
         realContext.setAttribute("anotherkey", "value2");
         
         wrapperContext = new PartitionedWrapperServletContext(realContext, "mymodule", ClassUtils.getDefaultClassLoader());
         Enumeration<String> attributeNames = wrapperContext.getAttributeNames();
         ArrayList<String> list = Collections.list(attributeNames);
-        assertEquals(CollectionStringUtils.parseStringList("module_mymodule:anotherkey,module_mymodule:mykey"), list);
+        assertEquals(CollectionStringUtils.parseStringList("application__module_mymodule:mykey,application__module_mymodule:anotherkey"), list);
     }
     
     public void testGetWriteKeyToUse() throws Exception {
-        assertEquals("module_mymodule:mykey", wrapperContext.getWriteKeyToUse("mykey"));
+        assertEquals("application__module_mymodule:mykey", wrapperContext.getWriteKeyToUse("mykey"));
         assertEquals("mykey", wrapperContext.getWriteKeyToUse("shared:mykey"));
     }
 

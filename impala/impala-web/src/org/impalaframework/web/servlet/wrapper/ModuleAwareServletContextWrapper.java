@@ -17,6 +17,7 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
 /**
@@ -29,10 +30,15 @@ import org.springframework.util.Assert;
 public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
     
     private boolean enablePartitionedServletContext;
+    
+    //FIXME pass in 
+    private WebAttributeQualifier webAttributeQualifier;
 
     public ServletContext wrapServletContext(ServletContext servletContext,
             ModuleDefinition moduleDefinition, 
             ClassLoader classLoader) {
+        
+        Assert.notNull(webAttributeQualifier, "webAttributeQualifier cannot be null");
         
         if (enablePartitionedServletContext) {
             Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
@@ -43,6 +49,10 @@ public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
 
     public void setEnablePartitionedServletContext(boolean enablePartitionedServletContext) {
         this.enablePartitionedServletContext = enablePartitionedServletContext;
+    }
+    
+    public void setWebAttributeQualifier(WebAttributeQualifier webAttributeQualifier) {
+        this.webAttributeQualifier = webAttributeQualifier;
     }
 
 }

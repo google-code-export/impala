@@ -18,6 +18,7 @@ import javax.servlet.ServletContext;
 
 import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
+import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
@@ -32,6 +33,7 @@ public class ModuleAwareServletContextWrapperTest extends TestCase {
         super.setUp();
         
         wrapper = new ModuleAwareServletContextWrapper();
+        wrapper.setWebAttributeQualifier(new DefaultWebAttributeQualifier());
         servletContext = EasyMock.createMock(ServletContext.class);
     }
 
