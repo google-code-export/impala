@@ -56,7 +56,7 @@ public class DefaultWebAttributeQualifier implements WebAttributeQualifier {
     }
     
     private String getModuleServletContextKey(String attributeName, String applicationId, String moduleName) {
-        String moduleServletContextPrefix = getModuleServletContextPrefix(applicationId, moduleName);
+        String moduleServletContextPrefix = getQualifierPrefix(applicationId, moduleName);
         
         if (!attributeName.startsWith(moduleServletContextPrefix)) {
             return moduleServletContextPrefix + attributeName;
@@ -65,7 +65,7 @@ public class DefaultWebAttributeQualifier implements WebAttributeQualifier {
         return attributeName;
     }
 
-    public static String getModuleServletContextPrefix(String applicationId, String moduleName) {
+    public String getQualifierPrefix(String applicationId, String moduleName) {
         return "application_" + applicationId + "_module_" + moduleName + ":";
     }
     

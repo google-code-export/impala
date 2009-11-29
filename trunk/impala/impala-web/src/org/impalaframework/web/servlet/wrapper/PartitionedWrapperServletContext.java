@@ -21,7 +21,6 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
@@ -57,7 +56,7 @@ public class PartitionedWrapperServletContext extends
         Enumeration attributeNames = super.getAttributeNames();
         List<String> list = new ArrayList<String>();
         
-        String prefix = WebServletUtils.getModuleServletContextPrefix(this.getModuleName());
+        String prefix = getWebAttributeQualifier().getQualifierPrefix(getApplicationId(), getModuleName());
         while (attributeNames.hasMoreElements()) {
             Object nextElement = attributeNames.nextElement();
             String asString = nextElement.toString();
@@ -76,15 +75,7 @@ public class PartitionedWrapperServletContext extends
     protected String getWriteKeyToUse(String name) {
 
         Assert.notNull(name);
-        
-        final String keyToUse;
-        if (name.startsWith(SHARED_PREFIX)) {
-            keyToUse = name.substring(SHARED_PREFIX.length());
-        } else {
-            //FIXME wire in an use DefaultWebAttributeQualifier
-            keyToUse = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
-        }
-        return keyToUse;
+        return getWebAttributeQualifier().getQualifiedAttributeName(name, getApplicationId(), getModuleName());
     }
     
 }

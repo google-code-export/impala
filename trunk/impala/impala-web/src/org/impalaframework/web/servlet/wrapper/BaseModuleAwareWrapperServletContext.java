@@ -22,7 +22,6 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
-import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 
 /**
@@ -111,9 +110,7 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     @Override
     public final Object getAttribute(String name) {
 
-        //FIXME wire in an use DefaultWebAttributeQualifier
-        
-        String moduleKey = WebServletUtils.getModuleServletContextKey(this.getModuleName(), name);
+        String moduleKey = getWebAttributeQualifier().getQualifiedAttributeName(name, getApplicationId(), getModuleName());
         Object moduleAttribute = super.getAttribute(moduleKey);
         if (moduleAttribute != null) {
             return moduleAttribute;
