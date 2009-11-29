@@ -29,7 +29,9 @@ public class IdentityServletContextWrapper implements ServletContextWrapper {
      * Simply returns <code>servletContext</code>.
      */
     public ServletContext wrapServletContext(ServletContext servletContext,
-            ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+            String applicationId,
+            ModuleDefinition moduleDefinition, 
+            ClassLoader classLoader) {
         return servletContext;
     }
 

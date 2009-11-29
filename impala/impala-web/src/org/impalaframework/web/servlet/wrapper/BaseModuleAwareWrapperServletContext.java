@@ -142,6 +142,10 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     
     protected abstract String getWriteKeyToUse(String name);
 	
+    protected final String getApplicationId() {
+        return applicationId;
+    }
+    
 	protected final String getModuleName() {
         return moduleName;
     }
