@@ -63,30 +63,6 @@ public abstract class ImpalaServletUtils {
                     + "' as ServletContext attribute with name [" + attrName + "]");
         }
     }
-
-    @Deprecated
-    public static void publishRootModuleContext(ServletContext servletContext, String servletName, ApplicationContext applicationContext) {
-        
-        String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-        servletContext.setAttribute(moduleServletContextKey, applicationContext);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Published application context for '" + servletName
-                    + "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
-        }
-    }
-
-    @Deprecated
-    public static void unpublishRootModuleContext(ServletContext servletContext, String servletName) {
-
-        String moduleServletContextKey = WebServletUtils.getModuleServletContextKey(servletName, WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
-        servletContext.removeAttribute(moduleServletContextKey);
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Published application context for '" + servletName
-                    + "' as ServletContext attribute with name [" + moduleServletContextKey + "]");
-        }
-    }
     
     @Deprecated
     public static ApplicationContext getRootModuleContext(ServletContext servletContext, String servletName) {
