@@ -65,17 +65,5 @@ public class ImpalaServletUtilsTest extends TestCase {
         ImpalaServletUtils.unpublishWebApplicationContext(frameworkServlet);
         assertNull(servletContext.getAttribute("attName"));
     }
-    
-    public void testRootModuleContext() throws Exception {
-        final ApplicationContext applicationContext = createMock(ApplicationContext.class);
-        
-        //FIXME wire in an use DefaultWebAttributeQualifier
-        
-        ImpalaServletUtils.publishRootModuleContext(servletContext, "myservlet", applicationContext);
-        
-        assertSame(applicationContext, ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
-        
-        ImpalaServletUtils.unpublishRootModuleContext(servletContext, "myservlet");
-        assertNull(ImpalaServletUtils.getRootModuleContext(servletContext, "myservlet"));
-    }
+
 }
