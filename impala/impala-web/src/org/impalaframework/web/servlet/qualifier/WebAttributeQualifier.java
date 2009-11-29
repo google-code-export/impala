@@ -24,10 +24,18 @@ public interface WebAttributeQualifier {
      * Attributes beginning with "shared:" do not get qualified.
      * 
      * @param attributeName the name of the attribute
-     * @param applicationId the application 
+     * @param applicationId the application id
      * @param moduleName the name of the module
      * @return the qualified attribute name.
      */
     String getQualifiedAttributeName(String attributeName, String applicationId, String moduleName);
+    
+    /**
+     * Returns the prefix used to qualify attributes, based on the application and module
+     * @param applicationId the application id
+     * @param moduleName the name of the module
+     * @return the qualifier prefix.
+     */
+    String getQualifierPrefix(String applicationId, String moduleName);
 
 }
