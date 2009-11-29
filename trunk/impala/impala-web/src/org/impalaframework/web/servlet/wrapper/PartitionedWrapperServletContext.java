@@ -38,11 +38,11 @@ public class PartitionedWrapperServletContext extends
 
     public PartitionedWrapperServletContext(
             ServletContext realContext,
+            String applicationId, 
             String moduleName, 
             WebAttributeQualifier webAttributeQualifier, 
             ClassLoader moduleClassLoader) {
-        //FIXME add application id
-        super(realContext, moduleName, webAttributeQualifier, moduleClassLoader);
+        super(realContext, applicationId, moduleName, webAttributeQualifier, moduleClassLoader);
     }
     
     /**

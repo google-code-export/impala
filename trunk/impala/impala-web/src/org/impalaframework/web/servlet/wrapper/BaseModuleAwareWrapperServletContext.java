@@ -39,11 +39,12 @@ public abstract class BaseModuleAwareWrapperServletContext extends
 
     private final WebAttributeQualifier webAttributeQualifier;
     private final ClassLoader moduleClassLoader;
+    private final String applicationId;
     private final String moduleName;
 
     protected String SHARED_PREFIX = "shared:";
 
-    public BaseModuleAwareWrapperServletContext(ServletContext realContext, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
+    public BaseModuleAwareWrapperServletContext(ServletContext realContext, String applicationId, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
         super(realContext);
         if (moduleClassLoader instanceof BaseURLClassLoader) {
             //use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
@@ -53,6 +54,7 @@ public abstract class BaseModuleAwareWrapperServletContext extends
         }
         this.webAttributeQualifier = webAttributeQualifier;
         this.moduleName = moduleName;
+        this.applicationId = applicationId;
     }
     
     /**
