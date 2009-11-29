@@ -22,6 +22,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
 /**
@@ -38,6 +39,7 @@ public class PartitionedWrapperServletContext extends
     public PartitionedWrapperServletContext(
             ServletContext realContext,
             String moduleName, 
+            WebAttributeQualifier webAttributeQualifier, 
             ClassLoader moduleClassLoader) {
         //FIXME add application id
         super(realContext, moduleName, moduleClassLoader);

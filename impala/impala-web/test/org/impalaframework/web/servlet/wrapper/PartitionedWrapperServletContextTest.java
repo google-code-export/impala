@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedWrapperServletContextTest extends TestCase {
@@ -37,7 +38,7 @@ public class PartitionedWrapperServletContextTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         servletContext = createMock(ServletContext.class);
-        wrapperContext = new PartitionedWrapperServletContext(servletContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        wrapperContext = new PartitionedWrapperServletContext(servletContext, "mymodule", new DefaultWebAttributeQualifier(), ClassUtils.getDefaultClassLoader());
     }
     
     @SuppressWarnings("unchecked")
@@ -48,7 +49,7 @@ public class PartitionedWrapperServletContextTest extends TestCase {
         realContext.setAttribute("application__module_mymodule:anotherkey", "value3");
         realContext.setAttribute("anotherkey", "value2");
         
-        wrapperContext = new PartitionedWrapperServletContext(realContext, "mymodule", ClassUtils.getDefaultClassLoader());
+        wrapperContext = new PartitionedWrapperServletContext(realContext, "mymodule", new DefaultWebAttributeQualifier(), ClassUtils.getDefaultClassLoader());
         Enumeration<String> attributeNames = wrapperContext.getAttributeNames();
         ArrayList<String> list = Collections.list(attributeNames);
         assertEquals(CollectionStringUtils.parseStringList("application__module_mymodule:mykey,application__module_mymodule:anotherkey"), list);
