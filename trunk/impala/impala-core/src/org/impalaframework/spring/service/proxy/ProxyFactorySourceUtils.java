@@ -15,6 +15,7 @@
 package org.impalaframework.spring.service.proxy;
 
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.core.InfrastructureProxy;
 import org.springframework.util.Assert;
 
 public class ProxyFactorySourceUtils {
@@ -29,6 +30,10 @@ public class ProxyFactorySourceUtils {
                 BeanRetrievingProxyFactorySource.logger.debug("Adding interface " + interfaces[i] + " loaded from " + interfaces[i].getClassLoader());
             }
             proxyFactory.addInterface(interfaces[i]);
+        }
+        
+        if (interfaces.length > 0) {
+            proxyFactory.addInterface(InfrastructureProxy.class);
         }
     }
 

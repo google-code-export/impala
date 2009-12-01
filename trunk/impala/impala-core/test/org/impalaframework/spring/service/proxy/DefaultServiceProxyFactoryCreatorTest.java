@@ -50,11 +50,23 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(classes, ref), null);
+        
+        Object proxy = proxyFactory.getProxy();
+        assertTrue(proxy instanceof List);
+        assertTrue(proxy instanceof InfrastructureProxy);
+    }    
+    
+    @SuppressWarnings("unchecked")
+    public void testInfrastructureClassOnly() throws Exception {
+        final List<String> list = new ArrayList<String>();
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        
         final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null);
         
-        final List proxy = (List) proxyFactory.getProxy();
+        Object proxy = proxyFactory.getProxy();
         assertTrue(proxy instanceof ArrayList);
-        //assertTrue(proxy instanceof InfrastructureProxy);
+        assertFalse(proxy instanceof InfrastructureProxy);
     }
 
     @SuppressWarnings("unchecked")
