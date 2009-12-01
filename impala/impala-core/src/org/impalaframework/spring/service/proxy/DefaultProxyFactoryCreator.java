@@ -102,12 +102,12 @@ public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
         interceptor.setLogWarningNoService(logWarningNoService);
         interceptor.setRetryCount(retryCount);
         interceptor.setRetryInterval(retryInterval);
-        proxyFactory.addAdvice(interceptor);
         
         final InfrastructureProxyIntroduction infrastructureIntroduction = new InfrastructureProxyIntroduction(targetSource);
         NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor(infrastructureIntroduction);
         advisor.addMethodName("getWrappedObject");
         proxyFactory.addAdvisor(advisor);
+        proxyFactory.addAdvice(interceptor);
     }
 
     /**

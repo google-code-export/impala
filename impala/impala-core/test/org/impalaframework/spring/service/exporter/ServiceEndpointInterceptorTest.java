@@ -26,6 +26,7 @@ import junit.framework.TestCase;
 import org.aopalliance.intercept.MethodInvocation;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.proxy.ServiceEndpointInterceptor;
 import org.springframework.util.ClassUtils;
@@ -43,12 +44,19 @@ public class ServiceEndpointInterceptorTest extends TestCase {
 
     private ServiceRegistryEntry serviceRegistryReference;
 
+    private Object result;
+
+    private Object[] arguments;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         targetSource = createMock(ServiceEndpointTargetSource.class);
         serviceRegistryReference = createMock(ServiceRegistryEntry.class);
         interceptor = new ServiceEndpointInterceptor(targetSource, "myBean");
+        result = "somestring";
+        arguments = new Object[0];
+        
         method = ReflectionUtils.findMethod(String.class, "toString", new Class[] {});
         assertNotNull(method);
         invocation = createMock(MethodInvocation.class);
@@ -57,10 +65,10 @@ public class ServiceEndpointInterceptorTest extends TestCase {
 
     public final void testInvoke() throws Throwable {
         interceptor.setSetContextClassLoader(true);
-        Object result = new Object();
+        
+        invocationExpectations();        
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
-        expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
-        expect(invocation.proceed()).andReturn(result);
+        serviceRegistryReferenceExpectations(true);
 
         replayMocks();
         assertSame(result, interceptor.invoke(invocation));
@@ -68,10 +76,12 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     }
     
     public final void testInvokeNoSetContextClassLoader() throws Throwable {
+        
         interceptor.setSetContextClassLoader(false);
+        
+        invocationExpectations();
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
-        Object result = new Object();
-        expect(invocation.proceed()).andReturn(result);
+        serviceRegistryReferenceExpectations(false);
 
         replayMocks();
         assertSame(result, interceptor.invoke(invocation));
@@ -79,6 +89,8 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     }
 
     public final void testInvokeNoService() throws Throwable {
+        
+        invocationExpectations();
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
 
         replayMocks();
@@ -92,13 +104,15 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     }
     
     public void testInvokeWithRetries() throws Throwable {
+
+        invocationExpectations();
+        
         interceptor.setRetryInterval(50);
         interceptor.setRetryCount(2);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
-        Object result = new Object();
-        expect(invocation.proceed()).andReturn(result);
+        serviceRegistryReferenceExpectations(false);
 
         replayMocks();
         assertSame(result, interceptor.invoke(invocation));
@@ -106,6 +120,9 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     }
 
     public final void testInvokeDummy() throws Throwable {
+        
+        invocationExpectations();
+        
         interceptor.setProceedWithNoService(true);
         interceptor.setLogWarningNoService(true);
 
@@ -115,6 +132,18 @@ public class ServiceEndpointInterceptorTest extends TestCase {
         replayMocks();
         assertNull(interceptor.invoke(invocation));
         verifyMocks();
+    }
+
+    private void invocationExpectations() {
+        expect(invocation.getMethod()).andReturn(method);
+        expect(invocation.getArguments()).andReturn(arguments);
+    }
+
+    private void serviceRegistryReferenceExpectations(boolean getClassLoader) {
+        if (getClassLoader) {
+            expect(serviceRegistryReference.getBeanClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
+        }
+        expect(serviceRegistryReference.getServiceBeanReference()).andReturn(new StaticServiceBeanReference(result));
     }
 
     private void verifyMocks() {
