@@ -28,6 +28,7 @@ import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.core.InfrastructureProxy;
 import org.springframework.util.ClassUtils;
 
 public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
@@ -42,14 +43,27 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         classes = new Class[]{List.class};
         creator = new DefaultProxyFactoryCreator();
         serviceRegistry = createMock(ServiceRegistry.class);
-    }
+    }    
     
+    @SuppressWarnings("unchecked")
+    public void testInfrastructure() throws Exception {
+        final List<String> list = new ArrayList<String>();
+        ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
+        
+        final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null);
+        
+        final List proxy = (List) proxyFactory.getProxy();
+        assertTrue(proxy instanceof ArrayList);
+        //assertTrue(proxy instanceof InfrastructureProxy);
+    }
+
     @SuppressWarnings("unchecked")
     public void testDynamicProxyFactory() throws Exception {
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
+        //FIXME should not need to call this twice
         
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(serviceRegistry, classes, null, "mykey"), null);

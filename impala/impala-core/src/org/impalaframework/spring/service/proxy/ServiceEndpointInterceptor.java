@@ -66,7 +66,7 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
     public Object invoke(MethodInvocation invocation) throws Throwable {
         
         final boolean setCCCL = setContextClassLoader;
-        
+
         ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
         
         int retriesUsed = 0;
