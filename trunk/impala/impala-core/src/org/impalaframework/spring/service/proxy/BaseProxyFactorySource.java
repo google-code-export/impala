@@ -14,6 +14,7 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ProxyFactorySource;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
@@ -32,7 +33,7 @@ public abstract class BaseProxyFactorySource implements ProxyFactorySource {
     protected void afterInit(ProxyFactory proxyFactory, ServiceEndpointTargetSource targetSource) {
         this.proxyFactory = proxyFactory;
         this.targetSource = targetSource;
-        this.proxyFactory.setTargetSource(targetSource);
+        this.proxyFactory.setTargetSource(new DelegatingTargetSource(targetSource));
     }
 
     public final ServiceEndpointTargetSource getTargetSource() {
@@ -42,4 +43,33 @@ public abstract class BaseProxyFactorySource implements ProxyFactorySource {
     public final ProxyFactory getProxyFactory() {
         return proxyFactory;
     }
+}
+
+class DelegatingTargetSource implements ServiceEndpointTargetSource {
+    private ServiceEndpointTargetSource delegate;
+
+    public DelegatingTargetSource(ServiceEndpointTargetSource delegate) {
+        super();
+        this.delegate = delegate;
+    }
+
+    public ServiceRegistryEntry getServiceRegistryReference() {
+        return delegate.getServiceRegistryReference();
+    }
+
+    public Object getTarget() throws Exception {
+        return null;
+    }
+
+    public Class<?> getTargetClass() {
+        return delegate.getTargetClass();
+    }
+
+    public boolean isStatic() {
+        return delegate.isStatic();
+    }
+
+    public void releaseTarget(Object target) throws Exception {
+    }
+    
 }

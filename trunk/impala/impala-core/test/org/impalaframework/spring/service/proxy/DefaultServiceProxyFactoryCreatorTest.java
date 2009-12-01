@@ -80,7 +80,6 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
-        expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         //FIXME should not need to call this twice
         
         replay(serviceRegistry);
@@ -101,7 +100,6 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
                 };
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
-        expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         expect(serviceRegistry.getService("mykey", classes, false)).andReturn(ref);
         
         replay(serviceRegistry);

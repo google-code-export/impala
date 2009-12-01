@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import java.lang.reflect.Method;
+
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.logging.Log;
@@ -21,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
+import org.springframework.aop.support.AopUtils;
 
 /**
  * Interceptor which uses a {@link ServiceEndpointTargetSource} to retrieve a {@link ServiceRegistryEntry}, from which it 
@@ -65,6 +68,9 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
         
+        final Method method = invocation.getMethod();
+        final Object[] arguments = invocation.getArguments();
+        
         final boolean setCCCL = setContextClassLoader;
 
         ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
@@ -96,7 +102,8 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
                 if (setCCCL) {
                     currentThread.setContextClassLoader(serviceReference.getBeanClassLoader());
                 }
-                return invocation.proceed();
+                
+                return AopUtils.invokeJoinpointUsingReflection(serviceReference.getServiceBeanReference().getService(), method, arguments);
                 
             } finally {
                 //reset the previous class loader
