@@ -54,7 +54,13 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         
         Object proxy = proxyFactory.getProxy();
         assertTrue(proxy instanceof List);
+        assertFalse(proxy instanceof ArrayList);
         assertTrue(proxy instanceof InfrastructureProxy);
+        
+        InfrastructureProxy iproxy = (InfrastructureProxy) proxy;
+        final Object wrappedObject = iproxy.getWrappedObject();
+        System.out.println(wrappedObject);
+        assertTrue(wrappedObject instanceof ArrayList);
     }    
     
     @SuppressWarnings("unchecked")
