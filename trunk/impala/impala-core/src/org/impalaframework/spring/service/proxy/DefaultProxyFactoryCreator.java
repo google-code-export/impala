@@ -20,6 +20,7 @@ import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.ProxyFactorySource;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.framework.ProxyFactory;
+import org.springframework.aop.support.NameMatchMethodPointcutAdvisor;
 
 /**
  * Implementation of {@link ProxyFactoryCreator} which is used to create proxy for service 
@@ -102,6 +103,11 @@ public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
         interceptor.setRetryCount(retryCount);
         interceptor.setRetryInterval(retryInterval);
         proxyFactory.addAdvice(interceptor);
+        
+        final InfrastructureProxyIntroduction infrastructureIntroduction = new InfrastructureProxyIntroduction(targetSource);
+        NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor(infrastructureIntroduction);
+        advisor.addMethodName("getWrappedObject");
+        proxyFactory.addAdvisor(advisor);
     }
 
     /**
