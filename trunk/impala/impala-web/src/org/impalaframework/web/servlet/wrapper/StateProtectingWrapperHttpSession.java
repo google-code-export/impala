@@ -34,13 +34,13 @@ import org.springframework.util.Assert;
  * across module reloads through special implementation of {@link #getAttribute(String)}
  * @author Phil Zoio
  */
-public class SessionProtectingWrapperHttpSession extends DelegatingWrapperHttpSession {
+public class StateProtectingWrapperHttpSession extends DelegatingWrapperHttpSession {
     
-    private static final Log logger = LogFactory.getLog(SessionProtectingWrapperHttpSession.class);
+    private static final Log logger = LogFactory.getLog(StateProtectingWrapperHttpSession.class);
 
     private final ClassLoader moduleClassLoader;
 
-    public SessionProtectingWrapperHttpSession(HttpSession realSession,
+    public StateProtectingWrapperHttpSession(HttpSession realSession,
             ClassLoader moduleClassLoader) {
         super(realSession);
         Assert.notNull(moduleClassLoader);
