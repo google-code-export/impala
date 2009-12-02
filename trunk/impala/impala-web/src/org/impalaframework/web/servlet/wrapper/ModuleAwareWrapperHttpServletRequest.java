@@ -14,16 +14,9 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.impalaframework.facade.ModuleManagementFacade;
-import org.impalaframework.module.RuntimeModule;
-import org.impalaframework.module.spi.Application;
-import org.impalaframework.web.helper.WebServletUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -37,21 +30,19 @@ import org.springframework.util.Assert;
 public class ModuleAwareWrapperHttpServletRequest extends
         MappedWrapperHttpServletRequest {
 
-    private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpServletRequest.class);
-
     private final String moduleName;
-    private final ServletContext servletContext;
+    private final HttpSessionWrapper httpSessionWrapper;
 
     public ModuleAwareWrapperHttpServletRequest(HttpServletRequest request, 
-            ServletContext servletContext,
+            HttpSessionWrapper httpSessionWrapper,
             RequestModuleMapping moduleMapping) {
         
-        super(request, servletContext, moduleMapping);
+        super(request, httpSessionWrapper.getServletContext(), moduleMapping);
         Assert.notNull(request);
         Assert.notNull(moduleMapping);
-        Assert.notNull(servletContext);
+        Assert.notNull(httpSessionWrapper);
         this.moduleName = moduleMapping.getModuleName();
-        this.servletContext = servletContext;
+        this.httpSessionWrapper = httpSessionWrapper;
     }
 
     @Override
@@ -70,25 +61,8 @@ public class ModuleAwareWrapperHttpServletRequest extends
     
     /* ****************** Helper methods ****************** */
 
-
     HttpSession wrapSession(HttpSession session) {
-        if (session == null) {
-            return null;
-        }
-        ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
-        if (moduleManagementFacade != null) {
-            
-            Application currentApplication = moduleManagementFacade.getApplicationManager().getCurrentApplication();
-            RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
-            
-            if (currentModuleContext != null) {
-                return new ModuleAwareWrapperHttpSession(session, currentModuleContext.getClassLoader());
-            } else {
-                logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
-                return session;
-            }
-        }
-        return session;
+        return httpSessionWrapper.wrapSession(session, moduleName);
     }   
 
 }
