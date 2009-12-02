@@ -14,7 +14,6 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -24,6 +23,5 @@ import javax.servlet.http.HttpSession;
 public interface HttpSessionWrapper {
     
     HttpSession wrapSession(HttpSession session, String moduleName);
-    ServletContext getServletContext();
 
 }

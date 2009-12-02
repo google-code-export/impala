@@ -55,7 +55,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         springRuntimeModule = createMock(SpringRuntimeModule.class);
         final ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
         httpSessionWrapper.setServletContext(servletContext);
-        wrapperRequest = new MappedWrapperHttpServletRequest(request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null) );
+        wrapperRequest = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null) );
         
         applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }
