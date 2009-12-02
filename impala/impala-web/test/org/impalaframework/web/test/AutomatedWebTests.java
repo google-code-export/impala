@@ -47,6 +47,7 @@ import org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapperT
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequestTest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.PartitionedWrapperServletContextTest;
+import org.impalaframework.web.servlet.wrapper.StateProtectingHttpSessionWrapperTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.config.ContextListenerBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.FilterBeanDefinitionParserTest;
@@ -126,6 +127,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(ServletContextResourceLoaderTest.class);
         suite.addTestSuite(ServletInvokerUtilsTest.class);
         suite.addTestSuite(ServletPathRequestModuleMapperTest.class);
+        suite.addTestSuite(StateProtectingHttpSessionWrapperTest.class);
         suite.addTestSuite(SystemPropertyServletContextParamFactoryBeanTest.class);
         suite.addTestSuite(TempFileModuleRuntimeMonitorTest.class);
         suite.addTestSuite(ThreadContextClassLoaderHttpServiceInvokerTest.class);
