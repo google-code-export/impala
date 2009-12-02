@@ -39,8 +39,6 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     public HttpSession wrapSession(HttpSession session, String moduleName) {
         
-        System.out.println(webAttributeQualifier);
-        
         if (session == null) {
             return null;
         }
@@ -51,7 +49,7 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
             RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
             
             if (currentModuleContext != null) {
-                return new ModuleAwareWrapperHttpSession(session, currentModuleContext.getClassLoader());
+                return new SessionProtectingWrapperHttpSession(session, currentModuleContext.getClassLoader());
             } else {
                 logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
                 return session;

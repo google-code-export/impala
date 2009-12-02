@@ -36,7 +36,7 @@ import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
 import org.impalaframework.web.bootstrap.WebBootstrapProperties;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.SessionProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpSessionTest extends TestCase {
@@ -52,7 +52,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, ClassUtils.getDefaultClassLoader());
+        SessionProtectingWrapperHttpSession wrappedSession = new SessionProtectingWrapperHttpSession(session, ClassUtils.getDefaultClassLoader());
         assertSame(valueHolder, wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
@@ -71,7 +71,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
+        SessionProtectingWrapperHttpSession wrappedSession = new SessionProtectingWrapperHttpSession(session, newModuleClassLoader());
         assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
@@ -89,7 +89,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
+        SessionProtectingWrapperHttpSession wrappedSession = cloneFailingSession();
         assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
@@ -114,14 +114,14 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        ModuleAwareWrapperHttpSession wrappedSession = cloneFailingSession();
+        SessionProtectingWrapperHttpSession wrappedSession = cloneFailingSession();
         assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
     
     
-    private ModuleAwareWrapperHttpSession cloneFailingSession() {
-        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader()){
+    private SessionProtectingWrapperHttpSession cloneFailingSession() {
+        SessionProtectingWrapperHttpSession wrappedSession = new SessionProtectingWrapperHttpSession(session, newModuleClassLoader()){
 
             @Override
             Object clone(Object attribute, SerializationHelper helper) {
@@ -144,7 +144,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        ModuleAwareWrapperHttpSession wrappedSession = new ModuleAwareWrapperHttpSession(session, newModuleClassLoader());
+        SessionProtectingWrapperHttpSession wrappedSession = new SessionProtectingWrapperHttpSession(session, newModuleClassLoader());
         assertNull(wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }

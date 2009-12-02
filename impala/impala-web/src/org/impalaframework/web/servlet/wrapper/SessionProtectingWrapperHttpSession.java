@@ -30,17 +30,17 @@ import org.impalaframework.web.bootstrap.WebBootstrapProperties;
 import org.springframework.util.Assert;
 
 /**
- * Module-aware implementation of <code>HttpSession</code>. Most methods
- * simply use base implementation <code>DelegatingWrapperHttpSession</code>.
+ * Implementation of {@link HttpSession} which attempts to protect session attribute values 
+ * across module reloads through special implementation of {@link #getAttribute(String)}
  * @author Phil Zoio
  */
-public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession {
+public class SessionProtectingWrapperHttpSession extends DelegatingWrapperHttpSession {
     
-    private static final Log logger = LogFactory.getLog(ModuleAwareWrapperHttpSession.class);
+    private static final Log logger = LogFactory.getLog(SessionProtectingWrapperHttpSession.class);
 
     private final ClassLoader moduleClassLoader;
 
-    public ModuleAwareWrapperHttpSession(HttpSession realSession,
+    public SessionProtectingWrapperHttpSession(HttpSession realSession,
             ClassLoader moduleClassLoader) {
         super(realSession);
         Assert.notNull(moduleClassLoader);
@@ -48,7 +48,7 @@ public class ModuleAwareWrapperHttpSession extends DelegatingWrapperHttpSession 
     }
 
     /**
-     * <code>getAttribute</code> detects attempts to access items from session
+     * {@link HttpSession#getAttribute(String)} detects attempts to access items from session
      * using an "old" class loader. In this case, instances which can be
      * serialized can be cloned and "read-in" using the new module's class
 	 * loader, and "recovered" in this way. Non-serializable class instances
