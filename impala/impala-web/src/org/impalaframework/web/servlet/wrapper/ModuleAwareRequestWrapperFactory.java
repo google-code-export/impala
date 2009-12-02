@@ -33,16 +33,20 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
     private WebAttributeQualifier webAttributeQualifier;
     
     public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+        
+        final HttpSessionWrapper sessionWrapper;
         if (enableModuleSessionProtection) {
             ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
             httpSessionWrapper.setServletContext(servletContext);
             httpSessionWrapper.setWebAttributeQualifier(webAttributeQualifier);
-            
-            return new ModuleAwareWrapperHttpServletRequest(request, httpSessionWrapper, moduleMapping);
+            sessionWrapper = httpSessionWrapper;
+        } else {
+
+            IdentityHttpSessionWrapper httpSessionWrapper = new IdentityHttpSessionWrapper(servletContext);
+            sessionWrapper = httpSessionWrapper;
         }
         
-        IdentityHttpSessionWrapper httpSessionWrapper = new IdentityHttpSessionWrapper(servletContext);
-        return new MappedWrapperHttpServletRequest(request, httpSessionWrapper, moduleMapping);
+        return new MappedWrapperHttpServletRequest(request, sessionWrapper, moduleMapping);
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {

@@ -3,9 +3,11 @@ package org.impalaframework.web.servlet.wrapper;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.util.Assert;
 
 /**
  * Extension of {@link HttpServletRequestWrapper} which provides implementations for 
@@ -28,11 +30,19 @@ public class MappedWrapperHttpServletRequest extends
     
     private String pathInfo;
 
+    private String moduleName;
+
     public MappedWrapperHttpServletRequest(HttpServletRequest request, HttpSessionWrapper httpSessionWrapper, RequestModuleMapping moduleMapping) {
         super(request);
+        
+        Assert.notNull(httpSessionWrapper, "httpSessionWrapper cannot be null");
+        
         this.servletContext = httpSessionWrapper.getServletContext();
+        this.httpSessionWrapper = httpSessionWrapper;
         
         if (moduleMapping != null) {
+            
+            this.moduleName = moduleMapping.getModuleName();
             String servletPath = moduleMapping.getServletPath();
             
             if (servletPath != null) {
@@ -83,6 +93,25 @@ public class MappedWrapperHttpServletRequest extends
             return servletContext.getRealPath(pathInfo);
         }
         return super.getPathTranslated();
+    }  
+    
+    @Override
+    public HttpSession getSession() {
+        
+        HttpSession session = super.getSession();
+        return wrapSession(session);
     }
- 
+
+    @Override
+    public HttpSession getSession(boolean create) {
+        
+        HttpSession session = super.getSession(create);
+        return wrapSession(session);
+    }
+    
+    /* ****************** Helper methods ****************** */
+
+    HttpSession wrapSession(HttpSession session) {
+        return httpSessionWrapper.wrapSession(session, moduleName);
+    }  
 }

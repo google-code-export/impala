@@ -29,6 +29,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
  * Factory interface for wrapping {@link HttpSession} object.
  * @author Phil Zoio
  */
+//FIXME rename
 public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     private Log logger = LogFactory.getLog(ModuleAwareHttpSessionWrapper.class);
