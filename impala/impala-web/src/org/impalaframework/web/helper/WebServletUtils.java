@@ -21,6 +21,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
+import org.springframework.util.Assert;
 /**
  * Class with static convenience methods for publish, accessing, and removing <code>ServletContext</code>-based state. 
  * @author Phil Zoio
@@ -30,6 +31,8 @@ public abstract class WebServletUtils {
     private static final Log logger = LogFactory.getLog(WebServletUtils.class);
 
     public static ModuleManagementFacade getModuleManagementFacade(ServletContext servletContext) {
+        
+        Assert.notNull(servletContext);
         final String attributeName = WebConstants.IMPALA_FACTORY_ATTRIBUTE;
         final Object attribute = servletContext.getAttribute(attributeName);
         
