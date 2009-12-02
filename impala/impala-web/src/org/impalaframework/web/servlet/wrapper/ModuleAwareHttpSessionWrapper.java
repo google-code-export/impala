@@ -60,6 +60,10 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
         return session;
     }   
     
+    public ServletContext getServletContext() {
+        return this.servletContext;
+    }
+    
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
     }
