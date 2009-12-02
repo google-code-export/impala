@@ -20,9 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
-import org.impalaframework.web.servlet.wrapper.IdentityHttpRequestWrapperFactory;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory;
-import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequest;
+import org.impalaframework.util.ReflectionUtils;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
     
@@ -51,10 +49,12 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         assertTrue(mappedRequest instanceof MappedWrapperHttpServletRequest);
         MappedWrapperHttpServletRequest mr = (MappedWrapperHttpServletRequest) mappedRequest;
         assertSame(request, mr.getRequest());
+        assertTrue(ReflectionUtils.getFieldValue(mr, "httpSessionWrapper", HttpSessionWrapper.class) instanceof IdentityHttpSessionWrapper);
         
         factory.setEnableModuleSessionProtection(true);
         final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
-        assertTrue(wrappedRequest instanceof ModuleAwareWrapperHttpServletRequest);
+        assertTrue(wrappedRequest instanceof MappedWrapperHttpServletRequest);
+        assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof ModuleAwareHttpSessionWrapper);
     }
 
 }
