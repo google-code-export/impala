@@ -22,13 +22,15 @@ public class MappedWrapperHttpServletRequest extends
     
     private ServletContext servletContext;
     
+    private HttpSessionWrapper httpSessionWrapper;
+    
     private String servletPath;
     
     private String pathInfo;
 
-    public MappedWrapperHttpServletRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+    public MappedWrapperHttpServletRequest(HttpServletRequest request, HttpSessionWrapper httpSessionWrapper, RequestModuleMapping moduleMapping) {
         super(request);
-        this.servletContext = servletContext;
+        this.servletContext = httpSessionWrapper.getServletContext();
         
         if (moduleMapping != null) {
             String servletPath = moduleMapping.getServletPath();
