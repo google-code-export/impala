@@ -32,12 +32,18 @@ public class MappedWrapperHttpServletRequest extends
 
     private String moduleName;
 
-    public MappedWrapperHttpServletRequest(HttpServletRequest request, HttpSessionWrapper httpSessionWrapper, RequestModuleMapping moduleMapping) {
-        super(request);
+    public MappedWrapperHttpServletRequest(
+            ServletContext servletContext, 
+            HttpServletRequest request, 
+            HttpSessionWrapper httpSessionWrapper, 
+            RequestModuleMapping moduleMapping) {
         
+        super(request);
+
+        Assert.notNull(servletContext, "servletContext cannot be null");
         Assert.notNull(httpSessionWrapper, "httpSessionWrapper cannot be null");
         
-        this.servletContext = httpSessionWrapper.getServletContext();
+        this.servletContext = servletContext;
         this.httpSessionWrapper = httpSessionWrapper;
         
         if (moduleMapping != null) {

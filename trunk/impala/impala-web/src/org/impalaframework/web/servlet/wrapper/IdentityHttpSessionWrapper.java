@@ -14,32 +14,20 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.util.Assert;
-
 /**
- * Factory interface for wrapping {@link HttpSession} object.
+ * No-op implementation of {@link HttpSessionWrapper}
  * @author Phil Zoio
  */
 public class IdentityHttpSessionWrapper implements HttpSessionWrapper {
 
-    private final ServletContext servletContext;
-
-    public IdentityHttpSessionWrapper(ServletContext servletContext) {
+    public IdentityHttpSessionWrapper() {
         super();
-        Assert.notNull(servletContext);
-        this.servletContext = servletContext;
     }
 
     public HttpSession wrapSession(HttpSession session, String moduleName) {
-        // FIXME
         return session;
-    }
-
-    public ServletContext getServletContext() {
-        return this.servletContext;
     }
 
 }
