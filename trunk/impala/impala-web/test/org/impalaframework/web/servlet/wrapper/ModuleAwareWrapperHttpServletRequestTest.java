@@ -70,8 +70,8 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         replayMocks();
 
         HttpSession wrappedSession = wrapperRequest.wrapSession(session);
-        assertTrue(wrappedSession instanceof ModuleAwareWrapperHttpSession);
-        ModuleAwareWrapperHttpSession moduleAwareSession = (ModuleAwareWrapperHttpSession) wrappedSession;
+        assertTrue(wrappedSession instanceof SessionProtectingWrapperHttpSession);
+        SessionProtectingWrapperHttpSession moduleAwareSession = (SessionProtectingWrapperHttpSession) wrappedSession;
         assertNotNull(moduleAwareSession.getModuleClassLoader());
         assertSame(session, moduleAwareSession.getRealSession());
 
