@@ -41,7 +41,8 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
             return new ModuleAwareWrapperHttpServletRequest(request, httpSessionWrapper, moduleMapping);
         }
         
-        return new MappedWrapperHttpServletRequest(request, servletContext, moduleMapping);
+        IdentityHttpSessionWrapper httpSessionWrapper = new IdentityHttpSessionWrapper(servletContext);
+        return new MappedWrapperHttpServletRequest(request, httpSessionWrapper, moduleMapping);
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {

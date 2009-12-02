@@ -37,7 +37,7 @@ public class ModuleAwareWrapperHttpServletRequest extends
             HttpSessionWrapper httpSessionWrapper,
             RequestModuleMapping moduleMapping) {
         
-        super(request, httpSessionWrapper.getServletContext(), moduleMapping);
+        super(request, httpSessionWrapper, moduleMapping);
         Assert.notNull(request);
         Assert.notNull(moduleMapping);
         Assert.notNull(httpSessionWrapper);
