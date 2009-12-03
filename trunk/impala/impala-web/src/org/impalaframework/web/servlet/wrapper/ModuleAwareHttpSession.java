@@ -46,6 +46,12 @@ public class ModuleAwareHttpSession extends DelegatingWrapperHttpSession {
         this.applicationId = applicationId;
         this.moduleName = moduleName;
     }
+	
+	@Override
+	public void setAttribute(String name, Object value) {
+        final String qualifiedAttributeName = webAttributeQualifier.getQualifiedAttributeName(name, applicationId, moduleName);
+	    super.setAttribute(qualifiedAttributeName, value);
+	}
 
     @Override
 	public Object getAttribute(String name) {

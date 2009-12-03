@@ -104,6 +104,7 @@ public class MappedWrapperHttpServletRequest extends
     @Override
     public HttpSession getSession() {
         
+        //FIXME can we make this more efficient by not wrapping the session each time it is called
         HttpSession session = super.getSession();
         return wrapSession(session);
     }

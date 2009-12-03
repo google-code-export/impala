@@ -47,6 +47,18 @@ public class ModuleAwareHttpSessionTest extends TestCase {
         session = new ModuleAwareHttpSession(httpSession, webAttributeQualifier, applicationId, moduleName);
     }
     
+    public void testSetAttribute() throws Exception {
+
+        expect(webAttributeQualifier.getQualifiedAttributeName("myattribute", applicationId, moduleName)).andReturn("anotherattribute");
+        httpSession.setAttribute("anotherattribute","some_value");
+        
+        replay(webAttributeQualifier, httpSession);
+        
+        session.setAttribute("myattribute", "some_value");
+        
+        verify(webAttributeQualifier, httpSession);
+    }
+    
     public void testGetAttribute() throws Exception {
 
         expect(webAttributeQualifier.getQualifiedAttributeName("myattribute", applicationId, moduleName)).andReturn("anotherattribute");
@@ -58,7 +70,6 @@ public class ModuleAwareHttpSessionTest extends TestCase {
         
         verify(webAttributeQualifier, httpSession);
     }
-    
     
     public void testGetEnumeration() throws Exception {
 
