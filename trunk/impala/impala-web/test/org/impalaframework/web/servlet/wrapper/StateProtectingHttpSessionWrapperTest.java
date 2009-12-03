@@ -17,6 +17,7 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.ClassUtils;
 
 public class StateProtectingHttpSessionWrapperTest extends TestCase {
@@ -29,6 +30,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     private ModuleStateHolder moduleStateHolder;
     private SpringRuntimeModule springRuntimeModule;
     private ApplicationManager applicationManager;
+    private WebAttributeQualifier webAttributeQualifier;
 
     @Override
     protected void setUp() throws Exception {
@@ -39,15 +41,19 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         moduleManagementFacade = createMock(ModuleManagementFacade.class);
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
+        webAttributeQualifier = createMock(WebAttributeQualifier.class);
+        
         wrapper = new ModuleAwareHttpSessionWrapper();
         wrapper.setServletContext(servletContext);
+        wrapper.setWebAttributeQualifier(webAttributeQualifier);
         
         applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }
     
-    public void testGetSession() {
+    public void testGetSessionWithProtection() {
 
         wrapper.setEnableModuleSessionProtection(true);
+        
         expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
         expect(moduleManagementFacade.getApplicationManager()).andReturn(applicationManager);
@@ -79,8 +85,6 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     
     public void testGetSessionNoProtection() {
 
-        wrapper.setEnableModuleSessionProtection(false);
-        
         replayMocks();
 
         HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
@@ -88,14 +92,18 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
 
         verifyMocks();
     }
+    
+    public void testGetModuleAwareSession() {
 
+        wrapper.setEnablePartitionedServletContext(true);
+        
+        replayMocks();
 
-    private void verifyMocks() {
-        verify(request);
-        verify(servletContext);
-        verify(moduleManagementFacade);
-        verify(moduleStateHolder);
-        verify(springRuntimeModule);
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        assertNotSame(session, wrappedSession);
+        assertTrue(wrappedSession instanceof ModuleAwareHttpSession);
+
+        verifyMocks();
     }
 
     private void replayMocks() {
@@ -104,7 +112,16 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         replay(moduleManagementFacade);
         replay(moduleStateHolder);
         replay(springRuntimeModule);
+        replay(webAttributeQualifier);
     }
 
+    private void verifyMocks() {
+        verify(request);
+        verify(servletContext);
+        verify(moduleManagementFacade);
+        verify(moduleStateHolder);
+        verify(springRuntimeModule);
+        verify(webAttributeQualifier);
+    }
 
 }
