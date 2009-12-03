@@ -27,6 +27,7 @@ import org.impalaframework.config.PropertySourceHolder;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
 import org.impalaframework.web.bootstrap.WebBootstrapProperties;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
 /**
@@ -34,15 +35,19 @@ import org.springframework.util.Assert;
  * across module reloads through special implementation of {@link #getAttribute(String)}
  * @author Phil Zoio
  */
-public class StateProtectingWrapperHttpSession extends DelegatingWrapperHttpSession {
+public class StateProtectingWrapperHttpSession extends ModuleAwareHttpSession {
     
     private static final Log logger = LogFactory.getLog(StateProtectingWrapperHttpSession.class);
 
     private final ClassLoader moduleClassLoader;
 
-    public StateProtectingWrapperHttpSession(HttpSession realSession,
+    public StateProtectingWrapperHttpSession(
+            HttpSession realSession,
+            WebAttributeQualifier webAttributeQualifier, 
+            String applicationId, 
+            String moduleName, 
             ClassLoader moduleClassLoader) {
-        super(realSession);
+        super(realSession, webAttributeQualifier, applicationId, moduleName);
         Assert.notNull(moduleClassLoader);
         this.moduleClassLoader = moduleClassLoader;
     }
