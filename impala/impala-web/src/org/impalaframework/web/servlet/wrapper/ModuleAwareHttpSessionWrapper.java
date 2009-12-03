@@ -45,18 +45,19 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     public HttpSession wrapSession(HttpSession session, String moduleName) {
         
+        //FIXME pass this in
+        String applicationId = "";
+        
         if (session == null) {
             return null;
-        }
+        }            
+        
+        final WebAttributeQualifier webAttributeQualifier = getWebAttributeQualifier();
         
         if (enableModuleSessionProtection) {
             
-            final WebAttributeQualifier webAttributeQualifier;
-            
-            if (enablePartitionedServletContext && this.webAttributeQualifier != null) {
-                webAttributeQualifier = this.webAttributeQualifier;
-            } else {
-                webAttributeQualifier = identityQualifier;
+            if (logger.isDebugEnabled()) {
+                logger.debug("Session module protection turned on for session wrapping");
             }
             
             ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
@@ -66,17 +67,48 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
                 RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
                 
                 if (currentModuleContext != null) {
-                    return new StateProtectingWrapperHttpSession(session, currentModuleContext.getClassLoader());
+                    return new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, currentModuleContext.getClassLoader());
                 } else {
                     logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
                     return session;
                 }
             }
         } else if (enablePartitionedServletContext) {
-            return new ModuleAwareHttpSession(session, webAttributeQualifier, "", moduleName);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Servlet context partitioning set, but session module protection not enabled");
+            }
+            
+            return new ModuleAwareHttpSession(session, webAttributeQualifier, applicationId, moduleName);
         }
         
         return session;
+    }
+
+    private WebAttributeQualifier getWebAttributeQualifier() {
+        final WebAttributeQualifier webAttributeQualifier;
+        
+        if (enablePartitionedServletContext && this.webAttributeQualifier != null) {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Servlet context partitioning and web attribute qualifier set to " + this.webAttributeQualifier.getClass().getName());
+            }
+            
+            webAttributeQualifier = this.webAttributeQualifier;
+            
+        } else {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Servlet context partitioning set to " + enablePartitionedServletContext +
+                        " and web attribute qualifier set to " + 
+                        (this.webAttributeQualifier != null ?
+                        this.webAttributeQualifier.getClass().getName() :
+                        null));
+            }
+            
+            webAttributeQualifier = identityQualifier;
+        }
+        return webAttributeQualifier;
     }   
     
     public ServletContext getServletContext() {
