@@ -39,6 +39,7 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
             ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
             httpSessionWrapper.setServletContext(servletContext);
             httpSessionWrapper.setWebAttributeQualifier(webAttributeQualifier);
+            httpSessionWrapper.setEnableModuleSessionProtection(enableModuleSessionProtection);
             sessionWrapper = httpSessionWrapper;
         } else {
 

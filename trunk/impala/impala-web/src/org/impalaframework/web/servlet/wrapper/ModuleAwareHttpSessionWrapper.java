@@ -37,22 +37,27 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     private WebAttributeQualifier webAttributeQualifier;
     
+    private boolean enableModuleSessionProtection;
+    
     public HttpSession wrapSession(HttpSession session, String moduleName) {
         
         if (session == null) {
             return null;
         }
-        ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
-        if (moduleManagementFacade != null) {
-            
-            Application currentApplication = moduleManagementFacade.getApplicationManager().getCurrentApplication();
-            RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
-            
-            if (currentModuleContext != null) {
-                return new StateProtectingWrapperHttpSession(session, currentModuleContext.getClassLoader());
-            } else {
-                logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
-                return session;
+        
+        if (enableModuleSessionProtection) {
+            ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
+            if (moduleManagementFacade != null) {
+                
+                Application currentApplication = moduleManagementFacade.getApplicationManager().getCurrentApplication();
+                RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
+                
+                if (currentModuleContext != null) {
+                    return new StateProtectingWrapperHttpSession(session, currentModuleContext.getClassLoader());
+                } else {
+                    logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
+                    return session;
+                }
             }
         }
         return session;
@@ -68,5 +73,9 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     public void setWebAttributeQualifier(WebAttributeQualifier webAttributeQualifier) {
         this.webAttributeQualifier = webAttributeQualifier;
+    }
+    
+    public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {
+        this.enableModuleSessionProtection = enableModuleSessionProtection;
     }
 }

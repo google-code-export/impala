@@ -46,7 +46,8 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     }
     
     public void testGetSession() {
-    
+
+        wrapper.setEnableModuleSessionProtection(true);
         expect(springRuntimeModule.getClassLoader()).andReturn(ClassUtils.getDefaultClassLoader());
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
         expect(moduleManagementFacade.getApplicationManager()).andReturn(applicationManager);
@@ -64,7 +65,8 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     }
     
     public void testGetSessionNoFactoryAvailable() {
-        
+
+        wrapper.setEnableModuleSessionProtection(true);
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
         
         replayMocks();
@@ -74,6 +76,19 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
 
         verifyMocks();
     }
+    
+    public void testGetSessionNoProtection() {
+
+        wrapper.setEnableModuleSessionProtection(false);
+        
+        replayMocks();
+
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        assertSame(session, wrappedSession);
+
+        verifyMocks();
+    }
+
 
     private void verifyMocks() {
         verify(request);
