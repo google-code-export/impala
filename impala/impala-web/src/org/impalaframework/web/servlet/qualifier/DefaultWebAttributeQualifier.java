@@ -14,6 +14,11 @@
 
 package org.impalaframework.web.servlet.qualifier;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.List;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -53,7 +58,28 @@ public class DefaultWebAttributeQualifier implements WebAttributeQualifier {
             keyToUse = getModuleServletContextKey(attributeName, applicationId, moduleName);
         }
         return keyToUse;
-    }
+    }    
+    
+    /**
+     * Filters the attribute names to those beginning with the prefix as returned by {@link #getQualifierPrefix(String, String)}
+     * @param attributeNames the input attribute {@link Enumeration}
+     * @param applicationId the application 
+     * @param moduleName the name of the module
+     * @return a filtered attribute {@link Enumeration}
+     */
+    public Enumeration<String> filterAttributeNames(Enumeration<String> attributeNames, String applicationId, String moduleName) {
+        List<String> list = new ArrayList<String>();
+        String prefix = this.getQualifierPrefix(applicationId, moduleName);
+        while (attributeNames.hasMoreElements()) {
+            Object nextElement = attributeNames.nextElement();
+            String asString = nextElement.toString();
+            if (asString.startsWith(prefix)) {
+                list.add(asString);
+            }
+        }
+        
+        return Collections.enumeration(list);
+    };
     
     private String getModuleServletContextKey(String attributeName, String applicationId, String moduleName) {
         String moduleServletContextPrefix = getQualifierPrefix(applicationId, moduleName);

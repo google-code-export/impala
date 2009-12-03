@@ -14,10 +14,7 @@
 
 package org.impalaframework.web.servlet.wrapper;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.servlet.ServletContext;
 
@@ -54,19 +51,11 @@ public class PartitionedWrapperServletContext extends
     public Enumeration getAttributeNames() {
 
         Enumeration attributeNames = super.getAttributeNames();
-        List<String> list = new ArrayList<String>();
         
-        String prefix = getWebAttributeQualifier().getQualifierPrefix(getApplicationId(), getModuleName());
-        while (attributeNames.hasMoreElements()) {
-            Object nextElement = attributeNames.nextElement();
-            String asString = nextElement.toString();
-            if (asString.startsWith(prefix)) {
-                list.add(asString);
-            }
-        }
-        
-        return Collections.enumeration(list);
-    };
+        final String applicationId = getApplicationId();
+        final String moduleName = getModuleName();
+        return getWebAttributeQualifier().filterAttributeNames(attributeNames, applicationId, moduleName);
+    }
 
     /**
      * Determines which key is used for writing values to the servlet context.
