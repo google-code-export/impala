@@ -36,12 +36,25 @@ import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFactory;
 import org.impalaframework.util.serialize.SerializationHelper;
 import org.impalaframework.web.bootstrap.WebBootstrapProperties;
+import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpSessionTest extends TestCase {
 
     private HttpSession session;
+    private String applicationId;
+    private String moduleName;
+    private WebAttributeQualifier webAttributeQualifier;
+    
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        applicationId = "myapp";
+        moduleName = "mymodule";
+        webAttributeQualifier = new IdentityWebAttributeQualifier();
+    }
 
     public void testGetAttributeNoWrapping() {
         //test the case where the classloader is compatible
@@ -52,12 +65,28 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, ClassUtils.getDefaultClassLoader());
+        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, ClassUtils.getDefaultClassLoader());
         assertSame(valueHolder, wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
     
 
+    public void testGetQualifiedAttributeName() {
+        //test the case where the classloader is compatible
+        
+        webAttributeQualifier = new DefaultWebAttributeQualifier();
+        
+        session = createMock(HttpSession.class);
+        ValueHolder valueHolder = new ValueHolder();
+        expect(session.getAttribute("application_myapp_module_mymodule:myAttribute")).andReturn(valueHolder);
+        
+        replay(session);
+
+        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, ClassUtils.getDefaultClassLoader());
+        assertSame(valueHolder, wrappedSession.getAttribute("myAttribute"));
+        verify(session);
+    }    
+    
     public void testGetAttributeWrappingSerializableValueHolder() {
         //test the case where the classloader is compatible
         
@@ -71,7 +100,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, newModuleClassLoader());
+        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, newModuleClassLoader());
         assertFalse(valueHolder == wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
@@ -121,7 +150,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
     
     
     private StateProtectingWrapperHttpSession cloneFailingSession() {
-        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, newModuleClassLoader()){
+        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, newModuleClassLoader()){
 
             @Override
             Object clone(Object attribute, SerializationHelper helper) {
@@ -144,7 +173,7 @@ public class ModuleAwareWrapperHttpSessionTest extends TestCase {
         
         replay(session);
 
-        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, newModuleClassLoader());
+        StateProtectingWrapperHttpSession wrappedSession = new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, newModuleClassLoader());
         assertNull(wrappedSession.getAttribute("myAttribute"));
         verify(session);
     }
