@@ -37,6 +37,8 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     private WebAttributeQualifier webAttributeQualifier;
     
+    private boolean enablePartitionedServletContext;
+    
     private boolean enableModuleSessionProtection;
     
     public HttpSession wrapSession(HttpSession session, String moduleName) {
@@ -73,6 +75,10 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     public void setWebAttributeQualifier(WebAttributeQualifier webAttributeQualifier) {
         this.webAttributeQualifier = webAttributeQualifier;
+    }
+    
+    public void setEnablePartitionedServletContext(boolean enablePartitionedServletContext) {
+        this.enablePartitionedServletContext = enablePartitionedServletContext;
     }
     
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {

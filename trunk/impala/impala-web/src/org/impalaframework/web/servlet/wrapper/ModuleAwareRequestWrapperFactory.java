@@ -37,11 +37,12 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
     public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
         
         final HttpSessionWrapper sessionWrapper;
-        if (enableModuleSessionProtection) {
+        if (enableModuleSessionProtection || enablePartitionedServletContext) {
             ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
             httpSessionWrapper.setServletContext(servletContext);
             httpSessionWrapper.setWebAttributeQualifier(webAttributeQualifier);
             httpSessionWrapper.setEnableModuleSessionProtection(enableModuleSessionProtection);
+            httpSessionWrapper.setEnablePartitionedServletContext(enablePartitionedServletContext);
             sessionWrapper = httpSessionWrapper;
         } else {
 
