@@ -43,6 +43,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifierTest;
 import org.impalaframework.web.servlet.wrapper.BaseModuleAwareWrapperServletContextTest;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapperFactoryTest;
 import org.impalaframework.web.servlet.wrapper.MappedWrapperHttpServletRequestTest;
+import org.impalaframework.web.servlet.wrapper.ModuleAwareHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapperTest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpServletRequestTest;
 import org.impalaframework.web.servlet.wrapper.ModuleAwareWrapperHttpSessionTest;
@@ -106,6 +107,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(InvocationChainTest.class);
         suite.addTestSuite(ModuleHttpServiceInvokerBuilderTest.class);
         suite.addTestSuite(MappedWrapperHttpServletRequestTest.class);
+        suite.addTestSuite(ModuleAwareHttpSessionTest.class);
         suite.addTestSuite(ModuleAwareWrapperHttpServletRequestTest.class);
         suite.addTestSuite(ModuleAwareWrapperHttpSessionTest.class);
         suite.addTestSuite(ModuleAwareServletContextWrapperTest.class);
