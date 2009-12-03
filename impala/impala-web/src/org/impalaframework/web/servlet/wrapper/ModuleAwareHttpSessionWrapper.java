@@ -41,6 +41,8 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     private boolean enableModuleSessionProtection;
     
+    private static IdentityWebAttributeQualifier identityQualifier = new IdentityWebAttributeQualifier();
+    
     public HttpSession wrapSession(HttpSession session, String moduleName) {
         
         if (session == null) {
@@ -48,6 +50,15 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
         }
         
         if (enableModuleSessionProtection) {
+            
+            final WebAttributeQualifier webAttributeQualifier;
+            
+            if (enablePartitionedServletContext && this.webAttributeQualifier != null) {
+                webAttributeQualifier = this.webAttributeQualifier;
+            } else {
+                webAttributeQualifier = identityQualifier;
+            }
+            
             ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
             if (moduleManagementFacade != null) {
                 
@@ -61,7 +72,10 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
                     return session;
                 }
             }
+        } else if (enablePartitionedServletContext) {
+            return new ModuleAwareHttpSession(session, webAttributeQualifier, "", moduleName);
         }
+        
         return session;
     }   
     
