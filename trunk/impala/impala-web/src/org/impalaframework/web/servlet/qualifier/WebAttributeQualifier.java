@@ -14,14 +14,12 @@
 
 package org.impalaframework.web.servlet.qualifier;
 
+import java.util.Enumeration;
+
 public interface WebAttributeQualifier {
 
     /**
      * Gets the attribute name qualified by application id and module name.
-     * If the attribute name has already been qualified (starts with the qualified prefix), 
-     * then it will not be qualified again.
-     * 
-     * Attributes beginning with "shared:" do not get qualified.
      * 
      * @param attributeName the name of the attribute
      * @param applicationId the application id
@@ -29,6 +27,15 @@ public interface WebAttributeQualifier {
      * @return the qualified attribute name.
      */
     String getQualifiedAttributeName(String attributeName, String applicationId, String moduleName);
+    
+    /**
+     * Filters the attribute names to those beginning with the prefix as returned by {@link #getQualifierPrefix(String, String)}
+     * @param attributeNames the input attribute {@link Enumeration}
+     * @param applicationId the application 
+     * @param moduleName the name of the module
+     * @return a filtered attribute {@link Enumeration}
+     */
+    Enumeration<String> filterAttributeNames(Enumeration<String> attributeNames, String applicationId, String moduleName);
     
     /**
      * Returns the prefix used to qualify attributes, based on the application and module

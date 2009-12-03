@@ -14,9 +14,14 @@
 
 package org.impalaframework.web.servlet.qualifier;
 
-import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.util.CollectionStringUtils;
+import org.impalaframework.web.AttributeServletContext;
 
 public class WebAttributeQualifierTest extends TestCase {
 
@@ -33,6 +38,19 @@ public class WebAttributeQualifierTest extends TestCase {
         assertEquals("application_id_module_mod:attribute", qualifier.getQualifiedAttributeName("application_id_module_mod:attribute", "id", "mod"));
         assertEquals("application__module_:attribute", qualifier.getQualifiedAttributeName("attribute", "", ""));
         assertEquals("attribute", qualifier.getQualifiedAttributeName("shared:attribute", "", ""));
+    }
+    
+    @SuppressWarnings("unchecked")
+    public void testGetAttributeNames() throws Exception {
+        AttributeServletContext realContext = new AttributeServletContext();
+        realContext.setAttribute("application__module_mymodule:mykey", "value1");
+        realContext.setAttribute("mykey", "value2");
+        realContext.setAttribute("application__module_mymodule:anotherkey", "value3");
+        realContext.setAttribute("anotherkey", "value2");
+        
+        Enumeration<String> attributeNames = qualifier.filterAttributeNames(realContext.getAttributeNames(), "", "mymodule");
+        ArrayList<String> list = Collections.list(attributeNames);
+        assertEquals(CollectionStringUtils.parseStringList("application__module_mymodule:mykey,application__module_mymodule:anotherkey"), list);
     }
     
 }
