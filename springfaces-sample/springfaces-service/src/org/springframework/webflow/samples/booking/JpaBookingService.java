@@ -63,7 +63,6 @@ public class JpaBookingService implements BookingService {
     User user = findUser(username);
     Booking booking = new Booking(hotel, user);
     em.persist(booking);
-    em.flush();
     return booking;
     }
 
