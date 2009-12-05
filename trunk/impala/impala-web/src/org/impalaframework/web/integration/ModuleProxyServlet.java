@@ -43,7 +43,8 @@ public class ModuleProxyServlet extends BaseModuleProxyServlet {
             ServletContext context,
             HttpServletRequest request, 
             HttpServletResponse response,
-            RequestModuleMapping moduleMapping) throws ServletException,
+            RequestModuleMapping moduleMapping, 
+            String applicationId) throws ServletException,
             IOException {
         
         String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+ moduleMapping.getModuleName();
@@ -61,7 +62,7 @@ public class ModuleProxyServlet extends BaseModuleProxyServlet {
         }
         
         if (invoker != null) {
-            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
+            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping, applicationId);
             invoker.invoke(wrappedRequest, response, null);
         }
     }

@@ -45,7 +45,8 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     public HttpSession wrapSession(HttpSession session, String moduleName) {
         
-        //FIXME pass this in
+        //FIXME pass this in!!!!!!!!
+        
         String applicationId = "";
         
         if (session == null) {

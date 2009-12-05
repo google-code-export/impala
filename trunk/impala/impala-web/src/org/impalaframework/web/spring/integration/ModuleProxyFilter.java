@@ -40,4 +40,6 @@ public class ModuleProxyFilter extends org.impalaframework.web.integration.Modul
         }
         return super.newRequestModuleMapper(config);
     }
+    
+    //FIXME add mechanism to get applicationIdRetriever
 }

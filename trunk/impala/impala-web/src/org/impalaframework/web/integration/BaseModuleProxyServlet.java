@@ -75,10 +75,13 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
             throws ServletException, IOException {
         
         RequestModuleMapping moduleMapping = getModuleMapping(request);
+
+        //FIXME get from somewhere
+        String applicationId = "";
         
         if (moduleMapping != null) {
             
-            processMapping(context, request, response, moduleMapping);
+            processMapping(context, request, response, moduleMapping, applicationId);
             
         } else {
             logger.warn("Not possible to figure out module name from servlet path " + request.getRequestURI());
@@ -89,15 +92,15 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
             ServletContext context,
             HttpServletRequest request, 
             HttpServletResponse response,
-            RequestModuleMapping moduleMapping) throws ServletException,
+            RequestModuleMapping moduleMapping, String applicationId) throws ServletException,
             IOException;
 
     RequestModuleMapping getModuleMapping(HttpServletRequest request) {
         return requestModuleMapper.getModuleForRequest(request);
     }
 
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
     }
     
 }

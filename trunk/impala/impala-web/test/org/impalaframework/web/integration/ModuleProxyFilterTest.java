@@ -57,7 +57,7 @@ public class ModuleProxyFilterTest extends TestCase {
 
             @Override
             protected HttpServletRequest wrappedRequest(
-                    HttpServletRequest request, ServletContext servletContext, RequestModuleMapping mapping) {
+                    HttpServletRequest request, ServletContext servletContext, RequestModuleMapping mapping, String applicationId) {
                 return request;
             }
             

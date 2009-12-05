@@ -86,8 +86,11 @@ public abstract class BaseModuleProxyFilter implements Filter {
 
         RequestModuleMapping moduleMapping = getModuleMapping(request);
         
+        //FIXME get from somewhere
+        String applicationId = "";
+        
         if (moduleMapping != null) {
-            processMapping(context, request, response, chain, moduleMapping);
+            processMapping(context, request, response, chain, moduleMapping, applicationId);
         } else {
             
             if (logger.isDebugEnabled()) {
@@ -102,7 +105,8 @@ public abstract class BaseModuleProxyFilter implements Filter {
             HttpServletRequest request,
             HttpServletResponse response,
             FilterChain chain, 
-            RequestModuleMapping moduleMapping)
+            RequestModuleMapping moduleMapping, 
+            String applicationId)
             throws IOException, ServletException;
 
     RequestModuleMapping getModuleMapping(HttpServletRequest request) {
@@ -111,8 +115,8 @@ public abstract class BaseModuleProxyFilter implements Filter {
     
     /* **************** protected methods ******************* */
 
-    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
-        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping);
+    protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
+        return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
     }
     
     /* **************** package level getters ******************* */

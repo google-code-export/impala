@@ -43,6 +43,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
     private ModuleStateHolder moduleStateHolder;
     private SpringRuntimeModule springRuntimeModule;
     private ApplicationManager applicationManager;
+    private String applicationId;
 
     @Override
     protected void setUp() throws Exception {
@@ -53,10 +54,11 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         moduleManagementFacade = createMock(ModuleManagementFacade.class);
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
+        applicationId = "applicationId";
         final ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
         httpSessionWrapper.setServletContext(servletContext);
         httpSessionWrapper.setEnableModuleSessionProtection(true);
-        wrapperRequest = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null) );
+        wrapperRequest = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null), applicationId );
         
         applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }

@@ -48,7 +48,7 @@ public class ModuleProxyFilter extends BaseModuleProxyFilter {
             HttpServletRequest request, 
             HttpServletResponse response,
             FilterChain chain, 
-            RequestModuleMapping moduleMapping)
+            RequestModuleMapping moduleMapping, String applicationId)
             throws IOException, ServletException {
         
         String attributeName = ModuleHttpServiceInvoker.class.getName()+ "."+ moduleMapping.getModuleName();
@@ -66,7 +66,7 @@ public class ModuleProxyFilter extends BaseModuleProxyFilter {
         }
         
         if (invoker != null) {
-            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping);
+            HttpServletRequest wrappedRequest = wrappedRequest(request, context, moduleMapping, applicationId);
             invoker.invoke(wrappedRequest, response, chain);
         }
         else {

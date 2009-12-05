@@ -36,7 +36,7 @@ public class MappedWrapperHttpServletRequest extends
             ServletContext servletContext, 
             HttpServletRequest request, 
             HttpSessionWrapper httpSessionWrapper, 
-            RequestModuleMapping moduleMapping) {
+            RequestModuleMapping moduleMapping, String applicationId) {
         
         super(request);
 

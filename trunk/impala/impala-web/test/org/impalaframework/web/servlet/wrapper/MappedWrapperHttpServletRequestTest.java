@@ -27,6 +27,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
     private HttpServletRequest request;
     private ServletContext servletContext;
     private IdentityHttpSessionWrapper httpSessionWrapper;
+    private String applicationId;
 
     @Override
     protected void setUp() throws Exception {
@@ -34,6 +35,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         request = createMock(HttpServletRequest.class);
         servletContext = createMock(ServletContext.class);
         httpSessionWrapper = new IdentityHttpSessionWrapper();
+        applicationId = "applicationId";
     }
 
     public void testWithServletPath() {
@@ -42,7 +44,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"));
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"), applicationId);
         assertEquals("/servletPath", wrapper.getServletPath());
         assertEquals("/extra/path/info", wrapper.getPathInfo());
         
@@ -59,7 +61,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, null);
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
         assertEquals("/sp", wrapper.getServletPath());
         assertEquals("/pi", wrapper.getPathInfo());
         assertEquals("/pt", wrapper.getPathTranslated());
@@ -77,7 +79,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/unexpectedServletPath"));
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/unexpectedServletPath"), applicationId);
         assertEquals("/sp", wrapper.getServletPath());
         assertEquals("/pi", wrapper.getPathInfo());
         assertEquals("/pt", wrapper.getPathTranslated());
@@ -93,7 +95,7 @@ public class MappedWrapperHttpServletRequestTest extends TestCase {
         
         replay(request, servletContext);
         
-        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"));
+        MappedWrapperHttpServletRequest wrapper = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"), applicationId);
         assertEquals("/realpath", wrapper.getPathTranslated());
         
         verify(request, servletContext);

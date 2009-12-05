@@ -26,15 +26,19 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleIntegrationUtils {
 
-    public static HttpServletRequest getWrappedRequest(HttpServletRequest request,
-            ServletContext servletContext, RequestModuleMapping moduleMapping) {
+    public static HttpServletRequest getWrappedRequest(
+            HttpServletRequest request,
+            ServletContext servletContext, 
+            RequestModuleMapping moduleMapping, 
+            String applicationId) {
+        
         final ModuleManagementFacade moduleManagementFactory = WebServletUtils.getModuleManagementFacade(servletContext);
         HttpServletRequest wrappedRequest = null;
         
         if (moduleManagementFactory != null) {
             HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
             if (factory != null) {
-                wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
+                wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
             } else {
                 wrappedRequest = request;
             }
