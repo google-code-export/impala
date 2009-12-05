@@ -30,6 +30,10 @@ public class SimpleApplicationManager implements InitializingBean, ApplicationMa
         return this.application;
     }
     
+    public Application getApplication(String id) {
+        return application;
+    }
+    
     public boolean close() {
         ModuleOperation operation = moduleManagementFacade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
         ModuleOperationResult execute = operation.execute(application, null);

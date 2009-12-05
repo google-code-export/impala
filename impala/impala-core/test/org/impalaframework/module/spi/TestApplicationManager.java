@@ -33,6 +33,10 @@ public class TestApplicationManager implements ApplicationManager {
         return application;
     }
     
+    public Application getApplication(String id) {
+        return application;
+    }
+    
     public static ApplicationManager newApplicationManager(
             ClassLoaderRegistry classLoaderRegistry,
             ModuleStateHolder moduleStateHolder,

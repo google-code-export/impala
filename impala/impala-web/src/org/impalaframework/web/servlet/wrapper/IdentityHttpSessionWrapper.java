@@ -26,7 +26,7 @@ public class IdentityHttpSessionWrapper implements HttpSessionWrapper {
         super();
     }
 
-    public HttpSession wrapSession(HttpSession session, String moduleName) {
+    public HttpSession wrapSession(HttpSession session, String moduleName, String applicationId) {
         return session;
     }
 

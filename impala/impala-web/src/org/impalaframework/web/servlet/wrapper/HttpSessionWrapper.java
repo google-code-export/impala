@@ -22,6 +22,6 @@ import javax.servlet.http.HttpSession;
  */
 public interface HttpSessionWrapper {
     
-    HttpSession wrapSession(HttpSession session, String moduleName);
+    HttpSession wrapSession(HttpSession session, String moduleName, String applicationId);
 
 }

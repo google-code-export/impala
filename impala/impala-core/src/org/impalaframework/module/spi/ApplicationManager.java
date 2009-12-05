@@ -24,6 +24,8 @@ public interface ApplicationManager {
 
     public Application getCurrentApplication();
     
+    public Application getApplication(String id);
+    
     public boolean close();
     
 }
