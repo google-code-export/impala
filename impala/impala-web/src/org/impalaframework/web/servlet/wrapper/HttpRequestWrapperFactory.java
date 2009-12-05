@@ -23,5 +23,5 @@ import javax.servlet.http.HttpServletRequest;
  * @author Phil Zoio
  */
 public interface HttpRequestWrapperFactory {
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping);
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId);
 }

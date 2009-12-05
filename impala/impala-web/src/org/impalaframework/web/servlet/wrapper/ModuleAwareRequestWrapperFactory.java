@@ -34,7 +34,7 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
     
     private WebAttributeQualifier webAttributeQualifier;
     
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
         
         final HttpSessionWrapper sessionWrapper;
         if (enableModuleSessionProtection || enablePartitionedServletContext) {
@@ -50,7 +50,7 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
             sessionWrapper = httpSessionWrapper;
         }
         
-        return new MappedWrapperHttpServletRequest(servletContext, request, sessionWrapper, moduleMapping);
+        return new MappedWrapperHttpServletRequest(servletContext, request, sessionWrapper, moduleMapping, applicationId);
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {

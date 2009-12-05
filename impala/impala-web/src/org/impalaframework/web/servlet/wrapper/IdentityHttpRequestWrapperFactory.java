@@ -30,7 +30,7 @@ public class IdentityHttpRequestWrapperFactory implements
     /**
      * Simply returns <code>request</code> passed in.
      */
-    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping) {
+    public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
         return request;
     }
 }

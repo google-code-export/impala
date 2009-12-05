@@ -36,6 +36,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
     private HttpServletRequest request;
     private ModuleManagementFacade facade;
     private RequestModuleMapping mapping;
+    private String applicationId;
 
     @Override
     protected void setUp() throws Exception {
@@ -45,6 +46,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
         facade = createMock(ModuleManagementFacade.class);
         
         mapping = new RequestModuleMapping("/mymodule", "mymodule", null);
+        applicationId = "";
     }
     
     public void testGetRequestWrapper() throws Exception {
@@ -54,7 +56,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping, applicationId));
         
         verifyMocks(servletContext, request, facade);
     }   
@@ -65,7 +67,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping, applicationId));
         
         verifyMocks(servletContext, request, facade);
     }
@@ -77,7 +79,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
         
         replayMocks(servletContext, request, facade);
         
-        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping));
+        assertSame(request, ModuleIntegrationUtils.getWrappedRequest(request, servletContext, mapping, applicationId));
         
         verifyMocks(servletContext, request, facade);
     }

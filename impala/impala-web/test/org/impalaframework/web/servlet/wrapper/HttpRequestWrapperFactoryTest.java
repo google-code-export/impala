@@ -25,19 +25,21 @@ import org.impalaframework.util.ReflectionUtils;
 public class HttpRequestWrapperFactoryTest extends TestCase {
     
     private RequestModuleMapping moduleMapping;
+    private String applicationId;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         moduleMapping = new RequestModuleMapping("/myModule", "myModule", null);
+        applicationId = "applicationId";
     }
 
     public void testIdentityWrapper() {
         IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
-        assertSame(request, factory.getWrappedRequest(request, null, null));
+        assertSame(request, factory.getWrappedRequest(request, null, null, applicationId));
         
-        assertNull(factory.getWrappedRequest(null, null, null));
+        assertNull(factory.getWrappedRequest(null, null, null, applicationId));
     }
     
     public void testModuleWrapper() {
@@ -45,14 +47,14 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         
-        HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
+        HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(mappedRequest instanceof MappedWrapperHttpServletRequest);
         MappedWrapperHttpServletRequest mr = (MappedWrapperHttpServletRequest) mappedRequest;
         assertSame(request, mr.getRequest());
         assertTrue(ReflectionUtils.getFieldValue(mr, "httpSessionWrapper", HttpSessionWrapper.class) instanceof IdentityHttpSessionWrapper);
         
         factory.setEnableModuleSessionProtection(true);
-        final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping);
+        final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(wrappedRequest instanceof MappedWrapperHttpServletRequest);
         assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof ModuleAwareHttpSessionWrapper);
     }
