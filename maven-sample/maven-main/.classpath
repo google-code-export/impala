@@ -16,9 +16,11 @@
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.1/junit-3.8.1.jar" sourcepath="M2_REPO/junit/junit/3.8.1/junit-3.8.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar" sourcepath="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/2.5.5/spring-aop-2.5.5.jar" sourcepath="M2_REPO/org/springframework/spring-aop/2.5.5/spring-aop-2.5.5-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/2.5.5/spring-beans-2.5.5.jar" sourcepath="M2_REPO/org/springframework/spring-beans/2.5.5/spring-beans-2.5.5-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/2.5.5/spring-context-2.5.5.jar" sourcepath="M2_REPO/org/springframework/spring-context/2.5.5/spring-context-2.5.5-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context-support/2.5.5/spring-context-support-2.5.5.jar" sourcepath="M2_REPO/org/springframework/spring-context-support/2.5.5/spring-context-support-2.5.5-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/2.5.5/spring-core-2.5.5.jar" sourcepath="M2_REPO/org/springframework/spring-core/2.5.5/spring-core-2.5.5-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/3.0.0.RC3/spring-aop-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-aop/3.0.0.RC3/spring-aop-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-asm/3.0.0.RC3/spring-asm-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-asm/3.0.0.RC3/spring-asm-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/3.0.0.RC3/spring-beans-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-beans/3.0.0.RC3/spring-beans-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context/3.0.0.RC3/spring-context-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-context/3.0.0.RC3/spring-context-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-context-support/3.0.0.RC3/spring-context-support-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-context-support/3.0.0.RC3/spring-context-support-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-core/3.0.0.RC3/spring-core-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-core/3.0.0.RC3/spring-core-3.0.0.RC3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/springframework/spring-expression/3.0.0.RC3/spring-expression-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-expression/3.0.0.RC3/spring-expression-3.0.0.RC3-sources.jar"/>
 </classpath>

@@ -29,6 +29,6 @@ The Maven parent project is contained in the project <strong>maven-build</strong
 <p>The Maven example runs in Eclipse without having to run a Maven build. The Eclipse support is added using the 
 normal <code>mvn eclipse:eclipse</code> command.</p>
 
-<p><a href = "message.htm">Click here</a> to go into the application.</p>
+<p><a href = "maven/message.htm">Click here</a> to go into the application.</p>
 </body>
 </html>
