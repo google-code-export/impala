@@ -60,8 +60,8 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
             ModuleManagementFacade moduleManagementFacade = WebServletUtils.getModuleManagementFacade(servletContext);
             if (moduleManagementFacade != null) {
                 
-                Application currentApplication = moduleManagementFacade.getApplicationManager().getCurrentApplication();
-                RuntimeModule currentModuleContext = currentApplication.getModuleStateHolder().getModule(moduleName);
+                Application application = moduleManagementFacade.getApplicationManager().getApplication(applicationId);
+                RuntimeModule currentModuleContext = application.getModuleStateHolder().getModule(moduleName);
                 
                 if (currentModuleContext != null) {
                     return new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, currentModuleContext.getClassLoader());
