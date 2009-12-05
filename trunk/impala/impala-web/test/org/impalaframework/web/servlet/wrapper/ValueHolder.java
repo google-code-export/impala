@@ -19,7 +19,7 @@ public class ValueHolder {
     
     int count;
 
-    protected int getCount() {
+    public int getCount() {
         return count;
     }
 
