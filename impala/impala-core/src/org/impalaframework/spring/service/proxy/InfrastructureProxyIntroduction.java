@@ -55,14 +55,12 @@ public class InfrastructureProxyIntroduction extends DelegatingIntroductionInter
 
     @Override
     public int hashCode() {
-        ServiceRegistryEntry entry =    
-            initServiceRegistryEntry();
+        ServiceRegistryEntry entry = initServiceRegistryEntry();
         final int prime = 31;
         int result = 1;
         result = prime
                 * result
-                + ((entry == null) ? 0
-                        : entry.hashCode());
+                + ((entry == null) ? 0 : entry.hashCode());
         return result;
     }
 
@@ -82,8 +80,7 @@ public class InfrastructureProxyIntroduction extends DelegatingIntroductionInter
             if (otherEntry != null)
                 return false;
         }
-        else if (!entry
-                .equals(otherEntry))
+        else if (!entry.equals(otherEntry))
             return false;
         return true;
     }

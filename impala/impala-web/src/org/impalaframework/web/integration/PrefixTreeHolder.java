@@ -40,7 +40,6 @@ public class PrefixTreeHolder {
     /**
      * Used to add prefix key to module name mapping. This will be called zero to n times 
      * for each module which is interested in receiving URLs
-     * @param servletPath TODO
      */
     public void add(String moduleName, String key, String servletPath) {
         //FIXME add concurrency control
