@@ -18,8 +18,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.impalaframework.config.FloatPropertyValue;
+import org.impalaframework.web.servlet.wrapper.ValueHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
@@ -34,8 +36,26 @@ public class TestController1 extends MultiActionController {
         map.put("staticparam", ""+magicNumber.getValue());
         map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
+        setSessionValue(request, map, "shared:intvalue", "shared_intvalue");
+        setSessionValue(request, map, "intvalue", "intvalue");
+
         ModelAndView mav = new ModelAndView("test", map);
         return mav;
+    }
+
+    private void setSessionValue(HttpServletRequest request,
+            HashMap<String, String> map, 
+            final String sessionAttributeName,
+            final String moduleAttributeName) {
+        
+        HttpSession session = request.getSession();
+        ValueHolder valueHolder = (ValueHolder) session.getAttribute(sessionAttributeName);
+        if (valueHolder == null) {
+            valueHolder = new ValueHolder();
+            session.setAttribute(sessionAttributeName, valueHolder);
+        }
+        valueHolder.increment();
+        map.put(moduleAttributeName, ""+valueHolder.getCount());
     }
 
     public void setEntryService(EntryService entryService) {
