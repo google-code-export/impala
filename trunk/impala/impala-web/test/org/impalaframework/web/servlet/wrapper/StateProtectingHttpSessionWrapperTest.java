@@ -31,6 +31,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     private SpringRuntimeModule springRuntimeModule;
     private ApplicationManager applicationManager;
     private WebAttributeQualifier webAttributeQualifier;
+    private String applicationId;
 
     @Override
     protected void setUp() throws Exception {
@@ -42,6 +43,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
         webAttributeQualifier = createMock(WebAttributeQualifier.class);
+        applicationId = "applicationId";
         
         wrapper = new ModuleAwareHttpSessionWrapper();
         wrapper.setServletContext(servletContext);
@@ -61,7 +63,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         
         replayMocks();
 
-        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
         assertTrue(wrappedSession instanceof StateProtectingWrapperHttpSession);
         StateProtectingWrapperHttpSession moduleAwareSession = (StateProtectingWrapperHttpSession) wrappedSession;
         assertNotNull(moduleAwareSession.getModuleClassLoader());
@@ -77,7 +79,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         
         replayMocks();
 
-        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
         assertSame(session, wrappedSession);
 
         verifyMocks();
@@ -87,7 +89,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
 
         replayMocks();
 
-        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
         assertSame(session, wrappedSession);
 
         verifyMocks();
@@ -99,7 +101,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         
         replayMocks();
 
-        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule");
+        HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
         assertNotSame(session, wrappedSession);
         assertTrue(wrappedSession instanceof ModuleAwareHttpSession);
 

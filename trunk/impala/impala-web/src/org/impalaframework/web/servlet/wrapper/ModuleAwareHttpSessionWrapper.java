@@ -43,11 +43,7 @@ public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {
     
     private static IdentityWebAttributeQualifier identityQualifier = new IdentityWebAttributeQualifier();
     
-    public HttpSession wrapSession(HttpSession session, String moduleName) {
-        
-        //FIXME pass this in!!!!!!!!
-        
-        String applicationId = "";
+    public HttpSession wrapSession(HttpSession session, String moduleName, String applicationId) {
         
         if (session == null) {
             return null;

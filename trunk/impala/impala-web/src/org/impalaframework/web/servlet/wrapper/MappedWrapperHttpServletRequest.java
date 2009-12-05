@@ -31,12 +31,15 @@ public class MappedWrapperHttpServletRequest extends
     private String pathInfo;
 
     private String moduleName;
+    
+    private String applicationId;
 
     public MappedWrapperHttpServletRequest(
             ServletContext servletContext, 
             HttpServletRequest request, 
             HttpSessionWrapper httpSessionWrapper, 
-            RequestModuleMapping moduleMapping, String applicationId) {
+            RequestModuleMapping moduleMapping, 
+            String applicationId) {
         
         super(request);
 
@@ -45,6 +48,7 @@ public class MappedWrapperHttpServletRequest extends
         
         this.servletContext = servletContext;
         this.httpSessionWrapper = httpSessionWrapper;
+        this.applicationId = applicationId;
         
         if (moduleMapping != null) {
             
@@ -119,6 +123,6 @@ public class MappedWrapperHttpServletRequest extends
     /* ****************** Helper methods ****************** */
 
     HttpSession wrapSession(HttpSession session) {
-        return httpSessionWrapper.wrapSession(session, moduleName);
+        return httpSessionWrapper.wrapSession(session, moduleName, applicationId);
     }  
 }
