@@ -24,8 +24,6 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
  */
 public class IdentityWebAttributeQualifier implements WebAttributeQualifier {
 
-    //FIXME test
-    
     public Enumeration<String> filterAttributeNames(
             Enumeration<String> attributeNames, 
             String applicationId,
