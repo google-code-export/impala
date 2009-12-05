@@ -3,7 +3,7 @@
 <head>
 </head>
 <body>
-<h1>Module Servlet</h1>
+<h1>example-web</h1>
 <p>
 This example comes from servlet, which is mapped to the module 'example-web' via 
 an entry in web.xml. It is mapped using the pattern '*.do'.
