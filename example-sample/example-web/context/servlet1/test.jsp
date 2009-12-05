@@ -12,6 +12,8 @@ to an instance of <strong>org.impalaframework.web.spring.servlet.ExternalModuleS
 
 example-web/servlet1/test.jsp<br/>
 <b>The value for staticparam: <c:out value="${staticparam}"/></b><br/>
-<b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b>
+<b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b><br/>
+<b>The value for shared_intvalue: <c:out value="${shared_intvalue}"/></b><br/>
+<b>The value for intvalue: <c:out value="${intvalue}"/></b><br/>
 </body>
 </html>

@@ -20,7 +20,12 @@ Note that while <CODE>DispatcherServlet</CODE> is not Impala-aware, any servlet 
 
 example-web/servlet2/test.jsp<br/>
 <b>The value for staticparam: <c:out value="${staticparam}"/></b><br/>
-<b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b>
+<b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b><br/>
+
+<p>Session value sharing: non-prefixed session attributes are only visible to this module.</p>
+
+<b>The value for shared_intvalue: <c:out value="${shared_intvalue}"/></b><br/>
+<b>The value for intvalue: <c:out value="${intvalue}"/></b><br/>
 
 </body>
 </html>
