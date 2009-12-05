@@ -14,12 +14,44 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
+
+import org.impalaframework.service.ServiceRegistryEntry;
+import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 
 public class InfrastructureProxyIntroductionTest extends TestCase {
 
-    public void testGetWrappedObject() {
-        fail("Not implemented");
+    private ServiceEndpointTargetSource targetSource;
+    private InfrastructureProxyIntroduction infrastructureProxyIntroduction;
+    private ServiceRegistryEntry serviceRegistryEntry;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        targetSource = createMock(ServiceEndpointTargetSource.class);
+        serviceRegistryEntry = createMock(ServiceRegistryEntry.class);
+        infrastructureProxyIntroduction = new InfrastructureProxyIntroduction(targetSource);
+    }
+    
+    public void testGetInterfaces() throws Exception {
+        infrastructureProxyIntroduction.getInterfaces();
+    }
+    
+    public void testGetWrappedObject() throws Exception {
+        Object target = new Object();
+        // expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryEntry);
+        expect(targetSource.getTarget()).andReturn(target);
+        
+        replay(targetSource, serviceRegistryEntry);
+        
+        final Object wrappedObject = infrastructureProxyIntroduction.getWrappedObject();
+        assertSame(target, wrappedObject);
+
+        verify(targetSource, serviceRegistryEntry);
     }
 
 }
