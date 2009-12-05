@@ -27,8 +27,6 @@ import org.springframework.core.InfrastructureProxy;
  * @author Phil Zoio
  */
 public class InfrastructureProxyIntroduction extends DelegatingIntroductionInterceptor implements InfrastructureProxy {
-
-    //FIXME add test
     
     private static final long serialVersionUID = 1L;
 
