@@ -42,7 +42,6 @@ public class InfrastructureProxyIntroduction extends DelegatingIntroductionInter
     }
 
     public Object getWrappedObject() {        
-        initServiceRegistryEntry();
         try {
             return this.targetSource.getTarget();
         }
