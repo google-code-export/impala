@@ -85,9 +85,7 @@ public abstract class BaseModuleProxyFilter implements Filter {
             throws ServletException, IOException {
 
         RequestModuleMapping moduleMapping = getModuleMapping(request);
-        
-        //FIXME get from somewhere
-        String applicationId = "";
+        String applicationId = getApplicationId(request, context);
         
         if (moduleMapping != null) {
             processMapping(context, request, response, chain, moduleMapping, applicationId);
@@ -117,6 +115,17 @@ public abstract class BaseModuleProxyFilter implements Filter {
 
     protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
         return ModuleIntegrationUtils.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
+    }
+    
+    /**
+     * Subclasses can support this by wiring in a mechanism for retrieving an application identifier 
+     * based on information in the {@link HttpServletRequest} and {@link ServletContext}.
+     * 
+     * This implementation simply returns an empty String
+     * @see org.impalaframework.module.spi.Application
+     */
+    protected String getApplicationId(HttpServletRequest request, ServletContext servletContext) {
+        return "";
     }
     
     /* **************** package level getters ******************* */

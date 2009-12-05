@@ -75,9 +75,7 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
             throws ServletException, IOException {
         
         RequestModuleMapping moduleMapping = getModuleMapping(request);
-
-        //FIXME get from somewhere
-        String applicationId = "";
+        String applicationId = getApplicationId(request, context);
         
         if (moduleMapping != null) {
             
@@ -97,6 +95,19 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
 
     RequestModuleMapping getModuleMapping(HttpServletRequest request) {
         return requestModuleMapper.getModuleForRequest(request);
+    }
+    
+    /* **************** protected methods ******************* */
+
+    /**
+     * Subclasses can support this by wiring in a mechanism for retrieving an application identifier 
+     * based on information in the {@link HttpServletRequest} and {@link ServletContext}.
+     * 
+     * This implementation simply returns an empty String
+     * @see org.impalaframework.module.spi.Application
+     */
+    protected String getApplicationId(HttpServletRequest request, ServletContext servletContext) {
+        return "";
     }
 
     protected HttpServletRequest wrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
