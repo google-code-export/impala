@@ -28,7 +28,7 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.integration.ModuleIntegrationUtils;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapper;
 
 public class ModuleIntegrationUtilsTest extends TestCase {
     
@@ -52,7 +52,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
     public void testGetRequestWrapper() throws Exception {
         
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(facade);
-        expect(facade.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME)).andReturn(new IdentityHttpRequestWrapperFactory());
+        expect(facade.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME)).andReturn(new IdentityHttpRequestWrapper());
         
         replayMocks(servletContext, request, facade);
         

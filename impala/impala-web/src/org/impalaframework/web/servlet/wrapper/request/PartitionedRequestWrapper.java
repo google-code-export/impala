@@ -18,21 +18,22 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
- * Implementation of {@link HttpRequestWrapperFactory} which returns instance of
+ * Implementation of {@link HttpRequestWrapper} which returns instance of
  * {@link PartitionedHttpSessionWrapper} if
  * {@link #enableModuleSessionProtection} or
  * {@link #enablePartitionedServletContext} is set. If not, then simply returns
  * {@link IdentityHttpSessionWrapper}.
  * 
  * @see ModuleAwareWrapperHttpServletRequest
- * @see HttpRequestWrapperFactory
+ * @see HttpRequestWrapper
  * @author Phil Zoio
  */
-public class PartitionedRequestWrapperFactory implements HttpRequestWrapperFactory {
+public class PartitionedRequestWrapper implements HttpRequestWrapper {
     
     private boolean enableModuleSessionProtection;
     

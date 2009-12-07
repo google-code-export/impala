@@ -22,7 +22,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>
      
- <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapperFactory">
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapper">
      <property name = "enableModuleSessionProtection" ref = "enableModuleSessionProtection"/>     
      <property name = "enablePartitionedServletContext" ref = "enablePartitionedServletContext"/>
      <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
