@@ -59,7 +59,7 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
             sessionWrapper = httpSessionWrapper;
         }
         
-        return new MappedWrapperHttpServletRequest(servletContext, request, sessionWrapper, moduleMapping, applicationId);
+        return new MappedHttpServletRequest(servletContext, request, sessionWrapper, moduleMapping, applicationId);
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {

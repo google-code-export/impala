@@ -20,7 +20,7 @@ import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSession;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.session.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class StateProtectingHttpSessionWrapperTest extends TestCase {
@@ -67,8 +67,8 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         replayMocks();
 
         HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
-        assertTrue(wrappedSession instanceof StateProtectingWrapperHttpSession);
-        StateProtectingWrapperHttpSession moduleAwareSession = (StateProtectingWrapperHttpSession) wrappedSession;
+        assertTrue(wrappedSession instanceof StateProtectingHttpSession);
+        StateProtectingHttpSession moduleAwareSession = (StateProtectingHttpSession) wrappedSession;
         assertNotNull(moduleAwareSession.getModuleClassLoader());
         assertSame(session, moduleAwareSession.getRealSession());
 

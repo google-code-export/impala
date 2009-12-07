@@ -27,11 +27,11 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DelegatingWrapperHttpSession implements HttpSession {
+public class DelegatingHttpSession implements HttpSession {
 
     private HttpSession realSession;
 
-    public DelegatingWrapperHttpSession(HttpSession realSession) {
+    public DelegatingHttpSession(HttpSession realSession) {
         super();
         Assert.notNull(realSession);
         this.realSession = realSession;

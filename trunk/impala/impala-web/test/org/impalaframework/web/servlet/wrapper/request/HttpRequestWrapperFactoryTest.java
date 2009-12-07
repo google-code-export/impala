@@ -24,7 +24,7 @@ import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapper;
-import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
+import org.impalaframework.web.servlet.wrapper.request.MappedHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.session.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
@@ -55,14 +55,14 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         
         HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
-        assertTrue(mappedRequest instanceof MappedWrapperHttpServletRequest);
-        MappedWrapperHttpServletRequest mr = (MappedWrapperHttpServletRequest) mappedRequest;
+        assertTrue(mappedRequest instanceof MappedHttpServletRequest);
+        MappedHttpServletRequest mr = (MappedHttpServletRequest) mappedRequest;
         assertSame(request, mr.getRequest());
         assertTrue(ReflectionUtils.getFieldValue(mr, "httpSessionWrapper", HttpSessionWrapper.class) instanceof IdentityHttpSessionWrapper);
         
         factory.setEnableModuleSessionProtection(true);
         final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
-        assertTrue(wrappedRequest instanceof MappedWrapperHttpServletRequest);
+        assertTrue(wrappedRequest instanceof MappedHttpServletRequest);
         assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof PartitionedHttpSessionWrapper);
     }
 
