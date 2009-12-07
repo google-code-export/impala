@@ -19,8 +19,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class MappedWrapperHttpServletRequest extends
-        HttpServletRequestWrapper {
+public class MappedWrapperHttpServletRequest extends HttpServletRequestWrapper {
     
     private static final Log logger = LogFactory.getLog(MappedWrapperHttpServletRequest.class);
     

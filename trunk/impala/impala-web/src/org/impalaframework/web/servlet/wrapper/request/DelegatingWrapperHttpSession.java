@@ -22,7 +22,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.util.Assert;
 
 /**
- * No-op implementation of <code>HttpSession</code> whose sole job is to pass
+ * No-op implementation of {@link HttpSession} whose sole job is to pass
  * on method calls to a delegate.
  * @author Phil Zoio
  */

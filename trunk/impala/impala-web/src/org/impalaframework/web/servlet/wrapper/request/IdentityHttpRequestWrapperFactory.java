@@ -20,7 +20,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 
-
 /**
  * Implementation of {@link HttpRequestWrapperFactory} which simply returns the passed {@link HttpServletRequest}
  * 

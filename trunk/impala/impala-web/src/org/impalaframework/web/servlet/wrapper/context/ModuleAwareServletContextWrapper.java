@@ -22,8 +22,10 @@ import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of <code>ServletContextWrapper</code> which returns a
- * <code>ModuleAwareWrapperServletContext</code> instance.
+ * Implementation of {@link ServletContextWrapper} which returns a
+ * {@link PartitionedWrapperServletContext} instance if
+ * {@link #enablePartitionedServletContext} is set to true. If not, simply
+ * returns the passed in {@link ServletContext} instance.
  * 
  * @see org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext
  * @author Phil Zoio

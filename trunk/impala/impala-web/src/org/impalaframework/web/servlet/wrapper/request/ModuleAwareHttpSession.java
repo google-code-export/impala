@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 /**
  * Implementation of {@link HttpSession} which attempts to protect session attribute values 
  * across module reloads through special implementation of {@link #getAttribute(String)}
+ * 
  * @author Phil Zoio
  */
 public class ModuleAwareHttpSession extends DelegatingWrapperHttpSession {
