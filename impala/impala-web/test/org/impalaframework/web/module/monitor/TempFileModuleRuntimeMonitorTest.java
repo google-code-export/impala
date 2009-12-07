@@ -38,7 +38,7 @@ public class TempFileModuleRuntimeMonitorTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         runtimeMonitor = new TempFileModuleRuntimeMonitor();
-        resource = new FileSystemResource("../impala-repository/main/commons-io-1.3.jar");
+        resource = new FileSystemResource("../impala-repository/main/commons-io-1.4.jar");
         tempResource = runtimeMonitor.getTempFileResource(resource);
         definition = new SimpleModuleDefinition("mymod");
 
@@ -56,11 +56,11 @@ public class TempFileModuleRuntimeMonitorTest extends TestCase {
     public void testCreateTempResource() throws Exception {
         assertTrue(resource.exists());
         
-        final Resource relative = resource.createRelative("commons-io-1.3-sources.jar");
+        final Resource relative = resource.createRelative("commons-io-1.4-sources.jar");
         assertTrue(relative.exists());
         
         String path = StringUtils.cleanPath(tempResource.getFile().getPath());
-        assertTrue(path.endsWith("main/commons-io-1.3.tmp"));
+        assertTrue(path.endsWith("main/commons-io-1.4.tmp"));
     }
     
     public void testGetMonitorableLocations() throws Exception {
