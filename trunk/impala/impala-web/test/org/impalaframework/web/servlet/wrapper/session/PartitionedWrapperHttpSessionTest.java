@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper.request;
+package org.impalaframework.web.servlet.wrapper.session;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -41,7 +41,7 @@ import org.impalaframework.web.servlet.qualifier.IdentityWebAttributeQualifier;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.SerializableValueHolder;
 import org.impalaframework.web.servlet.wrapper.ValueHolder;
-import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedWrapperHttpSessionTest extends TestCase {

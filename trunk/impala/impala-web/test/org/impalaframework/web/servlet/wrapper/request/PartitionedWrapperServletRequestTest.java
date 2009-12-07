@@ -30,11 +30,12 @@ import org.impalaframework.module.spi.ApplicationManager;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
+import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedWrapperServletRequestTest extends TestCase {
@@ -79,8 +80,12 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
         HttpSession wrappedSession = wrapperRequest.wrapSession(session);
         assertTrue(wrappedSession instanceof StateProtectingWrapperHttpSession);
         StateProtectingWrapperHttpSession moduleAwareSession = (StateProtectingWrapperHttpSession) wrappedSession;
-        assertNotNull(moduleAwareSession.getModuleClassLoader());
-        assertSame(session, moduleAwareSession.getRealSession());
+        
+        final ClassLoader classLoader = ReflectionUtils.getFieldValue(moduleAwareSession, "moduleClassLoader", ClassLoader.class);
+        assertNotNull(classLoader);
+        
+        final HttpSession storedSession = ReflectionUtils.getFieldValue(moduleAwareSession, "realSession", HttpSession.class);
+        assertSame(session, storedSession);
 
         verifyMocks();
     }

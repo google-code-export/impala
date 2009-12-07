@@ -26,7 +26,7 @@ import javax.servlet.http.HttpSession;
 
 import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSession;
 
 import junit.framework.TestCase;
 
