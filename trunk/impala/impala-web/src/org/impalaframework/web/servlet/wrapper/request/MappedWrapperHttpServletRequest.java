@@ -1,4 +1,4 @@
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -7,6 +7,8 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.springframework.util.Assert;
 
 /**

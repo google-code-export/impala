@@ -12,10 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 
 

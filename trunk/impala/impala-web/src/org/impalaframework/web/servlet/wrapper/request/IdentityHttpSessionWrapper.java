@@ -12,9 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import javax.servlet.http.HttpSession;
+
+import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 
 /**
  * No-op implementation of {@link HttpSessionWrapper}

@@ -17,12 +17,12 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.SESSION_MODULE_PROTECTION_DEFAULT]"/>
  </bean>
  
- <bean id="servletContextWrapper" class="org.impalaframework.web.servlet.wrapper.ModuleAwareServletContextWrapper">
+ <bean id="servletContextWrapper" class="org.impalaframework.web.servlet.wrapper.context.ModuleAwareServletContextWrapper">
      <property name = "enablePartitionedServletContext" ref = "enablePartitionedServletContext"/>
      <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>
      
- <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.ModuleAwareRequestWrapperFactory">
+ <bean id="requestWrapperFactory" class="org.impalaframework.web.servlet.wrapper.request.ModuleAwareRequestWrapperFactory">
      <property name = "enableModuleSessionProtection" ref = "enableModuleSessionProtection"/>     
      <property name = "enablePartitionedServletContext" ref = "enablePartitionedServletContext"/>
      <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>

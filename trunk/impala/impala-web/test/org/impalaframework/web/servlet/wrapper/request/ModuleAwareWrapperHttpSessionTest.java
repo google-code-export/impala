@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.eq;
@@ -38,7 +38,10 @@ import org.impalaframework.util.serialize.SerializationHelper;
 import org.impalaframework.web.bootstrap.WebBootstrapProperties;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.IdentityWebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.SerializableValueHolder;
+import org.impalaframework.web.servlet.wrapper.ValueHolder;
+import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class ModuleAwareWrapperHttpSessionTest extends TestCase {
