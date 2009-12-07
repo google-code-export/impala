@@ -20,8 +20,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
+import org.impalaframework.web.servlet.wrapper.session.IdentityHttpSessionWrapper;
 
 
 import junit.framework.TestCase;

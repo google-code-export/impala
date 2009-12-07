@@ -21,6 +21,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.servlet.wrapper.session.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
 
 /**
