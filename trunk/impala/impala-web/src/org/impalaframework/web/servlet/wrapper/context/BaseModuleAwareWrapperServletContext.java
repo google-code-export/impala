@@ -1,4 +1,5 @@
 /*
+
  * Copyright 2007-2008 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
@@ -40,8 +41,6 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     private final ClassLoader moduleClassLoader;
     private final String applicationId;
     private final String moduleName;
-
-    protected String SHARED_PREFIX = "shared:";
 
     public BaseModuleAwareWrapperServletContext(ServletContext realContext, String applicationId, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
         super(realContext);
