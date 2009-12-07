@@ -18,8 +18,8 @@ import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareHttpSession;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSession;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
@@ -28,7 +28,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
     private HttpServletRequest request;
     private HttpSession session;
     private ServletContext servletContext;
-    private ModuleAwareHttpSessionWrapper wrapper;
+    private PartitionedHttpSessionWrapper wrapper;
     private ModuleManagementFacade moduleManagementFacade;
     private ModuleStateHolder moduleStateHolder;
     private SpringRuntimeModule springRuntimeModule;
@@ -48,7 +48,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
         webAttributeQualifier = createMock(WebAttributeQualifier.class);
         applicationId = "applicationId";
         
-        wrapper = new ModuleAwareHttpSessionWrapper();
+        wrapper = new PartitionedHttpSessionWrapper();
         wrapper.setServletContext(servletContext);
         wrapper.setWebAttributeQualifier(webAttributeQualifier);
         
@@ -106,7 +106,7 @@ public class StateProtectingHttpSessionWrapperTest extends TestCase {
 
         HttpSession wrappedSession = wrapper.wrapSession(session, "mymodule", applicationId);
         assertNotSame(session, wrappedSession);
-        assertTrue(wrappedSession instanceof ModuleAwareHttpSession);
+        assertTrue(wrappedSession instanceof PartitionedHttpSession);
 
         verifyMocks();
     }

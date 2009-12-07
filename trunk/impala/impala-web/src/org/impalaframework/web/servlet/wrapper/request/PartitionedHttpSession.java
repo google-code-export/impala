@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ModuleAwareHttpSession extends DelegatingWrapperHttpSession {
+public class PartitionedHttpSession extends DelegatingWrapperHttpSession {
     
     private final WebAttributeQualifier webAttributeQualifier;
     
@@ -35,7 +35,7 @@ public class ModuleAwareHttpSession extends DelegatingWrapperHttpSession {
     
     private final String moduleName;
     
-	public ModuleAwareHttpSession(HttpSession realSession,
+	public PartitionedHttpSession(HttpSession realSession,
             WebAttributeQualifier webAttributeQualifier, 
             String applicationId,
             String moduleName) {

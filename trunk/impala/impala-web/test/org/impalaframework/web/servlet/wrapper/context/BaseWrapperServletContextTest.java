@@ -26,10 +26,10 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext;
+import org.impalaframework.web.servlet.wrapper.context.PartitionedServletContext;
 import org.springframework.util.ClassUtils;
 
-public class BaseModuleAwareWrapperServletContextTest extends TestCase {
+public class BaseWrapperServletContextTest extends TestCase {
 
     private ServletContext servletContext;
     private DefaultWebAttributeQualifier webAttributeQualifier;
@@ -42,7 +42,7 @@ public class BaseModuleAwareWrapperServletContextTest extends TestCase {
 
     public void testGetResourceOnClassPath() throws MalformedURLException {
         servletContext = createMock(ServletContext.class);
-        PartitionedWrapperServletContext wrapperContext = new PartitionedWrapperServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
+        PartitionedServletContext wrapperContext = new PartitionedServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
         
         replay(servletContext);
         
@@ -56,7 +56,7 @@ public class BaseModuleAwareWrapperServletContextTest extends TestCase {
 
     public void testGetResourceNotClassPath() throws MalformedURLException {
         servletContext = createMock(ServletContext.class);
-        PartitionedWrapperServletContext wrapperContext = new PartitionedWrapperServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
+        PartitionedServletContext wrapperContext = new PartitionedServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
         
         expect(servletContext.getResource("nopresent.xml")).andReturn(null);
         expect(servletContext.getResource("/nopresent.xml")).andReturn(null);
@@ -72,7 +72,7 @@ public class BaseModuleAwareWrapperServletContextTest extends TestCase {
     
     public void testGetResourceAsStreamOnClassPath() throws MalformedURLException {
         servletContext = createMock(ServletContext.class);
-        PartitionedWrapperServletContext wrapperContext = new PartitionedWrapperServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
+        PartitionedServletContext wrapperContext = new PartitionedServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
         
         replay(servletContext);
         
@@ -85,7 +85,7 @@ public class BaseModuleAwareWrapperServletContextTest extends TestCase {
 
     public void testGetResourceAsStreamNotClassPath() throws MalformedURLException {
         servletContext = createMock(ServletContext.class);
-        PartitionedWrapperServletContext wrapperContext = new PartitionedWrapperServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
+        PartitionedServletContext wrapperContext = new PartitionedServletContext(servletContext, "", "mymodule", webAttributeQualifier, ClassUtils.getDefaultClassLoader());
         
         expect(servletContext.getResource("nopresent.xml")).andReturn(null);
         expect(servletContext.getResource("/nopresent.xml")).andReturn(null);

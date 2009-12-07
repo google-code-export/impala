@@ -40,7 +40,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class StateProtectingWrapperHttpSession extends ModuleAwareHttpSession {
+public class StateProtectingWrapperHttpSession extends PartitionedHttpSession {
     
     private static final Log logger = LogFactory.getLog(StateProtectingWrapperHttpSession.class);
 

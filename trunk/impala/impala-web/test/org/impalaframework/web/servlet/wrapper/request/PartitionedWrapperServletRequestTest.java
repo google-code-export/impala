@@ -33,11 +33,11 @@ import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
-public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
+public class PartitionedWrapperServletRequestTest extends TestCase {
 
     private HttpServletRequest request;
     private HttpSession session;
@@ -59,7 +59,7 @@ public class ModuleAwareWrapperHttpServletRequestTest extends TestCase {
         moduleStateHolder = createMock(ModuleStateHolder.class);
         springRuntimeModule = createMock(SpringRuntimeModule.class);
         applicationId = "applicationId";
-        final ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
+        final PartitionedHttpSessionWrapper httpSessionWrapper = new PartitionedHttpSessionWrapper();
         httpSessionWrapper.setServletContext(servletContext);
         httpSessionWrapper.setEnableModuleSessionProtection(true);
         wrapperRequest = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null), applicationId );

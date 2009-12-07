@@ -34,7 +34,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
  * 
  * @author Phil Zoio
  */
-public abstract class BaseModuleAwareWrapperServletContext extends
+public abstract class BaseWrapperServletContext extends
         DelegatingWrapperServletContext {
 
     private final WebAttributeQualifier webAttributeQualifier;
@@ -42,7 +42,7 @@ public abstract class BaseModuleAwareWrapperServletContext extends
     private final String applicationId;
     private final String moduleName;
 
-    public BaseModuleAwareWrapperServletContext(ServletContext realContext, String applicationId, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
+    public BaseWrapperServletContext(ServletContext realContext, String applicationId, String moduleName, WebAttributeQualifier webAttributeQualifier, ClassLoader moduleClassLoader) {
         super(realContext);
         if (moduleClassLoader instanceof BaseURLClassLoader) {
             //use NonDelegatingResourceClassLoader in order that it only looks in locations of the moduleClassLoader, but not it's parents
