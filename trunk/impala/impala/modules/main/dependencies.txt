@@ -1,4 +1,6 @@
-main from commons-logging:commons-logging:@commons.logging.version@
+main from org.slf4j:slf4j-api:@slf4j.version@
+main from org.slf4j:slf4j-log4j12:@slf4j.version@
+main from org.slf4j:jcl-over-slf4j:@slf4j.version@
 main from log4j:log4j:@log4j.version@
 main from org.springframework:spring:@spring.version@
 main from cglib:cglib-nodep:@cglib.version@
