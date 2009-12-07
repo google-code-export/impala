@@ -24,6 +24,7 @@ import org.springframework.util.Assert;
 /**
  * No-op implementation of {@link HttpSession} whose sole job is to pass
  * on method calls to a delegate.
+ * 
  * @author Phil Zoio
  */
 public class DelegatingWrapperHttpSession implements HttpSession {

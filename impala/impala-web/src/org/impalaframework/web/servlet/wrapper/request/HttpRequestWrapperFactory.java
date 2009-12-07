@@ -22,6 +22,7 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
  * Factory interface for returning {@link HttpServletRequest} wrappers.
+ * 
  * @author Phil Zoio
  */
 public interface HttpRequestWrapperFactory {
