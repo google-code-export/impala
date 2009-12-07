@@ -33,9 +33,9 @@ import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
+import org.impalaframework.web.servlet.wrapper.request.MappedHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.session.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedWrapperServletRequestTest extends TestCase {
@@ -43,7 +43,7 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
     private HttpServletRequest request;
     private HttpSession session;
     private ServletContext servletContext;
-    private MappedWrapperHttpServletRequest wrapperRequest;
+    private MappedHttpServletRequest wrapperRequest;
     private ModuleManagementFacade moduleManagementFacade;
     private ModuleStateHolder moduleStateHolder;
     private SpringRuntimeModule springRuntimeModule;
@@ -63,7 +63,7 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
         final PartitionedHttpSessionWrapper httpSessionWrapper = new PartitionedHttpSessionWrapper();
         httpSessionWrapper.setServletContext(servletContext);
         httpSessionWrapper.setEnableModuleSessionProtection(true);
-        wrapperRequest = new MappedWrapperHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null), applicationId );
+        wrapperRequest = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null), applicationId );
         
         applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }
@@ -78,8 +78,8 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
         replayMocks();
 
         HttpSession wrappedSession = wrapperRequest.wrapSession(session);
-        assertTrue(wrappedSession instanceof StateProtectingWrapperHttpSession);
-        StateProtectingWrapperHttpSession moduleAwareSession = (StateProtectingWrapperHttpSession) wrappedSession;
+        assertTrue(wrappedSession instanceof StateProtectingHttpSession);
+        StateProtectingHttpSession moduleAwareSession = (StateProtectingHttpSession) wrappedSession;
         
         final ClassLoader classLoader = ReflectionUtils.getFieldValue(moduleAwareSession, "moduleClassLoader", ClassLoader.class);
         assertNotNull(classLoader);

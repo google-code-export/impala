@@ -33,7 +33,7 @@ import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
  * {@link PartitionedHttpSession} is returned with attribute getters and setters
  * qualified as determined using the {@link WebAttributeQualifier} instance. If
  * {@link #enableModuleSessionProtection} is set, then state is protected over
- * module reloads using {@link StateProtectingWrapperHttpSession}.
+ * module reloads using {@link StateProtectingHttpSession}.
  * 
  * @author Phil Zoio
  */
@@ -72,7 +72,7 @@ public class PartitionedHttpSessionWrapper implements HttpSessionWrapper {
                 RuntimeModule currentModuleContext = application.getModuleStateHolder().getModule(moduleName);
                 
                 if (currentModuleContext != null) {
-                    return new StateProtectingWrapperHttpSession(session, webAttributeQualifier, applicationId, moduleName, currentModuleContext.getClassLoader());
+                    return new StateProtectingHttpSession(session, webAttributeQualifier, applicationId, moduleName, currentModuleContext.getClassLoader());
                 } else {
                     logger.warn("No module application context associated with module: " + moduleName + ". Using unwrapped session");
                     return session;

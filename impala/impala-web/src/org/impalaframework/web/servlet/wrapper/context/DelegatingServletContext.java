@@ -37,13 +37,13 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DelegatingWrapperServletContext implements ServletContext {
+public class DelegatingServletContext implements ServletContext {
 
-    private static final Log logger = LogFactory.getLog(DelegatingWrapperServletContext.class);
+    private static final Log logger = LogFactory.getLog(DelegatingServletContext.class);
     
     private ServletContext realContext;
 
-    public DelegatingWrapperServletContext(ServletContext realContext) {
+    public DelegatingServletContext(ServletContext realContext) {
         super();
         Assert.notNull(realContext);
         this.realContext = realContext;

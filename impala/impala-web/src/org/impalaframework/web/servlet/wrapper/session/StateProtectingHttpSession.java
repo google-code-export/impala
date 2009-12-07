@@ -40,13 +40,13 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class StateProtectingWrapperHttpSession extends PartitionedHttpSession {
+public class StateProtectingHttpSession extends PartitionedHttpSession {
     
-    private static final Log logger = LogFactory.getLog(StateProtectingWrapperHttpSession.class);
+    private static final Log logger = LogFactory.getLog(StateProtectingHttpSession.class);
 
     private final ClassLoader moduleClassLoader;
 
-    public StateProtectingWrapperHttpSession(
+    public StateProtectingHttpSession(
             HttpSession realSession,
             WebAttributeQualifier webAttributeQualifier, 
             String applicationId, 

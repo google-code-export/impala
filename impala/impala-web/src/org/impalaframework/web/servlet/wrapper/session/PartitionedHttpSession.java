@@ -27,7 +27,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class PartitionedHttpSession extends DelegatingWrapperHttpSession {
+public class PartitionedHttpSession extends DelegatingHttpSession {
     
     private final WebAttributeQualifier webAttributeQualifier;
     
