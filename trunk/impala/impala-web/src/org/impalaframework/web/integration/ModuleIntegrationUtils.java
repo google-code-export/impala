@@ -21,8 +21,8 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.HttpRequestWrapperFactory;
 
 public class ModuleIntegrationUtils {
 
@@ -36,7 +36,7 @@ public class ModuleIntegrationUtils {
         HttpServletRequest wrappedRequest = null;
         
         if (moduleManagementFactory != null) {
-            HttpRequestWrapperFactory factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapperFactory.class);
+            HttpRequestWrapper factory = ObjectUtils.cast(moduleManagementFactory.getBean(WebConstants.REQUEST_WRAPPER_FACTORY_BEAN_NAME), HttpRequestWrapper.class);
             if (factory != null) {
                 wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
             } else {

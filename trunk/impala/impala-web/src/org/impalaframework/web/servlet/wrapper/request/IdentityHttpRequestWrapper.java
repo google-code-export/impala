@@ -17,16 +17,17 @@ package org.impalaframework.web.servlet.wrapper.request;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 
 /**
- * Implementation of {@link HttpRequestWrapperFactory} which simply returns the passed {@link HttpServletRequest}
+ * Implementation of {@link HttpRequestWrapper} which simply returns the passed {@link HttpServletRequest}
  * 
  * @author Phil Zoio
  */
-public class IdentityHttpRequestWrapperFactory implements
-        HttpRequestWrapperFactory {
+public class IdentityHttpRequestWrapper implements
+        HttpRequestWrapper {
     
     /**
      * Simply returns <code>request</code> passed in.

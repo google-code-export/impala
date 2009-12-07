@@ -23,11 +23,11 @@ import org.easymock.EasyMock;
 import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapper;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
     
@@ -42,7 +42,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
     }
 
     public void testIdentityWrapper() {
-        IdentityHttpRequestWrapperFactory factory = new IdentityHttpRequestWrapperFactory();
+        IdentityHttpRequestWrapper factory = new IdentityHttpRequestWrapper();
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         assertSame(request, factory.getWrappedRequest(request, null, null, applicationId));
         
@@ -50,7 +50,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
     }
     
     public void testModuleWrapper() {
-        PartitionedRequestWrapperFactory factory = new PartitionedRequestWrapperFactory();
+        PartitionedRequestWrapper factory = new PartitionedRequestWrapper();
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         

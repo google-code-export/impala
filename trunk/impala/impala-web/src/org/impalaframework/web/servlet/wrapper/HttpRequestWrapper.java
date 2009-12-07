@@ -12,12 +12,11 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper.request;
+package org.impalaframework.web.servlet.wrapper;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 
 /**
@@ -25,6 +24,6 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  * 
  * @author Phil Zoio
  */
-public interface HttpRequestWrapperFactory {
+public interface HttpRequestWrapper {
     public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId);
 }
