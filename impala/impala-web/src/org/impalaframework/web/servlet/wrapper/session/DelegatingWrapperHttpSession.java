@@ -12,7 +12,7 @@ t * Copyright 2007-2008 the original author or authors.
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper.request;
+package org.impalaframework.web.servlet.wrapper.session;
 
 import java.util.Enumeration;
 

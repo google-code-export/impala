@@ -26,8 +26,8 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapper;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
     

@@ -48,8 +48,8 @@ import org.impalaframework.web.servlet.wrapper.request.HttpRequestWrapperFactory
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequestTest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedWrapperServletRequestTest;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedWrapperHttpSessionTest;
-import org.impalaframework.web.servlet.wrapper.request.StateProtectingHttpSessionWrapperTest;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedWrapperHttpSessionTest;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingHttpSessionWrapperTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
 import org.impalaframework.web.spring.config.ContextListenerBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.FilterBeanDefinitionParserTest;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper.request;
+package org.impalaframework.web.servlet.wrapper.session;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;

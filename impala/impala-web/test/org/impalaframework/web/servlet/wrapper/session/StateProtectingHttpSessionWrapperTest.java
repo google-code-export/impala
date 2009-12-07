@@ -1,4 +1,4 @@
-package org.impalaframework.web.servlet.wrapper.request;
+package org.impalaframework.web.servlet.wrapper.session;
 
 import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
@@ -18,9 +18,9 @@ import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSession;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSession;
+import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.session.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
 public class StateProtectingHttpSessionWrapperTest extends TestCase {
