@@ -22,7 +22,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
 /**
- * Extension of {@link BaseModuleAwareWrapperServletContext}. Basically used to
+ * Extension of {@link BaseWrapperServletContext}. Basically used to
  * partition the servlet context so that only writes to the
  * {@link ServletContext} attributes using module-based prefix, as determined by
  * the {@link WebAttributeQualifier} implementation.
@@ -32,10 +32,10 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class PartitionedWrapperServletContext extends
-        BaseModuleAwareWrapperServletContext {
+public class PartitionedServletContext extends
+        BaseWrapperServletContext {
 
-    public PartitionedWrapperServletContext(
+    public PartitionedServletContext(
             ServletContext realContext,
             String applicationId, 
             String moduleName, 

@@ -20,22 +20,22 @@ import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.context.ModuleAwareServletContextWrapper;
-import org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext;
+import org.impalaframework.web.servlet.wrapper.context.PartitionedServletContextWrapper;
+import org.impalaframework.web.servlet.wrapper.context.PartitionedServletContext;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
 
-public class ModuleAwareServletContextWrapperTest extends TestCase {
+public class BaseServletContextWrapperTest extends TestCase {
     
-    private ModuleAwareServletContextWrapper wrapper;
+    private PartitionedServletContextWrapper wrapper;
     private ServletContext servletContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         
-        wrapper = new ModuleAwareServletContextWrapper();
+        wrapper = new PartitionedServletContextWrapper();
         wrapper.setWebAttributeQualifier(new DefaultWebAttributeQualifier());
         servletContext = EasyMock.createMock(ServletContext.class);
     }
@@ -47,8 +47,8 @@ public class ModuleAwareServletContextWrapperTest extends TestCase {
     public void testPartitionedContext() {
         wrapper.setEnablePartitionedServletContext(true);
         final ServletContext wrappedContext = wrapper.wrapServletContext(servletContext, "id", new SimpleModuleDefinition("mymodule"), ClassUtils.getDefaultClassLoader());
-        assertTrue(wrappedContext instanceof PartitionedWrapperServletContext);
-        PartitionedWrapperServletContext wrapperContext = (PartitionedWrapperServletContext) wrappedContext;
+        assertTrue(wrappedContext instanceof PartitionedServletContext);
+        PartitionedServletContext wrapperContext = (PartitionedServletContext) wrappedContext;
         assertEquals("id", ReflectionUtils.invokeMethod(wrapperContext, "getApplicationId"));
     }
 

@@ -44,7 +44,7 @@ import org.impalaframework.web.servlet.wrapper.ValueHolder;
 import org.impalaframework.web.servlet.wrapper.request.StateProtectingWrapperHttpSession;
 import org.springframework.util.ClassUtils;
 
-public class ModuleAwareWrapperHttpSessionTest extends TestCase {
+public class PartitionedWrapperHttpSessionTest extends TestCase {
 
     private HttpSession session;
     private String applicationId;

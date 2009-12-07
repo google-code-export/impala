@@ -23,7 +23,7 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
  * Implementation of {@link HttpRequestWrapperFactory} which returns instance of
- * {@link ModuleAwareHttpSessionWrapper} if
+ * {@link PartitionedHttpSessionWrapper} if
  * {@link #enableModuleSessionProtection} or
  * {@link #enablePartitionedServletContext} is set. If not, then simply returns
  * {@link IdentityHttpSessionWrapper}.
@@ -32,7 +32,7 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  * @see HttpRequestWrapperFactory
  * @author Phil Zoio
  */
-public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFactory {
+public class PartitionedRequestWrapperFactory implements HttpRequestWrapperFactory {
     
     private boolean enableModuleSessionProtection;
     
@@ -44,7 +44,7 @@ public class ModuleAwareRequestWrapperFactory implements HttpRequestWrapperFacto
         
         final HttpSessionWrapper sessionWrapper;
         if (enableModuleSessionProtection || enablePartitionedServletContext) {
-            ModuleAwareHttpSessionWrapper httpSessionWrapper = new ModuleAwareHttpSessionWrapper();
+            PartitionedHttpSessionWrapper httpSessionWrapper = new PartitionedHttpSessionWrapper();
             httpSessionWrapper.setServletContext(servletContext);
             httpSessionWrapper.setWebAttributeQualifier(webAttributeQualifier);
             httpSessionWrapper.setEnableModuleSessionProtection(enableModuleSessionProtection);

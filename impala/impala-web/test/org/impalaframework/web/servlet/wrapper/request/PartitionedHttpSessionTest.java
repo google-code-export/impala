@@ -26,17 +26,17 @@ import javax.servlet.http.HttpSession;
 
 import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareHttpSession;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSession;
 
 import junit.framework.TestCase;
 
-public class ModuleAwareHttpSessionTest extends TestCase {
+public class PartitionedHttpSessionTest extends TestCase {
 
     private String moduleName;
     private WebAttributeQualifier webAttributeQualifier;
     private String applicationId;
     private HttpSession httpSession;
-    private ModuleAwareHttpSession session;
+    private PartitionedHttpSession session;
 
     @Override
     protected void setUp() throws Exception {
@@ -45,7 +45,7 @@ public class ModuleAwareHttpSessionTest extends TestCase {
         webAttributeQualifier = createMock(WebAttributeQualifier.class);
         applicationId = "id";
         httpSession = createMock(HttpSession.class);
-        session = new ModuleAwareHttpSession(httpSession, webAttributeQualifier, applicationId, moduleName);
+        session = new PartitionedHttpSession(httpSession, webAttributeQualifier, applicationId, moduleName);
     }
     
     public void testSetAttribute() throws Exception {

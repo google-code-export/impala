@@ -23,14 +23,14 @@ import org.springframework.util.Assert;
 
 /**
  * Implementation of {@link ServletContextWrapper} which returns a
- * {@link PartitionedWrapperServletContext} instance if
+ * {@link PartitionedServletContext} instance if
  * {@link #enablePartitionedServletContext} is set to true. If not, simply
  * returns the passed in {@link ServletContext} instance.
  * 
- * @see org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext
+ * @see org.impalaframework.web.servlet.wrapper.context.PartitionedServletContext
  * @author Phil Zoio
  */
-public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
+public class PartitionedServletContextWrapper implements ServletContextWrapper {
     
     private boolean enablePartitionedServletContext;
     
@@ -46,7 +46,7 @@ public class ModuleAwareServletContextWrapper implements ServletContextWrapper {
         
         if (enablePartitionedServletContext) {
             Assert.notNull(moduleDefinition, "moduleDefinition cannot be null");
-            return new PartitionedWrapperServletContext(servletContext, applicationId, moduleDefinition.getName(), webAttributeQualifier, classLoader);
+            return new PartitionedServletContext(servletContext, applicationId, moduleDefinition.getName(), webAttributeQualifier, classLoader);
         }
         return servletContext;
     }

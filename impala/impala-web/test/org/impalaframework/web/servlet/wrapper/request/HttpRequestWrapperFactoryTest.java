@@ -26,8 +26,8 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapperFactory;
 import org.impalaframework.web.servlet.wrapper.request.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareHttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.request.ModuleAwareRequestWrapperFactory;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapperFactory;
 
 public class HttpRequestWrapperFactoryTest extends TestCase {
     
@@ -50,7 +50,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
     }
     
     public void testModuleWrapper() {
-        ModuleAwareRequestWrapperFactory factory = new ModuleAwareRequestWrapperFactory();
+        PartitionedRequestWrapperFactory factory = new PartitionedRequestWrapperFactory();
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
         
@@ -63,7 +63,7 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         factory.setEnableModuleSessionProtection(true);
         final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(wrappedRequest instanceof MappedWrapperHttpServletRequest);
-        assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof ModuleAwareHttpSessionWrapper);
+        assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof PartitionedHttpSessionWrapper);
     }
 
 }
