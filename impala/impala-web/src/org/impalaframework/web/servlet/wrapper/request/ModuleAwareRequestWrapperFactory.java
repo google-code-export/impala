@@ -12,12 +12,14 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
  * Implementation of <code>HttpRequestWrapperFactory</code> which returns instance of <code>ModuleAwareWrapperHttpServletRequest</code>.

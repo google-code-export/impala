@@ -12,19 +12,20 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.context;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 import org.springframework.util.Assert;
 
 /**
  * Implementation of <code>ServletContextWrapper</code> which returns a
  * <code>ModuleAwareWrapperServletContext</code> instance.
  * 
- * @see org.impalaframework.web.servlet.wrapper.PartitionedWrapperServletContext
+ * @see org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext
  * @author Phil Zoio
  */
 public class ModuleAwareServletContextWrapper implements ServletContextWrapper {

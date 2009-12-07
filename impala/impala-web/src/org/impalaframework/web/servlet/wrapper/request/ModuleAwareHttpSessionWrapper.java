@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
@@ -24,6 +24,8 @@ import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.web.helper.WebServletUtils;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.IdentityWebAttributeQualifier;
 
 /**
  * Factory interface for wrapping {@link HttpSession} object.

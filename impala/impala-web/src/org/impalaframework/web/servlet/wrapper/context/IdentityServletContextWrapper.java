@@ -12,11 +12,12 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.context;
 
 import javax.servlet.ServletContext;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 
 /**
  * Trivial implementation of <code>ServletContextWrapper</code>

@@ -12,12 +12,16 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import static org.easymock.EasyMock.*;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
+import org.impalaframework.web.servlet.wrapper.request.IdentityHttpSessionWrapper;
+import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequest;
 
 
 import junit.framework.TestCase;

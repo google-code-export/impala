@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.context;
 
 import javax.servlet.ServletContext;
 
@@ -20,6 +20,8 @@ import org.easymock.EasyMock;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.context.ModuleAwareServletContextWrapper;
+import org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;

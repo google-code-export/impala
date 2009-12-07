@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.context;
 
 import static org.easymock.EasyMock.createMock;
 
@@ -27,6 +27,7 @@ import junit.framework.TestCase;
 import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.context.PartitionedWrapperServletContext;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedWrapperServletContextTest extends TestCase {

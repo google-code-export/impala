@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.request;
 
 import java.util.Enumeration;
 

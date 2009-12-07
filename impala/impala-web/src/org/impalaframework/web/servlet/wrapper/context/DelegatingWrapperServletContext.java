@@ -12,7 +12,7 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.wrapper.context;
 
 import java.io.InputStream;
 import java.net.MalformedURLException;
