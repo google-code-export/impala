@@ -37,7 +37,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class DelegatingWrapperServletContext implements ServletContext, DelegatingServletContext {
+public class DelegatingWrapperServletContext implements ServletContext {
 
     private static final Log logger = LogFactory.getLog(DelegatingWrapperServletContext.class);
     
