@@ -23,9 +23,9 @@ import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.web.helper.WebServletUtils;
+import org.impalaframework.web.servlet.qualifier.IdentityWebAttributeQualifier;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
-import org.impalaframework.web.servlet.wrapper.IdentityWebAttributeQualifier;
 
 /**
  * Implementation of {@link HttpSessionWrapper} which returns a wrapped session.

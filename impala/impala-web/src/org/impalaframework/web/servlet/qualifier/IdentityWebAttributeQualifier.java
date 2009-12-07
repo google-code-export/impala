@@ -12,11 +12,10 @@
  * the License.
  */
 
-package org.impalaframework.web.servlet.wrapper;
+package org.impalaframework.web.servlet.qualifier;
 
 import java.util.Enumeration;
 
-import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 
 /**
  * Pass through implementation of {@link WebAttributeQualifier}
