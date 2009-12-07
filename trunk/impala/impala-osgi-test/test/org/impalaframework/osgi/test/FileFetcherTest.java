@@ -23,7 +23,7 @@ public class FileFetcherTest extends TestCase {
         checkSize("jetty:*;main:impala,cglib", "main:jmx,cglib", 0);
         
         //impala is not in main. All files should appear
-        checkSize("jetty:jetty;main:*", "main:jmx", 11);
+        checkSize("jetty:jetty;main:*", "main:jmx", 10);
         
         //now we also exclude cglib
         checkSize("jetty:*", null, 0);

@@ -27,19 +27,19 @@ public class RepositoryArtifactLocatorTest extends TestCase {
     }
     
     public void testLocateArtifact() {
-        assertNotNull(locator.locateArtifact(null, "commons-lang", "2.3"));
-        assertNotNull(locator.locateArtifact(null, "jetty", "6.1.11"));
+        assertNotNull(locator.locateArtifact(null, "commons-io", "1.4"));
+        assertNotNull(locator.locateArtifact(null, "jetty", "6.1.21"));
         
         assertNull(locator.locateArtifact(null, "commons-lang", "5.3"));
         assertNull(locator.locateArtifact(null, "jesty", "6.1.11"));
     }
     
     public void testLocateArtifactWithType() {
-        assertNotNull(locator.locateArtifact(null, "commons-lang", "2.3", "sources"));
-        assertNotNull(locator.locateArtifact(null, "jetty", "6.1.11", "sources"));
+        assertNotNull(locator.locateArtifact(null, "commons-io", "1.4", "sources"));
+        assertNotNull(locator.locateArtifact(null, "jetty", "6.1.21", "sources"));
         
-        assertNull(locator.locateArtifact(null, "commons-lang", "5.3", "sources"));
-        assertNull(locator.locateArtifact(null, "jesty", "6.1.11", "sources"));
+        assertNull(locator.locateArtifact(null, "commons-io", "5.3", "sources"));
+        assertNull(locator.locateArtifact(null, "jesty", "6.1.21", "sources"));
     }
 
 }
