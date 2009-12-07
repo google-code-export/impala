@@ -19,7 +19,8 @@ import javax.servlet.http.HttpSession;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 
 /**
- * No-op implementation of {@link HttpSessionWrapper}
+ * No-op implementation of {@link HttpSessionWrapper}, which simply returns the passed in {@link HttpSession} instance.
+ * 
  * @author Phil Zoio
  */
 public class IdentityHttpSessionWrapper implements HttpSessionWrapper {

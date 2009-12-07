@@ -22,7 +22,11 @@ import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 /**
- * Implementation of <code>HttpRequestWrapperFactory</code> which returns instance of <code>ModuleAwareWrapperHttpServletRequest</code>.
+ * Implementation of {@link HttpRequestWrapperFactory} which returns instance of
+ * {@link ModuleAwareHttpSessionWrapper} if
+ * {@link #enableModuleSessionProtection} or
+ * {@link #enablePartitionedServletContext} is set. If not, then simply returns
+ * {@link IdentityHttpSessionWrapper}.
  * 
  * @see ModuleAwareWrapperHttpServletRequest
  * @see HttpRequestWrapperFactory

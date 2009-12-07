@@ -24,9 +24,12 @@ import org.springframework.util.Assert;
 /**
  * Extension of {@link BaseModuleAwareWrapperServletContext}. Basically used to
  * partition the servlet context so that only writes to the
- * {@link ServletContext} attributes using module-based prefix. However, it does
- * allow you to read shared attributes, that is, those without the module-based
- * prefix.
+ * {@link ServletContext} attributes using module-based prefix, as determined by
+ * the {@link WebAttributeQualifier} implementation.
+ * 
+ * However, it does allow you to read shared attributes, that is, those without
+ * the module-based prefix.
+ * 
  * @author Phil Zoio
  */
 public class PartitionedWrapperServletContext extends

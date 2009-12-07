@@ -31,8 +31,13 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.springframework.util.Assert;
 
 /**
- * Implementation of {@link HttpSession} which attempts to protect session attribute values 
- * across module reloads through special implementation of {@link #getAttribute(String)}
+ * Implementation of {@link HttpSession} which attempts to protect session
+ * attribute values across module reloads through special implementation of
+ * {@link #getAttribute(String)}. If class is no longer visible following module
+ * reload, an attempt is made to copy the class through custom serialization,
+ * which preserves the session attribute instance's state but associates it with
+ * a {@link Class} instance which is associated with the correct class loader.
+ * 
  * @author Phil Zoio
  */
 public class StateProtectingWrapperHttpSession extends ModuleAwareHttpSession {

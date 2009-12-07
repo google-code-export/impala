@@ -28,7 +28,13 @@ import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.IdentityWebAttributeQualifier;
 
 /**
- * Factory interface for wrapping {@link HttpSession} object.
+ * Implementation of {@link HttpSessionWrapper} which returns a wrapped session.
+ * If {@link #enablePartitionedServletContext} is set, then
+ * {@link ModuleAwareHttpSession} is returned with attribute getters and setters
+ * qualified as determined using the {@link WebAttributeQualifier} instance. If
+ * {@link #enableModuleSessionProtection} is set, then state is protected over
+ * module reloads using {@link StateProtectingWrapperHttpSession}.
+ * 
  * @author Phil Zoio
  */
 public class ModuleAwareHttpSessionWrapper implements HttpSessionWrapper {

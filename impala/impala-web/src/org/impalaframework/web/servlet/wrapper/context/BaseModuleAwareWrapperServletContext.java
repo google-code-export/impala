@@ -25,8 +25,8 @@ import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 
 /**
- * Abstract implementation of <code>ServletContext</code> which overrides some methods
- * in the <code>DelegatingWrapperServletContext</code> superclass. Note that
+ * Abstract implementation of {@link ServletContext} which overrides some methods
+ * in the {@link DelegatingWrapperServletContext} superclass. Note that
  * this class does not include any special behaviour for
  * <code>getRealPath</code>. Calls to this method are delegated to the
  * wrapped <code>ServletContext</code>.

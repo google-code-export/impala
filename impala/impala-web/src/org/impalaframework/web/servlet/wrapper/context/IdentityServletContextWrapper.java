@@ -20,7 +20,8 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.web.servlet.wrapper.ServletContextWrapper;
 
 /**
- * Trivial implementation of <code>ServletContextWrapper</code>
+ * Trivial implementation of {@link ServletContextWrapper} which simply returns
+ * the passed in {@link ServletContext} instance.
  * 
  * @author Phil Zoio
  */
