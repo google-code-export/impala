@@ -10,7 +10,7 @@
   <artifactId>maven-module</artifactId>
   <packaging>jar</packaging>
   <version>1.0-SNAPSHOT</version>
-  <name>maven-module</name>
+  <name>maven-module - Maven application module</name>
   <url>http://maven.apache.org</url>
   <dependencies>
     <dependency>

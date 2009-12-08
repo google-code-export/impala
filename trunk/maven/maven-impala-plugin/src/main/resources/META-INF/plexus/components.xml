@@ -8,7 +8,10 @@
       <configuration>
         <phases>
             <phases>
-              <process-resources>org.apache.maven.plugins:maven-resources-plugin:resources</process-resources>
+              <process-resources>
+              org.apache.maven.plugins:maven-resources-plugin:resources,
+              org.impalaframework.maven.plugin:maven-impala-plugin:touch
+              </process-resources>
               <compile>org.apache.maven.plugins:maven-compiler-plugin:compile</compile>
               <process-test-resources>
                 org.apache.maven.plugins:maven-resources-plugin:testResources
