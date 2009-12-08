@@ -16,12 +16,13 @@ package org.impalaframework.maven.plugin;
  * limitations under the License.
  */
 
-import org.apache.maven.plugin.AbstractMojo;
-import org.apache.maven.plugin.MojoExecutionException;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Set;
+
+import org.apache.maven.plugin.AbstractMojo;
+import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Goal which touches a timestamp file.
@@ -39,10 +40,19 @@ public class MyMojo
      * @required
      */
     private File outputDirectory;
+    /**
+     * Location of the file.
+     * @parameter expression="${project.artifacts}"
+     * @required
+     */
+    private Set mavenProjects;
 
     public void execute()
         throws MojoExecutionException
     {
+        
+        System.out.println(mavenProjects);
+        
         File f = outputDirectory;
 
         if ( !f.exists() )
@@ -57,7 +67,7 @@ public class MyMojo
         {
             w = new FileWriter( touch );
             
-            System.out.println("Writing touch file: " + touch.getAbsolutePath());
+            System.out.println("Now writing touch file: " + touch.getAbsolutePath());
 
             w.write( "touch.txt" );
         }
