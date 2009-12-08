@@ -1,5 +1,5 @@
 <projectDescription>
-  <name>impala-maven-plugin</name>
+  <name>maven-impala-plugin</name>
   <comment/>
   <projects/>
   <buildSpec>
