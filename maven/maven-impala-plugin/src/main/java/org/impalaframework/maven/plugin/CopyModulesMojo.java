@@ -17,7 +17,6 @@ package org.impalaframework.maven.plugin;
  */
 
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
@@ -27,8 +26,8 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Goal which copies modules from a pre-configured modules directory to WEB-INF/modules when building a WAR file.
- * To be used with "war" packaging.
+ * Goal which copies modules from a pre-configured modules directory to
+ * WEB-INF/modules when building a WAR file. To be used with "war" packaging.
  * 
  * @goal copy-modules
  * 
@@ -37,7 +36,7 @@ import org.apache.maven.plugin.MojoExecutionException;
  * @requiresProject
  */
 public class CopyModulesMojo extends AbstractMojo {
-    
+
     /** @parameter default-value="${project}" */
     private org.apache.maven.project.MavenProject project;
 
@@ -54,14 +53,14 @@ public class CopyModulesMojo extends AbstractMojo {
      * @required
      */
     private Set<Artifact> dependencies;
-    
+
     /**
      * Location of the file.
      * @parameter expression="${keep.staging.directory}" default-value = "false"
      * @required
      */
     private boolean keepStagingDirectory;
-    
+
     /**
      * Location of the file.
      * @parameter expression="${module.staging.directory}"
@@ -72,7 +71,7 @@ public class CopyModulesMojo extends AbstractMojo {
     @SuppressWarnings("unchecked")
     public void showArtifacts() {
         Set<Artifact> artifacts = project.getDependencyArtifacts();
-        
+
         for (Artifact artifact : artifacts) {
             final String path = artifact.getFile().getPath();
             System.out.println(path);
@@ -92,9 +91,10 @@ public class CopyModulesMojo extends AbstractMojo {
 
         System.out.println("Keep staging directory: " + keepStagingDirectory);
 
-        File targetDirectory = new File(f.getAbsolutePath() + "/" + project.getBuild().getFinalName() + "/WEB-INF/modules");
+        File targetDirectory = new File(f.getAbsolutePath() + "/"
+                + project.getBuild().getFinalName() + "/WEB-INF/modules");
         File stagingDirectory = new File(moduleStagingDirectory);
-        
+
         try {
             System.out.println(stagingDirectory.getCanonicalPath());
             FileUtils.forceMkdir(targetDirectory);
@@ -103,29 +103,12 @@ public class CopyModulesMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage(), e);
         }
 
-        File touch = new File(targetDirectory, "touch.txt");
+        final File[] listFiles = stagingDirectory.listFiles();
+        for (File moduleFile : listFiles) {
 
-        FileWriter w = null;
-        try {
-            w = new FileWriter(touch);
-
-            System.out.println("Now writing touch file: "
-                    + touch.getAbsolutePath());
-
-            w.write("touch.txt");
-        }
-        catch (IOException e) {
-            throw new MojoExecutionException("Error creating file " + touch, e);
-        }
-        finally {
-            if (w != null) {
-                try {
-                    w.close();
-                }
-                catch (IOException e) {
-                    // ignore
-                }
-            }
+            final String targetFileName = moduleFile.getName();
+            
+            MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
         }
     }
 }
