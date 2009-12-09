@@ -123,24 +123,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.impalaframework.maven.plugin</groupId>
-				<artifactId>maven-impala-plugin</artifactId>
-				<version>1.0-SNAPSHOT</version>
-				<configuration>
-					<moduleStagingDirectory>../maven-build/staging</moduleStagingDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>stage-module</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>
