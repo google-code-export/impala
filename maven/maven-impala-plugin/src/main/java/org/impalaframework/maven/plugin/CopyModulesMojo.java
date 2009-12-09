@@ -21,22 +21,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
- * Goal which touches a timestamp file.
+ * Goal which copies modules from a pre-configured modules directory to WEB-INF/modules when building a WAR file.
+ * To be used with "war" packaging.
  * 
- * @goal touch
+ * @goal copy-modules
  * 
  * @phase process-resources
  * @requiresDependencyResolution
  * @requiresProject
  */
-public class MyMojo extends AbstractMojo {
+public class CopyModulesMojo extends AbstractMojo {
+    
     /** @parameter default-value="${project}" */
-    private org.apache.maven.project.MavenProject mavenProject;
+    private org.apache.maven.project.MavenProject project;
 
     /**
      * Location of the file.
@@ -54,7 +57,7 @@ public class MyMojo extends AbstractMojo {
 
     @SuppressWarnings("unchecked")
     public void showArtifacts() {
-        Set<Artifact> artifacts = mavenProject.getDependencyArtifacts();
+        Set<Artifact> artifacts = project.getDependencyArtifacts();
         
         for (Artifact artifact : artifacts) {
             final String path = artifact.getFile().getPath();
@@ -65,7 +68,7 @@ public class MyMojo extends AbstractMojo {
     public void execute() throws MojoExecutionException {
 
         System.out.println("Maven projects: " + dependencies);
-        System.out.println("Current project: " + mavenProject);
+        System.out.println("Current project: " + project);
 
         File f = outputDirectory;
 
@@ -73,7 +76,16 @@ public class MyMojo extends AbstractMojo {
             f.mkdirs();
         }
 
-        File touch = new File(f, "touch.txt");
+        
+        File directory = new File(f.getAbsolutePath() + "/" + project.getBuild().getFinalName() + "/WEB-INF/modules");
+        try {
+            FileUtils.forceMkdir(directory);
+        }
+        catch (IOException e) {
+            throw new MojoExecutionException(e.getMessage(), e);
+        }
+
+        File touch = new File(directory, "touch.txt");
 
         FileWriter w = null;
         try {
