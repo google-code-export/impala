@@ -45,21 +45,27 @@ public class StageModuleMojo extends AbstractMojo {
     private String moduleStagingDirectory;
     
     public void execute() throws MojoExecutionException {
+        
+        if ("jar".equals(project.getPackaging())) {
 
-        //copying module to staging directory
-        
-        final File file = project.getArtifact().getFile();
-        System.out.println(file.getAbsolutePath());
-        
-        System.out.println("Copying file " + file.getAbsolutePath() + " to module staging directory: " + moduleStagingDirectory);
-        
-        final File targetDirectory = new File(moduleStagingDirectory);
-        try {
-            FileUtils.forceMkdir(targetDirectory);
+            //copying module to staging directory
+            
+            final File file = project.getArtifact().getFile();
+            System.out.println(file.getAbsolutePath());
+            
+            System.out.println("Copying file " + file.getAbsolutePath() + " to module staging directory: " + moduleStagingDirectory);
+            
+            final File targetDirectory = new File(moduleStagingDirectory);
+            try {
+                FileUtils.forceMkdir(targetDirectory);
+            }
+            catch (IOException e) {
+                throw new MojoExecutionException(e.getMessage(), e);
+            }
+            MojoUtils.copyFile(file, targetDirectory, file.getName());
+
+        } else {
+            System.out.println("Not a jar!!!!!!!");
         }
-        catch (IOException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
-        MojoUtils.copyFile(file, targetDirectory, file.getName());
     }
 }
