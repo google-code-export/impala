@@ -21,70 +21,78 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Set;
 
+import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 /**
  * Goal which touches a timestamp file.
- *
+ * 
  * @goal touch
  * 
- * @phase process-sources
+ * @phase process-resources
+ * @requiresDependencyResolution
+ * @requiresProject
  */
-public class MyMojo
-    extends AbstractMojo
-{
+public class MyMojo extends AbstractMojo {
+    /** @parameter default-value="${project}" */
+    private org.apache.maven.project.MavenProject mavenProject;
+
     /**
      * Location of the file.
      * @parameter expression="${project.build.directory}"
      * @required
      */
     private File outputDirectory;
+
     /**
      * Location of the file.
      * @parameter expression="${project.artifacts}"
      * @required
      */
-    private Set mavenProjects;
+    private Set<Artifact> dependencies;
 
-    public void execute()
-        throws MojoExecutionException
-    {
+    @SuppressWarnings("unchecked")
+    public void showArtifacts() {
+        Set<Artifact> artifacts = mavenProject.getDependencyArtifacts();
         
-        System.out.println(mavenProjects);
-        
+        for (Artifact artifact : artifacts) {
+            final String path = artifact.getFile().getPath();
+            System.out.println(path);
+        }
+    }
+
+    public void execute() throws MojoExecutionException {
+
+        System.out.println("Maven projects: " + dependencies);
+        System.out.println("Current project: " + mavenProject);
+
         File f = outputDirectory;
 
-        if ( !f.exists() )
-        {
+        if (!f.exists()) {
             f.mkdirs();
         }
 
-        File touch = new File( f, "touch.txt" );
+        File touch = new File(f, "touch.txt");
 
         FileWriter w = null;
-        try
-        {
-            w = new FileWriter( touch );
-            
-            System.out.println("Now writing touch file: " + touch.getAbsolutePath());
+        try {
+            w = new FileWriter(touch);
 
-            w.write( "touch.txt" );
+            System.out.println("Now writing touch file: "
+                    + touch.getAbsolutePath());
+
+            w.write("touch.txt");
         }
-        catch ( IOException e )
-        {
-            throw new MojoExecutionException( "Error creating file " + touch, e );
+        catch (IOException e) {
+            throw new MojoExecutionException("Error creating file " + touch, e);
         }
-        finally
-        {
-            if ( w != null )
-            {
-                try
-                {
+        finally {
+            if (w != null) {
+                try {
                     w.close();
                 }
-                catch ( IOException e )
-                {
+                catch (IOException e) {
                     // ignore
                 }
             }
