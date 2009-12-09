@@ -54,6 +54,20 @@ public class CopyModulesMojo extends AbstractMojo {
      * @required
      */
     private Set<Artifact> dependencies;
+    
+    /**
+     * Location of the file.
+     * @parameter expression="${keep.staging.directory}" default-value = "false"
+     * @required
+     */
+    private boolean keepStagingDirectory;
+    
+    /**
+     * Location of the file.
+     * @parameter expression="${module.staging.directory}"
+     * @required
+     */
+    private String moduleStagingDirectory;
 
     @SuppressWarnings("unchecked")
     public void showArtifacts() {
@@ -76,16 +90,20 @@ public class CopyModulesMojo extends AbstractMojo {
             f.mkdirs();
         }
 
+        System.out.println("Keep staging directory: " + keepStagingDirectory);
+
+        File targetDirectory = new File(f.getAbsolutePath() + "/" + project.getBuild().getFinalName() + "/WEB-INF/modules");
+        File stagingDirectory = new File(moduleStagingDirectory);
         
-        File directory = new File(f.getAbsolutePath() + "/" + project.getBuild().getFinalName() + "/WEB-INF/modules");
         try {
-            FileUtils.forceMkdir(directory);
+            System.out.println(stagingDirectory.getCanonicalPath());
+            FileUtils.forceMkdir(targetDirectory);
         }
         catch (IOException e) {
             throw new MojoExecutionException(e.getMessage(), e);
         }
 
-        File touch = new File(directory, "touch.txt");
+        File touch = new File(targetDirectory, "touch.txt");
 
         FileWriter w = null;
         try {
