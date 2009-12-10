@@ -14,7 +14,7 @@ This module is contained within the project <strong>maven-main</strong>.
 This module is contained within the project <strong>maven-module</strong>.</li>
 <li>A web host module, which contains <i>WEB-INF/web.xml</i> as well as JSPs. (Impala currently does not support hosting
 JSPs within the modules themselves).
-This module is contained within the project <strong>maven-webapp</strong>.
+This module is contained within the project <strong>maven-host</strong>.
 </li>
 <li>A web implementation module, which contains Spring MVC controllers, and other web artifacts.
 This module is contained within the project <strong>maven-web</strong>.
