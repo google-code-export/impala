@@ -44,10 +44,10 @@ public class StageModuleMojo extends AbstractMojo {
     private String moduleStagingDirectory;
     
     public void execute() throws MojoExecutionException {
-
-        moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
         
         if ("jar".equals(project.getPackaging())) {
+
+            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
 
             //copying module to staging directory
             

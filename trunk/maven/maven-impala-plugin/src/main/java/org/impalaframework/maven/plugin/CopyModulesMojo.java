@@ -72,37 +72,37 @@ public class CopyModulesMojo extends AbstractMojo {
 
     public void execute() throws MojoExecutionException {
         
-        moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
-
-        System.out.println("Maven projects: " + dependencies);
-        System.out.println("Current project: " + project);
-
-        File f = outputDirectory;
-
-        if (!f.exists()) {
-            f.mkdirs();
-        }
-        
-        File targetDirectory = new File(f.getAbsolutePath() + "/"
-                + project.getBuild().getFinalName() + "/WEB-INF/modules");
-        File stagingDirectory = new File(moduleStagingDirectory);
-
-        try {
-            System.out.println(stagingDirectory.getCanonicalPath());
-            FileUtils.forceMkdir(targetDirectory);
-        }
-        catch (IOException e) {
-            throw new MojoExecutionException(e.getMessage(), e);
-        }
-
-        final File[] listFiles = stagingDirectory.listFiles();
-        if (listFiles != null) {
-            for (File moduleFile : listFiles) {
+        if (project.getPackaging().equals("war")) {
+            
+            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
     
-                final String targetFileName = moduleFile.getName();
-                
-                MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
+            System.out.println("Maven projects: " + dependencies);
+            System.out.println("Current project: " + project);
+    
+            File targetDirectory = getTargetDirectory();
+            File stagingDirectory = new File(moduleStagingDirectory);
+    
+            try {
+                System.out.println(stagingDirectory.getCanonicalPath());
+                FileUtils.forceMkdir(targetDirectory);
+            }
+            catch (IOException e) {
+                throw new MojoExecutionException(e.getMessage(), e);
+            }
+    
+            final File[] listFiles = stagingDirectory.listFiles();
+            if (listFiles != null) {
+                for (File moduleFile : listFiles) {
+        
+                    final String targetFileName = moduleFile.getName();
+                    
+                    MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
+                }
             }
         }
+    }
+
+    File getTargetDirectory() {
+        return new File(outputDirectory.getAbsolutePath() + "/"  + project.getBuild().getFinalName() + "/WEB-INF/modules");
     }
 }

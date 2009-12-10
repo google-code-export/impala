@@ -43,7 +43,7 @@ public class MojoUtils {
             MavenProject parent = project.getParent();
             if (parent != null) {
                 parentName = parent.getName();
-                final String parentOutputDirectory = parent.getBuild().getOutputDirectory();
+                final String parentOutputDirectory = parent.getBuild().getDirectory();
                 if (parentOutputDirectory != null) {
                     moduleStagingDirectory = parentOutputDirectory + "/staging";
                 }
@@ -51,10 +51,12 @@ public class MojoUtils {
         }
         
         if (moduleStagingDirectory == null) {
-            throw new MojoExecutionException("Unable to determine module staging directory" +
+            throw new MojoExecutionException("Unable to determine module staging directory for project '" + project.getName() + "'" + 
             		(parentName != null ? " from project parent '" + parentName +	"'" : " with no project parent") +
             		". Please use 'moduleStagingDirectory' configuration parameter to specify this.");
         }
+        
+        System.out.println("Using module staging directory: " + moduleStagingDirectory);
         
         return moduleStagingDirectory;
     }
