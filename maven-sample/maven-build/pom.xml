@@ -4,8 +4,9 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.impalaframework.samples.maven</groupId>
 	<version>1.0-SNAPSHOT</version>
-	<artifactId>app</artifactId>
+	<artifactId>maven-build</artifactId>
 	<packaging>pom</packaging>
+	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
 		<module>../maven-main</module>
 		<module>../maven-module</module>
