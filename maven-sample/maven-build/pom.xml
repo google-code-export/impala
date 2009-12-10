@@ -23,7 +23,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.impalaframework.maven.plugin</groupId>
-				<artifactId>maven-impala-plugin</artifactId>
+				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
 				<version>1.0-SNAPSHOT</version>
 				<executions>
