@@ -10,7 +10,7 @@
 		<module>../maven-main</module>
 		<module>../maven-module</module>
 		<module>../maven-web</module>
-		<module>../maven-webapp</module>
+		<module>../maven-host</module>
 	</modules>
 	<build>
 		<plugins>

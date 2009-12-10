@@ -7,10 +7,10 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.impalaframework.samples.maven</groupId>
-	<artifactId>maven-webapp</artifactId>
+	<artifactId>maven-host</artifactId>
 	<packaging>war</packaging>
 	<version>1.0-SNAPSHOT</version>
-	<name>maven-webapp - Maven host web application</name>
+	<name>maven-host - Maven host web application</name>
 	<url>http://maven.apache.org</url>
 	<repositories>
 		<repository>
@@ -117,7 +117,7 @@
 		-->
 	</dependencies>
 	<build>
-		<finalName>maven-webapp</finalName>
+		<finalName>maven-host</finalName>
 	<plugins>
 		<plugin>
 			<groupId>org.mortbay.jetty</groupId>
