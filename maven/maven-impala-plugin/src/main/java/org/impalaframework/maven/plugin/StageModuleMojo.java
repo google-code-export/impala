@@ -40,11 +40,12 @@ public class StageModuleMojo extends AbstractMojo {
     /**
      * Location of the file.
      * @parameter expression="${module.staging.directory}"
-     * @required
      */
     private String moduleStagingDirectory;
     
     public void execute() throws MojoExecutionException {
+
+        moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
         
         if ("jar".equals(project.getPackaging())) {
 

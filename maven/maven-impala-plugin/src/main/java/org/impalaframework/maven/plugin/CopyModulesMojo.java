@@ -56,15 +56,7 @@ public class CopyModulesMojo extends AbstractMojo {
 
     /**
      * Location of the file.
-     * @parameter expression="${keep.staging.directory}" default-value = "false"
-     * @required
-     */
-    private boolean keepStagingDirectory;
-
-    /**
-     * Location of the file.
      * @parameter expression="${module.staging.directory}"
-     * @required
      */
     private String moduleStagingDirectory;
 
@@ -79,6 +71,8 @@ public class CopyModulesMojo extends AbstractMojo {
     }
 
     public void execute() throws MojoExecutionException {
+        
+        moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
 
         System.out.println("Maven projects: " + dependencies);
         System.out.println("Current project: " + project);
@@ -88,9 +82,7 @@ public class CopyModulesMojo extends AbstractMojo {
         if (!f.exists()) {
             f.mkdirs();
         }
-
-        System.out.println("Keep staging directory: " + keepStagingDirectory);
-
+        
         File targetDirectory = new File(f.getAbsolutePath() + "/"
                 + project.getBuild().getFinalName() + "/WEB-INF/modules");
         File stagingDirectory = new File(moduleStagingDirectory);
