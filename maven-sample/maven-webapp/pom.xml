@@ -129,7 +129,7 @@
 			<artifactId>maven-impala-plugin</artifactId>
 			<version>1.0-SNAPSHOT</version>
 			<configuration>
-					<moduleStagingDirectory>../maven-build/staging</moduleStagingDirectory>
+					<moduleStagingDirectory>../maven-build/target/staging</moduleStagingDirectory>
 				</configuration>
 				<executions>
 					<execution>
