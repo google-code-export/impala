@@ -18,16 +18,19 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jasper/6.0.16/jasper-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jasper-el/6.0.16/jasper-el-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jasper-jdt/6.0.16/jasper-jdt-6.0.16.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty/6.1.20/jetty-6.1.20.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-util/6.1.20/jetty-util-6.1.20.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/jcl-over-slf4j/1.5.8/jcl-over-slf4j-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/jcl-over-slf4j/1.5.8/jcl-over-slf4j-1.5.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty/6.1.20/jetty-6.1.20.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty/6.1.20/jetty-6.1.20-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/jetty-util/6.1.20/jetty-util-6.1.20.jar" sourcepath="M2_REPO/org/mortbay/jetty/jetty-util/6.1.20/jetty-util-6.1.20-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1.jar" sourcepath="M2_REPO/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jsp-api/6.0.16/jsp-api-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/juli/6.0.16/juli-6.0.16.jar"/>
-  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13.jar" sourcepath="M2_REPO/log4j/log4j/1.2.13/log4j-1.2.13-sources.jar"/>
-  <classpathentry kind="var" path="M2_REPO/org/impalaframework/samples/maven/maven-main/1.0-SNAPSHOT/maven-main-1.0-SNAPSHOT.jar"/>
+  <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar" sourcepath="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar"/>
+  <classpathentry kind="src" path="/maven-main"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/servlet-api/6.0.16/servlet-api-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/mortbay/jetty/servlet-api/2.5-20081211/servlet-api-2.5-20081211.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/slf4j-api/1.5.8/slf4j-api-1.5.8-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/slf4j/slf4j-log4j12/1.5.8/slf4j-log4j12-1.5.8.jar" sourcepath="M2_REPO/org/slf4j/slf4j-log4j12/1.5.8/slf4j-log4j12-1.5.8-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-aop/3.0.0.RC3/spring-aop-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-aop/3.0.0.RC3/spring-aop-3.0.0.RC3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-asm/3.0.0.RC3/spring-asm-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-asm/3.0.0.RC3/spring-asm-3.0.0.RC3-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/springframework/spring-beans/3.0.0.RC3/spring-beans-3.0.0.RC3.jar" sourcepath="M2_REPO/org/springframework/spring-beans/3.0.0.RC3/spring-beans-3.0.0.RC3-sources.jar"/>
