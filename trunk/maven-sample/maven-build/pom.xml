@@ -29,7 +29,7 @@
 				<groupId>org.impalaframework.maven.plugin</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>1.0-SNAPSHOT</version>
+				<version>${project.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
