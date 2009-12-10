@@ -104,11 +104,13 @@ public class CopyModulesMojo extends AbstractMojo {
         }
 
         final File[] listFiles = stagingDirectory.listFiles();
-        for (File moduleFile : listFiles) {
-
-            final String targetFileName = moduleFile.getName();
-            
-            MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
+        if (listFiles != null) {
+            for (File moduleFile : listFiles) {
+    
+                final String targetFileName = moduleFile.getName();
+                
+                MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
+            }
         }
     }
 }
