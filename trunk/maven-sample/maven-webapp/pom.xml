@@ -128,18 +128,15 @@
 			<groupId>org.impalaframework.maven.plugin</groupId>
 			<artifactId>maven-impala-plugin</artifactId>
 			<version>1.0-SNAPSHOT</version>
-			<configuration>
-					<moduleStagingDirectory>../maven-build/target/staging</moduleStagingDirectory>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>process-resources</phase>
-						<goals>
-							<goal>copy-modules</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
+			<executions>
+				<execution>
+					<phase>process-resources</phase>
+					<goals>
+						<goal>copy-modules</goal>
+					</goals>
+				</execution>
+			</executions>
+		</plugin>
+	</plugins>
 	</build>
 </project>

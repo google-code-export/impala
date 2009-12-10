@@ -9,6 +9,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.project.MavenProject;
 
 public class MojoUtils {
 
@@ -30,6 +31,32 @@ public class MojoUtils {
             IOUtils.closeQuietly(input);
             IOUtils.closeQuietly(output);
         }
+    }
+
+    static String getModuleStagingDirectory(MavenProject project, String moduleStagingDirectory) throws MojoExecutionException {
+        
+        //FIXME test
+        
+        String parentName = null;
+        
+        if (moduleStagingDirectory == null) {
+            MavenProject parent = project.getParent();
+            if (parent != null) {
+                parentName = parent.getName();
+                final String parentOutputDirectory = parent.getBuild().getOutputDirectory();
+                if (parentOutputDirectory != null) {
+                    moduleStagingDirectory = parentOutputDirectory + "/staging";
+                }
+            }
+        }
+        
+        if (moduleStagingDirectory == null) {
+            throw new MojoExecutionException("Unable to determine module staging directory" +
+            		(parentName != null ? " from project parent '" + parentName +	"'" : " with no project parent") +
+            		". Please use 'moduleStagingDirectory' configuration parameter to specify this.");
+        }
+        
+        return moduleStagingDirectory;
     }
 
 }
