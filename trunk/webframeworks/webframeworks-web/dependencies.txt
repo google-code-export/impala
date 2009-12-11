@@ -1,13 +1,14 @@
-web from javax.servlet:servlet-api:2.5
-web from javax.servlet.jsp:jsp-api:2.1
-web from org.springframework:spring-webmvc:2.5.5
-web from org.springframework:spring-webflow:1.0.5
-jetty from org.mortbay.jetty:jetty:6.1.11
-jetty from org.mortbay.jetty:jetty-util:6.1.11
-jetty from xerces:xercesImpl:2.8.1
-jetty from commons-el:commons-el:1.0
-jetty from org.apache.tomcat:jasper:6.0.16
-jetty from org.apache.tomcat:jasper-el:6.0.16
-jetty from org.apache.tomcat:jasper-jdt:6.0.16
-jetty from org.apache.tomcat:juli:6.0.16
+runtime from javax.el:el-api:1.0
+compile from org.springframework:spring-webmvc:2.5.5
+compile from org.springframework:spring-webflow:1.0.5
+provided from javax.servlet:servlet-api:2.5
+provided from javax.servlet.jsp:jsp-api:2.1
+provided from org.mortbay.jetty:jetty:6.1.11
+provided from org.mortbay.jetty:jetty-util:6.1.11
+provided from xerces:xercesImpl:2.8.1
+provided from commons-el:commons-el:1.0
+provided from org.apache.tomcat:jasper:6.0.16
+provided from org.apache.tomcat:jasper-el:6.0.16
+provided from org.apache.tomcat:jasper-jdt:6.0.16
+provided from org.apache.tomcat:juli:6.0.16
 
