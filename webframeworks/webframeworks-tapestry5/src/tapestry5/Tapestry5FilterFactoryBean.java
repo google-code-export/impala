@@ -8,7 +8,7 @@ import javax.servlet.ServletContext;
 
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.web.integration.IntegrationFilterConfig;
-import org.impalaframework.web.servlet.wrapper.DelegatingWrapperServletContext;
+import org.impalaframework.web.servlet.wrapper.context.DelegatingServletContext;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.springframework.context.ApplicationContextAware;
 
@@ -19,7 +19,7 @@ public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements App
     @Override
     protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
         
-        ServletContext servletContext = new DelegatingWrapperServletContext(getServletContext()) {
+        ServletContext servletContext = new DelegatingServletContext(getServletContext()) {
 
             @Override
             public String getInitParameter(String name) {

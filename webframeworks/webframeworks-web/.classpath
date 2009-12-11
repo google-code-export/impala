@@ -5,44 +5,5 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/webframeworks"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/spring-webmvc-2.5.5.jar" sourcepath="/webframeworks-repository/main/spring-webmvc-2.5.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/xercesImpl-2.8.1.jar" sourcepath="/webframeworks-repository/main/xercesImpl-2.8.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jetty-6.1.11.jar" sourcepath="/webframeworks-repository/jetty/jetty-6.1.11-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jetty-util-6.1.11.jar" sourcepath="/webframeworks-repository/jetty/jetty-util-6.1.11-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/commons-el-1.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/struts-1.2.9.jar" sourcepath="/webframeworks-repository/struts/struts-1.2.9-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-beanutils-1.7.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts/commons-digester-1.6.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/slf4j-api-1.4.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/slf4j-log4j12-1.4.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/wicket-1.3.4.jar" sourcepath="/webframeworks-repository/wicket/wicket-1.3.4-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/wicket-ioc-1.3.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/wicket-spring-1.3.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/wicket/wicket-spring-annot-1.3.4.jar" sourcepath="/webframeworks-repository/wicket/wicket-spring-annot-1.3.4-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/commons-codec-1.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/javassist-3.8.0.GA.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry5-annotations-5.0.18.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-core-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-core-5.0.18-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-ioc-5.0.18.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/tapestry/tapestry-spring-5.0.18.jar" sourcepath="/webframeworks-repository/tapestry/tapestry-spring-5.0.18-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/spring-webflow-1.0.5.jar" sourcepath="/webframeworks-repository/web/spring-webflow-1.0.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/freemarker-2.3.15.jar" sourcepath="/webframeworks-repository/struts2/freemarker-2.3.15-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/ognl-2.7.3.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts-annotations-1.0.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts2-core-2.1.8.jar" sourcepath="/webframeworks-repository/struts2/struts2-core-2.1.8-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/xwork-core-2.1.6.jar" sourcepath="/webframeworks-repository/struts2/xwork-core-2.1.6-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/commons-fileupload-1.2.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/struts2/struts2-spring-plugin-2.1.8.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/jsf-facelets-1.1.14.jar" sourcepath="/webframeworks-repository/jsf/jsf-facelets-1.1.14-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/myfaces-api-1.2.5.jar" sourcepath="/webframeworks-repository/jsf/myfaces-api-1.2.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jsf/myfaces-impl-1.2.5.jar" sourcepath="/webframeworks-repository/jsf/myfaces-impl-1.2.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/jsp-api-2.1.jar" sourcepath="/webframeworks-repository/web/jsp-api-2.1-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/web/servlet-api-2.5.jar" sourcepath="/webframeworks-repository/web/servlet-api-2.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jasper-el-6.0.16.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jasper-jdt-6.0.16.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jetty-6.1.11-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/jasper-6.0.16.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/jetty/juli-6.0.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
