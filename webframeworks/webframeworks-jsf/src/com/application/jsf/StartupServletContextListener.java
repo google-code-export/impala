@@ -7,6 +7,7 @@ public class StartupServletContextListener extends org.apache.myfaces.webapp.Sta
     @Override
     public void contextInitialized(ServletContextEvent event) {
         event.getServletContext().removeAttribute("shared:"+org.apache.myfaces.webapp.StartupServletContextListener.class.getName() + ".FACES_INIT_DONE");
+        event.getServletContext().removeAttribute("shared:org.apache.myfaces.shared_impl.webapp.webxml.WebXml");
         super.contextInitialized(event);
     }
     

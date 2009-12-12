@@ -23,7 +23,7 @@
 </div>
 
 <p>
-<a href = "/webframeworks-web/jsf/intro/intro.jsf">Home Page</a></p>
+<a href = "/webframeworks-host/jsf/intro/intro.jsf">Home Page</a></p>
 
 <h:outputText value="#{helloController.result}"/>
 
