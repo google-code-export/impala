@@ -24,6 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.artifact.Artifact;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * Goal which copies modules from a pre-configured modules directory to
@@ -60,43 +61,47 @@ public class CopyModulesMojo extends AbstractMojo {
      */
     private String moduleStagingDirectory;
 
-    @SuppressWarnings("unchecked")
-    public void showArtifacts() {
-        Set<Artifact> artifacts = project.getDependencyArtifacts();
-
-        for (Artifact artifact : artifacts) {
-            final String path = artifact.getFile().getPath();
-            System.out.println(path);
-        }
-    }
-
     public void execute() throws MojoExecutionException {
+
+        final Log logger = getLog();
         
         if (project.getPackaging().equals("war")) {
             
             moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
     
-            System.out.println("Maven projects: " + dependencies);
-            System.out.println("Current project: " + project);
-    
+            if (logger.isDebugEnabled()) {
+                logger.debug("Maven projects: " + dependencies);
+                logger.debug("Current project: " + project);
+            }
+            
             File targetDirectory = getTargetDirectory();
             File stagingDirectory = new File(moduleStagingDirectory);
     
             try {
-                System.out.println(stagingDirectory.getCanonicalPath());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Staging directory " + stagingDirectory.getCanonicalPath());
+                }
                 FileUtils.forceMkdir(targetDirectory);
             }
             catch (IOException e) {
                 throw new MojoExecutionException(e.getMessage(), e);
             }
+            
+            if (logger.isInfoEnabled()) {
+                logger.info("Copying files from staging directory: " + stagingDirectory);
+            }
     
-            final File[] listFiles = stagingDirectory.listFiles();
+            final File[] listFiles = stagingDirectory.listFiles();            
+            
             if (listFiles != null) {
                 for (File moduleFile : listFiles) {
         
                     final String targetFileName = moduleFile.getName();
                     
                     MojoUtils.copyFile(moduleFile, targetDirectory, targetFileName);
+                    if (logger.isInfoEnabled()) {
+                        logger.info("Copying from from staging directory: " + moduleFile);
+                    }
                 }
             }
         }

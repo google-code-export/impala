@@ -22,6 +22,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 
 /**
  * Goal which makes module available to a pre-configured directory
@@ -44,6 +45,8 @@ public class StageModuleMojo extends AbstractMojo {
     private String moduleStagingDirectory;
     
     public void execute() throws MojoExecutionException {
+
+        final Log log = getLog();
         
         if ("jar".equals(project.getPackaging())) {
 
@@ -52,9 +55,10 @@ public class StageModuleMojo extends AbstractMojo {
             //copying module to staging directory
             
             final File file = project.getArtifact().getFile();
-            System.out.println(file.getAbsolutePath());
             
-            System.out.println("Copying file " + file.getAbsolutePath() + " to module staging directory: " + moduleStagingDirectory);
+            if (log.isInfoEnabled()) {
+                log.info("Copying file " + file.getAbsolutePath() + " to module staging directory: " + moduleStagingDirectory);
+            }
             
             final File targetDirectory = new File(moduleStagingDirectory);
             try {
