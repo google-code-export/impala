@@ -1,9 +1,7 @@
 <projectDescription>
   <name>maven-host</name>
   <comment/>
-  <projects>
-    <project>maven-main</project>
-  </projects>
+  <projects/>
   <buildSpec>
     <buildCommand>
       <name>org.eclipse.jdt.core.javabuilder</name>

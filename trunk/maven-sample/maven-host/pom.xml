@@ -23,9 +23,79 @@
 	</repositories>
 	<dependencies>
 		<dependency>
-			<groupId>org.impalaframework.samples.maven</groupId>
-			<artifactId>maven-main</artifactId>
+			<groupId>org.impalaframework</groupId>
+			<artifactId>impala-core</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.impalaframework</groupId>
+			<artifactId>impala-web</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.impalaframework</groupId>
+			<artifactId>impala-jmx</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+	   <dependency>
+	      <groupId>org.slf4j</groupId>
+	      <artifactId>jcl-over-slf4j</artifactId>
+	      <version>1.5.8</version>
+	      <scope>runtime</scope>
+	   </dependency>
+	   <dependency>
+	      <groupId>org.slf4j</groupId>
+	      <artifactId>slf4j-api</artifactId>
+	      <version>1.5.8</version>
+	      <scope>runtime</scope>
+	   </dependency>
+	   <dependency>
+	      <groupId>org.slf4j</groupId>
+	      <artifactId>slf4j-log4j12</artifactId>
+	      <version>1.5.8</version>
+	      <scope>runtime</scope>
+	   </dependency>
+	   <dependency>
+	      <groupId>log4j</groupId>
+	      <artifactId>log4j</artifactId>
+	      <version>1.2.14</version>
+	      <scope>runtime</scope>
+	   </dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>commons-logging</groupId>
+					<artifactId>commons-logging</artifactId>
+				</exclusion>
+			</exclusions>  
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>2.1_3</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
