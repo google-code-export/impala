@@ -18,6 +18,6 @@ import org.impalaframework.web.WebConstants;
 public class StartServer {
     public static void main(String[] args) {
         System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
-        StartJetty.main(new String[]{"8080", "../webframeworks-host/context", "/webframeworks-web"});
+        StartJetty.main(new String[]{"8080", "../webframeworks-host/context", "/webframeworks-host"});
     }
 }

@@ -4,7 +4,6 @@
     <property environment="env"/>
     <property name = "workspace.root" location = ".."/>
     <property name = "impala.home" location = "${env.IMPALA_HOME}"/>
-    <property file = "${workspace.root}/webframeworks-main/shared.properties"/>
     
     <property file = "build.properties"/>
     <property file = "${workspace.root}/webframeworks-build/shared.properties"/>
