@@ -198,13 +198,7 @@ public class Booking implements Serializable {
     }
     }
     */
-
-    private Date today() {
-    Calendar calendar = Calendar.getInstance();
-    calendar.add(Calendar.DAY_OF_MONTH, -1);
-    return calendar.getTime();
-    }
-
+    
     @Override
     public String toString() {
     return "Booking(" + user + "," + hotel + ")";
