@@ -1,6 +1,6 @@
 <parent>
     <names>
-    webframeworks
+    webframeworks-main
     webframeworks-service
     webframeworks-web
     webframeworks-struts
