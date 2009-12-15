@@ -7,6 +7,18 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>impala-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
+   <distributionManagement>
+        <repository>
+            <id>your-id-releases</id>
+            <name>Impala releases repository</name>
+            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+        </repository>
+        <snapshotRepository>
+            <id>impalaframework-snapshots</id>
+            <name>Impala releases repository</name>
+            <url>http://oss.sonatype.org/content/repositories/impalaframework-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>
