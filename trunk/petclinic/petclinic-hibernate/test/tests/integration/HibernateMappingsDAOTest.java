@@ -27,7 +27,7 @@ public class HibernateMappingsDAOTest extends TestCase implements
 
     public RootModuleDefinition getModuleDefinition() {
 
-        return new SimpleModuleDefinitionSource("petclinic",
+        return new SimpleModuleDefinitionSource("petclinic-main",
                 new String[] { "petclinic-context.xml" },
                 new String[] { "petclinic-hibernate" }).getModuleDefinition();
     }

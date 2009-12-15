@@ -76,8 +76,8 @@ public class HibernateClinicTest extends TestCase implements
         jdbcTemplate = new JdbcTemplate(Impala.getBean(
                 "dataSource", DataSource.class));
 
-        runScript("../petclinic/db/emptyDB.txt");
-        runScript("../petclinic/db/populateDB.txt");
+        runScript("../petclinic-build/db/emptyDB.txt");
+        runScript("../petclinic-build/db/populateDB.txt");
     }
 
     private void runScript(String file) throws IOException,
@@ -238,7 +238,7 @@ public class HibernateClinicTest extends TestCase implements
 
     public RootModuleDefinition getModuleDefinition() {
 
-        return new SimpleModuleDefinitionSource("petclinic",
+        return new SimpleModuleDefinitionSource("petclinic-main",
                 new String[] { "petclinic-context.xml" }, new String[] {
                         "petclinic-hibernate", 
                         "petclinic-service" })
