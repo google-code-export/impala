@@ -32,6 +32,8 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
     private Class<?>[] exportTypes;
 
     private Class<?>[] proxyTypes;
+    
+    private String exportName;
 
     /* *************** Abstract superclass method implementation ************** */
 
@@ -40,7 +42,7 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
         Assert.notNull(exportTypes, "Export types cannot be null for " + TypedServiceProxyFactoryBean.class);
         
         //note that if proxy types are supplied, they will be used for proxies instead of export types
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, exportTypes, getBeanName());
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, exportTypes, exportName);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
@@ -54,6 +56,10 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
     
     public void setProxyTypes(Class<?>[] proxyTypes) {
         this.proxyTypes = proxyTypes;
+    }
+    
+    public void setExportName(String exportName) {
+        this.exportName = exportName;
     }
     
 }
