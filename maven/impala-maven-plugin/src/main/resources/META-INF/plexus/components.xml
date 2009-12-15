@@ -12,7 +12,7 @@
 				<phases>
 					<phases>
 						<process-resources>
-							org.impalaframework.maven.plugin:impala-maven-plugin:touch
+							org.impalaframework:impala-maven-plugin:touch
 						</process-resources>
 					</phases>
 				</phases>

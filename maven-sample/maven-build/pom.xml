@@ -26,7 +26,7 @@
 				</configuration>
 			</plugin>
 			<plugin>
-				<groupId>org.impalaframework.maven.plugin</groupId>
+				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
 				<version>${project.version}</version>
