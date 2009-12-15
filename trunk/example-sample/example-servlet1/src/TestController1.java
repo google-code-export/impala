@@ -21,9 +21,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.impalaframework.config.FloatPropertyValue;
-import org.impalaframework.web.servlet.wrapper.ValueHolder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+
+import shared.ValueHolder;
 
 public class TestController1 extends MultiActionController {
 
