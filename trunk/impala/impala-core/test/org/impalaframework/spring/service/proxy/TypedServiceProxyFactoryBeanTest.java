@@ -49,7 +49,7 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
     
     public void testWithExportTypesAndBeanName() throws Exception {
         
-        bean.setBeanName("mybean");
+        bean.setExportName("mybean");
         bean.setExportTypes(exportTypes);
         bean.afterPropertiesSet();
 
