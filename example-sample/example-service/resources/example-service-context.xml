@@ -68,7 +68,12 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
     -->     
     <service:import id="typedMessageService" exportTypes="interfaces.MessageService"/>
-    
+     
+    <!-- 
+    Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
+    -->     
+    <service:import id="nameAndTypedMessageService" exportTypes="interfaces.MessageService" exportName="namedMessageService"/>
+      
     <!-- 
     Imports a bean exported using the name 'myNamedMessageService', and proxied using the type interfaces.MessageService
     -->     

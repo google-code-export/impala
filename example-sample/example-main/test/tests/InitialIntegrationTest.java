@@ -34,7 +34,7 @@ public class InitialIntegrationTest extends BaseIntegrationTest {
     }
 
     public RootModuleDefinition getModuleDefinition() {
-        return new TestDefinitionSource("example").getModuleDefinition();
+        return new TestDefinitionSource("example-main").getModuleDefinition();
     }
 
 }

@@ -49,7 +49,7 @@ public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
     }
 
     public RootModuleDefinition getModuleDefinition() {
-        SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
+        SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example-main", 
                         new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
                         "example-hibernate", "example-dao", "example-service" });
         

@@ -110,7 +110,7 @@ public class EntryServiceTest extends BaseExampleTest {
     }
 
     public RootModuleDefinition getModuleDefinition() {
-        SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example", 
+        SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example-main", 
                         new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
                         "example-hibernate", "example-dao", "example-service"});
         
