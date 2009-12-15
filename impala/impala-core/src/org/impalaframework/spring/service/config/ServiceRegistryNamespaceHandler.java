@@ -112,11 +112,18 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
                 return FilteredServiceProxyFactoryBean.class;
             }
             
-            if (hasAttribute(element, "exportName")) {
-                return NamedServiceProxyFactoryBean.class;
+            final boolean hasExportName = hasAttribute(element, "exportName");
+            final boolean hasExportTypes = hasAttribute(element, "exportTypes");
+            
+            if (hasExportTypes) {
+                return TypedServiceProxyFactoryBean.class;
             }
-            boolean hasExportTypes = hasAttribute(element, "exportTypes");
-            return hasExportTypes ? TypedServiceProxyFactoryBean.class : NamedServiceProxyFactoryBean.class;
+            
+            if (!hasExportName) {
+                throw new BeanDefinitionValidationException("Missing one of 'exportName', 'exportTypes' and 'filterExpression' attributes " + inNameString("import"));
+            }
+            
+            return NamedServiceProxyFactoryBean.class;
         }
 
         @Override
@@ -136,11 +143,11 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
             }
             
             if (hasExportName) {
-                if (hasExportTypes || hasFilterExpression) {
-                    throw new BeanDefinitionValidationException("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' or 'exportTypes' attributes" + inNameString("import"));
+                if (hasFilterExpression) {
+                    throw new BeanDefinitionValidationException("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' attribute " + inNameString("import"));
                 }
                 
-                if (!hasProxyTypes) {
+                if (!hasProxyTypes && !hasExportTypes) {
                     throw new BeanDefinitionValidationException("The 'exportName' attribute has been specified, requiring also that the 'proxyTypes' be specified" + inNameString("import"));
                 }
             } else {

@@ -68,7 +68,7 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
         expectAttribute("exportName", "myExportName");
         expectAttribute("filterExpression", null);
 
-        failWith("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' or 'exportTypes' attributes, in Impala 'service' namespace, 'import' element");
+        process();        
     }
 
     public void testExportNameWithFilterExpression() throws Exception {
@@ -78,7 +78,7 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
         expectAttribute("exportName", "myExportName");
         expectAttribute("filterExpression", "myFilterExpression");
 
-        failWith("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' or 'exportTypes' attributes, in Impala 'service' namespace, 'import' element");
+        failWith("The 'exportName' attribute has been specified, which cannot be used with the 'filterExpression' attribute , in Impala 'service' namespace, 'import' element");
     }
 
     public void testExportWithNameAndProxyTypes() throws Exception {
@@ -111,12 +111,22 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
         process();    
     }
     
-    public void testClassnameForNameAndProxyTypes() throws Exception {
-        
+    public void testClassnameForNameOnly() throws Exception {
+
         expectAttribute("filterExpression", null);
+        expectAttribute("exportTypes", null);
         expectAttribute("exportName", "myExportName");
 
         classNameFor(NamedServiceProxyFactoryBean.class);    
+    }
+    
+    public void testClassnameForNameAndProxyTypes() throws Exception {
+        
+        expectAttribute("filterExpression", null);
+        expectAttribute("exportTypes", "sometype");
+        expectAttribute("exportName", "myExportName");
+
+        classNameFor(TypedServiceProxyFactoryBean.class);    
     }
 
     public void testClassnameForTypesAndFilter() throws Exception {
@@ -156,6 +166,7 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
             fail();
         }
         catch (Exception e) {
+            System.out.println(e.getMessage());
             assertEquals(expected, e.getMessage());
         }
         verify(element);
