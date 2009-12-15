@@ -170,7 +170,7 @@
 			<version>6.1.20</version>
 		</plugin>
 		<plugin>
-			<groupId>org.impalaframework.maven.plugin</groupId>
+			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-maven-plugin</artifactId>
 			<version>${project.version}</version>
 			<configuration>
