@@ -25,7 +25,7 @@
 <p>
 <a href = "/webframeworks-host/jsf/intro/intro.jsf">Home Page</a></p>
 
-<h:outputText value="#3{helloController.result}"/>
+<h:outputText value="#{helloController.result}"/>
 
 <p>Make a change to <code>SayHelloController</code>, the reload module using the 
 <a href = "http://localhost:8001/invoke?operation=reloadModule&amp;objectname=impala%3Aservice%3DmoduleManagementOperations&amp;value0=jsf&amp;type0=java.lang.String">JMX Console</a>.<br/> 
