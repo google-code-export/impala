@@ -160,6 +160,7 @@ public class MessageController  implements Controller {
 === JSP implementation ===
 
 We complete our application by showing the rather trivial JSP used to output the message provided by the `MessageService`.
+
 *Note:* that as of Impala 1.0 RC2, JSPs need to be placed in the host project. There is not yet support for hosting JSPs
 within the modules themselves.
 
