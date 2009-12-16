@@ -22,4 +22,4 @@ Then open an Eclipse workspace in the new _maven-sample_ folder, and import all 
 
 From within Eclipse, run StartServer as a web application. Then connect using the URL:
 
-http://localhost:8080/maven-web/
+http://localhost:8080/maven-host/

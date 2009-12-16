@@ -13,13 +13,13 @@ Examples are created for Struts 1, Struts2, Tapestry 5, Wicket and JSF.
 The easiest way to access the examples is to check them out directly from trunk.
 
 {{{
-svn co http://impala.googlecode.com/svn/trunk/webframeworks webframeworks
+svn co http://impala.googlecode.com/svn/trunk/webframeworks-sample webframeworks-sample
 }}}
 
-Then open an Eclipse workspace in the new _webframeworks_ folder, and import all the projects into the workspace.
+Then open an Eclipse workspace in the new _webframeworks-sample_ folder, and import all the projects into the workspace.
 
 == Run the sample ==
 
 From within Eclipse, run StartServer as a web application. Then connect using the URL:
 
-http://localhost:8080/webframeworks-web/
+http://localhost:8080/webframeworks-host/
