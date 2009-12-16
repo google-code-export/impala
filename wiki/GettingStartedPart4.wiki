@@ -10,7 +10,7 @@ Apart from these capabilities, a Spring MVC web application will look no differe
 
 We'll take a look at how Impala supports web applications in the generated starter application next.
 
-== Web project ==
+== Host project ==
 
 Java web projects are packaged in a well known structure with a web context root directory, a _WEB-INF_ subdirectory, etc. The structure of an Impala web project is shown below:
 
@@ -90,6 +90,11 @@ The recommended approach to creating modules is to use self contained modules. T
 
 It is possible to override the definition for specific modules. See [ModuleConfiguration module configuration] for more details.
 
+== Web Module ==
+
+While static resources and files as well as the main _web.xml_ is found in the _host_, reloadable web components such as controllers, Spring web configurations, and even filters, servlets, etc. 
+are normally moved into a web module. In the starter application, this contains the following.
+
 === Spring config file ===
 
 The discussion in the previous section covers some Impala specific aspects of the web application. Next, we cover other elements of the web application, starting with the Spring configuration file for the web module. Spring users will note that the rest of the application is no different from the a typical Spring MVC application, reflecting the fact that Impala does not change the Spring application programming model in any way. 
@@ -155,6 +160,8 @@ public class MessageController  implements Controller {
 === JSP implementation ===
 
 We complete our application by showing the rather trivial JSP used to output the message provided by the `MessageService`.
+*Note:* that as of Impala 1.0 RC2, JSPs need to be placed in the host project. There is not yet support for hosting JSPs
+within the modules themselves.
 
 {{{
 <html>
@@ -236,7 +243,7 @@ You can connect to the server using the URL, assuming of course that you are con
 http://localhost:8080/web/message.htm
 }}}
 
-http://impala.googlecode.com/svn/wiki/images/scaffold_message.jpg
+http://impala.googlecode.com/svn/wiki/images/scaffold_message.png
 
 === Dynamic application updates ===
 

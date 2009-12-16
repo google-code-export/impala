@@ -44,10 +44,11 @@ ant newproject
 
 You will then be guided through an interactive process where you will need to specify the following information:
 
-  * the version of Impala corresponding to the contents of Impala home, which you will need to manualy set if not using the SNAPSHOT build. (This step will be removed in the next release: see http://code.google.com/p/impala/issues/detail?id=75).
+  * the version of Impala corresponding to the contents of Impala home, which you will need to manually set if not using the SNAPSHOT build. (This step will be removed in the next release: see http://code.google.com/p/impala/issues/detail?id=75).
+  * the name of the host project. This is a standard Java web project with the added capability of being able to host Impala modules.
   * the name of the project containing the root Impala module. This project is a kind of a master project, and will also be the project from which you will typically run ANT build scripts when this is necessary.
   * the name of the project containing a non-root module. In a real world application, non-root modules would contain implementations of DAOs, service methods - anything really. In a substantial real world application there will be several if not many non-root modules, together forming a hierarchy of modules.
-  * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web project.
+  * the name of a project containing a web module. Although it is possible to have multiple web modules in a single application, the simple scaffolding starts with just one web module.
   * the name of the repository project. This contains the third party jars used by the different application modules.
   * finally, the name of the test project. The test project is really a convenience from which you can easily run suites of tests for the entire application.
 
@@ -58,7 +59,7 @@ ant newproject
 Buildfile: build.xml
 
 newproject:
-     [echo] Creating new project structure, Impala version 1.0M6
+     [echo] Creating new project structure, Impala version 1.0-SNAPSHOT
 
 scaffold:input-workspace-root:
     [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
@@ -66,6 +67,10 @@ scaffold:input-workspace-root:
 
 scaffold:input-build-project:
     [input] Please enter build project name, to be used for build module: [build]
+
+
+scaffold:input-host-project:
+    [input] Please enter host project name, to be used for host web application: [host]
 
 
 scaffold:input-main-project:
@@ -80,6 +85,10 @@ scaffold:input-web-project:
     [input] Please enter name of web module: [web]
 
 
+scaffold:input-servlet-version:
+    [input] Please enter servlet API version: (2.4, [2.5])
+
+
 scaffold:input-test-project:
     [input] Please enter name of tests project: [test]
 
@@ -90,89 +99,27 @@ scaffold:input-repository-project:
 
 scaffold:input-project-prefix:
     [input] Please enter the project name prefix: []
-^Cphil-zoios-macbook-3:impala-1.0-SNAPSHOT philzoio$ ant newproject
-Buildfile: build.xml
 
-newproject:
-     [echo] Creating new project structure, Impala version 1.0M6
-
-scaffold:input-workspace-root:
-    [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
-
-scaffold:input-build-project:
-    [input] Please enter build project name, to be used for build module: [build]
-
-scaffold:input-main-project:
-    [input] Please enter main project name, to be used for root module: [main]
-
-scaffold:input-module-project:
-    [input] Please enter name of first non-root module: [module1]
-
-scaffold:input-web-project:
-    [input] Please enter name of web module: [web]
-
-scaffold:input-test-project:
-    [input] Please enter name of tests project: [test]
-
-scaffold:input-repository-project:
-    [input] Please enter name of repository project: [repository]
-
-scaffold:input-project-prefix:
-    [input] Please enter the project name prefix: []
-myapp-
 
 scaffold:input-base-package:
     [input] Please enter the base package to be used for application: [com.application]
 
+
 scaffold:newproject-confirm:
      [echo] Workspace root location: /Users/philzoio/workspaces/newproject
-     [echo] Build project name: build
+     [echo] Build project name: host
+     [echo] Host web application project name: build
      [echo] Main (root) project name: main
      [echo] First application module project name: module1
      [echo] Web project name: web
+     [echo] Servlet API version: 2.5
      [echo] Tests project name: test
      [echo] Repository project name: repository
     [input] Press return key to continue, or CTRL + C to quit ...
 
     [mkdir] Created dir: /Users/philzoio/workspaces/newproject
 
-scaffold:filterset:
-
-scaffold:copybuild:
-     [copy] Copying 4 files to /Users/philzoio/workspaces/newproject/build
-
-scaffold:copymain:
-     [copy] Copying 11 files to /Users/philzoio/workspaces/newproject/main
-     [copy] Copied 8 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/main
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/resources
-
-copypackage:
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/main/src
-     [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/main/test
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/main/src/classes
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/main/test/classes
-
-scaffold:copymodule:
-     [copy] Copying 8 files to /Users/philzoio/workspaces/newproject/module1
-     [copy] Copied 8 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/module1
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/resources
-
-copypackage:
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/module1/src
-     [copy] Copying 2 files to /Users/philzoio/workspaces/newproject/module1/test
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/module1/src/classes
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/module1/test/classes
-
-scaffold:copyweb:
-     [copy] Copying 16 files to /Users/philzoio/workspaces/newproject/web
-     [copy] Copied 11 empty directories to 1 empty directory under /Users/philzoio/workspaces/newproject/web
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/resources
-
-copypackage:
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/src
-     [copy] Copying 1 file to /Users/philzoio/workspaces/newproject/web/test
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/web/src/classes
-   [delete] Deleting directory /Users/philzoio/workspaces/newproject/web/test/classes
+...
 
 scaffold:copytest:
      [copy] Copying 3 files to /Users/philzoio/workspaces/newproject/test
@@ -185,7 +132,8 @@ scaffold:copyrepository:
 scaffold:create:
 
 BUILD SUCCESSFUL
-Total time: 8 seconds
+Total time: 23 seconds
+
 }}}
 
 Before we import the Eclipse project, there are just two more steps to follow:
@@ -234,6 +182,7 @@ download:get:
  [download] Using following locations to retrieve resources: 
  [download] -------------------------------------------------
  [download] file:///Users/philzoio/.m2/repository/
+ [download] http://repo1.maven.org/maven2/
  [download] http://ibiblio.org/pub/packages/maven2/
  [download] -------------------------------------------------
  [download] Retrieving new resource if available for commons-logging/commons-logging/1.1/commons-logging-1.1.jar
@@ -278,13 +227,14 @@ If you reach this point and no errors are showing in your workspace, the congrat
 
 == Workspace structure == 
 
-The workspace we created in part one consists of five Eclipse projects:
+The workspace we created in part one consists of the following Eclipse projects:
 
   * *myapp-build* contains the master build scripts for the application.
+  * *myapp-host* contains the (static) host web application for deploying the modules, containing the _WEB-INF/web.xml_, JSPs, etc..
   * *myapp-main* the main project, which contains the application's root module.
   * *myapp-module1* a single sub-module, which contains an implementation of one of the services we define in the root module.
   * *myapp-repository* a project which serves purely as a repository for third party dependenciies, including the Impala libraries used by the application.
-  * *myapp-web* a web project, consisting of web application classes, view templates, web configuration files, etc.
+  * *myapp-web* a web project, consisting of web application classes, view templates, web configuration files, etc. Unlike the host part of application, this project contains web components which can be dynamically reloaded.
   * *myapp-tests* a tests project.
 
 Here's a view of the workspace in Eclipse.
