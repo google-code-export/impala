@@ -112,15 +112,10 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
                 return FilteredServiceProxyFactoryBean.class;
             }
             
-            final boolean hasExportName = hasAttribute(element, "exportName");
             final boolean hasExportTypes = hasAttribute(element, "exportTypes");
             
             if (hasExportTypes) {
                 return TypedServiceProxyFactoryBean.class;
-            }
-            
-            if (!hasExportName) {
-                throw new BeanDefinitionValidationException("Missing one of 'exportName', 'exportTypes' and 'filterExpression' attributes " + inNameString("import"));
             }
             
             return NamedServiceProxyFactoryBean.class;
