@@ -5,7 +5,6 @@
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="src" path="webconfig"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/@full.main.project.name@"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-build-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-build-@impala.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-command-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-command-@impala.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-core-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-core-@impala.version@-sources.jar"/>

@@ -3,20 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="src" path="webconfig"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/@full.main.project.name@"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/main/impala-web-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-web-@impala.version@-sources.jar" exported="true"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/web/spring-webmvc-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-webmvc-@spring.version@-sources.jar" exported="true"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/web/jsp-api-@jspapi.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/web/servlet-api-@servletapi.version@.jar" exported="true" />
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-@jasper.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-jdt-@jasper.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jasper-el-@jasper.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/juli-@jasper.version@.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jetty-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/jetty/jetty-@jetty.version@-sources.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/jetty-util-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/jetty/jetty-util-@jetty.version@-sources.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/commons-el-@commons.el.version@.jar" sourcepath="/@full.repository.project.name@/jetty/commons-el-@commons.el.version@-sources.jar"/>
-	<classpathentry kind="lib" path="/@full.repository.project.name@/jetty/xercesImpl-@xerces.version@.jar" sourcepath="/@full.repository.project.name@/main/xercesImpl-@xerces.version@-sources.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/@full.main.project.name@" exported="true"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
