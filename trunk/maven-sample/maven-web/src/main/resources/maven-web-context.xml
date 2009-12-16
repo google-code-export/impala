@@ -11,7 +11,7 @@ http://impala.googlecode.com/svn/schema/web.xsd
 http://www.impalaframework.org/schema/service 
 http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
-    <service:import id="messageService" proxyTypes="org.impalaframework.samples.maven.MessageService"/>
+    <service:import id="messageService" exportName="messageService" proxyTypes="org.impalaframework.samples.maven.MessageService"/>
 
     <web:mapping>
         <web:to-module prefix = "/maven"/> 
