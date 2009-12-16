@@ -25,10 +25,11 @@ public interface TransitionManager {
      * Defines mechanism for processing transitions, taking
      * {@link TransitionSet}, and returning {@link TransitionResultSet},
      * applying changes to the {@link ModuleStateHolder}
-     * @param application TODO
+     * @param application the current {@link Application} instance
      */
     TransitionResultSet processTransitions(
             ModuleStateHolder moduleStateHolder,
-            Application application, TransitionSet transitions);
+            Application application, 
+            TransitionSet transitions);
 
 }

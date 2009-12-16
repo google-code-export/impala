@@ -93,8 +93,6 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
     
     static class ImportBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
         
-        //FIXME extract to separate class and test
-        
         /**
          * Parses the <code>export</code> element. An example is below.
          * 
