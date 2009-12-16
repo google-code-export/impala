@@ -18,6 +18,10 @@
     <target name="scaffold:input-project-prefix" unless="">
         <input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue=""/>
     </target>
+	
+    <target name="scaffold:input-host-project" unless="host.project.name">
+        <input message="Please enter host project name, to be used for host web application:" addproperty="host.project.name" defaultvalue="host"/>
+    </target>
     
     <target name="scaffold:input-build-project" unless="build.project.name">
         <input message="Please enter build project name, to be used for build module:" addproperty="build.project.name" defaultvalue="build"/>
@@ -67,6 +71,7 @@
     -->
     <target name="scaffold:newproject-confirm" depends="scaffold:input-workspace-root,
                                 scaffold:input-build-project,
+        						scaffold:input-host-project,
                                 scaffold:input-main-project,
                                 scaffold:input-module-project,
                                 scaffold:input-web-project,
@@ -78,7 +83,8 @@
         <property name="workspace.root.location" location="${workspace.root.location.input}" />
 
         <echo>Workspace root location: ${workspace.root.location}</echo>
-        <echo>Build project name: ${build.project.name}</echo>
+        <echo>Build project name: ${host.project.name}</echo>
+        <echo>Host web application project name: ${build.project.name}</echo>
         <echo>Main (root) project name: ${main.project.name}</echo>
         <echo>First application module project name: ${module.project.name}</echo>
         <echo>Web project name: ${web.project.name}</echo>
@@ -92,6 +98,7 @@
         <property name = "copy.build.project" value = "true"/>
         <property name = "copy.module.project" value = "true"/>
         <property name = "copy.web.project" value = "true"/>
+        <property name = "copy.host.project" value = "true"/>
         
         <mkdir dir="${workspace.root.location}" />
     </target>
@@ -139,6 +146,7 @@
         <property name = "build.project.location" location = "${workspace.root.location}/${project.prefix}${build.project.name}"/>
         <property name = "main.project.location" location = "${workspace.root.location}/${project.prefix}${main.project.name}"/>
         <property name = "web.project.location" location = "${workspace.root.location}/${project.prefix}${web.project.name}"/>
+        <property name = "host.project.location" location = "${workspace.root.location}/${project.prefix}${host.project.name}"/>
         <property name = "test.project.location" location = "${workspace.root.location}/${project.prefix}${test.project.name}"/>
         <property name = "repository.project.location" location = "${workspace.root.location}/${project.prefix}${repository.project.name}"/>
         
@@ -153,6 +161,7 @@
             <filter token="repository.project.name" value="${repository.project.name}" />
 
             <filter token="full.build.project.name" value="${project.prefix}${build.project.name}" />
+            <filter token="full.host.project.name" value="${project.prefix}${host.project.name}" />
             <filter token="full.main.project.name" value="${project.prefix}${main.project.name}" />
             <filter token="full.module.project.name" value="${project.prefix}${module.project.name}" />
             <filter token="full.web.project.name" value="${project.prefix}${web.project.name}" />
@@ -254,6 +263,24 @@
         </antcall>
         
     </target>
+	
+    <target name="scaffold:copyhost" if = "copy.host.project">
+            
+        <available file="${host.project.location}" property="host.already.exists"/>
+        <fail if="host.already.exists" message="The location ${host.project.location} already exists. You probably already have a module at this location."/>
+        
+        <copy todir="${host.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/host" excludes = "**/module-context.xml,**/WEB-INF/web-*.xml">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <copy file = "${impala.home}/modules/host/context/WEB-INF/web-${servlet.api.version}.xml" 
+            tofile="${host.project.location}/context/WEB-INF/web.xml" filtering="true">
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+                
+    </target>	
     
     <target name="scaffold:copyweb" if = "copy.web.project">
 
@@ -266,11 +293,6 @@
         <copy todir="${web.project.location}" filtering="true">
             <fileset dir="${impala.home}/modules/war" excludes = "**/module-context.xml,**/WEB-INF/web-*.xml">
             </fileset>
-            <filterset refid="scaffoldFilter"/>
-        </copy>
-        
-        <copy file = "${impala.home}/modules/war/context/WEB-INF/web-${servlet.api.version}.xml" 
-            tofile="${web.project.location}/context/WEB-INF/web.xml" filtering="true">
             <filterset refid="scaffoldFilter"/>
         </copy>
     
@@ -315,6 +337,7 @@
         scaffold:newproject-confirm, 
         scaffold:filterset, 
         scaffold:copybuild, 
+        scaffold:copyhost, 
         scaffold:copymain, 
         scaffold:copymodule, 
         scaffold:copyweb,
