@@ -115,7 +115,6 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
 
         expectAttribute("filterExpression", null);
         expectAttribute("exportTypes", null);
-        expectAttribute("exportName", "myExportName");
 
         classNameFor(NamedServiceProxyFactoryBean.class);    
     }
@@ -124,7 +123,6 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
         
         expectAttribute("filterExpression", null);
         expectAttribute("exportTypes", "sometype");
-        expectAttribute("exportName", "myExportName");
 
         classNameFor(TypedServiceProxyFactoryBean.class);    
     }
@@ -138,7 +136,6 @@ public class ServiceRegistryNamespaceHandlerTest extends TestCase {
 
     public void testClassnameForTypesOnly() throws Exception {
 
-        expectAttribute("exportName", null);
         expectAttribute("filterExpression", null);
         expectAttribute("exportTypes", "mytype");
 
