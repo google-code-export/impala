@@ -86,46 +86,58 @@ Creates an instance of `BooleanPropertyValue` which can be injected into a bean 
 
 Creates an instance of `DatePropertyValue`.
 
+{{{
 <property name="datePropertyValue">
 	<dynaprop:date name="date.property" propertySource="propertySource" pattern="yyyy-MM-dd" />
 </property>
+}}}
 
 == double ==
 
 Creates an instance of `DoublePropertyValue`.
 
+{{{
 <property name="doublePropertyValue">
 	<dynaprop:double name="double.property"	propertySource="propertySource" />
 </property>
+}}}
 
 == float ==
 
 Creates an instance of `FloatPropertyValue`.
 
+{{{
 <property name="floatPropertyValue">
 	<dynaprop:float name="float.property" propertySource="propertySource" />
 </property>
+}}}
 
 == int ==
 
 Creates an instance of `IntPropertyValue`.
 
+{{{
 <property name="intPropertyValue">
 	<dynaprop:int name="int.property" propertySource="propertySource" />
 </property>
+}}}
 
 == long ==
 
 Creates an instance of `LongPropertyValue`.
 
+{{{
 <property name="longPropertyValue">
 	<dynaprop:long name="long.property" propertySource="propertySource" />
 </property>
+}}}
 
 == string ==
 
 Creates an instance of `StringPropertyValue`.
 
+{{{
 <property name="stringPropertyValue">
 	<dynaprop:string name="string.property"	propertySource="propertySource" />
 </property>
+}}}
