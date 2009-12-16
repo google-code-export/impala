@@ -78,9 +78,11 @@ Each of the dynamic property elements have a common set of attributes:
 
 Creates an instance of `BooleanPropertyValue` which can be injected into a bean requiring dynamically updatable properties.
 
+{{{
 <property name="booleanPropertyValue">
 	<dynaprop:boolean name="boolean.property"	propertySource="propertySource" />
 </property>
+}}}
 
 == date ==
 
