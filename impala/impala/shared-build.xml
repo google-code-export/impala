@@ -5,6 +5,7 @@
     <fail unless = "impala.home" message = "'impala.home' property not set"/>
     <import file = "${impala.home}/properties-build.xml"/>
     <import file = "${impala.home}/download-build.xml"/>
+    <import file = "${impala.home}/mvn-build.xml"/>
 
     <target name = "shared:init-deploy">
         <delete dir = "${deploy.dir}" failonerror="false"/>
@@ -55,8 +56,11 @@
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
     </target>  
 	
-    <target name = "shared:mvn-deploy">
-        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "mvn:deploy" inheritall = "false"/>
+    <target name = "shared:mvn-deploy" depends = "mvn:username,mvn:password">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "mvn:deploy" inheritall = "false">
+        	<property name="mvn.username" value="${mvn.username}"/>
+        	<property name="mvn.password" value="${mvn.password}"/>
+        </antforeach>
     </target> 
     
     <target name = "shared:test" depends = "shared:jar-test, shared:run-test"/>

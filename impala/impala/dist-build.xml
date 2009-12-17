@@ -23,7 +23,8 @@
                 *.xml
                 *.properties
                 osgi/*
-                scripts/*"
+                scripts/*
+                mvn/*"
                 
                 excludes="
                 build.xml
