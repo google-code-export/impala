@@ -5,6 +5,7 @@
 	<artifactId>maven-build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
+  <modelVersion>4.0.0</modelVersion>
   <artifactId>maven-web</artifactId>
   <packaging>jar</packaging>
   <name>maven-web - Maven web module</name>
