@@ -24,8 +24,12 @@
             <jvmarg value="-Dtests.directory=${test.bin.dir}"/>
         </java>
     </target>
+	
+    <target name="execution:jetty-bootstrap-location" unless = "jetty.bootstrap.location">
+    	<property name = "jetty.bootstrap.location" value="classpath:impala-embedded.properties"/>
+    </target>
 
-    <target name="execution:jetty">
+    <target name="execution:jetty" depends = "execution:jetty-bootstrap-location">
         <fail unless = "webapp.port" message = "Property 'webapp.port' has not been specified"/>
         <fail unless = "context.dir" message = "Property 'context.dir' has not been specified"/>
         <fail unless = "context.path" message = "Property 'context.path' has not been specified"/>
@@ -33,12 +37,12 @@
         <!-- TODO move this to classpath build -->
         <path id = "jetty.classpath">
             <path refid="full.classpath"/>
-            <path location = "${workspace.root}/${webapp.project.name}/webconfig"/>
+            <path location = "${workspace.root}/${webapp.project.name}/resources"/>
         </path>         
 
         <java classname="org.impalaframework.web.StartJetty" classpathref="jetty.classpath" fork="true" >
             <jvmarg line="${run.jvm.args}"/>
-            <jvmarg value="-Dimpala.execution.file.path=${impala.execution.file.path}"/>
+            <jvmarg value="-DbootstrapLocationsResource=${jetty.bootstrap.location}"/>
             <arg value="${webapp.port}"/>
             <arg value="${context.dir}"/>
             <arg value="${context.path}"/>
