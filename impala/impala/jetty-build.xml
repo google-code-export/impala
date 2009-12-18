@@ -21,7 +21,7 @@
                 excludes="${jetty.webinf.libdir.excludes}"/>
         </copy>
         
-        <!-- remove commons logging && MX4J libraries - these need to be on main class path -->
+        <!-- remove libraries which need to be on main class path only -->
         <delete>
             <fileset dir="${web.staging.dir}/war/WEB-INF/lib" includes="${jetty.webinf.libdir.removes}"/>
         </delete>
@@ -50,7 +50,7 @@
         <copy todir="${web.staging.dir}"
             flatten="true">
             <fileset dir="${repository.dir}" 
-                includes="**/launcher.jar"/>
+                includes="**/launcher*.jar"/>
         </copy>
         
         <copy todir="${web.staging.dir}">
