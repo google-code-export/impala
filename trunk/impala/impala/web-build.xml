@@ -21,7 +21,7 @@
     
     <target 
         name="web:libs" 
-        depends="web:stage">
+        depends="web:stage, project:compile">
         
         <property name = "web.lib.includes" value = "**/*.jar"/>
         <property name = "web.lib.excludes" value = "dist/*,**/*-sources.jar"/>
@@ -54,7 +54,7 @@
         
         <copy todir="${war.staging.dir}/WEB-INF/classes"
             overwrite="true">
-            <fileset dir="${external.web.config.dir}"/>
+            <fileset dir="${bin.dir}"/>
         </copy>
     </target>
     
