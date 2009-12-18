@@ -5,8 +5,6 @@
 	<artifactId>maven-build</artifactId>
     <version>1.0-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>org.impalaframework.samples.maven</groupId>
   <artifactId>maven-web</artifactId>
   <packaging>jar</packaging>
   <name>maven-web - Maven web module</name>

@@ -15,7 +15,17 @@
 		<module>../maven-module</module>
 		<module>../maven-web</module>
 		<module>../maven-host</module>
-	</modules>
+	</modules>	
+	<repositories>
+		<repository>
+			<id>Impala</id>
+			<url>http://impala.googlecode.com/svn/maven/repo</url>
+		</repository>
+		<repository>
+			<id>Spring</id>
+			<url>http://maven.springframework.org/milestone</url>
+		</repository>
+	</repositories>
 	<build>
 		<plugins>
 			<plugin>

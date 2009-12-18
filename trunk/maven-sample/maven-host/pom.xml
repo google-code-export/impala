@@ -6,21 +6,9 @@
 		<version>1.0-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>org.impalaframework.samples.maven</groupId>
 	<artifactId>maven-host</artifactId>
 	<packaging>war</packaging>
 	<name>maven-host - Maven host web application</name>
-	<url>http://maven.apache.org</url>
-	<repositories>
-		<repository>
-			<id>Impala</id>
-			<url>http://impala.googlecode.com/svn/maven/repo</url>
-		</repository>
-		<repository>
-			<id>Spring</id>
-			<url>http://maven.springframework.org/milestone</url>
-		</repository>
-	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
@@ -95,7 +83,7 @@
 		<dependency>
 			<groupId>cglib</groupId>
 			<artifactId>cglib-nodep</artifactId>
-			<version>2.1_3</version>
+			<version>2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
