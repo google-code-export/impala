@@ -2,7 +2,6 @@
   <name>maven-web</name>
   <comment/>
   <projects>
-    <project>maven-host</project>
     <project>maven-main</project>
   </projects>
   <buildSpec>
