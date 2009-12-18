@@ -8,10 +8,14 @@
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/annotations-api/6.0.16/annotations-api-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0.jar" sourcepath="M2_REPO/aopalliance/aopalliance/1.0/aopalliance-1.0-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/catalina/6.0.16/catalina-6.0.16.jar"/>
-  <classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/cglib/cglib-nodep/2.2/cglib-nodep-2.2.jar" sourcepath="M2_REPO/cglib/cglib-nodep/2.2/cglib-nodep-2.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/commons-el/commons-el/1.0/commons-el-1.0.jar" sourcepath="M2_REPO/commons-el/commons-el/1.0/commons-el-1.0-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/easymock/easymock/2.2/easymock-2.2.jar" sourcepath="M2_REPO/org/easymock/easymock/2.2/easymock-2.2-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/easymock/easymockclassextension/2.2/easymockclassextension-2.2.jar" sourcepath="M2_REPO/org/easymock/easymockclassextension/2.2/easymockclassextension-2.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/el-api/6.0.16/el-api-6.0.16.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-command/1.0-SNAPSHOT/impala-command-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-command/1.0-SNAPSHOT/impala-command-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-core/1.0-SNAPSHOT/impala-core-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-core/1.0-SNAPSHOT/impala-core-1.0-SNAPSHOT-sources.jar"/>
+  <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-interactive/1.0-SNAPSHOT/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-interactive/1.0-SNAPSHOT/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-jmx/1.0-SNAPSHOT/impala-jmx-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-jmx/1.0-SNAPSHOT/impala-jmx-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT.jar" sourcepath="M2_REPO/org/impalaframework/impala-web/1.0-SNAPSHOT/impala-web-1.0-SNAPSHOT-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jasper/6.0.16/jasper-6.0.16.jar"/>
@@ -23,6 +27,7 @@
   <classpathentry kind="var" path="M2_REPO/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1.jar" sourcepath="M2_REPO/javax/servlet/jsp/jsp-api/2.1/jsp-api-2.1-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/jsp-api/6.0.16/jsp-api-6.0.16.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/juli/6.0.16/juli-6.0.16.jar"/>
+  <classpathentry kind="var" path="M2_REPO/junit/junit/3.8.2/junit-3.8.2.jar" sourcepath="M2_REPO/junit/junit/3.8.2/junit-3.8.2-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14.jar" sourcepath="M2_REPO/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5.jar" sourcepath="M2_REPO/javax/servlet/servlet-api/2.5/servlet-api-2.5-sources.jar"/>
   <classpathentry kind="var" path="M2_REPO/org/apache/tomcat/servlet-api/6.0.16/servlet-api-6.0.16.jar"/>
