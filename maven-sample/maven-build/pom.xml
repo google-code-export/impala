@@ -8,7 +8,7 @@
 	<packaging>pom</packaging>
 	<properties>
 		<spring.version>3.0.0.RC3</spring.version>
-		<build.version>1.0-SNAPSHOT</build.version>
+		<application.version>1.0-SNAPSHOT</application.version>
 	</properties>
 	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
@@ -40,7 +40,7 @@
 				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>${build.version}</version>
+				<version>${application.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
