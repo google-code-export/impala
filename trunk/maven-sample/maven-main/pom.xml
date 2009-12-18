@@ -3,27 +3,28 @@
 	<parent>
 		<groupId>org.impalaframework.samples.maven</groupId>
 		<artifactId>maven-build</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>	
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>maven-main</artifactId>
+	<version>${build.version}</version>
 	<packaging>jar</packaging>
 	<name>maven-main - Maven root application module</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-core</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-web</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-jmx</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 	   <dependency>
 	      <groupId>org.slf4j</groupId>
@@ -112,13 +113,13 @@
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-command</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-interactive</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

@@ -3,27 +3,28 @@
 	<parent>
 		<groupId>org.impalaframework.samples.maven</groupId>
 		<artifactId>maven-build</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.0</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>maven-host</artifactId>
+	<version>${build.version}</version>
 	<packaging>war</packaging>
 	<name>maven-host - Maven host web application</name>
 	<dependencies>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-core</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-web</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-jmx</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 		</dependency>
 	   <dependency>
 	      <groupId>org.slf4j</groupId>
@@ -160,7 +161,7 @@
 		<plugin>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-maven-plugin</artifactId>
-			<version>${project.version}</version>
+			<version>${build.version}</version>
 			<configuration>
 				<moduleStagingDirectory>../maven-build/target/staging</moduleStagingDirectory>
 			</configuration>
