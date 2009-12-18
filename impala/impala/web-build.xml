@@ -24,7 +24,7 @@
         depends="web:stage, project:compile">
         
         <property name = "web.lib.includes" value = "**/*.jar"/>
-        <property name = "web.lib.excludes" value = "**/*-sources.jar,dist/*,provided/*,system/*,test/*"/>
+        <property name = "web.lib.excludes" value = "**/*-sources.jar,dist/*,provided/*,system/*,test/*,jetty/*"/>
         <property name = "extensions.lib.includes" value = "dist/*extension*.jar"/>
         <property name = "extensions.lib.excludes" value = "dist/*-sources.jar"/>
         <property name = "web.modules.target" value = "${war.staging.dir}/WEB-INF/modules"/>
