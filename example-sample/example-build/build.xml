@@ -18,6 +18,12 @@
     <import file = "${impala.home}/download-build.xml"/>
     <import file = "${impala.home}/repository-build.xml"/>
     <import file = "${impala.home}/execution-build.xml"/>
+	
+	<target name = "jetty-zip-only">
+		<ant dir="${workspace.root}/example-host" target="jetty:zip" inheritall="false"/>
+	</target>
+	
+	<target name = "jetty-zip" depends = "clean, dist, war, jetty-zip-only"/>
     
     <target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
     <target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala distributables"/>
