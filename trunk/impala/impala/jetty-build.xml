@@ -4,8 +4,6 @@
     <property file="${impala.home}/jetty-build.properties"/>
     <import file = "${impala.home}/tomcat-build.xml"/>
     
-    <property name = "web.lib.excludes" value = "${jetty.web.lib.excludes}"/>
-    
     <target 
         name="jetty:stage">
         <antcall target="web:libs">
@@ -67,6 +65,10 @@
         <chmod perm = "755">
             <fileset dir = "${web.staging.dir}" includes = "*.sh"/>
         </chmod>
+    	
+		<copy todir="${web.staging.dir}/config">
+			<fileset dir = "${web.staging.dir}/war/WEB-INF/classes" includes="log4j.properties"/>
+		</copy>
     </target>
     
     <target 
@@ -80,19 +82,18 @@
     </target>
     
     <target 
-        name="jetty:zipprefix"
-        unless="jetty.zip.prefix">
+        name="jetty:zipname"
+        unless="jetty.zip.name">
         
-        <property name = "jetty.zip.prefix" value="${project.name}"/>
-        
+        <property name = "jetty.zip.name" value="${project.name}-jetty"/>
     </target>   
     
     <target 
         name="jetty:zip"
-        depends="jetty:dist, jetty:zipprefix">
+        depends="jetty:dist, jetty:zipname">
         
-        <zip file = "${deploy.dir}/${jetty.zip.prefix}-jetty.zip">
-            <zipfileset dir = "${web.staging.dir}" prefix="${jetty.zip.prefix}"/>
+        <zip file = "${deploy.dir}/${jetty.zip.name}.zip">
+            <zipfileset dir = "${web.staging.dir}" prefix="${jetty.zip.name}"/>
         </zip>
         
     </target>
