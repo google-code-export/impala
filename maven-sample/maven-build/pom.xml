@@ -3,11 +3,12 @@
                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.impalaframework.samples.maven</groupId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0</version>
 	<artifactId>maven-build</artifactId>
 	<packaging>pom</packaging>
 	<properties>
 		<spring.version>3.0.0.RC3</spring.version>
+		<build.version>1.0-SNAPSHOT</build.version>
 	</properties>
 	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
@@ -39,7 +40,7 @@
 				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>${project.version}</version>
+				<version>${build.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
