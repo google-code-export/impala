@@ -44,7 +44,7 @@ public class ConfigurableFileFilterTest extends TestCase {
         checkSize(parent, "jetty:*;main:impala,cglib", "main:jmx,cglib", 0);
         
         //impala is not in main. All files should appear
-        checkSize(parent, "jetty:jetty;main:*", "main:jmx", 10);
+        checkSize(parent, "jetty:jetty;main:*", "main:jmx", 8);
         
         //now we also exclude cglib
         checkSize(parent, "jetty:*", null, 0);

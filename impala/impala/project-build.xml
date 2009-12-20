@@ -123,6 +123,11 @@
                 excludes=
                 "**/*.java"/>
         </copy>
+    	<!--
+        <copy todir="${test.bin.dir}" failonerror="false">
+            <fileset dir="${test.resources.dir}"/>
+        </copy>
+        -->
     </target>
     
     <target name="project:unless-max-memory" unless = "max-memory">

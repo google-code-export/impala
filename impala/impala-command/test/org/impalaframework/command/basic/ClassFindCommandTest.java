@@ -49,8 +49,8 @@ public class ClassFindCommandTest extends ManualClassFindCommandTest {
 
         // show that it can handle packages correctly (if last part is correctly
         // specified)
-        doTest(command, "ClassFindCommand", 4);
-        doTest(command, "basic.ClassFindCommand", 4);
+        doTest(command, "ClassFindCommand", 2);
+        doTest(command, "basic.ClassFindCommand", 2);
 
         // will not find inner class
         doTest(command, "PrintDetails", 1);

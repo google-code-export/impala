@@ -71,7 +71,7 @@ public class ManualClassFindCommandTest extends TestCase {
     }
 
     protected ClassFindCommand getCommand() {
-        File mainSrc = new File("../impala-command/bin");
+        File mainSrc = new File("../impala-command/testbin");
         File mainTest = new File("../impala-web/bin");
         List<File> classDirectories = new ArrayList<File>();
         classDirectories.add(mainSrc);

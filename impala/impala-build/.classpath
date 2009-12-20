@@ -4,12 +4,12 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/impala-repository/test/junit-3.8.1.jar" sourcepath="/impala-repository/test/junit-3.8.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/impala-repository/test/junit-3.8.2.jar" sourcepath="/impala-repository/test/junit-3.8.2-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/build/ant-1.7.1.jar" sourcepath="/impala-repository/build/ant-1.7.1-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/build/ant-launcher-1.7.0.jar"/>
-	<classpathentry kind="lib" path="/impala-repository/main/jcl-over-slf4j-1.5.8.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/main/jcl-over-slf4j-1.5.8.jar" sourcepath="/impala-repository/main/jcl-over-slf4j-1.5.8-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/main/log4j-1.2.15.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/main/slf4j-api-1.5.8.jar"/>
-	<classpathentry kind="lib" path="/impala-repository/main/slf4j-log4j12-1.5.8.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/main/slf4j-log4j12-1.5.8.jar" sourcepath="/impala-repository/main/slf4j-log4j12-1.5.8-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
