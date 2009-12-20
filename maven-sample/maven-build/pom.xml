@@ -7,7 +7,7 @@
 	<artifactId>maven-build</artifactId>
 	<packaging>pom</packaging>
 	<properties>
-		<spring.version>3.0.0.RC3</spring.version>
+		<spring.version>3.0.0.RELEASE</spring.version>
 		<application.version>1.0-SNAPSHOT</application.version>
 		<impala.version>1.0-SNAPSHOT</impala.version>
 	</properties>
