@@ -9,6 +9,7 @@
 	<properties>
 		<spring.version>3.0.0.RC3</spring.version>
 		<application.version>1.0-SNAPSHOT</application.version>
+		<impala.version>1.0-SNAPSHOT</impala.version>
 	</properties>
 	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
@@ -31,17 +32,17 @@
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-core</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-web</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-jmx</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.version}</version>
 		</dependency>
 	   <dependency>
 	      <groupId>org.slf4j</groupId>
@@ -195,13 +196,13 @@
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-command</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-interactive</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.version}</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
@@ -218,7 +219,7 @@
 				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>${application.version}</version>
+				<version>${impala.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
