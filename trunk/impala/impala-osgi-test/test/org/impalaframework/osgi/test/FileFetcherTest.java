@@ -23,7 +23,7 @@ public class FileFetcherTest extends TestCase {
         checkSize("jetty:*;main:impala,cglib", "main:jmx,cglib", 0);
         
         //impala is not in main. All files should appear
-        checkSize("jetty:jetty;main:*", "main:jmx", 10);
+        checkSize("jetty:jetty;main:*", "main:jmx", 8);
         
         //now we also exclude cglib
         checkSize("jetty:*", null, 0);
@@ -31,7 +31,7 @@ public class FileFetcherTest extends TestCase {
     }
     
     public void testMultipleFolders() {
-        checkSize("build:junit;main:cglib", null, new String[]{"main", "build"}, 2);
+        checkSize("build:junit;main:cglib", null, new String[]{"main", "build"}, 1);
     }
 
     private void checkSize(String includes, String excludes, int size) {
