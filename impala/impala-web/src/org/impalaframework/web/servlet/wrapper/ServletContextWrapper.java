@@ -19,8 +19,9 @@ import javax.servlet.ServletContext;
 import org.impalaframework.module.ModuleDefinition;
 
 /**
- * Defines a mechanism for wrapping a <code>ServletContext</code>, ordinarily
- * with one which is "module-aware".
+ * Defines a mechanism for wrapping a {@link ServletContext}, ordinarily
+ * with one which is "module-aware" or performs any additional purpose outside
+ * of the usual Servlet container capability set.
  * 
  * @author Phil Zoio
  */
