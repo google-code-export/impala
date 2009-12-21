@@ -29,6 +29,7 @@ public class AutomatedExampleTests {
         suite.addTestSuite(InitialIntegrationTest.class);
         suite.addTestSuite(EntryServiceTest.class);
         suite.addTestSuite(EntryDAOTest.class);
+        suite.addTestSuite(ResourceTest.class);
         return suite;
     }
 }
