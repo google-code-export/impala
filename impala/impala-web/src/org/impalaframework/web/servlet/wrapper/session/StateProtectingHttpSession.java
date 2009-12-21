@@ -61,74 +61,74 @@ public class StateProtectingHttpSession extends PartitionedHttpSession {
      * {@link HttpSession#getAttribute(String)} detects attempts to access items from session
      * using an "old" class loader. In this case, instances which can be
      * serialized can be cloned and "read-in" using the new module's class
-	 * loader, and "recovered" in this way. Non-serializable class instances
-	 * cannot be recovered. In this case, the session attribute is discarded and
-	 * a message is logged.
-	 */
-	@Override
-	public Object getAttribute(String name) {
-		
-		Object attribute = super.getAttribute(name);
-		
-		if (attribute == null) 
-			return null;
-		
-		ClassLoader attributeClassLoader = attribute.getClass().getClassLoader();
-		if (!ClassLoaderUtils.isVisibleFrom(attributeClassLoader, moduleClassLoader)) {
-			
-			if (!(attribute instanceof Serializable)) {
-				logger.warn("Object in session under key [" + name + "] is not compatible with the current class loader, and cannot be recovered because it does not implement " + Serializable.class.getName() + ". Attribute will be removed from the session");
-				this.removeAttribute(name);
-				return null;
-			}
-			
-			SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
-			
-			Object clonedAttribute = null;
-			try {
-				clonedAttribute = clone(attribute, helper);
-			} catch (RuntimeException e) {
-				handleReloadFailure(name);
-				return null;
-			}
-			
-			//explicitly set as the session attribute object has changed
-			this.setAttribute(name, clonedAttribute);
-			return clonedAttribute;
-		}
-		
-		return attribute;
-	}
+     * loader, and "recovered" in this way. Non-serializable class instances
+     * cannot be recovered. In this case, the session attribute is discarded and
+     * a message is logged.
+     */
+    @Override
+    public Object getAttribute(String name) {
+        
+        Object attribute = super.getAttribute(name);
+        
+        if (attribute == null) 
+            return null;
+        
+        ClassLoader attributeClassLoader = attribute.getClass().getClassLoader();
+        if (!ClassLoaderUtils.isVisibleFrom(attributeClassLoader, moduleClassLoader)) {
+            
+            if (!(attribute instanceof Serializable)) {
+                logger.warn("Object in session under key [" + name + "] is not compatible with the current class loader, and cannot be recovered because it does not implement " + Serializable.class.getName() + ". Attribute will be removed from the session");
+                this.removeAttribute(name);
+                return null;
+            }
+            
+            SerializationHelper helper = new SerializationHelper(new ClassLoaderAwareSerializationStreamFactory(moduleClassLoader));
+            
+            Object clonedAttribute = null;
+            try {
+                clonedAttribute = clone(attribute, helper);
+            } catch (RuntimeException e) {
+                handleReloadFailure(name);
+                return null;
+            }
+            
+            //explicitly set as the session attribute object has changed
+            this.setAttribute(name, clonedAttribute);
+            return clonedAttribute;
+        }
+        
+        return attribute;
+    }
 
-	protected void handleReloadFailure(String name) {
-		final boolean preserveSession = getPreserveSession();
-		if (preserveSession) {
-			logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
-			this.removeAttribute(name);
-		}
-		else {
-			logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Session will be invalidated");
-			this.invalidate();
-		}
-	}
+    protected void handleReloadFailure(String name) {
+        final boolean preserveSession = getPreserveSession();
+        if (preserveSession) {
+            logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Attribute will be removed from the session");
+            this.removeAttribute(name);
+        }
+        else {
+            logger.warn("Object in session under key [" + name + "] is serializable but could not be recovered through serialization based cloning. Session will be invalidated");
+            this.invalidate();
+        }
+    }
 
-	boolean getPreserveSession() {
-		final PropertySource propertySource = PropertySourceHolder.getInstance().getPropertySource();
-		if (propertySource == null) return true;
-		BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
-		
-		final boolean preserveSession = preserveSessionOnReloadFailure.getValue();
-		return preserveSession;
-	}
+    boolean getPreserveSession() {
+        final PropertySource propertySource = PropertySourceHolder.getInstance().getPropertySource();
+        if (propertySource == null) return true;
+        BooleanPropertyValue preserveSessionOnReloadFailure = new BooleanPropertyValue(propertySource, WebBootstrapProperties.PRESERVE_SESSION_ON_RELOAD_FAILURE, true);
+        
+        final boolean preserveSession = preserveSessionOnReloadFailure.getValue();
+        return preserveSession;
+    }
 
-	/* ************************** Helper methods *************************** */
-	
-	Object clone(Object attribute, SerializationHelper helper) {
-		return helper.clone((Serializable) attribute);
-	}
+    /* ************************** Helper methods *************************** */
+    
+    Object clone(Object attribute, SerializationHelper helper) {
+        return helper.clone((Serializable) attribute);
+    }
 
-	ClassLoader getModuleClassLoader() {
-		return moduleClassLoader;
-	}
+    ClassLoader getModuleClassLoader() {
+        return moduleClassLoader;
+    }
 
 }

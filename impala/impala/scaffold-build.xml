@@ -18,7 +18,7 @@
     <target name="scaffold:input-project-prefix" unless="">
         <input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue=""/>
     </target>
-	
+    
     <target name="scaffold:input-host-project" unless="host.project.name">
         <input message="Please enter host project name, to be used for host web application:" addproperty="host.project.name" defaultvalue="host"/>
     </target>
@@ -71,7 +71,7 @@
     -->
     <target name="scaffold:newproject-confirm" depends="scaffold:input-workspace-root,
                                 scaffold:input-build-project,
-        						scaffold:input-host-project,
+                                scaffold:input-host-project,
                                 scaffold:input-main-project,
                                 scaffold:input-module-project,
                                 scaffold:input-web-project,
@@ -263,7 +263,7 @@
         </antcall>
         
     </target>
-	
+    
     <target name="scaffold:copyhost" if = "copy.host.project">
             
         <available file="${host.project.location}" property="host.already.exists"/>
@@ -280,7 +280,7 @@
             <filterset refid="scaffoldFilter"/>
         </copy>
                 
-    </target>	
+    </target>   
     
     <target name="scaffold:copyweb" if = "copy.web.project">
 

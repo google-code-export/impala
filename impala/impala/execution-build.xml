@@ -24,9 +24,9 @@
             <jvmarg value="-Dtests.directory=${test.bin.dir}"/>
         </java>
     </target>
-	
+    
     <target name="execution:jetty-bootstrap-location" unless = "jetty.bootstrap.location">
-    	<property name = "jetty.bootstrap.location" value="classpath:impala-embedded.properties"/>
+        <property name = "jetty.bootstrap.location" value="classpath:impala-embedded.properties"/>
     </target>
 
     <target name="execution:jetty" depends = "execution:jetty-bootstrap-location">

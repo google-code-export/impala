@@ -35,7 +35,7 @@ public class PartitionedHttpSession extends DelegatingHttpSession {
     
     private final String moduleName;
     
-	public PartitionedHttpSession(HttpSession realSession,
+    public PartitionedHttpSession(HttpSession realSession,
             WebAttributeQualifier webAttributeQualifier, 
             String applicationId,
             String moduleName) {
@@ -47,26 +47,26 @@ public class PartitionedHttpSession extends DelegatingHttpSession {
         this.applicationId = applicationId;
         this.moduleName = moduleName;
     }
-	
-	@Override
-	public void setAttribute(String name, Object value) {
+    
+    @Override
+    public void setAttribute(String name, Object value) {
         final String qualifiedAttributeName = webAttributeQualifier.getQualifiedAttributeName(name, applicationId, moduleName);
-	    super.setAttribute(qualifiedAttributeName, value);
-	}
+        super.setAttribute(qualifiedAttributeName, value);
+    }
 
     @Override
-	public Object getAttribute(String name) {
+    public Object getAttribute(String name) {
         Assert.notNull(name);
         final String qualifiedAttributeName = webAttributeQualifier.getQualifiedAttributeName(name, applicationId, moduleName);
         return super.getAttribute(qualifiedAttributeName);
-	}
-	
+    }
+    
     @Override
     @SuppressWarnings("unchecked")
-	public Enumeration<String> getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         Enumeration<String> attributeNames = super.getAttributeNames();
         
         return webAttributeQualifier.filterAttributeNames(attributeNames, applicationId, moduleName);
-	}
+    }
 
 }

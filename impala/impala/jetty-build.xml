@@ -65,10 +65,10 @@
         <chmod perm = "755">
             <fileset dir = "${web.staging.dir}" includes = "*.sh"/>
         </chmod>
-    	
-		<copy todir="${web.staging.dir}/config">
-			<fileset dir = "${web.staging.dir}/war/WEB-INF/classes" includes="log4j.properties"/>
-		</copy>
+        
+        <copy todir="${web.staging.dir}/config">
+            <fileset dir = "${web.staging.dir}/war/WEB-INF/classes" includes="log4j.properties"/>
+        </copy>
     </target>
     
     <target 

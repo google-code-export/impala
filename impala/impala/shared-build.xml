@@ -55,11 +55,11 @@
     <target name = "shared:run-test">
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
     </target>  
-	
+    
     <target name = "shared:mvn-deploy" depends = "mvn:username,mvn:password">
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "mvn:deploy" inheritall = "false">
-        	<property name="mvn.username" value="${mvn.username}"/>
-        	<property name="mvn.password" value="${mvn.password}"/>
+            <property name="mvn.username" value="${mvn.username}"/>
+            <property name="mvn.password" value="${mvn.password}"/>
         </antforeach>
     </target> 
     

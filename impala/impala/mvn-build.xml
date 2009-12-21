@@ -1,15 +1,15 @@
 <?xml version="1.0"?>
 <project name="Maven Project Build" default="maven:bundle" xmlns:artifact="antlib:org.apache.maven.artifact.ant">
 
-	<property name="workspace.root" location=".." />
-	<property name="impala.home" location="${workspace.root}/impala" />
-	<import file="${impala.home}/properties-build.xml" />
+    <property name="workspace.root" location=".." />
+    <property name="impala.home" location="${workspace.root}/impala" />
+    <import file="${impala.home}/properties-build.xml" />
 
-	<path id="maven-ant-tasks.classpath" path="${impala.home}/mvn/maven-ant-tasks-2.0.10.jar" />
-	<typedef resource="org/apache/maven/artifact/ant/antlib.xml"
-	   uri="antlib:org.apache.maven.artifact.ant"
-	   classpathref="maven-ant-tasks.classpath" />
-	
+    <path id="maven-ant-tasks.classpath" path="${impala.home}/mvn/maven-ant-tasks-2.0.10.jar" />
+    <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
+       uri="antlib:org.apache.maven.artifact.ant"
+       classpathref="maven-ant-tasks.classpath" />
+    
     <target name="mvn:username" unless="mvn.username">
         <input message="Maven repo user name:" addproperty="mvn.username" />
     </target>
@@ -18,19 +18,19 @@
         <input message="Maven repo password:" addproperty="mvn.password" />
     </target>
 
-	<target name="mvn:deploy" depends = "mvn:username, mvn:password">
-		<artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
+    <target name="mvn:deploy" depends = "mvn:username, mvn:password">
+        <artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
 
-		<artifact:pom id="mypom" file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
+        <artifact:pom id="mypom" file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
 
-		<artifact:deploy 
-			file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
-			<remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots">
-				<authentication username="${mvn.username}" password="${mvn.password}"/>
-			</remoteRepository>
-			<pom refid="mypom"/>
-			<attach file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
-		</artifact:deploy>
-	</target>
+        <artifact:deploy 
+            file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
+            <remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots">
+                <authentication username="${mvn.username}" password="${mvn.password}"/>
+            </remoteRepository>
+            <pom refid="mypom"/>
+            <attach file="${workspace.root}/maven/repo/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
+        </artifact:deploy>
+    </target>
 
 </project>

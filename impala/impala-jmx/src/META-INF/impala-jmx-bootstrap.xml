@@ -11,7 +11,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         class="org.impalaframework.jmx.spring.ModuleManagementOperations"
         init-method="init">
         <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
-		<property name="applicationManager" ref="applicationManager"/>
+        <property name="applicationManager" ref="applicationManager"/>
     </bean> 
     
     <!-- Instrumented beans -->
