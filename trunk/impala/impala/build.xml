@@ -9,7 +9,7 @@
     
     <property name = "deployable.project.list" value = "impala-core,impala-command,impala-jmx,impala-build,impala-interactive,impala-web,impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
     <property name = "project.list" value = "${deployable.project.list},sample-module1,sample-module2,sample-module3,sample-module4"/>
-	<property name = "maven.artifacts" value = "impala-build,${deployable.project.list}"/>
+    <property name = "maven.artifacts" value = "impala-build,${deployable.project.list}"/>
     <import file="shared-build.xml" />
     <import file="tasks-build.xml" />
     <import file="dist-build.xml" />
@@ -76,7 +76,7 @@
             <property name = "project.dir" value="./"/>
         </ant>      
     </target>
-	
+    
     <target name = "mvndeploy" 
         depends = "shared:mvn-deploy"
         description="Deploys to Maven repository">

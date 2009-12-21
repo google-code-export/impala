@@ -8,34 +8,34 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
         
     <bean id="propertySource" class="org.impalaframework.config.StaticPropertiesPropertySource">
         <property name="properties">
-        	<bean class = "org.springframework.beans.factory.config.PropertiesFactoryBean">
-        		<property name="location" value = "classpath:dynamic.properties"/>
-        	</bean>
+            <bean class = "org.springframework.beans.factory.config.PropertiesFactoryBean">
+                <property name="location" value = "classpath:dynamic.properties"/>
+            </bean>
         </property>
     </bean>
 
-	<bean id="testBean" class="org.impalaframework.spring.config.DynamicPropertiesBean">
-		<property name="booleanPropertyValue">
-			<dynaprop:boolean name="boolean.property"	propertySource="propertySource" />
-		</property>
-		<property name="datePropertyValue">
-			<dynaprop:date name="date.property" propertySource="propertySource" pattern="yyyy-MM-dd" />
-		</property>
-		<property name="doublePropertyValue">
-			<dynaprop:double name="double.property"	propertySource="propertySource" />
-		</property>
-		<property name="floatPropertyValue">
-			<dynaprop:float name="float.property" propertySource="propertySource" />
-		</property>
-		<property name="intPropertyValue">
-			<dynaprop:int name="int.property" propertySource="propertySource" />
-		</property>
-		<property name="longPropertyValue">
-			<dynaprop:long name="long.property" propertySource="propertySource" />
-		</property>
-		<property name="stringPropertyValue">
-			<dynaprop:string name="string.property"	propertySource="propertySource" />
-		</property>
-	</bean>
+    <bean id="testBean" class="org.impalaframework.spring.config.DynamicPropertiesBean">
+        <property name="booleanPropertyValue">
+            <dynaprop:boolean name="boolean.property"   propertySource="propertySource" />
+        </property>
+        <property name="datePropertyValue">
+            <dynaprop:date name="date.property" propertySource="propertySource" pattern="yyyy-MM-dd" />
+        </property>
+        <property name="doublePropertyValue">
+            <dynaprop:double name="double.property" propertySource="propertySource" />
+        </property>
+        <property name="floatPropertyValue">
+            <dynaprop:float name="float.property" propertySource="propertySource" />
+        </property>
+        <property name="intPropertyValue">
+            <dynaprop:int name="int.property" propertySource="propertySource" />
+        </property>
+        <property name="longPropertyValue">
+            <dynaprop:long name="long.property" propertySource="propertySource" />
+        </property>
+        <property name="stringPropertyValue">
+            <dynaprop:string name="string.property" propertySource="propertySource" />
+        </property>
+    </bean>
 
 </beans>

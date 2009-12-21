@@ -285,7 +285,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>    
  
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.SpringModuleRuntime"
- 	parent="baseModuleRuntime">
+    parent="baseModuleRuntime">
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>         
  </bean>
@@ -323,8 +323,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="simpleModuleRuntime" 
- 	class="org.impalaframework.module.runtime.SimpleModuleRuntime"
- 	parent="baseModuleRuntime">
+    class="org.impalaframework.module.runtime.SimpleModuleRuntime"
+    parent="baseModuleRuntime">
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>     
  </bean>
  

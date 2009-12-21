@@ -137,16 +137,16 @@ public abstract class BaseWrapperServletContext extends
     }
     
     protected abstract String getWriteKeyToUse(String name);
-	
+    
     protected final String getApplicationId() {
         return applicationId;
     }
     
-	protected final String getModuleName() {
+    protected final String getModuleName() {
         return moduleName;
     }
-	
-	protected final WebAttributeQualifier getWebAttributeQualifier() {
+    
+    protected final WebAttributeQualifier getWebAttributeQualifier() {
         return webAttributeQualifier;
     }
 }

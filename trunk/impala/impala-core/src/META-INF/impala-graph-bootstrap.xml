@@ -25,7 +25,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <bean id="springModuleRuntime" class="org.impalaframework.spring.module.graph.SpringGraphModuleRuntime"
- 	parent="baseModuleRuntime"> 
+    parent="baseModuleRuntime"> 
     <property name = "applicationContextLoader" ref="applicationContextLoader"/>
     <property name = "classLoaderFactory" ref="classLoaderFactory"/>       
     <property name = "beanVisibilityType" ref="graphBeanVisibilityType"/>   
