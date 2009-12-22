@@ -37,13 +37,12 @@ public class OsgiUnloadTransitionProcessor extends UnloadTransitionProcessor imp
     }
 
     @Override
-    public boolean process(Application application,
+    public void process(Application application,
             RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
         
-        boolean process = super.process(application, newRootDefinition, currentDefinition);
+        super.process(application, newRootDefinition, currentDefinition);
         
-        boolean unload = findAndUnloadBundle(currentDefinition);
-        return (process & unload);
+        findAndUnloadBundle(currentDefinition);
     }
 
     boolean findAndUnloadBundle(ModuleDefinition currentDefinition) {
