@@ -30,7 +30,7 @@
         <ant antfile="${impala.home}/dist-build.xml">
             <property name="next.release.version" value="${next.release.version}"/>
         </ant>
-        <ant antfile="${impala.home}/maven-build.xml">
+        <ant antfile="${impala.home}/mvn-build.xml">
             <property name="project.version" value="${project.version}"/>
         </ant>
         <ant antfile="${impala.home}/svn-build.xml" target = "svn:tag">
