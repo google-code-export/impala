@@ -10,6 +10,7 @@
     <property name = "deployable.project.list" value = "impala-core,impala-command,impala-jmx,impala-build,impala-interactive,impala-web,impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
     <property name = "project.list" value = "${deployable.project.list},sample-module1,sample-module2,sample-module3,sample-module4"/>
     <property name = "maven.artifacts" value = "impala-build,${deployable.project.list}"/>
+    <property name = "maven.organisation" value = "org.impalaframework"/>
     <import file="shared-build.xml" />
     <import file="tasks-build.xml" />
     <import file="dist-build.xml" />
@@ -64,8 +65,9 @@
     
     <target name = "publishlocal"
         description="Publishes artifacts to local maven repository">
-        <ant antfile="maven-build.xml" dir = "./" target = "maven:publish-local" inheritall = "false">
+        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-local" inheritall = "false">
             <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
         </ant>
     </target>
     

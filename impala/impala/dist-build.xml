@@ -31,7 +31,6 @@
                 target-build.xml
                 dist*
                 launcher-build.*
-                maven-build*
                 release-build*
                 todo*"/>
         </copy>
