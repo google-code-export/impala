@@ -43,7 +43,7 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		this.moduleLoaderRegistry = moduleLoaderRegistry;
 	}
 
-	public boolean process(Application application, RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
+	public void process(Application application, RootModuleDefinition newRootDefinition, ModuleDefinition moduleDefinition) {
 
 		final ModuleLoader loader = moduleLoaderRegistry.getModuleLoader(ModuleRuntimeUtils.getModuleLoaderKey(newRootDefinition));
 		final SpringModuleLoader moduleLoader = ObjectUtils.cast(loader, SpringModuleLoader.class);
@@ -70,8 +70,6 @@ public class AddLocationsTransitionProcessor implements TransitionProcessor {
 		BeanDefinitionReader beanDefinitionReader = moduleLoader.newBeanDefinitionReader(applicationId,
 				parentContext, newRootDefinition);
 		beanDefinitionReader.loadBeanDefinitions(toAddList.toArray(new Resource[toAddList.size()]));
-
-		return true;
 	}
 
 	private List<Resource> newResourceList(Resource[] array) {

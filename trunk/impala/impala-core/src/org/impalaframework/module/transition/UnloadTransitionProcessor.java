@@ -30,7 +30,7 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
 
     private ModuleRuntimeManager moduleRuntimeManager;  
     
-    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
+    public void process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition moduleDefinition) {
         
         Assert.notNull(moduleDefinition);
         Assert.notNull(moduleRuntimeManager);
@@ -45,8 +45,6 @@ public class UnloadTransitionProcessor implements TransitionProcessor {
         if (logger.isDebugEnabled()) {
             logger.debug("Marked '" + moduleDefinition.getName() + "' to state " + moduleDefinition.getState());
         }
-        
-        return closeModule;
     }
 
     public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {
