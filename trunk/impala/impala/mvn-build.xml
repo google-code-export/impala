@@ -49,16 +49,22 @@
     <target name="mvn:deploy" depends = "mvn:username, mvn:password, mvn:repo-snapshot, mvn:repo-release">
     	
         <artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
+    	
+    	<artifactpath property = "artifact.location" 
+    		organisation = "${maven.organisation}"
+    		artifact = "${project.name}"
+    		version = "${project.version}"
+    		sources = "true"/>
 
-        <artifact:pom id="mypom" file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
+        <artifact:pom id="mypom" file="${maven.repo.root.location}/${artifact.location.pom}" />
 
         <artifact:deploy 
-            file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
+            file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
             <remoteRepository url="${mvn.repo.current}">
                 <authentication username="${mvn.username}" password="${mvn.password}"/>
             </remoteRepository>
             <pom refid="mypom"/>
-            <attach file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
+            <attach file="${maven.repo.root.location}/${artifact.location.source}" classifier="sources" /> 
         </artifact:deploy>
     </target>
 
