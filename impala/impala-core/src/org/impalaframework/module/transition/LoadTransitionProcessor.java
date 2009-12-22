@@ -36,7 +36,7 @@ public class LoadTransitionProcessor implements TransitionProcessor {
         super();
     }
 
-    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+    public void process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
 
         final String definitionName = currentDefinition.getName();
         logger.info("Loading definition " + definitionName);
@@ -44,10 +44,19 @@ public class LoadTransitionProcessor implements TransitionProcessor {
         if (ModuleState.DEPENDENCY_FAILED.equals(currentDefinition.getState()))
         {
             logger.info("Not loading module '" + definitionName + "' as one or more of its dependencies failed to load.");
-            return false;
+            return;
         }
 
-        boolean success = moduleRuntimeManager.initModule(application, currentDefinition);
+        boolean success = false;
+        Throwable throwable = null;
+        
+        try {
+            success = moduleRuntimeManager.initModule(application, currentDefinition);
+        } catch (Throwable e) {
+            throwable = e;
+            currentDefinition.setState(ModuleState.ERROR);
+            logger.error("Failed to load module " + definitionName, e);
+        }
         
         if (!success) {
 
@@ -67,7 +76,15 @@ public class LoadTransitionProcessor implements TransitionProcessor {
         if (logger.isDebugEnabled()) {
             logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
         }
-        return success;
+        
+        //FIXME test
+        if (throwable != null) {
+            if (throwable instanceof RuntimeException) {
+                throw (RuntimeException)throwable;
+            } else {
+                throw new org.impalaframework.exception.RuntimeException(throwable);
+            }
+        }
     }
 
     public void setModuleRuntimeManager(ModuleRuntimeManager moduleRuntimeManager) {

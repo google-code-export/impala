@@ -26,18 +26,12 @@ public class ReloadTransitionProcessor implements TransitionProcessor {
 
     private TransitionProcessor unloadTransitionProcessor;
 
-    public boolean process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
+    public void process(Application application, RootModuleDefinition rootDefinition, ModuleDefinition currentDefinition) {
         Assert.notNull(loadTransitionProcessor);
         Assert.notNull(unloadTransitionProcessor);
-
-        boolean success = true;
-
-        success = unloadTransitionProcessor.process(application, rootDefinition, currentDefinition);
-        if (success) {
-            success = loadTransitionProcessor.process(application, rootDefinition, currentDefinition);
-        }
-
-        return success;
+        
+        unloadTransitionProcessor.process(application, rootDefinition, currentDefinition);
+        loadTransitionProcessor.process(application, rootDefinition, currentDefinition);
     }
 
     public void setLoadTransitionProcessor(TransitionProcessor loadTransitionProcessor) {
