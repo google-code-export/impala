@@ -50,6 +50,17 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
      */
     BeanFactory findBeanFactory() {
 
+        final BeanFactory beanFactory = maybeFindBeanFactory();
+        
+        if (beanFactory != null) {
+            return beanFactory;
+        }
+        
+        throw new BeanDefinitionValidationException("No parent bean factory of application context [" + applicationContext.getDisplayName() + "] contains bean [" + getBeanNameToSearchFor() + "]");
+    }
+
+    protected BeanFactory maybeFindBeanFactory() {
+        
         BeanFactory currentBeanFactory = this.beanFactory;
         
         if (getIncludeCurrentBeanFactory()) {
@@ -80,11 +91,15 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
             }
         }
         
-        throw new BeanDefinitionValidationException("No parent bean factory of application context [" + applicationContext.getDisplayName() + "] contains bean [" + getBeanNameToSearchFor() + "]");
+        return null;
     }
 
     public Class<?> getObjectType() {
         return null;
+    }
+    
+    protected ApplicationContext getApplicationContext() {
+        return applicationContext;
     }
 
     public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
