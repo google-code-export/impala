@@ -47,11 +47,11 @@ public class OsgiLoadTransitionProcessor extends LoadTransitionProcessor impleme
     }
 
     @Override
-    public boolean process(Application application,
+    public void process(Application application,
             RootModuleDefinition newRootDefinition, ModuleDefinition currentDefinition) {
         
         findAndStartBundle(currentDefinition);
-        return super.process(application, newRootDefinition, currentDefinition);
+        super.process(application, newRootDefinition, currentDefinition);
     }
 
     void findAndStartBundle(ModuleDefinition currentDefinition) {
