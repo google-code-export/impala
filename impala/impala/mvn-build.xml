@@ -5,8 +5,10 @@
     <property name="impala.home" location="${workspace.root}/impala" />
     <import file="${impala.home}/properties-build.xml" />
     <import file="${impala.home}/tasks-build.xml" />
+    <import file="${impala.home}/tasks-build.xml" />
 
-    <property name="maven.repo.root" location="../maven/repo" />
+	<property file = "${impala.home}/mvn-build.properties"/>
+    <property name="maven.repo.root.location" location="${maven.repo.root}" />
 	
 	<!-- Local publishing to local SVN maven repo -->
 	
@@ -19,7 +21,7 @@
             sourceDir = "${repository.dir}/dist" 
             artifacts = "${maven.artifacts}" 
             organisation = "${maven.organisation}"
-            destdir = "${maven.repo.root}"/>
+            destdir = "${maven.repo.root.location}"/>
     </target>
 	
 	<!-- Deployment to remove maven repo -->
@@ -41,15 +43,15 @@
     	
         <artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
 
-        <artifact:pom id="mypom" file="${maven.repo.root}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
+        <artifact:pom id="mypom" file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.pom" />
 
         <artifact:deploy 
-            file="${maven.repo.root}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
+            file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}.jar" uniqueversion="false">
             <remoteRepository url="http://oss.sonatype.org/content/repositories/impalaframework-snapshots">
                 <authentication username="${mvn.username}" password="${mvn.password}"/>
             </remoteRepository>
             <pom refid="mypom"/>
-            <attach file="${maven.repo.root}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
+            <attach file="${maven.repo.root.location}/org/impalaframework/${project.name}/${project.version}/${project.name}-${project.version}-sources.jar" classifier="sources" /> 
         </artifact:deploy>
     </target>
 
