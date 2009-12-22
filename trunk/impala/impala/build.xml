@@ -63,14 +63,6 @@
         </ant>
     </target>
     
-    <target name = "publishlocal"
-        description="Publishes artifacts to local maven repository">
-        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-local" inheritall = "false">
-            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
-            <property name = "maven.organisation" value = "${maven.organisation}"/>
-        </ant>
-    </target>
-    
     <target name = "fixcrlf" 
         depends = "shared:fixcrlf"
         description="Fixes carriage returns and line feeds, using Unix line endings">
@@ -79,13 +71,21 @@
         </ant>      
     </target>
     
+    <target name = "mvnpublish"
+        description="Publishes artifacts to local maven repository">
+        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-local" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+        </ant>
+    </target>
+    
     <target name = "mvndeploy" 
         depends = "shared:mvn-deploy"
-        description="Deploys to Maven repository">
+        description="Deploys published artifacts to Maven repository. Use -Dmaven.release=true to deploy releases">
     </target>
     
     <target name = "tohome" 
-        depends = "all, copytohome, publishlocal"
+        depends = "all, copytohome, mvnpublish"
         description="Builds Impala directly into the IMPALA_HOME location">
     </target>
     
