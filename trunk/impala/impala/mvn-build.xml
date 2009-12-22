@@ -5,7 +5,6 @@
     <property name="impala.home" location="${workspace.root}/impala" />
     <import file="${impala.home}/properties-build.xml" />
     <import file="${impala.home}/tasks-build.xml" />
-    <import file="${impala.home}/tasks-build.xml" />
 
 	<property file = "${impala.home}/mvn-build.properties"/>
     <property name="maven.repo.root.location" location="${maven.repo.root}" />
