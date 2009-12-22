@@ -18,8 +18,13 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Task;
 
 /**
- * Copies created artifacts from dist directory to Maven publish directory. Also
- * generates simple minimal POMs for each artifact.
+ * Generates paths for jar, sources-jar and pom files based on Maven artifact info.
+ * Sets up following properties:
+ * <ul>
+ * <li>for jar, uses property
+ * <li>for sources jar, uses property.sources
+ * <li>for pom, uses property.pom
+ * </ul>
  * 
  * @author Phil Zoio
  */
