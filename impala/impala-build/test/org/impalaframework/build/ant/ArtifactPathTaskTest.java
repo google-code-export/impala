@@ -15,13 +15,36 @@
 package org.impalaframework.build.ant;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 import junit.framework.TestCase;
 
 public class ArtifactPathTaskTest extends TestCase {
+    
+    private ArtifactPathTask task;
+    private Project project;
+
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        task = new ArtifactPathTask();
+        project = new Project();
+        task.setProject(project);
+    }
+    
+    public void testExecuteWithSources() throws Exception {
+        task.setOrganisation("org.impalaframework");
+        task.setArtifact("impala-build");
+        task.setVersion("1.0");
+        task.setProperty("artifact.path");
+        
+        task.execute();
+        assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0.jar", project.getProperty("artifact.path"));
+        assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0-sources.jar", project.getProperty("artifact.path.sources"));
+        assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0.pom", project.getProperty("artifact.path.pom"));
+    }
 
     public void testCheckArgs() {
-        ArtifactPathTask task = new ArtifactPathTask();
         failCheckArgs(task, "'organisation' cannot be null");
         task.setOrganisation("org.impalaframework");
         failCheckArgs(task, "'artifact' cannot be null");
@@ -31,7 +54,7 @@ public class ArtifactPathTaskTest extends TestCase {
         failCheckArgs(task, "'property' cannot be null");
         task.setProperty("artifact.path");
         
-        task.checkArgs();
+        task.checkArgs();        
     }
 
     private void failCheckArgs(ArtifactPathTask task, String message) {

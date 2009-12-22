@@ -24,35 +24,50 @@ import org.apache.tools.ant.Task;
  * @author Phil Zoio
  */
 public class ArtifactPathTask extends Task {
-    
+
     private String version;
-    
+
     private String artifact;
-    
+
     private String organisation;
-    
+
     private String property;
-    
+
     @Override
     public void execute() throws BuildException {
 
         checkArgs();
+
+        getProject().setProperty(property, getPropertyValue(false, "jar"));
+        getProject().setProperty(property + ".pom",
+                getPropertyValue(false, "pom"));
+        getProject().setProperty(property + ".sources",
+                getPropertyValue(true, "jar"));
     }
 
-    void checkArgs() {   
-        
+    private String getPropertyValue(boolean source, String packaging) {
+
+        String organisationPart = organisation.replace('.', '/');
+        return organisationPart + "/" + artifact + "/" + version + "/"
+                + artifact + "-" + version + (source ? "-sources." : ".")
+                + packaging;
+    }
+
+    void checkArgs() {
+
         if (organisation == null) {
-            throw new BuildException("'organisation' cannot be null", getLocation());
+            throw new BuildException("'organisation' cannot be null",
+                    getLocation());
         }
-        
+
         if (artifact == null) {
             throw new BuildException("'artifact' cannot be null", getLocation());
         }
-        
+
         if (version == null) {
             throw new BuildException("'version' cannot be null", getLocation());
         }
-        
+
         if (property == null) {
             throw new BuildException("'property' cannot be null", getLocation());
         }
@@ -65,13 +80,12 @@ public class ArtifactPathTask extends Task {
     public void setArtifact(String artifact) {
         this.artifact = artifact;
     }
-    
+
     public void setVersion(String version) {
         this.version = version;
     }
-    
+
     public void setProperty(String property) {
         this.property = property;
     }
-
 }
