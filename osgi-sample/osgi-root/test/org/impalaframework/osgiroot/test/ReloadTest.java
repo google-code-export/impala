@@ -32,7 +32,7 @@ public class ReloadTest extends OsgiContextTest {
         
         ServiceReference serviceReference = bundleContext.getServiceReference(OperationsFacade.class.getName());
         OperationsFacade facade = (OperationsFacade) bundleContext.getService(serviceReference);
-        facade.reloadModule("osgi-root");
+        facade.reload("osgi-root");
         
         System.out.println("Finished reloading module --------------------- ");
     }
