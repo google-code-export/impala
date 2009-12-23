@@ -30,6 +30,7 @@
                 build.xml
                 target-build.xml
                 dist*
+                mvn-build.properties
                 launcher-build.*
                 release-build*
                 todo*"/>

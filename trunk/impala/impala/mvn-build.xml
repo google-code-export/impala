@@ -48,13 +48,14 @@
 
     <target name="mvn:deploy" depends = "mvn:username, mvn:password, mvn:repo-snapshot, mvn:repo-release">
     	
+    	<echo>Maven organisation: ${maven.organisation}</echo>
+    	
         <artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
     	
     	<artifactpath property = "artifact.location" 
     		organisation = "${maven.organisation}"
     		artifact = "${project.name}"
-    		version = "${project.version}"
-    		sources = "true"/>
+    		version = "${project.version}"/>
 
         <artifact:pom id="mypom" file="${maven.repo.root.location}/${artifact.location.pom}" />
 
@@ -64,7 +65,7 @@
                 <authentication username="${mvn.username}" password="${mvn.password}"/>
             </remoteRepository>
             <pom refid="mypom"/>
-            <attach file="${maven.repo.root.location}/${artifact.location.source}" classifier="sources" /> 
+            <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
         </artifact:deploy>
     </target>
 

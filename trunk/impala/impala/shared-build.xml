@@ -57,9 +57,12 @@
     </target>  
     
     <target name = "shared:mvn-deploy" depends = "mvn:username,mvn:password">
-        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${deployable.project.list}" target = "mvn:deploy" inheritall = "false">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${maven.artifacts}" target = "mvn:deploy" inheritall = "false">
             <property name="mvn.username" value="${mvn.username}"/>
             <property name="mvn.password" value="${mvn.password}"/>
+            <property name="maven.organisation" value="${maven.organisation}"/>
+            <property name="maven.repo.root" value="${maven.repo.root}"/>
+            <property name="maven.snapshot.repository" value="${maven.snapshot.repository}"/>
         </antforeach>
     </target> 
     
