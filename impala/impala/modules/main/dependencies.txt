@@ -2,7 +2,13 @@ main from org.slf4j:slf4j-api:@slf4j.version@
 main from org.slf4j:slf4j-log4j12:@slf4j.version@
 main from org.slf4j:jcl-over-slf4j:@slf4j.version@
 main from log4j:log4j:@log4j.version@
-main from org.springframework:spring:@spring.version@
+main from org.springframework:spring-core:@spring.version@
+main from org.springframework:spring-beans:@spring.version@
+main from org.springframework:spring-context:@spring.version@
+main from org.springframework:spring-context-support:@spring.version@
+main from org.springframework:spring-aop:@spring.version@
+main from org.springframework:spring-web:@spring.version@
+main from aopalliance:aopalliance:@aopalliance.version@
 main from cglib:cglib-nodep:@cglib.version@
 test from junit:junit:@junit.version@
 test from org.easymock:easymock:@easymock.version@ 
