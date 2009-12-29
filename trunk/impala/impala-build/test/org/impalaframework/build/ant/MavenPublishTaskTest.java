@@ -59,6 +59,14 @@ public class MavenPublishTaskTest extends TestCase {
         task.checkArgs();       
     }
     
+    public void testFirstDigitIndex() throws Exception {
+        assertEquals(12, task.firstDigitIndex("impala-build-1.0"));
+        assertEquals(12, task.firstDigitIndex("impala-build-1.0-RC2"));
+        assertEquals(12, task.firstDigitIndex("impala-build-1.0-SNAPSHOT"));
+        assertEquals(-1, task.firstDigitIndex("impala-build"));
+        assertEquals(-1, task.firstDigitIndex("impala-build-"));
+    }
+    
     public void testGetFiles() throws Exception {
         final File[] files = task.getFiles();       
         for (File file : files) {
