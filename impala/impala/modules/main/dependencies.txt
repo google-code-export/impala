@@ -13,3 +13,6 @@ main from cglib:cglib-nodep:@cglib.version@
 test from junit:junit:@junit.version@
 test from org.easymock:easymock:@easymock.version@ 
 test from org.easymock:easymockclassextension:@easymock.version@
+#Spring 3 dependencies
+#main from org.springframework:spring-expression:@spring.version@
+#main from org.springframework:spring-asm:@spring.version@
