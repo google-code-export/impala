@@ -1,4 +1,0 @@
-http\://www.impalaframework.org/schema/service-registry.xsd=org/impalaframework/spring/service/config/service-registry-1.0.xsd
-http\://impala.googlecode.com/svn/schema/service-registry.xsd=org/impalaframework/spring/service/config/service-registry-1.0.xsd
-http\://www.impalaframework.org/schema/dynamic-properties.xsd=org/impalaframework/spring/config/dynamic-properties-1.0.xsd
-http\://impala.googlecode.com/svn/schema/dynamic-properties.xsd=org/impalaframework/spring/config/dynamic-properties-1.0.xsd
