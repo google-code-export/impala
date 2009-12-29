@@ -113,7 +113,7 @@
     </target>
     
     <target name="scaffold:input-module-type-name" unless="module.type.name">
-        <input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,hibernate,web,extension" defaultvalue="empty" />
+        <input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,web,extension" defaultvalue="empty" />
         <property name = "copy.module.project" value = "true"/>
     </target>   
     
