@@ -88,7 +88,7 @@ ant tohome
 Run `ant fetch clean dist test` for Petclinic. Assuming location of ../petclinic relative to _impala_.
 
 {{{
-cd ../petclinic
+cd ../petclinic-build
 ant fetch clean dist test
 ant war tomcat
 }}}  
@@ -103,14 +103,14 @@ cd $TOMCAT_HOME
 }}}
 
 Check application from 
-  * http://localhost:8080/petclinic-web/
+  * http://localhost:8080/petclinic-host/
 
 === Deploy and sanity check Example sample ===
   
 Run `ant fetch clean dist test` for Example.
   
 {{{
-cd ../example-sample/example
+cd ../example-sample/example-build
 ant fetch clean dist test
 ant war tomcat
 }}}  
@@ -118,9 +118,9 @@ ant war tomcat
 Run Tomcat as in Petclinic
 
 Check the following urls:
-  * http://localhost:8080/example-web/test.do
-  * http://localhost:8080/example-web/servlet1/test.do1
-  * http://localhost:8080/example-web/servlet2/test.to
+  * http://localhost:8080/example-host/test.do
+  * http://localhost:8080/example-host/servlet1/test.do1
+  * http://localhost:8080/example-host/servlet2/test.to
   
 == Scaffold steps ==
 
