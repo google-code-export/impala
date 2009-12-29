@@ -150,11 +150,20 @@ Go through scaffold steps as defined in FirstSteps.
 
 == Maven steps ==
 
-Upload _dist/impala-${project.version}-bundle.jar_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
-Follow the instructions on http://maven.apache.org/guides/mini/guide-central-repository-upload.html
+From Impala home, run 
 
-Create issue at the following URL:
-http://jira.codehaus.org/secure/CreateIssue.jspa
+{{{
+ant -Dmaven.release=true -Dproject.version=1.0-RC2 mvndeploy
+}}}
+
+This will upload the release files to the maven staging repository from the local maven repository, as per _mvn-build.properties_:
+
+{{{
+maven.repo.root=../maven/repo
+maven.snapshot.repository=http://oss.sonatype.org/content/repositories/impalaframework-snapshots
+maven.release.repository=../mvn
+}}}
+
 
 == Documentation Updates ==
 
