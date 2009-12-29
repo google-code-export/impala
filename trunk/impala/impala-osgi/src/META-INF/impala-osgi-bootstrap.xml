@@ -5,7 +5,9 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OsgiClassLoaderFactory"/>
+ <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OsgiClassLoaderFactory"/> 
+ 
+ <bean id="classLoaderRegistryFactory" class="org.impalaframework.module.factory.SimpleClassLoaderRegistryFactory"/> 
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
  </bean>
