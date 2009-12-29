@@ -37,11 +37,11 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jetty-6.1.11.jar" sourcepath="/petclinic-repository/jetty/jetty-6.1.11-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jetty-util-6.1.11.jar" sourcepath="/petclinic-repository/jetty/jetty-util-6.1.11-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jsp-api-2.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/jstl-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/servletapi-2.4.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/standard-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jetty/xercesImpl-2.8.1.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/spring-webmvc-2.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/standard-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="/petclinic-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
 	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-1.0-SNAPSHOT.jar"/>
