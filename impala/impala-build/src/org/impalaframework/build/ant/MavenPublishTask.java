@@ -135,16 +135,10 @@ public class MavenPublishTask extends Task {
             artifactDescription.setSrcFile(files[i]);
             String fileName = files[i].getName();
             String fileNameWithoutJar = fileName.substring(0, fileName.indexOf(".jar"));
-            int lastDashIndex = fileNameWithoutJar.lastIndexOf("-");
+            int lastDashIndex = firstDigitIndex(fileNameWithoutJar);
 
             String version = fileNameWithoutJar.substring(lastDashIndex+1);
-            
-            //special case for SNAPSHOT
-            if ("SNAPSHOT".equals(version)) {
-                lastDashIndex = fileNameWithoutJar.substring(0, lastDashIndex).lastIndexOf("-");
-                version = fileNameWithoutJar.substring(lastDashIndex+1);
-            }
-            
+
             String artifact = fileNameWithoutJar.substring(0, lastDashIndex);
             artifactDescription.setArtifact(artifact);
             artifactDescription.setOrganisation(organisation);
@@ -161,6 +155,22 @@ public class MavenPublishTask extends Task {
             ads[i] = artifactDescription;
         }
         return ads;
+    }
+
+    int firstDigitIndex(String fileNameWithoutJar) {
+        int lastDashIndex = fileNameWithoutJar.lastIndexOf("-");
+        
+        while (lastDashIndex >= 0) {
+            if (fileNameWithoutJar.length() > lastDashIndex+1) {
+                char c = fileNameWithoutJar.charAt(lastDashIndex+1);
+                if (Character.isDigit(c)) {
+                    return lastDashIndex;
+                }
+            }
+            fileNameWithoutJar = fileNameWithoutJar.substring(0, lastDashIndex);
+            lastDashIndex = fileNameWithoutJar.lastIndexOf("-");
+        }
+        return lastDashIndex;
     }
 
     File[] getFiles() {
