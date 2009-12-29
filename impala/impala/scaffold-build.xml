@@ -97,7 +97,6 @@
         <property name = "copy.main.project" value = "true"/>
         <property name = "copy.build.project" value = "true"/>
         <property name = "copy.module.project" value = "true"/>
-        <property name = "copy.web.project" value = "true"/>
         <property name = "copy.host.project" value = "true"/>
         
         <mkdir dir="${workspace.root.location}" />
@@ -282,7 +281,7 @@
                 
     </target>   
     
-    <target name="scaffold:copyweb" if = "copy.web.project">
+    <target name="scaffold:copyweb">
 
         <available file="${main.project.location}" property="main.already.exists"/>
         <fail unless="main.already.exists" message="The parent location ${main.project.location} does not exist. Cannot use this as a parent module."/>
@@ -348,8 +347,7 @@
     <target name="scaffold:newmodule" depends="
         scaffold:newmodule-confirm, 
         scaffold:filterset, 
-        scaffold:copymodule, 
-        scaffold:copyweb">
+        scaffold:copymodule">
     </target>
 
 </project>
