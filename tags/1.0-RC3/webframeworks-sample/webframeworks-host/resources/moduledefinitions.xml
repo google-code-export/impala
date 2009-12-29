@@ -1,0 +1,12 @@
+<parent>
+    <names>
+    webframeworks-main
+    webframeworks-service
+    webframeworks-web
+    webframeworks-struts
+    webframeworks-struts2
+    webframeworks-wicket
+    webframeworks-tapestry5
+    webframeworks-jsf
+    </names>
+</parent>
