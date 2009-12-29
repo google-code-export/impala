@@ -41,7 +41,11 @@
 
     <target name="scaffold:input-servlet-version" unless="servlet.api.version">
         <input message="Please enter servlet API version:" addproperty="servlet.api.version" defaultvalue="2.5" validargs="2.4,2.5"/>
-    </target>   
+    </target> 
+	
+    <target name="scaffold:input-spring-version" unless="spring.version">
+        <input message="Please enter Spring version (e.g. 2.5.6, 3.0.0.RELEASE):" addproperty="spring.version" defaultvalue="2.5.6"/>
+    </target>  
     
     <target name="scaffold:input-test-project" unless="test.project.name">
         <input message="Please enter name of tests project:" addproperty="test.project.name" defaultvalue="test" />
@@ -75,6 +79,7 @@
                                 scaffold:input-main-project,
                                 scaffold:input-module-project,
                                 scaffold:input-web-project,
+    							scaffold:input-spring-version,
                                 scaffold:input-servlet-version,
                                 scaffold:input-test-project,
                                 scaffold:input-repository-project,
@@ -88,6 +93,7 @@
         <echo>Main (root) project name: ${main.project.name}</echo>
         <echo>First application module project name: ${module.project.name}</echo>
         <echo>Web project name: ${web.project.name}</echo>
+        <echo>Spring version: ${spring.version}</echo>
         <echo>Servlet API version: ${servlet.api.version}</echo>
         <echo>Tests project name: ${test.project.name}</echo>
         <echo>Repository project name: ${repository.project.name}</echo>
@@ -140,7 +146,7 @@
     
     <!-- ######################  filterset declaration ###################### -->
     
-    <target name="scaffold:filterset">
+    <target name="scaffold:locations">	
 
         <property name = "build.project.location" location = "${workspace.root.location}/${project.prefix}${build.project.name}"/>
         <property name = "main.project.location" location = "${workspace.root.location}/${project.prefix}${main.project.name}"/>
@@ -148,6 +154,10 @@
         <property name = "host.project.location" location = "${workspace.root.location}/${project.prefix}${host.project.name}"/>
         <property name = "test.project.location" location = "${workspace.root.location}/${project.prefix}${test.project.name}"/>
         <property name = "repository.project.location" location = "${workspace.root.location}/${project.prefix}${repository.project.name}"/>
+    	
+    </target>
+	
+    <target name="scaffold:filterset">
         
         <filterset id = "scaffoldFilter" onmissingfiltersfile="ignore">
             <filter token="project.package.name" value="${project.package.name}" />
@@ -168,6 +178,8 @@
             <filter token="full.repository.project.name" value="${project.prefix}${repository.project.name}" />         
             
             <filter token="impala.version" value="${project.version}" />
+            <filter token="spring.version" value="${spring.version}" />
+            	
             <filtersfile file = "${impala.home}/modules/filter.properties"/>
             <filtersfile file = "${impala.home}/modules/servlet-api-${servlet.api.version}.properties"/>
         </filterset>
@@ -334,6 +346,7 @@
             
     <target name="scaffold:create" depends="
         scaffold:newproject-confirm, 
+        scaffold:locations, 
         scaffold:filterset, 
         scaffold:copybuild, 
         scaffold:copyhost, 
@@ -346,7 +359,7 @@
     
     <target name="scaffold:newmodule" depends="
         scaffold:newmodule-confirm, 
-        scaffold:filterset, 
+        scaffold:locations, 
         scaffold:copymodule">
     </target>
 
