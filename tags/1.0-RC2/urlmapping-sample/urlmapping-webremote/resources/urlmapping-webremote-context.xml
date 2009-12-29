@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.impalaframework.org/schema/web 
+http://impala.googlecode.com/svn/schema/web.xsd">
+
+    <web:mapping>
+        <web:to-module prefix = "/webremote" setServletPath = "true"/> 
+        <!-- 
+        Note that this line is actually not necessary, as if no extension mapping is present, 
+        one is created by default for all request which reach the module 
+        to a servlet or filter with the same name as the module.
+        <web:to-handler extension = "xml" servletName="urlmapping-webremote"/>
+        -->
+    </web:mapping>    
+    
+    <web:servlet id = "urlmapping-webremote" 
+        servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+    
+    <!-- add your controllers etc. here -->
+    
+    <bean class="org.impalaframework.urlmapping.webremote.MessageRemoteController">
+        <property name = "messageService" ref = "messageService"/>
+    </bean>
+    
+</beans>

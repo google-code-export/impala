@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <bean id="classLoaderFactory" class="org.impalaframework.osgi.classloader.OsgiClassLoaderFactory"/> 
+ 
+ <bean id="classLoaderRegistryFactory" class="org.impalaframework.module.factory.SimpleClassLoaderRegistryFactory"/> 
+ 
+ <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
+ </bean>
+    
+ <bean id="stickyModificationExtractor" class="org.impalaframework.module.modification.graph.StickyGraphModificationExtractor">
+ </bean>  
+    
+ <bean id="rootModuleLoader" 
+     class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
+    <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>       
+ </bean>    
+    
+ <bean id="applicationModuleLoader" 
+     class="org.impalaframework.osgi.module.spring.loader.OsgiModuleLoader">
+    <property name = "serviceProxyFactoryCreator" ref="proxyFactoryCreator"/>    
+ </bean>
+ 
+ <bean id="loadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiLoadTransitionProcessor">
+    <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>         
+    <property name = "moduleLocationResolver" ref="moduleLocationResolver"/>         
+ </bean>
+    
+ <bean id="unloadTransitionProcessor" class="org.impalaframework.osgi.module.transition.OsgiUnloadTransitionProcessor">    
+    <property name = "moduleRuntimeManager" ref="moduleRuntimeManager"/>      
+ </bean>
+
+</beans>

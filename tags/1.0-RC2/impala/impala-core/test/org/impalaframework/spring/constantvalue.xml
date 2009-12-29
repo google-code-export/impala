@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+ <!-- ############## Path mapper definitions ############### -->
+ 
+ <bean id="configurer" class="org.impalaframework.spring.ConstantValuePlaceholderConfigurer"/>
+ 
+ <bean id="string1" class="org.impalaframework.spring.bean.StringFactoryBean">
+     <property name="value" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_CLASS_DIR_PROPERTY]"/>
+ </bean>
+ 
+ <bean id="string2" class="org.impalaframework.spring.bean.StringFactoryBean">
+     <property name="value" value="stringval"/>
+ </bean>
+ 
+</beans>

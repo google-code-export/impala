@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+ <bean id="prototypeParent" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/>
+ <bean id="singletonParent" class="org.impalaframework.spring.service.bean.ParentFactoryBean"/>
+ <bean id="renamedParent" class="org.impalaframework.spring.service.bean.ParentFactoryBean">
+    <property name="parentBeanName" value="singletonParent"/>
+ </bean>
+ <bean id="namedBean" class="org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean">
+    <property name="beanName" value="singletonParent"/>
+ </bean>
+ <bean id="proxiedNamedBean" class="org.impalaframework.spring.service.bean.ProxiedNamedFactoryBean">
+    <property name="beanName" value="prototypeParent"/>
+ </bean>
+ 
+</beans>

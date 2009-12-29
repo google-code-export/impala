@@ -1,0 +1,10 @@
+<root>
+    <names>
+        sample-module3
+    </names>
+    <modules>
+        <module>
+            <name>sample-module4</name>ß
+        </module>
+    </modules>
+</root>

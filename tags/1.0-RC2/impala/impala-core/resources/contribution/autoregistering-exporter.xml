@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+    
+    <bean class="org.impalaframework.spring.module.ModuleDefinitionPostProcessor">
+        <constructor-arg ref="moduleDefinition"/>
+    </bean>
+            
+    <bean id="moduleDefinition" class="org.impalaframework.spring.module.impl.ModuleDefinitionFactoryBean"/>
+    
+    <bean id="exporter" class="org.impalaframework.spring.service.exporter.AutoRegisteringModuleContributionExporter">
+        <property name = "contributions">
+            <map>
+                <entry key="child" value="org.impalaframework.spring.module.impl.Child"/>
+                <entry key="another" value="org.impalaframework.spring.module.impl.Child"/>
+            </map>
+        </property> 
+    </bean>
+    
+    <bean id="child" class="org.impalaframework.spring.module.impl.ChildBean"/>
+    <bean id="another" class="org.impalaframework.spring.module.impl.ChildBean"/>
+    
+</beans>
