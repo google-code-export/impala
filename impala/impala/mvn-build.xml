@@ -6,13 +6,13 @@
     <import file="${impala.home}/properties-build.xml" />
     <import file="${impala.home}/tasks-build.xml" />
 
-	<property file = "${impala.home}/mvn-build.properties"/>
+    <property file = "${impala.home}/mvn-build.properties"/>
     <property name="maven.repo.root.location" location="${maven.repo.root}" />
-	
-	<!-- Local publishing to local SVN maven repo -->
-	
+    
+    <!-- Local publishing to local SVN maven repo -->
+    
     <target name="mvn:publish-local">
-    	
+        
         <!-- Copies created artifacts from dist directory to Maven publish directory.
         Also generates simple POMs for each artifact. 
         -->
@@ -22,8 +22,8 @@
             organisation = "${maven.organisation}"
             destdir = "${maven.repo.root.location}"/>
     </target>
-	
-	<!-- Deployment to remove maven repo -->
+    
+    <!-- Deployment to remove maven repo -->
 
     <path id="maven-ant-tasks.classpath" path="${impala.home}/mvn/maven-ant-tasks-2.0.10.jar" />
     <typedef resource="org/apache/maven/artifact/ant/antlib.xml"
@@ -37,25 +37,25 @@
     <target name="mvn:password" unless="mvn.password">
         <input message="Maven repo password:" addproperty="mvn.password" />
     </target>
-	
+    
     <target name="mvn:repo-snapshot" unless="maven.release">
         <property name = "mvn.repo.current" value = "${maven.snapshot.repository}"/>
     </target>
-	
+    
     <target name="mvn:repo-release" if="maven.release">
         <property name = "mvn.repo.current" value = "${maven.release.repository}"/>
     </target>
 
     <target name="mvn:deploy" depends = "mvn:username, mvn:password, mvn:repo-snapshot, mvn:repo-release">
-    	
-    	<echo>Maven organisation: ${maven.organisation}</echo>
-    	
+        
+        <echo>Maven organisation: ${maven.organisation}</echo>
+        
         <artifact:install-provider artifactId="wagon-http" version="1.0-beta-2"/>
-    	
-    	<artifactpath property = "artifact.location" 
-    		organisation = "${maven.organisation}"
-    		artifact = "${project.name}"
-    		version = "${project.version}"/>
+        
+        <artifactpath property = "artifact.location" 
+            organisation = "${maven.organisation}"
+            artifact = "${project.name}"
+            version = "${project.version}"/>
 
         <artifact:pom id="mypom" file="${maven.repo.root.location}/${artifact.location.pom}" />
 
