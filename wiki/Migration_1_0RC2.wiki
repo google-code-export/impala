@@ -1,6 +1,8 @@
 #summary Migration to 1.0 RC2
 
-== Changes affecting applications ==
+== Changes affecting existing applications ==
+
+The following changes affect existing application and may require you to implement steps in your own applications to upgrade them to the latest version.
 
 === Issue 250 - rename of static Impala methods === 
 
@@ -38,6 +40,8 @@ web.project.list=example-host
 }}}
 
 == Internal framework changes ==
+
+The following changes are generally internal to the framework and should not require any additional user intervention.
 
 === Issue 129 - move of processTransitions method === 
 
