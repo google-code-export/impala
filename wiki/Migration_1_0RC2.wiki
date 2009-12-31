@@ -1,5 +1,14 @@
 #summary Migration to 1.0 RC2
 
+== Changes affecting applications ==
+
+=== Issue 250 === 
+
+Some inconsistencies were identified in the naming of the static methods in the `Impala` class, as well as in the `OperationsFacade` interface.
+Some methods were renamed to include the word `Module` where this was missing. This change may affect some application code.
+
+=== Issue 277 ===
+
 One of the main features introduced with this release is support for Maven. In order to facilitate this, the default project structure has 
 been changed, with the 'web' project split into two:
   * a 'host' project which contains static resources, files for configuring the Impala runtime (e.g. _moduledefinitions.xml_ and _impala.properties_), as well as certain top level configuration files, such as _web.xml_
@@ -28,19 +37,25 @@ The _web.project.list_ value in _build.properties_ should be updated to point to
 web.project.list=example-host
 }}}
 
-Backward incompatible changes made from 1.0 RC1 to 1.0 RC2 include:
+== Internal framework changes ==
 
+=== Issue 129 === 
 
-=== Issue 209 ===
+This change was marked as backward incompatible in that it affects implementations of `ModuleStateHolder`. It will not affect application code.
 
-In _impala.properties_, the property that was named `spring.path.mapping.enabled` has been changed to `top.level.module.path.enabled`
-as this is a more correct descriptive name. Do a search and replace to correct this.
+=== Issue 259 ===
 
-=== Issue 228 ===
+A few changes were introduced to the internal interfaces to separate more clearly the interfaces which hold application state. This will
+make it easier in the future to support seamless production upgrades, multiple concurrent applications, etc. However, it does not affect any 
+existing applications. Interfaces affected now have either `Application` or an application id `String` passed in as parameters to the 
+modified methods.
 
-Some of the functionality now present in the WebModuleBaseHandlerRegistration was previously present in a `RequestModuleMapper` implementation
-called `TopLevelPathContainsModuleMapper`. This functionality has been removed.
+=== Issue 270 ===
 
-=== Issue 230 ===
+The method `getClassLocations` was removed from the `ModuleLoader`. This is an internal simplification only.
 
-One of the module types in 1.0M6 was `servlet`. This module type has been renamed to `web` in Impala 1.0 RC1.
+=== Issue 275 === 
+
+The `ServletContext`, `HttpSession` and `HttpServletRequest` wrapper classes have been renamed, refactored and moved as part of this release.
+Application code will not be affected. However, extensions using the wrapper interfaces will be affected.
+
