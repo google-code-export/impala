@@ -8,6 +8,7 @@ Impala 1.0 RC2 contains a mixture of feature enhancements and bug fixes, most no
   * a [NamespaceDynamicProperties dynamic properties] namespace, making it easier to support properties which can be injected and [DynamicProperties dynamically updated] without requiring module or application reload.
   * further refinements to the mechanisms for supporting multi-module web applications.
   * support for Spring 3.0.
+  * various other minor feature enhancements, refactorings and bug fixes.
 
 See the [http://code.google.com/p/impala/issues/list?q=label:Milestone-Release1.0RC2&can=1 full list of issues covered for milestone 1.0 RC2].
 
