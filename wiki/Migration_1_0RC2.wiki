@@ -2,8 +2,7 @@
 
 One of the main features introduced with this release is support for Maven. In order to facilitate this, the default project structure has 
 been changed, with the 'web' project split into two:
-  * a 'host' project which contains static resources, files for configuring the Impala runtime (e.g. _moduledefinitions.xml_ and _impala.properties_),
-  as well as certain top level configuration files, such as _web.xml_
+  * a 'host' project which contains static resources, files for configuring the Impala runtime (e.g. _moduledefinitions.xml_ and _impala.properties_), as well as certain top level configuration files, such as _web.xml_
   * a 'web' module, simply contains module specific files.
   
 Previously, both of these sets of files were contained in the same project, which was not especially intuitive and potentially confusing.
