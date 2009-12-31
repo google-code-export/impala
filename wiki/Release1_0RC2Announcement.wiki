@@ -5,7 +5,7 @@ Impala 1.0 RC2 is the second 1.0 release candidate. It is anticipated that there
 Impala 1.0 RC2 contains a mixture of feature enhancements and bug fixes, most notably:
   * support for builds using Maven
   * simplifications to the default project structure, making it more intuitive and Maven-friendly
-  * a dynamic properties namespace, making it easier to support properties which can be injected and dynamically updated without requiring module or application reload
+  * a [DynamicProperties dynamic properties] namespace, making it easier to support properties which can be injected and dynamically updated without requiring module or application reload
   * further refinements to the mechanisms for supporting multi-module web applications
   * support for Spring 3.0
 
