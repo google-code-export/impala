@@ -2,12 +2,12 @@
 
 == Changes affecting applications ==
 
-=== Issue 250 === 
+=== Issue 250 - rename of static Impala methods === 
 
 Some inconsistencies were identified in the naming of the static methods in the `Impala` class, as well as in the `OperationsFacade` interface.
 Some methods were renamed to include the word `Module` where this was missing. This change may affect some application code.
 
-=== Issue 277 ===
+=== Issue 277 - split of web project into module and host projects ===
 
 One of the main features introduced with this release is support for Maven. In order to facilitate this, the default project structure has 
 been changed, with the 'web' project split into two:
@@ -39,23 +39,23 @@ web.project.list=example-host
 
 == Internal framework changes ==
 
-=== Issue 129 === 
+=== Issue 129 - move of processTransitions method === 
 
 This change was marked as backward incompatible in that it affects implementations of `ModuleStateHolder`. It will not affect application code.
 
-=== Issue 259 ===
+=== Issue 259 - separation of interfaces holding application state ===
 
 A few changes were introduced to the internal interfaces to separate more clearly the interfaces which hold application state. This will
 make it easier in the future to support seamless production upgrades, multiple concurrent applications, etc. However, it does not affect any 
 existing applications. Interfaces affected now have either `Application` or an application id `String` passed in as parameters to the 
 modified methods.
 
-=== Issue 270 ===
+=== Issue 270 - getClassLocations method removal ===
 
 The method `getClassLocations` was removed from the `ModuleLoader`. This is an internal simplification only.
 
-=== Issue 275 === 
+=== Issue 275 - refactoring of web multi-module wrapper classes and interfaces === 
 
-The `ServletContext`, `HttpSession` and `HttpServletRequest` wrapper classes have been renamed, refactored and moved as part of this release.
+The `ServletContext`, `HttpSession` and `HttpServletRequest` wrapper classes and interfaces have been renamed, refactored and moved as part of this release.
 Application code will not be affected. However, extensions using the wrapper interfaces will be affected.
 
