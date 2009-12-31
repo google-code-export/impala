@@ -4,12 +4,12 @@
 	<groupId>org.impalaframework</groupId>
 	<artifactId>impala-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0-M1</version>
 	<name>impala-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
    <distributionManagement>
         <repository>
-            <id>your-id-releases</id>
+            <id>impalaframework-releases</id>
             <name>Impala releases repository</name>
             <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
         </repository>
