@@ -1,0 +1,47 @@
+#summary Migration to 1.0 RC2
+
+One of the main features introduced with this release is support for Maven. In order to facilitate this, the default project structure has 
+been changed, with the 'web' project split into two:
+  * a 'host' project which contains static resources, files for configuring the Impala runtime (e.g. _moduledefinitions.xml_ and _impala.properties_),
+  as well as certain top level configuration files, such as _web.xml_
+  * a 'web' module, simply contains module specific files.
+  
+Previously, both of these sets of files were contained in the same project, which was not especially intuitive and potentially confusing.
+
+To migrate from the previous project structure:
+
+  * copy the existing 'web' project, and give it a name to make it clear that it will be used as the 'host' project.
+  * in the 'host' project: 
+    * remove the existing contents of _resources_, and move the contents of _webconfig_ into _resources_.
+    * delete all classes apart from `StartServer`.
+    * change the implementation of `StartServer` to point to the _context_ location in the 'host' project.
+  * in the 'web' project:
+    * remove the _context_ folder and _webconfig_ folder.
+    * remove `StartServer` from the _test_ source folder.
+    
+The end result have only module-specific files in the 'web' project.
+
+In addition, the 'build' project should be updated:
+
+The _web.project.list_ value in _build.properties_ should be updated to point to the 'host' project, not the project containing the 'web' module.
+
+{{{
+web.project.list=example-host
+}}}
+
+Backward incompatible changes made from 1.0 RC1 to 1.0 RC2 include:
+
+
+=== Issue 209 ===
+
+In _impala.properties_, the property that was named `spring.path.mapping.enabled` has been changed to `top.level.module.path.enabled`
+as this is a more correct descriptive name. Do a search and replace to correct this.
+
+=== Issue 228 ===
+
+Some of the functionality now present in the WebModuleBaseHandlerRegistration was previously present in a `RequestModuleMapper` implementation
+called `TopLevelPathContainsModuleMapper`. This functionality has been removed.
+
+=== Issue 230 ===
+
+One of the module types in 1.0M6 was `servlet`. This module type has been renamed to `web` in Impala 1.0 RC1.
