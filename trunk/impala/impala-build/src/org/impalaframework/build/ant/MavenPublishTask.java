@@ -8,6 +8,7 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Echo;
+import org.apache.tools.ant.taskdefs.LoadFile;
 
 /**
  * Copies created artifacts from dist directory to Maven publish directory. Also
@@ -24,6 +25,8 @@ public class MavenPublishTask extends Task {
     private String artifacts;
     
     private String organisation;
+    
+    private File sharedPomFragment;
     
     @Override
     public void execute() throws BuildException {
@@ -59,6 +62,8 @@ public class MavenPublishTask extends Task {
                 File sourceSrcFile = artifactOutput.getSourceSrcFile();
                 copy(copy, sourceSrcFile, targetSourceFile);
             }
+            
+            String pomFragment = getSharedPomFragment();
 
             String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
               "<modelVersion>4.0.0</modelVersion>\n" + 
@@ -67,7 +72,8 @@ public class MavenPublishTask extends Task {
               "<artifactId>" + artifactOutput.getArtifact() +
               "</artifactId>\n" + 
               "<version>" + artifactOutput.getVersion() +
-              "</version>\n" + 
+              "</version>\n" 
+              + pomFragment +
               "</project>";
 
             File pomFile = artifactOutput.getOutputLocation(organisationDirectory, ".pom");
@@ -80,6 +86,24 @@ public class MavenPublishTask extends Task {
             writeChecksum(pomFile, pomFile);
         }
         
+    }
+
+    String getSharedPomFragment() {
+        //FIXME test
+        if (sharedPomFragment == null) {
+            return "";
+        }
+        
+        LoadFile loadFile = new LoadFile();
+        loadFile.setProject(getProject());
+        final String sharedPom = "shared.pom." + System.currentTimeMillis();
+        loadFile.setProperty(sharedPom);
+        
+        loadFile.setSrcFile(sharedPomFragment);
+        loadFile.init();
+        loadFile.execute();
+        
+        return getProject().getProperty(sharedPom);
     }
 
     private void copy(Copy copy, File srcFile, File targetFile) {
@@ -250,6 +274,10 @@ public class MavenPublishTask extends Task {
 
     public void setDestDir(File destDir) {
         this.destDir = destDir;
+    }
+    
+    public void setSharedPomFragment(File sharedPomFragment) {
+        this.sharedPomFragment = sharedPomFragment;
     }
 
 }
