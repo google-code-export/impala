@@ -1,0 +1,12 @@
+<description>Maven pom</description>
+<url>http://code.google.com/p/impala/</url>
+<licenses>
+  <license>
+    <name>The Apache Software License, Version 2.0</name>
+    <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    <distribution>repo</distribution>
+  </license>
+</licenses>
+<scm>
+  <url>http://code.google.com/p/impala/source/browse/trunk</url>
+</scm>

@@ -20,7 +20,8 @@
             sourceDir = "${repository.dir}/dist" 
             artifacts = "${maven.artifacts}" 
             organisation = "${maven.organisation}"
-            destdir = "${maven.repo.root.location}"/>
+            destdir = "${maven.repo.root.location}"
+    		sharedPomFragment = "${maven.shared.pom.fragment}"/>
     </target>
     
     <!-- Deployment to remove maven repo -->
@@ -46,6 +47,9 @@
         <property name = "mvn.repo.current" value = "${maven.release.repository}"/>
     </target>
 
+	<!--
+	e.g. ant mvndeploy -Dmaven.release=true to add to release repository
+	-->
     <target name="mvn:deploy" depends = "mvn:username, mvn:password, mvn:repo-snapshot, mvn:repo-release">
         
         <echo>Maven organisation: ${maven.organisation}</echo>
