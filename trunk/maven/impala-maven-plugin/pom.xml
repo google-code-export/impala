@@ -11,7 +11,7 @@
         <repository>
             <id>impalaframework-releases</id>
             <name>Impala releases repository</name>
-            <url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+            <url>http://oss.sonatype.org/content/repositories/impalaframework-releases/</url>
         </repository>
         <snapshotRepository>
             <id>impalaframework-snapshots</id>
