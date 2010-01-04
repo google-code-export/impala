@@ -69,7 +69,8 @@
   
 === Migration ===
   * [Migration_1_0M6 Migration to 1.0 M6]
-  * [Migration_10RC1 Migration to 1.0 RC1]  
+  * [Migration_1_0RC1 Migration to 1.0 RC1]  
+  * [Migration_1_0RC2 Migration to 1.0 RC2]  
   
 == Developer Pages ==
   
