@@ -54,6 +54,7 @@
     * [NamespaceReferenceService service namespace]
     * [NamespaceWebReference web namespace]
     * [NamespaceDynamicProperties dynaprop (dynamic properties) namespace]
+  * [Maven Building Impala using Maven]
 
 ==== Advanced ====
   * [ModuleReloading How module reloading works]
