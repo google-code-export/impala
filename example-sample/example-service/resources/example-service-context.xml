@@ -12,6 +12,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     
     <tx:annotation-driven transaction-manager="transactionManager"/>
     
+    <context:annotation-config/>
+    
     <!-- 
     Don't actually need exportNames here, but just in for demonstration purposes
     -->
@@ -137,6 +139,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     </bean>
     -->
     
+    <bean id="autowiredClass" class="classes.AutowiredClass">
+    </bean>
             
     <!-- 
     service:import entries with problems:

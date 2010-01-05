@@ -23,6 +23,7 @@ import org.impalaframework.interactive.InteractiveTestRunner;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.source.SimpleModuleDefinitionSource;
 
+import classes.AutowiredClass;
 import classes.Entry;
 
 public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
@@ -48,6 +49,11 @@ public class InProjectEntryServiceTest extends BaseProjectEntryServiceTest {
 
     }
 
+    public void testAutowired() throws Exception {
+        final AutowiredClass autowiredClass = Impala.getModuleBean("example-service", "autowiredClass", AutowiredClass.class);
+        autowiredClass.useMessage();
+    }
+    
     public RootModuleDefinition getModuleDefinition() {
         SimpleModuleDefinitionSource definition = new SimpleModuleDefinitionSource("example-main", 
                         new String[] { "parent-context.xml", "extra-context.xml" }, new String[] {
