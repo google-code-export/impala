@@ -28,11 +28,14 @@ import shared.ValueHolder;
 public class TestController2 extends MultiActionController {
 
     private EntryService entryService;
+    
+    private AutowiredClass autowiredClass;
 
     public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("staticparam", "2222");
         map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
+        map.put("message", autowiredClass.useMessage());
 
         setSessionValue(request, map, "shared:intvalue", "shared_intvalue");
         setSessionValue(request, map, "intvalue", "intvalue");        
@@ -58,6 +61,10 @@ public class TestController2 extends MultiActionController {
     
     public void setEntryService(EntryService entryService) {
         this.entryService = entryService;
+    }
+    
+    public void setAutowiredClass(AutowiredClass autowiredClass) {
+        this.autowiredClass = autowiredClass;
     }
 
 }

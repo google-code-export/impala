@@ -3,16 +3,26 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
        xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:service="http://www.impalaframework.org/schema/service"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:web="http://www.impalaframework.org/schema/web"
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
 http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd"> 
         
+    <context:annotation-config/>
+    
     <web:mapping>
         <web:to-handler extension = "*" servletName="example-servlet2"/> 
     </web:mapping>
+    
+    <service:import id="messageService" 
+        proxyTypes="interfaces.MessageService"/>
+    
+    <bean id="autowiredClass" class="AutowiredClass">
+    </bean>
     
     <!-- 
     Note servlet class defaults to org.impalaframework.web.spring.servlet.InternalModuleServlet
@@ -24,6 +34,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     Note the suffix because of the redirection from the module servlet -->
     <bean name="/servlet2/test.to" class="TestController2">
         <property name = "entryService" ref = "entryService"/>
+        <property name = "autowiredClass" ref = "autowiredClass"/>
     </bean>
     
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
