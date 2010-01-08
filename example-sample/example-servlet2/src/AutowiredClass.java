@@ -2,6 +2,8 @@
 
 import interfaces.MessageService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 /**
  * Autowired class
  * @author Phil Zoio
@@ -18,7 +20,7 @@ public class AutowiredClass {
         return messageService.getMessage();
     }
 
-    //@Autowired
+    @Autowired
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
