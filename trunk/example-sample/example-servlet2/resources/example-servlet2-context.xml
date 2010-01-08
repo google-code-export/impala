@@ -19,6 +19,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     </web:mapping>
     
     <service:import id="messageService" 
+    	exportName="myNamedMessageService"
         proxyTypes="interfaces.MessageService"/>
     
     <bean id="autowiredClass" class="AutowiredClass">
