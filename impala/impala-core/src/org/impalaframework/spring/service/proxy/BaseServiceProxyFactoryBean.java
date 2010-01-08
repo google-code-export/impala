@@ -19,11 +19,13 @@ import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.SpringServiceEndpoint;
+import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 
 /**
@@ -54,6 +56,8 @@ public abstract class BaseServiceProxyFactoryBean
     
     private ServiceRegistry serviceRegistry;
 
+    private Class<?>[] proxyTypes;
+
     private String beanName;
 
     /* *************** InitializingBean implementation method ************** */
@@ -77,6 +81,8 @@ public abstract class BaseServiceProxyFactoryBean
     
     protected abstract ProxyFactory createProxyFactory();
     
+    protected abstract Class<?>[] getExportTypes();
+    
     protected ProxyFactoryCreator getProxyFactoryCreator() {
         return proxyFactoryCreator;
     }
@@ -89,6 +95,24 @@ public abstract class BaseServiceProxyFactoryBean
         return beanName;
     }
     
+    protected Class<?>[] getProxyTypes() {
+        return proxyTypes;
+    }
+    
+    protected Class<?>[] getProxyTypesToUse() {
+        final Class<?>[] proxyTypes = getProxyTypes();
+        final Class<?>[] exportTypes = getExportTypes();
+        
+        final Class<?>[] proxyTypesToUse;
+        if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
+            Assert.isTrue(!ArrayUtils.isNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be empty");
+            proxyTypesToUse = exportTypes;
+        } else {
+            proxyTypesToUse = proxyTypes;
+        }
+        return proxyTypesToUse;
+    }
+    
     /* *************** FactoryBean implementation methods ************** */
 
     public Object getObject() throws Exception {
@@ -97,7 +121,9 @@ public abstract class BaseServiceProxyFactoryBean
 
     @SuppressWarnings("unchecked")
     public Class getObjectType() {
-        // no specific awareness of object type, so return null
+        final Class<?>[] proxyTypesToUse = getProxyTypesToUse();
+        if (proxyTypesToUse != null && proxyTypesToUse.length > 0)
+            return proxyTypesToUse[0];
         return null;
     }
 
@@ -124,6 +150,17 @@ public abstract class BaseServiceProxyFactoryBean
 
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.beanClassLoader = classLoader;
+    }
+    
+    /**
+     * Sets proxy types for exposed bean. Proxy for service exposed using the types provided.
+     * If single type is provided, and this type is a non-final concrete class, then 
+     * class-based proxy using CGLIB is used.
+     * 
+     * Can only be null or empty if {@link #exportTypes} is not null or empty.
+     */
+    public final void setProxyTypes(Class<?>[] proxyTypes) {
+        this.proxyTypes = proxyTypes;
     }
     
 }

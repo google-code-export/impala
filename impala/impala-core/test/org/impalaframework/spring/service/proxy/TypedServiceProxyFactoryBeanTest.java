@@ -47,6 +47,27 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
         proxyInterfaceTypes = new Class<?>[] { SubChild.class, GrandChild.class };
     }
     
+    public void testGetObjectType() throws Exception {
+        try {
+            bean.getObjectType();
+            fail();
+        }
+        catch (IllegalArgumentException e) {
+        }
+        
+        bean.setExportTypes(exportTypes);
+        assertEquals(Child.class, bean.getObjectType());
+
+        bean.setProxyTypes(proxyClassTypes);
+        assertEquals(TestChild.class, bean.getObjectType());
+
+        bean.setProxyTypes(proxyInterfaceTypes);
+        assertEquals(SubChild.class, bean.getObjectType());
+        
+        bean.setExportTypes(null);
+        assertEquals(SubChild.class, bean.getObjectType());
+    }
+    
     public void testWithExportTypesAndBeanName() throws Exception {
         
         bean.setExportName("mybean");

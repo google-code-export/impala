@@ -34,8 +34,6 @@ import org.springframework.util.Assert;
 public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements NamedServiceEndpoint {
 
     private static final long serialVersionUID = 1L;
-
-    private Class<?>[] proxyTypes;
     
     private String exportName;
 
@@ -45,6 +43,7 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean im
         String registryBeanName = getRegistryExportName();
 
         Assert.notNull(registryBeanName, "Registry bean name cannot be null");
+        final Class<?>[] proxyTypes = getProxyTypes();
         Assert.notNull(proxyTypes, "Proxy types cannot be null for " + NamedServiceProxyFactoryBean.class);
         
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, null, registryBeanName);
@@ -52,7 +51,11 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean im
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
-
+    
+    protected Class<?>[] getExportTypes() {
+        return null;
+    }
+    
     /* *************** NamedServiceEndpoint implementation ************** */
     
     public String getExportName() {
@@ -66,10 +69,6 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean im
     }
 
     /* *************** dependency injection setters ************** */
-
-    public void setProxyTypes(Class<?>[] proxyTypes) {
-        this.proxyTypes = proxyTypes;
-    }
 
     public void setExportName(String exportedBeanName) {
         this.exportName = exportedBeanName;

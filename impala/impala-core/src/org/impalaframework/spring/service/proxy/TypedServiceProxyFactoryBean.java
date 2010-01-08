@@ -30,8 +30,6 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
     private static final long serialVersionUID = 1L;
     
     private Class<?>[] exportTypes;
-
-    private Class<?>[] proxyTypes;
     
     private String exportName;
 
@@ -42,20 +40,20 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
         Assert.notNull(exportTypes, "Export types cannot be null for " + TypedServiceProxyFactoryBean.class);
         
         //note that if proxy types are supplied, they will be used for proxies instead of export types
-        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, exportTypes, exportName);
+        BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), getProxyTypes(), exportTypes, exportName);
         
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
+    
+    protected Class<?>[] getExportTypes() {
+        return exportTypes;
+    }
 
     /* *************** dependency injection setters ************** */
 
-    public void setExportTypes(Class<?>[] proxyTypes) {
-        this.exportTypes = proxyTypes;
-    }
-    
-    public void setProxyTypes(Class<?>[] proxyTypes) {
-        this.proxyTypes = proxyTypes;
+    public void setExportTypes(Class<?>[] exportTypes) {
+        this.exportTypes = exportTypes;
     }
     
     public void setExportName(String exportName) {

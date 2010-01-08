@@ -23,7 +23,6 @@ import org.impalaframework.service.contribution.BaseServiceRegistryList;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.registry.BaseServiceRegistryTargetSource;
-import org.impalaframework.util.ArrayUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.util.Assert;
@@ -40,8 +39,6 @@ import org.springframework.util.Assert;
 public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements DisposableBean {
 
     private static final long serialVersionUID = 1L;
-
-    private Class<?>[] proxyTypes;
     
     private Class<?>[] exportTypes;
 
@@ -68,16 +65,9 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
         ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
         return createDynamicProxyFactory;
     }
-
-    Class<?>[] getProxyTypesToUse() {
-        final Class<?>[] proxyTypesToUse;
-        if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
-            Assert.isTrue(!ArrayUtils.isNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be empty");
-            proxyTypesToUse = exportTypes;
-        } else {
-            proxyTypesToUse = proxyTypes;
-        }
-        return proxyTypesToUse;
+    
+    protected Class<?>[] getExportTypes() {
+        return exportTypes;
     }
 
     /* *************** Package level methods ************** */
@@ -93,17 +83,6 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
     }
 
     /* *************** dependency injection setters ************** */
-
-    /**
-     * Sets proxy types for exposed bean. Proxy for service exposed using the types provided.
-     * If single type is provided, and this type is a non-final concrete class, then 
-     * class-based proxy using CGLIB is used.
-     * 
-     * Can only be null or empty if {@link #exportTypes} is not null or empty.
-     */
-    public void setProxyTypes(Class<?>[] proxyTypes) {
-        this.proxyTypes = proxyTypes;
-    }
     
     /**
      * Sets types under which bean must have been exported to service registry to be picked up.
