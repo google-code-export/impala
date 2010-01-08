@@ -121,13 +121,13 @@ public class FilteredServiceProxyFactoryBeanTest extends TestCase {
         
         factoryBean.setExportTypes(array1);
         factoryBean.setProxyTypes(null);
-        assertSame(array1, factoryBean.getProxyTypesToUse());
+        assertSame(array1, factoryBean.getProxyTypesToUse(false));
         
         factoryBean.setProxyTypes(array2);
-        assertSame(array2, factoryBean.getProxyTypesToUse());
+        assertSame(array2, factoryBean.getProxyTypesToUse(false));
         
         factoryBean.setExportTypes(array1);
-        assertSame(array2, factoryBean.getProxyTypesToUse());
+        assertSame(array2, factoryBean.getProxyTypesToUse(false));
     }
 
     private void noService(List<String> list) {

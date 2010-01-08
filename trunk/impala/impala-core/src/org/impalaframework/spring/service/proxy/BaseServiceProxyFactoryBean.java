@@ -99,13 +99,13 @@ public abstract class BaseServiceProxyFactoryBean
         return proxyTypes;
     }
     
-    protected Class<?>[] getProxyTypesToUse() {
+    protected Class<?>[] getProxyTypesToUse(boolean allowEmpty) {
         final Class<?>[] proxyTypes = getProxyTypes();
         final Class<?>[] exportTypes = getExportTypes();
         
         final Class<?>[] proxyTypesToUse;
         if (ArrayUtils.isNullOrEmpty(proxyTypes)) {
-            Assert.isTrue(!ArrayUtils.isNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be empty");
+            if (!allowEmpty) Assert.isTrue(!ArrayUtils.isNullOrEmpty(exportTypes), "exportTypes and proxyTypes cannot both be empty");
             proxyTypesToUse = exportTypes;
         } else {
             proxyTypesToUse = proxyTypes;
@@ -121,7 +121,7 @@ public abstract class BaseServiceProxyFactoryBean
 
     @SuppressWarnings("unchecked")
     public Class getObjectType() {
-        final Class<?>[] proxyTypesToUse = getProxyTypesToUse();
+        final Class<?>[] proxyTypesToUse = getProxyTypesToUse(true);
         if (proxyTypesToUse != null && proxyTypesToUse.length > 0)
             return proxyTypesToUse[0];
         return null;
