@@ -52,7 +52,7 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
         
         Assert.notNull(filterExpression, "filterExpression cannot be null. If you have no filter exporession to provide, consider using " + TypedServiceProxyFactoryBean.class.getName());
         
-        final Class<?>[] proxyTypesToUse = getProxyTypesToUse();
+        final Class<?>[] proxyTypesToUse = getProxyTypesToUse(false);
         
         list = new ServiceRegistryList();
         list.setServiceRegistry(getServiceRegistry());
