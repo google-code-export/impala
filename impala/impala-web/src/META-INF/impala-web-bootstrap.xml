@@ -47,7 +47,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <!-- application context for root module, which will contributed to the Spring root application context key -->
  <bean id="springRootModuleLoader" 
-     class="org.impalaframework.web.spring.module.RootWebModuleLoader">
+     class="org.impalaframework.web.spring.module.WebModuleLoader">
      <property name = "servletContextWrapper" ref = "servletContextWrapper"/>
      <property name = "webAttributeQualifier" ref = "webAttributeQualifier"/>
  </bean>    
