@@ -52,7 +52,7 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
     public InternalModuleDefinitionSource(TypeReaderRegistry typeReaderRegistry, ModuleLocationResolver resolver, String[] moduleNames, boolean loadDependendentModules) {
         super(resolver, loadDependendentModules);
         Assert.notNull(moduleNames, "moduleNames cannot be null");
-        Assert.notEmpty(moduleNames, "moduleNames cannot be empty");
+        //FIXME issue 293 test
         Assert.notNull(typeReaderRegistry, "typeReaderRegistry cannot be null");
         this.moduleNames = moduleNames;
         this.typeReaderRegistry = typeReaderRegistry;
@@ -107,6 +107,9 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
     String determineRootDefinition() {  
         
         if (getOrphans().isEmpty()) {
+            if (moduleNames.length == 0) {
+                return null;
+            }
             throw new ConfigurationException("Module hierarchy does not have a root module. At least one module with no parent needs to be specified");
         }
         

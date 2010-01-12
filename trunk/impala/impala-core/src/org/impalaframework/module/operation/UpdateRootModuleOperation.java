@@ -57,6 +57,11 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
         // figure out the modules to reload
         ModificationExtractor calculator = getModificationExtractorRegistry().getModificationExtractor(modificationExtractorType);
         
+        //FIXME issue 293 test
+        if (oldModuleDefinition == null && newModuleDefinition == null) {
+            return ModuleOperationResult.EMPTY;
+        }
+        
         TransitionSet transitions = calculator.getTransitions(application, oldModuleDefinition, newModuleDefinition);
         TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);
         return new ModuleOperationResult(transitionResultSet);
