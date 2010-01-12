@@ -48,12 +48,7 @@ public class TypedServiceProxyFactoryBeanTest extends TestCase {
     }
     
     public void testGetObjectType() throws Exception {
-        try {
-            bean.getObjectType();
-            fail();
-        }
-        catch (IllegalArgumentException e) {
-        }
+        assertNull(bean.getObjectType());
         
         bean.setExportTypes(exportTypes);
         assertEquals(Child.class, bean.getObjectType());
