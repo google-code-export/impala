@@ -29,10 +29,12 @@ import org.impalaframework.constants.LocationConstants;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.module.source.InternalWebXmlModuleDefinitionSource;
-import org.impalaframework.web.spring.loader.ExternalModuleContextLoader;
+import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.GenericApplicationContext;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.GenericWebApplicationContext;
+import org.springframework.web.context.support.XmlWebApplicationContext;
 
 public class ContextLoaderIntegrationTest extends TestCase {
 
@@ -49,11 +51,16 @@ public class ContextLoaderIntegrationTest extends TestCase {
 
     
     public void testExternalXmlBasedContextLoader() throws Exception {
+        
+        expect(servletContext.getInitParameter("contextClass")).andReturn(null);
+        expect(servletContext.getInitParameter("contextConfigLocation")).andReturn(null);
+        expect(servletContext.getInitParameter("contextConfigLocation")).andReturn(null);
+        expect(servletContext.getResource("/WEB-INF/applicationContext.xml")).andReturn(null);
+        
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));         
-        expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
         
         replay(servletContext);
 
@@ -68,41 +75,75 @@ public class ContextLoaderIntegrationTest extends TestCase {
             }
             
         };
-        WebApplicationContext context = loader.createWebApplicationContext(servletContext, new GenericApplicationContext());
+        final GenericApplicationContext parent = new GenericApplicationContext();
+        parent.refresh();
+        WebApplicationContext context = loader.createWebApplicationContext(servletContext, parent);
         
         assertNotNull(context);
-        assertTrue(context instanceof GenericWebApplicationContext);
+        assertTrue(context instanceof XmlWebApplicationContext);
+        
         verify(servletContext);
     }
     
     public void testXmlBasedContextLoader() throws Exception {
         
-        String[] locations = new String[] { 
+        final String[] locations = new String[] { 
                 "META-INF/impala-bootstrap.xml",
                 "META-INF/impala-web-bootstrap.xml",
                 "META-INF/impala-web-jmx-bootstrap.xml",
                 "META-INF/impala-web-listener-bootstrap.xml"};
-        doLocationsTest(locations);
-    }
-    
-    private void doLocationsTest(final String[] locations) throws Exception {
+        
+        expect(servletContext.getInitParameter("contextClass")).andReturn(null);
+        expect(servletContext.getInitParameter("contextConfigLocation")).andReturn(null);
+        expect(servletContext.getInitParameter("contextConfigLocation")).andReturn(null);
+        expect(servletContext.getResource("/WEB-INF/applicationContext.xml")).andReturn(null);
+        
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
-        expect(servletContext.getAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE)).andReturn(null);
+        servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
         
         replay(servletContext);
-
+        
         ExternalModuleContextLoader loader = new ExternalModuleContextLoader() {
-
-            @Override
+        
             public String[] getBootstrapContextLocations(ServletContext servletContext) {
                 return locations;
             }
             
         };
-        WebApplicationContext context = loader.createWebApplicationContext(servletContext, new GenericApplicationContext());
+        WebApplicationContext context = loader.createWebApplicationContext(servletContext, null);
+        
+        assertNotNull(context);
+        assertTrue(context instanceof XmlWebApplicationContext);
+        verify(servletContext);
+    }
+    
+    public void testInitImpalaContext() throws Exception {
+        
+        final String[] locations = new String[] { 
+                "META-INF/impala-bootstrap.xml",
+                "META-INF/impala-web-bootstrap.xml"};
+        
+        expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
+        servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
+        servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
+        servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
+        servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
+        
+        replay(servletContext);
+        
+        ExternalModuleContextLoader loader = new ExternalModuleContextLoader() {
+        
+            public String[] getBootstrapContextLocations(ServletContext servletContext) {
+                return locations;
+            }
+            
+        };
+        final GenericWebApplicationContext parent = new GenericWebApplicationContext();
+        parent.refresh();
+        ConfigurableApplicationContext context = loader.initImpalaApplicationContext(servletContext, parent);
         
         assertNotNull(context);
         assertTrue(context instanceof GenericWebApplicationContext);

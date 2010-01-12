@@ -15,6 +15,7 @@
 package org.impalaframework.web.spring.loader;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.classextension.EasyMock.createMock;
 import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
@@ -93,6 +94,8 @@ public class BaseImpalaContextLoaderTest extends TestCase {
     public final void testFactoryNull() {
         BaseImpalaContextLoader contextLoader = newContextLoader();
 
+        servletContext.log(isA(String.class));
+        servletContext.removeAttribute(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE);
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
 
         replayMocks();
