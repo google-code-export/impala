@@ -73,7 +73,11 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
     public WebApplicationContext initWebApplicationContext(
             ServletContext servletContext) throws IllegalStateException,
             BeansException {
-        return super.initWebApplicationContext(servletContext);
+        
+        final WebApplicationContext superContext = super.initWebApplicationContext(servletContext);
+        initImpalaApplicationContext(servletContext, superContext);
+        
+        return superContext;
     }
     
 
@@ -87,10 +91,8 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
             throws BeansException {
         
         final WebApplicationContext superContext = super.createWebApplicationContext(servletContext, parent);
-        initImpalaApplicationContext(servletContext, superContext);
         return superContext;
     }
-    
     
     
     @Override
