@@ -52,6 +52,9 @@ public class ReflectionUtilsTest extends TestCase {
         catch (ExecutionException e) {
             assertTrue(e.getMessage().contains("does not appear to contain"));
         }
+        
+        object.setMyField(null);
+        assertEquals(null, ReflectionUtils.getFieldValue(object, "myField", String.class));
     }
     
     public void testFindConstructors() throws Exception {
