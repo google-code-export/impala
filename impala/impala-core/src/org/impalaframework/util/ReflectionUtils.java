@@ -24,14 +24,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.springframework.util.Assert;
 
+/**
+ * Reflection-related utility methods.
+ * 
+ * @author Phil Zoio
+ */
 public class ReflectionUtils {
-    
-    private static final Log logger = LogFactory.getLog(ReflectionUtils.class);
     
     /**
      * Gets field value for named field from supplied object, returning it as
@@ -55,9 +56,7 @@ public class ReflectionUtils {
             }
             
             if (declaredField != null) {
-                makeAccessible(declaredField);
-                Object value = declaredField.get(object);
-                return ObjectUtils.cast(value, clazz);
+                return getFieldValue(object, declaredField, clazz);
             } 
             else {
                 throw new ExecutionException(object.getClass().getName() + " does not appear to contain field '" + fieldName + "'");
@@ -67,12 +66,30 @@ public class ReflectionUtils {
             throw e;
         }
         catch (Exception e) {
-            e.printStackTrace();
-            if (logger.isDebugEnabled()) {
-                logger.debug(e.getMessage(), e);
-            }
-            return null;
+            throw new ExecutionException(e.getMessage(), e);
         }
+    }
+
+    /**
+     * Gets the field value for a particular object using reflection
+     * @param object the object to extract the field value from
+     * @param declaredField the {@link Field} instance
+     * @param clazz the type of the field
+     * @return a field value, or null
+     */
+    public static <T> T getFieldValue(Object object, 
+            Field declaredField,
+            Class<T> clazz) {
+        
+        makeAccessible(declaredField);
+        Object value = null;
+        try {
+            value = declaredField.get(object);
+        }
+        catch (Exception e) {
+            throw new ExecutionException(e.getMessage(), e);
+        }
+        return ObjectUtils.cast(value, clazz);
     }
     
     /**
