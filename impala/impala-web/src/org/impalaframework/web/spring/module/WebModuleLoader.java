@@ -20,7 +20,6 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.web.spring.integration.ModuleHttpServiceInvokerBuilder;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.RootBeanDefinition;
-import org.springframework.web.context.ServletContextAware;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
 /**
@@ -33,7 +32,7 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
  * 
  * @author Phil Zoio
  */
-public class WebModuleLoader extends BaseWebModuleLoader implements ServletContextAware {
+public class WebModuleLoader extends BaseWebModuleLoader {
 
     public WebModuleLoader() {
         super();
