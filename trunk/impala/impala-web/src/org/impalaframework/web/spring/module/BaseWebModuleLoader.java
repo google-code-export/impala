@@ -77,8 +77,7 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         context.setClassLoader(classLoader);
         context.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, context));
         
-        configureBeanFactoryAndApplicationContext(moduleDefinition,
-                beanFactory, context);
+        configureBeanFactoryAndApplicationContext(moduleDefinition, beanFactory, context);
         
         return context;
     }

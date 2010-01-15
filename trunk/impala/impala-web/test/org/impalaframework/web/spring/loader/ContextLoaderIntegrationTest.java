@@ -70,8 +70,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
             
         };
 
-        final GenericWebApplicationContext parent = new GenericWebApplicationContext();
-        parent.refresh();
+        final GenericWebApplicationContext parent = newContext();
         WebApplicationContext context = loader.createWebApplicationContext(servletContext, parent);
         
         assertNotNull(context);
@@ -91,6 +90,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
+        expect(servletContext.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(newContext());
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
         servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
         
@@ -103,13 +103,19 @@ public class ContextLoaderIntegrationTest extends TestCase {
             }
             
         };
-        final GenericWebApplicationContext parent = new GenericWebApplicationContext();
-        parent.refresh();
+        final GenericWebApplicationContext parent = newContext();
         ConfigurableApplicationContext context = loader.initImpalaApplicationContext(servletContext, parent);
         
         assertNotNull(context);
         assertTrue(context instanceof GenericWebApplicationContext);
         verify(servletContext);
+    }
+
+
+    private GenericWebApplicationContext newContext() {
+        final GenericWebApplicationContext value = new GenericWebApplicationContext();
+        value.refresh();
+        return value;
     }
        
     public void testInitImpalaContext() throws Exception {
@@ -121,6 +127,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
+        expect(servletContext.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(newContext());
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
         servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
         
@@ -133,8 +140,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
             }
             
         };
-        final GenericWebApplicationContext parent = new GenericWebApplicationContext();
-        parent.refresh();
+        final GenericWebApplicationContext parent = newContext();
         ConfigurableApplicationContext context = loader.initImpalaApplicationContext(servletContext, parent);
         
         assertNotNull(context);
