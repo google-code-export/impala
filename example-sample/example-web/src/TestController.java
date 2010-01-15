@@ -22,14 +22,19 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import classes.HostBean;
+
 public class TestController extends MultiActionController {
 
     private EntryService entryService;
 
+    private HostBean hostBean;
+    
     public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
         
         HashMap<String, String> map = new HashMap<String, String>();
-        map.put("staticparam", "1146");
+        map.put("staticparam", "1147");
+        map.put("hostmessage", hostBean.getMessage());
         map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
 
         ModelAndView mav = new ModelAndView("test", map);
@@ -38,6 +43,10 @@ public class TestController extends MultiActionController {
 
     public void setEntryService(EntryService entryService) {
         this.entryService = entryService;
+    }
+    
+    public void setHostBean(HostBean hostBean) {
+        this.hostBean = hostBean;
     }
 
 }

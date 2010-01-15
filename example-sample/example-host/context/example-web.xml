@@ -6,6 +6,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 
     <bean name="/test.do" class="TestController">
         <property name = "entryService" ref = "entryService"/>
+        <property name = "hostBean" >
+        	<ref parent="hostBean"/>
+        </property>
     </bean> 
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
