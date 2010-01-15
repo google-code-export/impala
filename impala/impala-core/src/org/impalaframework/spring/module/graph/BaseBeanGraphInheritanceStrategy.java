@@ -31,8 +31,8 @@ public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInher
             ApplicationContext parentApplicationContext,
             ModuleDefinition definition) {
         List<ApplicationContext> nonAncestorDependentContexts = getDependentApplicationContexts(definition, parentApplicationContext, graphModuleStateHolder);      
-        final boolean b = getDelegateGetBeanCallsToParent();
-        return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts, b);
+        final boolean delegatingParentToParents = getDelegateGetBeanCallsToParent();
+        return new GraphDelegatingApplicationContext(parentApplicationContext, nonAncestorDependentContexts, delegatingParentToParents);
     }
 
     protected abstract boolean getDelegateGetBeanCallsToParent();
@@ -45,6 +45,7 @@ public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInher
     protected List<ApplicationContext> getDependentApplicationContexts(
             ModuleDefinition definition,
             GraphModuleStateHolder graphModuleStateHolder) {
+        
         DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
         
         //get the dependencies in correct order
@@ -64,6 +65,20 @@ public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInher
                 applicationContexts.add(spr.getApplicationContext());
             }
         }
+        
+        maybeAddRootParent(applicationContexts);
         return applicationContexts;
+    }
+
+    void maybeAddRootParent(final List<ApplicationContext> applicationContexts) {
+        if (applicationContexts.size() > 0) {
+            
+            //try get parent of first, which will have been published in Spring's root application context.            
+            final ApplicationContext applicationContext = applicationContexts.get(0);
+            final ApplicationContext parent = applicationContext.getParent();
+            if (parent != null) {
+                applicationContexts.add(0, parent);
+            }
+        }
     }
 }
