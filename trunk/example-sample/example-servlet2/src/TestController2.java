@@ -24,16 +24,20 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import shared.ValueHolder;
+import classes.HostBean;
 
 public class TestController2 extends MultiActionController {
 
     private EntryService entryService;
     
     private AutowiredClass autowiredClass;
+    
+    private HostBean hostBean;
 
     public ModelAndView test(HttpServletRequest request, HttpServletResponse response) {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("staticparam", "2222");
+        map.put("hostmessage", hostBean.getMessage());
         map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
         map.put("message", autowiredClass.useMessage());
 
@@ -65,6 +69,10 @@ public class TestController2 extends MultiActionController {
     
     public void setAutowiredClass(AutowiredClass autowiredClass) {
         this.autowiredClass = autowiredClass;
+    }
+    
+    public void setHostBean(HostBean hostBean) {
+        this.hostBean = hostBean;
     }
 
 }

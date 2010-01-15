@@ -15,6 +15,7 @@ instances (that is, from /WEB-INF/example-web-servlet.xml), rather than from the
 </p>
 
 example-web/test.jsp<br/>
+<b>The value for hostmessage: <c:out value="${hostmessage}"/></b><br/>
 <b>The value for staticparam: <c:out value="${staticparam}"/></b><br/>
 <b>The value for dynamicparam: <c:out value="${dynamicparam}"/></b>
 
