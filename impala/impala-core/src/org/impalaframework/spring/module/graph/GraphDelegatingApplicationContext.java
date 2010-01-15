@@ -79,17 +79,15 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
     public Object getBean(String name) throws BeansException {
         
         if (parentGetBean && parent.containsBean(name)) {
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("Returning bean for bean name from parent application context " + parent.getDisplayName());
-            }
-            
+            maybeLogGetParentBean(name);
             return parent.getBean(name);
         }
         
         for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
             
             if (containsBeanDefintion(applicationContext, name)) {
+                
+                maybeLogGetDependentBean(name, applicationContext);
                 return applicationContext.getBean(name);
             }
         }
