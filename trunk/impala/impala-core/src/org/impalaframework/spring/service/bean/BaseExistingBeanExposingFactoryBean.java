@@ -16,6 +16,8 @@ package org.impalaframework.spring.service.bean;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.bean.factory.BeanFactoryUtils;
+import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContext;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -70,23 +72,21 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
         
         ApplicationContext currentContext = this.applicationContext;
         
+        final String beanName = getBeanNameToSearchFor();
         if (getIncludeCurrentBeanFactory()) {
-            if (currentContext.containsBeanDefinition(getBeanNameToSearchFor())) {
+            if (currentContext.containsBeanDefinition(beanName)) {
                 return currentContext;
             }
         }
-        //continue looping until you find a parent bean factory which contains the given bean
-        while (currentContext != null) {
-
-            currentContext = currentContext.getParent();    
-            
-            if (currentContext != null) {
-                if (currentContext.containsBeanDefinition(getBeanNameToSearchFor())) {
-                    return currentContext;
-                }
-            }
-        }
         
+        ApplicationContext parentContext = applicationContext.getParent();
+        
+        if (parentContext instanceof GraphDelegatingApplicationContext) {
+            //FIXME issue 287 write test for this
+            return ((GraphDelegatingApplicationContext) parentContext).getContainingApplicationContext(beanName);
+        } else if (parentContext != null) {
+            return BeanFactoryUtils.maybeFindApplicationContext(parentContext, beanName);
+        } 
         return null;
     }
 
