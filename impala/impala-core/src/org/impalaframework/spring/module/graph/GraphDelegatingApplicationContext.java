@@ -21,6 +21,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.spring.bean.factory.BeanFactoryUtils;
 import org.impalaframework.spring.service.BeanDefinitionExposing;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -132,6 +133,38 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         }
 
         throw new NoSuchBeanDefinitionException(name);
+    }
+    
+    /**
+     * Searches for the {@link ApplicationContext} containing the named bean, 
+     * first using the {@link #parent} (only if {@link #parentGetBean} is set), and then
+     * using {@link #nonAncestorDependentContexts}.
+     * 
+     * @param beanName the name of the bean to find
+     * @return an {@link ApplicationContext} instance if it can be found
+     */
+    public ApplicationContext getContainingApplicationContext(String beanName) {
+
+        // FIXME 287 write test for this
+
+        if (parentGetBean) {
+            final ApplicationContext applicationContext = 
+                BeanFactoryUtils.maybeFindApplicationContext(parent, beanName);
+            
+            if (applicationContext != null) {
+                return applicationContext;
+            }
+        }
+
+        for (ApplicationContext applicationContext : nonAncestorDependentContexts) {
+
+            if (containsBeanDefintion(applicationContext, beanName)) {
+                return applicationContext;
+            }
+        }
+
+        return null;
+        
     }
 
     private boolean containsBeanDefintion(ApplicationContext applicationContext, String name) {
