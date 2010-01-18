@@ -14,24 +14,23 @@
 
 package org.impalaframework.spring.service.bean;
 
-import org.springframework.beans.BeansException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.BeanFactory;
-import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.FactoryBean;
-import org.springframework.beans.factory.HierarchicalBeanFactory;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.support.BeanDefinitionValidationException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.ConfigurableApplicationContext;
 
 /**
  * Base class for exposing an existing bean
  * @author Phil Zoio
  */
-public abstract class BaseExistingBeanExposingFactoryBean implements InitializingBean, FactoryBean, BeanFactoryAware, ApplicationContextAware {
-
-    private BeanFactory beanFactory;
+public abstract class BaseExistingBeanExposingFactoryBean implements InitializingBean, FactoryBean, ApplicationContextAware {
+    
+    private static final Log logger = LogFactory.getLog(BaseExistingBeanExposingFactoryBean.class);
     
     private ApplicationContext applicationContext;
 
@@ -50,43 +49,40 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
      */
     BeanFactory findBeanFactory() {
 
-        final BeanFactory beanFactory = maybeFindBeanFactory();
+        final ApplicationContext currentContext = maybeFindApplicationContext();
         
-        if (beanFactory != null) {
-            return beanFactory;
+        if (currentContext != null) {
+            
+            if (currentContext instanceof ConfigurableApplicationContext) {
+            
+                ConfigurableApplicationContext configurableContext = (ConfigurableApplicationContext) currentContext;
+                return configurableContext.getBeanFactory();
+            
+            } else {
+                logger.warn("Cannot return bean factory as application context is not an instance of " + ConfigurableApplicationContext.class.getName() + ": " + currentContext);
+            }
         }
         
         throw new BeanDefinitionValidationException("No parent bean factory of application context [" + applicationContext.getDisplayName() + "] contains bean [" + getBeanNameToSearchFor() + "]");
     }
 
-    protected BeanFactory maybeFindBeanFactory() {
+    private ApplicationContext maybeFindApplicationContext() {
         
-        BeanFactory currentBeanFactory = this.beanFactory;
+        ApplicationContext currentContext = this.applicationContext;
         
         if (getIncludeCurrentBeanFactory()) {
-            if (this.beanFactory instanceof ListableBeanFactory) {
-                if (((ListableBeanFactory) this.beanFactory).containsBeanDefinition(getBeanNameToSearchFor())) {
-                    return this.beanFactory;
-                }
+            if (currentContext.containsBeanDefinition(getBeanNameToSearchFor())) {
+                return currentContext;
             }
         }
-        
         //continue looping until you find a parent bean factory which contains the given bean
-        while (currentBeanFactory != null) {
+        while (currentContext != null) {
 
-            if (currentBeanFactory instanceof HierarchicalBeanFactory) {
-                HierarchicalBeanFactory hierarchicalBeanFactory = (HierarchicalBeanFactory) currentBeanFactory;
-                currentBeanFactory = hierarchicalBeanFactory.getParentBeanFactory();               
-            } else {
-                currentBeanFactory = null;
-            }
+            currentContext = currentContext.getParent();    
             
-            if (currentBeanFactory != null) {
-                if (currentBeanFactory instanceof ListableBeanFactory) {
-                    ListableBeanFactory listable = (ListableBeanFactory) currentBeanFactory;
-                    if (listable.containsBeanDefinition(getBeanNameToSearchFor())) {
-                        return currentBeanFactory;
-                    }
+            if (currentContext != null) {
+                if (currentContext.containsBeanDefinition(getBeanNameToSearchFor())) {
+                    return currentContext;
                 }
             }
         }
@@ -100,10 +96,6 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
     
     protected ApplicationContext getApplicationContext() {
         return applicationContext;
-    }
-
-    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
-        this.beanFactory = beanFactory;
     }
 
     public void setApplicationContext(ApplicationContext applicationContext) {
