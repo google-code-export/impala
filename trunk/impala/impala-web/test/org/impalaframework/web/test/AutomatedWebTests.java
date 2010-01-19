@@ -53,6 +53,7 @@ import org.impalaframework.web.servlet.wrapper.request.PartitionedWrapperServlet
 import org.impalaframework.web.servlet.wrapper.session.PartitionedWrapperHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.session.StateProtectingHttpSessionWrapperTest;
 import org.impalaframework.web.spring.bean.SystemPropertyServletContextParamFactoryBeanTest;
+import org.impalaframework.web.spring.config.ApplicationContextExporter;
 import org.impalaframework.web.spring.config.ContextListenerBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.FilterBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.ServletBeanDefinitionParserTest;
@@ -85,6 +86,7 @@ public class AutomatedWebTests {
 
     public static Test suite() {
         TestSuite suite = new TestSuite();
+        suite.addTestSuite(ApplicationContextExporter.class);
         suite.addTestSuite(BaseImpalaContextLoaderTest.class);
         suite.addTestSuite(BaseWebModuleLoaderTest.class);
         suite.addTestSuite(BaseWrapperServletContextTest.class);
