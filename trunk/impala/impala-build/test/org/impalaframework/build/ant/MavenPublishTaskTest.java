@@ -39,7 +39,15 @@ public class MavenPublishTaskTest extends TestCase {
     }
     
     public void testExecute() throws Exception {
+        task.setSharedPomFragment(new File("../impala/mvn/pom.xml"));
         task.execute();
+    }
+    
+    public void testGetSharedPomFragment() throws Exception {
+        task.setSharedPomFragment(new File("../impala/mvn/pom.xml"));
+        final String sharedPom = task.getSharedPomFragment();
+        System.out.println(sharedPom);
+        assertTrue(sharedPom.startsWith("<url>"));
     }
     
     public void testCheckArgs() throws Exception {
