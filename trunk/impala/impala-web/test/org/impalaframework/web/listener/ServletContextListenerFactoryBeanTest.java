@@ -21,6 +21,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.impalaframework.util.ObjectUtils;
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.ClassUtils;
 
 import junit.framework.TestCase;
@@ -52,17 +55,20 @@ public class ServletContextListenerFactoryBeanTest extends TestCase {
         TestListener testListener = ObjectUtils.cast(listener, TestListener.class);
         assertEquals(1, testListener.getInitializedCount());
         assertEquals(1, testListener.getDestroyedCount());
+        assertTrue(testListener.isAppContextAwareCalled());
         
         verify(servletContext);
     }
 
 }
 
-class TestListener implements ServletContextListener {
+class TestListener implements ServletContextListener, ApplicationContextAware {
 
     private int initializedCount;
 
     private int destroyedCount;
+    
+    private boolean appContextAwareCalled;
 
     public void contextInitialized(ServletContextEvent event) {
         initializedCount++;
@@ -70,6 +76,15 @@ class TestListener implements ServletContextListener {
 
     public void contextDestroyed(ServletContextEvent event) {
         destroyedCount++;
+    }
+    
+    public void setApplicationContext(ApplicationContext applicationContext)
+        throws BeansException {
+        appContextAwareCalled = true;
+    }
+    
+    public boolean isAppContextAwareCalled() {
+        return appContextAwareCalled;
     }
 
     public int getDestroyedCount() {
