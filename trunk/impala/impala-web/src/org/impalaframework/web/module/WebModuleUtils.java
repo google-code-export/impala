@@ -16,16 +16,25 @@ package org.impalaframework.web.module;
 
 import javax.servlet.ServletContext;
 
+import org.impalaframework.web.utils.ServletContextUtils;
+
 public class WebModuleUtils {
 
-    public static String getLocationsResourceName(ServletContext servletContext, String paramName) {
-        // first look for System property which contains module definitions
-        // location
+    public static String getParamValue(ServletContext servletContext, String paramName) {
+        String resourceName = null;
         
+        // first look for System property which contains module definitions location
+        final boolean supportsContextPath = ServletContextUtils.isAtLeast25(servletContext);
         
+        if (supportsContextPath) {
+            String contextPath = ServletContextUtils.getContextPathWithoutSlash(servletContext);
+            resourceName = System.getProperty(contextPath + "." + paramName);
+        }
         
-        String resourceName = System.getProperty(paramName);
-    
+        if (resourceName == null) {
+            resourceName = System.getProperty(paramName);
+        }
+        
         if (resourceName == null) {
             resourceName = servletContext.getInitParameter(paramName);
         }

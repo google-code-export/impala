@@ -26,4 +26,12 @@ public abstract class ServletContextUtils {
         return servletContext.getMajorVersion() >= 2 && servletContext.getMinorVersion() >= 5;
     }
 
+    public static String getContextPathWithoutSlash(ServletContext servletContext) {
+        String contextPath = servletContext.getContextPath();
+        if (contextPath.startsWith("/")) {
+            contextPath = contextPath.substring(1);
+        }
+        return contextPath;
+    }
+
 }

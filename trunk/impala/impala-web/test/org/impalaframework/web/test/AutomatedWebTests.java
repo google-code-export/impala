@@ -29,6 +29,7 @@ import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.PrefixTreeHolderTest;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapperTest;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBeanTest;
+import org.impalaframework.web.module.WebModuleUtilsTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
 import org.impalaframework.web.module.listener.WebModuleChangeListenerTest;
 import org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorTest;
@@ -144,6 +145,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(WebModuleChangeListenerTest.class);
         suite.addTestSuite(WebModuleLoaderTest.class);
         suite.addTestSuite(WebModuleReloaderTest.class);
+        suite.addTestSuite(WebModuleUtilsTest.class);
         suite.addTestSuite(WebScheduledModuleChangeMonitorTest.class);
         return suite;
     }
