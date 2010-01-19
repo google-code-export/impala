@@ -38,6 +38,7 @@ import org.impalaframework.config.SimplePropertiesLoader;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
 import org.impalaframework.constants.LocationConstants;
+import org.impalaframework.web.config.ContextPathAwareSystemPropertySource;
 import org.impalaframework.web.config.ServletContextPropertiesLoader;
 import org.impalaframework.web.config.ServletContextPropertySource;
 
@@ -68,10 +69,11 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     
     public void testGetPropertySources() throws Exception {
         final List<PropertySource> propertySources = resolver.getPropertySources(new Properties());
-        assertEquals(3, propertySources.size());
-        assertTrue(propertySources.get(0) instanceof SystemPropertiesPropertySource);
-        assertTrue(propertySources.get(1) instanceof StaticPropertiesPropertySource);
-        assertTrue(propertySources.get(2) instanceof ServletContextPropertySource);
+        assertEquals(4, propertySources.size());
+        assertTrue(propertySources.get(0) instanceof ContextPathAwareSystemPropertySource);
+        assertTrue(propertySources.get(1) instanceof SystemPropertiesPropertySource);
+        assertTrue(propertySources.get(2) instanceof StaticPropertiesPropertySource);
+        assertTrue(propertySources.get(3) instanceof ServletContextPropertySource);
     }
     
     public void testAddLocations() throws Exception {
@@ -101,6 +103,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     }
 
     public final void testDefaultGetProperties() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
 
         replay(servletContext);
@@ -116,6 +119,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     }
 
     public final void testGetPropertiesWithResourceNotFound() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         propertiesLoader = new ServletContextPropertiesLoader(servletContext, "notfound.properties");
         resolver = new ServletContextLocationsRetriever(servletContext, createMock(ContextLocationResolver.class), propertiesLoader);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn(null);
@@ -129,6 +133,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     }
 
     public final void testGetPropertiesLocationViaInitParameter() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM)).andReturn("org/impalaframework/web/module/locations.properties");
 
         replay(servletContext);
@@ -141,6 +146,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     }
 
     public final void testGetPropertiesLocationViaSystemProperty() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         System.setProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "org/impalaframework/web/module/locations.properties");
         try {
             replay(servletContext);
@@ -157,6 +163,7 @@ public class ServletContextLocationsRetrieverTest extends TestCase {
     }
 
     public final void testGetPropertiesLocationViaSystemPropertyNotFound() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         System.setProperty(LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "a location which does not exist");
         try {
             replay(servletContext);

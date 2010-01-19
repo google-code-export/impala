@@ -87,6 +87,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
                 "META-INF/impala-web-jmx-bootstrap.xml",
                 "META-INF/impala-web-listener-bootstrap.xml"};
         
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
@@ -123,7 +124,8 @@ public class ContextLoaderIntegrationTest extends TestCase {
         final String[] locations = new String[] { 
                 "META-INF/impala-bootstrap.xml",
                 "META-INF/impala-web-bootstrap.xml"};
-        
+
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("xmlspec/xmlspec.xml");
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));

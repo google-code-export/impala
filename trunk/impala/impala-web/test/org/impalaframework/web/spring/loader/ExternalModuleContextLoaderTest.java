@@ -49,6 +49,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
     }
 
     public final void testNoParameterResourceSpecified() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("duffresource");
 
         replay(servletContext);
@@ -68,6 +69,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
     }
 
     public final void testResourceNotPresent() {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn("notpresent");
         
         replay(servletContext);
@@ -90,6 +92,7 @@ public class ExternalModuleContextLoaderTest extends TestCase {
     }
 
     private void doSucceedingTest(String resourceName) {
+        expect(servletContext.getMajorVersion()).andReturn(0);
         expect(servletContext.getInitParameter(LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM)).andReturn(resourceName);
         expect(factory.getModuleLocationResolver()).andReturn(new StandaloneModuleLocationResolver());
         expect(factory.getTypeReaderRegistry()).andReturn(TypeReaderRegistryFactory.getTypeReaderRegistry());
