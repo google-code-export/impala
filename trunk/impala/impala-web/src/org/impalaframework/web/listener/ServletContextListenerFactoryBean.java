@@ -20,10 +20,13 @@ import javax.servlet.ServletContextListener;
 
 import org.impalaframework.util.InstantiationUtils;
 import org.impalaframework.util.ObjectUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.web.context.ServletContextAware;
 
 /**
@@ -37,7 +40,7 @@ import org.springframework.web.context.ServletContextAware;
  * {@link #destroy()}.
  * @author Phil Zoio
  */
-public class ServletContextListenerFactoryBean implements ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean, FactoryBean {
+public class ServletContextListenerFactoryBean implements ApplicationContextAware, ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean, FactoryBean {
 
     private ServletContext servletContext;
     
@@ -46,10 +49,18 @@ public class ServletContextListenerFactoryBean implements ServletContextAware, B
     private ClassLoader classLoader;
 
     private ServletContextListener listener;
+    
+    private ApplicationContext applicationContext;
 
     public void afterPropertiesSet() throws Exception {
         Object instantiate = InstantiationUtils.instantiate(listenerClass, classLoader);
         listener = ObjectUtils.cast(instantiate, ServletContextListener.class);
+        
+        if (listener instanceof ApplicationContextAware) {
+            //FIXME test
+            ((ApplicationContextAware) listener).setApplicationContext(applicationContext);
+        }
+        
         listener.contextInitialized(new ServletContextEvent(servletContext));
     }
 
@@ -67,6 +78,10 @@ public class ServletContextListenerFactoryBean implements ServletContextAware, B
 
     public void setBeanClassLoader(ClassLoader classLoader) {
         this.classLoader = classLoader;
+    }
+    
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
     }
     
     ServletContextListener getListener() {
