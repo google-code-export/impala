@@ -54,6 +54,10 @@
      <filter>
         <filter-name>springSecurityFilterChain</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+        <init-param>
+        	<param-name>contextAttribute</param-name>
+        	<param-value>securityContext</param-value>
+        </init-param>
     </filter>
 
     <filter-mapping>
