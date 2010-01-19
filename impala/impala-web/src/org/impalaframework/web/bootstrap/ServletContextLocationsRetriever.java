@@ -26,6 +26,7 @@ import org.impalaframework.config.PropertiesLoader;
 import org.impalaframework.config.PropertySource;
 import org.impalaframework.config.StaticPropertiesPropertySource;
 import org.impalaframework.config.SystemPropertiesPropertySource;
+import org.impalaframework.web.config.ContextPathAwareSystemPropertySource;
 import org.impalaframework.web.config.ServletContextPropertySource;
 import org.springframework.util.Assert;
 
@@ -44,6 +45,9 @@ public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
 
     protected List<PropertySource> getPropertySources(Properties properties) {
         List<PropertySource> propertySources = new ArrayList<PropertySource>();
+        
+        //FIXME add test
+        propertySources.add(new ContextPathAwareSystemPropertySource(servletContext));
         
         //property value sought first in system property
         propertySources.add(new SystemPropertiesPropertySource());

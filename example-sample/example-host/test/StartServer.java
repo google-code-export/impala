@@ -23,7 +23,7 @@ public class StartServer {
         //you can add dynamic.properties into /tmp and edit it there
         System.setProperty("property.folder", "/tmp");
         System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
-        System.setProperty(WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
+        System.setProperty("example-host."+WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
         System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
         StartJetty.main(new String[]{"8080", "../example-host/context", "/example-host"});
     }

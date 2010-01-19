@@ -21,6 +21,11 @@ import org.impalaframework.web.AttributeServletContext;
 import junit.framework.TestCase;
 
 public class WebModuleUtilsTest extends TestCase {
+    
+    @Override
+    protected void setUp() throws Exception {
+        clearProperties();
+    }
 
     public void testGetParamValue() {
         AttributeServletContext servletContext = new AttributeServletContext();
@@ -40,6 +45,10 @@ public class WebModuleUtilsTest extends TestCase {
     
     @Override
     protected void tearDown() throws Exception {
+        clearProperties();
+    }
+
+    private void clearProperties() {
         System.clearProperty("name");
         System.clearProperty("path.name");
     }
