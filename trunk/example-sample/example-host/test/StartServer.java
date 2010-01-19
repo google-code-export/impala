@@ -24,6 +24,9 @@ public class StartServer {
         System.setProperty("property.folder", "/tmp");
         System.setProperty("org.mortbay.log.class", "org.mortbay.log.StdErrLog");
         System.setProperty("example-host."+WebConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM, "classpath:impala-embedded.properties");
+        
+        //an example of a context path-specific system property
+        System.setProperty("example-host.auto.reload.check.delay", "15");
         System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
         StartJetty.main(new String[]{"8080", "../example-host/context", "/example-host"});
     }
