@@ -43,7 +43,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
     @Override
     public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 
-        String locationsResourceName = WebModuleUtils.getLocationsResourceName(servletContext,
+        String locationsResourceName = WebModuleUtils.getParamValue(servletContext,
                 LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 
         if (locationsResourceName == null) {

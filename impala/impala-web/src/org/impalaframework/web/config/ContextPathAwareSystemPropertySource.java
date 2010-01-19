@@ -43,10 +43,7 @@ public class ContextPathAwareSystemPropertySource implements PropertySource {
     public String getValue(String name) {
         final boolean supportsContextPath = ServletContextUtils.isAtLeast25(servletContext);
         if (supportsContextPath) {
-            String contextPath = servletContext.getContextPath();
-            if (contextPath.startsWith("/")) {
-                contextPath = contextPath.substring(1);
-            }
+            String contextPath = ServletContextUtils.getContextPathWithoutSlash(servletContext);
             return System.getProperty(contextPath + "." + name);
         }
         

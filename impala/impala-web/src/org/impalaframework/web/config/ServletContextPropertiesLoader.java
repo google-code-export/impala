@@ -36,7 +36,7 @@ public class ServletContextPropertiesLoader extends SimplePropertiesLoader {
     }
 
     protected String getResourceName() {
-        String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext,
+        String bootstrapLocationsResource = WebModuleUtils.getParamValue(servletContext,
                 LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
         return bootstrapLocationsResource;
     }

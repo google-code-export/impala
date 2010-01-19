@@ -30,8 +30,12 @@ import javax.servlet.ServletException;
 
 public class AttributeServletContext implements ServletContext {
 
-    private Map<String,Object> attributes = new HashMap<String, Object>();
+    private String contextPath;
     
+    private Map<String,Object> attributes = new HashMap<String, Object>();
+  
+    private Map<String,String> initParams = new HashMap<String, String>();
+      
     public AttributeServletContext() {
         super();
     }
@@ -50,12 +54,12 @@ public class AttributeServletContext implements ServletContext {
     }
     
     public String getContextPath() {
-        return null;
+        return contextPath;
     }
 
 
     public String getInitParameter(String name) {
-        return null;
+        return (initParams != null ? initParams.get(name) : null);
     }
 
     @SuppressWarnings("unchecked")
@@ -64,7 +68,7 @@ public class AttributeServletContext implements ServletContext {
     }
 
     public int getMajorVersion() {
-        return 0;
+        return 2;
     }
 
     public String getMimeType(String file) {
@@ -72,7 +76,7 @@ public class AttributeServletContext implements ServletContext {
     }
 
     public int getMinorVersion() {
-        return 0;
+        return 5;
     }
 
     public RequestDispatcher getNamedDispatcher(String name) {
@@ -137,4 +141,12 @@ public class AttributeServletContext implements ServletContext {
         attributes.put(name, value);
     }
 
+    public void setContextPath(String contextPath) {
+        this.contextPath = contextPath;
+    }
+    
+    public void setInitParams(Map<String, String> initParams) {
+        this.initParams = initParams;
+    }
+    
 }

@@ -36,7 +36,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	@Override
 	public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
-		final String resourceName = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
+		final String resourceName = WebModuleUtils.getParamValue(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
 		final PropertiesLoader propertiesLoader = new ServletContextPropertiesLoader(servletContext, resourceName);
 		final WebContextLocationResolver locationResolver = new WebContextLocationResolver();
 		
@@ -49,7 +49,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 
 	@Override
 	protected String getModuleDefinitionString(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getParamValue(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getModuleDefinitionString(servletContext);
 		}
@@ -75,7 +75,7 @@ public class ConfigurableWebXmlBasedContextLoader extends WebXmlBasedContextLoad
 	}
 	
 	protected String[] getParentLocations(ServletContext servletContext) {
-		String bootstrapLocationsResource = WebModuleUtils.getLocationsResourceName(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+		String bootstrapLocationsResource = WebModuleUtils.getParamValue(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
 		if (bootstrapLocationsResource == null) {
 			return super.getParentLocations(servletContext);
 		}
