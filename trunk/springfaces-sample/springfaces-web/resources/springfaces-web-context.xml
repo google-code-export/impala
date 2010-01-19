@@ -11,6 +11,8 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <import resource="web-application-config.xml" />
     
     <web:context-listener listenerClass="com.sun.faces.config.ConfigureListener"/>
+
+	<web:context-listener listenerClass="org.impalaframework.samples.springfaces.web.ContextPublisher"/>
     
     <web:servlet id = "springfaces-web" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
