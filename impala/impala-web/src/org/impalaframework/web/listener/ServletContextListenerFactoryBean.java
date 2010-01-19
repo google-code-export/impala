@@ -57,7 +57,6 @@ public class ServletContextListenerFactoryBean implements ApplicationContextAwar
         listener = ObjectUtils.cast(instantiate, ServletContextListener.class);
         
         if (listener instanceof ApplicationContextAware) {
-            //FIXME test
             ((ApplicationContextAware) listener).setApplicationContext(applicationContext);
         }
         
