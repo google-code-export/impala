@@ -12,24 +12,18 @@
  * the License.
  */
 
-package org.impalaframework.web.module;
+package org.impalaframework.web.utils;
 
 import javax.servlet.ServletContext;
 
-public class WebModuleUtils {
+/**
+ * Class holding utility {@link ServletContext} related methods.
+ * @author Phil Zoio
+ */
+public abstract class ServletContextUtils {
 
-    public static String getLocationsResourceName(ServletContext servletContext, String paramName) {
-        // first look for System property which contains module definitions
-        // location
-        
-        
-        
-        String resourceName = System.getProperty(paramName);
-    
-        if (resourceName == null) {
-            resourceName = servletContext.getInitParameter(paramName);
-        }
-        return resourceName;
+    public static boolean isAtLeast25(ServletContext servletContext) {
+        return servletContext.getMajorVersion() >= 2 && servletContext.getMinorVersion() >= 5;
     }
 
 }

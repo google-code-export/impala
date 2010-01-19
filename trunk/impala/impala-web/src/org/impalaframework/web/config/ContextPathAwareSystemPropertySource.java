@@ -17,6 +17,7 @@ package org.impalaframework.web.config;
 import javax.servlet.ServletContext;
 
 import org.impalaframework.config.PropertySource;
+import org.impalaframework.web.utils.ServletContextUtils;
 import org.springframework.util.Assert;
 
 /**
@@ -40,7 +41,8 @@ public class ContextPathAwareSystemPropertySource implements PropertySource {
      * {@link ServletContext#getContextPath()}. Otherwise returns null,
      */
     public String getValue(String name) {
-        if (servletContext.getMajorVersion() >= 2 && servletContext.getMinorVersion() >= 5) {
+        final boolean supportsContextPath = ServletContextUtils.isAtLeast25(servletContext);
+        if (supportsContextPath) {
             String contextPath = servletContext.getContextPath();
             if (contextPath.startsWith("/")) {
                 contextPath = contextPath.substring(1);
