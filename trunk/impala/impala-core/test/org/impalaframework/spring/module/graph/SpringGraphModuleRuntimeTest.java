@@ -13,6 +13,8 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
+import org.impalaframework.module.definition.ModuleTypes;
+import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.module.source.InternalModuleDefinitionSource;
 import org.impalaframework.module.spi.Application;
@@ -20,6 +22,8 @@ import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.spring.module.SpringModuleUtils;
+import org.impalaframework.spring.module.SpringRuntimeModule;
+import org.impalaframework.spring.service.bean.ParentFactoryBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 
@@ -65,6 +69,18 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
         executeBean("sample-module4", "bean2");
         executeNoBean("sample-module6", "bean4");
+    }
+    
+    public void testParentBean() throws Exception {
+        System.setProperty("graph.bean.visibility.type", "graphOrdered");
+        Impala.init();
+        Impala.init(new ModuleDefinitionWithParent());
+
+        executeBean("sample-module4", "bean2");    
+        RuntimeModule runtimeModule = Impala.getRuntimeModule("sample-module6");
+        SpringRuntimeModule mod = (SpringRuntimeModule) runtimeModule;
+        final ParentFactoryBean bean = (ParentFactoryBean) mod.getApplicationContext().getBean("&bean4");
+        assertSame(bean.getObject(), Impala.getModuleBean("sample-module4", "bean4", Object.class));
     }
     
     public void testNone() throws Exception {
@@ -168,3 +184,24 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
                 new String[] { "impala-core", "sample-module4", "sample-module5", "sample-module6" }).getModuleDefinition();
     }
 }
+
+class ModuleDefinitionWithParent implements ModuleDefinitionSource {
+
+    public RootModuleDefinition getModuleDefinition() {
+        final RootModuleDefinition moduleDefinition = new InternalModuleDefinitionSource(
+                TypeReaderRegistryFactory.getTypeReaderRegistry(), 
+                Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
+                new String[] { "impala-core", "sample-module4", "sample-module5" }).getModuleDefinition();
+        
+        final SimpleModuleDefinition childDefinition = (SimpleModuleDefinition) moduleDefinition.findChildDefinition("sample-module5", true);
+        
+        new SimpleModuleDefinition(
+                childDefinition, 
+                "sample-module6", 
+                ModuleTypes.APPLICATION,
+                new String[]{"sample-module6-context.xml", "sample-module6-parent.xml"},
+                new String[]{"sample-module4"},
+                null,
+                "spring");
+        return moduleDefinition;
+    }}
