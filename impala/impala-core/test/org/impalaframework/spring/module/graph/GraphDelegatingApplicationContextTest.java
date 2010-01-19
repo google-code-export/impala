@@ -40,6 +40,7 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
     private ApplicationContext dependencyOne;
     private ApplicationContext dependencyTwo;
     private GraphDelegatingApplicationContext parent;
+    private List<ApplicationContext> dependencies;
 
     @Override
     protected void setUp() throws Exception {
@@ -48,7 +49,7 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         dependencyOne = createMock(ApplicationContext.class);
         dependencyTwo = createMock(ApplicationContext.class);
         
-        List<ApplicationContext> dependencies = new ArrayList<ApplicationContext>();
+        dependencies = new ArrayList<ApplicationContext>();
         dependencies.add(dependencyOne);
         dependencies.add(dependencyTwo);
         parent = new GraphDelegatingApplicationContext(delegate, dependencies, true);
@@ -112,6 +113,45 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         parent.getBean("bean");
         parent.getBean("bean", String.class);
         parent.getBean("bean", new String[0]);
+
+        verify(delegate, dependencyOne, dependencyTwo);
+    }
+    
+    public void testGetContainingApplicationContextFromParent() throws Exception {
+        
+        expect(delegate.containsBeanDefinition("beanName")).andReturn(true);
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+        
+        parent.getContainingApplicationContext("beanName");
+
+        verify(delegate, dependencyOne, dependencyTwo);
+    }
+    
+    public void testGetContainingApplicationContextFromDelegate() throws Exception {
+        
+        expect(delegate.containsBeanDefinition("beanName")).andReturn(false);
+        expect(delegate.getParent()).andReturn(null);
+        expect(dependencyOne.containsBeanDefinition("beanName")).andReturn(false);
+        expect(dependencyTwo.containsBeanDefinition("beanName")).andReturn(true);
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+        
+        assertSame(dependencyTwo, parent.getContainingApplicationContext("beanName"));
+
+        verify(delegate, dependencyOne, dependencyTwo);
+    }
+    
+    public void testGetContainingApplicationNotParent() throws Exception {
+        
+        parent = new GraphDelegatingApplicationContext(delegate, dependencies, false);
+        
+        expect(dependencyOne.containsBeanDefinition("beanName")).andReturn(false);
+        expect(dependencyTwo.containsBeanDefinition("beanName")).andReturn(true);
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+        
+        assertSame(dependencyTwo, parent.getContainingApplicationContext("beanName"));
 
         verify(delegate, dependencyOne, dependencyTwo);
     }

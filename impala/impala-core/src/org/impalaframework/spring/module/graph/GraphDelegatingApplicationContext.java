@@ -145,8 +145,6 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
      */
     public ApplicationContext getContainingApplicationContext(String beanName) {
 
-        // FIXME 287 write test for this
-
         if (parentGetBean) {
             final ApplicationContext applicationContext = 
                 BeanFactoryUtils.maybeFindApplicationContext(parent, beanName);
