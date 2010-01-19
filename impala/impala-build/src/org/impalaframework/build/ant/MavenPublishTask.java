@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileFilter;
 
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Checksum;
 import org.apache.tools.ant.taskdefs.Copy;
@@ -72,7 +73,9 @@ public class MavenPublishTask extends Task {
               "<artifactId>" + artifactOutput.getArtifact() +
               "</artifactId>\n" + 
               "<version>" + artifactOutput.getVersion() +
-              "</version>\n" 
+              "</version>\n" +
+              "<description>" + artifactOutput.getArtifact() +
+              "</description>\n"
               + pomFragment +
               "</project>";
 
@@ -81,6 +84,8 @@ public class MavenPublishTask extends Task {
             if (pomFile.exists()) {
                 pomFile.delete();
             }
+            
+            getProject().log("Writing POM: " + pomText, Project.MSG_DEBUG);
             
             writePom(pomText, pomFile);
             writeChecksum(pomFile, pomFile);
