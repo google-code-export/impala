@@ -2,6 +2,9 @@ package org.impalaframework.web.spring.loader;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.util.StringUtils;
 import org.springframework.web.context.ConfigurableWebApplicationContext;
 import org.springframework.web.context.ContextLoader;
 
@@ -15,6 +18,8 @@ import org.springframework.web.context.ContextLoader;
  * @author Phil Zoio
  */
 public class ExternalContextLoader extends ContextLoader {
+    
+    private static final Log logger = LogFactory.getLog(ExternalContextLoader.class);
     
     static String EXTERNAL_CONFIG_LOCATIONS_PARAM = "external.config.locations";
 
@@ -32,7 +37,12 @@ public class ExternalContextLoader extends ContextLoader {
         String[] expandedLocations = configLocations;
         
         String externalLocations = System.getProperty(EXTERNAL_CONFIG_LOCATIONS_PARAM);
-        if (externalLocations != null) {
+        if (StringUtils.hasText(externalLocations)) {
+            
+            if (logger.isInfoEnabled()) {
+                logger.info("Adding locations from system property '" + EXTERNAL_CONFIG_LOCATIONS_PARAM + "': " + externalLocations);
+            }
+            
             String[] externalLocationsArray = externalLocations.split(",");
             for (int i = 0; i < externalLocationsArray.length; i++) {
                 externalLocationsArray[i] = externalLocationsArray[i].trim();
@@ -40,7 +50,13 @@ public class ExternalContextLoader extends ContextLoader {
             expandedLocations = new String[configLocations.length + externalLocationsArray.length];
             System.arraycopy(configLocations, 0, expandedLocations, 0, configLocations.length);
             System.arraycopy(externalLocationsArray, 0, expandedLocations, configLocations.length, externalLocationsArray.length);
+        } else {
+            
+            if (logger.isDebugEnabled()) {
+                logger.info("No locations from system property: " + EXTERNAL_CONFIG_LOCATIONS_PARAM);
+            }
         }
+        
         return expandedLocations;
     }
 
