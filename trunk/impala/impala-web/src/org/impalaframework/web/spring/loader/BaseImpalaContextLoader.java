@@ -94,7 +94,11 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
         return superContext;
     }
     
-    
+    /**
+     * Overrides the empty {@link ContextLoader#customizeContext(ServletContext, ConfigurableWebApplicationContext)}
+     * by setting the parent {@link ApplicationContext} to use an empty location if the current location is simply the default,
+     * and this does not exist. Effectively provides transparent support for "empty" parent {@link ApplicationContext}
+     */
     @Override
     protected void customizeContext(ServletContext servletContext,
             ConfigurableWebApplicationContext applicationContext) {
