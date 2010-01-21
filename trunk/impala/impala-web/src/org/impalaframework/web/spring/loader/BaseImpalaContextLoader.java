@@ -171,6 +171,12 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
             super.closeWebApplicationContext(servletContext);
         }
     }
+    
+    /**
+     * Returns the Impala bootstrap context locations as determined by the implementation of {@link ServletContextLocationsRetriever}
+     * and properties specified in the Impala properties file
+     * @return an array of Spring config locations
+     */
     public String[] getBootstrapContextLocations(ServletContext servletContext) {
 
         String resourceName = WebModuleUtils.getParamValue(servletContext, LocationConstants.BOOTSTRAP_LOCATIONS_RESOURCE_PARAM);
@@ -182,7 +188,10 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
         
         final ServletContextLocationsRetriever resolver = new ServletContextLocationsRetriever(servletContext, locationResolver, propertiesLoader);
         final String[] toReturn = resolver.getContextLocations().toArray(new String[0]);
-        logger.info("Impala context locations: " + Arrays.toString(toReturn));
+        
+        if (logger.isInfoEnabled()) {
+            logger.info("Impala context locations: " + Arrays.toString(toReturn));
+        }
         
         return toReturn;
     }
@@ -193,6 +202,7 @@ public abstract class BaseImpalaContextLoader extends ContextLoader implements S
      * Instantiates Impala in the form of a <code>ModuleManagementFacade</code> instance.
      */
     protected ModuleManagementFacade createModuleManagementFacade(ServletContext servletContext, WebApplicationContext parent) {
+        
         String[] locations = getBootstrapContextLocations(servletContext);
         logger.info("Loading bootstrap context from locations " + Arrays.toString(locations));
 
