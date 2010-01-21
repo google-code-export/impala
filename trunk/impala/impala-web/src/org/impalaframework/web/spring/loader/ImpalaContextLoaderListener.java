@@ -25,10 +25,9 @@ import org.springframework.web.context.ContextLoader;
 import org.springframework.web.context.ContextLoaderListener;
 
 /**
- * Subclass of <code>ContextLoader</code> which is Impala-enabled.
- * The actual <code>ContextLoader</code> subclass which is used is determined by the 
- * init parameter <i>contextLoaderClassName</i>. The default is <code>ExternalModuleContextLoader</code>
- * <p>
+ * Subclass of {@link ContextLoader} which is Impala-enabled.
+ * The actual {@link ContextLoader} subclass which is used is determined by the 
+ * init parameter <i>contextLoaderClassName</i>. The default is {@link ExternalModuleContextLoader}
  * 
  * @see ExternalModuleContextLoader
  * @author Phil Zoio
