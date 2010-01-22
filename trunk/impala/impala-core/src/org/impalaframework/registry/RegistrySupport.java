@@ -83,11 +83,11 @@ public class RegistrySupport {
         }
     }
     
-    public Map<String, Object> getEntries() {
+    public <T extends Object> Map<String, T> getEntries() {
         return Collections.unmodifiableMap(entries);
     }
     
-    public Object    removeEntry(String key) {
+    public <T extends Object> Object removeEntry(String key) {
         return this.entries.remove(key);
     }
     
