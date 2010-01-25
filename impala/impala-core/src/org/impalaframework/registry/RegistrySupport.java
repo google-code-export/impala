@@ -91,4 +91,8 @@ public class RegistrySupport {
         return this.entries.remove(key);
     }
     
+    public void clear() {
+        this.entries.clear();
+    }
+    
 }
