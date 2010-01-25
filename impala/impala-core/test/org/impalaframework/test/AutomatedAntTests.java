@@ -144,6 +144,7 @@ import org.impalaframework.spring.module.ProcessTransitionsTest;
 import org.impalaframework.spring.module.SimpleParentContextTest;
 import org.impalaframework.spring.module.SpringModuleRuntimeTest;
 import org.impalaframework.spring.module.TransitionManagerTest;
+import org.impalaframework.spring.module.application.ApplicationPostProcessorTest;
 import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContextTest;
 import org.impalaframework.spring.module.graph.SpringGraphModuleRuntimeTest;
 import org.impalaframework.spring.module.loader.ApplicationModuleLoaderTest;
@@ -206,6 +207,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(AddModuleOperationTest.class);
         suite.addTestSuite(ApplicationModuleLoaderTest.class);
         suite.addTestSuite(ApplicationModuleLocationsResourceLoaderTest.class);
+        suite.addTestSuite(ApplicationPostProcessorTest.class);
         suite.addTestSuite(ArrayUtilsTest.class);
         suite.addTestSuite(AutoRegisteringModuleContributionExporterTest.class);
         suite.addTestSuite(BaseApplicationContextLoaderTest.class);
