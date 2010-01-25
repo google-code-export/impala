@@ -3,7 +3,7 @@
 <groupId>org.impalaframework</groupId>
 <artifactId>impala-command</artifactId>
 <version>1.0-SNAPSHOT</version>
-<description>Maven pom</description>
+<description>impala-command</description>
 <url>http://code.google.com/p/impala/</url>
 <licenses>
   <license>
