@@ -1,7 +1,7 @@
-<parent>
+<root>
     <name>project1</name>
     <config-locations>
         <config-location>parentTestContext.xml</config-location>
         <config-location>extra-context.xml</config-location>
     </config-locations>
-</parent>
+</root>

@@ -19,6 +19,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XMLDomUtils;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.xml.DomUtils;
@@ -47,7 +48,7 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
      */
     protected Element getRootElement() {
         Assert.notNull(resource, "resource cannot be null");
-        Document document = xmlDefinitionLoader.loadDocument(resource);
+        Document document = xmlDefinitionLoader.loadDocument(resource, new ClassPathResource("org/impalaframework/module/source/moduledefinition.xsd"));
 
         Element root = document.getDocumentElement();
         return root;
