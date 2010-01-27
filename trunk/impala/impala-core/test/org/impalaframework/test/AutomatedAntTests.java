@@ -96,6 +96,7 @@ import org.impalaframework.module.source.InternalXmlModuleDefinitionSourceTest;
 import org.impalaframework.module.source.SingleStringModuleDefinitionSourceTest;
 import org.impalaframework.module.source.XMLModuleDefinitionDocumentLoaderTest;
 import org.impalaframework.module.source.XMLModuleDefinitionSourceTest;
+import org.impalaframework.module.source.XmlModuleValidationTest;
 import org.impalaframework.module.spi.TransitionResultSetTest;
 import org.impalaframework.module.transition.LoadTransitionProcessorTest;
 import org.impalaframework.module.transition.ModuleStateChangeNotifierTest;
@@ -382,6 +383,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(XMLDomUtilsTest.class);
         suite.addTestSuite(XMLModuleDefinitionDocumentLoaderTest.class);
         suite.addTestSuite(XMLModuleDefinitionSourceTest.class);
+        suite.addTestSuite(XmlModuleValidationTest.class);
         
         return suite;
     }

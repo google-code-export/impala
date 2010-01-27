@@ -17,7 +17,9 @@ package org.impalaframework.module.source;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.util.XMLDomUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 
 /**
  * Loads document by calling non-validating
@@ -33,4 +35,18 @@ public class XMLModulelDefinitionDocumentLoader {
         }
     }
 
+    protected Document loadDocument(Resource resource, Resource xsd) {
+        try {
+            final Document document = XMLDomUtils.loadDocument(resource);
+            final Element documentElement = document.getDocumentElement();
+            
+            if (StringUtils.hasText(documentElement.getAttribute("xmlns"))) {
+                XMLDomUtils.validateDocument(document, "moduledefinitions.xml document", xsd);
+            }
+            return document;
+        } catch (Exception e) {
+            throw new ConfigurationException("Unable to load XML module definition document from resource " + resource, e);
+        }
+    }
+    
 }

@@ -1,4 +1,8 @@
-<root>
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns="http://www.impalaframework.org/schema/moduledefinition"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation=
+      	"http://www.impalaframework.org/schema/moduledefinition http://www.impalaframework.org/schema/moduledefinition.xsd">
     <names>
         impala-core
         sample-module1
