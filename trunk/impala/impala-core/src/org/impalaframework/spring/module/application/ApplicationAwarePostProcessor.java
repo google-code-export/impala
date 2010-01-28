@@ -23,18 +23,17 @@ import org.springframework.util.Assert;
  * Interface for allowing {@link Application} instance to be injected into bean.
  * @author Phil Zoio
  */
-public class ApplicationPostProcessor implements BeanPostProcessor {
+public class ApplicationAwarePostProcessor implements BeanPostProcessor {
 
     private final Application application;
     
-    public ApplicationPostProcessor( Application application) {
+    public ApplicationAwarePostProcessor( Application application) {
         Assert.notNull(application, "application cannot be null");
         this.application = application;
     }
     
     public Object postProcessBeforeInitialization(Object bean, String beanName)
             throws BeansException {
-        //FIXME test
         if (bean instanceof ApplicationAware) {
             ((ApplicationAware) bean).setApplication(application);
         }

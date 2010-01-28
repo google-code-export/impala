@@ -20,7 +20,7 @@ import org.impalaframework.module.spi.Application;
 
 import junit.framework.TestCase;
 
-public class ApplicationPostProcessorTest extends TestCase {
+public class ApplicationAwarePostProcessorTest extends TestCase {
     
     private Application application;
 
@@ -31,14 +31,14 @@ public class ApplicationPostProcessorTest extends TestCase {
     }
 
     public void testPostProcessAfterInitialization() {
-        ApplicationPostProcessor postProcessor = new ApplicationPostProcessor(application);
+        ApplicationAwarePostProcessor postProcessor = new ApplicationAwarePostProcessor(application);
         TestApplicationAware bean = new TestApplicationAware();
         assertSame(bean, postProcessor.postProcessAfterInitialization(bean, "mybean"));
         assertNull(bean.getApplication());
     }
 
     public void testPostProcessBeforeInitialization() {
-        ApplicationPostProcessor postProcessor = new ApplicationPostProcessor(application);
+        ApplicationAwarePostProcessor postProcessor = new ApplicationAwarePostProcessor(application);
         TestApplicationAware bean = new TestApplicationAware();
         assertSame(bean, postProcessor.postProcessBeforeInitialization(bean, "mybean"));
         assertSame(application, bean.getApplication());
