@@ -19,9 +19,6 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     
  <service:import id="sessionFactory" exportName = "sessionFactory" proxyTypes = "org.hibernate.SessionFactory"/>
     
- <!-- Transaction manager for a single Hibernate SessionFactory -->
- <bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
-     <property name="sessionFactory" ref="sessionFactory" />
- </bean>
+ <service:import id="transactionManager" exportName = "transactionManager" proxyTypes = "org.springframework.transaction.PlatformTransactionManager"/>
     
 </beans>
