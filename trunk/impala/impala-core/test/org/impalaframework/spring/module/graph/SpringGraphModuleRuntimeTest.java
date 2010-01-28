@@ -26,6 +26,7 @@ import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.spring.service.bean.ParentFactoryBean;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.GenericApplicationContext;
 
 public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefinitionSource {
 
@@ -51,6 +52,9 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
         executeBean("sample-module4", "bean2");
         executeBean("sample-module6", "bean4");
+        
+        final ApplicationContext applicationContext = getApplicationContext("sample-module6");
+        assertTrue(applicationContext.getParent() instanceof GraphDelegatingApplicationContext);
     }
     
     public void testParentFirst() throws Exception {
@@ -60,6 +64,9 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
         executeBean("sample-module4", "bean2");
         executeBean("sample-module6", "bean4");
+
+        final ApplicationContext applicationContext = getApplicationContext("sample-module6");
+        assertTrue(applicationContext.getParent() instanceof GraphDelegatingApplicationContext);
     }
     
     public void testParentOnly() throws Exception {
@@ -69,6 +76,9 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
 
         executeBean("sample-module4", "bean2");
         executeNoBean("sample-module6", "bean4");
+        
+        final ApplicationContext applicationContext = getApplicationContext("sample-module6");
+        assertTrue(applicationContext.getParent() instanceof GenericApplicationContext);
     }
     
     public void testParentBean() throws Exception {
@@ -152,6 +162,18 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
         RuntimeModule runtimeModule = Impala.getRuntimeModule(moduleName);
         FileMonitor bean = (FileMonitor) runtimeModule.getBean(beanName);
         bean.lastModified(new File("./"));
+    }
+    
+    private ApplicationContext getApplicationContext(String moduleName) {
+
+        Application application = Impala.getCurrentApplication();
+        ModuleStateHolder moduleStateHolder = application.getModuleStateHolder();
+        ModuleDefinition definition = moduleStateHolder.getModuleDefinition().findChildDefinition(moduleName, true);
+
+        ApplicationContext parent = getApplicationContext(moduleStateHolder,
+                definition);
+        
+        return parent;
     }
 
     private void checkExpected(ModuleStateHolder moduleStateHolder,
