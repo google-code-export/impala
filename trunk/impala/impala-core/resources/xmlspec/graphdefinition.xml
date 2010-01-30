@@ -1,4 +1,5 @@
 <root>
+    <names>project1</names>
     <name>project1</name>
     <config-locations>
         <config-location>parentTestContext.xml</config-location>
