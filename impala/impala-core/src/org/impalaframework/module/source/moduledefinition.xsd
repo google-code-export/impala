@@ -20,7 +20,7 @@
 		</xsd:complexType>
 	</xsd:element>
 
-	<xsd:element name="name">
+	<xsd:element name="name" type="xsd:string">
 	</xsd:element>
 
 	<xsd:element name="config-locations">
@@ -31,7 +31,7 @@
 		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="config-location">
+	<xsd:element name="config-location" type="xsd:string">
 	</xsd:element>
 	
 	<xsd:element name="attributes">		
@@ -41,14 +41,21 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="attribute">
+		<xsd:complexType>
+			<xsd:simpleContent>
+				<xsd:extension base="xsd:string">
+					<xsd:attribute name="name" type="xsd:string" />
+				</xsd:extension>
+			</xsd:simpleContent>
+		</xsd:complexType>
 	</xsd:element>
 	
-	<xsd:element name="depends-on">
+	<xsd:element name="depends-on" type="xsd:string">
 	</xsd:element>
 	
-	<xsd:element name="runtime">
+	<xsd:element name="runtime" type="xsd:string">
 	</xsd:element>
 	
 	<xsd:element name="modules" type="modulesType">
