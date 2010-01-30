@@ -8,7 +8,7 @@
 
 	<xsd:element name="root">
 		<xsd:complexType>
-			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:sequence minOccurs="1">
 				<xsd:element ref="name" minOccurs="0" />
 				<xsd:element ref="config-locations" minOccurs="0" />
 				<xsd:element ref="attributes" minOccurs="0" />
@@ -16,7 +16,7 @@
 				<xsd:element ref="runtime" minOccurs="0" />
 				<xsd:element ref="modules" minOccurs="0" />
 				<xsd:element ref="siblings" minOccurs="0" />
-			</xsd:choice>
+			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
 
@@ -24,16 +24,55 @@
 	</xsd:element>
 
 	<xsd:element name="config-locations">
-	</xsd:element>
-	<xsd:element name="attributes">
-	</xsd:element>
-	<xsd:element name="depends-on">
-	</xsd:element>
-	<xsd:element name="runtime">
-	</xsd:element>
-	<xsd:element name="modules">
-	</xsd:element>
-	<xsd:element name="siblings">
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="config-location"/>
+			</xsd:sequence>
+		</xsd:complexType>
 	</xsd:element>
 	
+	<xsd:element name="config-location">
+	</xsd:element>
+	
+	<xsd:element name="attributes">		
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="attribute"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="attribute">
+	</xsd:element>
+	
+	<xsd:element name="depends-on">
+	</xsd:element>
+	
+	<xsd:element name="runtime">
+	</xsd:element>
+	
+	<xsd:element name="modules">		
+		<xsd:complexType>
+			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="module"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="module">		
+		<xsd:complexType>
+			<xsd:sequence minOccurs="1">
+				<xsd:element ref="name" minOccurs="0" />
+				<xsd:element ref="config-locations" minOccurs="0" />
+				<xsd:element ref="attributes" minOccurs="0" />
+				<xsd:element ref="depends-on" minOccurs="0" />
+				<xsd:element ref="runtime" minOccurs="0" />
+				<xsd:element ref="modules" minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	
+	<xsd:element name="siblings">
+	</xsd:element>
+
 </xsd:schema>
