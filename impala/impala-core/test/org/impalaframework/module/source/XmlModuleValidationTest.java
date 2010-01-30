@@ -28,7 +28,7 @@ public class XmlModuleValidationTest extends TestCase {
     }
     
     public void testValidation() throws Exception {
-        builder.setResource(new ClassPathResource("xmlinternal/moduledefinition.xml"));
+        builder.setResource(new ClassPathResource("xmlinternal/moduledefinition-complete.xml"));
         assertNotNull(builder.getRootElement());
     }
 
