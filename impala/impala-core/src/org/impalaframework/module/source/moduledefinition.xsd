@@ -7,8 +7,14 @@
 	<xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
 
 	<xsd:element name="root">
+		<xsd:annotation>
+			<xsd:documentation>
+				The root element of the module definition file.
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="1">
+				<xsd:element ref="names" minOccurs="0" />
 				<xsd:element ref="name" minOccurs="0" />
 				<xsd:element ref="config-locations" minOccurs="0" />
 				<xsd:element ref="attributes" minOccurs="0" />
@@ -20,29 +26,68 @@
 		</xsd:complexType>
 	</xsd:element>
 
+	<xsd:element name="names" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The names of the module. This element is only used
+				when modules are internally describing, that is, when each module
+				contains a 'module.properties' file which defines the structure and
+				contents of the modules. With internally described modules, this is the only
+				element which is really required, but further elements can be added to override the
+				structure and definitions contained within the 'module.properties'.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	
 	<xsd:element name="name" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The name of the module. If within the 'root' element, then refers to the root module.
+				Otherwise, refers to the named module.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
 
 	<xsd:element name="config-locations">
+		<xsd:annotation>
+			<xsd:documentation>
+				A container for 'config-location' elements.
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-				<xsd:element ref="config-location"/>
+				<xsd:element ref="config-location" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="config-location" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				A module config location. For Spring modules, typically refers to a Spring XML configuration file path.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
-	
-	<xsd:element name="attributes">		
+
+	<xsd:element name="attributes">
+		<xsd:annotation>
+			<xsd:documentation>
+				A container for 'attribute' elements.
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-				<xsd:element ref="attribute"/>
+				<xsd:element ref="attribute" />
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
 
 	<xsd:element name="attribute">
+		<xsd:annotation>
+			<xsd:documentation>
+				Used to define arbitrary attribute attached to modules.
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:simpleContent>
 				<xsd:extension base="xsd:string">
@@ -51,17 +96,37 @@
 			</xsd:simpleContent>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="depends-on" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				A comma separated list of modules on which the current module depends.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
-	
+
 	<xsd:element name="runtime" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The module runtime. Is 'spring' by default.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
-	
+
 	<xsd:element name="modules" type="modulesType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Used to identify child modules of the current module.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
-	
-	<xsd:element name="module">		
+
+	<xsd:element name="module">
+		<xsd:annotation>
+			<xsd:documentation>
+				The container for a single module definition. Used for all modules apart from the 'root' modules.
+			</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence minOccurs="1">
 				<xsd:element ref="name" minOccurs="0" />
@@ -73,8 +138,14 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
-	
+
 	<xsd:element name="siblings" type="modulesType">
+		<xsd:annotation>
+			<xsd:documentation>
+				Used to contain definitions for modules which are not the root module, but are not children of the root module either. 
+				Typically, these will be referred to using the 'depends-on' attribute.
+			</xsd:documentation>
+		</xsd:annotation>
 	</xsd:element>
 
 	<xsd:complexType name="modulesType">

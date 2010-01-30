@@ -97,6 +97,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
     public void testGetGraphDefinition() throws Exception {
         builder.setResource(new ClassPathResource("xmlspec/graphdefinition.xml"));
         RootModuleDefinition actual = builder.getModuleDefinition();
+        assertEquals("project1", actual.getName());
         assertEquals(1, actual.getChildModuleDefinitions().size());
         assertEquals(1, actual.getSiblings().size());
         
