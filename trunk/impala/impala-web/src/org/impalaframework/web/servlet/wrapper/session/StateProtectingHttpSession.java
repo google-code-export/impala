@@ -28,6 +28,7 @@ import org.impalaframework.util.serialize.ClassLoaderAwareSerializationStreamFac
 import org.impalaframework.util.serialize.SerializationHelper;
 import org.impalaframework.web.bootstrap.WebBootstrapProperties;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.CacheableHttpSession;
 import org.springframework.util.Assert;
 
 /**
@@ -40,11 +41,13 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class StateProtectingHttpSession extends PartitionedHttpSession {
+public class StateProtectingHttpSession extends PartitionedHttpSession implements CacheableHttpSession {
     
     private static final Log logger = LogFactory.getLog(StateProtectingHttpSession.class);
 
     private final ClassLoader moduleClassLoader;
+    
+    private boolean invalid;
 
     public StateProtectingHttpSession(
             HttpSession realSession,
@@ -100,6 +103,16 @@ public class StateProtectingHttpSession extends PartitionedHttpSession {
         return attribute;
     }
 
+    @Override
+    public void invalidate() {
+        this.invalid = true;
+        super.invalidate();
+    }
+    
+    public boolean isValid() {
+        return !this.invalid;
+    }
+    
     protected void handleReloadFailure(String name) {
         final boolean preserveSession = getPreserveSession();
         if (preserveSession) {

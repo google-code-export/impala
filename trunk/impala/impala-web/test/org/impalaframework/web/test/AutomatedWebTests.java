@@ -47,7 +47,7 @@ import org.impalaframework.web.servlet.wrapper.context.BaseServletContextWrapper
 import org.impalaframework.web.servlet.wrapper.context.BaseWrapperServletContextTest;
 import org.impalaframework.web.servlet.wrapper.context.PartitionedServletContextTest;
 import org.impalaframework.web.servlet.wrapper.request.HttpRequestWrapperFactoryTest;
-import org.impalaframework.web.servlet.wrapper.request.MappedWrapperHttpServletRequestTest;
+import org.impalaframework.web.servlet.wrapper.request.MappedHttpServletRequestTest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedHttpSessionTest;
 import org.impalaframework.web.servlet.wrapper.request.PartitionedWrapperServletRequestTest;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedWrapperHttpSessionTest;
@@ -111,7 +111,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
         suite.addTestSuite(InvocationChainTest.class);
         suite.addTestSuite(ModuleHttpServiceInvokerBuilderTest.class);
-        suite.addTestSuite(MappedWrapperHttpServletRequestTest.class);
+        suite.addTestSuite(MappedHttpServletRequestTest.class);
         suite.addTestSuite(PartitionedHttpSessionTest.class);
         suite.addTestSuite(PartitionedWrapperServletRequestTest.class);
         suite.addTestSuite(PartitionedWrapperHttpSessionTest.class);

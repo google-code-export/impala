@@ -15,7 +15,9 @@
 package org.impalaframework.web.servlet.wrapper.request;
 
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.isA;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
@@ -32,6 +34,7 @@ import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.impalaframework.util.ReflectionUtils;
 import org.impalaframework.web.WebConstants;
+import org.impalaframework.web.servlet.wrapper.CacheableHttpSession;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.impalaframework.web.servlet.wrapper.request.MappedHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
@@ -74,6 +77,7 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(moduleManagementFacade);
         expect(moduleManagementFacade.getApplicationManager()).andReturn(applicationManager);
         expect(moduleStateHolder.getModule("mymodule")).andReturn(springRuntimeModule);
+        request.setAttribute(eq(MappedHttpServletRequest.class.getName()+".WRAPPED_SESSION"), isA(CacheableHttpSession.class));
         
         replayMocks();
 

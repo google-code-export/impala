@@ -73,7 +73,22 @@ public class PartitionedWrapperHttpSessionTest extends TestCase {
         verify(session);
     }
     
+    public void testInvalidate() {
+        
+        session = createMock(HttpSession.class);
+        session.invalidate();
+        
+        replay(session);
 
+        StateProtectingHttpSession wrappedSession = new StateProtectingHttpSession(session, webAttributeQualifier, applicationId, moduleName, ClassUtils.getDefaultClassLoader());
+
+        assertTrue(wrappedSession.isValid());
+        wrappedSession.invalidate();
+        assertFalse(wrappedSession.isValid());
+        
+        verify(session);
+    }
+    
     public void testGetQualifiedAttributeName() {
         //test the case where the classloader is compatible
         
