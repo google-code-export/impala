@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.servlet.wrapper.CacheableHttpSession;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.springframework.util.Assert;
@@ -22,6 +23,8 @@ import org.springframework.util.Assert;
 public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     
     private static final Log logger = LogFactory.getLog(MappedHttpServletRequest.class);
+    
+    private static final String WRAPPED_SESSION_KEY = MappedHttpServletRequest.class.getName() + ".WRAPPED_SESSION";
     
     private ServletContext servletContext;
     
@@ -109,13 +112,22 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     @Override
     public HttpSession getSession() {
         
-        //FIXME can we make this more efficient by not wrapping the session each time it is called
+        final CacheableHttpSession cachedSession = getCachedSession();
+        if (cachedSession != null) {
+            return cachedSession;
+        }
+        
         HttpSession session = super.getSession();
         return wrapSession(session);
     }
 
     @Override
     public HttpSession getSession(boolean create) {
+
+        final CacheableHttpSession cachedSession = getCachedSession();
+        if (cachedSession != null) {
+            return cachedSession;
+        }
         
         HttpSession session = super.getSession(create);
         return wrapSession(session);
@@ -124,6 +136,32 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     /* ****************** Helper methods ****************** */
 
     HttpSession wrapSession(HttpSession session) {
-        return httpSessionWrapper.wrapSession(session, moduleName, applicationId);
+        if (session == null) {
+            return null;
+        }
+        
+        final HttpSession wrappedSession = httpSessionWrapper.wrapSession(session, moduleName, applicationId);
+        maybeCacheSession(wrappedSession);
+        
+        return wrappedSession;
+    }
+
+    CacheableHttpSession getCachedSession() {
+        final HttpSession existingSession = (HttpSession) getRequest().getAttribute(WRAPPED_SESSION_KEY);
+        if (existingSession != null && existingSession instanceof CacheableHttpSession) {
+            CacheableHttpSession ss = (CacheableHttpSession) existingSession;
+            if (ss.isValid()) {
+                return ss;
+            } else {
+                getRequest().removeAttribute(WRAPPED_SESSION_KEY);
+            }
+        }
+        return null;
+    }
+
+    void maybeCacheSession(final HttpSession wrappedSession) {
+        if (wrappedSession instanceof CacheableHttpSession) {
+            getRequest().setAttribute(WRAPPED_SESSION_KEY, wrappedSession);
+        }
     }  
 }
