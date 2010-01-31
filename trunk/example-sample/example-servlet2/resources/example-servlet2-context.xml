@@ -36,6 +36,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <bean name="/servlet2/test.to" class="TestController2">
         <property name = "entryService" ref = "entryService"/>
         <property name = "autowiredClass" ref = "autowiredClass"/>
+        <property name = "hostBean" ref = "hostBean"/>
     </bean>
     
     <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
