@@ -17,6 +17,7 @@
 	<modules>
 		<module>
 			<name>sample-module2</name>
+			<attributes><attribute name = "someatt">value</attribute></attributes>
 			<modules>
 				<module>
 					<name>sample-module3</name>
