@@ -1,5 +1,6 @@
 package org.impalaframework.web.servlet.wrapper.request;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -131,6 +132,11 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
         
         HttpSession session = super.getSession(create);
         return wrapSession(session);
+    }
+    
+    public RequestDispatcher getRequestDispatcher(String path) {
+        //FIXME issue 255, add support for internal module JSP dispatching
+        return super.getRequestDispatcher(path);
     }
     
     /* ****************** Helper methods ****************** */
