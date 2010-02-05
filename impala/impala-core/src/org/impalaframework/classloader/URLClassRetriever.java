@@ -136,6 +136,13 @@ public class URLClassRetriever implements ClassRetriever {
         return findResource;
     }
     
+    /**
+     * Returns the underlying {@link URLClassLoader} used to retrieve local classes and resources
+     */
+    public URLClassLoader getUrlClassLoader() {
+        return urlClassLoader;
+    }
+    
     @Override
     public String toString() {
         String string = super.toString();
