@@ -15,10 +15,16 @@ http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
     <web:mapping>
         <web:to-module prefix = "/maven"/> 
+        <web:to-handler extension="htm" servletName="maven-web"/>
+        <web:to-handler extension="jsp" servletName="maven-jsp"/>
     </web:mapping>    
        
     <web:servlet id = "maven-web" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+       
+    <bean id="maven-jsp" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+    	<property name="servletName" value = "maven-jsp"/>
+    </bean>
 
     <bean name="/maven/message.htm" class="org.impalaframework.samples.maven.web.MessageController">
         <property name = "messageService" ref = "messageService"/>
