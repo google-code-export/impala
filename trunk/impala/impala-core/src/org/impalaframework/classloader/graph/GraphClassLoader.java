@@ -288,6 +288,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return moduleDefinition.getName();
     }
     
+    public ClassRetriever getClassRetriever() {
+        return classRetriever;
+    }
+    
     @Override
     protected void finalize() throws Throwable {
         try {
