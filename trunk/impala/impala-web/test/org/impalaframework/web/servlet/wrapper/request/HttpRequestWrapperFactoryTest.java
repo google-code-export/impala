@@ -14,6 +14,9 @@
 
 package org.impalaframework.web.servlet.wrapper.request;
 
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -21,11 +24,9 @@ import junit.framework.TestCase;
 
 import org.easymock.EasyMock;
 import org.impalaframework.util.ReflectionUtils;
+import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.servlet.wrapper.request.IdentityHttpRequestWrapper;
-import org.impalaframework.web.servlet.wrapper.request.MappedHttpServletRequest;
-import org.impalaframework.web.servlet.wrapper.request.PartitionedRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.session.IdentityHttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.session.PartitionedHttpSessionWrapper;
 
@@ -53,6 +54,14 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         PartitionedRequestWrapper factory = new PartitionedRequestWrapper();
         final HttpServletRequest request = EasyMock.createMock(HttpServletRequest.class);
         final ServletContext servletContext = EasyMock.createMock(ServletContext.class);
+        final WebAttributeQualifier webAttributeQualifier = EasyMock.createMock(WebAttributeQualifier.class);
+        
+        factory.setWebAttributeQualifier(webAttributeQualifier);
+        
+        expect(webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, "myModule")).andStubReturn("wrapped_context");
+        expect(servletContext.getAttribute("wrapped_context")).andStubReturn(null);
+        
+        replay(webAttributeQualifier, servletContext);
         
         HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(mappedRequest instanceof MappedHttpServletRequest);

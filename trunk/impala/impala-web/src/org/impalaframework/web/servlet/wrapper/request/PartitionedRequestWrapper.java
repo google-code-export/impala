@@ -59,7 +59,10 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
             sessionWrapper = httpSessionWrapper;
         }
         
-        return new MappedHttpServletRequest(servletContext, request, sessionWrapper, moduleMapping, applicationId);
+        final String wrappedServletContextAttributeName = webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, moduleMapping.getModuleName());
+        final ServletContext wrappedServletContext = (ServletContext) servletContext.getAttribute(wrappedServletContextAttributeName);
+        
+        return new MappedHttpServletRequest((wrappedServletContext != null ? wrappedServletContext : servletContext), request, sessionWrapper, moduleMapping, applicationId);
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {
