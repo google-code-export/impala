@@ -51,6 +51,8 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     
     private WebAttributeQualifier webAttributeQualifier;
 
+    private static final String SERVLET_CONTEXT_ATTRIBUTE_NAME = "wrapped_servlet_context";
+
     public BaseWebModuleLoader() {
     }
 
@@ -69,6 +71,9 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         if (servletContextWrapper != null) {
             wrappedServletContext = servletContextWrapper.wrapServletContext(servletContext, application.getId(), moduleDefinition, classLoader);
+            
+            final String wrappedContextAttributeName = getWrappedServletContextAttributeName(application, moduleDefinition);
+            servletContext.setAttribute(wrappedContextAttributeName, wrappedServletContext);
         }
         
         final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
@@ -85,32 +90,36 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         return context;
     }
     
-    
     @Override
     public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         
         Assert.notNull(webAttributeQualifier, "webAttributeQualifier cannot be null");        
-        String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
+        String applicationContextAttributeName = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
+        String servletContextAttributeName = webAttributeQualifier.getQualifiedAttributeName(SERVLET_CONTEXT_ATTRIBUTE_NAME, applicationId, moduleDefinition.getName());
         
         try {
-            servletContext.setAttribute(name, context);
+            servletContext.setAttribute(applicationContextAttributeName, context);
             doHandleRefresh(applicationId, context, moduleDefinition);
         }
         catch (RuntimeException e) {
-            servletContext.removeAttribute(name);
+            servletContext.removeAttribute(applicationContextAttributeName);
+            servletContext.removeAttribute(servletContextAttributeName);
             throw e;
         }
         catch (Throwable e) {
-            servletContext.removeAttribute(name);
+            servletContext.removeAttribute(applicationContextAttributeName);
+            servletContext.removeAttribute(servletContextAttributeName);
             throw new ExecutionException(e.getMessage(), e);
         }
     }
     
     @Override
     public void beforeClose(String applicationId, ApplicationContext applicationContext, ModuleDefinition moduleDefinition) {
- 
-        String name = webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
-        servletContext.removeAttribute(name);
+        String servletContextAttributeName = getQualifiedAttributeName(SERVLET_CONTEXT_ATTRIBUTE_NAME, applicationId, moduleDefinition.getName());
+        servletContext.removeAttribute(servletContextAttributeName);
+
+        String applicationContextAttributeName = getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, applicationId, moduleDefinition.getName());
+        servletContext.removeAttribute(applicationContextAttributeName);
     }
 
     protected void doHandleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
@@ -132,6 +141,22 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
 
     public void setServletContext(ServletContext servletContext) {
         this.servletContext = servletContext;
+    }
+
+    private String getWrappedServletContextAttributeName(Application application, ModuleDefinition moduleDefinition) {
+        return getWrappedServletContextAttributeName(application.getId(), moduleDefinition.getName());
+    }
+
+    private String getWrappedServletContextAttributeName(final String applicationId, final String name) {
+        return getQualifiedAttributeName(SERVLET_CONTEXT_ATTRIBUTE_NAME, applicationId, name);
+    }
+
+    private String getQualifiedAttributeName(
+            final String attributeName,
+            final String applicationId, 
+            final String moduleName) {
+        final String wrappedContextAttributeName = webAttributeQualifier.getQualifiedAttributeName(attributeName, applicationId, moduleName);
+        return wrappedContextAttributeName;
     }
     
     /* ********************** Injected setters ************************ */

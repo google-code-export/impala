@@ -92,6 +92,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
         expect(servletContext.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(newContext());
+        servletContext.setAttribute(eq("application__module_impala-core:wrapped_servlet_context"), isA(ServletContext.class));
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
         servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
         
@@ -130,6 +131,7 @@ public class ContextLoaderIntegrationTest extends TestCase {
         servletContext.setAttribute(eq(WebConstants.IMPALA_FACTORY_ATTRIBUTE), isA(ModuleManagementFacade.class));      
         servletContext.setAttribute(eq(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE), isA(InternalWebXmlModuleDefinitionSource.class));
         expect(servletContext.getAttribute("org.springframework.web.context.WebApplicationContext.ROOT")).andReturn(newContext());
+        servletContext.setAttribute(eq("application__module_impala-core:wrapped_servlet_context"), isA(ServletContext.class));
         servletContext.setAttribute(eq("application__module_impala-core:org.springframework.web.context.WebApplicationContext.ROOT"), isA(WebApplicationContext.class));  
         servletContext.setAttribute(eq("org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker.impala-core"), isA(ModuleHttpServiceInvoker.class));
         
