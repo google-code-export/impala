@@ -78,7 +78,8 @@ public class BaseWebModuleLoaderTest extends TestCase {
         moduleLoader.setWebAttributeQualifier(webAttributeQualifier);
         
         servletContext.setAttribute("application_id_module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT", context);  
-        servletContext.removeAttribute("application_id_module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT");  
+        servletContext.removeAttribute("application_id_module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT"); 
+        servletContext.removeAttribute("application_id_module_mymodule:wrapped_servlet_context");   
         replay(servletContext);
         
         try {
@@ -96,8 +97,10 @@ public class BaseWebModuleLoaderTest extends TestCase {
         BaseWebModuleLoader moduleLoader = new BaseWebModuleLoader();
         moduleLoader.setWebAttributeQualifier(webAttributeQualifier);
         moduleLoader.setServletContext(servletContext);
-
-        servletContext.removeAttribute("application_id_module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT");  
+        
+        servletContext.removeAttribute("application_id_module_mymodule:wrapped_servlet_context"); 
+        servletContext.removeAttribute("application_id_module_mymodule:org.springframework.web.context.WebApplicationContext.ROOT"); 
+        
         replay(servletContext);
         
         moduleLoader.beforeClose("id", context, moduleDefinition);
