@@ -59,8 +59,11 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         this.servletContext = servletContext;
     }
 
-    public final GenericWebApplicationContext newApplicationContext(Application application,
-            ApplicationContext parent, ModuleDefinition moduleDefinition, ClassLoader classLoader) {
+    public final GenericWebApplicationContext newApplicationContext(
+            Application application,
+            ApplicationContext parent, 
+            ModuleDefinition moduleDefinition, 
+            ClassLoader classLoader) {
         
         ServletContext wrappedServletContext = servletContext;
         
