@@ -24,6 +24,7 @@ import javax.servlet.ServletContext;
 import org.impalaframework.classloader.BaseURLClassLoader;
 import org.impalaframework.classloader.NonDelegatingResourceClassLoader;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
+import org.impalaframework.web.servlet.wrapper.LocalResourceAwareServletContext;
 
 /**
  * Abstract implementation of {@link ServletContext} which overrides some methods
@@ -35,7 +36,8 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
  * @author Phil Zoio
  */
 public abstract class BaseWrapperServletContext extends
-        DelegatingServletContext {
+        DelegatingServletContext 
+        implements LocalResourceAwareServletContext {
 
     private final WebAttributeQualifier webAttributeQualifier;
     private final ClassLoader moduleClassLoader;
@@ -67,7 +69,18 @@ public abstract class BaseWrapperServletContext extends
 	@Override
 	public URL getResource(String path) throws MalformedURLException {
 		
-		String tempPath = path;
+		URL resource = getLocalResource(path);
+		if (resource != null) return resource;
+		
+		return super.getResource(path);
+	}
+
+	/**
+	 * Implementation of {@link LocalResourceAwareServletContext#getLocalResource(String)}.
+	 * Uses the module class loader to attempt to locate the resource
+	 */
+    public URL getLocalResource(String path) {
+        String tempPath = path;
 		
 		//remove the leading slash
 		if (tempPath.startsWith("/")) {
@@ -75,10 +88,8 @@ public abstract class BaseWrapperServletContext extends
 		}
 		
 		URL resource = moduleClassLoader.getResource(tempPath);
-		if (resource != null) return resource;
-		
-		return super.getResource(path);
-	}
+        return resource;
+    }
 
 	/**
 	 * Exhibits same behaviour are {@link #getResource(String)}, but

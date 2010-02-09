@@ -1,5 +1,5 @@
 /*
- * Copyright 2007-2008 the original author or authors.
+  * Copyright 2007-2008 the original author or authors.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
  * in compliance with the License. You may obtain a copy of the License at
@@ -12,10 +12,21 @@
  * the License.
  */
 
-package org.impalaframework.web.jsp;
+package org.impalaframework.web.servlet.wrapper;
 
-public interface JspConstants {
+import java.net.URL;
 
-    String JSP_SERVLET = "javax.servlet.jsp.jsp_servlet";
+import javax.servlet.ServletContext;
 
+/**
+ * Extension of {@link ServletContext} which defines {@link #getLocalResource(String)}
+ * to allow for module-local resource to be returned.
+ * @author Phil Zoio
+ */
+public interface LocalResourceAwareServletContext extends ServletContext {
+    
+    /**
+     * Defines method by which local resource can be retrieved from within a module
+     */
+    URL getLocalResource(String path);
 }
