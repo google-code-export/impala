@@ -135,8 +135,26 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     }
     
     public RequestDispatcher getRequestDispatcher(String path) {
-        //FIXME issue 255, add support for internal module JSP dispatching
-        return super.getRequestDispatcher(path);
+
+        final RequestDispatcher requestDispatcher = super.getRequestDispatcher(path);
+        
+        /*
+        //FIXME issue 255, add support for internal module JSP dispatching. This code below makes it possible, but
+        //really needs to much more sophisticated to be workable
+        if (path.endsWith(".jsp")) {
+            HttpServlet jspServlet = (HttpServlet) servletContext.getAttribute(JspConstants.JSP_SERVLET);
+            if (jspServlet != null) {
+                
+                if (servletContext instanceof LocalResourceAwareServletContext) {
+                    LocalResourceAwareServletContext localContext = (LocalResourceAwareServletContext) servletContext;
+                    if (localContext.getLocalResource(path) != null) {
+                        return new JspDispatcher(jspServlet, path);
+                    }
+                }
+            }
+        }*/
+        
+        return requestDispatcher;
     }
     
     /* ****************** Helper methods ****************** */
