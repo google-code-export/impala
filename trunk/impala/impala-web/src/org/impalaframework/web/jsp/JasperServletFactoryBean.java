@@ -17,13 +17,13 @@ package org.impalaframework.web.jsp;
 import java.net.URL;
 import java.net.URLClassLoader;
 
-import org.apache.jasper.servlet.JspServlet;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.util.ClassUtils;
 
 /**
  * Specialized {@link ServletFactoryBean} implementation used to initialize Jasper JSP engine
@@ -32,12 +32,11 @@ import org.springframework.beans.factory.BeanClassLoaderAware;
 public class JasperServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware {
 
     private ClassLoader classLoader;
-
+    
     @Override
     public void afterPropertiesSet() throws Exception {
         
-        //FIXME add more tests
-        setServletClass(JspServlet.class);
+        if (getServletClass() == null) setServletClass(ClassUtils.forName("org.apache.jasper.servlet.JspServlet", classLoader));
         
         final ClassLoader existingClassLoader = Thread.currentThread().getContextClassLoader();
         try {
@@ -53,15 +52,19 @@ public class JasperServletFactoryBean extends ServletFactoryBean implements Bean
             }
             
             super.afterPropertiesSet();
+            getServletContext().setAttribute(JspConstants.JSP_SERVLET, getServlet());
             
         } finally {
-            super.afterPropertiesSet();
             Thread.currentThread().setContextClassLoader(existingClassLoader);
         }
         
     }
 
     private JasperClassLoader maybeCreateURLClassLoader() {
+        if (classLoader instanceof URLClassLoader) {
+            URLClassLoader cl = (URLClassLoader) classLoader;
+            return new JasperClassLoader(cl.getURLs(), classLoader);
+        }
         if (classLoader instanceof GraphClassLoader) {
             GraphClassLoader gcl = (GraphClassLoader) classLoader;
             final ClassRetriever classRetriever = gcl.getClassRetriever();
