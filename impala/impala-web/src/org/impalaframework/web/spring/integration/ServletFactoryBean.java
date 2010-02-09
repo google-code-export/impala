@@ -53,7 +53,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     private ModuleDefinition moduleDefintion;
 
     public Object getObject() throws Exception {
-        return servlet;
+        return getServlet();
     }
 
     public Class<?> getObjectType() {
@@ -120,6 +120,10 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     protected Map<String, String> getInitParameters() {
         return initParameters;
     }
+
+    protected Servlet getServlet() {
+        return servlet;
+    }
     
     /* ***************** DisposableBean implementation **************** */
 
@@ -135,6 +139,10 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
 
     protected ModuleDefinition getModuleDefintion() {
         return moduleDefintion;
+    }
+    
+    protected Class<?> getServletClass() {
+        return servletClass;
     }
     
     /* ***************** injection setters **************** */
