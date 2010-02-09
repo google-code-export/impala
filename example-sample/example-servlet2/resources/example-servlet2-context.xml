@@ -29,11 +29,21 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     Note servlet class defaults to org.impalaframework.web.spring.servlet.InternalModuleServlet
     -->
     <web:servlet id = "example-servlet2" 
-    	servletClass = "org.springframework.web.servlet.DispatcherServlet"/>
+    	servletClass = "org.springframework.web.servlet.DispatcherServlet"/>    
+    	
+    <bean id="jspServlet" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+    	<property name="servletName" value="jspServlet"/>
+    </bean>
 
     <!-- Use url: http://localhost:8080/example/servlet2/test.to
     Note the suffix because of the redirection from the module servlet -->
     <bean name="/servlet2/test.to" class="TestController2">
+        <property name = "entryService" ref = "entryService"/>
+        <property name = "autowiredClass" ref = "autowiredClass"/>
+        <property name = "hostBean" ref = "hostBean"/>
+    </bean>
+    
+    <bean name="/servlet2/jsp.to" class="JspController">
         <property name = "entryService" ref = "entryService"/>
         <property name = "autowiredClass" ref = "autowiredClass"/>
         <property name = "hostBean" ref = "hostBean"/>
