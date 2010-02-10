@@ -30,6 +30,7 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
     <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
 	<bean name="/servlet1/test.do1" class="TestController1">
 	    <property name = "entryService" ref = "entryService"/>
+	    <property name = "concreteService" ref = "concreteService"/>
 	    <property name = "magicNumber">
 	        <dynaprop:float name="magic.number" propertySource="dynamicProperties" />
 	    </property>
