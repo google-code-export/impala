@@ -24,10 +24,14 @@ import org.impalaframework.config.FloatPropertyValue;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
+import classes.ConcreteService;
+
 import shared.ValueHolder;
 
 public class TestController1 extends MultiActionController {
 
+    private ConcreteService concreteService;
+    
     private EntryService entryService;
     
     private FloatPropertyValue magicNumber;
@@ -57,6 +61,8 @@ public class TestController1 extends MultiActionController {
         }
         valueHolder.increment();
         map.put(moduleAttributeName, ""+valueHolder.getCount());
+        
+        concreteService.doSomething();
     }
 
     public void setEntryService(EntryService entryService) {
@@ -65,6 +71,10 @@ public class TestController1 extends MultiActionController {
 
     public void setMagicNumber(FloatPropertyValue magicNumber) {
         this.magicNumber = magicNumber;
+    }
+    
+    public void setConcreteService(ConcreteService concreteService) {
+        this.concreteService = concreteService;
     }
 
 }
