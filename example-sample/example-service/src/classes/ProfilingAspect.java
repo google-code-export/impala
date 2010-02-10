@@ -6,6 +6,11 @@ import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.util.StopWatch;
 
+/**
+ * Aspect based on the example provided in the Spring documentation:
+ * http://static.springsource.org/spring/docs/2.0.x/reference/aop.html
+ * @author Phil Zoio
+ */
 @Aspect
 public class ProfilingAspect {
 
