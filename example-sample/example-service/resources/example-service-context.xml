@@ -164,8 +164,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
         filterExpression="(message=*)"/>
      -->
     
-   <!-- TODO add support for laod time weaving of aspects
-   <context:load-time-weaver aspectj-weaving="off"/>
-   -->
+   <!-- support for laod time weaving of aspects   -->
+   <context:load-time-weaver/>
+
      
 </beans>

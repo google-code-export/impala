@@ -1,7 +1,8 @@
           <!DOCTYPE aspectj PUBLIC
         "-//AspectJ//DTD//EN" "http://www.eclipse.org/aspectj/dtd/aspectj.dtd">
 <aspectj>
-    <weaver options="-verbose">
+    <weaver options="-showWeaveInfo
+              -XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler">
         <!-- only weave classes in this package -->
         <include within="classes.EntryServiceImpl*" />
     </weaver>
