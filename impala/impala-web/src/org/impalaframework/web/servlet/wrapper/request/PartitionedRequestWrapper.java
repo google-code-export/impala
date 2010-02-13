@@ -64,9 +64,8 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
         
         final MappedHttpServletRequest mappedRequest = new MappedHttpServletRequest((wrappedServletContext != null ? wrappedServletContext : servletContext), request, sessionWrapper, moduleMapping, applicationId);
         
-        //FIXME required for issue 255
-        //String baseAttributeName = webAttributeQualifier.getQualifierPrefix(applicationId, moduleMapping.getModuleName());
-        //request.setAttribute("module_qualifier_prefix", baseAttributeName);
+        String baseAttributeName = webAttributeQualifier.getQualifierPrefix(applicationId, moduleMapping.getModuleName());
+        request.setAttribute(WebAttributeQualifier.MODULE_QUALIFIER_PREFIX, baseAttributeName);
         
         return mappedRequest;
     }

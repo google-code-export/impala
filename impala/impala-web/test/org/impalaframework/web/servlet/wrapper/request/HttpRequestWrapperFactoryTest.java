@@ -15,7 +15,9 @@
 package org.impalaframework.web.servlet.wrapper.request;
 
 import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.expectLastCall;
 import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -58,10 +60,13 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         
         factory.setWebAttributeQualifier(webAttributeQualifier);
         
-        expect(webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, "myModule")).andStubReturn("wrapped_context");
-        expect(servletContext.getAttribute("wrapped_context")).andStubReturn(null);
+        expect(webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, "myModule")).andReturn("wrapped_context").times(2);
+        expect(webAttributeQualifier.getQualifierPrefix(applicationId, "myModule")).andReturn("myprefix").times(2);
+        request.setAttribute("org.impalaframework.web.servlet.qualifier.WebAttributeQualifierMODULE_QUALIFIER_PREFIX", "myprefix");
+        expectLastCall().times(2);
+        expect(servletContext.getAttribute("wrapped_context")).andReturn(null).times(2);
         
-        replay(webAttributeQualifier, servletContext);
+        replay(webAttributeQualifier, servletContext, request);
         
         HttpServletRequest mappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(mappedRequest instanceof MappedHttpServletRequest);
@@ -73,6 +78,8 @@ public class HttpRequestWrapperFactoryTest extends TestCase {
         final HttpServletRequest wrappedRequest = factory.getWrappedRequest(request, servletContext, moduleMapping, applicationId);
         assertTrue(wrappedRequest instanceof MappedHttpServletRequest);
         assertTrue(ReflectionUtils.getFieldValue(wrappedRequest, "httpSessionWrapper", HttpSessionWrapper.class) instanceof PartitionedHttpSessionWrapper);
+        
+        verify(webAttributeQualifier, servletContext, request);
     }
 
 }
