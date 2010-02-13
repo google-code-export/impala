@@ -17,6 +17,11 @@ package org.impalaframework.web.servlet.qualifier;
 import java.util.Enumeration;
 
 public interface WebAttributeQualifier {
+    
+    /**
+     * "Well-known" attribute against which the module qualifier can be stored in the request for use elsewhere
+     */
+    String MODULE_QUALIFIER_PREFIX = WebAttributeQualifier.class.getName() + "MODULE_QUALIFIER_PREFIX";
 
     /**
      * Gets the attribute name qualified by application id and module name.
