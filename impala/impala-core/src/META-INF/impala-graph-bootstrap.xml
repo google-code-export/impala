@@ -4,7 +4,10 @@
        xsi:schemaLocation="
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
- 
+
+ <!-- 
+ <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.WeavingGraphClassLoaderFactory"
+ -->
  <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactory"
         init-method = "init">
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
