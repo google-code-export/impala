@@ -62,7 +62,13 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
         final String wrappedServletContextAttributeName = webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, moduleMapping.getModuleName());
         final ServletContext wrappedServletContext = (ServletContext) servletContext.getAttribute(wrappedServletContextAttributeName);
         
-        return new MappedHttpServletRequest((wrappedServletContext != null ? wrappedServletContext : servletContext), request, sessionWrapper, moduleMapping, applicationId);
+        final MappedHttpServletRequest mappedRequest = new MappedHttpServletRequest((wrappedServletContext != null ? wrappedServletContext : servletContext), request, sessionWrapper, moduleMapping, applicationId);
+        
+        //FIXME required for issue 255
+        //String baseAttributeName = webAttributeQualifier.getQualifierPrefix(applicationId, moduleMapping.getModuleName());
+        //request.setAttribute("module_qualifier_prefix", baseAttributeName);
+        
+        return mappedRequest;
     }
 
     public void setEnableModuleSessionProtection(boolean enableModuleSessionProtection) {
