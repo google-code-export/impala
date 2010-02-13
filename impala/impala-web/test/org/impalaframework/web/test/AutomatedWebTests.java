@@ -29,6 +29,7 @@ import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.PrefixTreeHolderTest;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapperTest;
 import org.impalaframework.web.jsp.JasperServletFactoryBeanTest;
+import org.impalaframework.web.jsp.ModuleJspServletTest;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBeanTest;
 import org.impalaframework.web.module.WebModuleUtilsTest;
 import org.impalaframework.web.module.jmx.WebModuleReloaderTest;
@@ -113,6 +114,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(InvocationChainTest.class);
         suite.addTestSuite(JasperServletFactoryBeanTest.class);
         suite.addTestSuite(ModuleHttpServiceInvokerBuilderTest.class);
+        suite.addTestSuite(ModuleJspServletTest.class);
         suite.addTestSuite(MappedHttpServletRequestTest.class);
         suite.addTestSuite(PartitionedHttpSessionTest.class);
         suite.addTestSuite(PartitionedWrapperServletRequestTest.class);
