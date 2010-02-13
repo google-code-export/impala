@@ -1,6 +1,5 @@
 package org.impalaframework.web.servlet.wrapper.request;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -132,29 +131,6 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
         
         HttpSession session = super.getSession(create);
         return wrapSession(session);
-    }
-    
-    public RequestDispatcher getRequestDispatcher(String path) {
-
-        final RequestDispatcher requestDispatcher = super.getRequestDispatcher(path);
-        
-        /*
-        //FIXME issue 255, add support for internal module JSP dispatching. This code below makes it possible, but
-        //really needs to much more sophisticated to be workable
-        if (path.endsWith(".jsp")) {
-            HttpServlet jspServlet = (HttpServlet) servletContext.getAttribute(JspConstants.JSP_SERVLET);
-            if (jspServlet != null) {
-                
-                if (servletContext instanceof LocalResourceAwareServletContext) {
-                    LocalResourceAwareServletContext localContext = (LocalResourceAwareServletContext) servletContext;
-                    if (localContext.getLocalResource(path) != null) {
-                        return new JspDispatcher(jspServlet, path);
-                    }
-                }
-            }
-        }*/
-        
-        return requestDispatcher;
     }
     
     /* ****************** Helper methods ****************** */
