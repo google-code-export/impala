@@ -70,6 +70,7 @@
         <url-pattern>/logcontext</url-pattern>
     </servlet-mapping>
     
+    <!-- 
     <servlet>
         <servlet-name>JSP</servlet-name>
         <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
@@ -80,5 +81,6 @@
 		<servlet-name>JSP</servlet-name>
 		<url-pattern>*.jsp</url-pattern>
 	</servlet-mapping>
+	-->
 	
 </web-app>
