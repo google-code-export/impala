@@ -6,7 +6,7 @@ http://www.springframework.org/schema/beans
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
  <bean id="aspectjAwareClassLoader" parent = "propertyParent">
-     <property name="name" value="aspectj.aware.classloader"/>
+     <property name="name" value="load.time.weaving.enabled"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED_DEFAULT]"/>
  </bean> 
 
