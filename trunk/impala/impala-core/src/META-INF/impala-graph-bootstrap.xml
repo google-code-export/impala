@@ -5,10 +5,15 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+ <bean id="aspectjAwareClassLoader" parent = "propertyParent">
+     <property name="name" value="aspectj.aware.classloader"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED_DEFAULT]"/>
+ </bean> 
+
  <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBean">
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
      <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
-     <property name = "aspectjAwareClassLoader" value = "false"/>
+     <property name = "aspectjAwareClassLoader" ref = "aspectjAwareClassLoader"/>
  </bean>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
