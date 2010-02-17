@@ -21,15 +21,17 @@ import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.exception.ConfigurationException;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.BeanClassLoaderAware;
+import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.ClassUtils;
 
 /**
  * Specialized {@link ServletFactoryBean} implementation used to initialize Jasper JSP engine
  * @author Phil Zoio
  */
-public class JasperServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware {
+public class JasperServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware, ApplicationContextAware {
 
     private ClassLoader classLoader;
     
@@ -51,8 +53,14 @@ public class JasperServletFactoryBean extends ServletFactoryBean implements Bean
                 }
             }
             
+            InternalFrameworkIntegrationServlet wrapperServlet = new InternalFrameworkIntegrationServlet();
+            
             super.afterPropertiesSet();
-            getServletContext().setAttribute(JspConstants.JSP_SERVLET, getServlet());
+            
+            wrapperServlet.setDelegateServlet(getServlet());
+            wrapperServlet.setApplicationContext(getApplicationContext());
+            
+            getServletContext().setAttribute(JspConstants.JSP_SERVLET, wrapperServlet);
             
         } finally {
             Thread.currentThread().setContextClassLoader(existingClassLoader);

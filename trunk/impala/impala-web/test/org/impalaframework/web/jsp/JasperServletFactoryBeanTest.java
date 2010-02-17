@@ -32,17 +32,22 @@ import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
+import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class JasperServletFactoryBeanTest extends TestCase {
 
     private JasperServletFactoryBean factoryBean;
+    private AttributeServletContext servletContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         factoryBean = new JasperServletFactoryBean();
         factoryBean.setServletName("jspServlet");
-        factoryBean.setServletContext(new AttributeServletContext());
+        servletContext = new AttributeServletContext();
+        factoryBean.setServletContext(servletContext);
+        factoryBean.setApplicationContext(new GenericWebApplicationContext());
         Thread.currentThread().setContextClassLoader(null);
     }
 
@@ -92,6 +97,9 @@ public class JasperServletFactoryBeanTest extends TestCase {
         factoryBean.setBeanClassLoader(rootClassLoader);
         
         doTest();
+        
+        final Object attribute = servletContext.getAttribute(JspConstants.JSP_SERVLET);
+        assertTrue(attribute instanceof InternalFrameworkIntegrationServlet);
     }
 
     private void doTest() throws Exception {
