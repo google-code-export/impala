@@ -85,6 +85,16 @@ public interface CoreBootstrapProperties {
     String PARENT_CLASS_LOADER_FIRST = "parent.classloader.first";
     
     /**
+     * Whether class loader should be load time weaving aware
+     */
+    String LOAD_TIME_WEAVING_ENABLED = "load.time.weaving.enabled";
+    
+    /**
+     * Default value for {@link #LOAD_TIME_WEAVING_ENABLED} property
+     */
+    boolean LOAD_TIME_WEAVING_ENABLED_DEFAULT = false;    
+    
+    /**
      * The module root directory, used as the base location when looking for module jars or directories
      */
     String WORKSPACE_ROOT = LocationConstants.WORKSPACE_ROOT_PROPERTY;
