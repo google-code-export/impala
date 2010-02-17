@@ -41,6 +41,7 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
     
         this.classLoaderFactory.setModuleLocationResolver(moduleLocationResolver);
         this.classLoaderFactory.setParentClassLoaderFirst(parentClassLoaderFirst);
+        this.classLoaderFactory.init();
     }
 
     public Object getObject() throws Exception {

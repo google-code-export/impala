@@ -5,13 +5,10 @@
 http://www.springframework.org/schema/beans 
 http://www.springframework.org/schema/beans/spring-beans.xsd">
 
- <!-- 
- <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.WeavingGraphClassLoaderFactory"
- -->
- <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactory"
-        init-method = "init">
+ <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBean">
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
      <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
+     <property name = "aspectjAwareClassLoader" value = "false"/>
  </bean>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
