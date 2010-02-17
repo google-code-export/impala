@@ -63,6 +63,7 @@ import org.impalaframework.module.factory.ClassLoaderRegistryFactoryTest;
 import org.impalaframework.module.factory.ModuleStateHolderFactoryTest;
 import org.impalaframework.module.factory.SimpleApplicationFactoryTest;
 import org.impalaframework.module.factory.SimpleServiceRegistryFactoryTest;
+import org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBeanTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
@@ -260,6 +261,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(FilterParserTest.class);
         suite.addTestSuite(FilterTest.class);
         suite.addTestSuite(GraphBasedClassLoaderTest.class);
+        suite.addTestSuite(GraphClassLoaderFactoryBeanTest.class);
         suite.addTestSuite(GraphHelperTest.class);
         suite.addTestSuite(GraphModificationExtractorDelegateTest.class);
         suite.addTestSuite(GraphModificationExtractorTest.class);
