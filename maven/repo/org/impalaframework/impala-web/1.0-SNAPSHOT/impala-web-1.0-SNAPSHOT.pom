@@ -3,6 +3,7 @@
 <groupId>org.impalaframework</groupId>
 <artifactId>impala-web</artifactId>
 <version>1.0-SNAPSHOT</version>
+<packaging>jar</packaging><name>impala-web</name>
 <description>impala-web</description>
 <url>http://code.google.com/p/impala/</url>
 <licenses>
@@ -13,6 +14,7 @@
   </license>
 </licenses>
 <scm>
+  <connection>scm:svn:http://impala.googlecode.com/svn/trunk</connection>
   <url>http://code.google.com/p/impala/source/browse/trunk</url>
 </scm>
 </project>
