@@ -72,5 +72,13 @@
             <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
         </artifact:deploy>
     </target>
+	
+	<target name = "sign">
+		<input message="Please specify a password file" addproperty="input.password.file"/>
+		<property name="password.file" location="${input.password.file}"/>
+		<exec dir="./" executable="gpg">
+			<arg line = "--batch -ab --passphrase-fd -o ${file.name}.asc ${file.name} &lt; ${password.file}"/>
+		</exec>
+	</target>
 
 </project>
