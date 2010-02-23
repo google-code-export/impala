@@ -78,6 +78,14 @@
             <property name = "maven.organisation" value = "${maven.organisation}"/>
         </ant>
     </target>
+	
+    <target name = "mvnpublishsign"
+        description="Publishes artifacts to local maven repository, and signs these">
+        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-sign-local" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+        </ant>
+    </target>
     
     <target name = "mvndeploy" 
         depends = "shared:mvn-deploy"
