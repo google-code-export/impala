@@ -85,7 +85,7 @@ public class MavenPublishTask extends Task {
           "</artifactId>\n" + 
           "<version>" + artifactOutput.getVersion() +
           "</version>\n" +
-          "<packaging>jar</packaging>" +
+          "<packaging>jar</packaging>\n" +
           "<name>" + artifactOutput.getArtifact() +
           "</name>\n" +
           "<description>" + artifactOutput.getArtifact() +

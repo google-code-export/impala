@@ -23,7 +23,7 @@ public class MavenPublishSignTask extends MavenPublishTask {
     @Override
     public void execute() throws BuildException {
         
-        //check for values
+        //FIXME check for values
         super.execute();
     }
 
