@@ -28,6 +28,8 @@ public class MavenPublishTask extends Task {
     private String organisation;
     
     private File sharedPomFragment;
+
+    private Copy copy;
     
     @Override
     public void execute() throws BuildException {
@@ -47,53 +49,84 @@ public class MavenPublishTask extends Task {
 
     private void copyArtifacts(ArtifactOutput[] ads) {
         
-        Copy copy = new Copy();
+        copy = new Copy();
         copy.setProject(getProject());
         copy.setPreserveLastModified(true);
         
         final File organisationDirectory = getOrganisationDirectory();
         for (ArtifactOutput artifactOutput : ads) {
 
-            File targetFile = artifactOutput.getOutputLocation(organisationDirectory, false);
-            File srcFile = artifactOutput.getSrcFile();
-            copy(copy, srcFile, targetFile);
-            
-            if (artifactOutput.getSourceSrcFile() != null) {
-                File targetSourceFile = artifactOutput.getOutputLocation(organisationDirectory, true);
-                File sourceSrcFile = artifactOutput.getSourceSrcFile();
-                copy(copy, sourceSrcFile, targetSourceFile);
-            }
-            
-            String pomFragment = getSharedPomFragment();
-
-            String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
-              "<modelVersion>4.0.0</modelVersion>\n" + 
-              "<groupId>" + artifactOutput.getOrganisation() + 
-              "</groupId>\n" + 
-              "<artifactId>" + artifactOutput.getArtifact() +
-              "</artifactId>\n" + 
-              "<version>" + artifactOutput.getVersion() +
-              "</version>\n" +
-              "<packaging>jar</packaging>" +
-              "<name>" + artifactOutput.getArtifact() +
-              "</name>\n" +
-              "<description>" + artifactOutput.getArtifact() +
-              "</description>\n"
-              + pomFragment +
-              "</project>";
-
-            File pomFile = artifactOutput.getOutputLocation(organisationDirectory, ".pom");
-            
-            if (pomFile.exists()) {
-                pomFile.delete();
-            }
-            
-            getProject().log("Writing POM: " + pomText, Project.MSG_DEBUG);
-            
-            writePom(pomText, pomFile);
-            writeChecksum(pomFile, pomFile);
+            publishArtifacts(organisationDirectory, artifactOutput);
         }
         
+    }
+
+    void publishArtifacts(
+            final File organisationDirectory,
+            ArtifactOutput artifactOutput) {
+        
+        File targetFile = getTargetFile(organisationDirectory, artifactOutput);
+        File srcFile = artifactOutput.getSrcFile();
+        copy(copy, srcFile, targetFile);
+        
+        if (artifactOutput.getSourceSrcFile() != null) {
+            File targetSourceFile = getTargetSourceFile(organisationDirectory, artifactOutput);
+            File sourceSrcFile = artifactOutput.getSourceSrcFile();
+            copy(copy, sourceSrcFile, targetSourceFile);
+        }
+        
+        String pomFragment = getSharedPomFragment();
+
+        String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
+          "<modelVersion>4.0.0</modelVersion>\n" + 
+          "<groupId>" + artifactOutput.getOrganisation() + 
+          "</groupId>\n" + 
+          "<artifactId>" + artifactOutput.getArtifact() +
+          "</artifactId>\n" + 
+          "<version>" + artifactOutput.getVersion() +
+          "</version>\n" +
+          "<packaging>jar</packaging>" +
+          "<name>" + artifactOutput.getArtifact() +
+          "</name>\n" +
+          "<description>" + artifactOutput.getArtifact() +
+          "</description>\n"
+          + pomFragment +
+          "</project>";
+
+        File pomFile = getPomFile(organisationDirectory, artifactOutput);
+        
+        if (pomFile.exists()) {
+            pomFile.delete();
+        }
+        
+        getProject().log("Writing POM: " + pomText, Project.MSG_DEBUG);
+        
+        writePom(pomText, pomFile);
+        writeChecksum(pomFile, pomFile);
+        
+        postProcessArtifacts(organisationDirectory, artifactOutput);
+    }
+
+    protected File getTargetFile(final File organisationDirectory,
+            ArtifactOutput artifactOutput) {
+        return artifactOutput.getOutputLocation(organisationDirectory, false);
+    }
+
+    protected File getTargetSourceFile(final File organisationDirectory,
+            ArtifactOutput artifactOutput) {
+        return artifactOutput.getOutputLocation(organisationDirectory, true);
+    }
+
+    protected File getPomFile(File organisationDirectory, ArtifactOutput artifactOutput) {
+        return artifactOutput.getOutputLocation(organisationDirectory, ".pom");
+    }
+
+    /**
+     * Hook for subclasses to post-process output
+     */
+    protected void postProcessArtifacts(
+            File organisationDirectory,
+            ArtifactOutput artifactOutput) {
     }
 
     String getSharedPomFragment() {

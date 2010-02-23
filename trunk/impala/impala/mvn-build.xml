@@ -23,6 +23,24 @@
             destdir = "${maven.repo.root.location}"
     		sharedPomFragment = "${maven.shared.pom.fragment}"/>
     </target>
+	
+    <target name="mvn:pgp-password" unless="pgp.password">
+        <input message="Please enter your PGP password:" addproperty="pgp.password"/>
+    </target>
+        	
+    <target name="mvn:publish-sign-local" depends = "mvn:pgp-password">
+        
+        <mavenpublishsign 		        
+        	secring="${pgp.secring}"
+	        pubring="${pgp.pubring}"
+	        password="${pgp.password}"
+	        keyid="${pgp.keyid}"
+            sourceDir = "${repository.dir}/dist" 
+            artifacts = "${maven.artifacts}" 
+            organisation = "${maven.organisation}"
+            destdir = "${maven.repo.root.location}"
+    		sharedPomFragment = "${maven.shared.pom.fragment}"/>
+    </target>
     
     <!-- Deployment to remove maven repo -->
 
