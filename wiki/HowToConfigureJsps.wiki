@@ -9,7 +9,10 @@ contained within the module. This includes !JavaScript files, CSS files, resourc
 With Freemarker and other view technologies, setting up view templates to be hosted within a web module is very straightforward.
 With JSPs, it's a bit more complex, because typically JSP container is typically provided by the servlet container rather than the application itself.
 
-With Impala, setting up JSPs is accomplished by embedding the Tomcat Jetty web container in the application, and requires the following steps.
+With Impala, setting up JSPs is accomplished by embedding the Tomcat Jasper JSP engine into the application.
+
+An example is in the [SamplesMaven Maven Sample]. If you look in the _maven-web_ module in this sample, you will find the JSP hosted in 
+_maven-web/src/main/resources/maven/test.jspi_. The 'traditional' location for a JSP will be in _maven-host/src/main/webapp/maven_.
 
 == Setup ==
 
