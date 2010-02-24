@@ -91,7 +91,7 @@ public class JasperServletFactoryBean extends ServletFactoryBean implements Bean
                     
                     System.arraycopy(urls, 0, combined, 0, urls.length);
                     System.arraycopy(parentUrls, 0, combined, urls.length, parentUrls.length);
-                    return new JasperClassLoader(combined);
+                    return new JasperClassLoader(combined, parent);
                 }
                 else {
                     return new JasperClassLoader(urlClassLoader.getURLs(), parent);
