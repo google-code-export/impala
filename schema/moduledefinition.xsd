@@ -42,6 +42,14 @@
 			</xsd:documentation>
 		</xsd:annotation>
 	</xsd:element>
+	
+	<xsd:element name="type" type="xsd:string">
+		<xsd:annotation>
+			<xsd:documentation>
+				The type of the module. By default, is assumed to be 'APPLICATION'.
+			</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
 
 	<xsd:element name="config-locations">
 		<xsd:annotation>
@@ -141,6 +149,7 @@
 	<xsd:group name="moduleGroup">
 		<xsd:sequence>
 			<xsd:element ref="name" minOccurs="0" />
+			<xsd:element ref="type" minOccurs="0" />
 			<xsd:element ref="config-locations" minOccurs="0" />
 			<xsd:element ref="attributes" minOccurs="0" />
 			<xsd:element ref="depends-on" minOccurs="0" />
