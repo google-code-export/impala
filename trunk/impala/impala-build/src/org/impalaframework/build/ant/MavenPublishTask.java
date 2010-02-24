@@ -52,6 +52,7 @@ public class MavenPublishTask extends Task {
         
         copy = new Copy();
         copy.setProject(getProject());
+        copy.setOwningTarget(this.getOwningTarget());
         copy.setPreserveLastModified(true);
         
         final File organisationDirectory = getOrganisationDirectory();
