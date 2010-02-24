@@ -3,7 +3,8 @@
 <groupId>org.impalaframework</groupId>
 <artifactId>impala-interactive</artifactId>
 <version>1.0-SNAPSHOT</version>
-<packaging>jar</packaging><name>impala-interactive</name>
+<packaging>jar</packaging>
+<name>impala-interactive</name>
 <description>impala-interactive</description>
 <url>http://code.google.com/p/impala/</url>
 <licenses>
