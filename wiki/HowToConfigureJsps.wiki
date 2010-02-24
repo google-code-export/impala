@@ -4,7 +4,7 @@
 
 When writing Java applications with JSP as the view technology, the normal practice is to put JSPs in the root context directory, so some subdirectory below this.
 This works fine with Impala-based applications. However, when writing multi-module web applications, you typically want all your module resources to be
-contained within the module. This includes JavaScript files, CSS files, resources, etc. as well as JSPs.
+contained within the module. This includes !JavaScript files, CSS files, resources, etc. as well as JSPs.
 
 With Freemarker and other view technologies, setting up view templates to be hosted within a web module is very straightforward.
 With JSPs, it's a bit more complex, because typically JSP container is typically provided by the servlet container rather than the application itself.
