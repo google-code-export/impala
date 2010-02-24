@@ -2,6 +2,7 @@ package org.impalaframework.build.ant;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.util.Arrays;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
@@ -99,7 +100,7 @@ public class MavenPublishTask extends Task {
             pomFile.delete();
         }
         
-        getProject().log("Writing POM: " + pomText, Project.MSG_DEBUG);
+        getProject().log(this, "Writing POM: " + pomText, Project.MSG_DEBUG);
         
         writePom(pomText, pomFile);
         writeChecksum(pomFile, pomFile);
@@ -154,8 +155,8 @@ public class MavenPublishTask extends Task {
         copy.init();
         
         writeChecksum(srcFile, targetFile);
-
-        getProject().log("Copied file " + targetFile);
+ 
+        getProject().log(this, "Copied file " + targetFile, Project.MSG_INFO);
     }
 
     private void writeChecksum(File srcFile, File targetFile) {
@@ -174,7 +175,6 @@ public class MavenPublishTask extends Task {
         
         echo.setFile(checksumFile);
         String checksumValue = getProject().getProperty(property);
-        System.out.println("Value for file " + srcFile + ": " + checksumValue);
         echo.addText(checksumValue);
         echo.execute();
     }
@@ -186,7 +186,7 @@ public class MavenPublishTask extends Task {
         echo.addText(pomText);
         echo.execute();
 
-        getProject().log("Written pom " + pomFile);
+        getProject().log(this, "Written pom " + pomFile, Project.MSG_INFO);
     }
 
     File getOrganisationDirectory() {
@@ -270,7 +270,11 @@ public class MavenPublishTask extends Task {
             }
             
         });
+
+        final String message = "Processing " + files.length + " files from source directory " + sourceDir + 
+        		" corresponding to artefacts: " + Arrays.toString(artifactList);
         
+        getProject().log(this, message, Project.MSG_INFO);
         return files;
     }
 

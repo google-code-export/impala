@@ -18,6 +18,7 @@ import java.io.File;
 
 import org.apache.commons.openpgp.ant.OpenPgpSignerTask;
 import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Project;
 
 /**
  * Extends {@link MavenPublishTask} by also signing artefacts. Uses the
@@ -77,7 +78,7 @@ public class MavenPublishSignTask extends MavenPublishTask {
         task.init();
         task.execute();
         
-        getProject().log("Signed file " + fileToSign);
+        getProject().log(this, "Signed file " + fileToSign, Project.MSG_INFO);
     }
 
     void checkSignTaskArgs() {
