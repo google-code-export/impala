@@ -27,6 +27,7 @@
         <welcome-file>index.jsp</welcome-file>
     </welcome-file-list>
     
+    <!-- Currently works in the Jetty application but not in Tomcat
     <servlet>
         <servlet-name>JSP</servlet-name>
         <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
@@ -36,6 +37,7 @@
 	<servlet-mapping>
 		<servlet-name>JSP</servlet-name>
 		<url-pattern>*.jspi</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> 
+	-->
     
 </web-app>
