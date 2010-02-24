@@ -30,6 +30,7 @@
         	
     <target name="mvn:publish-sign-local" depends = "mvn:pgp-password">
         
+    	<!-- A verson of publish-local which also signs the deployed files -->
         <mavenpublishsign 		        
         	secring="${pgp.secring}"
 	        pubring="${pgp.pubring}"
