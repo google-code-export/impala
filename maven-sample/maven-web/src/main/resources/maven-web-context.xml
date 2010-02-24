@@ -22,7 +22,7 @@ http://impala.googlecode.com/svn/schema/service-registry.xsd">
     <web:servlet id = "maven-web" 
         servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
        
-    <bean id="maven-jsp" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+    <bean id="maven-jsp" class="org.impalaframework.web.jsp.JspServletFactoryBean">
     	<property name="servletName" value = "maven-jsp"/>
     </bean>
 

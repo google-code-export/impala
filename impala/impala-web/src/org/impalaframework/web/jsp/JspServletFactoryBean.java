@@ -30,7 +30,7 @@ import org.springframework.util.ClassUtils;
  * Specialized {@link ServletFactoryBean} implementation used to initialize Jasper JSP engine
  * @author Phil Zoio
  */
-public class JasperServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware, ApplicationContextAware {
+public class JspServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware, ApplicationContextAware {
 
     //FIXME rename to JspServletFactoryBean
     

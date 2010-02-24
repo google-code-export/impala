@@ -13,7 +13,7 @@ http://www.springframework.org/schema/context http://www.springframework.org/sch
     <context:component-scan base-package="shared"/>
     <context:component-scan base-package="example3"/>
     
-    <bean id="jspServlet" class="org.impalaframework.web.jsp.JasperServletFactoryBean"/>
+    <bean id="jspServlet" class="org.impalaframework.web.jsp.JspServletFactoryBean"/>
     
     <!-- Access this example3.servlet via http://localhost:8080/example-web/servlet3/test.to -->
     <bean class="org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean">

@@ -37,13 +37,13 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class JasperServletFactoryBeanTest extends TestCase {
 
-    private JasperServletFactoryBean factoryBean;
+    private JspServletFactoryBean factoryBean;
     private AttributeServletContext servletContext;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        factoryBean = new JasperServletFactoryBean();
+        factoryBean = new JspServletFactoryBean();
         factoryBean.setServletName("jspServlet");
         servletContext = new AttributeServletContext();
         factoryBean.setServletContext(servletContext);

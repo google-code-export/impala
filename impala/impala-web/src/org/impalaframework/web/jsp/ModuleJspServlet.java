@@ -33,7 +33,7 @@ import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
  * <i>impala.properties</i>
  * <li>Add a JSP servlet entry into the module itself, for example using an
  * entry such as the following:<br/> 
- * <code>&lt;bean id="jspServlet" class="org.impalaframework.web.jsp.JasperServletFactoryBean"&gt;<br/>
+ * <code>&lt;bean id="jspServlet" class="org.impalaframework.web.jsp.JspServletFactoryBean"&gt;<br/>
         &lt;property name="servletName" value="jspServlet"/&gt;<br/>
     &lt;/bean&gt;</code>
  * </ul>
@@ -71,7 +71,7 @@ public class ModuleJspServlet extends HttpServlet {
         
         if (jspServlet == null) {
             throw new IllegalStateException("No JSP servlet registered in the module to which the request was directed." +
-            		" Your module configuration requires a " + JasperServletFactoryBean.class + " configuration entry, or equivalent.");
+            		" Your module configuration requires a " + JspServletFactoryBean.class + " configuration entry, or equivalent.");
         }
         
         jspServlet.service(req, resp);
