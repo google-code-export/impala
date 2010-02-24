@@ -135,17 +135,25 @@ public class XMLDomUtils {
      * @param description a description of the document, typically name or path
      * @param xsdResource the schema resource used for validation
      */
-    public static void validateDocument(Document document,
-            String description, Resource xsdResource) {
+    public static void validateDocument(
+            Document document,
+            String description, 
+            Resource xsdResource) {
+        
+        Assert.notNull(xsdResource, "xsdResource cannot be null");
+        
+        if (!xsdResource.exists()) {
+            throw new ExecutionException("Cannot validate document as xsdResource '" + xsdResource + "' does not exist");
+        }
+        
         SchemaFactory factory = 
             SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
     
-        Schema schema;
         try {
             InputStream inputStream = xsdResource.getInputStream();
             Source source = new StreamSource(inputStream);
     
-            schema = factory.newSchema(source);
+            Schema schema = factory.newSchema(source);
             Validator validator = schema.newValidator();
             validator.validate(new DOMSource(document));
         }
