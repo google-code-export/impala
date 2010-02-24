@@ -31,7 +31,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <web:servlet id = "example-servlet2" 
     	servletClass = "org.springframework.web.servlet.DispatcherServlet"/>    
     	
-    <bean id="jspServlet" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+    <bean id="jspServlet" class="org.impalaframework.web.jsp.JspServletFactoryBean">
     	<property name="servletName" value="jspServlet"/>
     </bean>
 
