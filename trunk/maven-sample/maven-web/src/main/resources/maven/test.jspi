@@ -4,7 +4,7 @@
 <body>
 
 <h1>Welcome to Impala</h1>
-<p>If you can see this message, then you have successfully started up a minimal working multi-module application with within-module JSP support,
+<p>If you can see this message, then you have successfully started up a minimal working multi-module application,
 set up using the <a href = "http://maven.apache.org/">Maven project conventions</a>.</p>
 
 <p>As the property <code>auto.reload.modules</code> is set true, any change you make to the application will
@@ -19,5 +19,7 @@ be automatically detected, and the affected modules will be reloaded.</p>
 </p>
 
 <b>A message from message service:</b> <span style = "color:blue;"><%=request.getAttribute("message")%></span><br/>
+
+<p>Note: the JSP for this is contained within the module itself.</p>
 </body>
 </html>
