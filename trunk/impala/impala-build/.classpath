@@ -12,5 +12,7 @@
 	<classpathentry kind="lib" path="/impala-repository/main/slf4j-api-1.5.8.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/main/slf4j-log4j12-1.5.8.jar" sourcepath="/impala-repository/main/slf4j-log4j12-1.5.8-sources.jar"/>
 	<classpathentry kind="lib" path="/impala-repository/pgp/commons-openpgp-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/pgp/bcpg-jdk15-1.45.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/pgp/bcprov-jdk15-1.45.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

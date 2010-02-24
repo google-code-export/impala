@@ -14,6 +14,9 @@
 
 package org.impalaframework.build.test;
 
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
 import org.impalaframework.build.ant.AntForeachTaskTest;
 import org.impalaframework.build.ant.ArtifactPathTaskTest;
 import org.impalaframework.build.ant.ConditionalPropertyTaskTest;
@@ -21,11 +24,9 @@ import org.impalaframework.build.ant.CopyPackageMapperTest;
 import org.impalaframework.build.ant.DownloadTaskTest;
 import org.impalaframework.build.ant.GetTaskResultTest;
 import org.impalaframework.build.ant.GetTaskTest;
+import org.impalaframework.build.ant.MavenPublishSignTaskTest;
 import org.impalaframework.build.ant.MavenPublishTaskTest;
 import org.impalaframework.build.ant.SVNRevisionTaskTest;
-
-import junit.framework.Test;
-import junit.framework.TestSuite;
 
 /**
  * @author Phil Zoio
@@ -42,6 +43,7 @@ public class AutomatedBuildTests {
         suite.addTestSuite(GetTaskTest.class);
         suite.addTestSuite(GetTaskResultTest.class);
         suite.addTestSuite(MavenPublishTaskTest.class);
+        suite.addTestSuite(MavenPublishSignTaskTest.class);
         suite.addTestSuite(SVNRevisionTaskTest.class);
 
         return suite;
