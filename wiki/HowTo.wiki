@@ -3,7 +3,7 @@
 The 'How To' pages cover a number of configuration type tasks which uses of Impala may need to perform to get the most out of the framework.
 
   * [HowToSetUpDevelopmentAutoReloading Set up auto-reloading of modules during development]
-  * [HowToSetUpProductionAutoReloading Set up auto-reloading of modules during development]
+  * [HowToSetUpProductionAutoReloading Set up auto-reloading of modules in production]
   * [HowToRenameModule Rename a module]
   * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
   * [HowToConfigureJSPs Configure set up within-module JSPs]
