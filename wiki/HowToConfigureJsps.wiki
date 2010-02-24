@@ -65,8 +65,8 @@ The equivalent for the latter is shown below:
 An example is shown below:
 
 {{{
-<bean id="maven-jsp" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
-	<property name="servletName" value = "maven-jsp"/>
+<bean id="jspServlet" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+	<property name="servletName" value = "jspServlet"/>
 </bean>
 }}}
 
@@ -83,8 +83,26 @@ This registers a JSP servlet with the module, which JSP requests to your module 
 
 <servlet-mapping>
 	<servlet-name>JSP</servlet-name>
-	<url-pattern>*.jspi</url-pattern>
+	<url-pattern>*.jsp</url-pattern>
 </servlet-mapping> 
 }}}
 
 This allows the servlet container's request dispatcher to route forwarded requests to JSP's to your module-defined JSP servlet.
+
+== Caveats ==
+
+1) The usage mode which is supported in this integration allows JSPs to be accessed above only via forwards from within the application,
+that is via `requestDispatcher.forward()`. This assumes that JSPs are not accessed directly elsewhere in the application. 
+The reason the latter does not work is because of the _web.xml_ entry: by mapping to the URL pattern `*.jsp`, you have effectively overridden
+the container's built-in support for JSPs.
+
+If you do need to use vanilla JSPs, the workaround is to instead map to JSPs forwarded to within the application to another extension, such as `*.jspi`. You can 
+You will then need to make changes to the application to ensure that when using JSPs, you forward requests on to 'pagename.jspi' instead of 'pagename.jsp'.
+You can then use the *.jsp mapping in the normal way.
+
+2) If you need to map directly using the JSP extension to JSPs hosted within a module, you can simply add a `module:to-handler` entry in your 
+module's application context XML file. For example:
+
+{{{
+<web:to-handler extension = "jsp" servletName="jspServlet"/> 
+}}}
