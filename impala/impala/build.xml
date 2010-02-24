@@ -100,7 +100,10 @@
     <target name = "release"
         description="Builds and tags project using the property 'next.release.version' in release-build.properties"
         depends="clean, build">
-        <ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false"/>
+        <ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+    	</ant>
     </target>   
     
     <target name = "all" 
