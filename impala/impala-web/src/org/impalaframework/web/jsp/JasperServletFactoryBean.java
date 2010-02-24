@@ -14,7 +14,6 @@
 
 package org.impalaframework.web.jsp;
 
-import java.net.URL;
 import java.net.URLClassLoader;
 
 import org.impalaframework.classloader.ClassRetriever;
@@ -33,6 +32,8 @@ import org.springframework.util.ClassUtils;
  */
 public class JasperServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware, ApplicationContextAware {
 
+    //FIXME rename to JspServletFactoryBean
+    
     private ClassLoader classLoader;
     
     @Override
@@ -69,6 +70,9 @@ public class JasperServletFactoryBean extends ServletFactoryBean implements Bean
     }
 
     private JasperClassLoader maybeCreateURLClassLoader() {
+        
+        //FIXME do we have a test for this?
+        
         if (classLoader instanceof URLClassLoader) {
             URLClassLoader cl = (URLClassLoader) classLoader;
             return new JasperClassLoader(cl.getURLs(), classLoader);
@@ -82,20 +86,7 @@ public class JasperServletFactoryBean extends ServletFactoryBean implements Bean
                 final URLClassLoader urlClassLoader = retriever.getUrlClassLoader();
                 final ClassLoader parent = gcl.getParent();
                 
-                if (parent instanceof URLClassLoader) {
-                    URLClassLoader parentUrlClassLoader = (URLClassLoader) parent;
-                    
-                    URL[] urls = urlClassLoader.getURLs();
-                    URL[] parentUrls = parentUrlClassLoader.getURLs();
-                    URL[] combined = new URL[urls.length + parentUrls.length];
-                    
-                    System.arraycopy(urls, 0, combined, 0, urls.length);
-                    System.arraycopy(parentUrls, 0, combined, urls.length, parentUrls.length);
-                    return new JasperClassLoader(combined, parent);
-                }
-                else {
-                    return new JasperClassLoader(urlClassLoader.getURLs(), parent);
-                }
+                return new JasperClassLoader(urlClassLoader.getURLs(), parent);
             }
         }
         return null;
