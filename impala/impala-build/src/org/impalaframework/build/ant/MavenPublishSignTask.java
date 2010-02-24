@@ -6,7 +6,19 @@ import org.apache.commons.openpgp.ant.OpenPgpSignerTask;
 import org.apache.tools.ant.BuildException;
 
 /**
- * Extens {@link MavenPublishTask} by also signing artefacts
+ * Extends {@link MavenPublishTask} by also signing artefacts. Uses the
+ * commons-openpgp.jar's {@link OpenPgpSignerTask}. The compiled copy was
+ * obtained from
+ * http://makumba.svn.sf.net/viewvc/makumba/trunk/makumba/lib/building
+ * /commons-openpgp-1.0-SNAPSHOT.jar?view=log Note that the BouncyCastle
+ * Provider and PGP API jars need to be installed on the JVM for this to work.
+ * See from
+ * http://www.randombugs.com/java/javalangsecurityexception-jce-authenticate
+ * provider-bc.html) 
+ * Find java.security in ${env.JAVA_HOME}/lib/security -
+ * Add security.provider.X=org.bouncycastle.jce.provider.BouncyCastleProvider -
+ * Add the bcprov-jdk16-145.jar and bcpg-jdk16-145.jar to
+ * ${env.JAVA_HOME}/lib/ext
  * 
  * @author Phil Zoio
  */
@@ -23,7 +35,8 @@ public class MavenPublishSignTask extends MavenPublishTask {
     @Override
     public void execute() throws BuildException {
         
-        //FIXME check for values
+        checkSignTaskArgs();
+
         super.execute();
     }
 
@@ -45,10 +58,34 @@ public class MavenPublishSignTask extends MavenPublishTask {
         sign(task, getPomFile(organisationDirectory, artifactOutput));
     }
 
-    private void sign(OpenPgpSignerTask task, final File fileToSign) {
+    void sign(OpenPgpSignerTask task, File fileToSign) {
         task.setArtefact(fileToSign);
         task.init();
         task.execute();
+    }
+    
+    void checkSignTaskArgs() {
+        checkNotNull("keyId", keyId);
+        
+        checkNotNull("pubring", pubring);
+        checkExists("pubring", pubring);
+        
+        checkNotNull("secring", secring);
+        checkExists("secring", secring); 
+        
+        checkNotNull("password", password);
+    }
+
+    private void checkNotNull(String name, Object property) {
+        if (property == null) {
+            throw new BuildException("'"+ name + "' cannot be null", getLocation());
+        }
+    }
+    
+    private void checkExists(String name, File file) {
+        if (!file.exists()) {
+            throw new BuildException("'"+ name + "' file " + file.getAbsolutePath() + " does not exist", getLocation());
+        }
     }
 
     public void setKeyId(String keyId) {
