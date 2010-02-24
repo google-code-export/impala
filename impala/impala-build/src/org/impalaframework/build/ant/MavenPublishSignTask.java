@@ -23,16 +23,16 @@ import org.apache.tools.ant.BuildException;
  * Extends {@link MavenPublishTask} by also signing artefacts. Uses the
  * commons-openpgp.jar's {@link OpenPgpSignerTask}. The compiled copy was
  * obtained from
- * http://makumba.svn.sf.net/viewvc/makumba/trunk/makumba/lib/building
- * /commons-openpgp-1.0-SNAPSHOT.jar?view=log Note that the BouncyCastle
+ * <a href ="http://makumba.svn.sf.net/viewvc/makumba/trunk/makumba/lib/building/commons-openpgp-1.0-SNAPSHOT.jar?view=log">here</a> Note that the BouncyCastle
  * Provider and PGP API jars need to be installed on the JVM for this to work.
- * See from
- * http://www.randombugs.com/java/javalangsecurityexception-jce-authenticate
- * provider-bc.html) 
- * Find java.security in ${env.JAVA_HOME}/lib/security -
- * Add security.provider.X=org.bouncycastle.jce.provider.BouncyCastleProvider -
- * Add the bcprov-jdk16-145.jar and bcpg-jdk16-145.jar to
+ * See from <a href = "http://www.randombugs.com/java/javalangsecurityexception-jce-authenticate-provider-bc.html">Randombugs blog entry</a><br/>
+ * <ul>
+ * <li>Find java.security in ${env.JAVA_HOME}/lib/security -
+ * <li>Add
+ * security.provider.X=org.bouncycastle.jce.provider.BouncyCastleProvider -
+ * <li>Add the bcprov-jdk16-145.jar and bcpg-jdk16-145.jar to
  * ${env.JAVA_HOME}/lib/ext
+ * </ul>
  * 
  * @author Phil Zoio
  */
@@ -45,10 +45,10 @@ public class MavenPublishSignTask extends MavenPublishTask {
     private File secring;
 
     private String password;
-    
+
     @Override
     public void execute() throws BuildException {
-        
+
         checkSignTaskArgs();
 
         super.execute();
@@ -66,7 +66,7 @@ public class MavenPublishSignTask extends MavenPublishTask {
         task.setPubring(pubring);
         task.setSecring(secring);
         task.setPassword(password);
-        
+
         sign(task, getTargetFile(organisationDirectory, artifactOutput));
         sign(task, getTargetSourceFile(organisationDirectory, artifactOutput));
         sign(task, getPomFile(organisationDirectory, artifactOutput));
@@ -77,28 +77,30 @@ public class MavenPublishSignTask extends MavenPublishTask {
         task.init();
         task.execute();
     }
-    
+
     void checkSignTaskArgs() {
         checkNotNull("keyId", keyId);
-        
+
         checkNotNull("pubring", pubring);
         checkExists("pubring", pubring);
-        
+
         checkNotNull("secring", secring);
-        checkExists("secring", secring); 
-        
+        checkExists("secring", secring);
+
         checkNotNull("password", password);
     }
 
     private void checkNotNull(String name, Object property) {
         if (property == null) {
-            throw new BuildException("'"+ name + "' cannot be null", getLocation());
+            throw new BuildException("'" + name + "' cannot be null",
+                    getLocation());
         }
     }
-    
+
     private void checkExists(String name, File file) {
         if (!file.exists()) {
-            throw new BuildException("'"+ name + "' file " + file.getAbsolutePath() + " does not exist", getLocation());
+            throw new BuildException("'" + name + "' file "
+                    + file.getAbsolutePath() + " does not exist", getLocation());
         }
     }
 
