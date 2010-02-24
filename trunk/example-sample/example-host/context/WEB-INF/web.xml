@@ -70,6 +70,7 @@
         <url-pattern>/logcontext</url-pattern>
     </servlet-mapping>
     
+    <!-- This breaks modules which use external servlets and filters
     <servlet>
         <servlet-name>JSP</servlet-name>
         <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
@@ -79,6 +80,7 @@
 	<servlet-mapping>
 		<servlet-name>JSP</servlet-name>
 		<url-pattern>*.jsp</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> 
+	-->
 	
 </web-app>
