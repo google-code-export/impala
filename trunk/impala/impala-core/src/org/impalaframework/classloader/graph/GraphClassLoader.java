@@ -15,6 +15,7 @@
 package org.impalaframework.classloader.graph;
 
 import java.io.IOException;
+import java.lang.instrument.ClassFileTransformer;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -290,6 +291,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     
     public ClassRetriever getClassRetriever() {
         return classRetriever;
+    }
+    
+    public void addTransformer(ClassFileTransformer transformer) {
+        logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
     }
     
     @Override
