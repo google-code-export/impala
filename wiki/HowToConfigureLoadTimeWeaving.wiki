@@ -37,3 +37,10 @@ No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabl
 4) Set up your aspects, either using annotations, or using an _aop.xml_ file, as described in the Spring documentation.
 
 5) Add a '<context:load-time-weaver/>' entry into the module(s) for which load time weaving is required, also as described in the Spring documentation.
+
+Note that the only Impala-specific step is 2). Aspects can be defined an woven on a per module basis, but as mentioned above, it is currently
+not possible to weave aspects into classes already loaded by other modules in the application.
+
+Note that aspects weaving follows the module load life cycle. For example, if Module A reloads, any change in the aspect configuration made to
+Module A will be picked up and applied. 
+
