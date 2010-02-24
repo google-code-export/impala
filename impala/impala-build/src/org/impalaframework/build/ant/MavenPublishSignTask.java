@@ -76,6 +76,8 @@ public class MavenPublishSignTask extends MavenPublishTask {
         task.setArtefact(fileToSign);
         task.init();
         task.execute();
+        
+        getProject().log("Signed file " + fileToSign);
     }
 
     void checkSignTaskArgs() {
