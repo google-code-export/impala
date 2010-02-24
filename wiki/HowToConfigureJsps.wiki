@@ -1,0 +1,92 @@
+#summary Describes how to set up 'in-module' JSPs
+
+== Background ==
+
+When writing Java applications with JSP as the view technology, the normal practice is to put JSPs in the root context directory, so some subdirectory below this.
+This works fine with Impala-based applications. However, when writing multi-module web applications, you typically want all your module resources to be
+contained within the module. This includes JavaScript files, CSS files, resources, etc. as well as JSPs.
+
+With Freemarker and other view technologies, setting up view templates to be hosted within a web module is very straightforward.
+With JSPs, it's a bit more complex, because typically JSP container is typically provided by the servlet container rather than the application itself.
+
+With Impala, setting up JSPs is accomplished by embedding the Tomcat Jetty web container in the application, and requires the following steps.
+
+*Note*: as of writing I am still to get JSP support to work on Tomcat. As of r5323, it has only been verified to work using Jetty as the servlet container. 
+
+== Setup ==
+
+1) Add the Tomcat Jasper runtime libraries into your application:
+
+For example, from _dependencies.txt_:
+{{{
+jetty from tomcat:jasper-runtime:5.5.15 source=false
+jetty from tomcat:jasper-compiler:5.5.15 source=false
+jetty from tomcat:jasper-compiler-jdt:5.5.15 source=false
+}}}
+
+or 
+
+{{{
+provided from org.apache.tomcat:jasper:6.0.20
+provided from org.apache.tomcat:jasper-el:6.0.20
+provided from org.apache.tomcat:jasper-jdt:6.0.20
+provided from org.apache.tomcat:juli:6.0.20
+}}}
+
+The equivalent for the latter is shown below:
+
+{{{
+<dependency>
+	<groupId>org.apache.tomcat</groupId>
+	<artifactId>jasper</artifactId>
+	<version>6.0.20</version>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>org.apache.tomcat</groupId>
+	<artifactId>jasper-el</artifactId>
+	<version>6.0.20</version>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>org.apache.tomcat</groupId>
+	<artifactId>jasper-jdt</artifactId>
+	<version>6.0.20</version>
+	<scope>provided</scope>
+</dependency>
+<dependency>
+	<groupId>org.apache.tomcat</groupId>
+	<artifactId>juli</artifactId>
+	<version>6.0.20</version>
+	<scope>provided</scope>
+</dependency>	
+}}}
+
+2) Add JSP support to the module using the following entry in your web module's application context XML file:
+
+An example is shown below:
+
+{{{
+<bean id="maven-jsp" class="org.impalaframework.web.jsp.JasperServletFactoryBean">
+	<property name="servletName" value = "maven-jsp"/>
+</bean>
+}}}
+
+This registers a JSP servlet with the module, which JSP requests to your module can use to service requests.
+
+3) Add the following entry to your application's _web.xml_ file.
+
+{{{
+<servlet>
+    <servlet-name>JSP</servlet-name>
+    <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>JSP</servlet-name>
+	<url-pattern>*.jspi</url-pattern>
+</servlet-mapping> 
+}}}
+
+This allows the servlet container's request dispatcher to route forwarded requests to JSP's to your module-defined JSP servlet.
