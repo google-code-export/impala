@@ -167,5 +167,4 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
    <!-- support for laod time weaving of aspects   -->
    <context:load-time-weaver/>
 
-     
 </beans>

@@ -31,6 +31,7 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
 	<bean name="/servlet1/test.do1" class="TestController1">
 	    <property name = "entryService" ref = "entryService"/>
 	    <property name = "concreteService" ref = "concreteService"/>
+	    <property name = "mainModuleService" ref = "mainModuleService"/>
 	    <property name = "magicNumber">
 	        <dynaprop:float name="magic.number" propertySource="dynamicProperties" />
 	    </property>

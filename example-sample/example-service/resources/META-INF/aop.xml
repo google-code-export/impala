@@ -7,8 +7,12 @@
     -->
     <weaver options="-showWeaveInfo
               -XmessageHandlerClass:org.springframework.aop.aspectj.AspectJWeaverMessageHandler">
-        <!-- only weave classes in this package -->
+        <!-- This will add the timing aspect to any method in EntryServiceImpl -->
         <include within="classes.EntryServiceImpl*" />
+        <!-- note that this currently has no effect. 
+        You can only weave classes as they are loaded 
+        (i.e. with aop.xml in the module in which the classes are loaded)-->
+        <include within="classes.MainModuleService*" />
     </weaver>
     <aspects>
         <!-- use only this aspect for weaving -->
