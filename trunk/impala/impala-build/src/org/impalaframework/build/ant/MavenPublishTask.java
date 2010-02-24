@@ -154,6 +154,8 @@ public class MavenPublishTask extends Task {
         copy.init();
         
         writeChecksum(srcFile, targetFile);
+
+        getProject().log("Copied file " + targetFile);
     }
 
     private void writeChecksum(File srcFile, File targetFile) {
@@ -183,6 +185,8 @@ public class MavenPublishTask extends Task {
         echo.setFile(pomFile);
         echo.addText(pomText);
         echo.execute();
+
+        getProject().log("Written pom " + pomFile);
     }
 
     File getOrganisationDirectory() {
