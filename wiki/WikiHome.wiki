@@ -31,6 +31,12 @@
     * [GettingStartedPart4 Part four - understanding a web application]
     * [GettingStartedPart5 Part five - building and deploying]
   * [AddingModules Adding Modules]
+  * [HowTos How to:]
+    * [HowToSetUpDevelopmentAutoReloading Set up auto-reloading of modules during development]
+    * [HowToSetUpProductionAutoReloading Set up auto-reloading of modules during development]
+    * [HowToRenameModule Rename a module]
+    * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
+    * [HowToConfigureJSPs Configure set up within-module JSPs]
     
 === User Documentation ===
 
