@@ -11,8 +11,6 @@ With JSPs, it's a bit more complex, because typically JSP container is typically
 
 With Impala, setting up JSPs is accomplished by embedding the Tomcat Jetty web container in the application, and requires the following steps.
 
-*Note: as of writing I am still to get JSP support to work on Tomcat. As of r5323, it has only been verified to work using Jetty as the servlet container.*
-
 == Setup ==
 
 1) Add the Tomcat Jasper runtime libraries into your application:
