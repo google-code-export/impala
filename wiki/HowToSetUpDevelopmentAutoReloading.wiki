@@ -1,4 +1,4 @@
-#summary Describes how to set up auto-reloading of modules
+#summary Describes how to set up auto-reloading of modules during development
 
 == Background ==
 
