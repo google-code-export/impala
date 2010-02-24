@@ -25,12 +25,15 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import classes.ConcreteService;
+import classes.MainModuleService;
 
 import shared.ValueHolder;
 
 public class TestController1 extends MultiActionController {
 
     private ConcreteService concreteService;
+    
+    private MainModuleService mainModuleService;
     
     private EntryService entryService;
     
@@ -40,6 +43,9 @@ public class TestController1 extends MultiActionController {
         HashMap<String, String> map = new HashMap<String, String>();
         map.put("staticparam", ""+magicNumber.getValue());
         map.put("dynamicparam", "" + entryService.getEntriesOfCount(1996).size());
+        
+        mainModuleService.doSomething();
+        concreteService.doSomething();
 
         setSessionValue(request, map, "shared:intvalue", "shared_intvalue");
         setSessionValue(request, map, "intvalue", "intvalue");
@@ -54,15 +60,23 @@ public class TestController1 extends MultiActionController {
             final String moduleAttributeName) {
         
         HttpSession session = request.getSession();
-        ValueHolder valueHolder = (ValueHolder) session.getAttribute(sessionAttributeName);
+        ValueHolder valueHolder = null;
+        
+        try {
+            //note that a ClassCastException will be thrown here because we are not using session
+            //value protection, as this is routed via ExternalModuleServlet
+            valueHolder = (ValueHolder) session.getAttribute(sessionAttributeName);
+        }
+        catch (ClassCastException e) {
+            e.printStackTrace();
+        }
+
         if (valueHolder == null) {
             valueHolder = new ValueHolder();
             session.setAttribute(sessionAttributeName, valueHolder);
         }
         valueHolder.increment();
         map.put(moduleAttributeName, ""+valueHolder.getCount());
-        
-        concreteService.doSomething();
     }
 
     public void setEntryService(EntryService entryService) {
@@ -75,6 +89,10 @@ public class TestController1 extends MultiActionController {
     
     public void setConcreteService(ConcreteService concreteService) {
         this.concreteService = concreteService;
+    }
+    
+    public void setMainModuleService(MainModuleService mainModuleService) {
+        this.mainModuleService = mainModuleService;
     }
 
 }

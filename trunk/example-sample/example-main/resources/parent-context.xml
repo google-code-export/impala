@@ -14,11 +14,13 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     
  <!-- an example of proxying a class -->
  <service:import id="concreteService" exportName = "concreteService" proxyTypes = "classes.ConcreteService"/>
-    
+
  <service:import id="dataSource" exportName = "dataSource" proxyTypes = "javax.sql.DataSource"/>
     
  <service:import id="sessionFactory" exportName = "sessionFactory" proxyTypes = "org.hibernate.SessionFactory"/>
     
  <service:import id="transactionManager" exportName = "transactionManager" proxyTypes = "org.springframework.transaction.PlatformTransactionManager"/>
-    
+
+ <bean id="mainModuleService" class="classes.MainModuleService"/>
+        
 </beans>
