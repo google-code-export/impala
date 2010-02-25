@@ -4,6 +4,7 @@ The 'How To' pages cover a number of configuration type tasks which uses of Impa
 
   * [HowToSetUpDevelopmentAutoReloading Set up auto-reloading of modules during development]
   * [HowToSetUpProductionAutoReloading Set up auto-reloading of modules in production]
+  * [HowToReloadModulesUsingJMX Reload modules using JMX]
   * [HowToRenameModule Rename a module]
   * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
   * [HowToConfigureJSPs Configure set up within-module JSPs]

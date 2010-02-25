@@ -34,6 +34,16 @@ jmx.adaptor.port=8003
 
 This will start an HTTP server on port 8003. At present, this is not a secure interface, so should be used with caution.
 
+If pointing the browser to port 8003, you will see the following.
+
+http://impala.googlecode.com/svn/wiki/images/mx4j-home.png
+
+Click on the 'impala:service=moduleManagementOperations' link and you get the shown below:
+
+http://impala.googlecode.com/svn/wiki/images/mx4j-moduleops.png
+
+The screen above allows you to explicitly invoke a module reload.
+
 *2) Add a JSR-160 Connector *
 
 The [http://static.springsource.org/spring/docs/2.5.x/reference/jmx.html Spring JMX] explains how to set up a JSR-160 connector to your MBean server.
