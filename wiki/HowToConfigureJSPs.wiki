@@ -16,6 +16,8 @@ _maven-web/src/main/resources/maven/test.jspi_. The 'traditional' location for a
 
 == Setup ==
 
+*Note - this feature is available from Impala 1.0 RC3*
+
 1) Add the Tomcat Jasper runtime libraries into your application:
 
 For example, from _dependencies.txt_:
