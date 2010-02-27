@@ -17,5 +17,4 @@
         <echo message = "Overridden target jetty:extras"/>
     </target>
     
-    
 </project>
