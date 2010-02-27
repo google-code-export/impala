@@ -6,10 +6,10 @@
     
     <!-- this is needed for some of the imported targets -->
     <mkdir dir = "${impala.home}/lib"/>
-    
-    <property name = "deployable.project.list" value = "impala-core,impala-command,impala-jmx,impala-build,impala-interactive,impala-web,impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
+	
+    <property name = "maven.artifacts" value = "impala-core,impala-command,impala-jmx,impala-build,impala-interactive,impala-web"/>
+    <property name = "deployable.project.list" value = "${maven.artifacts},impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
     <property name = "project.list" value = "${deployable.project.list},sample-module1,sample-module2,sample-module3,sample-module4"/>
-    <property name = "maven.artifacts" value = "${deployable.project.list}"/>
     <property name = "maven.organisation" value = "org.impalaframework"/>
     <import file="shared-build.xml" />
     <import file="tasks-build.xml" />
