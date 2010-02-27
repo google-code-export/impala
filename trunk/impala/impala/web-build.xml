@@ -45,6 +45,10 @@
                 excludes="${extensions.lib.excludes}"/>
         </copy>
         
+        <copy todir="${war.staging.dir}/WEB-INF/classes">
+            <fileset dir="${bin.dir}"/>
+        </copy>    	
+    	
         <copy todir="${web.modules.target}"
             flatten="true">
             <fileset dir="${repository.dir}" 
