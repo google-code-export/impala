@@ -5,7 +5,7 @@
 Impala has a powerful feature which allows you to automatically pick up changes in a module, and reload the module as well as its dependents.
 This allows for an extremely rapid build/deploy/test cycle, as application changes can be transparently applied without any user intervention.
 
-== Eclipse setup ==
+== Setup ==
 
 When running a web application in Eclipse using the embedded Jetty server, setting up auto-reloading is simply a case of setting the `auto.reload.modules=true`
 flag in _impala-embedded.properties_. This is by far the most productive way to develop, because it involves development without any explicit build step.
