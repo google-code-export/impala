@@ -80,7 +80,7 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         
         if (FACTORY_CLASS_ATTRIBUTE.equals(attributeName) 
             || INIT_PARAMS_ATTRIBUTE.equals(attributeName)
-            || getDelegatorHandlerNameAttribute().equals(attributeName)) {
+            || (getDelegatorHandlerNameAttribute() != null && getDelegatorHandlerNameAttribute().equals(attributeName))) {
             return false;
         }
         return super.isEligibleAttribute(attributeName);
@@ -122,20 +122,24 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
 
     void handleDelegatorServletAttribute(Element element, ParserContext parserContext) {
         
-        String delegatorServletName = element.getAttribute(getDelegatorHandlerNameAttribute());
+        final String delegatorHandlerNameAttribute = getDelegatorHandlerNameAttribute();
         
-        if (StringUtils.hasText(delegatorServletName)) {
-            String id = element.getAttribute(ID_ATTRIBUTE);
+        if (delegatorHandlerNameAttribute != null) {
+            String delegatorServletName = element.getAttribute(delegatorHandlerNameAttribute);
             
-            Class<?> beanClass = getIntegrationHandlerFactoryClass();
-            RootBeanDefinition handlerDefinition = new RootBeanDefinition(beanClass);
-            MutablePropertyValues propertyValues = handlerDefinition.getPropertyValues();
-            propertyValues.addPropertyValue(getHandlerNameProperty(), delegatorServletName);
-            propertyValues.addPropertyValue(getHandlerClassProperty(), getIntegrationHandlerClassName());
-            propertyValues.addPropertyValue(getDelegateHandlerProperty(), new RuntimeBeanReference(id));
-            
-            String beanName = parserContext.getReaderContext().generateBeanName(handlerDefinition);
-            parserContext.getRegistry().registerBeanDefinition(beanName, handlerDefinition);
+            if (StringUtils.hasText(delegatorServletName)) {
+                String id = element.getAttribute(ID_ATTRIBUTE);
+                
+                Class<?> beanClass = getIntegrationHandlerFactoryClass();
+                RootBeanDefinition handlerDefinition = new RootBeanDefinition(beanClass);
+                MutablePropertyValues propertyValues = handlerDefinition.getPropertyValues();
+                propertyValues.addPropertyValue(getHandlerNameProperty(), delegatorServletName);
+                propertyValues.addPropertyValue(getHandlerClassProperty(), getIntegrationHandlerClassName());
+                propertyValues.addPropertyValue(getDelegateHandlerProperty(), new RuntimeBeanReference(id));
+                
+                String beanName = parserContext.getReaderContext().generateBeanName(handlerDefinition);
+                parserContext.getRegistry().registerBeanDefinition(beanName, handlerDefinition);
+            }
         }
     }
 

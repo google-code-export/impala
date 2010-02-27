@@ -181,6 +181,19 @@ Creates a javax.servlet.HttpServlet who's life cycle is bound to that of the mod
 		</xsd:complexType>
 	</xsd:element>
 	
+	<xsd:element name="jsp-servlet">
+		<xsd:annotation>
+			<xsd:documentation>
+A special case of 'servlet' element which is used to set up within-module JSP support.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:group ref="factoryElements"/>
+			<xsd:attributeGroup ref="factoryAttributes"/>
+			<xsd:attributeGroup ref="servletAttributes"/>
+		</xsd:complexType>
+	</xsd:element>
+	
 	<xsd:group name="factoryElements">
 		<xsd:sequence>
 			<xsd:element ref="init-parameters" minOccurs="0" maxOccurs="1"/>

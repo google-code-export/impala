@@ -31,9 +31,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <web:servlet id = "example-servlet2" 
     	servletClass = "org.springframework.web.servlet.DispatcherServlet"/>    
     	
-    <bean id="jspServlet" class="org.impalaframework.web.jsp.JspServletFactoryBean">
-    	<property name="servletName" value="jspServlet"/>
-    </bean>
+    <web:jsp-servlet id="jspServlet"/>
 
     <!-- Use url: http://localhost:8080/example/servlet2/test.to
     Note the suffix because of the redirection from the module servlet -->
