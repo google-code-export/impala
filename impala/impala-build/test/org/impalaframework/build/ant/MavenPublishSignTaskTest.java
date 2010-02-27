@@ -70,7 +70,7 @@ public class MavenPublishSignTaskTest extends TestCase {
 
         task.setProject(new Project());
         task.setSourceDir(new File("nonexistent"));
-        task.setArtifacts("impala-core,impala-build,impala-osgi");
+        task.setArtifacts("impala-core,impala-build");
         task.setOrganisation("org.impalaframework");
         task.setSourceDir(new File("../impala-repository/dist"));
         task.setDestDir(destDir);
@@ -86,7 +86,7 @@ public class MavenPublishSignTaskTest extends TestCase {
         for (File file : signedFiles) {
             assertTrue(file.exists());
         }
-        assertEquals(15, signedFiles.size());
+        assertEquals(6, signedFiles.size());
         
     }
 
