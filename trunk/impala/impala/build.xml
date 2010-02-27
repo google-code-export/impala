@@ -102,6 +102,7 @@
         depends="clean, build">
         <ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false">
             <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "deployable.project.list" value = "${maven.artifacts}"/>
             <property name = "maven.organisation" value = "${maven.organisation}"/>
     	</ant>
     </target>   
