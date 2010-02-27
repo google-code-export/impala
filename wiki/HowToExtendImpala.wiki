@@ -8,7 +8,7 @@ and secondly, you need to know a little bit about Impala's bean definitions to k
 
 == Setup ==
 
-1) Introduce new bean definitions.
+*1) Introduce new bean definitions*
 
 The easiest way to do this is to add new Spring bean definition files to the application class path, which at runtime corresponds to the _/WEB-INF/classes_ 
 directory. In terms of the development project structure, this would correspond to the _resources_ directory in the applications 'host' project.
@@ -16,7 +16,7 @@ directory. In terms of the development project structure, this would correspond 
 If you need to write new classes to support your bean definitions, you can add these to the _src_ directory in the host project, and once again,
 they will be visible on the web application classpath from the _/WEB-INF/classes_ directory.
 
-2) Make new bean definitions visible to Impala
+*2) Make new bean definitions visible to Impala*
 
 Suppose you add new bean definitions to a Spring configuration file called _custom-config.xml_
 

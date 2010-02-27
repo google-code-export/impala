@@ -12,7 +12,7 @@ For full details see WebModuleBasedHandlerRegistration.
 
 == Setup ==
 
-1) Set up _web.xml_
+*1) Set up _web.xml_*
 
 Simply add the following entry to an empty _web.xml_:
 
@@ -30,7 +30,7 @@ Simply add the following entry to an empty _web.xml_:
 
 This registers a servlet filter which directs all requests to Impala's module selection mechanism.
 
-2) Set up Impala's module-aware `HttpServletRequest` and `ServletContext`
+*2) Set up Impala's module-aware `HttpServletRequest` and `ServletContext`*
 
 Add the following entry to _impala.properties_
 
@@ -45,7 +45,7 @@ The second ensure that web modules are exposed a 'module-aware' `ServletContext`
 (unless prefixed with `shared:`). It also allows `ServletContext.getResource()` and related methods to return
 resources first from the module class path, and then from the usual web application root directory.
 
-3) Set up modules to receive requests for particular URLs
+*3) Set up modules to receive requests for particular URLs*
 
 Add the following entry into your web module's Spring configuration file.
 
@@ -60,7 +60,7 @@ to the the current module. It also modifies the value that will be returned from
 to be `/urlprefix` (without the `serServletPath` entry, the servlet path will be determined purely from the `ModuleProxyFilter` 
 match in 1).
 
-4) Map requests within modules to servlets and filters
+*4) Map requests within modules to servlets and filters*
 
 The [NamespaceWebReference Impala web namespace] allows you to set up servlets and filters within the module which can receive requests within 
 the module, as shown in the example below.

@@ -18,7 +18,7 @@ _maven-web/src/main/resources/maven/test.jspi_. The 'traditional' location for a
 
 *Note - this feature is available from Impala 1.0 RC3*
 
-1) Add the Tomcat Jasper runtime libraries into your application:
+*1) Add the Tomcat Jasper runtime libraries into your application*
 
 For example, from _dependencies.txt_:
 {{{
@@ -65,7 +65,7 @@ The equivalent for the latter is shown below:
 </dependency>	
 }}}
 
-2) Add JSP support to the module using the following entry in your web module's application context XML file:
+*2) Add JSP support to the module using the following entry in your web module's application context XML file*
 
 An example is shown below:
 
