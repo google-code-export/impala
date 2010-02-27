@@ -56,3 +56,5 @@ extra.locations=custom-jmx-config.xml
 Simply deploy the additional Spring bean configuration file in your web application's class path (e.g. under _/WEB-INF/classses_). 
 
 Note that this technique can be used to customise the creation of your MBean server and other aspects of the JMX configuration.
+
+See [HowToExtendImpala more details on how to extend Impala].
