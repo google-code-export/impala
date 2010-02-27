@@ -185,6 +185,8 @@ Creates a javax.servlet.HttpServlet who's life cycle is bound to that of the mod
 		<xsd:annotation>
 			<xsd:documentation>
 A special case of 'servlet' element which is used to set up within-module JSP support.
+By default, will attempt to use 'org.apache.jasper.servlet.JspServlet' as the JSP servlet, 
+which is the name of the JSP servlet used by Tomcat's Jasper JSP engine.
 			</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
