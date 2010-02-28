@@ -18,7 +18,6 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.impalaframework.classloader.ModuleClassLoaderTest;
-import org.impalaframework.module.source.XmlModuleValidationTest;
 import org.impalaframework.spring.module.loader.DefaultApplicationContextLoaderTest;
 
 /**
@@ -31,7 +30,6 @@ public class AutomatedCoreTests {
         suite.addTest(AutomatedAntTests.suite());
         suite.addTestSuite(DefaultApplicationContextLoaderTest.class);
         suite.addTestSuite(ModuleClassLoaderTest.class);
-        suite.addTestSuite(XmlModuleValidationTest.class);
         return suite;
     }
 }
