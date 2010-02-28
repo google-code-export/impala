@@ -48,7 +48,7 @@ public abstract class BaseXmlModuleDefinitionSource implements ModuleDefinitionS
      */
     protected Element getRootElement() {
         Assert.notNull(resource, "resource cannot be null");
-        Document document = xmlDefinitionLoader.loadDocument(resource, new ClassPathResource("org/impalaframework/module/source/moduledefinition.xsd"));
+        Document document = xmlDefinitionLoader.loadDocument(resource, new ClassPathResource("org/impalaframework/module/source/moduledefinition.xsd", this.getClass().getClassLoader()));
 
         Element root = document.getDocumentElement();
         return root;

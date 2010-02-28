@@ -19,6 +19,7 @@ import java.io.InputStream;
 import java.io.Reader;
 import java.io.Writer;
 
+import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -99,7 +100,7 @@ public class XMLDomUtils {
         try {
             InputSource inputSource = new InputSource(reader);
             document = loader.loadDocument(inputSource, null, new SimpleSaxErrorHandler(logger),
-                    XmlBeanDefinitionReader.VALIDATION_NONE, false);
+                    XmlBeanDefinitionReader.VALIDATION_NONE, true);
         }
         catch (Exception e) {
             throw new ExecutionException("Unable to load XML document from resource " + description, e);
@@ -144,10 +145,13 @@ public class XMLDomUtils {
         
         if (!xsdResource.exists()) {
             throw new ExecutionException("Cannot validate document as xsdResource '" + xsdResource + "' does not exist");
+        } else {
+            System.out.println("Validating using schema resource " + xsdResource.getDescription());
+            logger.debug("Validating using schema resource " + xsdResource.getDescription());
         }
         
         SchemaFactory factory = 
-            SchemaFactory.newInstance("http://www.w3.org/2001/XMLSchema");
+            SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
     
         try {
             InputStream inputStream = xsdResource.getInputStream();
