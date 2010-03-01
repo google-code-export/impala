@@ -4,37 +4,37 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-build-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-build-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-command-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-command-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-core-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-core-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-jmx-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-jmx-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-interactive-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-interactive-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/slf4j-api-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/test/slf4j-api-@slf4j.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/slf4j-log4j12-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/test/slf4j-log4j12-@slf4j.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/jcl-over-slf4j-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/test/jcl-over-slf4j-@slf4j.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/log4j-@log4j.version@.jar" sourcepath="/@full.repository.project.name@/main/log4j-@log4j.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-core-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-core-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-beans-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-beans-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-context-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-context-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-context-support-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-context-support@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-aop-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-aop-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/spring-web-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-web-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/aopalliance-@aopalliance.version@.jar" sourcepath="/@full.repository.project.name@/main/aopalliance-@aopalliance.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-build-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-build-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-command-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-command-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-core-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-core-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-jmx-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-jmx-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-interactive-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-interactive-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/jcl-over-slf4j-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/compile/jcl-over-slf4j-@slf4j.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/log4j-@log4j.version@.jar" sourcepath="/@full.repository.project.name@/compile/log4j-@log4j.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-core-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-core-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-beans-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-beans-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-context-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-context-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-context-support-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-context-support@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-aop-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-aop-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-web-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-web-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/aopalliance-@aopalliance.version@.jar" sourcepath="/@full.repository.project.name@/compile/aopalliance-@aopalliance.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/impala-web-@impala.version@.jar" sourcepath="/@full.repository.project.name@/compile/impala-web-@impala.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/compile/spring-webmvc-@spring.version@.jar" sourcepath="/@full.repository.project.name@/compile/spring-webmvc-@spring.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/runtime/cglib-nodep-@cglib.version@.jar" sourcepath="/@full.repository.project.name@/runtime/cglib-nodep-@cglib.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/runtime/slf4j-api-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/runtime/slf4j-api-@slf4j.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/runtime/slf4j-log4j12-@slf4j.version@.jar" sourcepath="/@full.repository.project.name@/runtime/slf4j-log4j12-@slf4j.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/test/junit-@junit.version@.jar" sourcepath="/@full.repository.project.name@/test/junit-@junit.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/test/easymock-@easymock.version@.jar" sourcepath="/@full.repository.project.name@/test/easymock-@easymock.version@-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/test/easymockclassextension-@easymock.version@.jar" sourcepath="/@full.repository.project.name@/test/easymockclassextension-@easymock.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/cglib-nodep-@cglib.version@.jar" sourcepath="/@full.repository.project.name@/test/cglib-nodep-@cglib.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/main/impala-web-@impala.version@.jar" sourcepath="/@full.repository.project.name@/main/impala-web-@impala.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/web/spring-webmvc-@spring.version@.jar" sourcepath="/@full.repository.project.name@/main/spring-webmvc-@spring.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/web/jsp-api-@jspapi.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/web/servlet-api-@servletapi.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/jasper-@jasper.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/jasper-jdt-@jasper.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/jasper-el-@jasper.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/juli-@jasper.version@.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/jetty-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/jetty/jetty-@jetty.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/jetty-util-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/jetty/jetty-util-@jetty.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/commons-el-@commons.el.version@.jar" sourcepath="/@full.repository.project.name@/jetty/commons-el-@commons.el.version@-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/jetty/xercesImpl-@xerces.version@.jar" sourcepath="/@full.repository.project.name@/main/xercesImpl-@xerces.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jsp-api-@jspapi.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/servlet-api-@servletapi.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jasper-@jasper.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jasper-jdt-@jasper.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jasper-el-@jasper.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/juli-@jasper.version@.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jetty-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/provided/jetty-@jetty.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/jetty-util-@jetty.version@.jar" sourcepath="/@full.repository.project.name@/provided/jetty-util-@jetty.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/commons-el-@commons.el.version@.jar" sourcepath="/@full.repository.project.name@/provided/commons-el-@commons.el.version@-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/@full.repository.project.name@/provided/xercesImpl-@xerces.version@.jar" sourcepath="/@full.repository.project.name@/main/xercesImpl-@xerces.version@-sources.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
