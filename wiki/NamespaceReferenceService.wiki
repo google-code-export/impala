@@ -162,7 +162,7 @@ The following attributes apply:
   * `exportName`: if not null, and filterExpression is null, then used to look up service as a named entry
   * `exportTypes`: if both filterExpression and exportName are null, then used to look up service as a typed entry. Even if `filterExpression` or `exportName` is specified, then if `exportTypes` is present it is used to limit the candidate services to those which were exported using all of the specified set of export types. 
   * `proxyTypes`: must be present if exportTypes is not. If present, then the `proxyTypes` are used to create the proxy to the service which is passed to client users of the service. If not present, then the export types (from the `exportTypes` attribute) are also used as the proxy types.
-  * `proxyOption`: allows proxy creation defaults typically set in _impala.properties_ to be overridden. This allows, for example, for individual
+  * `proxyOptions` (1.0 RC3 onwards): allows proxy creation defaults typically set in _impala.properties_ to be overridden. This allows, for example, for individual
   proxies to support retries, or provide no-op dummy implementations when the defaults set in _impala.properties_ imply different behaviour.  
 
 *Examples*
