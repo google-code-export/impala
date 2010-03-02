@@ -158,6 +158,7 @@ import org.impalaframework.spring.module.registry.RegistryContributorTest;
 import org.impalaframework.spring.resource.ClassPathResourceLoaderTest;
 import org.impalaframework.spring.resource.CompositeResourceLoaderTest;
 import org.impalaframework.spring.resource.DirectoryResourceTest;
+import org.impalaframework.spring.service.SpringServiceBeanUtilsTest;
 import org.impalaframework.spring.service.bean.ParentFactoryBeanTest;
 import org.impalaframework.spring.service.bean.ProxiedNamedFactoryBeanTest;
 import org.impalaframework.spring.service.config.NamedBeanDefinitionParserTest;
@@ -177,6 +178,7 @@ import org.impalaframework.spring.service.proxy.DefaultServiceProxyFactoryCreato
 import org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.proxy.InfrastructureProxyIntroductionTest;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBeanTest;
+import org.impalaframework.spring.service.proxy.ServiceEndpointOptionsHelperTest;
 import org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBeanTest;
 import org.impalaframework.spring.service.registry.StaticServiceRegistryTargetSourceTest;
 import org.impalaframework.spring.service.registry.config.ServiceRegistryPostProcessorTest;
@@ -336,6 +338,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SerializationUtilsTest.class);
         suite.addTestSuite(ServiceArrayRegistryExporterTest.class);
         suite.addTestSuite(ServiceEndpointInterceptorTest.class);
+        suite.addTestSuite(ServiceEndpointOptionsHelperTest.class);
         suite.addTestSuite(ServiceReferenceSorterTest.class);
         suite.addTestSuite(ServiceRegistryExporterTest.class);
         suite.addTestSuite(ServiceRegistryPostProcessorTest.class);
@@ -361,6 +364,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SpringGraphModuleRuntimeTest.class); 
         suite.addTestSuite(SpringModuleServiceUtilsTest.class);
         suite.addTestSuite(SpringModuleRuntimeTest.class);  
+        suite.addTestSuite(SpringServiceBeanUtilsTest.class);
         suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
         suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
         suite.addTestSuite(StaticServiceRegistryTargetSourceTest.class);

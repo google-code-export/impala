@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service;
 
+import java.util.Map;
+
 import org.springframework.aop.framework.ProxyFactory;
 
 /**
@@ -30,8 +32,9 @@ public interface ProxyFactoryCreator {
      * {@link ServiceEndpointTargetSource} instance.
      * @param beanName the name of the bean on behalf of which the service proxy
      * is being created
+     * @param options values which can override the default properties set for the proxy factory creator
      * @return a {@link ProxyFactory}
      */
-    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName);
+    public ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName, Map<String, String> options);
 
 }

@@ -43,7 +43,7 @@ public class ServiceRegistrySet extends BaseServiceRegistrySet
 
     protected Object maybeGetProxy(ServiceRegistryEntry reference) {
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getProxyTypes(), reference);
-        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
+        final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName, null);
         return proxyFactory.getProxy();
     }
 

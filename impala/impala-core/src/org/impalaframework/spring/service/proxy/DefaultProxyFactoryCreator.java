@@ -14,6 +14,8 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.spring.service.ProxyFactoryCreator;
@@ -75,33 +77,36 @@ public class DefaultProxyFactoryCreator implements ProxyFactoryCreator {
      * {@link ServiceEndpointTargetSource}.
      * @param the bean for which the proxy is being created.
      */
-    public final ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName) {
+    public final ProxyFactory createProxyFactory(ProxyFactorySource proxyFactorySource, String beanName, Map<String, String> options) {
         
         proxyFactorySource.init();
         ProxyFactory proxyFactory = proxyFactorySource.getProxyFactory();
         ServiceEndpointTargetSource targetSource = proxyFactorySource.getTargetSource();
         
-        addInterceptor(beanName, proxyFactory, targetSource);
+        addInterceptor(beanName, proxyFactory, targetSource, options);
         
         return proxyFactory;
     }
 
     protected void addInterceptor(String beanName, 
             ProxyFactory proxyFactory,
-            ServiceEndpointTargetSource targetSource) {
+            ServiceEndpointTargetSource targetSource, 
+            Map<String, String> options) {
+
         
-        ServiceEndpointInterceptor interceptor = new ServiceEndpointInterceptor(targetSource, beanName);
+        ServiceEndpointOptionsHelper optionsHelper = new ServiceEndpointOptionsHelper(options);
+        optionsHelper.setProceedWithNoService(allowNoService);
+        optionsHelper.setSetContextClassLoader(setContextClassLoader);
+        optionsHelper.setLogWarningNoService(logWarningNoService);
+        optionsHelper.setRetryCount(retryCount);
+        optionsHelper.setRetryInterval(retryInterval);
+        
+        ServiceEndpointInterceptor interceptor = new ServiceEndpointInterceptor(targetSource, beanName, optionsHelper);
         
         if (logger.isDebugEnabled()) {
             logger.debug("Creating dynamic proxy for " + beanName + 
                     " with allowNoService '" + allowNoService + "' and setContextClassLoader '" + setContextClassLoader + "'");
         }
-        
-        interceptor.setProceedWithNoService(allowNoService);
-        interceptor.setSetContextClassLoader(setContextClassLoader);
-        interceptor.setLogWarningNoService(logWarningNoService);
-        interceptor.setRetryCount(retryCount);
-        interceptor.setRetryInterval(retryInterval);
         
         final InfrastructureProxyIntroduction infrastructureIntroduction = new InfrastructureProxyIntroduction(targetSource);
         NameMatchMethodPointcutAdvisor advisor = new NameMatchMethodPointcutAdvisor(infrastructureIntroduction);

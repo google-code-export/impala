@@ -65,7 +65,7 @@ public class ProxiedNamedFactoryBean extends BaseExistingBeanExposingFactoryBean
         proxyFactoryCreator.setSetContextClassLoader(false);
         
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(proxyTypes, entry);
-        proxyFactory = proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName);
+        proxyFactory = proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName, null);
     }
 
     @Override

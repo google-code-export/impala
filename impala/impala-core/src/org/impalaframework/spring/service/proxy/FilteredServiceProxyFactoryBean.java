@@ -62,7 +62,7 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
         
         ListBackedProxySource source = new ListBackedProxySource(list, proxyTypesToUse);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName(), getOptions());
         return createDynamicProxyFactory;
     }
     
