@@ -176,14 +176,14 @@ public abstract class BaseServiceProxyFactoryBean
      * Specify options which can be used to override default options for bean, 
      * name value pairs
      */
-    public void setOptions(String options) {
+    public void setProxyOptions(String options) {
         this.options = CollectionStringUtils.parsePropertiesFromString(options);
     }
     
     /**
      * Specify options which can be used to override default options for bean
      */
-    public void setOptionsMap(Map<String, String> options) {
+    public void setProxyOptionsMap(Map<String, String> options) {
         this.options = options;
     }
     

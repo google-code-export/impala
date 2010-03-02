@@ -23,7 +23,7 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
         
     <service:import id="missingService" 
         proxyTypes="interfaces.MessageService"
-        options="log.warning.no.service=true,allow.no.service=true"/>
+        proxyOptions="log.warning.no.service=true,allow.no.service=true"/>
     
     <!-- Sets up ParentFactoryBean -->
     <service:parent id="entryService"/> 
