@@ -20,6 +20,10 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
             <web:param name="name" value="value"/>
         </web:init-parameters>
     </web:servlet>
+        
+    <service:import id="missingService" 
+        proxyTypes="interfaces.MessageService"
+        options="log.warning.no.service=true,allow.no.service=true"/>
     
     <!-- Sets up ParentFactoryBean -->
     <service:parent id="entryService"/> 
@@ -31,6 +35,7 @@ http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode
 	<bean name="/servlet1/test.do1" class="TestController1">
 	    <property name = "entryService" ref = "entryService"/>
 	    <property name = "concreteService" ref = "concreteService"/>
+	    <property name = "missingService" ref = "missingService"/>
 	    <property name = "mainModuleService" ref = "mainModuleService"/>
 	    <property name = "magicNumber">
 	        <dynaprop:float name="magic.number" propertySource="dynamicProperties" />

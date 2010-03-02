@@ -14,12 +14,15 @@
 
 package org.impalaframework.spring.service.proxy;
 
+import java.util.Map;
+
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.ProxyFactoryCreator;
 import org.impalaframework.spring.service.SpringServiceEndpoint;
 import org.impalaframework.util.ArrayUtils;
+import org.impalaframework.util.CollectionStringUtils;
 import org.springframework.aop.framework.ProxyFactory;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanNameAware;
@@ -57,6 +60,8 @@ public abstract class BaseServiceProxyFactoryBean
     private ServiceRegistry serviceRegistry;
 
     private Class<?>[] proxyTypes;
+    
+    private Map<String,String> options;
 
     private String beanName;
 
@@ -97,6 +102,10 @@ public abstract class BaseServiceProxyFactoryBean
     
     protected Class<?>[] getProxyTypes() {
         return proxyTypes;
+    }
+    
+    protected Map<String, String> getOptions() {
+        return options;
     }
     
     protected Class<?>[] getProxyTypesToUse(boolean allowEmpty) {
@@ -161,6 +170,21 @@ public abstract class BaseServiceProxyFactoryBean
      */
     public final void setProxyTypes(Class<?>[] proxyTypes) {
         this.proxyTypes = proxyTypes;
+    }
+    
+    /**
+     * Specify options which can be used to override default options for bean, 
+     * name value pairs
+     */
+    public void setOptions(String options) {
+        this.options = CollectionStringUtils.parsePropertiesFromString(options);
+    }
+    
+    /**
+     * Specify options which can be used to override default options for bean
+     */
+    public void setOptionsMap(Map<String, String> options) {
+        this.options = options;
     }
     
 }

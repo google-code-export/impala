@@ -13,6 +13,7 @@
  */
 
 import interfaces.EntryService;
+import interfaces.MessageService;
 
 import java.util.HashMap;
 
@@ -35,6 +36,8 @@ public class TestController1 extends MultiActionController {
     
     private MainModuleService mainModuleService;
     
+    private MessageService missingService;
+    
     private EntryService entryService;
     
     private FloatPropertyValue magicNumber;
@@ -46,6 +49,7 @@ public class TestController1 extends MultiActionController {
         
         mainModuleService.doSomething();
         concreteService.doSomething();
+        System.out.println(missingService.getMessage());
 
         setSessionValue(request, map, "shared:intvalue", "shared_intvalue");
         setSessionValue(request, map, "intvalue", "intvalue");
@@ -93,6 +97,10 @@ public class TestController1 extends MultiActionController {
     
     public void setMainModuleService(MainModuleService mainModuleService) {
         this.mainModuleService = mainModuleService;
+    }
+    
+    public void setMissingService(MessageService missingService) {
+        this.missingService = missingService;
     }
 
 }

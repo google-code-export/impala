@@ -24,6 +24,7 @@ import org.impalaframework.exception.NoServiceException;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.springframework.aop.support.AopUtils;
+import org.springframework.util.Assert;
 
 /**
  * Interceptor which uses a {@link ServiceEndpointTargetSource} to retrieve a {@link ServiceRegistryEntry}, from which it 
@@ -46,24 +47,52 @@ import org.springframework.aop.support.AopUtils;
 public class ServiceEndpointInterceptor implements MethodInterceptor {
 
     final Log log = LogFactory.getLog(ServiceEndpointInterceptor.class);
+    
+    /**
+     * Property which applies for creation of proxies.
+     * True if the interceptor should allow the call to proceed (with a dummy
+     * value returned) if no service is present. Primarily present for testing
+     * purposes. Defaults to false.
+     */
+    String PROXY_ALLOW_NO_SERVICE = "proxy.allow.no.service";
+
+    /**
+     * Property which applies for creation of proxies.
+     * Whether to set the context class loader to the class loader of the module
+     * contributing the bean being invoked. This is to mitigate possibility of
+     * exceptions being caused by calls to
+     * <code>Thread.setContextClassLoader()</code> being propagated across
+     * modules
+     */
+    String PROXY_SET_CONTEXT_CLASSLOADER = "proxy.set.context.classloader";
+
+    /**
+     * Property which applies for creation of proxies.
+     * The number of times the interceptor should retry before giving up
+     * attempting to obtain a proxy. For example, if retryCount is set to three,
+     * Impala will try one initially, plus another three times, before giving up
+     * attempting to obtain the service reference.
+     */
+    String PROXY_MISSING_SERVICE_RETRY_COUNT = "proxy.missing.service.retry.count";
+
+    /**
+     * Property which applies for creation of proxies.
+     * The amount of time in milliseconds between successive retries if
+     * {@link #retryCount} is greater than zero
+     */
+    String PROXY_MISSING_SERVICE_RETRY_INTERVAL = "proxy.missing.service.retry.interval";
 
     private ServiceEndpointTargetSource targetSource;
 
     private String beanName;
-
-    private boolean proceedWithNoService;
-
-    private boolean logWarningNoService;
     
-    private boolean setContextClassLoader;
-    
-    private int retryCount;
-    
-    private int retryInterval;
+    private ServiceEndpointOptionsHelper optionsHelper;
 
-    public ServiceEndpointInterceptor(ServiceEndpointTargetSource targetSource, String beanName) {
+    public ServiceEndpointInterceptor(ServiceEndpointTargetSource targetSource, String beanName, ServiceEndpointOptionsHelper optionsHelper) {
+        Assert.notNull(optionsHelper, "optionsHelper cannot be null");
         this.targetSource = targetSource;
         this.beanName = beanName;
+        this.optionsHelper = optionsHelper;
     }
 
     public Object invoke(MethodInvocation invocation) throws Throwable {
@@ -71,14 +100,14 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
         final Method method = invocation.getMethod();
         final Object[] arguments = invocation.getArguments();
         
-        final boolean setCCCL = setContextClassLoader;
+        final boolean setCCCL = optionsHelper.isSetContextClassLoader();
 
         ServiceRegistryEntry serviceReference = targetSource.getServiceRegistryReference();
         
         int retriesUsed = 0;
-        while (serviceReference == null && retriesUsed < retryCount) {
+        while (serviceReference == null && retriesUsed < optionsHelper.getRetryCount()) {
             try {
-                Thread.sleep(retryInterval);
+                Thread.sleep(optionsHelper.getRetryInterval());
             }
             catch (InterruptedException e) {
             }
@@ -114,13 +143,13 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
         }
         else {
             
-            if (logWarningNoService) {
+            if (optionsHelper.isLogWarningNoService()) {
                 log.warn("************************************************************************* ");
                 log.warn("No service available for bean " + beanName + ". Proceeding with stub implementation");
                 log.warn("************************************************************************* ");
             }
             
-            if (proceedWithNoService) {
+            if (optionsHelper.isProceedWithNoService()) {
                 return invokeDummy(invocation);
             }
             else {
@@ -152,26 +181,6 @@ public class ServiceEndpointInterceptor implements MethodInterceptor {
             return false;
 
         return null;
-    }
-
-    public void setProceedWithNoService(boolean proceedWithNoService) {
-        this.proceedWithNoService = proceedWithNoService;
-    }
-
-    public void setLogWarningNoService(boolean logWarningNoService) {
-        this.logWarningNoService = logWarningNoService;
-    }
-
-    public void setSetContextClassLoader(boolean setContextClassLoader) {
-        this.setContextClassLoader = setContextClassLoader;
-    }
-
-    public void setRetryCount(int retryCount) {
-        this.retryCount = retryCount;
-    }
-
-    public void setRetryInterval(int retryInterval) {
-        this.retryInterval = retryInterval;
     }
 
 }

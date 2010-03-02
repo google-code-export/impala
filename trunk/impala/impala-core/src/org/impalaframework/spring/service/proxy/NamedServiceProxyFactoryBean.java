@@ -48,7 +48,7 @@ public class NamedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean im
         
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), proxyTypes, null, registryBeanName);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName(), getOptions());
         return createDynamicProxyFactory;
     }
     

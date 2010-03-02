@@ -44,12 +44,16 @@ scaffold:input-parent-project:
     [input] Please enter name of parent module. If not sure, enter the name of the root module:
 main
 
+scaffold:input-build-project:
+    [input] Please enter build project name, to be used for build module: [build]
+
+
 scaffold:input-new-project:
     [input] Please enter name of new module:
 module2
 
 scaffold:input-module-type-name:
-    [input] Please enter type or project: ([application], hibernate, servlet)
+    [input] Please enter type or project: ([empty], application, web, extension)
 
 
 scaffold:input-repository-project:

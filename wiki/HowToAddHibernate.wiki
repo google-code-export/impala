@@ -1,0 +1,20 @@
+#summary How to add Hibernate to your project
+
+== Background ==
+
+This page describes how to add Hibernate support to your project. The recommended practice is to add Hibernate support in its own module.
+Reloading a Hibernate `SessionFactory` can be a relatively time-consuming part of the overall project reload, so it's a good idea to 
+separate the module which contains the `SessionFactory` from the one which contains the application DAOs.
+
+== Setup ==
+
+*1) Add a new module*
+
+Add a new 'empty' module to your project, as described in AddingModules.
+
+You will want to give the module a name which clearly identifies it as a 'Hibernate' module.
+
+*2) Add the Hibernate libraries to your project*
+
+*3) Add the Hibernate Spring beans to your module's Spring configuration file.
+ 

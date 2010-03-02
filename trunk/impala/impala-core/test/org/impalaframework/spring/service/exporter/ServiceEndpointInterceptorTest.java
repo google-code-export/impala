@@ -29,6 +29,7 @@ import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.StaticServiceBeanReference;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
 import org.impalaframework.spring.service.proxy.ServiceEndpointInterceptor;
+import org.impalaframework.spring.service.proxy.ServiceEndpointOptionsHelper;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ReflectionUtils;
 
@@ -48,12 +49,15 @@ public class ServiceEndpointInterceptorTest extends TestCase {
 
     private Object[] arguments;
 
+    private ServiceEndpointOptionsHelper optionsHelper;
+
     @Override
     protected void setUp() throws Exception {
         super.setUp();
         targetSource = createMock(ServiceEndpointTargetSource.class);
         serviceRegistryReference = createMock(ServiceRegistryEntry.class);
-        interceptor = new ServiceEndpointInterceptor(targetSource, "myBean");
+        optionsHelper = new ServiceEndpointOptionsHelper(null);
+        interceptor = new ServiceEndpointInterceptor(targetSource, "myBean", optionsHelper);
         result = "somestring";
         arguments = new Object[0];
         
@@ -64,7 +68,7 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     }
 
     public final void testInvoke() throws Throwable {
-        interceptor.setSetContextClassLoader(true);
+        optionsHelper.setSetContextClassLoader(true);
         
         invocationExpectations();        
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
@@ -77,7 +81,7 @@ public class ServiceEndpointInterceptorTest extends TestCase {
     
     public final void testInvokeNoSetContextClassLoader() throws Throwable {
         
-        interceptor.setSetContextClassLoader(false);
+        optionsHelper.setSetContextClassLoader(false);
         
         invocationExpectations();
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
@@ -107,8 +111,8 @@ public class ServiceEndpointInterceptorTest extends TestCase {
 
         invocationExpectations();
         
-        interceptor.setRetryInterval(50);
-        interceptor.setRetryCount(2);
+        optionsHelper.setRetryInterval(50);
+        optionsHelper.setRetryCount(2);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryReference);
@@ -123,8 +127,8 @@ public class ServiceEndpointInterceptorTest extends TestCase {
         
         invocationExpectations();
         
-        interceptor.setProceedWithNoService(true);
-        interceptor.setLogWarningNoService(true);
+        optionsHelper.setProceedWithNoService(true);
+        optionsHelper.setLogWarningNoService(true);
 
         expect(targetSource.getServiceRegistryReference()).andReturn(null);
         expect(invocation.getMethod()).andReturn(method);

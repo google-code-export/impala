@@ -9,4 +9,5 @@ The 'How To' pages cover a number of configuration type tasks which uses of Impa
   * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
   * [HowToConfigureJSPs Configure set up within-module JSPs]
   * [HowToExtendImpala How to extend the Impala runtime]
+  * [HowToAddHibernate How to add Hibernate to your project]
   * [HowToRenameModule Rename a module]

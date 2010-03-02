@@ -42,7 +42,7 @@ public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
         //note that if proxy types are supplied, they will be used for proxies instead of export types
         BeanRetrievingProxyFactorySource source = new BeanRetrievingProxyFactorySource(super.getServiceRegistry(), getProxyTypes(), exportTypes, exportName);
         
-        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName());
+        ProxyFactory createDynamicProxyFactory = getProxyFactoryCreator().createProxyFactory(source, getBeanName(), getOptions());
         return createDynamicProxyFactory;
     }
     
