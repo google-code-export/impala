@@ -74,6 +74,27 @@ public class LoadTransitionProcessorTest extends TestCase {
         
     }
     
+    public void testThrowException() throws Exception {
+        
+        SimpleRootModuleDefinition a = new SimpleRootModuleDefinition("a", (String)null);
+        
+        expect(moduleRuntimeManager.initModule(application, a)).andThrow(new RuntimeException());
+        
+        replay(moduleRuntimeManager);
+        
+        try {
+            processor.process(application, a, a);
+            fail();
+        }
+        catch (RuntimeException e) {
+            e.printStackTrace();
+        }
+        
+        verify(moduleRuntimeManager);
+        
+        assertEquals(ModuleState.ERROR, a.getState());
+    }
+    
     private ModuleDefinition newDefinition(ModuleDefinition parent, final String name, String dependencies) {
         ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, dependencies == null ? new String[0] : dependencies.split("'"), null, null);
         definition.setState(ModuleState.LOADING);

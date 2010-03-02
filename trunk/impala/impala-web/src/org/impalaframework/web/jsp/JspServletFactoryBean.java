@@ -31,8 +31,6 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public class JspServletFactoryBean extends ServletFactoryBean implements BeanClassLoaderAware, ApplicationContextAware {
-
-    //FIXME rename to JspServletFactoryBean
     
     private ClassLoader classLoader;
     
@@ -69,9 +67,7 @@ public class JspServletFactoryBean extends ServletFactoryBean implements BeanCla
         
     }
 
-    private JasperClassLoader maybeCreateURLClassLoader() {
-        
-        //FIXME do we have a test for this?
+    JasperClassLoader maybeCreateURLClassLoader() {
         
         if (classLoader instanceof URLClassLoader) {
             URLClassLoader cl = (URLClassLoader) classLoader;

@@ -14,6 +14,9 @@
 
 package org.impalaframework.web.jsp;
 
+import static org.easymock.classextension.EasyMock.createMock;
+
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -35,7 +38,7 @@ import org.impalaframework.web.AttributeServletContext;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
-public class JasperServletFactoryBeanTest extends TestCase {
+public class JspServletFactoryBeanTest extends TestCase {
 
     private JspServletFactoryBean factoryBean;
     private AttributeServletContext servletContext;
@@ -58,8 +61,9 @@ public class JasperServletFactoryBeanTest extends TestCase {
     }
 
     public void testWithURLClassLoader() throws Exception {
+        final URLClassLoader urlClassLoader = newUrlClassLoader();
         Thread.currentThread().setContextClassLoader(
-                new URLClassLoader(new URL[] { new URL("file:myfile") }));
+                urlClassLoader);
 
         doTest();
     }
@@ -82,6 +86,38 @@ public class JasperServletFactoryBeanTest extends TestCase {
     }
     
     public void testWithGraphClassLoader() throws Exception {
+        GraphClassLoader rootClassLoader = newGraphClassLoader();
+
+        factoryBean.setBeanClassLoader(rootClassLoader);
+        
+        doTest();
+        
+        final Object attribute = servletContext.getAttribute(JspConstants.JSP_SERVLET);
+        assertTrue(attribute instanceof InternalFrameworkIntegrationServlet);
+    }
+    
+    public void testMaybeCreateUrlClassLoader() throws Exception {
+        
+        final GraphClassLoader gcl = newGraphClassLoader();
+        factoryBean.setBeanClassLoader(gcl);
+        JasperClassLoader urlClassLoader = factoryBean.maybeCreateURLClassLoader();
+        assertTrue(urlClassLoader.getURLs().length > 0);
+        
+        final URLClassLoader ucl = newUrlClassLoader();
+        factoryBean.setBeanClassLoader(ucl);
+        urlClassLoader = factoryBean.maybeCreateURLClassLoader();
+        assertTrue(urlClassLoader.getURLs().length > 0);
+        
+        factoryBean.setBeanClassLoader(createMock(ClassLoader.class));
+        assertNull(factoryBean.maybeCreateURLClassLoader());
+    }
+
+    private URLClassLoader newUrlClassLoader() throws MalformedURLException {
+        final URLClassLoader urlClassLoader = new URLClassLoader(new URL[] { new URL("file:myfile") });
+        return urlClassLoader;
+    }
+
+    private GraphClassLoader newGraphClassLoader() {
         TypeReaderRegistry typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
         ModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
         InternalModuleDefinitionSource source = new InternalModuleDefinitionSource(typeReaderRegistry, resolver, new String[]{"impala-core", "sample-module4", "sample-module6"});
@@ -93,13 +129,7 @@ public class JasperServletFactoryBeanTest extends TestCase {
         factory.setModuleLocationResolver(resolver);
         
         GraphClassLoader rootClassLoader = factory.newClassLoader(new GraphClassLoaderRegistry(), dependencyManager, rootDefinition);
-
-        factoryBean.setBeanClassLoader(rootClassLoader);
-        
-        doTest();
-        
-        final Object attribute = servletContext.getAttribute(JspConstants.JSP_SERVLET);
-        assertTrue(attribute instanceof InternalFrameworkIntegrationServlet);
+        return rootClassLoader;
     }
 
     private void doTest() throws Exception {

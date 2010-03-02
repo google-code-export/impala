@@ -73,4 +73,19 @@ public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
         verify(moduleDefinitionSource);
     }
 
+    public final void testBothNull() {
+
+        ModuleDefinitionSource moduleDefinitionSource = EasyMock.createMock(ModuleDefinitionSource.class);
+        
+        expect(moduleDefinitionSource.getModuleDefinition()).andReturn(null);
+        
+        replayMocks();
+        replay(moduleDefinitionSource);
+
+        assertEquals(ModuleOperationResult.EMPTY, operation.doExecute(application, new ModuleOperationInput(moduleDefinitionSource, null, null)));
+        
+        verifyMocks();
+        verify(moduleDefinitionSource);
+    }
+    
 }

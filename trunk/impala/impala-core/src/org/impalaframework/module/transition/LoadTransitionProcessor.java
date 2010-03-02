@@ -77,7 +77,6 @@ public class LoadTransitionProcessor implements TransitionProcessor {
             logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
         }
         
-        //FIXME test
         if (throwable != null) {
             if (throwable instanceof RuntimeException) {
                 throw (RuntimeException)throwable;

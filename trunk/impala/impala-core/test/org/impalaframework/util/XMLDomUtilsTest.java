@@ -29,8 +29,7 @@ public class XMLDomUtilsTest extends TestCase {
         ClassPathResource xml = new ClassPathResource("org/impalaframework/util/xmltest.xml");
         Document document = XMLDomUtils.loadDocument(xml);
         FileSystemResource xsdResource = new FileSystemResource("../impala-core/test/org/impalaframework/util/xmltest.xsd");
-        //FIXME post 1.0M6 - re-enable this as this was preventing build going out when run in ANT
-        //XMLDomUtils.validateDocument(document, "xmltest.xml", xsdResource);
+        XMLDomUtils.validateDocument(document, "xmltest.xml", xsdResource);
         
         Element documentElement = document.getDocumentElement();
         documentElement.setAttribute("name", "value");
