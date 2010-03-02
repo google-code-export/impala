@@ -79,7 +79,7 @@
 	- proxyTypes: must be present if exportTypes is not. If present, then the proxyTypes are used to create the proxy to the service
 	which is passed to client users of the service. If not present, then the export types (from the exportTypes attribute)
 	are also used as the proxy types.
-	- options: can be used optionally to override the proxy related settings in impala.properties, for a single bean.
+	- proxyOptions: can be used optionally to override the proxy related settings in impala.properties, for a single bean.
 	Example: 'log.warning.no.service=true,allow.no.service=true,set.context.classloader=false,
 	          missing.service.retry.count=2,missing.service.retry.interval=3'
 	Note that the property name is the same as the corresponding name in impala.properties, with the 'proxy.' prefix removed.	   
@@ -91,7 +91,7 @@
 			<xsd:attribute name="exportTypes" type="xsd:string" use="optional"/>
 			<xsd:attribute name="proxyTypes" type="xsd:string" use="optional"/>
 			<xsd:attribute name="filterExpression" type="xsd:string" use="optional"/>
-			<xsd:attribute name="options" type="xsd:string" use="optional"/>
+			<xsd:attribute name="proxyOptions" type="xsd:string" use="optional"/>
 		</xsd:complexType>
 	</xsd:element>
 	
