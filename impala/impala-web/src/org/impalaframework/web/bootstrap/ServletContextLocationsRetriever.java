@@ -46,7 +46,6 @@ public class ServletContextLocationsRetriever extends BaseLocationsRetriever {
     protected List<PropertySource> getPropertySources(Properties properties) {
         List<PropertySource> propertySources = new ArrayList<PropertySource>();
         
-        //FIXME add test
         propertySources.add(new ContextPathAwareSystemPropertySource(servletContext));
         
         //property value sought first in system property

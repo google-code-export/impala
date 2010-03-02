@@ -66,13 +66,16 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
         //FIXME also, can this not simply override the findApplicationContext method
         ImpalaServletUtils.publishWebApplicationContext(applicationContext, this);
 
-        this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(this, setThreadContextClassLoader, applicationContext.getClassLoader());
+        setInvoker();
         return applicationContext;
+    }
+
+    void setInvoker() {
+        this.invoker = new ThreadContextClassLoaderHttpServiceInvoker(this, setThreadContextClassLoader, applicationContext.getClassLoader());
     }   
 
     @Override
     protected void doService(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        //FIXME test
         invoker.invoke(request, response, null);
     }
     

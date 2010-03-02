@@ -52,7 +52,7 @@ import org.springframework.web.context.ServletContextAware;
  */
 public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, InitializingBean, DisposableBean, ServletContextAware, ModuleDefinitionAware {
 
-    //FIXME make so that this is automatically registered with application context
+    //TODO make so that this is automatically registered with application context
     
     private Log logger = LogFactory.getLog(ModuleHttpServiceInvokerBuilder.class);
     

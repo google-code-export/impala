@@ -28,7 +28,7 @@ import org.impalaframework.web.integration.ModuleProxyFilterTest;
 import org.impalaframework.web.integration.ModuleProxyServletTest;
 import org.impalaframework.web.integration.PrefixTreeHolderTest;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapperTest;
-import org.impalaframework.web.jsp.JasperServletFactoryBeanTest;
+import org.impalaframework.web.jsp.JspServletFactoryBeanTest;
 import org.impalaframework.web.jsp.ModuleJspServletTest;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBeanTest;
 import org.impalaframework.web.module.WebModuleUtilsTest;
@@ -82,6 +82,7 @@ import org.impalaframework.web.spring.module.WebModuleLoaderTest;
 import org.impalaframework.web.spring.module.WebPlaceholderModuleDefinitionTest;
 import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
+import org.impalaframework.web.spring.servlet.InternalModuleServletTest;
 import org.impalaframework.web.utils.ModuleProxyUtilsTest;
 
 public class AutomatedWebTests {
@@ -111,8 +112,9 @@ public class AutomatedWebTests {
         suite.addTestSuite(InternalFrameworkIntegrationFilterTest.class);
         suite.addTestSuite(InternalFrameworkIntegrationServletTest.class);
         suite.addTestSuite(InternalFrameworkIntegrationServletFactoryBeanTest.class);
+        suite.addTestSuite(InternalModuleServletTest.class);
         suite.addTestSuite(InvocationChainTest.class);
-        suite.addTestSuite(JasperServletFactoryBeanTest.class);
+        suite.addTestSuite(JspServletFactoryBeanTest.class);
         suite.addTestSuite(ModuleHttpServiceInvokerBuilderTest.class);
         suite.addTestSuite(ModuleJspServletTest.class);
         suite.addTestSuite(MappedHttpServletRequestTest.class);

@@ -28,8 +28,6 @@ import org.impalaframework.module.ModuleDefinition;
  */
 public class WeavingGraphClassLoaderFactory extends GraphClassLoaderFactory {
    
-    //FIXME test
-    
     @Override
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 

@@ -82,7 +82,6 @@ public abstract class BaseExistingBeanExposingFactoryBean implements Initializin
         ApplicationContext parentContext = applicationContext.getParent();
         
         if (parentContext instanceof GraphDelegatingApplicationContext) {
-            //FIXME issue 287 write test for this
             return ((GraphDelegatingApplicationContext) parentContext).getContainingApplicationContext(beanName);
         } else if (parentContext != null) {
             return BeanFactoryUtils.maybeFindApplicationContext(parentContext, beanName);

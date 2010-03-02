@@ -132,7 +132,7 @@ public class MavenPublishTask extends Task {
     }
 
     String getSharedPomFragment() {
-        //FIXME test
+        
         if (sharedPomFragment == null) {
             return "";
         }

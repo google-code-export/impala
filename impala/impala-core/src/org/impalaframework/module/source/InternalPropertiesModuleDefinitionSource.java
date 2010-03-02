@@ -41,13 +41,14 @@ public class InternalPropertiesModuleDefinitionSource extends BasePropertiesModu
     
     public InternalPropertiesModuleDefinitionSource(
             TypeReaderRegistry typeReaderRegistry, 
-            String rootModule, Map<String, Properties> moduleProperties, 
+            String rootModule, 
+            Map<String, Properties> moduleProperties, 
             Map<String, Set<String>> children,
             Set<String> siblings) {
         super(moduleProperties, typeReaderRegistry);
         Assert.notNull(children, "children cannot be null");
         Assert.notNull(siblings, "siblings cannot be null");
-        //FIXME issue 293 test
+        
         Assert.isTrue(!(rootModule == null && (!children.isEmpty() || !siblings.isEmpty())), "rootModuleName cannot be null unless there are no modules present");
         this.rootModuleName = rootModule;
         this.children = children;
