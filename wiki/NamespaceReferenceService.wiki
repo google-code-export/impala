@@ -162,7 +162,8 @@ The following attributes apply:
   * `exportName`: if not null, and filterExpression is null, then used to look up service as a named entry
   * `exportTypes`: if both filterExpression and exportName are null, then used to look up service as a typed entry. Even if `filterExpression` or `exportName` is specified, then if `exportTypes` is present it is used to limit the candidate services to those which were exported using all of the specified set of export types. 
   * `proxyTypes`: must be present if exportTypes is not. If present, then the `proxyTypes` are used to create the proxy to the service which is passed to client users of the service. If not present, then the export types (from the `exportTypes` attribute) are also used as the proxy types.
-  * `proxyOption`: allows proxy creation defaults typically set in _impala.properties_ to be overridden. This allows  
+  * `proxyOption`: allows proxy creation defaults typically set in _impala.properties_ to be overridden. This allows, for example, for individual
+  proxies to support retries, or provide no-op dummy implementations when the defaults set in _impala.properties_ imply different behaviour.  
 
 *Examples*
 
@@ -221,6 +222,19 @@ but the matched bean also has to have been explicitly registered using the expor
 Note that it is not possible to use `exportTypes` or `filterExpression` in combination with `exportName`. The idea is that the 
 `exportName` and `proxyTypes` attributes should provide a sufficiently narrow match to eliminate the necessity of also matching by
 `exportTypes`.
+
+In the example below, there is no entry in the service registry corresponding to the `missingService` entry. However,
+because the options `allow.no.service` and `log.warning.no.service` have been set to true, method invocations on this 
+proxy will not throw a `NoServiceException`. Instead, a no-op implementation of the proxy interface will be invoked,
+returning `null` for method calls returning `Object`, and returning default values for methods returning primitives.
+The available options correspond with [PropertyConfiguration Impala properties] prefixed with `proxy.`
+
+{{{
+<service:import id="missingService" 
+    proxyTypes="interfaces.MessageService"
+    proxyOptions="allow.no.service=true,log.warning.no.service=true"/>
+}}}
+
 
 Note also that as of Impala 1.0M6 it is not possible to use the `filterExpression` attribute to import beans backed by non-singleton Spring beans
 or `FactoryBeans`.
