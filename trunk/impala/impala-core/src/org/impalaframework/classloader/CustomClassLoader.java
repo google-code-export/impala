@@ -49,7 +49,15 @@ public abstract class CustomClassLoader extends BaseURLClassLoader implements Mo
     }
     
     protected abstract boolean loadCustomClassFirst();
-
+    
+    /**
+     * Calls {@link #loadClass(String, boolean)} with resolve set to false
+     */
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return loadClass(name, false);
+    }
+    
     /**
      * Attempts to load the class by calling the following superclass methods,
      * in order:
@@ -63,7 +71,7 @@ public abstract class CustomClassLoader extends BaseURLClassLoader implements Mo
      * @exception the <code>ClassNotFoundException</code> if the class could
      * not be loaded
      */
-    public Class<?> loadClass(String className) throws ClassNotFoundException {
+    public Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
 
         Class<?> toReturn = null;
         if (toReturn == null) {
@@ -90,8 +98,11 @@ public abstract class CustomClassLoader extends BaseURLClassLoader implements Mo
             if (logger.isDebugEnabled())
                 logger.debug("Class not found: " + className);
             throw new ClassNotFoundException(className);
+        } else {
+            if (resolve) {
+                resolveClass(toReturn);
+            }
         }
-
         return toReturn;
     }
 

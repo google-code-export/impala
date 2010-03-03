@@ -63,6 +63,22 @@ public class ModuleClassLoaderTest extends TestCase {
         assertSame(cls1.getClassLoader(), pcl);
     }
     
+    public void testLoadResolveTrue() throws Exception {
+        ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("sample-module1")).getURL() });
+
+        // check that this class loader loads the named class
+        Class<?> cls1 = pcl.loadClass("classes.FileMonitorBean1", true);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
+    public void testLoadResolveFalse() throws Exception {
+        ParentClassLoader pcl = new ParentClassLoader(new URL[] { new DirectoryResource(getCompileFile("sample-module1")).getURL() });
+
+        // check that this class loader loads the named class
+        Class<?> cls1 = pcl.loadClass("classes.FileMonitorBean1", false);
+        assertSame(cls1.getClassLoader(), pcl);
+    }
+    
     public void testParent() throws Exception {
         ClassLoader parent = ClassUtils.getDefaultClassLoader();
         File base = getWorkspaceFile("impala-core/resources/classloader");

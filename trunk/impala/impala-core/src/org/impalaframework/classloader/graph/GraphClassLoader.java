@@ -120,6 +120,9 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (loadClass != null) {
+            if (resolve) {
+                resolveClass(loadClass);
+            }
             return loadClass;
         }
         
