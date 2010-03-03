@@ -57,9 +57,15 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
         dependencyManager = new DependencyManager(definitions);
     }
     
-    public void testLoadResolve() throws Exception {
+    public void testLoadResolveFalse() throws Exception {
         final GraphClassLoader loader = factory.newClassLoader(classLoaderRegistry, dependencyManager, g);
         Object aImpl = loader.loadClass("AImpl", false).newInstance();
+        assertNotNull(aImpl);
+    }
+    
+    public void testLoadResolveTrue() throws Exception {
+        final GraphClassLoader loader = factory.newClassLoader(classLoaderRegistry, dependencyManager, g);
+        Object aImpl = loader.loadClass("AImpl", true).newInstance();
         assertNotNull(aImpl);
     }
     
