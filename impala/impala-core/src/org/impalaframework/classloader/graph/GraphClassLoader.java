@@ -64,6 +64,14 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /**
+     * Calls {@link #loadClass(String, boolean)} with resolve set to false
+     */
+    @Override
+    public synchronized Class<?> loadClass(String name) throws ClassNotFoundException {
+        return loadClass(name, false);
+    }
+    
+    /**
      * Attempts to load class for given name. If {@link #loadParentFirst} is set true, 
      * then will first delegate to the parent class loader, which will typically either be the 
      * system class loader or the web application class loader for web applications.
@@ -77,7 +85,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      *  test suite within Eclipse).
      */
     @Override
-    public Class<?> loadClass(String className) throws ClassNotFoundException {
+    public Class<?> loadClass(String className, boolean resolve) throws ClassNotFoundException {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Entering loading class '" + className + "' from " + this);
