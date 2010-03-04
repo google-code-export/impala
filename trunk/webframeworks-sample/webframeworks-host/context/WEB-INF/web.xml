@@ -7,7 +7,10 @@
     <display-name>Impala web frameworks example</display-name>
 
     <description>An application which demonstrates tight integration of Struts, Tapestry5 and Wicket with Impala</description>
-    
+  <context-param>
+    <param-name>tapestry.use-external-spring-context</param-name>
+    <param-value>true</param-value>
+  </context-param>
     <listener>
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
     </listener>

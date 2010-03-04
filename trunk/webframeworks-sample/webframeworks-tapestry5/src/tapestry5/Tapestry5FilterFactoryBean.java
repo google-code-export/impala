@@ -1,5 +1,6 @@
 package tapestry5;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.Map;
@@ -23,13 +24,17 @@ public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements App
 
             @Override
             public String getInitParameter(String name) {
-                return applicationPackage;
+                if (name.equals("tapestry.use-external-spring-context")) {
+                    return "true";
+                } if (name.equals("tapestry.app-package"))
+                    return applicationPackage;
+                return super.getInitParameter(name);
             }
 
             @Override
             public Enumeration<?> getInitParameterNames() {
                 //a bit of a hack because it restricts init parameters to just a single value
-                return Collections.enumeration(Collections.singleton("tapestry.app-package"));
+                return Collections.enumeration(Arrays.asList("tapestry.app-package", "tapestry.use-external-spring-context"));
             }
             
         };
