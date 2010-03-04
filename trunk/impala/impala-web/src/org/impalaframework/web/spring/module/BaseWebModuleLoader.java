@@ -78,18 +78,35 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
         
         final DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
         beanFactory.setBeanClassLoader(classLoader);
-
-        final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
-        context.setParent(parent);
-        context.setServletContext(wrappedServletContext);
-        context.setClassLoader(classLoader);
-        context.setDisplayName(ModuleLoaderUtils.getDisplayName(moduleDefinition, context));
+        
+        final GenericWebApplicationContext context = newApplicationContext(
+                moduleDefinition, 
+                parent, 
+                classLoader, 
+                wrappedServletContext,
+                beanFactory);
         
         configureBeanFactoryAndApplicationContext(moduleDefinition, beanFactory, context);
-        
         return context;
     }
-    
+
+    protected GenericWebApplicationContext newApplicationContext(
+            ModuleDefinition moduleDefinition, 
+            ApplicationContext parent,
+            ClassLoader classLoader, 
+            ServletContext servletContext,
+            final DefaultListableBeanFactory beanFactory) {
+        
+        final GenericWebApplicationContext context = new GenericWebApplicationContext(beanFactory);
+        context.setServletContext(servletContext);
+        context.setClassLoader(classLoader);
+        
+        context.setParent(parent);
+        final String displayName = ModuleLoaderUtils.getDisplayName(moduleDefinition, context);
+        context.setDisplayName(displayName);
+        return context;
+    }
+
     @Override
     public void handleRefresh(String applicationId, ConfigurableApplicationContext context, ModuleDefinition moduleDefinition) {
         
