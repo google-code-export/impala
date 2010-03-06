@@ -1,50 +1,50 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <root xmlns="http://www.impalaframework.org/schema/moduledefinition"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.impalaframework.org/schema/moduledefinition http://impala.googlecode.com/svn/schema/moduledefinition.xsd">
-	<names>project1</names>
-	<name>project1</name>
-	<config-locations>
-		<config-location>location1</config-location>
-		<config-location>location2</config-location>
-	</config-locations>
-	<attributes>
-		<attribute name="prop1">value1</attribute>
-		<attribute name="prop2">value2</attribute>
-	</attributes>
-	<depends-on>module1,module2, module3 , module4 module5</depends-on>
-	<runtime>myruntime</runtime>
-	<modules>
-		<module>
-			<name>sample-module2</name>
-			<attributes><attribute name = "someatt">value</attribute></attributes>
-			<modules>
-				<module>
-					<name>sample-module3</name>
-					<config-locations>
-						<config-location>location1</config-location>
-						<config-location>location2</config-location>
-					</config-locations>
-					<attributes>
-						<attribute name="prop1">value1</attribute>
-						<attribute name="prop2">value2</attribute>
-					</attributes>
-					<depends-on>module1,module2, module3 , module4 module5</depends-on>
-					<runtime>myruntime</runtime>
-				</module>
-			</modules>
-		</module>
-	</modules>
-	<siblings>
-		<module>
-			<name>sample-module5</name>
-			<modules>
-				<module>
-					<name>sample-module6</name>
-					<depends-on>sample-module3,sample-module4,sample-module5
-					</depends-on>
-				</module>
-			</modules>
-		</module>
-	</siblings>
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.impalaframework.org/schema/moduledefinition http://impala.googlecode.com/svn/schema/moduledefinition.xsd">
+    <names>project1</names>
+    <name>project1</name>
+    <config-locations>
+        <config-location>location1</config-location>
+        <config-location>location2</config-location>
+    </config-locations>
+    <attributes>
+        <attribute name="prop1">value1</attribute>
+        <attribute name="prop2">value2</attribute>
+    </attributes>
+    <depends-on>module1,module2, module3 , module4 module5</depends-on>
+    <runtime>myruntime</runtime>
+    <modules>
+        <module>
+            <name>sample-module2</name>
+            <attributes><attribute name = "someatt">value</attribute></attributes>
+            <modules>
+                <module>
+                    <name>sample-module3</name>
+                    <config-locations>
+                        <config-location>location1</config-location>
+                        <config-location>location2</config-location>
+                    </config-locations>
+                    <attributes>
+                        <attribute name="prop1">value1</attribute>
+                        <attribute name="prop2">value2</attribute>
+                    </attributes>
+                    <depends-on>module1,module2, module3 , module4 module5</depends-on>
+                    <runtime>myruntime</runtime>
+                </module>
+            </modules>
+        </module>
+    </modules>
+    <siblings>
+        <module>
+            <name>sample-module5</name>
+            <modules>
+                <module>
+                    <name>sample-module6</name>
+                    <depends-on>sample-module3,sample-module4,sample-module5
+                    </depends-on>
+                </module>
+            </modules>
+        </module>
+    </siblings>
 </root>

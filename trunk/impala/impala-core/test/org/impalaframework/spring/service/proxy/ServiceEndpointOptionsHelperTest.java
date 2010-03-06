@@ -49,7 +49,7 @@ public class ServiceEndpointOptionsHelperTest extends TestCase {
     
     public void testSetExplicitValues() throws Exception {
         final String properties = "log.warning.no.service=false,allow.no.service=false,set.context.classloader=false," +
-        		"missing.service.retry.count=2,missing.service.retry.interval=3";
+                "missing.service.retry.count=2,missing.service.retry.interval=3";
         ServiceEndpointOptionsHelper optionsHelper = new ServiceEndpointOptionsHelper(CollectionStringUtils.parsePropertiesFromString(properties));
         
         optionsHelper.setLogWarningNoService(true);
