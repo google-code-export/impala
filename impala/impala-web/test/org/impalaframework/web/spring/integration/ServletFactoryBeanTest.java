@@ -19,16 +19,18 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.io.IOException;
 import java.util.Collections;
 
 import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
 import org.impalaframework.module.definition.SimpleModuleDefinition;
-import org.impalaframework.web.integration.ModuleProxyServlet;
-import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 
 public class ServletFactoryBeanTest extends TestCase {
 
@@ -44,18 +46,16 @@ public class ServletFactoryBeanTest extends TestCase {
         factoryBean = new ServletFactoryBean();
         factoryBean.setInitParameters(null);
         factoryBean.setServletName("myservlet");
-        factoryBean.setServletClass(ModuleProxyServlet.class);
+        factoryBean.setServletClass(TestServlet.class);
         factoryBean.setServletContext(context);
     }
     
     public void testGetObject() throws Exception {
         
         factoryBean.afterPropertiesSet();
-        ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
+        TestServlet servlet = (TestServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
-        expectGetInvoker("somepath");
-        
         replay(request);
         replay(context);
         
@@ -69,10 +69,8 @@ public class ServletFactoryBeanTest extends TestCase {
         
         factoryBean.setServletName(null);
         factoryBean.setModuleDefinition(new SimpleModuleDefinition("mymodule"));
-        expectGetInvoker("somepath");
-        
         factoryBean.afterPropertiesSet();
-        ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
+        TestServlet servlet = (TestServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
         
@@ -89,11 +87,9 @@ public class ServletFactoryBeanTest extends TestCase {
         
         factoryBean.setInitParameters(Collections.singletonMap("modulePrefix", "pathprefix-"));
         factoryBean.afterPropertiesSet();
-        ModuleProxyServlet servlet = (ModuleProxyServlet) factoryBean.getObject();
+        TestServlet servlet = (TestServlet) factoryBean.getObject();
         
         expect(request.getRequestURI()).andStubReturn("/app/somepath/morebits");
-        expectGetInvoker("pathprefix-somepath");
-        
         replay(request);
         replay(context);
         
@@ -103,8 +99,16 @@ public class ServletFactoryBeanTest extends TestCase {
         verify(context);
     }
 
-    private void expectGetInvoker(String path) {
-        expect(context.getAttribute(ModuleHttpServiceInvoker.class.getName()+"."+path)).andReturn(null);
-    }
+}
 
+class TestServlet extends HttpServlet {
+
+    private static final long serialVersionUID = 1L;
+    
+    @Override
+    protected void service(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
+        req.getRequestURI();
+    }
+    
 }

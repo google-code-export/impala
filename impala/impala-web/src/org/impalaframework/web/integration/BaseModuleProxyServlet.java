@@ -19,7 +19,6 @@ import java.io.IOException;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -27,7 +26,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.utils.WebPathUtils;
 
 /**
  * <p>
@@ -36,7 +34,7 @@ import org.impalaframework.web.utils.WebPathUtils;
  * 
  * @author Phil Zoio
  */
-public abstract class BaseModuleProxyServlet extends HttpServlet {
+public abstract class BaseModuleProxyServlet extends BaseLockingProxyServlet {
 
     private static final Log logger = LogFactory.getLog(BaseModuleProxyServlet.class);  
     
@@ -59,18 +57,8 @@ public abstract class BaseModuleProxyServlet extends HttpServlet {
         final String requestModuleMapperClass = config.getInitParameter(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME);
         return ModuleProxyUtils.newRequestModuleMapper(requestModuleMapperClass);
     }
-
-    @Override
-    public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        
-        WebPathUtils.maybeLogRequest(request, logger);
-        
-        ServletContext context = getServletContext();
-        doService(request, response, context);
-        
-    }
-
-    void doService(HttpServletRequest request, HttpServletResponse response,
+    
+    protected void doService(HttpServletRequest request, HttpServletResponse response,
             ServletContext context)
             throws ServletException, IOException {
         
