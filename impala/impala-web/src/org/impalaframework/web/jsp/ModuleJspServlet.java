@@ -62,16 +62,16 @@ public class ModuleJspServlet extends HttpServlet {
         final String prefix = (String) req.getAttribute(WebAttributeQualifier.MODULE_QUALIFIER_PREFIX);
         if (prefix == null) {
             throw new IllegalStateException("Cannot resolve attribute '" + WebAttributeQualifier.MODULE_QUALIFIER_PREFIX + "'." +
-            		" This attribute needs to be set in order for ModuleJspServlet to be able to find the module registered JSP servlet to which the request will be forwarded." +
-            		" Possible causes: 1) you have not set the property 'partitioned.servlet.context=true' in impala.properties, or " +
-            		" 2) you have attempted to access the JSP directly rather than through a request or forward from a servlet or filter within the application.");
+                    " This attribute needs to be set in order for ModuleJspServlet to be able to find the module registered JSP servlet to which the request will be forwarded." +
+                    " Possible causes: 1) you have not set the property 'partitioned.servlet.context=true' in impala.properties, or " +
+                    " 2) you have attempted to access the JSP directly rather than through a request or forward from a servlet or filter within the application.");
         }
 
         final HttpServlet jspServlet = (HttpServlet) servletContext.getAttribute(prefix + JspConstants.JSP_SERVLET);
         
         if (jspServlet == null) {
             throw new IllegalStateException("No JSP servlet registered in the module to which the request was directed." +
-            		" Your module configuration requires a " + JspServletFactoryBean.class + " configuration entry, or equivalent.");
+                    " Your module configuration requires a " + JspServletFactoryBean.class + " configuration entry, or equivalent.");
         }
         
         jspServlet.service(req, resp);

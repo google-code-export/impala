@@ -6,7 +6,7 @@
     
     <!-- this is needed for some of the imported targets -->
     <mkdir dir = "${impala.home}/lib"/>
-	
+    
     <property name = "maven.artifacts" value = "impala-core,impala-command,impala-jmx,impala-build,impala-interactive,impala-web"/>
     <property name = "deployable.project.list" value = "${maven.artifacts},impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
     <property name = "project.list" value = "${deployable.project.list},sample-module1,sample-module2,sample-module3,sample-module4"/>
@@ -78,7 +78,7 @@
             <property name = "maven.organisation" value = "${maven.organisation}"/>
         </ant>
     </target>
-	
+    
     <target name = "mvnpublishsign"
         description="Publishes artifacts to local maven repository, and signs these">
         <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-sign-local" inheritall = "false">
@@ -104,7 +104,7 @@
             <property name = "maven.artifacts" value = "${maven.artifacts}"/>
             <property name = "deployable.project.list" value = "${maven.artifacts}"/>
             <property name = "maven.organisation" value = "${maven.organisation}"/>
-    	</ant>
+        </ant>
     </target>   
     
     <target name = "all" 

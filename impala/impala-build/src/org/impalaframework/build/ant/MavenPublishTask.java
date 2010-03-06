@@ -273,7 +273,7 @@ public class MavenPublishTask extends Task {
         });
 
         final String message = "Processing " + files.length + " files from source directory " + sourceDir + 
-        		" corresponding to artefacts: " + Arrays.toString(artifactList);
+                " corresponding to artefacts: " + Arrays.toString(artifactList);
         
         getProject().log(this, message, Project.MSG_INFO);
         return files;
