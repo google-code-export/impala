@@ -29,7 +29,7 @@ compile from org.hibernate:hibernate:3.2.3.ga
 compile from hsqldb:hsqldb:1.8.0.7 
 }}}
 
-*3) Add the Hibernate Spring beans to your module's Spring configuration file.
+*3) Add the Hibernate Spring beans to your module's Spring configuration file.*
  
 For example, the _petclinic-hibernate_ module in the [SamplesPetclinic Petclinic Sample] contains the following entry.
 
@@ -77,7 +77,7 @@ For example, the _petclinic-hibernate_ module in the [SamplesPetclinic Petclinic
 </bean>
 }}} 
 
-4) Export the relevant beans. 
+*4) Export the relevant beans.*
 
 Typically, you will want to export the `DataSource`, `SessionFactory` and `PlatformTransactionManager` beans, using one of the
 [NamespaceReferenceService Impala service namespace]. For example.
@@ -86,7 +86,7 @@ Typically, you will want to export the `DataSource`, `SessionFactory` and `Platf
 <service:export-array beanNames="dataSource,sessionFactory,transactionManager"/>
 }}}
 
-5) Import the exported beans where needed.
+*5) Import the exported beans where needed.*
 
 Use one of the [NamespaceReferenceService Impala service namespace] import beans to bring these into other
 modules in your application, using entries such as the following:
