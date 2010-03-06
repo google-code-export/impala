@@ -16,22 +16,17 @@ package org.impalaframework.web.integration;
 
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
-import org.impalaframework.web.utils.WebPathUtils;
 
 /**
  * Base implementation of filter which directs requests to modules
@@ -40,13 +35,11 @@ import org.impalaframework.web.utils.WebPathUtils;
  * @see ModuleProxyServlet
  * @author Phil Zoio
  */
-public abstract class BaseModuleProxyFilter implements Filter {
+public abstract class BaseModuleProxyFilter extends BaseLockingProxyFilter {
     
     private static final Log logger = LogFactory.getLog(BaseModuleProxyFilter.class);   
     
     private static final long serialVersionUID = 1L;
-    
-    private FilterConfig filterConfig;
     
     private RequestModuleMapper requestModuleMapper;
     
@@ -55,7 +48,7 @@ public abstract class BaseModuleProxyFilter implements Filter {
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
+        super.init(filterConfig);
         this.requestModuleMapper = newRequestModuleMapper(filterConfig);
         this.requestModuleMapper.init(filterConfig);
     }
@@ -68,19 +61,7 @@ public abstract class BaseModuleProxyFilter implements Filter {
     public void destroy() {
     }
 
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
-            FilterChain chain) throws IOException, ServletException {
-        
-        HttpServletRequest request = ObjectUtils.cast(servletRequest, HttpServletRequest.class);
-        HttpServletResponse response = ObjectUtils.cast(servletResponse, HttpServletResponse.class);
-
-        WebPathUtils.maybeLogRequest(request, logger);
-        
-        ServletContext context = filterConfig.getServletContext();
-        doFilter(request, response, context, chain);
-    }
-
-    void doFilter(HttpServletRequest request, HttpServletResponse response,
+    protected void doFilter(HttpServletRequest request, HttpServletResponse response,
             ServletContext context, FilterChain chain)
             throws ServletException, IOException {
 
@@ -126,11 +107,5 @@ public abstract class BaseModuleProxyFilter implements Filter {
      */
     protected String getApplicationId(HttpServletRequest request, ServletContext servletContext) {
         return "";
-    }
-    
-    /* **************** package level getters ******************* */
-
-    FilterConfig getFilterConfig() {
-        return filterConfig;
     }
 }
