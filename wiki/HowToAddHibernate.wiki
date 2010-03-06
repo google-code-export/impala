@@ -98,3 +98,5 @@ modules in your application, using entries such as the following:
     
 <service:import id="transactionManager" exportName = "transactionManager" proxyTypes = "org.springframework.transaction.PlatformTransactionManager"/>
 }}}
+
+This creates proxies which can be injected into other beans in your application.
