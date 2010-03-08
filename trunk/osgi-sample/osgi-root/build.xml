@@ -21,7 +21,7 @@
     <import file = "${impala.home}/osgi-build.xml"/>
     
     <target name = "get" depends = "shared:get" description="Gets project dependencies as in dependencies.txt"/>
-    <target name = "fetch" depends = "repository:fetch-impala" description="Fetches Impala libraries"/>
+    <target name = "fetch" depends = "repository:fetch-impala-osgi" description="Fetches Impala libraries"/>
     <target name = "clean" depends = "shared:clean" description="Cleans all projects"/>
     <target name = "dist" depends = "shared:all-no-test" description="Builds jars for projects, and copies to repository's dist directory"/>
     <target name = "test" depends = "shared:test" description="Runs tests"/>

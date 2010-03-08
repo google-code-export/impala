@@ -48,6 +48,7 @@
             destdir = "${maven.repo.dir}"/>
     </target>
     
-    <target name = "repository:fetch-impala" depends = "repository:include-osgi, repository:exclude-osgi, repository:fetch-impala-from-lib, repository:fetch-impala-from-repository"/>
-    
+    <target name = "repository:fetch-impala" depends = "repository:exclude-osgi, repository:fetch-impala-from-lib, repository:fetch-impala-from-repository"/>
+    <target name = "repository:fetch-impala-osgi" depends = "repository:include-osgi, repository:fetch-impala-from-lib, repository:fetch-impala-from-repository"/>
+   
 </project>
