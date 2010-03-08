@@ -21,7 +21,7 @@
 	<repositories>
 		<repository>
 			<id>Impala</id>
-			<url>http://impala.googlecode.com/svn/maven/repo</url>
+			<url>http://oss.sonatype.org/content/repositories/impalaframework-snapshots</url>
 		</repository>
 		<repository>
 			<id>Spring</id>
