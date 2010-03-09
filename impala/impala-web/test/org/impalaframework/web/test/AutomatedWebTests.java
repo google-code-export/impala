@@ -60,6 +60,7 @@ import org.impalaframework.web.spring.config.ContextListenerBeanDefinitionParser
 import org.impalaframework.web.spring.config.FilterBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.ServletBeanDefinitionParserTest;
 import org.impalaframework.web.spring.config.WebMappingBeanDefinitionParserTest;
+import org.impalaframework.web.spring.filter.BaseDelegatingFilterProxyTest;
 import org.impalaframework.web.spring.helper.FrameworkServletContextCreatorTest;
 import org.impalaframework.web.spring.helper.ImpalaServletUtilsTest;
 import org.impalaframework.web.spring.integration.ExternalFrameworkIntegrationServletTest;
@@ -90,6 +91,7 @@ public class AutomatedWebTests {
     public static Test suite() {
         TestSuite suite = new TestSuite();
         suite.addTestSuite(ApplicationContextExporterTest.class);
+        suite.addTestSuite(BaseDelegatingFilterProxyTest.class);
         suite.addTestSuite(BaseImpalaContextLoaderTest.class);
         suite.addTestSuite(BaseWebModuleLoaderTest.class);
         suite.addTestSuite(BaseWrapperServletContextTest.class);
