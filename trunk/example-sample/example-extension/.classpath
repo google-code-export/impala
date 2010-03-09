@@ -4,7 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="/example-repository/main/spring-2.5.5.jar" sourcepath="/example-repository/main/spring-2.5.5-sources.jar"/>
-	<classpathentry kind="lib" path="/example-repository/main/impala-core-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/example-repository/compile/impala-core-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="lib" path="/example-repository/main/log4j-1.2.13.jar" sourcepath="/example-repository/main/log4j-1.2.13-sources.jar"/>
 	<classpathentry kind="lib" path="/example-repository/main/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="/example-repository/web/servlet-api-2.4.jar"/>
