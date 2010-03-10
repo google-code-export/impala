@@ -91,6 +91,11 @@
         depends = "shared:mvn-deploy"
         description="Deploys published artifacts to Maven repository. Use -Dmaven.release=true to deploy releases">
     </target>
+	
+    <target name = "mvnsigndeploy" 
+        depends = "shared:mvn-sign-deploy"
+        description="Deploys published artifacts to Maven repository. Will need to be signed, with .asc files for jar, sources jar and pom">
+    </target>
     
     <target name = "tohome" 
         depends = "all, copytohome, mvnpublish"

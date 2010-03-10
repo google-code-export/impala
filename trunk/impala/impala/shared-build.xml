@@ -55,15 +55,27 @@
     <target name = "shared:run-test">
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
     </target>  
+    	
+    <target name = "shared:mvn-signed">
+    	<property name="mvn.signed" value="true"/>
+    </target>  
+	
+    <target name = "shared:mvn-not-signed" unless = "mvn.signed">
+    	<property name="mvn.signed" value="false"/>
+    </target>  
     
-    <target name = "shared:mvn-deploy" depends = "mvn:username,mvn:password">
+    <target name = "shared:mvn-deploy" depends = "shared:mvn-not-signed,mvn:username,mvn:password">
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${maven.artifacts}" target = "mvn:deploy" inheritall = "false">
             <property name="mvn.username" value="${mvn.username}"/>
             <property name="mvn.password" value="${mvn.password}"/>
             <property name="maven.organisation" value="${maven.organisation}"/>
             <property name="maven.repo.root" value="${maven.repo.root}"/>
             <property name="maven.snapshot.repository" value="${maven.snapshot.repository}"/>
+            <property name="mvn.signed" value="${mvn.signed}"/>
         </antforeach>
+    </target> 
+            	
+    <target name = "shared:mvn-sign-deploy" depends = "shared:mvn-signed,shared:mvn-deploy">
     </target> 
     
     <target name = "shared:test" depends = "shared:jar-test, shared:run-test"/>

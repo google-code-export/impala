@@ -82,15 +82,31 @@
 
         <artifact:pom id="mypom" file="${maven.repo.root.location}/${artifact.location.pom}" />
 
-        <artifact:deploy 
-            file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
-            <remoteRepository url="${mvn.repo.current}">
-                <authentication username="${mvn.username}" password="${mvn.password}"/>
-            </remoteRepository>
-            <pom refid="mypom"/>
-            <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
-        </artifact:deploy>
-    </target>
+    	<ifproperty property="mvn.signed" equals="true">
+            <artifact:deploy 
+                file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
+                <remoteRepository url="${mvn.repo.current}">
+                    <authentication username="${mvn.username}" password="${mvn.password}"/>
+                </remoteRepository>
+                <pom refid="mypom"/>
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" />  
+                <attach file="${maven.repo.root.location}/${artifact.location}.asc" type="jar.asc" />
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}.asc" type="sources.asc" />
+                <attach file="${maven.repo.root.location}/${artifact.location.pom}.asc" type="pom.asc" />      
+            </artifact:deploy>
+    	</ifproperty>
+    	
+    	<ifproperty property="mvn.signed" equals="false">
+            <artifact:deploy 
+                file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
+                <remoteRepository url="${mvn.repo.current}">
+                    <authentication username="${mvn.username}" password="${mvn.password}"/>
+                </remoteRepository>
+                <pom refid="mypom"/>
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" />        
+            </artifact:deploy>
+    	</ifproperty>
+    </target>	
     
     <target name = "sign">
         <input message="Please specify a password file" addproperty="input.password.file"/>
