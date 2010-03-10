@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="scaffold/java/main/src"/>
+	<classpathentry kind="src" path="scaffold/java/main/test"/>
+	<classpathentry kind="src" path="scaffold/java/module/src"/>
+	<classpathentry kind="src" path="scaffold/java/module/test"/>
+	<classpathentry kind="src" path="scaffold/java/web/src"/>
+	<classpathentry kind="src" path="scaffold/java/web/test"/>
+	<classpathentry kind="src" path="scaffold/java/test/src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

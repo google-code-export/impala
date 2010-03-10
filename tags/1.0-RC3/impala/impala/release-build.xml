@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<project name="Release build">
+
+    <property file="release-build.properties"/>
+    <property name = "project.version" value = "${next.release.version}"/>
+    
+    <import file="${impala.home}/svn-build.xml"/>
+    <import file="${impala.home}/dist-build.xml"/>
+    
+    <target name = "release:version" depends = "svn:revision">
+        
+        <propertyfile file="version.properties"
+            comment="Current version of SVN at time of snapshot">
+          <entry  key="svn.revision" value="${svn.revision}"/>
+          <entry  key="release.version" value="${next.release.version}"/>
+        </propertyfile>
+
+    </target>
+                    
+    <target name = "release" 
+        depends = "release:version"
+        description = "Builds and tags project using the property 'next.release.version' in release-build.properties">
+
+        <ant antfile="${impala.home}/build.xml">
+            <property name="project.version" value="${project.version}"/>
+        </ant>
+        <ant antfile="${impala.home}/build.xml" target = "test">
+            <property name="project.version" value="${project.version}"/>
+        </ant>
+        <ant antfile="${impala.home}/dist-build.xml">
+            <property name="next.release.version" value="${next.release.version}"/>
+        </ant>
+        <ant antfile="${impala.home}/mvn-build.xml" target="mvn:publish-sign-local">
+            <property name="project.version" value="${project.version}"/>
+        </ant>
+        <ant antfile="${impala.home}/svn-build.xml" target = "svn:tag">
+            <property name="tag.name" value="${project.version}"/>
+        </ant>
+    </target>
+
+    <target name = "snapshot"  
+        depends = "release:version"
+        description = "Creates snapshot build">
+
+        <ant antfile="${impala.home}/build.xml">
+            <property name="project.version" value="${snapshot.version}"/>
+        </ant>
+    </target>
+    
+</project>

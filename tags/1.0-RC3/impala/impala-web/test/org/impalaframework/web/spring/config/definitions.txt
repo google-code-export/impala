@@ -1,0 +1,7 @@
+<mapping>
+    <to-module prefix = "/path1"/>
+    <to-module prefix = "/path2" setServletPath = "true"/>
+    <to-module prefix = "/path3" servletPath = "/path3modified"/>
+    <to-handler extension = "do" servletName="doServlet"/> 
+    <to-handler extension = "css" filterNames="cssFilter1,cssFilter2" servletName = "cssServlet"/> 
+</mapping>
