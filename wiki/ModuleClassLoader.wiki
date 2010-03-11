@@ -98,7 +98,7 @@ any of the local module class paths is the search passed on to the system class 
 The question then is in what order is the search delegated to modules? The answer is in the exact reverse of the order in which 
 the module class paths are searched when loading classes.
 
-=== Enumeration<URL> getResources(String) ===
+=== Enumeration getResources(String) ===
 
 `getResources(String)` is used in a Spring application for two distinct purposes.
   * first, to find certain configuration files. For example, `getResources(String)` is used to locate pluggable Spring configuration XML namespace and schema handlers.

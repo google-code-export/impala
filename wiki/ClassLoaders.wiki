@@ -16,4 +16,9 @@ The following are the types of class loaders which may be used in a dynamic modu
   * *Graph class loader*: visibility is inherited from parents as well as dependencies. In other words, if module B has parent module A and also depends on module C, then classes in A will have visibility of public classes in both module B and C.
   * *OSGi class loader*: class loader model which applies when OSGi runtime is used. The OSGi class loader model adds to the capabilities of the graph class loader model - it is the most sophisticated class loader model supported in Impala.
   
-Each of these class loader types is supported in Impala, enabling you to choose the class loader arrangement which suits the requirements of your application or environment.
+Each of these class loader types is supported in Impala (although OSGi support is only experimental at this stage), enabling you to choose the class loader arrangement which suits the requirements of your application or environment.
+
+The default class loader type is the [ModuleClassLoader Graph class loader], which as it supports a much more flexible set of module configurations than a hierarchical class loader.
+
+== Graph Class Loader ==
+
