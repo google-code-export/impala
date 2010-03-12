@@ -1,0 +1,13 @@
+#summary 1.0 RC3 Release Announcement
+
+Impala 1.0 RC3 is the final release candidate prior to the official 1.0 release, and contains a number of enhancements:
+  * simplifications making it easier to migrate existing Spring-based projects to use Impala. With [http://code.google.com/p/impala/issues/detail?id=293 issue 293], it is now possible to run Impala as part of an existing virtually unchanged traditional Spring web application.
+  * support for JSPs deployed within individual web modules. Prior to 1.0 RC3, JSPs need to be contained within the web application folder. With 1.0 RC3 it is now possible to completely modularise the web elements of a JSP-based web application. [HowToConfigureJSPs More information].
+  * support load time weaving of aspects created using AspectJ. [HowToConfigureLoadTimeWeaving More information].
+  * various other minor features and bug fixes.
+  
+See the full list of [http://code.google.com/p/impala/issues/list?can=7&q=label%3AMilestone-Release1.0RC3 issues covered in this release].
+
+With Impala 1.0 RC3, released artifacts are  available in the Maven central repository for the first time. See http://repo1.maven.org/maven2/org/impalaframework/.
+
+If you like Impala and would like to support the project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
