@@ -1,4 +1,4 @@
 #summary Migration to 1.0 RC3
 
-Impala 1.0 RC3 does not contain any changes which are not backward 
+Impala 1.0 RC3 does not contain any changes which are not backwardly incompatible.
 
