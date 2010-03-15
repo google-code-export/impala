@@ -85,6 +85,16 @@ and for defining filters for the 'list' and 'map' import elements.
 	attributes="sender=phil" /> 
 }}}
 
+The following publishes the `messageService` with a `service.ranking` attribute of 10, which is greater than the default 
+service ranking of 0. If two modules publish services by the same interface but different service rankings, the one with the higher
+service ranking will be picked up first.
+
+{{{
+<service:export beanName = "messageService" 
+	exportTypes="interfaces.MessageService" 
+	attributes="service.ranking=10"/>
+}}}
+
 ----
 
 === 'auto-export' element ===
