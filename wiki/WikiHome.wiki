@@ -39,6 +39,8 @@
     * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
     * [HowToConfigureJSPs Configure set up within-module JSPs]
     * [HowToExtendImpala How to extend the Impala runtime]
+	* [HowToUseMavenWithImpala How to get Impala working with Maven]
+	* [HowToAddHibernate How to add Hibernate to your project]
     * [HowToRenameModule Rename a module]
     
 === User Documentation ===

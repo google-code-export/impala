@@ -1,4 +1,4 @@
-#summary Describes how to get Impala working with Maven
+#summary How to get Impala working with Maven
 
 == Background ==
 
