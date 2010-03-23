@@ -4,9 +4,31 @@
 	<groupId>org.impalaframework</groupId>
 	<artifactId>impala-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.0-M1</version>
-	<name>impala-maven-plugin Maven Mojo</name>
-	<url>http://maven.apache.org</url>
+	<version>1.0-M2-SNAPSHOT</version>
+	<name>impala-maven-plugin</name>
+	<description>impala-maven-plugin Maven Mojo</description>
+	<url>http://impala.googlecode.com/</url>
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+		</license>
+	</licenses>
+	<scm>
+		<connection>scm:svn:https://impala.googlecode.com/svn/trunk/maven/impala-maven-plugin</connection>
+		<url>http://code.google.com/p/impala/source/browse/trunk/maven/impala-maven-plugin</url>
+	</scm>
+	<properties>
+		<gpg.keyname>4876FE08</gpg.keyname>
+	</properties>
+	<developers>
+		<developer>
+			<id>phil</id>
+			<name>Phil Zoio</name>
+			<email>philzoio@realsolve.co.uk</email>
+			<url>http://impalablog.blogspot.com/</url>
+		</developer>
+	</developers>
 	<distributionManagement>
 		<repository>
 			<id>impalaframework-releases</id>
@@ -73,41 +95,19 @@
 					<target>1.5</target>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-gpg-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>sign-artifacts</id>
+						<phase>verify</phase>
+						<goals>
+							<goal>sign</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-	<profiles>
-
-		<profile>
-			<id>release-sign-artifacts</id>
-			<activation>
-				<property>
-					<name>performRelease</name>
-					<value>true</value>
-				</property>
-			</activation>
-			<properties>
-				<gpg.keyname>4876FE08</gpg.keyname>
-				<release.username>philzoio@realsolve.co.uk</release.username>
-			</properties>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-gpg-plugin</artifactId>
-						<version>1.0-alpha-4</version>
-						<executions>
-							<execution>
-								<id>sign-artifacts</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>sign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
 </project>
