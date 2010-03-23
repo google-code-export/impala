@@ -7,18 +7,18 @@
 	<version>1.0-M1</version>
 	<name>impala-maven-plugin Maven Mojo</name>
 	<url>http://maven.apache.org</url>
-   <distributionManagement>
-        <repository>
-            <id>impalaframework-releases</id>
-            <name>Impala releases repository</name>
-            <url>http://oss.sonatype.org/content/repositories/impalaframework-releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>impalaframework-snapshots</id>
-            <name>Impala releases repository</name>
-            <url>http://oss.sonatype.org/content/repositories/impalaframework-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
+	<distributionManagement>
+		<repository>
+			<id>impalaframework-releases</id>
+			<name>Impala releases repository</name>
+			<url>http://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+		</repository>
+		<snapshotRepository>
+			<id>impalaframework-snapshots</id>
+			<name>Impala releases repository</name>
+			<url>http://oss.sonatype.org/content/repositories/impalaframework-snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
 	<dependencies>
 		<dependency>
 			<groupId>commons-io</groupId>
@@ -75,4 +75,39 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+
+		<profile>
+			<id>release-sign-artifacts</id>
+			<activation>
+				<property>
+					<name>performRelease</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<properties>
+				<gpg.keyname>4876FE08</gpg.keyname>
+				<release.username>philzoio@realsolve.co.uk</release.username>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-gpg-plugin</artifactId>
+						<version>1.0-alpha-4</version>
+						<executions>
+							<execution>
+								<id>sign-artifacts</id>
+								<phase>verify</phase>
+								<goals>
+									<goal>sign</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
 </project>
