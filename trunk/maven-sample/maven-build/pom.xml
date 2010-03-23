@@ -219,7 +219,7 @@
 				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>${impala.version}</version>
+				<version>1.0-M2-SNAPSHOT</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
