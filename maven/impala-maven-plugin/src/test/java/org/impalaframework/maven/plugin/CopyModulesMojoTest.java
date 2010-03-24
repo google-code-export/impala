@@ -14,11 +14,43 @@
 
 package org.impalaframework.maven.plugin;
 
+import java.util.Properties;
+
+import org.apache.maven.model.Model;
+import org.apache.maven.project.MavenProject;
+
 import junit.framework.TestCase;
 
 public class CopyModulesMojoTest extends TestCase {
 
-    public void testExecute() {
+    private CopyModulesMojo mojo;
+    private Model model;
+    private MavenProject project;
+    private Properties properties;
+
+    public void setUp() throws Exception {
+        mojo = new CopyModulesMojo();
+        model = new Model();
+        project = new MavenProject(model);
+        properties = new Properties();
+        model.setProperties(properties);
+        model.setPackaging("war");
+    }
+
+    public void testIsImpalaModule() throws Exception {
+        assertEquals("war", model.getPackaging());
+        
+        mojo.setProject(project);
+        assertTrue(mojo.isImpalaHost());
+        
+        properties.setProperty("impala.host", "false");
+        assertFalse(mojo.isImpalaHost());
+        
+        properties.setProperty("impala.host", "true");
+        assertTrue(mojo.isImpalaHost());
+        
+        model.setPackaging("jar");
+        assertTrue(mojo.isImpalaHost());
     }
 
 }

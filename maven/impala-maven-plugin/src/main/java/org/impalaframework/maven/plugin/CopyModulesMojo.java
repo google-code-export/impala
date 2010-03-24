@@ -63,7 +63,7 @@ public class CopyModulesMojo extends AbstractMojo {
 
         final Log logger = getLog();
         
-        if (project.getPackaging().equals("war")) {
+        if (isImpalaHost()) {
             
             moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(getLog(), project, moduleStagingDirectory);
     
@@ -104,8 +104,24 @@ public class CopyModulesMojo extends AbstractMojo {
             }
         }
     }
+    
+
+    boolean isImpalaHost() {
+        
+        boolean ok = MojoUtils.checkConditionFromPropertyAndPackaging(project, "impala.host", "war", getLog());
+        if (!ok) {
+            return false;
+        }
+        
+        getLog().info("Copying mojos for " + project.getArtifactId() + " as an Impala host.");
+        return true;
+    }
 
     File getTargetDirectory() {
         return new File(outputDirectory.getAbsolutePath() + "/"  + project.getBuild().getFinalName() + "/WEB-INF/modules");
+    }
+    
+    void setProject(org.apache.maven.project.MavenProject project) {
+        this.project = project;
     }
 }
