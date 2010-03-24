@@ -84,7 +84,7 @@ public class MojoUtils {
             Log log) {
         
         final Properties properties = project.getProperties();
-        String moduleJarProperty = properties.getProperty("impala.module");
+        String moduleJarProperty = properties.getProperty(propertyName);
         
         if (moduleJarProperty != null && moduleJarProperty.length() > 0) {
              final boolean parseBoolean = Boolean.parseBoolean(moduleJarProperty);
