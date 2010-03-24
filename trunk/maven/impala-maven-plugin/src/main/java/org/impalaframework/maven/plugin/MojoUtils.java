@@ -20,6 +20,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Properties;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.MojoExecutionException;
@@ -74,6 +75,35 @@ public class MojoUtils {
         log.info("Using module staging directory: " + moduleStagingDirectory);
         
         return moduleStagingDirectory;
+    }
+
+    public static boolean checkConditionFromPropertyAndPackaging(
+            MavenProject project, 
+            String propertyName, 
+            String packagingName, 
+            Log log) {
+        
+        final Properties properties = project.getProperties();
+        String moduleJarProperty = properties.getProperty("impala.module");
+        
+        if (moduleJarProperty != null && moduleJarProperty.length() > 0) {
+             final boolean parseBoolean = Boolean.parseBoolean(moduleJarProperty);
+             if (!parseBoolean) {
+                 log.debug("Not supporting " + project.getArtifactId() + " as it has set the '" + propertyName + "' property to false");
+                 return false;
+             }
+             
+            return parseBoolean;
+        }
+        
+        final boolean isJar = packagingName.equals(project.getPackaging());
+        
+        if (!isJar) {
+            log.debug("Not supporting " + project.getArtifactId() + " as it does not use '" + packagingName + "' packaging");
+            return false;
+        }
+        
+        return true;
     }
 
 }

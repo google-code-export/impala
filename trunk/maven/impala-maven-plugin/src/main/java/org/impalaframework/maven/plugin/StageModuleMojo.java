@@ -32,13 +32,11 @@ package org.impalaframework.maven.plugin;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
-import org.apache.maven.project.MavenProject;
 
 /**
  * Goal which makes module available to a pre-configured directory
@@ -68,9 +66,9 @@ public class StageModuleMojo extends AbstractMojo {
         
         if (isImpalaModule) {
 
-            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(getLog(), project, moduleStagingDirectory);
-
             //copying module to staging directory
+            
+            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(getLog(), project, moduleStagingDirectory);
             
             final File file = project.getArtifact().getFile();
             
@@ -86,13 +84,12 @@ public class StageModuleMojo extends AbstractMojo {
                 throw new MojoExecutionException(e.getMessage(), e);
             }
             MojoUtils.copyFile(file, targetDirectory, file.getName());
-
         }
     }
 
     boolean isImpalaModule() {
         
-        boolean ok = checkConditionFromPropertyAndPackaging(project, "impala.module", "jar", getLog());
+        boolean ok = MojoUtils.checkConditionFromPropertyAndPackaging(project, "impala.module", "jar", getLog());
         if (!ok) {
             return false;
         }
@@ -101,35 +98,6 @@ public class StageModuleMojo extends AbstractMojo {
         return true;
     }
 
-    private boolean checkConditionFromPropertyAndPackaging(
-            MavenProject project, 
-            String propertyName, 
-            String packagingName, 
-            Log log) {
-        
-        final Properties properties = project.getProperties();
-        String moduleJarProperty = properties.getProperty("impala.module");
-        
-        if (moduleJarProperty != null && moduleJarProperty.length() > 0) {
-             final boolean parseBoolean = Boolean.parseBoolean(moduleJarProperty);
-             if (!parseBoolean) {
-                 log.debug("Not supporting " + project.getArtifactId() + " as it has set the '" + propertyName + "' property to false");
-                 return false;
-             }
-             
-            return parseBoolean;
-        }
-        
-        final boolean isJar = packagingName.equals(project.getPackaging());
-        
-        if (!isJar) {
-            log.debug("Not supporting " + project.getArtifactId() + " as it does not use '" + packagingName + "' packaging");
-            return false;
-        }
-        
-        return true;
-    }
-    
     void setProject(org.apache.maven.project.MavenProject project) {
         this.project = project;
     }
