@@ -49,7 +49,7 @@ public class StageModuleMojoTest extends TestCase {
         assertTrue(mojo.isImpalaModule());
         
         model.setPackaging("war");
-        assertFalse(mojo.isImpalaModule());
+        assertTrue(mojo.isImpalaModule());
     }
     
 }

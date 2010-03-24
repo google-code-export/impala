@@ -38,6 +38,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.logging.Log;
+import org.apache.maven.project.MavenProject;
 
 /**
  * Goal which makes module available to a pre-configured directory
@@ -90,25 +91,42 @@ public class StageModuleMojo extends AbstractMojo {
     }
 
     boolean isImpalaModule() {
-        final boolean isJar = "jar".equals(project.getPackaging());
         
-        if (!isJar) {
-            getLog().debug("Not supporting " + project.getArtifactId() + " as it does not use 'jar' packaging");
+        boolean ok = checkConditionFromPropertyAndPackaging(project, "impala.module", "jar", getLog());
+        if (!ok) {
             return false;
         }
         
+        getLog().info("Staging " + project.getArtifactId() + " as an Impala module.");
+        return true;
+    }
+
+    private boolean checkConditionFromPropertyAndPackaging(
+            MavenProject project, 
+            String propertyName, 
+            String packagingName, 
+            Log log) {
+        
         final Properties properties = project.getProperties();
         String moduleJarProperty = properties.getProperty("impala.module");
+        
         if (moduleJarProperty != null && moduleJarProperty.length() > 0) {
              final boolean parseBoolean = Boolean.parseBoolean(moduleJarProperty);
              if (!parseBoolean) {
-                 getLog().debug("Not supporting " + project.getArtifactId() + " as it has set the 'impala.module' property to false");
+                 log.debug("Not supporting " + project.getArtifactId() + " as it has set the '" + propertyName + "' property to false");
                  return false;
              }
              
             return parseBoolean;
         }
-        getLog().info("Staging " + project.getArtifactId() + " as an Impala module.");
+        
+        final boolean isJar = packagingName.equals(project.getPackaging());
+        
+        if (!isJar) {
+            log.debug("Not supporting " + project.getArtifactId() + " as it does not use '" + packagingName + "' packaging");
+            return false;
+        }
+        
         return true;
     }
     
