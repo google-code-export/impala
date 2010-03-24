@@ -32,6 +32,7 @@ package org.impalaframework.maven.plugin;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.maven.plugin.AbstractMojo;
@@ -62,9 +63,11 @@ public class StageModuleMojo extends AbstractMojo {
 
         final Log log = getLog();
         
-        if ("jar".equals(project.getPackaging())) {
+        boolean isImpalaModule = isImpalaModule();
+        
+        if (isImpalaModule) {
 
-            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
+            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(getLog(), project, moduleStagingDirectory);
 
             //copying module to staging directory
             
@@ -83,8 +86,33 @@ public class StageModuleMojo extends AbstractMojo {
             }
             MojoUtils.copyFile(file, targetDirectory, file.getName());
 
-        } else {
-            System.out.println("Not a jar!!!!!!!");
         }
+    }
+
+    boolean isImpalaModule() {
+        final boolean isJar = "jar".equals(project.getPackaging());
+        
+        if (!isJar) {
+            getLog().debug("Not supporting " + project.getArtifactId() + " as it does not use 'jar' packaging");
+            return false;
+        }
+        
+        final Properties properties = project.getProperties();
+        String moduleJarProperty = properties.getProperty("impala.module");
+        if (moduleJarProperty != null && moduleJarProperty.length() > 0) {
+             final boolean parseBoolean = Boolean.parseBoolean(moduleJarProperty);
+             if (!parseBoolean) {
+                 getLog().debug("Not supporting " + project.getArtifactId() + " as it has set the 'impala.module' property to false");
+                 return false;
+             }
+             
+            return parseBoolean;
+        }
+        getLog().info("Staging " + project.getArtifactId() + " as an Impala module.");
+        return true;
+    }
+    
+    void setProject(org.apache.maven.project.MavenProject project) {
+        this.project = project;
     }
 }

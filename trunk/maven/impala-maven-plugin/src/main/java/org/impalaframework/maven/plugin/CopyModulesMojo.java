@@ -65,7 +65,7 @@ public class CopyModulesMojo extends AbstractMojo {
         
         if (project.getPackaging().equals("war")) {
             
-            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(project, moduleStagingDirectory);
+            moduleStagingDirectory = MojoUtils.getModuleStagingDirectory(getLog(), project, moduleStagingDirectory);
     
             if (logger.isDebugEnabled()) {
                 logger.debug("Maven projects: " + dependencies);

@@ -23,6 +23,7 @@ import java.io.OutputStream;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.maven.plugin.MojoExecutionException;
+import org.apache.maven.plugin.logging.Log;
 import org.apache.maven.project.MavenProject;
 
 public class MojoUtils {
@@ -47,7 +48,7 @@ public class MojoUtils {
         }
     }
 
-    static String getModuleStagingDirectory(MavenProject project, String moduleStagingDirectory) throws MojoExecutionException {
+    static String getModuleStagingDirectory(Log log, MavenProject project, String moduleStagingDirectory) throws MojoExecutionException {
         
         //FIXME test
         
@@ -70,7 +71,7 @@ public class MojoUtils {
             		". Please use 'moduleStagingDirectory' configuration parameter to specify this.");
         }
         
-        System.out.println("Using module staging directory: " + moduleStagingDirectory);
+        log.info("Using module staging directory: " + moduleStagingDirectory);
         
         return moduleStagingDirectory;
     }
