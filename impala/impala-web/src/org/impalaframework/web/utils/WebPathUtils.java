@@ -59,11 +59,21 @@ public class WebPathUtils {
             toCheck = uri;
         }
         
+        final String path;
+        final int jsessionIndex = toCheck.indexOf(";jsessionid=");
+            
+        if (jsessionIndex < 0) {
+            path = toCheck;
+        }
+        else {
+            path = toCheck.substring(0, jsessionIndex);
+        }
+        
         final String extension;
         
-        final int dotIndex = toCheck.lastIndexOf('.');
+        final int dotIndex = path.lastIndexOf('.');
         if (dotIndex >= 0) {
-            extension = toCheck.substring(dotIndex + 1);
+            extension = path.substring(dotIndex + 1);
         } else {
             extension = null;
         }

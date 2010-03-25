@@ -39,5 +39,15 @@ public class ModuleProxyUtilsTest extends TestCase {
         assertEquals(null, WebPathUtils.getSuffix("/a.file.in/noext"));
         assertEquals(null, WebPathUtils.getSuffix("noext"));
     }
+    
+    public void testGetSuffixJSessionId() throws Exception {
+        assertEquals("ext", WebPathUtils.getSuffix("file.ext;jsessionid=1000"));
+        assertEquals("ext", WebPathUtils.getSuffix("/file.ext;jsessionid=1000"));
+        assertEquals("ext", WebPathUtils.getSuffix("/a.file.in/file.ext;jsessionid=1000"));
+        assertEquals("ext", WebPathUtils.getSuffix("/a.file.in/.ext;jsessionid=1000"));
+        assertEquals(null, WebPathUtils.getSuffix("/a.file.in/;jsessionid=1000"));
+        assertEquals(null, WebPathUtils.getSuffix("/a.file.in/noext;jsessionid=1000"));
+        assertEquals(null, WebPathUtils.getSuffix("noext;jsessionid=1000"));
+    }
 
 }
