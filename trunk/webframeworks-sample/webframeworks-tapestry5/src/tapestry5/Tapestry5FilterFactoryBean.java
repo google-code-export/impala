@@ -1,8 +1,9 @@
 package tapestry5;
 
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
@@ -15,36 +16,43 @@ import org.springframework.context.ApplicationContextAware;
 
 public class Tapestry5FilterFactoryBean extends FilterFactoryBean implements ApplicationContextAware, ModuleDefinitionAware {
 
-    private String applicationPackage;
-
     @Override
     protected IntegrationFilterConfig newFilterConfig(Map<String, String> parameterMap) {
         
-        ServletContext servletContext = new DelegatingServletContext(getServletContext()) {
-
-            @Override
-            public String getInitParameter(String name) {
-                if (name.equals("tapestry.use-external-spring-context")) {
-                    return "true";
-                } if (name.equals("tapestry.app-package"))
-                    return applicationPackage;
-                return super.getInitParameter(name);
-            }
-
-            @Override
-            public Enumeration<?> getInitParameterNames() {
-                //a bit of a hack because it restricts init parameters to just a single value
-                return Collections.enumeration(Arrays.asList("tapestry.app-package", "tapestry.use-external-spring-context"));
-            }
-            
-        };
+        ServletContext servletContext = new ExtendedServletContext(getServletContext(), parameterMap);
         IntegrationFilterConfig config = new IntegrationFilterConfig(parameterMap, servletContext, getFilterName());
         return config;
     }
+    
+}
 
-    public void setApplicationPackage(String applicationPackage) {
-        this.applicationPackage = applicationPackage;
+class ExtendedServletContext extends DelegatingServletContext {
+    
+    private Map<String, String> localInitParams;
+    
+    private Enumeration<String> allInitParamNames;
+
+    @SuppressWarnings("unchecked")
+    public ExtendedServletContext(ServletContext realContext, Map<String, String> parameterMap) {
+        super(realContext);
+        this.localInitParams = parameterMap;
+        List<String> currentParamNames = new ArrayList<String>(parameterMap.keySet());
+        currentParamNames.addAll(Collections.list(realContext.getInitParameterNames()));
+        allInitParamNames = Collections.enumeration(currentParamNames);
     }
+    
+    @Override
+    public String getInitParameter(String name) {
+        if (localInitParams.containsKey(name)) {
+            return localInitParams.get(name);
+        }
+        return super.getInitParameter(name);
+    }
+
+    @Override
+    public Enumeration<?> getInitParameterNames() {
+        return allInitParamNames;
+    }  
     
 }
 

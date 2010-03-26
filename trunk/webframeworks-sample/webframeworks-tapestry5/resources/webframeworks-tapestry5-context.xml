@@ -17,8 +17,10 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		delegatorFilterName = "webframeworks-tapestry5"
 		factoryClass = "tapestry5.Tapestry5FilterFactoryBean"
 		filterClass = "org.apache.tapestry5.spring.TapestrySpringFilter" 
-		initParameters = "prefix=/tapestry5">
-        <property name="applicationPackage" value="tapestry5.application"/>
+		initParameters = "
+			prefix=/tapestry5,
+			tapestry.app-package=tapestry5.application,
+			tapestry.use-external-spring-context=true">
 	</web:filter>
      
     <bean id = "messageHolder" class="tapestry5.application.MessageHolder">
