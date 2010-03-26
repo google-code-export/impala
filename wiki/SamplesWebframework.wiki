@@ -8,6 +8,8 @@ It also features a JMX console for module reloading.
 
 Examples are created for Struts 1, Struts2, Tapestry 5, Wicket and JSF.
 
+See also WebMultiModuleApplications for more details on how multi-web module support works in Impala.
+
 == Project setup ==
 
 The easiest way to access the examples is to check them out directly from trunk.
