@@ -22,11 +22,13 @@ import junit.framework.TestCase;
 
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.spring.service.ServiceEndpointTargetSource;
+import org.springframework.core.InfrastructureProxy;
 
 public class InfrastructureProxyIntroductionTest extends TestCase {
 
     private ServiceEndpointTargetSource targetSource;
     private InfrastructureProxyIntroduction infrastructureProxyIntroduction;
+    private InfrastructureProxy infrastructureProxy;
     private ServiceRegistryEntry serviceRegistryEntry;
 
     @Override
@@ -34,6 +36,7 @@ public class InfrastructureProxyIntroductionTest extends TestCase {
         super.setUp();
         targetSource = createMock(ServiceEndpointTargetSource.class);
         serviceRegistryEntry = createMock(ServiceRegistryEntry.class);
+        infrastructureProxy = createMock(InfrastructureProxy.class);
         infrastructureProxyIntroduction = new InfrastructureProxyIntroduction(targetSource);
     }
     
@@ -52,6 +55,20 @@ public class InfrastructureProxyIntroductionTest extends TestCase {
         assertSame(target, wrappedObject);
 
         verify(targetSource, serviceRegistryEntry);
+    }
+    
+    public void testWrapMultipleObjects() throws Exception {
+        Object target = new Object();
+        // expect(targetSource.getServiceRegistryReference()).andReturn(serviceRegistryEntry);
+        expect(targetSource.getTarget()).andReturn(infrastructureProxy);
+        expect(infrastructureProxy.getWrappedObject()).andReturn(target);
+        
+        replay(targetSource, serviceRegistryEntry, infrastructureProxy);
+        
+        final Object wrappedObject = infrastructureProxyIntroduction.getWrappedObject();
+        assertSame(target, wrappedObject);
+
+        verify(targetSource, serviceRegistryEntry, infrastructureProxy); 
     }
 
 }
