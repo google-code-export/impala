@@ -43,7 +43,13 @@ public class InfrastructureProxyIntroduction extends DelegatingIntroductionInter
 
     public Object getWrappedObject() {        
         try {
-            return this.targetSource.getTarget();
+            Object target = this.targetSource.getTarget();
+            
+            while (target instanceof InfrastructureProxy) {
+                target = ((InfrastructureProxy)target).getWrappedObject();
+            }
+            
+            return target;
         }
         catch (Exception e) {
             throw new ExecutionException(e);
