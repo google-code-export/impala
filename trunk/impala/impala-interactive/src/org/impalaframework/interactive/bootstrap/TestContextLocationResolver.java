@@ -30,6 +30,10 @@ public class TestContextLocationResolver extends SimpleContextLocationResolver {
         configSettings.addProperty(TestBootstrapProperties.MODULE_TEST_DIRECTORY, testClassDirectory);
         
         configSettings.add("META-INF/impala-test-bootstrap.xml");
+        
+        if (!configSettings.getContextLocations().contains("META-INF/impala-web-bootstrap.xml")) {
+           configSettings.add("META-INF/impala-web-test-bootstrap.xml");
+        }
     }
 
 }
