@@ -32,6 +32,8 @@ public class TypeReaderRegistryFactory {
         final Map<String, TypeReader> typeReaders = getTypeReaders();
         final TypeReaderRegistry registry = new TypeReaderRegistry();
         registry.setTypeReaders(typeReaders);
+        //FIXME test
+        registry.setDefaultTypeReader(new ApplicationModuleTypeReader());
         return registry;
     }
 }
