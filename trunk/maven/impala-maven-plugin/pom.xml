@@ -4,7 +4,7 @@
 	<groupId>org.impalaframework</groupId>
 	<artifactId>impala-maven-plugin</artifactId>
 	<packaging>maven-plugin</packaging>
-	<version>1.0-M2-SNAPSHOT</version>
+	<version>1.0-M2</version>
 	<name>impala-maven-plugin</name>
 	<description>impala-maven-plugin Maven Mojo</description>
 	<url>http://impala.googlecode.com/</url>
@@ -25,7 +25,6 @@
 		<developer>
 			<id>phil</id>
 			<name>Phil Zoio</name>
-			<email>philzoio@realsolve.co.uk</email>
 			<url>http://impalablog.blogspot.com/</url>
 		</developer>
 	</developers>
