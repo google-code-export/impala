@@ -5,6 +5,7 @@
         <title>Hello World!</title>
     </head>
     <body>
+    	<img src = "../images/struts.gif"/>
         <h2><s:property value="message" /></h2>
         
 <p>Make a change to the action class HelloWorld, the reload module using the 
