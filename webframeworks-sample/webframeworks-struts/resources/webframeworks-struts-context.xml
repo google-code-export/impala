@@ -9,7 +9,9 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 	
 	<web:mapping>
-		<web:to-module prefix = "/struts" setServletPath="true" servletPath=""/>
+		<web:to-module prefix = "/struts"/>
+        <web:to-handler extension = "do" servletName="webframeworks-struts"/>
+        <web:to-handler extension = "jsp" servletName="jspServlet"/>
 	</web:mapping>
 	
 	<web:servlet id = "myServlet" 

@@ -28,15 +28,4 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     
-    <servlet>
-        <servlet-name>JSP</servlet-name>
-        <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-	<servlet-mapping>
-		<servlet-name>JSP</servlet-name>
-		<url-pattern>*.jsp</url-pattern>
-	</servlet-mapping> 
-    
 </web-app>
