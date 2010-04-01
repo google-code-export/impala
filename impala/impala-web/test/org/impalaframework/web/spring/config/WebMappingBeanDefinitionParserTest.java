@@ -47,17 +47,19 @@ public class WebMappingBeanDefinitionParserTest extends TestCase {
         assertEquals(null, parser.getServletPath("/path", "false", "/anotherpath"));
         assertEquals(null, parser.getServletPath("/path", "false", "/path"));
         assertEquals(null, parser.getServletPath("/path", "false", null));
+        assertEquals(null, parser.getServletPath("/path", "false", "EMPTY"));
     }    
     
     public void testGetServletPathNull() {
-        assertEquals(null, parser.getServletPath("/path", null, ""));
+        assertEquals("", parser.getServletPath("/path", null, ""));
         assertEquals("/path", parser.getServletPath("/path", null, "/path"));
         assertEquals("/anotherpath", parser.getServletPath("/path", null, "/anotherpath"));
+        assertEquals(null, parser.getServletPath("/path", null, null));
     } 
     
     public void testGetServletPathTrue() {
         assertEquals("/path", parser.getServletPath("/path", "true", null));
-        assertEquals("/path", parser.getServletPath("/path", "true", ""));
+        assertEquals("", parser.getServletPath("/path", "true", ""));
         assertEquals("/anotherpath", parser.getServletPath("/path", "true", "/anotherpath"));
     }
     
