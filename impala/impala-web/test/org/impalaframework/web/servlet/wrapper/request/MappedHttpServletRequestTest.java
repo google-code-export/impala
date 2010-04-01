@@ -59,38 +59,45 @@ public class MappedHttpServletRequestTest extends TestCase {
         verify(request, servletContext);
     }
     
-    public void testNoServletPath() {
+    public void testNoServletPathInfo() {
         
         //note no expected calls in constructor
         
         expect(request.getServletPath()).andReturn("/sp");
         expect(request.getPathInfo()).andReturn("/pi");
-        expect(request.getPathTranslated()).andReturn("/pt");
         
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
         assertEquals("/sp", wrapper.getServletPath());
         assertEquals("/pi", wrapper.getPathInfo());
-        assertEquals("/pt", wrapper.getPathTranslated());
+        
+        verify(request, servletContext);
+    }
+    
+    public void testNoServletPathTranslated() {
+        
+        //note no expected calls in constructor
+
+        expect(request.getPathInfo()).andReturn("/pi");
+        expect(servletContext.getRealPath("/pi")).andReturn("rp");
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+        assertEquals("rp", wrapper.getPathTranslated());
         
         verify(request, servletContext);
     }
     
     public void testUnexpectedServletPath() {
 
-        expectConstruct();
-        
-        expect(request.getServletPath()).andReturn("/sp");
-        expect(request.getPathInfo()).andReturn("/pi");
-        expect(request.getPathTranslated()).andReturn("/pt");
+        expect(request.getContextPath()).andReturn("/cp");
         
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/unexpectedServletPath"), applicationId);
-        assertEquals("/sp", wrapper.getServletPath());
-        assertEquals("/pi", wrapper.getPathInfo());
-        assertEquals("/pt", wrapper.getPathTranslated());
+        assertEquals("/unexpectedServletPath", wrapper.getServletPath());
         
         verify(request, servletContext);
     }
@@ -208,6 +215,73 @@ public class MappedHttpServletRequestTest extends TestCase {
         
         verify(request, session);       
     }
+    
+    public void testGetPathInfoWithMatchingContextAndServletPath() throws Exception {
+        
+        expect(request.getContextPath()).andReturn("/cp");
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
+                new RequestModuleMapping("/sp-path", "module", "/sp"), applicationId);
+        assertEquals("/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
+        
+        verify(request, servletContext);
+    }
+    
+    public void testGetPathInfoWithMatchingContextPathOnly() throws Exception {
+        
+        expect(request.getContextPath()).andReturn("/cp").times(2);
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
+                new RequestModuleMapping("/sp-path", "module", "/nonmatching"), applicationId);
+        assertEquals("/sp/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
+        
+        verify(request, servletContext);
+    }
+    
+    public void testGetPathInfoWithNoMatch() throws Exception {
+        
+        expect(request.getContextPath()).andReturn("/nonmatching").times(2);
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
+                new RequestModuleMapping("/sp-path", "module", "/nonmatching"), applicationId);
+        assertEquals("/cp/sp/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
+        
+        verify(request, servletContext);
+    }
+    
+    public void testGetPathInfoWithServletPath() throws Exception {
+        
+        expect(request.getContextPath()).andReturn("/cp");
+        expect(request.getRequestURI()).andReturn("/cp/sp/myuri");
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
+                new RequestModuleMapping("/sp-path", "module", "/sp"), applicationId);
+        assertEquals("/myuri", wrapper.getPathInfo());
+        
+        verify(request, servletContext);
+    }
+    
+    public void testGetPathInfoWithNoServletPath() throws Exception {
+        
+        expect(request.getPathInfo()).andReturn("/pathinfo");
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
+                new RequestModuleMapping("/sp-path", "module", null), applicationId);
+        assertEquals("/pathinfo", wrapper.getPathInfo());
+        
+        verify(request, servletContext);
+    }
+    
     private void expectConstruct() {
         expect(request.getContextPath()).andReturn("/app");
         expect(request.getRequestURI()).andReturn("/app/servletPath/extra/path/info");
