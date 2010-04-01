@@ -12,6 +12,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		<web:to-module prefix = "/struts2" setServletPath="true"/>
         <web:to-handler extension = "action" filterNames="webframeworks-struts2"/>
         <web:to-handler extension = "gif" servletName="struts2Resources"/>
+        <web:to-handler extension = "jsp" servletName="jspServlet"/>
 	</web:mapping>
 
 	<web:filter id = "myStruts2Filter"
