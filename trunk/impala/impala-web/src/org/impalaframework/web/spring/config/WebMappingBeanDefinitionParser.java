@@ -106,6 +106,9 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
             String pathAttribute = toModulesElement.getAttribute(PREFIX_ATTRIBUTE);
             String setServletPathAttribute = toModulesElement.getAttribute(SET_SERVLET_PATH_ATTRIBUTE);
             String servletPathAttribute = toModulesElement.getAttribute(SERVLET_PATH_ATTRIBUTE);
+            if (!StringUtils.hasText(servletPathAttribute)) {
+                servletPathAttribute = toModulesElement.hasAttribute(SERVLET_PATH_ATTRIBUTE) ? "" : null;
+            }
             
             String servletPath = getServletPath(pathAttribute, setServletPathAttribute, servletPathAttribute);
             
@@ -122,10 +125,10 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
         if (StringUtils.hasText(setServletPathAttribute)) {
             boolean setServletPath = Boolean.parseBoolean(setServletPathAttribute);
             if (setServletPath) {
-                servletPath = (StringUtils.hasText(servletPathAttribute) ? servletPathAttribute : pathAttribute);
+                servletPath = (servletPathAttribute != null ? servletPathAttribute : pathAttribute);
             }
         } else {
-            boolean setServletPath = StringUtils.hasText(servletPathAttribute);
+            boolean setServletPath = servletPathAttribute != null;
             if (setServletPath) {
                 servletPath = servletPathAttribute;
             }
