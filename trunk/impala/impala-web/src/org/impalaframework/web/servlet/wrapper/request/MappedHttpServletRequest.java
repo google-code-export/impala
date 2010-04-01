@@ -1,5 +1,8 @@
 package org.impalaframework.web.servlet.wrapper.request;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
@@ -31,12 +34,14 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     private HttpSessionWrapper httpSessionWrapper;
     
     private String servletPath;
-    
-    private String pathInfo;
 
     private String moduleName;
     
     private String applicationId;
+    
+    private Map<String,String> uriToPathInfo;
+
+    private String contextPathPlusServletPath;
 
     public MappedHttpServletRequest(
             ServletContext servletContext, 
@@ -60,18 +65,12 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
             String servletPath = moduleMapping.getServletPath();
             
             if (servletPath != null) {
-                String contextPathPlusServletPath = request.getContextPath() + servletPath;
-                String uri = request.getRequestURI();
-                
-                if (uri.startsWith(contextPathPlusServletPath)) {
-                    this.servletPath = servletPath;
-                    this.pathInfo = uri.substring(contextPathPlusServletPath.length());
-                } else {
-                    logger.warn("URI does not start with context plus servlet path combination: " + contextPathPlusServletPath);
-                }
+                this.servletPath = servletPath;
+                this.contextPathPlusServletPath = request.getContextPath() + (servletPath != null ? servletPath : "");
             }
         }
     }
+
 
     /**
      * If valid servlet path is provided, then this is returned. Otherwise, delegates to wrapped {@link #getServletPath()}
@@ -89,10 +88,23 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
      */
     @Override
     public String getPathInfo() {
-        if (pathInfo != null) {
-            return pathInfo;
+        
+        //servlet path not set, corresponding with no "setServletPath" or "servletPath" property - simply use value from superclass
+        if (servletPath == null) {
+            return super.getPathInfo();
         }
-        return super.getPathInfo();
+        
+        if (uriToPathInfo == null) {
+            uriToPathInfo = new HashMap<String, String>();
+        }
+        
+        final String uri = getRequestURI();
+        String pathInfo = uriToPathInfo.get(uri);
+        if (pathInfo == null) {
+            pathInfo = getPathInfo(uri);
+            uriToPathInfo.put(uri, pathInfo);
+        }
+        return pathInfo;
     }
     
     /**
@@ -103,6 +115,7 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
      */
     @Override
     public String getPathTranslated() {
+        String pathInfo = getPathInfo();
         if (pathInfo != null) {
             return servletContext.getRealPath(pathInfo);
         }
@@ -134,6 +147,24 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     }
     
     /* ****************** Helper methods ****************** */
+    
+    String getPathInfo(String uri) {
+        String pathInfo = null;
+        
+        if (uri.startsWith(this.contextPathPlusServletPath)) {
+            pathInfo = uri.substring(this.contextPathPlusServletPath.length());
+        } else {
+            logger.warn("URI does not start with context plus servlet path combination: " + this.contextPathPlusServletPath);
+            final String contextPath = getContextPath();
+            if (contextPath != null && uri.startsWith(contextPath)) {
+                pathInfo = uri.substring(contextPath.length());
+            } else {
+                logger.warn("URI does not start with context path: " + contextPath);
+                pathInfo = uri;
+            }
+        }
+        return pathInfo;
+    }
 
     HttpSession wrapSession(HttpSession session) {
         if (session == null) {
