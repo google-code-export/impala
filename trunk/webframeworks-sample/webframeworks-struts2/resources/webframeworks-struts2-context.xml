@@ -9,7 +9,9 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<web:mapping>
-		<web:to-module prefix = "/struts2"/>
+		<web:to-module prefix = "/struts2" setServletPath="true"/>
+        <web:to-handler extension = "action" filterNames="webframeworks-struts2"/>
+        <web:to-handler extension = "gif" servletName="struts2Resources"/>
 	</web:mapping>
 
 	<web:filter id = "myStruts2Filter"
@@ -17,6 +19,11 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
 		filterClass = "org.apache.struts2.dispatcher.FilterDispatcher"  >
 	</web:filter>
 	
+    <web:servlet id = "struts2Resources" 
+        servletClass = "org.impalaframework.web.servlet.ResourceServlet"
+        initParameters = "cacheTimeout=10"/>
+
+	<web:jsp-servlet id="jspServlet"/>
 	<!-- 
 	<bean id = "helloWorld" class = "org.impalaframework.webframeworks.struts2.HelloWorld"/>
 	-->

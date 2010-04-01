@@ -5,8 +5,4 @@ provided from javax.servlet.jsp:jsp-api:2.1
 provided from org.mortbay.jetty:jetty:6.1.11
 provided from org.mortbay.jetty:jetty-util:6.1.11
 provided from xerces:xercesImpl:2.8.1
-provided from org.apache.tomcat:jasper:6.0.16
-provided from org.apache.tomcat:jasper-el:6.0.16
-provided from org.apache.tomcat:jasper-jdt:6.0.16
-provided from org.apache.tomcat:juli:6.0.16
 
