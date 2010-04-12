@@ -8,5 +8,6 @@
     webframeworks-wicket
     webframeworks-tapestry5
     webframeworks-jsf
+    webframeworks-jsp
     </names>
 </parent>
