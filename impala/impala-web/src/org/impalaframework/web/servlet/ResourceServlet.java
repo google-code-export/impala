@@ -110,7 +110,7 @@ public class ResourceServlet extends HttpServletBean {
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
-        String rawResourcePath = request.getPathInfo();
+        String rawResourcePath = rawResourcePath(request);
 
         if (log.isDebugEnabled()) {
             log.debug("Attempting to GET resource: " + rawResourcePath);
@@ -243,7 +243,7 @@ public class ResourceServlet extends HttpServletBean {
 
     private URL[] getRequestResourceURLs(HttpServletRequest request) throws MalformedURLException {
 
-        String rawResourcePath = request.getPathInfo();
+        String rawResourcePath = rawResourcePath(request);
         String appendedPaths = request.getParameter("appended");
         if (StringUtils.hasText(appendedPaths)) {
             rawResourcePath = rawResourcePath + "," + appendedPaths;
@@ -287,6 +287,18 @@ public class ResourceServlet extends HttpServletBean {
             }
         }
         return resources;
+    }
+
+    private String rawResourcePath(HttpServletRequest request) {
+        String rawResourcePath = request.getPathInfo();
+        
+        //FIXME test
+        if (rawResourcePath == null && request instanceof ModuleHttpServletRequest) {
+            ModuleHttpServletRequest moduleRequest = (ModuleHttpServletRequest) request;
+            return moduleRequest.getModulePathInfo();
+        }
+        
+        return rawResourcePath;
     }
 
     private boolean isAllowed(String resourcePath) {
