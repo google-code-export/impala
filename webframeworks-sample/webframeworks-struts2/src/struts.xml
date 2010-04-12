@@ -7,10 +7,10 @@
 
     <package name="tutorial" extends="struts-default">
         <action name="HelloWorld" class="org.impalaframework.webframeworks.struts2.HelloWorld">
-            <result>/struts2/HelloWorld.jsp</result>
+            <result>/HelloWorld.jsp</result>
         </action>
         <action name="LinkPage" class="org.impalaframework.webframeworks.struts2.LinkPage">
-            <result>/struts2/LinkPage.jsp</result>
+            <result>/LinkPage.jsp</result>
         </action>
     </package>
     
