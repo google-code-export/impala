@@ -10,6 +10,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.servlet.ModuleHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.CacheableHttpSession;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
@@ -23,7 +24,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class MappedHttpServletRequest extends HttpServletRequestWrapper {
+public class MappedHttpServletRequest extends HttpServletRequestWrapper implements ModuleHttpServletRequest {
     
     private static final Log logger = LogFactory.getLog(MappedHttpServletRequest.class);
     
@@ -33,8 +34,6 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     
     private HttpSessionWrapper httpSessionWrapper;
     
-    private String servletPath;
-
     private String moduleName;
     
     private String applicationId;
@@ -42,6 +41,8 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
     private Map<String,String> uriToPathInfo;
 
     private String contextPathPlusServletPath;
+
+    private String servletPath;
 
     public MappedHttpServletRequest(
             ServletContext servletContext, 
@@ -62,25 +63,24 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
         if (moduleMapping != null) {
             
             this.moduleName = moduleMapping.getModuleName();
-            String servletPath = moduleMapping.getServletPath();
-            
-            if (servletPath != null) {
-                this.servletPath = servletPath;
-                this.contextPathPlusServletPath = request.getContextPath() + (servletPath != null ? servletPath : "");
+            String modulePath = moduleMapping.getServletPath();
+            this.servletPath = modulePath;
+            if (modulePath != null) {
+                this.contextPathPlusServletPath = request.getContextPath() + (modulePath != null ? modulePath : "");
             }
         }
     }
-
 
     /**
      * If valid servlet path is provided, then this is returned. Otherwise, delegates to wrapped {@link #getServletPath()}
      */
     @Override
     public String getServletPath() {
-        if (servletPath != null) {
-            return servletPath;
-        }
-        return super.getServletPath();
+        //FIXME test
+        if (servletPath == null || isForwardOrInclude())
+            return super.getServletPath();
+        
+        return servletPath;
     }
     
     /**
@@ -88,18 +88,32 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper {
      */
     @Override
     public String getPathInfo() {
-        
-        //servlet path not set, corresponding with no "setServletPath" or "servletPath" property - simply use value from superclass
-        if (servletPath == null) {
+        //FIXME test
+        if (servletPath == null || isForwardOrInclude())
             return super.getPathInfo();
+
+        return getModulePathInfo();
+    }
+    
+    boolean isForwardOrInclude() {
+        //FIXME test
+        if (getAttribute("javax.servlet.forward.request_uri") != null || getAttribute("javax.servlet.include.request_uri") != null) {
+            return true;
         }
-        
+        return false;
+    }
+
+    /**
+     * Returns the path info calculated from the servlet URI, less the context path and the module path.
+     */
+    public String getModulePathInfo() {
+        String pathInfo;
         if (uriToPathInfo == null) {
             uriToPathInfo = new HashMap<String, String>();
         }
         
         final String uri = getRequestURI();
-        String pathInfo = uriToPathInfo.get(uri);
+        pathInfo = uriToPathInfo.get(uri);
         if (pathInfo == null) {
             pathInfo = getPathInfo(uri);
             uriToPathInfo.put(uri, pathInfo);
