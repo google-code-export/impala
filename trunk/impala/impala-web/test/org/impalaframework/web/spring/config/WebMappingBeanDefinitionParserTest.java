@@ -78,6 +78,12 @@ public class WebMappingBeanDefinitionParserTest extends TestCase {
         assertEquals(null, parser.getServletName(null));
     }
     
+    public void testSetContextPathAndSetServletPathOnly() throws Exception {
+        final Element loadElement = loadElement("setcontextandservletpathonly.txt");
+        //eyeball logs to see warning
+        parser.parse(loadElement, null);
+    }
+    
     @SuppressWarnings("unchecked")
     public void testDefinitions() throws Exception {
         Element element = loadElement("definitions.txt");

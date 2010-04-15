@@ -1,0 +1,3 @@
+<mapping>
+    <to-module prefix = "/path1" setContextPath="true" setServletPath="true"/>
+</mapping>

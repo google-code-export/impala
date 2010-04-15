@@ -20,6 +20,8 @@ import java.util.Map;
 
 import javax.servlet.Filter;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
 import org.impalaframework.web.spring.integration.ContextAndServletPath;
 import org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor;
@@ -39,6 +41,8 @@ import org.w3c.dom.Element;
  * @author Phil Zoio
  */
 public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
+    
+    private static final Log logger = LogFactory.getLog(WebMappingBeanDefinitionParser.class);
     
     private static final String TO_RESOURCE_ELEMENT = "to-handler";
     private static final String TO_MDOULE_ELEMENT = "to-module";
@@ -124,7 +128,13 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
             String servletPath = getPathAttributeValue(toModulesElement, pathAttribute, SET_SERVLET_PATH_ATTRIBUTE, SERVLET_PATH_ATTRIBUTE);
             String contextPath = getPathAttributeValue(toModulesElement, pathAttribute, SET_CONTEXT_PATH_ATTRIBUTE, CONTEXT_PATH_ATTRIBUTE);    
             
-            //FIXME check that not relying on both setServletPath and setContextPath only
+            //check that not relying on both setServletPath and setContextPath only
+            if (toModulesElement.hasAttribute(SET_SERVLET_PATH_ATTRIBUTE) && 
+                    toModulesElement.hasAttribute(SET_CONTEXT_PATH_ATTRIBUTE) && 
+                    !toModulesElement.hasAttribute(SERVLET_PATH_ATTRIBUTE) && 
+                    !toModulesElement.hasAttribute(CONTEXT_PATH_ATTRIBUTE)) {
+                logger.warn("Both 'setServletPath' and 'setContextPath' are used for to-handler attribute. This is ordinarily not required, and is not a recommended usage.");
+            }
             
             ContextAndServletPath paths = new ContextAndServletPath(contextPath, servletPath);
             toModulesMap.put(pathAttribute.trim(), paths);
