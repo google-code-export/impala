@@ -49,7 +49,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals(new RequestModuleMapping("/mymodule", "mymodule", null), mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("/mymodule", "mymodule", null, null), mapper.getModuleForRequest(request));
         verify(request);
     }
 
@@ -60,7 +60,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals(new RequestModuleMapping("/mymodule", "someprefixmymodule", null), mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("/mymodule", "someprefixmymodule", null, null), mapper.getModuleForRequest(request));
         verify(request);
     }
     
@@ -73,7 +73,7 @@ public class ServletPathRequestModuleMapperTest extends TestCase {
         mapper.init(new IntegrationServletConfig(initParameters, servletContext, "filterServlet"));
         
         replay(request);
-        assertEquals(new RequestModuleMapping("/mymodule", "anotherprefixmymodule", null), mapper.getModuleForRequest(request));
+        assertEquals(new RequestModuleMapping("/mymodule", "anotherprefixmymodule", null, null), mapper.getModuleForRequest(request));
         verify(request);
     }
 

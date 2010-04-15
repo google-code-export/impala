@@ -19,6 +19,8 @@ import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 
+import java.util.HashMap;
+
 import javax.servlet.ServletContext;
 
 import junit.framework.TestCase;
@@ -45,7 +47,10 @@ public class ModuleUrlPrefixContributorTest extends TestCase {
         contributor.setModuleDefinition(moduleDefinition);
         contributor.setServletContext(servletContext);
         
-        contributor.setPrefixes("/p1, /p2=/p2path");
+        final HashMap<String, ContextAndServletPath> prefixMap = new HashMap<String, ContextAndServletPath>();
+        prefixMap.put("/p1", new ContextAndServletPath(null, null));
+        prefixMap.put("/p2", new ContextAndServletPath(null, "/p2path"));
+        contributor.setPrefixMap(prefixMap);
         
         holder = new PrefixTreeHolder();        
     }
@@ -80,8 +85,8 @@ public class ModuleUrlPrefixContributorTest extends TestCase {
 
     public void testDestroy() throws Exception {
         
-        holder.add("one", "/p1", null);
-        holder.add("one", "/p2", null);
+        holder.add("one", "/p1", null, null);
+        holder.add("one", "/p2", null, null);
         
         expect(servletContext.getAttribute(UrlPrefixRequestModuleMapper.PREFIX_HOLDER_KEY)).andReturn(holder);
         expect(moduleDefinition.getName()).andReturn("one");        

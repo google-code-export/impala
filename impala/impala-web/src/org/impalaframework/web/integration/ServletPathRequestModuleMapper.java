@@ -54,7 +54,7 @@ public class ServletPathRequestModuleMapper implements RequestModuleMapper {
         } else {
             fullModuleName = moduleName;
         }
-        return new RequestModuleMapping("/" + moduleName, fullModuleName, null);
+        return new RequestModuleMapping("/" + moduleName, fullModuleName, null, null);
     }
     
     public void setPrefix(String prefix) {

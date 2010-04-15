@@ -9,7 +9,6 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
-import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.web.integration.PrefixTreeHolder;
 import org.impalaframework.web.integration.UrlPrefixRequestModuleMapper;
 import org.springframework.beans.factory.DisposableBean;
@@ -25,7 +24,7 @@ import org.springframework.web.context.ServletContextAware;
  * These in turn are used by the {@link UrlPrefixRequestModuleMapper} to map individual requests to this module, based
  * on registered URL prefixes.
  * 
- * Bean definition should use {@link #setPrefixes(String[])} to set the prefixes for requests which should be mapped to this
+ * Bean definition should use {@link #setPrefixes(Map)} to set the prefixes for requests which should be mapped to this
  * module.
  * 
  * @author Phil Zoio
@@ -38,7 +37,7 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
     
     private ServletContext servletContext;
     
-    private Map<String, String> prefixMap;
+    private Map<String, ContextAndServletPath> prefixMap;
     
     public void afterPropertiesSet() throws Exception {
         
@@ -56,8 +55,10 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
                 if (logger.isDebugEnabled()) 
                     logger.debug("Contributing to holder: " + ObjectUtils.identityToString(holder) + ": " + name + "-" + prefix);
                 
-                String servletPath = prefixMap.get(prefix);
-                holder.add(name, prefix, servletPath);
+                final ContextAndServletPath paths = prefixMap.get(prefix);
+                String servletPath = paths.getServletPath();
+                String contextPath = paths.getContextPath();
+                holder.add(name, prefix, contextPath, servletPath);
             }
         }
     }
@@ -92,12 +93,7 @@ public class ModuleUrlPrefixContributor implements ModuleDefinitionAware, Servle
         this.servletContext = servletContext;
     }
 
-    public void setPrefixes(String prefixes) {
-        Assert.notNull(prefixes);
-        this.prefixMap = CollectionStringUtils.parsePropertiesFromString(prefixes);
-    }
-
-    public void setPrefixMap(Map<String, String> prefixMap) {
+    public void setPrefixMap(Map<String, ContextAndServletPath> prefixMap) {
         this.prefixMap = prefixMap;
     }
 }

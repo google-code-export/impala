@@ -29,22 +29,22 @@ public class PrefixTreeHolderTest extends TestCase {
     }
     
     public void testWebFrameworks() throws Exception {
-        holder.add("webframeworks-wicket", "/wicket/aa", null);
-        holder.add("webframeworks-wicket", "/wicket/aaa", null);
-        holder.add("webframeworks-tapestry5", "/Tapestry/bbb", null);
+        holder.add("webframeworks-wicket", "/wicket/aa", null, null);
+        holder.add("webframeworks-wicket", "/wicket/aaa", null, null);
+        holder.add("webframeworks-tapestry5", "/Tapestry/bbb", null, null);
 
         assertEquals(new ModuleNameWithPath("webframeworks-wicket"), holder.getModuleForURI("/wicket/aabbb").getValue());
         assertEquals(null, holder.getModuleForURI("/webframeworks-web/Tapestry5Home"));
     }
 
     public void testAdd() {
-        holder.add("module1", "/m1", null);
-        holder.add("module1", "/m2", null);
+        holder.add("module1", "/m1", null, null);
+        holder.add("module1", "/m2", null, null);
         
-        holder.add("module2", "/m1plus", null);
+        holder.add("module2", "/m1plus", null, null);
         
         try {
-            holder.add("module", "/m2", null);
+            holder.add("module", "/m2", null, null);
             fail();
         }
         catch (InvalidStateException e) {
@@ -60,11 +60,11 @@ public class PrefixTreeHolderTest extends TestCase {
     
     public void testAddRemove() throws Exception {
 
-        holder.add("module1", "/m1", null);
-        holder.add("module1", "/m2", null);
+        holder.add("module1", "/m1", null, null);
+        holder.add("module1", "/m2", null, null);
         assertTrue(holder.getTrie().contains("/m2"));
         
-        holder.add("module2", "/m1plus", null);
+        holder.add("module2", "/m1plus", null, null);
         
         assertTrue(holder.remove("module1", "/m1"));
         

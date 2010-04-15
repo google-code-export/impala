@@ -42,7 +42,9 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
 
     private String contextPathPlusServletPath;
 
-    private String servletPath;
+    private String mappingServletPath;
+
+    private String mappingContextPath;
 
     public MappedHttpServletRequest(
             ServletContext servletContext, 
@@ -63,24 +65,47 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
         if (moduleMapping != null) {
             
             this.moduleName = moduleMapping.getModuleName();
-            String modulePath = moduleMapping.getServletPath();
-            this.servletPath = modulePath;
-            if (modulePath != null) {
-                this.contextPathPlusServletPath = request.getContextPath() + (modulePath != null ? modulePath : "");
+            final String mappingServletPath = moduleMapping.getServletPath();
+            final String mappingContextPath = moduleMapping.getContextPath();
+            if (mappingServletPath != null || mappingContextPath != null) {
+                this.contextPathPlusServletPath = request.getContextPath() 
+                    + (mappingContextPath != null ? mappingContextPath : "")
+                    + (mappingServletPath != null ? mappingServletPath : "");
+            }
+            this.mappingServletPath = mappingServletPath;
+            this.mappingContextPath = mappingContextPath;
+            
+            //force empty mapping servlet path if context path is set
+            if (mappingContextPath != null && mappingServletPath == null) {
+                this.mappingServletPath = "";
             }
         }
     }
-
+    
     /**
-     * If valid servlet path is provided, then this is returned. Otherwise, delegates to wrapped {@link #getServletPath()}
+     * Returns the wrapped context path (see {@link HttpServletRequest#getContextPath()},
+     * plus the mapped context path (see {@link #mappingContextPath}.
      */
     @Override
+    public String getContextPath() {
+        String contextPath = super.getContextPath();
+        if (mappingContextPath != null) {
+            contextPath += mappingContextPath;
+        }
+        
+        return contextPath;
+    }
+
+    /**
+     * If valid servlet path is provided, then this is returned as long the
+     * request is currently not in a forward or include. Otherwise, delegates to
+     * wrapped {@link #getServletPath()}
+     */
     public String getServletPath() {
-        //FIXME test
-        if (servletPath == null || isForwardOrInclude())
+        if (mappingServletPath == null || isForwardOrInclude())
             return super.getServletPath();
         
-        return servletPath;
+        return mappingServletPath;
     }
     
     /**
@@ -88,8 +113,7 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
      */
     @Override
     public String getPathInfo() {
-        //FIXME test
-        if (servletPath == null || isForwardOrInclude())
+        if (mappingServletPath == null || isForwardOrInclude())
             return super.getPathInfo();
 
         return getModulePathInfo();
@@ -112,7 +136,7 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
             uriToPathInfo = new HashMap<String, String>();
         }
         
-        final String uri = getRequestURI();
+        final String uri = this.getRequestURI();
         pathInfo = uriToPathInfo.get(uri);
         if (pathInfo == null) {
             pathInfo = getPathInfo(uri);

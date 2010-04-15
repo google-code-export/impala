@@ -45,7 +45,7 @@ public class ModuleIntegrationUtilsTest extends TestCase {
         request = createMock(HttpServletRequest.class);
         facade = createMock(ModuleManagementFacade.class);
         
-        mapping = new RequestModuleMapping("/mymodule", "mymodule", null);
+        mapping = new RequestModuleMapping("/mymodule", "mymodule", null, null);
         applicationId = "";
     }
     

@@ -66,7 +66,7 @@ public class PartitionedWrapperServletRequestTest extends TestCase {
         final PartitionedHttpSessionWrapper httpSessionWrapper = new PartitionedHttpSessionWrapper();
         httpSessionWrapper.setServletContext(servletContext);
         httpSessionWrapper.setEnableModuleSessionProtection(true);
-        wrapperRequest = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null), applicationId );
+        wrapperRequest = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/mymodule", "mymodule", null, null), applicationId );
         
         applicationManager = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null);
     }

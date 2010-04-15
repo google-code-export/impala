@@ -45,16 +45,70 @@ public class MappedHttpServletRequestTest extends TestCase {
         httpSessionWrapper = new IdentityHttpSessionWrapper();
         applicationId = "applicationId";
     }
+    
+    public void testIsForwardOrIncludeIsForward() throws Exception {
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+    
+        expect(request.getAttribute("javax.servlet.forward.request_uri")).andReturn("/forward");
+        replay(request);
+
+        assertTrue(wrapper.isForwardOrInclude());
+        verify(request);
+    }
+    
+    public void testIsForwardOrIncludeIsInclude() throws Exception {
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+        
+        expect(request.getAttribute("javax.servlet.forward.request_uri")).andReturn(null);
+        expect(request.getAttribute("javax.servlet.include.request_uri")).andReturn("/include");
+        replay(request);
+
+        assertTrue(wrapper.isForwardOrInclude());
+        verify(request);
+    }
+    
+    public void testIsForwardOrIncludeIsNeither() throws Exception {
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+        
+        expect(request.getAttribute("javax.servlet.forward.request_uri")).andReturn(null);
+        expect(request.getAttribute("javax.servlet.include.request_uri")).andReturn(null);
+        replay(request);
+
+        assertFalse(wrapper.isForwardOrInclude());
+        verify(request);
+    }
 
     public void testWithServletPath() {
-        
-        expectConstruct();
+
+        expect(request.getContextPath()).andReturn("/app").times(2);
+        expect(request.getRequestURI()).andReturn("/app/servletPath/extra/path/info");
+        expectNotForwardOrInclude();
         
         replay(request, servletContext);
         
-        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"), applicationId);
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", null, "/servletPath"), applicationId);
         assertEquals("/servletPath", wrapper.getServletPath());
         assertEquals("/extra/path/info", wrapper.getPathInfo());
+        assertEquals("/app", wrapper.getContextPath());
+        
+        verify(request, servletContext);
+    }
+    
+    public void testWithServletAndContextPath() {
+
+        expect(request.getContextPath()).andReturn("/app").times(2);
+        expect(request.getRequestURI()).andReturn("/app/cp/servletPath/extra/path/info");
+        expectNotForwardOrInclude();
+        
+        replay(request, servletContext);
+        
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/cp", "/servletPath"), applicationId);
+        assertEquals("/servletPath", wrapper.getServletPath());
+        assertEquals("/extra/path/info", wrapper.getPathInfo());
+        assertEquals("/app/cp", wrapper.getContextPath());
         
         verify(request, servletContext);
     }
@@ -92,11 +146,12 @@ public class MappedHttpServletRequestTest extends TestCase {
     
     public void testUnexpectedServletPath() {
 
+        expectNotForwardOrInclude();
         expect(request.getContextPath()).andReturn("/cp");
         
         replay(request, servletContext);
         
-        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/unexpectedServletPath"), applicationId);
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", null, "/unexpectedServletPath"), applicationId);
         assertEquals("/unexpectedServletPath", wrapper.getServletPath());
         
         verify(request, servletContext);
@@ -105,12 +160,13 @@ public class MappedHttpServletRequestTest extends TestCase {
     public void testWithGetPathTranslated() {
         
         expectConstruct();
+        expectNotForwardOrInclude();
         
         expect(servletContext.getRealPath("/extra/path/info")).andReturn("/realpath");
         
         replay(request, servletContext);
         
-        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", "/servletPath"), applicationId);
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, new RequestModuleMapping("/sp", "module", null, "/servletPath"), applicationId);
         assertEquals("/realpath", wrapper.getPathTranslated());
         
         verify(request, servletContext);
@@ -223,7 +279,7 @@ public class MappedHttpServletRequestTest extends TestCase {
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
-                new RequestModuleMapping("/sp-path", "module", "/sp"), applicationId);
+                new RequestModuleMapping("/sp-path", "module", null, "/sp"), applicationId);
         assertEquals("/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
         
         verify(request, servletContext);
@@ -236,7 +292,7 @@ public class MappedHttpServletRequestTest extends TestCase {
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
-                new RequestModuleMapping("/sp-path", "module", "/nonmatching"), applicationId);
+                new RequestModuleMapping("/sp-path", "module", null, "/nonmatching"), applicationId);
         assertEquals("/sp/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
         
         verify(request, servletContext);
@@ -249,7 +305,7 @@ public class MappedHttpServletRequestTest extends TestCase {
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
-                new RequestModuleMapping("/sp-path", "module", "/nonmatching"), applicationId);
+                new RequestModuleMapping("/sp-path", "module", null, "/nonmatching"), applicationId);
         assertEquals("/cp/sp/myuri", wrapper.getPathInfo("/cp/sp/myuri"));
         
         verify(request, servletContext);
@@ -259,11 +315,12 @@ public class MappedHttpServletRequestTest extends TestCase {
         
         expect(request.getContextPath()).andReturn("/cp");
         expect(request.getRequestURI()).andReturn("/cp/sp/myuri");
+        expectNotForwardOrInclude();
         
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
-                new RequestModuleMapping("/sp-path", "module", "/sp"), applicationId);
+                new RequestModuleMapping("/sp-path", "module", null, "/sp"), applicationId);
         assertEquals("/myuri", wrapper.getPathInfo());
         
         verify(request, servletContext);
@@ -276,7 +333,7 @@ public class MappedHttpServletRequestTest extends TestCase {
         replay(request, servletContext);
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, 
-                new RequestModuleMapping("/sp-path", "module", null), applicationId);
+                new RequestModuleMapping("/sp-path", "module", null, null), applicationId);
         assertEquals("/pathinfo", wrapper.getPathInfo());
         
         verify(request, servletContext);
@@ -285,6 +342,12 @@ public class MappedHttpServletRequestTest extends TestCase {
     private void expectConstruct() {
         expect(request.getContextPath()).andReturn("/app");
         expect(request.getRequestURI()).andReturn("/app/servletPath/extra/path/info");
+    }
+
+    private void expectNotForwardOrInclude() {
+        //FIXME add test which include these
+        expect(request.getAttribute("javax.servlet.forward.request_uri")).andStubReturn(null);
+        expect(request.getAttribute("javax.servlet.include.request_uri")).andStubReturn(null);
     }
 
 }
