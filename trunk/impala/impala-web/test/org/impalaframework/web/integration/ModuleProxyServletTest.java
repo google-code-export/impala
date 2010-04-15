@@ -157,7 +157,7 @@ public class ModuleProxyServletTest extends TestCase {
         replayMocks();
         
         servlet.init(new IntegrationServletConfig(initParameters, servletContext, "proxyServlet"));
-        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule", null), servlet.getModuleMapping(request));
+        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule", null, null), servlet.getModuleMapping(request));
 
         verifyMocks();
     }

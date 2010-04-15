@@ -41,7 +41,7 @@ public class PrefixTreeHolder {
      * Used to add prefix key to module name mapping. This will be called zero to n times 
      * for each module which is interested in receiving URLs
      */
-    public void add(String moduleName, String key, String servletPath) {
+    public void add(String moduleName, String key, String contextPath, String servletPath) {
         //FIXME add concurrency control
         
         Assert.notNull(moduleName, "moduleName cannot be null");
@@ -52,7 +52,7 @@ public class PrefixTreeHolder {
             throw new InvalidStateException("Module '" + moduleName + "' cannot use key '" + key + "', as it is already being used by module '" + value.getModuleName() + "'");
         }
 
-        this.trie.insert(key, new ModuleNameWithPath(moduleName, servletPath));
+        this.trie.insert(key, new ModuleNameWithPath(moduleName, contextPath, servletPath));
         List<String> list = this.contributions.get(moduleName);
         if (list == null) {
             list = new LinkedList<String>();

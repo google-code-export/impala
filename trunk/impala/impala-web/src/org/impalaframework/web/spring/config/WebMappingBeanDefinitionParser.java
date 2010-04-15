@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.servlet.Filter;
 
 import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
+import org.impalaframework.web.spring.integration.ContextAndServletPath;
 import org.impalaframework.web.spring.integration.ModuleUrlPrefixContributor;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;
@@ -62,10 +63,25 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     private static final String SERVLET_PATH_ATTRIBUTE = "servletPath";
     
     /**
+     * Whether to set the context path in the request passed to servlets or filters in this module. If 
+     * true, and 'contextPath' attribute is not specified, then uses the mapping specified using the 'path'
+     * attribute. If 'servletPath' attribute is specified, then uses this value.
+     */
+    private static final String SET_CONTEXT_PATH_ATTRIBUTE = "setContextPath";
+    
+    /**
+     * If a value is set for this optional attribute, 
+     * then as long as 'setContextPath' is not set with a value of false, then sets 
+     * the servlet path in the request passed to servlets or filters in this module.
+     */
+    private static final String CONTEXT_PATH_ATTRIBUTE = "contextPath";
+    
+    /**
      * Used in the 'suffix' element to map an extension to a servlet and/or list of filters. Special values include:
      * <ul>
      * <li>* - denotes all extensions
-     * </ul>[none] - denotes a path without an extension
+     * <li>[none] - denotes a path without an extension
+     * </ul>
      */
     private static final String EXTENSION_ATTRIBUTE = "extension";
     
@@ -100,43 +116,55 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     private void handlePrefixes(Element element, ParserContext parserContext) {
         List<Element> toModules = DomUtils.getChildElementsByTagName(element, TO_MDOULE_ELEMENT);
         
-        Map<String,String> toModulesMap = new LinkedHashMap<String, String>();
+        Map<String,ContextAndServletPath> toModulesMap = new LinkedHashMap<String, ContextAndServletPath>();
         
         for (Element toModulesElement : toModules) {
             String pathAttribute = toModulesElement.getAttribute(PREFIX_ATTRIBUTE);
-            String setServletPathAttribute = toModulesElement.getAttribute(SET_SERVLET_PATH_ATTRIBUTE);
-            String servletPathAttribute = toModulesElement.getAttribute(SERVLET_PATH_ATTRIBUTE);
-            if (!StringUtils.hasText(servletPathAttribute)) {
-                servletPathAttribute = toModulesElement.hasAttribute(SERVLET_PATH_ATTRIBUTE) ? "" : null;
-            }
             
-            String servletPath = getServletPath(pathAttribute, setServletPathAttribute, servletPathAttribute);
+            String servletPath = getPathAttributeValue(toModulesElement, pathAttribute, SET_SERVLET_PATH_ATTRIBUTE, SERVLET_PATH_ATTRIBUTE);
+            String contextPath = getPathAttributeValue(toModulesElement, pathAttribute, SET_CONTEXT_PATH_ATTRIBUTE, CONTEXT_PATH_ATTRIBUTE);    
             
-            toModulesMap.put(pathAttribute.trim(), servletPath != null ? servletPath.trim() : null);
+            //FIXME check that not relying on both setServletPath and setContextPath only
+            
+            ContextAndServletPath paths = new ContextAndServletPath(contextPath, servletPath);
+            toModulesMap.put(pathAttribute.trim(), paths);
         }
 
         RootBeanDefinition definition = newContributorDefinition(toModulesMap);
         registerDefinition(parserContext, definition);
     }
 
-    String getServletPath(String pathAttribute, String setServletPathAttribute, String servletPathAttribute) {
-        
-        String servletPath = null;
-        if (StringUtils.hasText(setServletPathAttribute)) {
-            boolean setServletPath = Boolean.parseBoolean(setServletPathAttribute);
-            if (setServletPath) {
-                servletPath = (servletPathAttribute != null ? servletPathAttribute : pathAttribute);
-            }
-        } else {
-            boolean setServletPath = servletPathAttribute != null;
-            if (setServletPath) {
-                servletPath = servletPathAttribute;
-            }
+    private String getPathAttributeValue(Element toModulesElement,
+            String pathAttribute, final String setPathAttributeName,
+            final String pathAttributeName) {
+        String setServletPathAttribute = toModulesElement.getAttribute(setPathAttributeName);
+        String servletPathAttribute = toModulesElement.getAttribute(pathAttributeName);
+        if (!StringUtils.hasText(servletPathAttribute)) {
+            servletPathAttribute = toModulesElement.hasAttribute(pathAttributeName) ? "" : null;
         }
+        
+        String servletPath = getServletPath(pathAttribute, setServletPathAttribute, servletPathAttribute);
         return servletPath;
     }
 
-    RootBeanDefinition newContributorDefinition(Map<String, String> prefixMap) {
+    String getServletPath(String prefixAttribute, String setPathAttribute, String pathAttribute) {
+        
+        String servletPath = null;
+        if (StringUtils.hasText(setPathAttribute)) {
+            boolean setServletPath = Boolean.parseBoolean(setPathAttribute);
+            if (setServletPath) {
+                servletPath = (pathAttribute != null ? pathAttribute : prefixAttribute);
+            }
+        } else {
+            boolean setServletPath = pathAttribute != null;
+            if (setServletPath) {
+                servletPath = pathAttribute;
+            }
+        }
+        return servletPath != null ? servletPath.trim() : null;
+    }
+
+    RootBeanDefinition newContributorDefinition(Map<String, ContextAndServletPath> prefixMap) {
         RootBeanDefinition definition = new RootBeanDefinition(ModuleUrlPrefixContributor.class);
         MutablePropertyValues propertyValues = definition.getPropertyValues();
         propertyValues.addPropertyValue(PREFIX_MAP_PROPERTY, prefixMap);

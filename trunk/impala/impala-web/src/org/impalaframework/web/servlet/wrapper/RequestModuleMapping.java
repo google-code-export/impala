@@ -37,11 +37,18 @@ public class RequestModuleMapping {
      * {@link javax.servlet.http.HttpServletRequest#getServletPath()}
      */
     private String servletPath;
+    
+    /**
+     * The extra string which should be appended to the context path. Applies to 
+     * {@link javax.servlet.http.HttpServletRequest#getContextPath()}
+     */
+    private String contextPath;
 
-    public RequestModuleMapping(String path, String moduleName, String servletPath) {
+    public RequestModuleMapping(String path, String moduleName, String contextPath, String servletPath) {
         super();
         this.moduleName = moduleName;
         this.moduleMappingPath = path;
+        this.contextPath = contextPath;
         this.servletPath = servletPath;
     }
 
@@ -56,11 +63,17 @@ public class RequestModuleMapping {
     public String getServletPath() {
         return servletPath;
     }
+    
+    public String getContextPath() {
+        return contextPath;
+    }
 
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result
+                + ((contextPath == null) ? 0 : contextPath.hashCode());
         result = prime
                 * result
                 + ((moduleMappingPath == null) ? 0 : moduleMappingPath
@@ -81,6 +94,12 @@ public class RequestModuleMapping {
         if (getClass() != obj.getClass())
             return false;
         RequestModuleMapping other = (RequestModuleMapping) obj;
+        if (contextPath == null) {
+            if (other.contextPath != null)
+                return false;
+        }
+        else if (!contextPath.equals(other.contextPath))
+            return false;
         if (moduleMappingPath == null) {
             if (other.moduleMappingPath != null)
                 return false;
@@ -101,20 +120,12 @@ public class RequestModuleMapping {
             return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer(500);
-        buffer.append(this.getClass().getName()).append(": ");
-        buffer.append("moduleName = ");
-        buffer.append(this.moduleName);
-        buffer.append(", ");
-        buffer.append("moduleMappingPath = ");
-        buffer.append(this.moduleMappingPath);
-        buffer.append(", ");
-        buffer.append("servletPath = ");
-        buffer.append(this.servletPath);
-        buffer.append("\n");
-        return  buffer.toString();
+        return "RequestModuleMapping [moduleMappingPath=" + moduleMappingPath
+                + ", moduleName=" + moduleName + ", contextPath=" + contextPath
+                + ", servletPath=" + servletPath + "]";
     }
+    
 }

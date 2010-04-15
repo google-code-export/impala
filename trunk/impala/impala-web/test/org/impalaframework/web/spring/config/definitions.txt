@@ -2,6 +2,9 @@
     <to-module prefix = "/path1"/>
     <to-module prefix = "/path2" setServletPath = "true"/>
     <to-module prefix = "/path3" servletPath = "/path3modified"/>
+    <to-module prefix = "/path4" contextPath = "/path4modified"/>
+    <to-module prefix = "/path5" setContextPath = "true"/>
+    <to-module prefix = "/path6" servletPath = "/sp" contextPath = "/cp"/>
     <to-handler extension = "do" servletName="doServlet"/> 
     <to-handler extension = "css" filterNames="cssFilter1,cssFilter2" servletName = "cssServlet"/> 
 </mapping>

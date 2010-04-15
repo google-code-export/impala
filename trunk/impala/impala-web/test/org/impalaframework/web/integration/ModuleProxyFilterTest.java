@@ -189,7 +189,7 @@ public class ModuleProxyFilterTest extends TestCase {
         initParameters.put(WebConstants.REQUEST_MODULE_MAPPER_CLASS_NAME, TestMapper.class.getName());
         filter.init(new IntegrationFilterConfig(initParameters, servletContext, "proxyServlet"));
         
-        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule", null), filter.getModuleMapping(request));
+        assertEquals(new RequestModuleMapping("/alternativemodule", "alternativemodule", null, null), filter.getModuleMapping(request));
 
         verifyMocks();
     }

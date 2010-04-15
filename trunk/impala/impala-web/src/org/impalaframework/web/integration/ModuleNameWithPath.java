@@ -17,11 +17,12 @@ package org.impalaframework.web.integration;
 import org.springframework.util.Assert;
 
 /**
- * Holds prefix key, used to map a request to the servlet, as well as an optional
- * servlet path, to be used where specified to replace the servlet path specified by the container.
- * This feature is useful because it allows Impala to intercept URLs using a filter with the 
- * mapping /*, and still have a servlet path specified as if the URL had been mapped to the 
- * request in a more direct way.
+ * Holds prefix key, used to map a request to the servlet, as well as optional
+ * conetxt path and servlet path, to be used where specified to replace the
+ * context path and/or servlet path specified by the container. This feature is
+ * useful because it allows Impala to intercept URLs using a filter with the
+ * mapping /*, and still have a servlet path specified as if the URL had been
+ * mapped to the request in a more direct way.
  * 
  * @author Phil Zoio
  */
@@ -30,21 +31,28 @@ public class ModuleNameWithPath {
     private final String moduleName;
     
     private final String servletPath;
+    
+    private final String contextPath;
 
-    public ModuleNameWithPath(String moduleName, String servletPath) {
+    public ModuleNameWithPath(String moduleName, String contextPath, String servletPath) {
         Assert.notNull(moduleName, "moduleName cannot be null");
         this.moduleName = moduleName;
+        this.contextPath = contextPath;
         this.servletPath = servletPath;
     }
 
     public ModuleNameWithPath(String moduleName) {        
-        this(moduleName, null);
+        this(moduleName, null, null);
     }
 
     public String getModuleName() {
         return moduleName;
     }
 
+    public String getContextPath() {
+        return contextPath;
+    }
+    
     public String getServletPath() {
         return servletPath;
     }
@@ -75,18 +83,12 @@ public class ModuleNameWithPath {
             return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer(500);
-        buffer.append(this.getClass().getName()).append(": ");
-        buffer.append("moduleName = ");
-        buffer.append(this.moduleName);
-        buffer.append(", ");
-        buffer.append("servletPath = ");
-        buffer.append(this.servletPath);
-        buffer.append("\n");
-        return  buffer.toString();
+        return "ModuleNameWithPath [moduleName=" + moduleName
+                + ", contextPath=" + contextPath + ", servletPath="
+                + servletPath + "]";
     }
     
 }

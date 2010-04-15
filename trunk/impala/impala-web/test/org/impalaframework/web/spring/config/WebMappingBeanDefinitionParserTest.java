@@ -17,15 +17,16 @@ package org.impalaframework.web.spring.config;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.util.CollectionStringUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.impalaframework.util.XMLDomUtils;
 import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
+import org.impalaframework.web.spring.integration.ContextAndServletPath;
 import org.springframework.beans.PropertyValue;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springframework.beans.factory.xml.ParserContext;
@@ -87,8 +88,17 @@ public class WebMappingBeanDefinitionParserTest extends TestCase {
         
         RootBeanDefinition prefixDefinition = definitions.get(0);
         PropertyValue prefixMap = prefixDefinition.getPropertyValues().getPropertyValue("prefixMap");
-        Map<String,String> actualValue = (Map<String, String>) prefixMap.getValue();
-        assertEquals(CollectionStringUtils.parsePropertiesFromString("/path1,/path2=/path2,/path3=/path3modified"), actualValue);
+        Map<String,ContextAndServletPath> actualValue = (Map<String, ContextAndServletPath>) prefixMap.getValue();
+        
+        Map<String,ContextAndServletPath> expectedValue = new LinkedHashMap<String, ContextAndServletPath>();
+        expectedValue.put("/path1", new ContextAndServletPath(null, null));
+        expectedValue.put("/path2", new ContextAndServletPath(null, "/path2"));
+        expectedValue.put("/path3", new ContextAndServletPath(null, "/path3modified"));
+        expectedValue.put("/path4", new ContextAndServletPath("/path4modified", null));
+        expectedValue.put("/path5", new ContextAndServletPath("/path5", null));
+        expectedValue.put("/path6", new ContextAndServletPath("/cp", "/sp"));
+        
+        assertEquals(expectedValue, actualValue);
         
         RootBeanDefinition invokerDefinition = definitions.get(1);
         Class<?> invokerContributor = invokerDefinition.getBeanClass();

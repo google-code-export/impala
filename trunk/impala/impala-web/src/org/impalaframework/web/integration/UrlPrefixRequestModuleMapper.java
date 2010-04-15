@@ -73,7 +73,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
         }
         
         ModuleNameWithPath value = modulePrefixNode.getValue();
-        return new RequestModuleMapping(modulePrefixNode.getKey(), value.getModuleName(), value.getServletPath());
+        return new RequestModuleMapping(modulePrefixNode.getKey(), value.getModuleName(), value.getContextPath(), value.getServletPath());
     }
 
     TreeNode<ModuleNameWithPath> getModuleForURI(String requestURI) {
