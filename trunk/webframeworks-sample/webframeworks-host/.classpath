@@ -17,7 +17,7 @@
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/struts-1.2.9.jar" sourcepath="/webframeworks-repository/compile/struts-1.2.9-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/struts2-core-2.1.8.jar" sourcepath="/webframeworks-repository/compile/struts2-core-2.1.8-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/tapestry-core-5.1.0.5.jar" sourcepath="/webframeworks-repository/compile/tapestry-core-5.1.0.5-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/wicket-1.3.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/wicket-1.3.4.jar" sourcepath="/webframeworks-repository/compile/wicket-1.3.4-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/impala-build-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/compile/impala-build-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/impala-command-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/compile/impala-command-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/webframeworks-repository/compile/impala-core-1.0-SNAPSHOT.jar" sourcepath="/webframeworks-repository/compile/impala-core-1.0-SNAPSHOT-sources.jar"/>

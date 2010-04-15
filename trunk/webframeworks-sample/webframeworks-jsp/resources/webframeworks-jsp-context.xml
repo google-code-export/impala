@@ -9,7 +9,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
     
 	<web:mapping>
-		<web:to-module prefix = "/jsp" setServletPath="true" servletPath=""/>
+		<web:to-module prefix = "/jsp" setContextPath="true"/>
         <web:to-handler extension = "jsp" servletName="jspServlet"/>
         <web:to-handler extension = "gif" servletName="jspResources"/>
         <web:to-handler extension = "css" servletName="jspResources"/>

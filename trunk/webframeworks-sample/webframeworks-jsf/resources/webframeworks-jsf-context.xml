@@ -13,7 +13,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <web:context-listener listenerClass="com.application.jsf.StartupServletContextListener"/>
     
     <web:mapping>
-        <web:to-module prefix = "/jsf" setServletPath="true"/> 
+        <web:to-module prefix = "/jsf" setContextPath="true"/> 
         <web:to-handler extension = "jsf" servletName="webframeworks-jsf"/> 
     </web:mapping>
     

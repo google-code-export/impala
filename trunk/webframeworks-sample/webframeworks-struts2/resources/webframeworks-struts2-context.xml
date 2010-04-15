@@ -9,7 +9,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
 	<web:mapping>
-		<web:to-module prefix = "/struts2" setServletPath="true"/>
+		<web:to-module prefix = "/struts2" setContextPath="true"/>
         <web:to-handler extension = "action" filterNames="webframeworks-struts2"/>
         <web:to-handler extension = "gif" servletName="struts2Resources"/>
         <web:to-handler extension = "jsp" servletName="jspServlet"/>
