@@ -62,7 +62,7 @@ An example of the `mapping` element is shown below, taken from the [SamplesURLMa
 </web:filter>
 }}}
 
-In this example, requests beginning with _/webview/*_ are mapped to the current module. Once in the module, 
+In this example, requests beginning with `/webview/*` are mapped to the current module. Once in the module, 
 requests ending with `*.htm` are mapped to the filters `characterEncodingFilter` and `sysoutLoggingFilter`, and
 to the servlet `urlmapping-webview`. Requests ending with `*.css` are mapped to the `url-mapping` resources.
 
