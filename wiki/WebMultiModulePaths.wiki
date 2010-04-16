@@ -18,15 +18,27 @@ servlets or filters within the application, typically in _web.xml_.
 
 Consider for example the URL: `http://localhost:8080/myapp/user/newuser.htm`.
 
-=== Wildcard extension match: '*.htm' ===
+=== Wildcard extension match ===
+
+{{{
+<url-pattern>*.htm</url-pattern>
+}}}
 
 In this case, the request is matched to a servlet or filter using the `.htm` extension. Here `getServletPath()` will be `/user/newuser.htm`, and the path info will be null.
 
-=== Partial path match: '/user/*' ===
+=== Partial path match ===
+
+{{{
+<url-pattern>/user/*</url-pattern>
+}}}
 
 In this case, the request is matched to a servlet or filter using a portion of the URI. Here `getServletPath()` will be `/user`, and the path info will be `/newuser.htm`.
 
-=== Global wildcard match: '/*' ===
+=== Global wildcard match ===
+
+{{{
+<url-pattern>/*</url-pattern>
+}}}
 
 In this case, the servlet path is the full URI after the context path; in other words `/user/newuser.htm`. Again, `path info` is null, in this case.
 
