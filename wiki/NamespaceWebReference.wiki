@@ -128,6 +128,8 @@ by calls from within the module to `getContextPath()`.
 Calls to `getContextPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
+See this [WebMultiModulePaths more detailed explanation on the reasons for and usage of the attributes] `servletPath`, `setServletPath`, `contextPath` and `serContextPath`.
+
 === to-handler element ===
 
 Used to map requests with a particular extension to a servlet and/or list of filters. For each request mapped to the module
