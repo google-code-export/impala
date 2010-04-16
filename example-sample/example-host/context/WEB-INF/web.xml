@@ -7,6 +7,36 @@
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
     </listener>
     
+    <!-- 
+    <filter>
+        <filter-name>pathfilter</filter-name>
+        <filter-class>classes.PathMatchingFilter</filter-class>
+        <load-on-startup>1</load-on-startup>
+    </filter>
+    <filter-mapping>
+        <filter-name>pathfilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    
+    <servlet>
+        <servlet-name>pathservlet</servlet-name>
+        <servlet-class>classes.PathMatchingServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>  
+    <servlet-mapping>
+        <servlet-name>pathservlet</servlet-name>
+        <url-pattern>*.path</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>pathservlet</servlet-name>
+        <url-pattern>/path/*</url-pattern>
+    </servlet-mapping>  
+    <servlet-mapping>
+        <servlet-name>pathservlet</servlet-name>
+        <url-pattern>/aaaaa</url-pattern>
+    </servlet-mapping>
+  	-->
+    
     <!-- Connects with the Spring MVC framework servlet registered in module example-web -->
     <servlet>
         <servlet-name>example-web</servlet-name>
