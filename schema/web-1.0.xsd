@@ -96,7 +96,7 @@ servlet container itself is returned.
 		    <xsd:attribute name="setContextPath" type="truefalse" use="optional">				
 				<xsd:annotation>
 					<xsd:documentation><![CDATA[
-Whether to set the servlet path in the request passed to servlets or filters in this module. 
+Whether to set the context path in the request passed to servlets or filters in this module. 
 Setting this value has the effect of altering the values returned by calls to 
 HttpServletRequest.getContextPath().
 
@@ -107,6 +107,8 @@ then this value is used.
 
 Calls to getContextPath() made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
+
+Normally, you would not use both 'setServletPath' and 'setContextPath'.
 					]]></xsd:documentation>
 				</xsd:annotation>
 			</xsd:attribute>
