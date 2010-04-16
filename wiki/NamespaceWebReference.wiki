@@ -103,6 +103,31 @@ by calls from within the module to `getServletPath()`.
 Calls to `getServletPath()` made outside the module are not affected. Here, value returned by the
 servlet container itself is returned.
 
+==== setContextPath attribute ====
+
+Whether to set the context path in the request passed to servlets or filters in this module. 
+Setting this value has the effect of altering the values returned by calls to 
+`HttpServletRequest.getContextPath()`.
+
+If the value for this attribute is set to `true`, and `contextPath` attribute 
+is not specified, then `getContextPath()` returns the value specified using the `path`
+attribute. However, is a value is specified using the `contextPath` attribute is specified, 
+then this value is used.
+
+Calls to `getContextPath()` made outside the module are not affected. Here, value returned by the
+servlet container itself is returned.
+
+==== contextPath attribute ====
+
+If a value is set for this optional attribute, 
+then as long as `setContextPath` is not set with a value of false, then sets 
+the context path in the request passed to servlets or filters in this module. 
+In other words, the value specified using the `contextPath` attribute is returned
+by calls from within the module to `getContextPath()`.
+
+Calls to `getContextPath()` made outside the module are not affected. Here, value returned by the
+servlet container itself is returned.
+
 === to-handler element ===
 
 Used to map requests with a particular extension to a servlet and/or list of filters. For each request mapped to the module
