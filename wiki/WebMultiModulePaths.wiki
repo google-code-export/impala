@@ -148,7 +148,7 @@ a forward or include is in process, and falls back to the values provided by the
 Impala would need to provide full blown implementations of the `RequestDispatcher` interface, currently outside the scope of the project.
 It is still possible to use forwards and includes with Impala, but with some restrictions. For example, when hosting JSPs within modules, 
 the servlet `org.impalaframework.web.jsp.ModuleJspServlet` needs to be registered within the _web.xml_, 
-as shown in the [SamplesWebFramework web frameworks sample].
+as shown in the [SamplesWebframework web frameworks sample].
 
 
 
