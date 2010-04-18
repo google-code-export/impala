@@ -17,23 +17,30 @@
         <listener-class>org.impalaframework.web.spring.loader.ImpalaContextLoaderListener</listener-class>
     </listener>
     
-    <servlet>
-        <servlet-name>@full.web.project.name@</servlet-name>
-        <servlet-class>org.impalaframework.web.spring.servlet.ExternalModuleServlet</servlet-class>
+    <filter>
+        <filter-name>web</filter-name>
+        <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
         <load-on-startup>1</load-on-startup>
-    </servlet>
+    </filter>
 
-    <servlet-mapping>
-        <servlet-name>@full.web.project.name@</servlet-name>
-        <url-pattern>*.htm</url-pattern>
-    </servlet-mapping>
-
-    <session-config>
-        <session-timeout>10</session-timeout>
-    </session-config>
+    <filter-mapping>
+        <filter-name>web</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
 
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+    
+    <servlet>
+        <servlet-name>JSP</servlet-name>
+        <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    
+	<servlet-mapping>
+		<servlet-name>JSP</servlet-name>
+		<url-pattern>*.jsp</url-pattern>
+	</servlet-mapping>
     
 </web-app>

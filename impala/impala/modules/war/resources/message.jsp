@@ -1,5 +1,6 @@
 <html>
 <head>
+<link rel="stylesheet" type="text/css" href="css/style.css" />
 </head>
 <body>
 
@@ -14,6 +15,10 @@ be automatically detected, and the affected modules will be reloaded.</p>
 <li>Change the implementation class <code>MessageServiceImpl</code> class in the <i>implementation</i> module. This will cause just the implementation module to reload.</li>
 <li>Make a change in <code>MessageController</code>, which will result in just the <i>web</i> module reloading.</li>
 </ul>
+</p>
+
+<p>Notice how in this example, the jsp is hosted internally within the module, as is the style sheet 
+(the same would apply for images).
 </p>
 
 <b>A message from message service:</b> <span style = "color:blue;"><%=request.getAttribute("message")%></span><br/>
