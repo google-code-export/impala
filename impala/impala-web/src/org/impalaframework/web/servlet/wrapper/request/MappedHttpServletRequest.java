@@ -102,8 +102,10 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
      * wrapped {@link #getServletPath()}
      */
     public String getServletPath() {
-        if (mappingServletPath == null || isForwardOrInclude())
-            return super.getServletPath();
+        if (mappingServletPath == null || isForwardOrInclude()) {
+            final String servletPath = super.getServletPath();
+            return servletPath;
+        }
         
         return mappingServletPath;
     }
@@ -113,18 +115,12 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
      */
     @Override
     public String getPathInfo() {
-        if (mappingServletPath == null || isForwardOrInclude())
-            return super.getPathInfo();
+        if (mappingServletPath == null || isForwardOrInclude()) {
+            final String pathInfo = super.getPathInfo();
+            return pathInfo;
+        }
 
         return getModulePathInfo();
-    }
-    
-    boolean isForwardOrInclude() {
-        //FIXME test
-        if (getAttribute("javax.servlet.forward.request_uri") != null || getAttribute("javax.servlet.include.request_uri") != null) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -185,6 +181,13 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
     }
     
     /* ****************** Helper methods ****************** */
+
+    boolean isForwardOrInclude() {
+        if (getAttribute("javax.servlet.forward.request_uri") != null || getAttribute("javax.servlet.include.request_uri") != null) {
+            return true;
+        }
+        return false;
+    }
     
     String getPathInfo(String uri) {
         String pathInfo = null;
