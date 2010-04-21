@@ -43,19 +43,18 @@ public class ArtifactPathTask extends Task {
 
         checkArgs();
 
-        getProject().setProperty(property, getPropertyValue(false, "jar"));
-        getProject().setProperty(property + ".pom",
-                getPropertyValue(false, "pom"));
-        getProject().setProperty(property + ".sources",
-                getPropertyValue(true, "jar"));
+        getProject().setProperty(property, getPropertyValue(null, "jar"));
+        getProject().setProperty(property + ".pom", getPropertyValue(null, "pom"));
+        getProject().setProperty(property + ".sources", getPropertyValue("sources", "jar"));
+        getProject().setProperty(property + ".javadoc", getPropertyValue("javadoc", "jar"));
     }
 
-    private String getPropertyValue(boolean source, String packaging) {
+    private String getPropertyValue(String classifier, String packaging) {
 
         String organisationPart = organisation.replace('.', '/');
         return organisationPart + "/" + artifact + "/" + version + "/"
-                + artifact + "-" + version + (source ? "-sources." : ".")
-                + packaging;
+                + artifact + "-" + version + (classifier != null ? "-" + classifier : "")
+                + "." + packaging;
     }
 
     void checkArgs() {

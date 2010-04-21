@@ -42,6 +42,7 @@ public class ArtifactPathTaskTest extends TestCase {
         assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0.jar", project.getProperty("artifact.path"));
         assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0-sources.jar", project.getProperty("artifact.path.sources"));
         assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0.pom", project.getProperty("artifact.path.pom"));
+        assertEquals("org/impalaframework/impala-build/1.0/impala-build-1.0-javadoc.jar", project.getProperty("artifact.path.javadoc"));
     }
 
     public void testCheckArgs() {
