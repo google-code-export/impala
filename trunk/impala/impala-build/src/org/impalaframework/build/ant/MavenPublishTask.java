@@ -77,6 +77,12 @@ public class MavenPublishTask extends Task {
             copy(copy, sourceSrcFile, targetSourceFile);
         }
         
+        if (artifactOutput.getJavadocSrcFile() != null) {
+            File targetJavadocFile = getTargetJavadocFile(organisationDirectory, artifactOutput);
+            File javadocSrcFile = artifactOutput.getJavadocSrcFile();
+            copy(copy, javadocSrcFile, targetJavadocFile);
+        }
+        
         String pomFragment = getSharedPomFragment();
 
         String pomText = "<project xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd\">\n" + 
@@ -111,16 +117,21 @@ public class MavenPublishTask extends Task {
 
     protected File getTargetFile(final File organisationDirectory,
             ArtifactOutput artifactOutput) {
-        return artifactOutput.getOutputLocation(organisationDirectory, false);
+        return artifactOutput.getOutputLocation(organisationDirectory, null, ".jar");
     }
 
     protected File getTargetSourceFile(final File organisationDirectory,
             ArtifactOutput artifactOutput) {
-        return artifactOutput.getOutputLocation(organisationDirectory, true);
+        return artifactOutput.getOutputLocation(organisationDirectory, "sources", ".jar");
+    }
+
+    protected File getTargetJavadocFile(final File organisationDirectory,
+            ArtifactOutput artifactOutput) {
+        return artifactOutput.getOutputLocation(organisationDirectory, "javadoc", ".jar");
     }
 
     protected File getPomFile(File organisationDirectory, ArtifactOutput artifactOutput) {
-        return artifactOutput.getOutputLocation(organisationDirectory, ".pom");
+        return artifactOutput.getOutputLocation(organisationDirectory, null, ".pom");
     }
 
     /**
@@ -222,6 +233,14 @@ public class MavenPublishTask extends Task {
                 artifactDescription.setSourceSrcFile(sourceFile);
             }
             
+            //FIXME test
+            String javadocFileName = fileName.replace(".jar", "-sources.jar");
+            File javadocFile = new File(parent, javadocFileName);
+            if (javadocFile.exists()) {
+                artifactDescription.setHasJavaDoc(true);
+                artifactDescription.setJavadocSrcFile(sourceFile);
+            }
+            
             ads[i] = artifactDescription;
         }
         return ads;
@@ -251,9 +270,15 @@ public class MavenPublishTask extends Task {
 
             public boolean accept(File file) {
                 final String fileName = file.getName();
-                if (fileName.contains("sources")) {
+                
+                if (fileName.contains("sources.jar")) {
                     return false;
-                } 
+                }
+                
+                if (fileName.contains("javadoc.jar")) {
+                    return false;
+                }
+                
                 if (file.isDirectory()) {
                     return false;
                 }

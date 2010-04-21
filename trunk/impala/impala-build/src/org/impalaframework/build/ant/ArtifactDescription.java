@@ -9,6 +9,8 @@ package org.impalaframework.build.ant;
 public class ArtifactDescription {
 
     private Boolean hasSource;
+    
+    private Boolean hasJavaDoc;
 
     private String organisation;
 
@@ -47,25 +49,20 @@ public class ArtifactDescription {
     void setHasSource(Boolean hasSource) {
         this.hasSource = hasSource;
     }
+    
+    Boolean getHasJavaDoc() {
+        return hasJavaDoc;
+    }
+    
+    void setHasJavaDoc(Boolean hasJavaDoc) {
+        this.hasJavaDoc = hasJavaDoc;
+    }
 
     @Override
     public String toString() {
-        StringBuffer buffer = new StringBuffer(500);
-        buffer.append(this.getClass().getName()).append(": ");
-        buffer.append("hasSource = ");
-        if ( this.hasSource!= null )
-        buffer.append(this.hasSource.toString());
-        else buffer.append("value is null"); 
-        buffer.append(", ");
-        buffer.append("organisation = ");
-        buffer.append(this.organisation);
-        buffer.append(", ");
-        buffer.append("artifact = ");
-        buffer.append(this.artifact);
-        buffer.append(", ");
-        buffer.append("version = ");
-        buffer.append(this.version);
-        buffer.append("\n");
-        return  buffer.toString();
+        return "ArtifactDescription [organisation=" + organisation
+                + ", artifact=" + artifact + ", version=" + version
+                + ", hasSource=" + hasSource + ", hasJavaDoc=" + hasJavaDoc
+                + "]";
     }
 }

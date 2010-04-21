@@ -84,9 +84,9 @@ public class MavenPublishSignTaskTest extends TestCase {
         
         final List<File> signedFiles = task.getSignedFiles();
         for (File file : signedFiles) {
-            assertTrue(file.exists());
+            assertTrue("File " + file + " does not exist", file.exists());
         }
-        assertEquals(6, signedFiles.size());
+        assertEquals(8, signedFiles.size());
         
     }
 
