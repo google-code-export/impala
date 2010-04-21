@@ -89,10 +89,12 @@
                     <authentication username="${mvn.username}" password="${mvn.password}"/>
                 </remoteRepository>
                 <pom refid="mypom"/>
-                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" />  
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
+                <attach file="${maven.repo.root.location}/${artifact.location.javadoc}" classifier="javadoc" />  
                 <attach file="${maven.repo.root.location}/${artifact.location}.asc" type="jar.asc" />
-                <attach file="${maven.repo.root.location}/${artifact.location.sources}.asc" classifier="sources" type="jar.asc" />
-                <attach file="${maven.repo.root.location}/${artifact.location.pom}.asc" type="pom.asc" />      
+                <attach file="${maven.repo.root.location}/${artifact.location.pom}.asc" type="pom.asc" />   
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}.asc" classifier="sources" type="jar.asc" />  
+                <attach file="${maven.repo.root.location}/${artifact.location.javadoc}.asc" classifier="javadoc" type="jar.asc" />  
             </artifact:deploy>
     	</ifproperty>
     	
@@ -103,7 +105,8 @@
                     <authentication username="${mvn.username}" password="${mvn.password}"/>
                 </remoteRepository>
                 <pom refid="mypom"/>
-                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" />        
+                <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
+                <attach file="${maven.repo.root.location}/${artifact.location.javadoc}" classifier="javadoc" />         
             </artifact:deploy>
     	</ifproperty>
     </target>	
