@@ -70,15 +70,18 @@ public class MavenPublishSignTask extends MavenPublishTask {
 
         sign(task, getTargetFile(organisationDirectory, artifactOutput));
         sign(task, getTargetSourceFile(organisationDirectory, artifactOutput));
+        sign(task, getTargetJavadocFile(organisationDirectory, artifactOutput));
         sign(task, getPomFile(organisationDirectory, artifactOutput));
     }
 
     void sign(OpenPgpSignerTask task, File fileToSign) {
-        task.setArtefact(fileToSign);
-        task.init();
-        task.execute();
-        
-        getProject().log(this, "Signed file " + fileToSign, Project.MSG_INFO);
+        if (fileToSign.exists()) {
+            task.setArtefact(fileToSign);
+            task.init();
+            task.execute();
+            
+            getProject().log(this, "Signed file " + fileToSign, Project.MSG_INFO);
+        }
     }
 
     void checkSignTaskArgs() {

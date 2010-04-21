@@ -21,6 +21,8 @@ public class ArtifactOutput extends ArtifactDescription {
     private File srcFile;
     
     private File sourceSrcFile;
+    
+    private File javadocSrcFile;
 
     public File getSrcFile() {
         return srcFile;
@@ -38,21 +40,21 @@ public class ArtifactOutput extends ArtifactDescription {
         this.sourceSrcFile = sourceOutputFile;
     }
     
-    public File getOutputLocation(File organisationDirectory, boolean sources) {
-        return getOutputLocation(organisationDirectory, ".jar", sources);
+    public void setJavadocSrcFile(File javadocSrcFile) {
+        this.javadocSrcFile = javadocSrcFile;
     }
     
-    public File getOutputLocation(File organisationDirectory, String extension) {
-        return getOutputLocation(organisationDirectory, extension, false);
+    public File getJavadocSrcFile() {
+        return javadocSrcFile;
     }
     
-    private File getOutputLocation(File organisationDirectory, String extension, boolean sources) {
+    public File getOutputLocation(File organisationDirectory, String qualifier, String extension) {
         final String outputLocation = this.getArtifact() + "/" 
             + this.getVersion() + "/" 
             + this.getArtifact() 
             + "-" 
             + this.getVersion() 
-            + (sources ? "-sources" : "")
+            + (qualifier!=null ? "-"+qualifier : "")
             + extension;
         return new File(organisationDirectory, outputLocation);
     }
