@@ -16,9 +16,6 @@ package org.impalaframework.spring.config;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.impalaframework.util.PathUtils;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -34,21 +31,14 @@ import org.springframework.util.Assert;
  */
 public class ExternalDynamicPropertySource extends
         DynamicPropertySource {
-
-    private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
+    
+    private static final Log logger = LogFactory.getLog(ExternalDynamicPropertySource.class);
     
     private String fileName;
     private String propertyFolderSystemProperty;
 
-    public static final String DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY = "property.folder";
-
     protected String getAlternativeFolderLocation() {
-        if (propertyFolderSystemProperty == null) {
-            propertyFolderSystemProperty = DEFAULT_PROPERTY_FOLDER_SYSTEM_PROPERTY;
-        }
-
-        String folderLocation = System.getProperty(propertyFolderSystemProperty);
-        return folderLocation;
+        return PropertiesResourceHelper.getAlternativeFolderLocation(propertyFolderSystemProperty);
     }
     
     public void setPropertyFolderSystemProperty(String systemPropertyName) {
@@ -57,6 +47,7 @@ public class ExternalDynamicPropertySource extends
     
     @Override
     public void afterPropertiesSet() throws Exception {
+        
         Assert.notNull(fileName, "fileName cannot be null");
         Resource[] locations = getLocations();
 
@@ -67,24 +58,10 @@ public class ExternalDynamicPropertySource extends
     }
 
     protected Resource[] getLocations() {
-
-        final ClassPathResource classPathResource = new ClassPathResource(fileName);
-        
         final String alternativeFolderLocation = getAlternativeFolderLocation();
-        if (alternativeFolderLocation == null) {
-            return new Resource[]{ classPathResource };
-        }
+        final Resource[] locations = PropertiesResourceHelper.getClassPathAndFileSystemLocations(fileName, alternativeFolderLocation);
         
-        String location = PathUtils.getPath(alternativeFolderLocation, fileName);
-        FileSystemResource fileResource = new FileSystemResource(location);
-        Resource[] locations = new Resource[]{ classPathResource, fileResource };
-        
-        if (fileResource.exists()) {
-            locations =  new Resource[]{ classPathResource, fileResource };
-        } else {
-            log.warn("File system location for property resources '" + location + "' does not exist");
-            locations = new Resource[] { classPathResource };
-        }
+        logger.info("Loading properties from locations: " + locations);
         return locations;
     }
 

@@ -137,6 +137,7 @@ import org.impalaframework.spring.bean.SystemPropertyFactoryBeanTest;
 import org.impalaframework.spring.config.DynamicPropertiesFactoryBeanTest;
 import org.impalaframework.spring.config.DynamicPropertiesNamespaceHandlerTest;
 import org.impalaframework.spring.config.ExternalDynamicPropertySourceTest;
+import org.impalaframework.spring.config.ExternalPropertiesFactoryBeanTest;
 import org.impalaframework.spring.config.PropertiesHolderFactoryBeanTest;
 import org.impalaframework.spring.config.PropertySourceHolderFactoryBeanTest;
 import org.impalaframework.spring.config.PropertySourceValueFactoryBeanTest;
@@ -257,6 +258,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(EmptyExportTypeDeriverTest.class);
         suite.addTestSuite(ExceptionUtilsTest.class);
         suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
+        suite.addTestSuite(ExternalPropertiesFactoryBeanTest.class);
         suite.addTestSuite(FileMonitorImplTest.class);
         suite.addTestSuite(FileUtilsTest.class);
         suite.addTestSuite(FilteredServiceProxyFactoryBeanTest.class);
