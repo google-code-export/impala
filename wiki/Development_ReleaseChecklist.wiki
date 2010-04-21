@@ -153,10 +153,10 @@ Go through scaffold steps as defined in FirstSteps.
 From Impala home, run 
 
 {{{
-ant -Dmaven.release=true -Dproject.version=1.0-RC2 mvnsigndeploy
+ant -Dmaven.release=true -Dproject.version=1.0 mvnsigndeploy
 }}}
 
-This will sign and upload the release files to the maven staging repository from the local maven repository, as per _mvn-build.properties_:
+This will upload the release files to the maven staging repository from the local maven repository, as per _mvn-build.properties_:
 
 {{{
 maven.repo.root=../maven/repo
@@ -164,8 +164,11 @@ maven.snapshot.repository=http://oss.sonatype.org/content/repositories/impalafra
 maven.release.repository=http://oss.sonatype.org/service/local/staging/deploy/maven2
 }}}
 
-Log on to Sonatype (http://oss.sonatype.org/index.html) and make sure that the staging 
-directory, and follow steps described [http://www.jroller.com/holy/entry/releasing_a_project_to_maven here] and [http://nexus.sonatype.org/oss-repository-hosting.html here] to sync to the Maven central repo.
+Note that releases are deployed to Sonatype's staging directory. 
+They need to promoted as described here: http://nexus.sonatype.org/oss-repository-hosting.html and 
+http://www.jroller.com/holy/entry/releasing_a_project_to_maven.
+
+The Nexus interface is here: http://oss.sonatype.org/index.html
 
 == Documentation Updates ==
 
