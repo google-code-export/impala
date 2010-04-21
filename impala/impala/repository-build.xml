@@ -15,11 +15,11 @@
     </target>
     
     <target name = "repository:include-osgi" if = "fetch.include.osgi">
-        <property name = "impala.fetch.excludes" value="**/*sample*"/>
+        <property name = "impala.fetch.excludes" value="**/*sample*, **/*javadoc.jar"/>
     </target>
     
     <target name = "repository:exclude-osgi" unless = "fetch.include.osgi">
-        <property name = "impala.fetch.excludes" value="**/*sample*, **/*osgi*"/>
+        <property name = "impala.fetch.excludes" value="**/*sample*, **/*javadoc.jar, **/*osgi*"/>
     </target>
     
     <target name = "repository:fetch-impala-from-repository" if = "external.repository.dir">
