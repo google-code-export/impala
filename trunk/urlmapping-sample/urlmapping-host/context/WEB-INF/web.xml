@@ -15,7 +15,7 @@
     <filter>
         <filter-name>web</filter-name>
         <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
-        <load-on-startup>2</load-on-startup>
+        <load-on-startup>1</load-on-startup>
     </filter>
 
     <filter-mapping>
