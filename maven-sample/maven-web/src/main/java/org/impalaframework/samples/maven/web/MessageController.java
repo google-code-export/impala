@@ -1,27 +1,22 @@
 package org.impalaframework.samples.maven.web;
 
-import java.util.HashMap;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Map;
 
 import org.impalaframework.samples.maven.MessageService;
-import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.Controller;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-public class MessageController implements Controller {
+@Controller
+@SuppressWarnings("unchecked")
+public class MessageController {
     private MessageService messageService;
 
     public void setMessageService(MessageService messageService) {
         this.messageService = messageService;
     }
 
-    public ModelAndView handleRequest(HttpServletRequest arg0,
-            HttpServletResponse arg1) throws Exception {
-        HashMap<String, String> map = new HashMap<String, String>();
-        map.put("message", messageService.getMessage());
-
-        ModelAndView mav = new ModelAndView("test", map);
-        return mav;
+    @RequestMapping("/message.htm")
+    public void viewMessage(Map model) {
+        model.put("message", messageService.getMessage());
     }
 }

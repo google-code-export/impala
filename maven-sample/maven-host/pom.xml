@@ -23,7 +23,7 @@
 		<plugin>
 			<groupId>org.impalaframework</groupId>
 			<artifactId>impala-maven-plugin</artifactId>
-			<version>${application.version}</version>
+			<version>${impala.plugin.version}</version>
 			<configuration>
 				<moduleStagingDirectory>../maven-build/target/staging</moduleStagingDirectory>
 			</configuration>
