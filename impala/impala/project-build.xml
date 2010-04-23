@@ -88,28 +88,33 @@
 
     <target 
         name="project:javadoc">
-
+		
+    	<catcherror>
 		<javadoc
 			sourcepath="${src.dir}"
 			destdir="${javadoc.dir}"
 			author="true"
 			version="true"
 			package="true"
+			failonerror="false"
 			windowtitle="${project.name}"
 			doctitle="&lt;h1&gt;${project.name}&lt;/h1&gt;">
             <classpath>
                 <path refid="full.classpath"/>
             </classpath>
     	</javadoc>
+    	</catcherror>
     </target>  
 	
     <target 
         name="project:jar-javadoc" depends="project:javadoc">
         
         <property name = "jar.location" location = "${jar.javadoc.output.file}"/>
+    	<catcherror>
         <jar destfile="${jar.javadoc.output.file}">
             <zipfileset dir="${javadoc.dir}" includes="**/*"/>
         </jar>
+    	</catcherror>
     </target>
     
     <target 
@@ -119,7 +124,7 @@
         <mkdir dir = "${repository.project.dir}"/>
         <copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
         <copy file="${jar.src.output.file}" tofile = "${jar.src.repository.file}"/>
-        <copy file="${jar.javadoc.output.file}" tofile = "${jar.javadoc.repository.file}"/>
+        <copy file="${jar.javadoc.output.file}" tofile = "${jar.javadoc.repository.file}" failonerror="false"/>
     </target>   
     
     <target name = "project:prepare-test">
