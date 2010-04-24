@@ -4,8 +4,7 @@ I am pleased to announce the release of Impala 1.0 RC4.
 
 Impala 1.0 RC4 was originally supposed to be the 1.0 final release. However, due to a few more than expected changes in this release, it was decided to have one last release candidate prior to 1.0 final.
 The main changes in this release are:
-  * simplifications and enhancements in the mechanism for mapping web requests to modules, allowing for more intuitive arrangements of JSPs and resources within modules. 
-  See the documentation on [HowToSliceWebApplication how to slice a multi-module web application], and [HowToConfigureJSPs how to configure within-module JSPs].
+  * simplifications and enhancements in the mechanism for mapping web requests to modules, allowing for more intuitive arrangements of JSPs and resources within modules. See the documentation on [HowToSliceWebApplication how to slice a multi-module web application], and [HowToConfigureJSPs how to configure within-module JSPs].
   * modification of the starter application to use the multi-web module mechanism out of the box, as this is the recommended approach for building Impala web applications.
   * the addition of Javadocs to the build artifacts (this is now required for artifacts deployed to the Maven central repository via Sonatype's infrastructure).
   
