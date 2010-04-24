@@ -14,11 +14,11 @@
         </copy>
     </target>
     
-    <target name = "repository:include-osgi" if = "fetch.include.osgi">
+    <target name = "repository:include-osgi">
         <property name = "impala.fetch.excludes" value="**/*sample*, **/*javadoc.jar"/>
     </target>
     
-    <target name = "repository:exclude-osgi" unless = "fetch.include.osgi">
+    <target name = "repository:exclude-osgi">
         <property name = "impala.fetch.excludes" value="**/*sample*, **/*javadoc.jar, **/*osgi*"/>
     </target>
     
