@@ -55,13 +55,13 @@
     <target name = "shared:run-test">
         <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
     </target>  
-    	
+        
     <target name = "shared:mvn-signed">
-    	<property name="mvn.signed" value="true"/>
+        <property name="mvn.signed" value="true"/>
     </target>  
-	
+    
     <target name = "shared:mvn-not-signed" unless = "mvn.signed">
-    	<property name="mvn.signed" value="false"/>
+        <property name="mvn.signed" value="false"/>
     </target>  
     
     <target name = "shared:mvn-deploy" depends = "shared:mvn-not-signed,mvn:username,mvn:password">
@@ -74,7 +74,7 @@
             <property name="mvn.signed" value="${mvn.signed}"/>
         </antforeach>
     </target> 
-            	
+                
     <target name = "shared:mvn-sign-deploy" depends = "shared:mvn-signed,shared:mvn-deploy">
     </target> 
     
