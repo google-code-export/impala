@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+ 
+ <bean id="communicationMethod" 
+    class="org.impalaframework.spring.dynamic.impl.Talk">
+ </bean>
+ 
+ <bean id="movementMethod" 
+    class="org.impalaframework.spring.dynamic.impl.Walk">
+ </bean>
+ 
+ <bean id="person" 
+    class="org.impalaframework.spring.dynamic.impl.PersonImpl">
+    <property name = "communicationMethod" ref = "communicationMethod"/>
+    <property name = "movementMethod" ref = "movementMethod"/>
+ </bean>
+ 
+</beans>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" output="testbin" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-build"/>
+	<classpathentry kind="lib" path="/impala-repository/sandbox/ant-junit-1.7.0.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/sandbox/commons-cli-1.1.jar"/>
+	<classpathentry kind="lib" path="/impala-repository/sandbox/groovy-all-1.1-beta-2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-web"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

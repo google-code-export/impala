@@ -1,0 +1,16 @@
+<root>
+    <names>
+        impala-core
+        sample-module1
+        sample-module3
+        sample-module4
+        sample-module5
+        sample-module6
+    </names>
+    <modules>
+        <module>
+            <name>sample-module6</name>
+            <depends-on>sample-module3,sample-module4,sample-module5</depends-on>
+        </module>
+    </modules>
+</root>
