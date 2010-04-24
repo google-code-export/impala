@@ -64,6 +64,8 @@ Go through all the links on this page. Reload one of the modules and do the same
 
 === Basic build and test ===
 
+Run `ant fixcrlf` to fix any carriage return or line feed issues. Then check in these changes.
+
 Run `ant` for Impala
   
 {{{
