@@ -10,6 +10,7 @@
 		<spring.version>3.0.0.RELEASE</spring.version>
 		<application.version>1.0-SNAPSHOT</application.version>
 		<impala.version>1.0-SNAPSHOT</impala.version>
+		<impala.plugin.version>1.0-M2-SNAPSHOT</impala.plugin.version>
 	</properties>
 	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
@@ -19,6 +20,12 @@
 		<module>../maven-host</module>
 	</modules>	
 	<repositories>
+		<!-- 
+		<repository>
+			<id>Impala</id>
+			<url>http://impala.googlecode.com/svn/maven/repo</url>
+		</repository>
+		 -->
 		<repository>
 			<id>Impala</id>
 			<url>http://oss.sonatype.org/content/repositories/impalaframework-snapshots</url>
