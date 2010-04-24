@@ -82,7 +82,7 @@
 
         <artifact:pom id="mypom" file="${maven.repo.root.location}/${artifact.location.pom}" />
 
-    	<ifproperty property="mvn.signed" equals="true">
+        <ifproperty property="mvn.signed" equals="true">
             <artifact:deploy 
                 file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
                 <remoteRepository url="${mvn.repo.current}">
@@ -96,9 +96,9 @@
                 <attach file="${maven.repo.root.location}/${artifact.location.sources}.asc" classifier="sources" type="jar.asc" />  
                 <attach file="${maven.repo.root.location}/${artifact.location.javadoc}.asc" classifier="javadoc" type="jar.asc" />  
             </artifact:deploy>
-    	</ifproperty>
-    	
-    	<ifproperty property="mvn.signed" equals="false">
+        </ifproperty>
+        
+        <ifproperty property="mvn.signed" equals="false">
             <artifact:deploy 
                 file="${maven.repo.root.location}/${artifact.location}" uniqueversion="false">
                 <remoteRepository url="${mvn.repo.current}">
@@ -108,8 +108,8 @@
                 <attach file="${maven.repo.root.location}/${artifact.location.sources}" classifier="sources" /> 
                 <attach file="${maven.repo.root.location}/${artifact.location.javadoc}" classifier="javadoc" />         
             </artifact:deploy>
-    	</ifproperty>
-    </target>	
+        </ifproperty>
+    </target>   
     
     <target name = "sign">
         <input message="Please specify a password file" addproperty="input.password.file"/>
