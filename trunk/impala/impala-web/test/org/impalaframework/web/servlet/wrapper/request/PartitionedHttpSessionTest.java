@@ -86,5 +86,17 @@ public class PartitionedHttpSessionTest extends TestCase {
         
         verify(webAttributeQualifier, httpSession);
     }
+
     
+    public void testRemoveAttribute() throws Exception {
+
+        expect(webAttributeQualifier.getQualifiedAttributeName("myattribute", applicationId, moduleName)).andReturn("anotherattribute");
+        httpSession.removeAttribute("anotherattribute");
+        
+        replay(webAttributeQualifier, httpSession);
+        
+        session.removeAttribute("myattribute");
+        
+        verify(webAttributeQualifier, httpSession);
+    }
 }
