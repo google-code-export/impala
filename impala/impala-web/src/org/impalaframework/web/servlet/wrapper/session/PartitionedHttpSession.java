@@ -68,5 +68,13 @@ public class PartitionedHttpSession extends DelegatingHttpSession {
         
         return webAttributeQualifier.filterAttributeNames(attributeNames, applicationId, moduleName);
     }
+    
+    @Override
+    public void removeAttribute(String name) {
+        //FIXME test and raise ticket
+        Assert.notNull(name);
+        final String qualifiedAttributeName = webAttributeQualifier.getQualifiedAttributeName(name, applicationId, moduleName);
+        super.removeAttribute(qualifiedAttributeName);
+    }
 
 }
