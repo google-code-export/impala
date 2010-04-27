@@ -77,7 +77,10 @@ public class StateProtectingHttpSession extends PartitionedHttpSession implement
             return null;
         
         ClassLoader attributeClassLoader = attribute.getClass().getClassLoader();
-        if (!ClassLoaderUtils.isVisibleFrom(attributeClassLoader, moduleClassLoader)) {
+        
+        //Note that some implementations use null for the bootstrap class loader, which will automatically be visible to the module class loader
+        //so should do null check on attributeClassLoader
+        if (attributeClassLoader != null && !ClassLoaderUtils.isVisibleFrom(attributeClassLoader, moduleClassLoader)) {
             
             if (!(attribute instanceof Serializable)) {
                 logger.warn("Object in session under key [" + name + "] is not compatible with the current class loader, and cannot be recovered because it does not implement " + Serializable.class.getName() + ". Attribute will be removed from the session");
