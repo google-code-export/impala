@@ -15,7 +15,8 @@
 		</license>
 	</licenses>
 	<scm>
-		<connection>scm:svn:https://impala.googlecode.com/svn/trunk/maven/impala-maven-plugin</connection>
+		<connection>scm:svn:http://impala.googlecode.com/svn/trunk/maven/impala-maven-plugin</connection>
+		<developerConnection>scm:svn:https://impala.googlecode.com/svn/trunk/maven/impala-maven-plugin</developerConnection>
 		<url>http://code.google.com/p/impala/source/browse/trunk/maven/impala-maven-plugin</url>
 	</scm>
 	<properties>
