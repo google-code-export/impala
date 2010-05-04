@@ -25,3 +25,8 @@ Now perform the release.
 {{{
 mvn deploy -DperformRelease=true -Dgpg.passphrase=**** -Dgpg.keyname=<your key ID> 
 }}} 
+
+Follow the steps described in http://nexus.sonatype.org/oss-repository-hosting.html
+to promote the release.
+
+The add the `-SNAPSHOT` string back to the `version` element, and change the snapshot version to the next one.
