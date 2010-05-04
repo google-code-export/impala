@@ -27,6 +27,6 @@ mvn deploy -DperformRelease=true -Dgpg.passphrase=****
 }}} 
 
 Follow the steps described in http://nexus.sonatype.org/oss-repository-hosting.html
-to promote the release.
+to promote the release. The Nexus interface is here: http://oss.sonatype.org/index.html
 
 The add the `-SNAPSHOT` string back to the `version` element, and change the snapshot version to the next one.
