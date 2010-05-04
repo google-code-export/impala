@@ -23,7 +23,7 @@ mvn -Dtag="<current release version>" -DtagBase=https://impala.googlecode.com/sv
 Now perform the release.
 
 {{{
-mvn deploy -DperformRelease=true -Dgpg.passphrase=**** -Dgpg.keyname=<your key ID> 
+mvn deploy -DperformRelease=true -Dgpg.passphrase=****
 }}} 
 
 Follow the steps described in http://nexus.sonatype.org/oss-repository-hosting.html
