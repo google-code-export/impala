@@ -12,11 +12,15 @@ mvn deploy
 
 == Deploying Releases ==
 
-Remove the `-SNAPSHOT` string from the `version` element.
+Remove the `-SNAPSHOT` string from the `version` element, then commit.
+
+Then tag the repository.
 
 {{{
 mvn -Dtag="<current release version>" -DtagBase=https://impala.googlecode.com/svn/tags/maven-plugin -DconnectionType=developerConnection scm:tag
 }}}
+
+Now perform the release.
 
 {{{
 mvn deploy -DperformRelease=true -Dgpg.passphrase=**** -Dgpg.keyname=<your key ID> 
