@@ -52,7 +52,7 @@ public class InternalModuleServlet extends DispatcherServlet implements Applicat
      * Sets whether to set the thread context class loader to that of the class loader 
      * of the module. By default this is false.
      */
-    private boolean setThreadContextClassLoader;
+    private boolean setThreadContextClassLoader = true;
     
     public InternalModuleServlet() {
         super();
