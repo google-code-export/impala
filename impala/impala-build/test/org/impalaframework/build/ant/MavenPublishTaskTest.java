@@ -102,6 +102,11 @@ public class MavenPublishTaskTest extends TestCase {
         final ArtifactDescription[] ads = task.getArtifactOutput(files);
         for (ArtifactDescription artifactDescription : ads) {
             System.out.println(artifactDescription);
+            assertTrue(artifactDescription.getHasJavaDoc().booleanValue());
+            ArtifactOutput output = (ArtifactOutput) artifactDescription;
+            final String javaDocSrcFile = output.getJavadocSrcFile().getName();
+            System.out.println(javaDocSrcFile);
+            assertTrue(javaDocSrcFile.contains("javadoc"));
         }
     }
     
