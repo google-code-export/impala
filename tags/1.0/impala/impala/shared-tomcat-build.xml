@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<project name="Shared Tomcat Build" basedir=".">
+    
+    <fail unless = "tomcat.home" message = "'tomcat.home' property not set"/>
+    <fail unless = "project.list" message = "'project.list' property not set"/>
+    <fail unless = "impala.home" message = "'impala.home' property not set"/>
+    <import file = "${impala.home}/properties-build.xml"/>
+    
+    <target name = "shared-tomcat:copy">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${web.project.list}" target = "tomcat:copy" inheritall = "false">
+            <property name = "tomcat.home" value = "${tomcat.home}"/>
+        </antforeach>
+    </target>
+        
+</project>
