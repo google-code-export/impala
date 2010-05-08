@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+ <!-- added to impala-bootstrap.xml -->
+ <bean id="moduleTestDirectory" parent = "propertyParent">
+     <property name="name" value="module.test.dir"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.constants.LocationConstants.MODULE_TEST_DIR_DEFAULT]"/>
+ </bean>
+ 
+ <!-- added to impala-bootstrap.xml -->
+ <bean id="testModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
+     <property name="classDirectory" ref="moduleTestDirectory"/>
+ </bean> 
+
+ <!-- added to impala-bootstrap.xml -->
+ <bean id="testResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
+    <property name="sourceList">  
+        <list> 
+            <ref local = "testModuleResourceFinder"/>
+        </list>  
+    </property> 
+ </bean> 
+ 
+ <!-- overrides value in impala-bootstrap.xml, setting value to TestEnabledModuleLocationResolver
+ and adding testResourceFinders-->
+ <bean id="moduleLocationResolver" class="org.impalaframework.interactive.resolver.TestEnabledModuleLocationResolver"
+    init-method="init">
+     <property name="workspaceRoot" ref="workspaceRoot"/>
+     <property name="applicationVersion" ref = "applicationVersion"/>
+     <property name="classResourceFinders" ref="classResourceFinders"/>
+     <property name="testResourceFinders" ref="testResourceFinders"/>
+ </bean>
+    
+</beans>

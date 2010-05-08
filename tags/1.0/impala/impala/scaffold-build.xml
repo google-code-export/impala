@@ -1,0 +1,366 @@
+<?xml version="1.0"?>
+<project name="Scaffold Build">
+
+    <property name="workspace.root" location=".." />
+    <property name="impala.home" location="${workspace.root}/impala" />
+
+    <echo level="debug">Using impala home: ${impala.home}</echo>
+
+    <import file="${impala.home}/properties-build.xml" />
+    <import file="${impala.home}/classpath-build.xml" />
+    
+    <!-- ###################### input targets for creating new project structure ###################### -->
+    
+    <target name="scaffold:input-base-package" unless="">
+        <input message="Please enter the base package to be used for application:" addproperty="project.package.name" defaultvalue="com.application"/>
+    </target>
+    
+    <target name="scaffold:input-project-prefix" unless="">
+        <input message="Please enter the project name prefix:" addproperty="project.prefix" defaultvalue=""/>
+    </target>
+    
+    <target name="scaffold:input-host-project" unless="host.project.name">
+        <input message="Please enter host project name, to be used for host web application:" addproperty="host.project.name" defaultvalue="host"/>
+    </target>
+    
+    <target name="scaffold:input-build-project" unless="build.project.name">
+        <input message="Please enter build project name, to be used for build module:" addproperty="build.project.name" defaultvalue="build"/>
+    </target>
+    
+    <target name="scaffold:input-main-project" unless="main.project.name">
+        <input message="Please enter main project name, to be used for root module:" addproperty="main.project.name" defaultvalue="main"/>
+    </target>
+
+    <target name="scaffold:input-module-project" unless="module.project.name">
+        <input message="Please enter name of first non-root module:" addproperty="module.project.name" defaultvalue="module1" />
+    </target>
+
+    <target name="scaffold:input-web-project" unless="web.project.name">
+        <input message="Please enter name of web module:" addproperty="web.project.name" defaultvalue="web" />
+    </target>
+
+    <target name="scaffold:input-servlet-version" unless="servlet.api.version">
+        <input message="Please enter servlet API version:" addproperty="servlet.api.version" defaultvalue="2.5" validargs="2.4,2.5"/>
+    </target> 
+    
+    <target name="scaffold:input-spring-version" unless="spring.version">
+        <input message="Please enter Spring version (e.g. 2.5.6, 3.0.0.RELEASE):" addproperty="spring.version" defaultvalue="2.5.6"/>
+    </target>  
+    
+    <target name="scaffold:input-test-project" unless="test.project.name">
+        <input message="Please enter name of tests project:" addproperty="test.project.name" defaultvalue="test" />
+    </target>
+
+    <target name="scaffold:input-repository-project" unless="repository.project.name">
+        <input message="Please enter name of repository project:" addproperty="repository.project.name" defaultvalue="repository" />
+    </target>
+
+    <target name="scaffold:input-workspace-root" unless="workspace.root.location.input">
+        <property name="default.workspace.root" location="${user.home}/workspaces/newproject"/>
+        <input message="Please enter name of workspace root directory:" addproperty="workspace.root.location.input" defaultvalue="${default.workspace.root}"/>
+    </target>
+    
+    <!--
+    Scaffold steps for initial project creation:
+    - run ant -f scaffold-build.xml scaffold:create
+    - check IMPALA_HOME is set correctly
+    - then to main project, and run ant fetch, ant get
+    - open eclipse in workspace root
+    - import all projects
+    Then
+    - run tests individually as JUnit 
+    - run test individually interactively
+    - run AllTests
+    - run StartServer (connect using http://localhost:8080/web/message.htm)
+    -->
+    <target name="scaffold:newproject-confirm" depends="scaffold:input-workspace-root,
+                                scaffold:input-build-project,
+                                scaffold:input-host-project,
+                                scaffold:input-main-project,
+                                scaffold:input-module-project,
+                                scaffold:input-web-project,
+                                scaffold:input-spring-version,
+                                scaffold:input-servlet-version,
+                                scaffold:input-test-project,
+                                scaffold:input-repository-project,
+                                scaffold:input-project-prefix,
+                                scaffold:input-base-package">
+        <property name="workspace.root.location" location="${workspace.root.location.input}" />
+
+        <echo>Workspace root location: ${workspace.root.location}</echo>
+        <echo>Build project name: ${host.project.name}</echo>
+        <echo>Host web application project name: ${build.project.name}</echo>
+        <echo>Main (root) project name: ${main.project.name}</echo>
+        <echo>First application module project name: ${module.project.name}</echo>
+        <echo>Web project name: ${web.project.name}</echo>
+        <echo>Spring version: ${spring.version}</echo>
+        <echo>Servlet API version: ${servlet.api.version}</echo>
+        <echo>Tests project name: ${test.project.name}</echo>
+        <echo>Repository project name: ${repository.project.name}</echo>
+
+        <input message="Press return key to continue, or CTRL + C to quit ..." />
+        
+        <property name = "copy.main.project" value = "true"/>
+        <property name = "copy.build.project" value = "true"/>
+        <property name = "copy.module.project" value = "true"/>
+        <property name = "copy.host.project" value = "true"/>
+        
+        <mkdir dir="${workspace.root.location}" />
+    </target>
+
+    <!--######################  input targets for creating new single module ###################### -->
+
+    <target name="scaffold:input-new-project" unless="module.project.name">
+        <input message="Please enter name of new module:" addproperty="module.project.name" />
+    </target>
+    
+    <target name="scaffold:input-parent-project" unless="parent.project.name">
+        <input message="Please enter name of parent module. If not sure, enter the name of the root module:" addproperty="main.project.name" />
+    </target>
+    
+    <target name="scaffold:input-module-type-name" unless="module.type.name">
+        <input message="Please enter type or project:" addproperty="module.type.name" validargs="empty,application,web,extension" defaultvalue="empty" />
+        <property name = "copy.module.project" value = "true"/>
+    </target>   
+    
+    <target name="scaffold:newmodule-confirm" depends="
+                                scaffold:input-workspace-root,
+                                scaffold:input-parent-project,
+                                scaffold:input-build-project,
+                                scaffold:input-new-project,
+                                scaffold:input-module-type-name,
+                                scaffold:input-repository-project,
+                                scaffold:input-project-prefix,
+                                scaffold:input-base-package">
+        <property name="workspace.root.location" location="${workspace.root.location.input}" />
+
+        <echo>About to create new module of type '${module.type.name}' with name '${module.project.name}' create in ${workspace.root.location}</echo>
+        <echo>Repository project name: ${repository.project.name}</echo>        
+        <echo>Workspace root location: ${workspace.root.location}</echo>
+        <echo>Build project name: ${build.project.name}</echo>
+        <echo>Parent name: ${main.project.name}</echo>
+
+        <input message="Press return key to continue, or CTRL + C to quit ..." />
+        
+    </target>
+    
+    <!-- ######################  filterset declaration ###################### -->
+    
+    <target name="scaffold:locations">  
+
+        <property name = "build.project.location" location = "${workspace.root.location}/${project.prefix}${build.project.name}"/>
+        <property name = "main.project.location" location = "${workspace.root.location}/${project.prefix}${main.project.name}"/>
+        <property name = "web.project.location" location = "${workspace.root.location}/${project.prefix}${web.project.name}"/>
+        <property name = "host.project.location" location = "${workspace.root.location}/${project.prefix}${host.project.name}"/>
+        <property name = "test.project.location" location = "${workspace.root.location}/${project.prefix}${test.project.name}"/>
+        <property name = "repository.project.location" location = "${workspace.root.location}/${project.prefix}${repository.project.name}"/>
+        
+    </target>
+    
+    <target name="scaffold:filterset">
+        
+        <filterset id = "scaffoldFilter" onmissingfiltersfile="ignore">
+            <filter token="project.package.name" value="${project.package.name}" />
+            <filter token="project.prefix" value="${project.prefix}" />
+            <filter token="build.project.name" value="${build.project.name}" />
+            <filter token="main.project.name" value="${main.project.name}" />
+            <filter token="module.project.name" value="${module.project.name}" />
+            <filter token="web.project.name" value="${web.project.name}" />
+            <filter token="test.project.name" value="${test.project.name}" />
+            <filter token="repository.project.name" value="${repository.project.name}" />
+
+            <filter token="full.build.project.name" value="${project.prefix}${build.project.name}" />
+            <filter token="full.host.project.name" value="${project.prefix}${host.project.name}" />
+            <filter token="full.main.project.name" value="${project.prefix}${main.project.name}" />
+            <filter token="full.module.project.name" value="${project.prefix}${module.project.name}" />
+            <filter token="full.web.project.name" value="${project.prefix}${web.project.name}" />
+            <filter token="full.test.project.name" value="${project.prefix}${test.project.name}" />
+            <filter token="full.repository.project.name" value="${project.prefix}${repository.project.name}" />         
+            
+            <filter token="impala.version" value="${project.version}" />
+            <filter token="spring.version" value="${spring.version}" />
+                
+            <filtersfile file = "${impala.home}/modules/filter.properties"/>
+            <filtersfile file = "${impala.home}/modules/servlet-api-${servlet.api.version}.properties"/>
+        </filterset>
+        
+    </target>   
+    
+    <!--######################  copy targets ###################### -->
+    
+    <target name="scaffold:copybuild" if = "copy.build.project">
+        
+        <available file="${build.project.location}" property="build.already.exists"/>
+        <fail if="build.already.exists" message="The location ${build.project.location} already exists"/>
+        
+        <copy todir="${build.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/build">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+    </target>   
+    
+    <target name="copypackage">
+        
+        <copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/src" filtering="false" failonerror="false">
+            <mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
+                from = "classes" 
+                to="${project.package.name}/${current.project.name}/"
+                classpathref="lib.classpath"/>
+            <fileset dir = "${workspace.root.location}/${project.prefix}${current.project.name}/src/classes"/>
+        </copy>
+        <copy todir="${workspace.root.location}/${project.prefix}${current.project.name}/test" filtering="false" failonerror="false">
+            <mapper classname="org.impalaframework.build.ant.CopyPackageMapper" 
+                from = "classes" 
+                to="${project.package.name}/${current.project.name}/"
+                classpathref="lib.classpath"/>
+            <fileset dir = "${workspace.root.location}/${project.prefix}${current.project.name}/test/classes"/>
+        </copy>
+        <delete dir = "${workspace.root.location}/${project.prefix}${current.project.name}/src/classes" failonerror="false"/>
+        <delete dir = "${workspace.root.location}/${project.prefix}${current.project.name}/test/classes" failonerror="false"/>
+    </target>
+        
+    <target name="scaffold:copymain" if = "copy.main.project">
+        
+        <available file="${main.project.location}" property="main.already.exists"/>
+        <fail if="main.already.exists" message="The location ${main.project.location} already exists"/>
+        
+        <copy todir="${main.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/main" excludes= "**/module-context.xml">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <copy file = "${impala.home}/modules/main/resources/module-context.xml" 
+                tofile="${main.project.location}/resources/${project.prefix}${main.project.name}-context.xml"
+                filtering="true">
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <!-- package copying here -->
+        <antcall target="copypackage">
+            <param name="current.project.name" value = "${main.project.name}"/>
+        </antcall>
+        
+    </target>   
+        
+    <target name="scaffold:copymodule" if = "copy.module.project">
+        
+        <property name = "module.type.name" value = "application"/>
+        
+        <available file="${main.project.location}" property="main.already.exists"/>
+        <fail unless="main.already.exists" message="The parent location ${main.project.location} does not exist. Cannot use this as a parent module."/>
+        
+        <available file="${workspace.root.location}/${project.prefix}${module.project.name}" property="module.already.exists"/>
+        <fail if="module.already.exists" message="The location ${workspace.root.location}/${project.prefix}${module.project.name} already exists. You probably already have a module at this location."/>
+        
+        <copy todir="${workspace.root.location}/${project.prefix}${module.project.name}" filtering="true">
+            <fileset dir="${impala.home}/modules/${module.type.name}" excludes= "**/module-context.xml">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+    
+        <copy file = "${impala.home}/modules/${module.type.name}/resources/module-context.xml" 
+                tofile="${workspace.root.location}/${project.prefix}${module.project.name}/resources/${project.prefix}${module.project.name}-context.xml"
+                filtering="true"
+                failonerror="false">
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <!-- package copying here -->
+        <antcall target="copypackage">
+            <param name="current.project.name" value = "${module.project.name}"/>
+        </antcall>
+        
+    </target>
+    
+    <target name="scaffold:copyhost" if = "copy.host.project">
+            
+        <available file="${host.project.location}" property="host.already.exists"/>
+        <fail if="host.already.exists" message="The location ${host.project.location} already exists. You probably already have a module at this location."/>
+        
+        <copy todir="${host.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/host" excludes = "**/module-context.xml,**/WEB-INF/web-*.xml">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <copy file = "${impala.home}/modules/host/context/WEB-INF/web-${servlet.api.version}.xml" 
+            tofile="${host.project.location}/context/WEB-INF/web.xml" filtering="true">
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+                
+    </target>   
+    
+    <target name="scaffold:copyweb">
+
+        <available file="${main.project.location}" property="main.already.exists"/>
+        <fail unless="main.already.exists" message="The parent location ${main.project.location} does not exist. Cannot use this as a parent module."/>
+            
+        <available file="${web.project.location}" property="web.already.exists"/>
+        <fail if="web.already.exists" message="The location ${web.project.location} already exists. You probably already have a module at this location."/>
+        
+        <copy todir="${web.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/war" excludes = "**/module-context.xml,**/WEB-INF/web-*.xml">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+    
+        <copy file = "${impala.home}/modules/war/resources/module-context.xml" 
+                tofile="${web.project.location}/resources/${project.prefix}${web.project.name}-context.xml"
+                filtering="true">
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+        
+        <!-- package copying here -->
+        <antcall target="copypackage">
+            <param name="current.project.name" value = "${web.project.name}"/>
+        </antcall>
+                
+    </target>
+    
+    
+    <target name="scaffold:copytest">
+        
+        <copy todir="${test.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/test">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy> 
+        
+    </target>
+    
+    
+    <target name="scaffold:copyrepository">
+    
+        <copy todir="${repository.project.location}" filtering="true">
+            <fileset dir="${impala.home}/modules/repository">
+            </fileset>
+            <filterset refid="scaffoldFilter"/>
+        </copy>
+    
+    </target>
+
+    <!--######################  high level targets ###################### -->
+            
+    <target name="scaffold:create" depends="
+        scaffold:newproject-confirm, 
+        scaffold:locations, 
+        scaffold:filterset, 
+        scaffold:copybuild, 
+        scaffold:copyhost, 
+        scaffold:copymain, 
+        scaffold:copymodule, 
+        scaffold:copyweb,
+        scaffold:copytest,
+        scaffold:copyrepository">
+    </target>
+    
+    <target name="scaffold:newmodule" depends="
+        scaffold:newmodule-confirm, 
+        scaffold:locations, 
+        scaffold:copymodule">
+    </target>
+
+</project>

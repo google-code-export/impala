@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Export-Package: org.impalaframework.osgiroot;uses:="org.osgi.framework
+ ";version="1.0.0"
+Tool: Bnd-0.0.249
+Bundle-Name: osgi-root
+Created-By: 1.6.0_07 (Apple Inc.)
+Ant-Version: Apache Ant 1.7.0
+DynamicImport-Package: *
+Bundle-Version: 1.0.0
+Bnd-LastModified: 1228341556232
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.impalaframework.osgiroot.ResourceActivator
+Bundle-Description: OSGi sample root
+Bundle-SymbolicName: org.impalaframework.osgiroot
+Import-Package: org.impalaframework.osgiroot;version="1.0.0",org.osgi.
+ framework
+Originally-Created-By: 1.6.0_07-b06-57 (Apple Inc.)
+
