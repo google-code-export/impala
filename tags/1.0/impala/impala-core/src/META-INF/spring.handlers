@@ -1,2 +1,0 @@
-http\://www.impalaframework.org/schema/service=org.impalaframework.spring.service.config.ServiceRegistryNamespaceHandler
-http\://www.impalaframework.org/schema/dynamicproperties=org.impalaframework.spring.config.DynamicPropertiesNamespaceHandler
