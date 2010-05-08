@@ -42,7 +42,6 @@ public class MavenPublishTask extends Task {
         //for each, determine whether in artifact list
         final File[] files = getFiles();
         ArtifactOutput[] ads = getArtifactOutput(files);
-        System.out.println(Arrays.toString(ads));
 
         //parse the version information, and copy to the organisation specific folder
         //generate pom for each of test
