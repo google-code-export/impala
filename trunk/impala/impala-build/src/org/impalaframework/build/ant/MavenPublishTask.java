@@ -42,6 +42,7 @@ public class MavenPublishTask extends Task {
         //for each, determine whether in artifact list
         final File[] files = getFiles();
         ArtifactOutput[] ads = getArtifactOutput(files);
+        System.out.println(Arrays.toString(ads));
 
         //parse the version information, and copy to the organisation specific folder
         //generate pom for each of test
@@ -233,12 +234,11 @@ public class MavenPublishTask extends Task {
                 artifactDescription.setSourceSrcFile(sourceFile);
             }
             
-            //FIXME test
-            String javadocFileName = fileName.replace(".jar", "-sources.jar");
+            String javadocFileName = fileName.replace(".jar", "-javadoc.jar");
             File javadocFile = new File(parent, javadocFileName);
             if (javadocFile.exists()) {
                 artifactDescription.setHasJavaDoc(true);
-                artifactDescription.setJavadocSrcFile(sourceFile);
+                artifactDescription.setJavadocSrcFile(javadocFile);
             }
             
             ads[i] = artifactDescription;
