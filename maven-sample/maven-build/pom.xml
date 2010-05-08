@@ -10,7 +10,7 @@
 		<spring.version>3.0.0.RELEASE</spring.version>
 		<application.version>1.0-SNAPSHOT</application.version>
 		<impala.version>1.0-SNAPSHOT</impala.version>
-		<impala.plugin.version>1.0-M2-SNAPSHOT</impala.plugin.version>
+		<impala.plugin.version>1.0-M2</impala.plugin.version>
 	</properties>
 	<name>maven-build Parent build project for multi-module Impala build</name>
 	<modules>
@@ -232,7 +232,7 @@
 				<groupId>org.impalaframework</groupId>
 				<artifactId>impala-maven-plugin</artifactId>
 				<extensions>true</extensions>
-				<version>1.0-M2-SNAPSHOT</version>
+				<version>${impala.plugin.version}</version>
 				<executions>
 					<execution>
 						<phase>package</phase>
