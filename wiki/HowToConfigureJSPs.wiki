@@ -111,3 +111,9 @@ module's application context XML file. For example:
 {{{
 <web:to-handler extension = "jsp" servletName="jspServlet"/> 
 }}}
+
+3) Note that while the use of in-module JSPs is possible, other alternatives exist. For example, Spring has good support for 
+[http://freemarker.sourceforge.net/ Freemarker], which 
+can be used instead of JSPs. Freemarker even supports JSP tags (albeit with quite a different syntax). Using Freemarker or some other 
+templating engine such as [http://velocity.apache.org/ Velocity] provides a simple alternative to JSPs which is less dependent on 
+application server version, and less likely to 'step on the foot' of the application server. 
