@@ -24,12 +24,12 @@
         depends="web:stage, project:compile">
         
         <property name = "web.lib.includes" value = "**/*.jar"/>
-        <property name = "web.lib.excludes" value = "**/*-sources.jar,dist/*,provided/*,system/*,test/*,jetty/*"/>
+        <property name = "web.lib.excludes" value = "**/*-sources.jar,**/*-javadoc.jar,dist/*,provided/*,system/*,test/*,jetty/*"/>
         <property name = "extensions.lib.includes" value = "dist/*extension*.jar"/>
-        <property name = "extensions.lib.excludes" value = "dist/*-sources.jar"/>
+        <property name = "extensions.lib.excludes" value = "dist/*-sources.jar,**/*-javadoc.jar"/>
         <property name = "web.modules.target" value = "${war.staging.dir}/WEB-INF/modules"/>
         <property name = "web.module.includes" value = "dist/*.jar"/>
-        <property name = "web.module.excludes" value = "dist/*-sources.jar"/>
+        <property name = "web.module.excludes" value = "dist/*-sources.jar,**/*-javadoc.jar"/>
         
         <copy todir="${war.staging.dir}/WEB-INF/lib"
             flatten="true">
