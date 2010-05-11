@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<project name="Shared Build" basedir=".">
+
+    <fail unless = "project.list" message = "'project.list' property not set"/>
+    <fail unless = "impala.home" message = "'impala.home' property not set"/>
+    <import file = "${impala.home}/properties-build.xml"/>
+    <import file = "${impala.home}/download-build.xml"/>
+    <import file = "${impala.home}/mvn-build.xml"/>
+
+    <target name = "shared:init-deploy">
+        <delete dir = "${deploy.dir}" failonerror="false"/>
+        <mkdir dir = "${deploy.dir}"/>
+        <delete failonerror = "false">
+            <fileset  dir = "${repository.dir}" includes="dist/*.jar"/>
+        </delete>
+        <mkdir dir="${repository.dir}/dist"/>
+    </target>
+    
+    <target name = "shared:set-deployable-projects" unless = "deployable.project.list">
+            <property name="deployable.project.list" value="${project.list}"/>
+    </target>   
+    
+    <target name = "shared:fixcrlf">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:fixcrlf" inheritall = "false"/>
+    </target>       
+    
+    <target name = "shared:osgi-manifest">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "osgi:manifest" inheritall = "false"/>
+    </target>   
+    
+    <target name = "shared:get">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "download:get" inheritall = "false"/>
+    </target>       
+    
+    <target name = "shared:clean" depends = "shared:init-deploy">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:clean" inheritall = "false"/>
+    </target>
+    
+    <target name = "shared:compile">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:compile" inheritall = "false"/>
+    </target>
+    
+    <target name = "shared:jar">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:jar" inheritall = "false"/>
+    </target>
+    
+    <target name = "shared:repo">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:repo" inheritall = "false"/>
+    </target>
+    
+    <target name = "shared:jar-test">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:jar-test" inheritall = "false"/>
+    </target> 
+    
+    <target name = "shared:run-test">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${project.list}" target = "project:test" inheritall = "false"/>
+    </target>  
+        
+    <target name = "shared:mvn-signed">
+        <property name="mvn.signed" value="true"/>
+    </target>  
+    
+    <target name = "shared:mvn-not-signed" unless = "mvn.signed">
+        <property name="mvn.signed" value="false"/>
+    </target>  
+    
+    <target name = "shared:mvn-deploy" depends = "shared:mvn-not-signed,mvn:username,mvn:password">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${maven.artifacts}" target = "mvn:deploy" inheritall = "false">
+            <property name="mvn.username" value="${mvn.username}"/>
+            <property name="mvn.password" value="${mvn.password}"/>
+            <property name="maven.organisation" value="${maven.organisation}"/>
+            <property name="maven.repo.root" value="${maven.repo.root}"/>
+            <property name="maven.snapshot.repository" value="${maven.snapshot.repository}"/>
+            <property name="mvn.signed" value="${mvn.signed}"/>
+        </antforeach>
+    </target> 
+                
+    <target name = "shared:mvn-sign-deploy" depends = "shared:mvn-signed,shared:mvn-deploy">
+    </target> 
+    
+    <target name = "shared:test" depends = "shared:jar-test, shared:run-test"/>
+
+    <target name = "shared:all-no-test" depends = "shared:init-deploy, shared:clean, shared:repo"/>
+    <target name = "shared:all-no-download" depends = "shared:init-deploy, shared:clean, shared:repo, shared:test"/>
+    
+</project>

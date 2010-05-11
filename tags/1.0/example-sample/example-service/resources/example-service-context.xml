@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:tx="http://www.springframework.org/schema/tx"       
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:service="http://www.impalaframework.org/schema/service"
+    xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
+    
+    <tx:annotation-driven transaction-manager="transactionManager"/>
+    
+    <context:annotation-config/>
+    
+    <!-- 
+    Don't actually need exportNames here, but just in for demonstration purposes
+    -->
+    <service:export-array beanNames="entryService,concreteService" exportNames="entryService,concreteService"/>
+    
+    <bean id="entryService" class="classes.EntryServiceImpl">
+        <property name="entryDAO" ref="entryDAO"/>
+    </bean>
+    
+    <bean id="concreteService" class="classes.ConcreteService">
+    </bean>
+    
+    <!-- JXM beans -->
+    
+    <bean id="jmxHelper" class="classes.JMXHelper"/>
+    
+    <bean id="jmxAttributeSource"
+          class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>
+    
+    <bean id="assembler"
+          class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+        <property name="attributeSource" ref="jmxAttributeSource"/>
+    </bean>
+
+    <bean id="namingStrategy"
+          class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+        <property name="attributeSource" ref="jmxAttributeSource"/>
+    </bean> 
+    
+    <bean id="exporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="assembler" ref="assembler"/>
+        <property name="namingStrategy" ref="namingStrategy"/>
+        <property name="beans">
+            <map>
+                <entry key="example:service=jmxHelper"
+                    value-ref="jmxHelper"/>
+            </map>
+        </property>
+    </bean>
+    
+    <!-- 
+    Imports a bean registered using the name 'prototypeMessageService' with scope='prototype'
+    -->
+    <service:import id="prototypeMessageService" 
+        proxyTypes="interfaces.MessageService"/>
+        
+    <!-- 
+    Imports a bean created using a non-static factory bean, registered using the name 'nonstaticFactoryBeanMessageService'
+    -->
+    <service:import id="nonstaticFactoryBeanMessageService" 
+        proxyTypes="interfaces.MessageService"/>
+     
+    <!-- 
+    Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
+    -->     
+    <service:import id="typedMessageService" exportTypes="interfaces.MessageService"/>
+     
+    <!-- 
+    Imports a bean exported using the type 'interfaces.MessageService'. Automatically proxied using the type interfaces.MessageService
+    -->     
+    <service:import id="nameAndTypedMessageService" exportTypes="interfaces.MessageService" exportName="namedMessageService"/>
+      
+    <!-- 
+    Imports a bean exported using the name 'myNamedMessageService', and proxied using the type interfaces.MessageService
+    -->     
+    <service:import id="myNamedMessageService" 
+        proxyTypes="interfaces.MessageService"/>      
+      
+    <!-- 
+    Imports a bean exported using the name 'myNamedMessageService', and proxied using the type interfaces.MessageService
+    -->     
+    <service:import id="namedMessageService" 
+        proxyTypes="interfaces.MessageService"
+        exportName="myNamedMessageService"/>
+    
+    <!-- 
+    Imports a bean exported using the filter '(message=*)"', and proxied using the type interfaces.MessageService
+    --> 
+    <service:import id="filteredMessageService" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
+    <!-- 
+    Creates a list from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
+    --> 
+    <service:list id="messageServiceList" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
+    <!-- 
+    Creates a set from beans exported using the filter '(message=*)"'. Each entry is proxied using the type interfaces.MessageService
+    --> 
+    <service:set id="messageServiceSet" 
+        proxyTypes="interfaces.MessageService"
+        filterExpression="(message=*)"/>
+        
+    <!-- 
+    Creates a list from beans exported using the filter '(message=*)"'. 
+    In this example, will match any bean of correct type which is exported with a 'message' attribute.
+    Each entry is proxied using the type interfaces.MessageService,
+    and keyed on the 'message' attribute.
+    --> 
+    <service:map id="messageServiceMap" 
+        proxyTypes="interfaces.MessageService"
+        mapKey="message"
+        filterExpression="(message=*)"/>
+
+    <!-- 
+    replaced old service import definitions
+    
+    <bean id="typedMessageService" class="org.impalaframework.spring.service.proxy.TypedServiceProxyFactoryBean">
+         <property name="exportTypes" value="interfaces.MessageService"/>
+    </bean>
+    
+    <bean id="namedMessageService" class="org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean">
+         <property name="proxyTypes" value="interfaces.MessageService"/>
+         <property name="exportName" value="myNamedMessageService"/>
+    </bean>
+    
+    <bean id="filteredMessageService" class="org.impalaframework.spring.service.proxy.FilteredServiceProxyFactoryBean">
+         <property name="proxyTypes" value="interfaces.MessageService"/>
+         <property name="filterExpression" value="(message=*)"/>
+    </bean>
+    -->
+    
+    <bean id="autowiredClass" class="classes.AutowiredClass">
+    </bean>
+            
+    <!-- 
+    service:import entries with problems:
+    
+    No exportTypes, exportName or filterExpression
+    <service:import id="noRestrictionMessageService" proxyTypes="interfaces.MessageService"/>   
+    
+    No proxyTypes specified
+    <service:import id="namedMessageServiceNoType" 
+        exportName="myNamedMessageService"/>    
+     
+    Export name and export types cannot both be specified
+    <service:import id="typedAndNamedMessageService" 
+        exportTypes="interfaces.MessageService" 
+        exportName="myNamedMessageService"/>
+        
+    Export name and filter expression cannot both be specified
+    <service:import id="filteredAndNamedMessageService" 
+        proxyTypes="interfaces.MessageService" 
+        exportName="myNamedMessageService"
+        filterExpression="(message=*)"/>
+     -->
+    
+   <!-- support for laod time weaving of aspects   -->
+   <context:load-time-weaver/>
+
+</beans>
