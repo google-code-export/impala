@@ -28,8 +28,7 @@ elegantly support modular web applications, allowing for modular vertical web ap
 Impala works straight out of the box using a plain Eclipse installation (no fancy plugins required). It has a built-in build system which you can optionally
 use, based on Ant, and also integrates nicely with Maven.
 
-If you're already familiar with developing substantial applications using the Spring framework, then you will probably already be familiar
-with the problems that Impala solves. With Impala, you can take your Spring-based application development to a new 
+With Impala, you can take your Spring-based application development to a new 
 level of ease and sophistication, with remarkably few changes to the way you write applications.
   
 See the full list of [http://code.google.com/p/impala/issues/list?can=7&q=label%3AMilestone-Release1.0 issues covered in this release].
