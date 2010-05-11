@@ -1,2 +1,0 @@
-osgi from org.springframework.osgi:spring-osgi-test:1.1.2
-osgi from org.junit:com\.springsource\.junit:3.8.2
