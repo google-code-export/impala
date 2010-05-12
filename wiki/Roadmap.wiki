@@ -5,78 +5,44 @@
 
 The following gives an outline of some of the features which are envisaged. Features for 1.0 and beyond are up for consideration, based on the needs and contributions of users.
 
-== Impala 1.0M6 ==
-  
-  * *Module plugins.* Provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed within a module, potentially using custom module type.
-  * *Extensions to the Service registry API*, allowing for OSGi compatibility when exporting and looking up service registry (similar to OSGi).
-  * *An Impala namespace* based on the Spring 2.0 namespace mechanism, providing simplified XML for declaring Impala-specific beans.
-  * *Improvements to auto redeploy* mechanism, with more robust on-the-fly module reloading.
-  * *Module class folders*, with additional module folder on file system to be optionally added to module class path for scripts, resources (e.g. templates) and even class files.
-
-== Impala 1.0 ==
-
 Some of the features will be delivered in intermediate milestones prior to the final 1.0. Most of these features should be included in the 1.0 release.
-  
+  .
+=== Documentation and Samples ===
+  * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities. 
+  * *More documentation*.
+
+=== Features ===
+  * *Web administration tool* for visualising and administering modules at runtime.
+  * *Module plugins.* Provide a packaging structure which will allow for chunks of reusable functionality to be packaged and deployed within a module, potentially using custom module type.
+
+=== Integration ===
   * *Scala support*, with built in support in Impala build for compiling Scala classes.
   * *Groovy support*, with a simple mechanism for picking up Groovy scripts and exposing these as part of module functionality.
-  * *Maven build support*, allowing Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
-  * *Maven publishing*, with hosting of local Maven repository, and on demand publishing to public repository.
-  * *More documentation*.
-  
-== Post 1.0 ==
-
-These features are subject to refinement and review.
- 
-  * *Better OSGi support*, including support for web applications, easier OSGi integration testing, and better out the box OSGi deployment. 
-  * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options.
-  * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities. 
-  * *Web administration tool* for visualising and administering modules at runtime.
-  * *Support for various Spring bean scopes. Current support exists only for Spring singleton beans to be exported to and imported from Impala's service registry.
-  * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
-  * *JUnit 4.0 support*. Specifically, the interactive test runner should be usable with JUnit 4.0-based tests. 
   * *Integration with Grails. Either with Impala embedded within Grails, Grails embedded within Impala, or both.
-  * *Further web framework integration*. Target additional web frameworks not covered in 1.0 release.
-  * *Further extensions to the JMX support.
-  * *New deployment options, for example via Amazon's EC2 service.
+
+=== IDE ===
+  * *IDE integration* (IntelliJ, Netbeans). Currently, Eclipse is explicitly supported, for example, in the documentation, samples and scaffolding. It would be good to provide support for IntelliJ, Netbeans and potentially JDeveloper.
   * *Eclipse plugin for interactive test runner.
-  
------
+  * *Eclipse WST platform* support.
 
-The following features have already been implemented in earlier releases.
-  
-== Impala 1.0 M1 ==
+=== Build ===
+  * *Better Maven build support*, allowing Maven users to build Impala applications using Maven, and to structure projects according to Maven document structure conventions.
+  * *Maven archetypes*, for creating new modules.
 
-  * *Interactive test runner:* a Java main application which can load, update and reload modules, as well as run tests.
-  * *Suite test runner:* support for efficient, rapid running of a suites of integration tests. 
-  * *Simple scaffolding*, allowing building of new projects. See [GettingStarted Getting Started] for more deal.
-  * *Eclipse web application runner* (using Jetty), allowing multi-module web applications to be developed without builds.
-  * *War deployment build* - supporting creation of war files which can be deployed in a standard JEE application server or servlet container.
-  * *Non-war deployment build* for Jetty - a specialised deployment structure with an embedded Jetty server.
-  * *Internal refactoring* to remove wrinkles in architecture.
-  * *Spring MVC integration* with support for multi-module, dynamically reloadable web applications being built using Spring MVC.
-  * *JUnit 3.8* support, specifically in the interactive test runner.
-  * *Automatic module updates* using a file system modification detector.
-  * *Manual module updates* using JMX administration console.
-  * *Deployment build* with automatic tagging of release versions.
-  * *Ant-based build system* which can be used in Impala-based applications.
-  
-== Impala 1.0M2 ==
+=== JMX ===
+  * *Extensions to JMX administration capability*. Currently, JMX can be used for certain administration functions. The idea would be to extend this capability, and also improve on the range and sophistication of JMX deployment options
+  * *Further extensions to the JMX support.
 
-  * *Self-contained module definitions*, allowing module definitions to be specified internally within modules.
+=== Deployment ===
+  * *New deployment options, for example via Amazon's EC2 service.
 
-== Impala 1.0M3 ==
+=== Testing ===
+  * *JUnit 4.0 support*. Specifically, the interactive test runner should be usable with JUnit 4.0-based tests.
 
-  * *Web framework integration*. allowing web applications using frameworks other than Spring MVC to be supported as first class Impala modules, with full reloading.
-  * *Dynamic properties*, allowing typed properties to be injected into beans and dynamically updated without requiring module reloads.
+=== Web === 
+  * *Further web framework integration*. Target additional web frameworks not covered in 1.0 release.
 
-== Impala 1.0M4 ==
-
-  * *OSGi compliance*, allowing Impala jars to be used in an OSGi environment.
-  * *Basic OSGi support*. Allowing Impala applications to be run on an OSGi container, with help from Spring DM.
-  * *Graph class loaders*. The ability to specify modules arranged in a graph, allowing individual modules to depend on multiple modules rather than just a single parent.
-  
-== Impala 1.0M5 ==
-  
-  * *Support for alternative IoC containers*, allowing Impala to be used as a generalized dynamic module framework.
-  * *Configuration and extensibility*, with improved mechanisms for allowing Impala to be easily configured and extended.  
+=== OSGi ===
+  * *Better OSGi support*, including support for web applications, easier OSGi integration testing, and better out the box OSGi deployment. 
+  * *Extensions to the Service registry API*, potenially allowing for OSGi compatibility when exporting and looking up service registry.
   
