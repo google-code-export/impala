@@ -10,7 +10,7 @@ This introduction is an abridged version of the GettingStarted series. For a mor
 First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
 
 {{{
-http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
+http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0.zip
 }}}
 
 or the relevant distribution from [http://code.google.com/p/impala/downloads/list the Impala downloads page].
@@ -18,7 +18,7 @@ or the relevant distribution from [http://code.google.com/p/impala/downloads/lis
 You can then unzip the Impala distribution:
 
 {{{
-unzip impala-1.0-SNAPSHOT.zip
+unzip impala-1.0.zip
 }}}
 
 Ensure that you have the _IMPALA_HOME_ environment property set correctly to the unzipped file location.
