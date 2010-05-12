@@ -5,18 +5,55 @@
 
 The potential of Impala can only be realised with the help of others in the developer community.  
 
-Up to the first public release Impala has been one-man project. That's the best way for steering the initial course, but not for the future. It's still pretty early days, so there is no better time to get involved. 
+With the 1.0 release now out, there is no better time to get involved. 
 
 Contributions would be very welcome in a wide range of areas:
-  * testing Impala in different environments. Testing so far has been on Jetty 6 and Tomcat 5.5. It would be good to extend testing to other application servers, but current resources available don't permit this.
-  * extending Impala web framework support. While Impala will work with any web framework through traditional Spring integration techniques, the aim is to have web framework integration which takes advantage of Spring's dynamic nature.
-  * Maven support. I'm not a Maven user, so I haven't focussed much on this area. However, it would be good to have Maven support for Impala, allowing Impala applications to work seamlessly in a Maven build environment.
-  * development of new features. See the Roadmap - http://code.google.com/p/impala/wiki/Roadmap.
-  * bug reporting, or even better, bug fixes, submitted to the Impala issue tracker.
-  * documentation and example applications.
-  * release co-ordination.
-  * project leadership - help to steer the course of future developments (obviously subject to prior contributions in other areas)!
-  * evangelism - if you're willing to get up and talk about Impala this will be especially valued!!
+
+=== Testing Impala in different environments ===
+Testing so far has been mostly on Jetty 6 and Tomcat 5.5. It would be good to extend testing to other application servers. 
+I am happy to set up a wiki page for users to report their experiences (and work arounds) for particular app server versions, 
+and tickets can obviously be raised in the issue tracker for specific issues.
+
+=== Extending Impala web framework support ===
+While Impala will work with any web framework through traditional Spring integration techniques, 
+the aim is to have web framework integration which takes advantage of Spring's dynamic nature.
+So far we've got Spring MVC (of course), Struts, Struts2, Wicket, JSF and Tapestry examples. Do you have another framework you would like to use with Impala. We can add this to the [SamplesWebFramework web frameworks sample].
+
+=== Further enhancements to Maven support ===
+There is a Maven plugin and [SamplesMaven sample]. It would be great to extend this support to make sure that the needs of day-in day-out Maven users are covered.
+It would be great to have archetypes to kick-start project creation and module addition.
+
+=== Bug reporting ===
+If you encounter any issue when using Impala, your effort in recording this in the ticket tracker will be appreciated.
+
+=== Bug fixes ===
+Even better, taken on one of the existing tickets in the ticket database, and submit a patch.
+
+=== Documentation ===
+If you have some knowledge about Impala which you would like to share, it can be added to the wiki.
+
+=== Sample applications ===
+In particular I have in mind a sample application developed specifically for Impala, which showcases its features and best practices. 
+There's a detailed description of what I have in mind [OpenSourceJumpStart here].
+
+=== Release co-ordination ===
+This is the less glamorous but still critical (and time-consuming) part of any open source project. Doing the release builds, announcements, etc.
+
+=== Logo ===
+It's criminal, but Impala still hasn't got a logo. If you're a ace graphic designer (I'm sorry, but I'm very fussy on this one), I'd love to hear from you.
+
+=== Web Site ===
+Impala desperately needs a web site where the key messages of the project can be presented in a more visually appealing way. 
+The GoogleCode home page is just too dull, and ironically, does not seem to show up well on Google searches.
+
+=== Project leadership ===
+Help to steer the course of future developments (obviously subject to prior contributions in other areas)!
+
+=== Evangelism ===
+If you're willing to get up and talk about Impala this will be especially valued!!
+
+=== Anything else on the roadmap ===
+See the Roadmap - http://code.google.com/p/impala/wiki/Roadmap.
 
 ==Are you interested?==
 
