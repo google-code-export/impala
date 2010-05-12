@@ -54,10 +54,9 @@ See the Roadmap - http://code.google.com/p/impala/wiki/Roadmap.
 
 ==Are you interested?==
 
-In a previous project I was approached by a number of people who asked me _What can I do?_. Typically, I'd suggest something, and then would not hear from the person again.
+In a previous project I was approached by a various people asking me _What can I do?_. Typically, I'd suggest something, and then would not hear from the person again.
 
-So if you're interested in getting involved, show me! Check out the source, and run the examples. Only you know your own interests, skills and capabilities, which makes
-you the best person to decide how you can help. Then come up with a suggestion of how you can help. I will be supportive of your efforts as long as your contribution is of high quality and doesn't conflict with the objectives of the project as a whole.
+So if you're interested in getting involved, let this show in your actions. Don't wait to be told what you should do. Only you know your own interests, skills and capabilities, which makes you the best person to decide how you can help. Check out the source, and run the examples. Then come up with a suggestion of how you can help. I will be supportive of your efforts as long as your contribution is of high quality and doesn't conflict with the objectives of the project as a whole.
 
 Some guidelines:
  * if you contribute code, make sure it comes with unit tests and that these tests run as part of the overall suite.
