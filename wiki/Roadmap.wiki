@@ -3,9 +3,7 @@
 
 = Impala Roadmap =
 
-The following gives an outline of some of the features which are envisaged. Features for 1.0 and beyond are up for consideration, based on the needs and contributions of users.
-
-Some of the features will be delivered in intermediate milestones prior to the final 1.0. Most of these features should be included in the 1.0 release.
+The following gives an outline of some of the features which are envisaged, post Impala 1.0.
   .
 === Documentation and Samples ===
   * *_Whistle and bells_ samples*. Impala really shines when dealing with large applications with complex configuration requirements. It would be great to have a more advanced sample application which demonstrates it's capabilities. 
