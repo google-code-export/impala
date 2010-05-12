@@ -3,10 +3,7 @@
 
 =Getting Involved=
 
-The potential of Impala can only be realised with the help of others in the developer community.  
-
-With the 1.0 release now out, there is no better time to get involved. 
-
+The potential of Impala can only be realised with the help of others in the developer community. With the 1.0 release now out, there is no better time to get involved. 
 Contributions would be very welcome in a wide range of areas:
 
 === Testing Impala in different environments ===
