@@ -27,8 +27,11 @@ public class WebModuleUtils {
         final boolean supportsContextPath = ServletContextUtils.isAtLeast25(servletContext);
         
         if (supportsContextPath) {
+            //Issue 330 - returns null if no such method error is thrown
             String contextPath = ServletContextUtils.getContextPathWithoutSlash(servletContext);
-            resourceName = System.getProperty(contextPath + "." + paramName);
+            if (contextPath != null) {
+                resourceName = System.getProperty(contextPath + "." + paramName);
+            }
         }
         
         if (resourceName == null) {
