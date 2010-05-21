@@ -85,6 +85,7 @@ import org.impalaframework.web.spring.module.WebRootModuleLoaderTest;
 import org.impalaframework.web.spring.servlet.ExternalModuleServletTest;
 import org.impalaframework.web.spring.servlet.InternalModuleServletTest;
 import org.impalaframework.web.utils.ModuleProxyUtilsTest;
+import org.impalaframework.web.utils.ServletContextUtilsTest;
 
 public class AutomatedWebTests {
 
@@ -139,6 +140,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(ServletFactoryBeanTest.class);
         suite.addTestSuite(ServletContextModuleLocationResolverTest.class);
         suite.addTestSuite(ServletContextResourceLoaderTest.class);
+        suite.addTestSuite(ServletContextUtilsTest.class);
         suite.addTestSuite(ServletInvokerUtilsTest.class);
         suite.addTestSuite(ServletPathRequestModuleMapperTest.class);
         suite.addTestSuite(StateProtectingHttpSessionWrapperTest.class);

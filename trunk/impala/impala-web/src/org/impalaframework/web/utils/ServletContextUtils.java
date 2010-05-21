@@ -16,22 +16,34 @@ package org.impalaframework.web.utils;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
 /**
  * Class holding utility {@link ServletContext} related methods.
  * @author Phil Zoio
  */
 public abstract class ServletContextUtils {
+    
+    private static final Log logger = LogFactory.getLog(ServletContextUtils.class);
 
     public static boolean isAtLeast25(ServletContext servletContext) {
         return servletContext.getMajorVersion() >= 2 && servletContext.getMinorVersion() >= 5;
     }
 
     public static String getContextPathWithoutSlash(ServletContext servletContext) {
-        String contextPath = servletContext.getContextPath();
-        if (contextPath.startsWith("/")) {
-            contextPath = contextPath.substring(1);
+        String contextPath;
+        try {
+            contextPath = servletContext.getContextPath();
+            if (contextPath.startsWith("/")) {
+                contextPath = contextPath.substring(1);
+            }
+            return contextPath;
         }
-        return contextPath;
+        catch (NoSuchMethodError e) {
+            logger.warn(NoSuchMethodError.class.getName() + " called when attempting to call ServletContext.getContextPath(). Check that you have packaged your application with a Servlet API jar for version 2.5 or later");
+            return null;
+        }
     }
 
 }
