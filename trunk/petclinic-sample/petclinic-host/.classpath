@@ -12,16 +12,16 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/commons-io-1.3.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/dom4j-1.6.1.jar" sourcepath="/petclinic-repository/main/dom4j-1.6.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/hsqldb-1.8.0.7.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-build-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-build-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/compile/impala-build-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/compile/impala-build-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/jta.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/log4j-1.2.13.jar" sourcepath="/petclinic-repository/main/log4j-1.2.13-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/spring-2.5.5.jar" sourcepath="/petclinic-repository/main/spring-2.5.5-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/test/dbunit-2.1.jar" sourcepath="/petclinic-repository/test/dbunit-2.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/test/junit-3.8.1.jar" sourcepath="/petclinic-repository/test/junit-3.8.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/commons-lang-2.3.jar" sourcepath="/petclinic-repository/main/commons-lang-2.3-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-core-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-core-1.0-SNAPSHOT-sources.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-command-1.0-SNAPSHOT.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/compile/impala-core-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/compile/impala-core-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/compile/impala-command-1.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/compile/impala-interactive-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/compile/impala-interactive-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/mysql-connector-java-5.0.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jmx/mx4j-3.0.2.jar" sourcepath="/petclinic-repository/jmx/mx4j-3.0.2-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/jmx/mx4j-impl-3.0.2.jar" sourcepath="/petclinic-repository/jmx/mx4j-3.0.2-sources.jar"/>
@@ -42,8 +42,8 @@
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/spring-webmvc-2.5.5.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/jstl-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/petclinic-repository/web/standard-1.1.2.jar"/>
-	<classpathentry exported="true" kind="lib" path="/petclinic-repository/main/impala-web-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/main/impala-web-1.0-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/petclinic-repository/compile/impala-web-1.0-SNAPSHOT.jar" sourcepath="/petclinic-repository/compile/impala-web-1.0-SNAPSHOT-sources.jar"/>
 	<classpathentry kind="lib" path="/petclinic-repository/jetty/jasper-compiler-jdt-5.5.15.jar"/>
-	<classpathentry kind="lib" path="/petclinic-repository/main/impala-jmx-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="/petclinic-repository/compile/impala-jmx-1.0-SNAPSHOT.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
