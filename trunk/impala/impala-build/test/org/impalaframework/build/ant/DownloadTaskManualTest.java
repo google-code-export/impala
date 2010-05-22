@@ -18,41 +18,14 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import junit.framework.TestCase;
-
-import org.apache.tools.ant.Project;
-import org.impalaframework.build.ant.DownloadTask;
-
 /**
  * @author Phil Zoio
  */
-public class DownloadTaskManualTest extends TestCase {
-
-    private File downloadDir;
-
-    private DownloadTask task;
+public class DownloadTaskManualTest extends BaseDownloadTaskTest {
 
     public void setUp() {
-        File tmpDir = new File(System.getProperty("java.io.tmpdir"));
-        downloadDir = new File(tmpDir, "downloads");
-        downloadDir.mkdir();
-
-        task = new DownloadTask();
-        task.setBaseSourceUrls("http://impala.googlecode.com/svn/maven/repo,http://ibiblio.org/pub/packages/maven2/");
-        task.setToDir(tmpDir);
+        super.setUp();
         task.setDependencies(new File("resources/download-dependencies.txt"));
-        task.setProject(new Project());
-    }
-
-    public void tearDown() {
-        File[] listFiles = downloadDir.listFiles();
-        if (listFiles != null) {
-            for (int i = 0; i < listFiles.length; i++) {
-                System.out.println("Deleting " + listFiles[i]);
-                listFiles[i].delete();
-            }
-        }
-        downloadDir.delete();
     }
 
     public void testExecute() {
