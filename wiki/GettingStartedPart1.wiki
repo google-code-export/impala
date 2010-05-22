@@ -59,7 +59,7 @@ ant newproject
 Buildfile: build.xml
 
 newproject:
-     [echo] Creating new project structure, Impala version 1.0-SNAPSHOT
+     [echo] Creating new project structure, Impala version 1.0
 
 scaffold:input-workspace-root:
     [input] Please enter name of workspace root directory: [/Users/philzoio/workspaces/newproject]
@@ -85,8 +85,8 @@ scaffold:input-web-project:
     [input] Please enter name of web module: [web]
 
 
-scaffold:input-servlet-version:
-    [input] Please enter servlet API version: (2.4, [2.5])
+scaffold:input-spring-version:
+    [input] Please enter Spring version (e.g. 2.5.6, 3.0.1.RELEASE): [2.5.6]
 
 
 scaffold:input-test-project:
@@ -112,12 +112,11 @@ scaffold:newproject-confirm:
      [echo] Main (root) project name: main
      [echo] First application module project name: module1
      [echo] Web project name: web
-     [echo] Servlet API version: 2.5
+     [echo] Spring version: 2.5.6
      [echo] Tests project name: test
      [echo] Repository project name: repository
+     [echo] Servlet API version: 2.5 (Please consult http://code.google.com/p/impala/wiki/WebServlet24 if you need to work with the Servlet 2.4 API)
     [input] Press return key to continue, or CTRL + C to quit ...
-
-    [mkdir] Created dir: /Users/philzoio/workspaces/newproject
 
 ...
 
@@ -135,6 +134,8 @@ BUILD SUCCESSFUL
 Total time: 23 seconds
 
 }}}
+
+Note that this startup application uses the Servlet 2.5 API. If you wish to use the Servlet 2.4 API, see WebServlet24.
 
 Before we import the Eclipse project, there are just two more steps to follow:
 
