@@ -15,6 +15,8 @@ runtime from javax.servlet:jstl:1.1.2
 runtime from taglibs:standard:1.1.2
 }}}
 
+Use `ant get` to downloads, and modify your Eclipse classpath accordingly.
+
 2) Modify the JSP
 
 Add 
