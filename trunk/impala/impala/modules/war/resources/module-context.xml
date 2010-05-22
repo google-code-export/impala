@@ -9,7 +9,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
 http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
 
     <!-- We can omit this entry if it already defined in the root module's application context -->
-    <service:import id="messageService" proxyTypes="com.application.main.MessageService"/>
+    <service:import id="messageService" proxyTypes="@project.package.name@.@main.project.name@.MessageService"/>
 
     <web:mapping>
         <web:to-module prefix = "/@web.project.name@" setContextPath="true"/> 
