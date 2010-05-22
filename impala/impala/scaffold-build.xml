@@ -38,10 +38,6 @@
     <target name="scaffold:input-web-project" unless="web.project.name">
         <input message="Please enter name of web module:" addproperty="web.project.name" defaultvalue="web" />
     </target>
-
-    <target name="scaffold:input-servlet-version" unless="servlet.api.version">
-        <input message="Please enter servlet API version:" addproperty="servlet.api.version" defaultvalue="2.5" validargs="2.4,2.5"/>
-    </target> 
     
     <target name="scaffold:input-spring-version" unless="spring.version">
         <input message="Please enter Spring version (e.g. 2.5.6, 3.0.1.RELEASE):" addproperty="spring.version" defaultvalue="2.5.6"/>
@@ -80,7 +76,6 @@
                                 scaffold:input-module-project,
                                 scaffold:input-web-project,
                                 scaffold:input-spring-version,
-                                scaffold:input-servlet-version,
                                 scaffold:input-test-project,
                                 scaffold:input-repository-project,
                                 scaffold:input-project-prefix,
@@ -94,9 +89,10 @@
         <echo>First application module project name: ${module.project.name}</echo>
         <echo>Web project name: ${web.project.name}</echo>
         <echo>Spring version: ${spring.version}</echo>
-        <echo>Servlet API version: ${servlet.api.version}</echo>
         <echo>Tests project name: ${test.project.name}</echo>
         <echo>Repository project name: ${repository.project.name}</echo>
+        <echo></echo>
+        <echo>Servlet API version: 2.5 (Please consult http://code.google.com/p/impala/wiki/WebServlet24 if you need to work with the Servlet 2.4 API)</echo>
 
         <input message="Press return key to continue, or CTRL + C to quit ..." />
         
@@ -181,7 +177,7 @@
             <filter token="spring.version" value="${spring.version}" />
                 
             <filtersfile file = "${impala.home}/modules/filter.properties"/>
-            <filtersfile file = "${impala.home}/modules/servlet-api-${servlet.api.version}.properties"/>
+            <filtersfile file = "${impala.home}/modules/servlet-api-2.5.properties"/>
         </filterset>
         
     </target>   
@@ -286,7 +282,7 @@
             <filterset refid="scaffoldFilter"/>
         </copy>
         
-        <copy file = "${impala.home}/modules/host/context/WEB-INF/web-${servlet.api.version}.xml" 
+        <copy file = "${impala.home}/modules/host/context/WEB-INF/web-2.5.xml" 
             tofile="${host.project.location}/context/WEB-INF/web.xml" filtering="true">
             <filterset refid="scaffoldFilter"/>
         </copy>
