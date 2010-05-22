@@ -4,7 +4,9 @@
 
 When creating an initial starter Impala application, from Impala 1.0.1 an application using the 2.5 Servlet API will be set up to start with.
 
-If you need to create a 2.4 application, for example, to run on a container without 2.5 support, you will need to make the following changes:
+If you need to create a 2.4 application, for example, to run on a container without 2.5 support, you will need to make the following changes.
+
+= Steps =
 
 1)
 Change the header of your _WEB-INF/web.xml_ as follows:
@@ -59,4 +61,3 @@ ant get
 }}}
 
 to download the dependencies. Then remove the unwanted jar files from the local repository folder, and update the classpath. The last two steps are manual tasks.
-
