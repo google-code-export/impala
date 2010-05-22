@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -98,12 +99,7 @@ public class GetTask extends Task {
             throw new BuildException("The location refered to by 'toDir' is not a directory", getLocation());
         }
 
-        get = new DownloadGetTask();
-        get.setProject(getProject());
-        get.setIgnoreErrors(false);
-
-        copy = new Copy();
-        copy.setProject(getProject());
+        setupHelperTasks();
 
         List<String> fileList = getFileList();
 
@@ -122,15 +118,28 @@ public class GetTask extends Task {
         
         for (String file : fileList) {
 
-            List<DownloadInfo> di = getDownloadInfos(file);
-
-            for (DownloadInfo info : di) {
-                doDownload(sourceUrls, info.getUrlString(), info.getFile());
-            }
+            doDownload(file, sourceUrls);
         }
 
         printResults();
 
+    }
+
+    protected void setupHelperTasks() {
+        get = new DownloadGetTask();
+        get.setProject(getProject());
+        get.setIgnoreErrors(false);
+
+        copy = new Copy();
+        copy.setProject(getProject());
+    }
+
+    protected void doDownload(String file, String[] sourceUrls) {
+        List<DownloadInfo> di = getDownloadInfos(file);
+
+        for (DownloadInfo info : di) {
+            doDownload(sourceUrls, info.getUrlString(), info.getFile());
+        }
     }
 
     protected List<DownloadInfo> getDownloadInfos(String urlString) {
@@ -206,8 +215,6 @@ public class GetTask extends Task {
 
                     final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
                     results.add(new Result(url, result, srcUrl));
-                    
-                    return;
                 
                 }
             }
@@ -218,7 +225,6 @@ public class GetTask extends Task {
                 log("Unable to download " + url, Project.MSG_DEBUG);
             }
         }               
-        
 
         results.add(new Result(url, Result.FAILED, null));
     }
@@ -309,6 +315,10 @@ public class GetTask extends Task {
 
     protected File getToDir() {
         return toDir;
+    }
+    
+    protected List<Result> getResults() {
+        return Collections.unmodifiableList(results);
     }
 
 }
