@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -21,6 +22,9 @@ be automatically detected, and the affected modules will be reloaded.</p>
 (the same would apply for images).
 </p>
 
-<b>A message from message service:</b> <span style = "color:blue;"><%=request.getAttribute("message")%></span><br/>
+<p>An included fragment: 
+<%@ include file="included.jsp" %> </p>
+
+<b>A message from message service:</b> <span style = "color:blue;">${message}</span><br/>
 </body>
 </html>

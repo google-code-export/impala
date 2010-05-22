@@ -9,3 +9,5 @@ provided from org.apache.tomcat:jasper-jdt:6.0.20
 provided from org.apache.tomcat:juli:6.0.20
 provided from xerces:xercesImpl:2.9.1
 provided from commons-el:commons-el:1.0
+runtime from javax.servlet:jstl:1.1.2
+runtime from taglibs:standard:1.1.2

@@ -38,5 +38,7 @@
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/xercesImpl-2.9.1.jar" sourcepath="/teamplan-repository/main/xercesImpl-2.9.1-sources.jar"/>
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-asm-3.0.2.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-expression-3.0.2.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/standard-1.1.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
