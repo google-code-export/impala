@@ -203,7 +203,7 @@ be automatically detected, and the affected modules will be reloaded.</p>
 }}}
 
 Note that from Impala 1.0 RC3 it is possible to host JSPs within modules (rather than simply in the context root directory
-in the host project). For more details see HowToConfigureJSPs.
+in the host project). For more details see [HowToConfigureJSPs HowToConfigureJSPs].
 
 == Running the web application ==
 
