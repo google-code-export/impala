@@ -1,9 +1,10 @@
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-import org.impalaframework.samples.teamplan.orm.suite.AutomatedModuleTests;
-import org.impalaframework.samples.teamplan.web.suite.AutomatedWebTests;
-import org.impalaframework.samples.teamplan.main.suite.AutomatedRootTests;
+
+import samples.teamplan.main.suite.AutomatedRootTests;
+import samples.teamplan.orm.suite.AutomatedModuleTests;
+import samples.teamplan.web.suite.AutomatedWebTests;
 
 public class AllTests extends TestCase {
     public static Test suite() {

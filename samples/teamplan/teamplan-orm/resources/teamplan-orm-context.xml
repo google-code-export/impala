@@ -13,7 +13,7 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     <service:export-array beanNames="messageService"/>
     -->
 
-    <bean id="messageService" class="org.impalaframework.samples.teamplan.orm.MessageServiceImpl">
+    <bean id="messageService" class="samples.teamplan.orm.MessageServiceImpl">
         <property name = "message" value = "Hello World!"/>
     </bean>
 
