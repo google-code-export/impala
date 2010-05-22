@@ -1,0 +1,7 @@
+<parent>
+    <names>
+    teamplan-main
+    teamplan-orm
+    teamplan-web
+    </names>
+</parent>

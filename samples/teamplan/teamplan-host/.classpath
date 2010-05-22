@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="src" path="resources"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-build-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-build-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-command-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-command-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-core-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-core-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-jmx-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-jmx-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-interactive-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-interactive-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/jcl-over-slf4j-1.5.8.jar" sourcepath="/teamplan-repository/compile/jcl-over-slf4j-1.5.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/log4j-1.2.15.jar" sourcepath="/teamplan-repository/compile/log4j-1.2.15.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-core-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-core-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-beans-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-beans-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-context-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-context-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-context-support-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-context-support3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-aop-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-aop-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-web-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-web-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/aopalliance-1.0.jar" sourcepath="/teamplan-repository/compile/aopalliance-1.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/impala-web-1.0.1-SNAPSHOT.jar" sourcepath="/teamplan-repository/compile/impala-web-1.0.1-SNAPSHOT-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-webmvc-3.0.2.RELEASE.jar" sourcepath="/teamplan-repository/compile/spring-webmvc-3.0.2.RELEASE-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/cglib-nodep-2.2.jar" sourcepath="/teamplan-repository/runtime/cglib-nodep-2.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/slf4j-api-1.5.8.jar" sourcepath="/teamplan-repository/runtime/slf4j-api-1.5.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/slf4j-log4j12-1.5.8.jar" sourcepath="/teamplan-repository/runtime/slf4j-log4j12-1.5.8-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/test/junit-3.8.2.jar" sourcepath="/teamplan-repository/test/junit-3.8.2-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/test/easymock-2.4.jar" sourcepath="/teamplan-repository/test/easymock-2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/test/easymockclassextension-2.4.jar" sourcepath="/teamplan-repository/test/easymockclassextension-2.4-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jsp-api-2.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/servlet-api-2.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jasper-6.0.20.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jasper-jdt-6.0.20.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jasper-el-6.0.20.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/juli-6.0.20.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jetty-6.1.21.jar" sourcepath="/teamplan-repository/provided/jetty-6.1.21-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/jetty-util-6.1.21.jar" sourcepath="/teamplan-repository/provided/jetty-util-6.1.21-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/commons-el-1.0.jar" sourcepath="/teamplan-repository/provided/commons-el-1.0-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/provided/xercesImpl-2.9.1.jar" sourcepath="/teamplan-repository/main/xercesImpl-2.9.1-sources.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-asm-3.0.2.RELEASE.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-expression-3.0.2.RELEASE.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
