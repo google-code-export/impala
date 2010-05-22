@@ -40,5 +40,6 @@
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/spring-expression-3.0.2.RELEASE.jar"/>
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/jstl-1.1.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/teamplan-repository/runtime/standard-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/teamplan-repository/compile/freemarker-2.3.16.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

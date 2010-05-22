@@ -22,12 +22,22 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
     <web:servlet id = "resources" 
         servletClass = "org.impalaframework.web.servlet.ResourceServlet"
         initParameters = "cacheTimeout=10"/>
-        
+
+	<!--  
     <web:jsp-servlet id="jsp"/>
 
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <property name="prefix" value="/"/>
+        <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
+    </bean>
+ 	-->
+ 	       
+    <bean id="freemarkerConfigurer" class="org.impalaframework.samples.teamplan.web.FreeMarkerConfigurer"/>
+    
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+      <property name="cache" value="true"/>
+      <property name="prefix" value="templates/"/>
+      <property name="suffix" value=".ftl"/>
     </bean>
 
     <bean class="org.impalaframework.samples.teamplan.web.MessageController">
