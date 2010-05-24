@@ -16,8 +16,19 @@ package org.impalaframework.web.servlet;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * {@link HttpServletRequest} interface extension exposing methods which are implemented by Impala'
+ * internal request wrapper implementations
+ * @author Phil Zoio
+ */
 public interface ModuleHttpServletRequest extends HttpServletRequest {
 
     public String getModulePathInfo();
+    
+    public String getModuleName();
+    
+    public boolean setReuse();
+    
+    public boolean isReuse();
     
 }

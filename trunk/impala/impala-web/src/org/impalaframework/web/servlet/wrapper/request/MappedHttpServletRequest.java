@@ -46,6 +46,10 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
 
     private String mappingContextPath;
 
+    private RequestModuleMapping moduleMapping;
+    
+    private boolean reuse;
+
     public MappedHttpServletRequest(
             ServletContext servletContext, 
             HttpServletRequest request, 
@@ -79,6 +83,8 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
             if (mappingContextPath != null && mappingServletPath == null) {
                 this.mappingServletPath = "";
             }
+            
+            this.moduleMapping = moduleMapping;
         }
     }
     
@@ -178,6 +184,24 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
         
         HttpSession session = super.getSession(create);
         return wrapSession(session);
+    }
+    
+    public String getModuleName() {
+        return this.moduleName;
+    }
+    
+    public boolean setReuse() {
+        boolean existing = this.reuse;
+        this.reuse = true;
+        return existing;
+    }
+    
+    public boolean isReuse() {
+        return this.reuse;
+    }
+    
+    public RequestModuleMapping getModuleMapping() {
+        return this.moduleMapping;
     }
     
     /* ****************** Helper methods ****************** */

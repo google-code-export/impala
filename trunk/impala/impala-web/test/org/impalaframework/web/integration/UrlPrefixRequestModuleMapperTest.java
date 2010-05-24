@@ -14,11 +14,18 @@
 
 package org.impalaframework.web.integration;
 
-import static org.easymock.EasyMock.*;
+import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
+import static org.easymock.EasyMock.replay;
+import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
 
 import junit.framework.TestCase;
+
+import org.impalaframework.web.servlet.ModuleHttpServletRequest;
+import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class UrlPrefixRequestModuleMapperTest extends TestCase {
     
@@ -42,6 +49,46 @@ public class UrlPrefixRequestModuleMapperTest extends TestCase {
 
         assertNull(mapper.getModuleForURI("/m"));
         assertNull(mapper.getModuleForURI("/m3"));
+    }
+    
+    public void testExistingRequest() throws Exception {
+        
+        final ModuleHttpServletRequest request = createMock(ModuleHttpServletRequest.class);
+
+        expect(request.getRequestURI()).andReturn("/context/servlet/path");
+        expect(request.getContextPath()).andReturn("/context");
+        final RequestModuleMapping mapping = new RequestModuleMapping("/context/servlet/path", "module", "/context", "/servlet");
+        expect(request.getAttribute(UrlPrefixRequestModuleMapper.EXISTING_REQUEST_MODULE_MAPPING)).andReturn(mapping);
+        expect(request.setReuse()).andReturn(true);
+        
+        replay(request);
+        assertSame(mapping, mapper.getModuleForRequest(request));
+        verify(request);
+    }
+    
+    public void testNotExistingRequest() throws Exception {
+        
+        final HttpServletRequest request = createMock(HttpServletRequest.class);
+
+        expect(request.getRequestURI()).andReturn("/context/servlet/path");
+        expect(request.getContextPath()).andReturn("/context");
+        
+        replay(request);
+        assertNull(mapper.getModuleForRequest(request));
+        verify(request);
+    }
+    
+    public void testNotModuleMapper() throws Exception {
+        
+        final ModuleHttpServletRequest request = createMock(ModuleHttpServletRequest.class);
+
+        expect(request.getRequestURI()).andReturn("/context/servlet/path");
+        expect(request.getContextPath()).andReturn("/context");
+        expect(request.getAttribute(UrlPrefixRequestModuleMapper.EXISTING_REQUEST_MODULE_MAPPING)).andReturn(null);
+        
+        replay(request);
+        assertNull(mapper.getModuleForRequest(request));
+        verify(request);
     }
     
     public void testLifeCycle() throws Exception {

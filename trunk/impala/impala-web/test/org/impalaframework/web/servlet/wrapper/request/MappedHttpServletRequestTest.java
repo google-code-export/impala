@@ -46,6 +46,14 @@ public class MappedHttpServletRequestTest extends TestCase {
         applicationId = "applicationId";
     }
     
+    public void testReuse() throws Exception {
+
+        MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+        assertFalse(wrapper.isReuse());
+        assertFalse(wrapper.setReuse());
+        assertTrue(wrapper.isReuse());
+    }
+    
     public void testIsForwardOrIncludeIsForward() throws Exception {
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
