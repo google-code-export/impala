@@ -23,6 +23,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.impalaframework.radixtree.RadixTree;
 import org.impalaframework.radixtree.TreeNode;
+import org.impalaframework.web.servlet.ModuleHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -45,6 +46,8 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
      * The key used to hold the application-wide {@link PrefixTreeHolder} instance in the {@link ServletContext}
      */
     public static final String PREFIX_HOLDER_KEY = UrlPrefixRequestModuleMapper.class.getName() + ".PREFIX_HOLDER";
+
+    static final String EXISTING_REQUEST_MODULE_MAPPING = UrlPrefixRequestModuleMapper.class.getName() + ".existing_request_module_mapping";
     
     public UrlPrefixRequestModuleMapper() {
         super();
@@ -54,6 +57,18 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
     public RequestModuleMapping getModuleForRequest(HttpServletRequest request) {
         String requestURI = request.getRequestURI();
         String contextPath = request.getContextPath();
+        
+        if (request instanceof ModuleHttpServletRequest) {
+            //deal with forwards or includes
+            final RequestModuleMapping requestModuleMapping = (RequestModuleMapping) request.getAttribute(EXISTING_REQUEST_MODULE_MAPPING);
+            if (requestModuleMapping != null) {
+                if (!requestURI.startsWith("external:")) {
+                    ModuleHttpServletRequest moduleRequest = (ModuleHttpServletRequest) request;
+                    moduleRequest.setReuse();
+                    return requestModuleMapping;
+                }
+            }   
+        }
         
         final String subpath;
         if (contextPath != null) {
@@ -73,7 +88,10 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
         }
         
         ModuleNameWithPath value = modulePrefixNode.getValue();
-        return new RequestModuleMapping(modulePrefixNode.getKey(), value.getModuleName(), value.getContextPath(), value.getServletPath());
+        final RequestModuleMapping newMapping = new RequestModuleMapping(modulePrefixNode.getKey(), value.getModuleName(), value.getContextPath(), value.getServletPath());
+        
+        request.setAttribute(EXISTING_REQUEST_MODULE_MAPPING, newMapping);
+        return newMapping;
     }
 
     TreeNode<ModuleNameWithPath> getModuleForURI(String requestURI) {

@@ -17,6 +17,9 @@ package org.impalaframework.web.servlet.wrapper.request;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.impalaframework.web.servlet.ModuleHttpServletRequest;
 import org.impalaframework.web.servlet.qualifier.WebAttributeQualifier;
 import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
@@ -43,7 +46,19 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
     
     private WebAttributeQualifier webAttributeQualifier;
     
+    private static final Log logger = LogFactory.getLog(PartitionedRequestWrapper.class);
+    
     public HttpServletRequest getWrappedRequest(HttpServletRequest request, ServletContext servletContext, RequestModuleMapping moduleMapping, String applicationId) {
+        
+        if (request instanceof ModuleHttpServletRequest) {
+            if (((ModuleHttpServletRequest) request).isReuse()) {
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Returning existing mapped request instance for request with URI " + request.getRequestURI());
+                }
+                return request;
+            }
+        }
+        
         
         final HttpSessionWrapper sessionWrapper;
         if (enableModuleSessionProtection || enablePartitionedServletContext) {
@@ -59,12 +74,13 @@ public class PartitionedRequestWrapper implements HttpRequestWrapper {
             sessionWrapper = httpSessionWrapper;
         }
         
-        final String wrappedServletContextAttributeName = webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, moduleMapping.getModuleName());
+        final String moduleName = moduleMapping.getModuleName();
+        final String wrappedServletContextAttributeName = webAttributeQualifier.getQualifiedAttributeName("wrapped_servlet_context", applicationId, moduleName);
         final ServletContext wrappedServletContext = (ServletContext) servletContext.getAttribute(wrappedServletContextAttributeName);
         
         final MappedHttpServletRequest mappedRequest = new MappedHttpServletRequest((wrappedServletContext != null ? wrappedServletContext : servletContext), request, sessionWrapper, moduleMapping, applicationId);
         
-        String baseAttributeName = webAttributeQualifier.getQualifierPrefix(applicationId, moduleMapping.getModuleName());
+        String baseAttributeName = webAttributeQualifier.getQualifierPrefix(applicationId, moduleName);
         request.setAttribute(WebAttributeQualifier.MODULE_QUALIFIER_PREFIX, baseAttributeName);
         
         return mappedRequest;
