@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project name="Properties build">
+    
+    <description>Imports the properties files which contain information about the build environment</description>
+    
+    <fail unless = "impala.home" message = "'impala.home' property not set"/>
+    
+    <!-- these are the properties which are likely to be overridden by client projects -->
+    <property file = "${impala.home}/external.properties"/>
+    
+    <!-- define the JVM settings for the project -->
+    <property file = "${impala.home}/java.properties"/>
+    
+    <!-- properties which define the internal structure of the project -->
+    <property file = "${impala.home}/project-structure.properties"/>
+    
+    <!-- web properties -->
+    <property file = "${impala.home}/web.properties"/>  
+    
+    <!-- relate the structure of the repository -->
+    <property file = "${impala.home}/repository.properties"/>
+    
+    <!-- impala-specific properties -->
+    <property file = "${impala.home}/impala.properties"/>
+    
+    <echo level="debug">Workspace root: ${workspace.root}</echo>
+    <echo level="debug">Impala home: ${impala.home}</echo>
+    <echo level="debug">Repository dir: ${repository.dir}</echo>
+
+    
+</project>
