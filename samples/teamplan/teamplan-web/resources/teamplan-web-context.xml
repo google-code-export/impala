@@ -15,6 +15,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
         <web:to-module prefix = "/web" setContextPath="true"/> 
         <web:to-handler extension = "htm" servletName="dispatcher"/>
         <web:to-handler extension = "css" servletName="resources"/>
+        <web:to-handler extension = "jsp" servletName="jsp"/>
     </web:mapping>
     
     <web:servlet id = "dispatcher"/>
@@ -23,15 +24,15 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
         servletClass = "org.impalaframework.web.servlet.ResourceServlet"
         initParameters = "cacheTimeout=10"/>
 
-	<!--  
+	<!--  -->
     <web:jsp-servlet id="jsp"/>
 
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="prefix" value="/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
- 	-->
- 	       
+ 	
+ 	<!--         
     <bean id="freemarkerConfigurer" class="samples.teamplan.web.FreeMarkerConfigurer"/>
     
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
@@ -39,7 +40,8 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
       <property name="prefix" value="templates/"/>
       <property name="suffix" value=".ftl"/>
     </bean>
-
+	-->
+    
     <bean class="samples.teamplan.web.MessageController">
         <property name = "messageService" ref = "messageService"/>
     </bean>
