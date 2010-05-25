@@ -59,10 +59,26 @@ public class UrlPrefixRequestModuleMapperTest extends TestCase {
         expect(request.getContextPath()).andReturn("/context");
         final RequestModuleMapping mapping = new RequestModuleMapping("/context/servlet/path", "module", "/context", "/servlet");
         expect(request.getAttribute(UrlPrefixRequestModuleMapper.EXISTING_REQUEST_MODULE_MAPPING)).andReturn(mapping);
+        expect(request.getAttribute(ModuleIntegrationUtils.EXTERNAL_REQUEST_INCLUDES_OR_FORWARDS)).andReturn("false");
         expect(request.setReuse()).andReturn(true);
         
         replay(request);
         assertSame(mapping, mapper.getModuleForRequest(request));
+        verify(request);
+    }
+    
+    public void testExternalForwarding() throws Exception {
+        
+        final ModuleHttpServletRequest request = createMock(ModuleHttpServletRequest.class);
+
+        expect(request.getRequestURI()).andReturn("/context/servlet/path");
+        expect(request.getContextPath()).andReturn("/context");
+        final RequestModuleMapping mapping = new RequestModuleMapping("/context/servlet/path", "module", "/context", "/servlet");
+        expect(request.getAttribute(UrlPrefixRequestModuleMapper.EXISTING_REQUEST_MODULE_MAPPING)).andReturn(mapping);
+        expect(request.getAttribute(ModuleIntegrationUtils.EXTERNAL_REQUEST_INCLUDES_OR_FORWARDS)).andReturn(true);
+        
+        replay(request);
+        assertNull(mapper.getModuleForRequest(request));
         verify(request);
     }
     
