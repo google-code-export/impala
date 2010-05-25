@@ -161,5 +161,18 @@ Make sure that the filter mapping for the `ModuleProxyFilter` has the `dispatche
 </filter-mapping>
 }}}
 
+2) Module application context XML
 
+Make sure that you have a JSP servlet entry, and a mapping to this, as shown below:
 
+{{{
+<web:mapping>
+    <web:to-module prefix = "/web" setContextPath="true"/> 
+    ...
+    <web:to-handler extension = "jsp" servletName="jsp"/>
+</web:mapping>
+
+...
+    
+<web:jsp-servlet id="jsp"/>
+}}}
