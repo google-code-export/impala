@@ -14,7 +14,7 @@ With Impala, setting up JSPs is accomplished by embedding the Tomcat Jasper JSP 
 An example is in the [SamplesMaven Maven Sample]. If you look in the _maven-web_ module in this sample, you will find the JSP hosted in 
 _maven-web/src/main/resources/maven/test.jspi_. The 'traditional' location for a JSP will be in _maven-host/src/main/webapp/maven_.
 
-== Setup ==
+== Setup for 1.0 RC3 to 1.0 final ==
 
 *Note - this feature is available from Impala 1.0 RC3*
 
@@ -87,9 +87,9 @@ This registers a JSP servlet with the module, which JSP requests to your module 
 </servlet>
 
 <servlet-mapping>
-	<servlet-name>JSP</servlet-name>
-	<url-pattern>*.jsp</url-pattern>
-</servlet-mapping> 
+    <servlet-name>JSP</servlet-name>
+    <url-pattern>*.jsp</url-pattern>
+    </servlet-mapping> 
 }}}
 
 This allows the servlet container's request dispatcher to route forwarded requests to JSP's to your module-defined JSP servlet.
@@ -105,6 +105,8 @@ If you do need to use vanilla JSPs, the workaround is to instead map to JSPs for
 You will then need to make changes to the application to ensure that when using JSPs, you forward requests on to 'pagename.jspi' instead of 'pagename.jsp'.
 You can then use the *.jsp mapping in the normal way.
 
+*Note*: this restriction no longer applies as of Impala 1.0.1. See below.
+
 2) If you need to map directly using the JSP extension to JSPs hosted within a module, you can simply add a `module:to-handler` entry in your 
 module's application context XML file. For example:
 
@@ -117,3 +119,47 @@ module's application context XML file. For example:
 can be used instead of JSPs. Freemarker even supports JSP tags (albeit with quite a different syntax). Using Freemarker or some other 
 templating engine such as [http://velocity.apache.org/ Velocity] provides a simple alternative to JSPs which is less dependent on 
 application server version, and less likely to 'step on the foot' of the application server. 
+
+== Setup for 1.0.1 ==
+
+Forthcoming changes for 1.0.1 simplify the setup of JSPs and allows for better support for JSP includes and forwards.
+
+1) _WEB-INF/web.xml_
+
+You no longer need a `org.impalaframework.web.jsp.ModuleJspServlet` registered in `web.xml` for the mapping `*.jsp`. In other words, you can *remove* any entry that looks like this:
+
+{{{
+<servlet>
+    <servlet-name>JSP</servlet-name>
+    <servlet-class>org.impalaframework.web.jsp.ModuleJspServlet</servlet-class>
+    <load-on-startup>2</load-on-startup>
+</servlet>
+   
+<servlet-mapping>
+	<servlet-name>JSP</servlet-name>
+	<url-pattern>*.jsp</url-pattern>
+</servlet-mapping>
+}}}
+
+This is good, because it means that you no longer need to override the `*.jsp` mapping to enable in-module JSP support (something that some application servers might not like).
+
+Make sure that the filter mapping for the `ModuleProxyFilter` has the `dispatcher` element set for `REQUEST`, `INCLUDE`, `FORWARD` and `ERROR`.
+
+{{{
+<filter>
+    <filter-name>web</filter-name>
+    <filter-class>org.impalaframework.web.spring.integration.ModuleProxyFilter</filter-class>
+</filter>
+
+<filter-mapping>
+    <filter-name>web</filter-name>
+    <url-pattern>/*</url-pattern>
+    <dispatcher>REQUEST</dispatcher>
+    <dispatcher>FORWARD</dispatcher>
+    <dispatcher>INCLUDE</dispatcher>
+    <dispatcher>ERROR</dispatcher>
+</filter-mapping>
+}}}
+
+
+
