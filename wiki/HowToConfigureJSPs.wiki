@@ -122,7 +122,7 @@ application server version, and less likely to 'step on the foot' of the applica
 
 == Setup for 1.0.1 ==
 
-Forthcoming changes for 1.0.1 simplify the setup of JSPs and allows for better support for JSP includes and forwards.
+Forthcoming changes for 1.0.1 simplify the setup of JSPs and allows for better support for JSP includes and forwards. The features below are now present in the [http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0.1-SNAPSHOT.zip snapshot build].
 
 *1) _WEB-INF/web.xml_*
 
