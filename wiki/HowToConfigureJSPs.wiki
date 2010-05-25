@@ -124,7 +124,7 @@ application server version, and less likely to 'step on the foot' of the applica
 
 Forthcoming changes for 1.0.1 simplify the setup of JSPs and allows for better support for JSP includes and forwards.
 
-1) _WEB-INF/web.xml_
+*1) _WEB-INF/web.xml_*
 
 You no longer need a `org.impalaframework.web.jsp.ModuleJspServlet` registered in `web.xml` for the mapping `*.jsp`. In other words, you can *remove* any entry that looks like this:
 
@@ -161,7 +161,7 @@ Make sure that the filter mapping for the `ModuleProxyFilter` has the `dispatche
 </filter-mapping>
 }}}
 
-2) Module application context XML
+*2) Module application context XML*
 
 Make sure that you have a JSP servlet entry, and a mapping to this, as shown below:
 
