@@ -25,6 +25,8 @@ import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleIntegrationUtils {
+    
+    public static final String EXTERNAL_REQUEST_INCLUDES_OR_FORWARDS = ModuleIntegrationUtils.class.getName() + ".external_request_includes_or_forwards";
 
     public static HttpServletRequest getWrappedRequest(
             HttpServletRequest request,

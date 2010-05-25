@@ -62,7 +62,7 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
             //deal with forwards or includes
             final RequestModuleMapping requestModuleMapping = (RequestModuleMapping) request.getAttribute(EXISTING_REQUEST_MODULE_MAPPING);
             if (requestModuleMapping != null) {
-                if (!requestURI.startsWith("external:")) {
+                if (!useExternalForwardingOrIncludes(request)) {
                     ModuleHttpServletRequest moduleRequest = (ModuleHttpServletRequest) request;
                     moduleRequest.setReuse();
                     return requestModuleMapping;
@@ -92,6 +92,15 @@ public class UrlPrefixRequestModuleMapper implements RequestModuleMapper, Servle
         
         request.setAttribute(EXISTING_REQUEST_MODULE_MAPPING, newMapping);
         return newMapping;
+    }
+
+    private boolean useExternalForwardingOrIncludes(HttpServletRequest request) {
+        boolean useExternal = false;
+        final Object externalRequestOrForward = request.getAttribute(ModuleIntegrationUtils.EXTERNAL_REQUEST_INCLUDES_OR_FORWARDS);
+        if (externalRequestOrForward != null && Boolean.parseBoolean(externalRequestOrForward.toString())) {
+            useExternal = true;
+        }
+        return useExternal;
     }
 
     TreeNode<ModuleNameWithPath> getModuleForURI(String requestURI) {
