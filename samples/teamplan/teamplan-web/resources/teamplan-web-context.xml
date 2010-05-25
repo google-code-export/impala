@@ -24,7 +24,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
         servletClass = "org.impalaframework.web.servlet.ResourceServlet"
         initParameters = "cacheTimeout=10"/>
 
-	<!--  -->
+	<!-- JSP support -->
     <web:jsp-servlet id="jsp"/>
 
     <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -32,7 +32,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
         <property name="suffix" value=".jsp"/>
     </bean>
  	
- 	<!--         
+ 	<!-- Freemarker support      
     <bean id="freemarkerConfigurer" class="samples.teamplan.web.FreeMarkerConfigurer"/>
     
     <bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
