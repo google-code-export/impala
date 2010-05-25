@@ -25,9 +25,18 @@ import org.impalaframework.web.servlet.wrapper.HttpRequestWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
 
 public class ModuleIntegrationUtils {
-    
+
+    /**
+     * Request attribute key which is used to denote that request includes or forwards should not reuse the existing 
+     * Impala {@link HttpServletRequest} wrapper and {@link RequestModuleMapping} when doing a forward or include.
+     * This is to allow forwards and includes to forward or include resources which are not contained within the current module.
+     * For most applications, setting this parameter should not be necessary, for a single REQUEST-RESPONSE invocation.
+     */
     public static final String EXTERNAL_REQUEST_INCLUDES_OR_FORWARDS = ModuleIntegrationUtils.class.getName() + ".external_request_includes_or_forwards";
 
+    /**
+     * Convenience helper method to obtain a potentially wrapped {@link HttpServletRequest} for the specified application and module mapping
+     */
     public static HttpServletRequest getWrappedRequest(
             HttpServletRequest request,
             ServletContext servletContext, 
