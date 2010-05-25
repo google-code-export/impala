@@ -15,6 +15,7 @@ http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schem
         <web:to-module prefix = "/@web.project.name@" setContextPath="true"/> 
         <web:to-handler extension = "htm" servletName="dispatcher"/>
         <web:to-handler extension = "css" servletName="resources"/>
+        <web:to-handler extension = "jsp" servletName="jsp"/>
     </web:mapping>
     
     <web:servlet id = "dispatcher"/>
