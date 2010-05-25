@@ -161,7 +161,7 @@ Make sure that the filter mapping for the `ModuleProxyFilter` has the `dispatche
 </filter-mapping>
 }}}
 
-The full _web.xml_ might look as follows:
+The *full _web.xml_* might look as follows:
 
 {{{
 <?xml version="1.0" encoding="UTF-8"?>
