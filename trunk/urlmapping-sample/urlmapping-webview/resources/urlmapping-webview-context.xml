@@ -19,8 +19,7 @@ http://impala.googlecode.com/svn/schema/service-registry.xsd">
         <web:to-handler extension = "css" servletName="urlmapping-resources"/>
     </web:mapping>    
        
-    <web:servlet id = "urlmapping-webview" 
-        servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet"/>
+    <web:servlet id = "urlmapping-webview"/>
         
     <web:servlet id = "urlmapping-resources" 
         servletClass = "org.impalaframework.web.servlet.ResourceServlet"
