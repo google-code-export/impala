@@ -11,7 +11,7 @@ http://impala.googlecode.com/svn/schema/web.xsd">
     <import resource="classpath:urlmapping-web-common.xml"/>
 
     <web:mapping>
-        <web:to-module prefix = "/webadmin" setServletPath="true"/> 
+        <web:to-module prefix = "/webadmin" setContextPath="true"/> 
         <web:to-handler extension = "htm" servletName="urlmapping-webadmin"/>
         <web:to-handler extension = "css" servletName="urlmapping-resources"/>
     </web:mapping>    
