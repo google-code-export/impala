@@ -18,7 +18,6 @@ in the <i>web.xml</i> document.
            &lt;param-name&gt;modulePrefix&lt;/param-name&gt;
            &lt;param-value&gt;urlmapping-web&lt;/param-value&gt;
    &lt;/init-param&gt;
-   &lt;load-on-startup&gt;2&lt;/load-on-startup&gt;
 &lt;/filter&gt;
 
 &lt;filter-mapping&gt;

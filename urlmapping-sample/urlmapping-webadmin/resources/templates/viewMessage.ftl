@@ -3,7 +3,9 @@
 <form method = "post" action = "updateMessage.htm">
 
 <#if result??>
+<div class = "message">
 ${result}
+</div>
 </#if>
 
 <p>
