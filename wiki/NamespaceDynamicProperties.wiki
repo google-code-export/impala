@@ -5,8 +5,6 @@
 The purpose of this namespace is to make it easier to configure `PropertySource` backed dynamic properties, as described 
 in the [DynamicProperties dynamic properties wiki page].
 
-Note that this feature is new with the forthcoming Impala 1.0 RC2.
-
 == Adding the namespace headers ==
 
 Before using one of the `service` elements in your bean definition file, you will need to add the Impala service namespace declaration
@@ -70,7 +68,9 @@ Each of the dynamic property elements have a common set of attributes:
   * `id`: the id of the bean. Only required if the bean is used in a standalone way.
   * `name`: the name of the property being accessed. In our example above, the name needs to be `boolean.property` to access 
   the associated value in the _dynamic.properties_ file.
-  * `propertySource`: the backing `PropertySource instances.
+  * `propertySource`: the backing `PropertySource` instances.
+
+As of Impala 1.0.1 it will also be possible to set a default value for the entry, using a `defaultValue` attribute.
   
 == The elements ==
 
