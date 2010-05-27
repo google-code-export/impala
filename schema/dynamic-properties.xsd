@@ -111,6 +111,15 @@ of Properties.getProperty(name), with name passed in as an argument.
 				]]></xsd:documentation>
 			</xsd:annotation>
 		</xsd:attribute>
+		<xsd:attribute name="defaultValue" type="xsd:string" use="optional">				
+			<xsd:annotation>
+				<xsd:documentation><![CDATA[
+The default value for the property. Note that the value specified needs to be compatible with the dynamic property type.
+For example, a value such as 'true' would not be type compatible with the 'float' element, but would be for the 'boolean'
+element.
+				]]></xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
 		<xsd:attribute name="propertySource" type="xsd:string" use="required">				
 			<xsd:annotation>
 				<xsd:documentation><![CDATA[
