@@ -20,6 +20,7 @@ import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.exception.ConfigurationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
@@ -32,6 +33,7 @@ public class DatePropertyValue extends BasePropertyValue implements Initializing
     
     private static final Log logger = LogFactory.getLog(DatePropertyValue.class);   
 
+    private String defaultValueString;
     private Date defaultValue;
     private String rawValue;
     private String pattern;
@@ -50,6 +52,14 @@ public class DatePropertyValue extends BasePropertyValue implements Initializing
 
     public void init() {
         Assert.notNull(pattern, "Pattern cannot be null");
+        if (defaultValueString != null && defaultValue == null) {
+            try {
+                defaultValue = new SimpleDateFormat(pattern).parse(defaultValueString);
+            }
+            catch (ParseException e) {
+                throw new ConfigurationException("Default value '" + defaultValueString + "' does not convert to a date using pattern: " + pattern, e);
+            }
+        }
     }
 
     public void afterPropertiesSet() throws Exception {
@@ -66,12 +76,16 @@ public class DatePropertyValue extends BasePropertyValue implements Initializing
                 this.value = new SimpleDateFormat(pattern).parse(rawValue);
                 this.rawValue = rawValue;
             } catch (ParseException e) {
-                logger.error("Property " + rawValue + " is not a number");
+                logger.error("Property " + rawValue + " is not a valid date");
             }
         }
         return value;
     }
 
+    public void setDefaultValueString(String defaultValue) {
+        this.defaultValueString = defaultValue;
+    }
+    
     public void setDefaultValue(Date defaultValue) {
         this.defaultValue = defaultValue;
     }

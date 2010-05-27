@@ -51,6 +51,18 @@ public class DynamicPropertiesNamespaceHandlerTest extends TestCase {
         
         //check that this updates
         assertEquals("Phil Z", bean.getStringValue());
+        
+        properties.clear();
+   
+        //check default values
+        assertEquals(false, bean.getBooleanValue());
+        assertEquals(new SimpleDateFormat("yyyy-MM-dd").parse("1999-12-31"), bean.getDateValue());
+        assertEquals(10.0, bean.getDoubleValue());
+        assertEquals(2.0F, bean.getFloatValue());
+        assertEquals(1, bean.getIntValue());
+        assertEquals(2L, bean.getLongValue());
+        assertEquals("somevalue", bean.getStringValue());
+        
     }
     
 }
