@@ -17,6 +17,8 @@ package org.impalaframework.config;
 import java.sql.Date;
 import java.util.Properties;
 
+import org.impalaframework.exception.ConfigurationException;
+
 import junit.framework.TestCase;
 
 public class DateValueTest extends TestCase {
@@ -51,4 +53,20 @@ public class DateValueTest extends TestCase {
         Date actual = new Date(dateValue.getValue().getTime());
         assertEquals(expected.getTime(), actual.getTime());
     }
+    
+    public void testDefaultValueString() {
+
+        dateValue.setDefaultValueString("duff");
+        try {
+            dateValue.init();
+        }
+        catch (ConfigurationException e) {
+            assertEquals("Default value 'duff' does not convert to a date using pattern: yyyy-MM-dd", e.getMessage());
+        }
+        
+        assertEquals(null, dateValue.getValue());
+        dateValue.setDefaultValueString("1999-12-12");
+        dateValue.init();
+        assertEquals(Date.valueOf("1999-12-12"), dateValue.getValue());
+     }
 }

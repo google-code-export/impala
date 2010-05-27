@@ -74,6 +74,14 @@ public class DynamicPropertiesNamespaceHandler extends NamespaceHandlerSupport {
         protected Class<?> getBeanClass(Element element) {
             return DatePropertyValue.class;
         }
+        
+        @Override
+        protected String extractPropertyName(String attributeName) {
+            if ("defaultValue".equals(attributeName)) {
+                return "defaultValueString";
+            }
+            return super.extractPropertyName(attributeName);
+        }
     }
     
     /**
