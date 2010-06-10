@@ -20,9 +20,10 @@ public class RegistrySupportTest extends TestCase {
     
     public void testRemove() throws Exception {
         RegistrySupport registry = new RegistrySupport();
-        registry.addRegistryItem("key", "value");
+        registry.addRegistryItem("kEy", "value");
         assertEquals("value", registry.getEntry("key", String.class));
-        assertEquals("value", registry.removeEntry("key"));
+        assertEquals("value", registry.getEntry("kEy", String.class));
+        assertEquals("value", registry.removeEntry("kEy"));
         assertEquals(null, registry.getEntry("key", String.class, false));
         assertEquals(null, registry.removeEntry("key"));
     }

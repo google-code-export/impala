@@ -24,7 +24,8 @@ import org.impalaframework.util.ObjectUtils;
 import org.springframework.util.Assert;
 
 /**
- * Base class for registry implementations
+ * Base class for registry implementations. Note that internally the registry
+ * uses case-insensitive keys, storing these in lower case.
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
@@ -42,7 +43,6 @@ public class RegistrySupport {
         Assert.notNull(entries, "entries cannot be null");
         this.entries = entries;
     }
-
 
     public <T extends Object> T getEntry(String key, Class<T> type) {
         
@@ -88,7 +88,9 @@ public class RegistrySupport {
     }
     
     public <T extends Object> Object removeEntry(String key) {
-        return this.entries.remove(key);
+        
+        Assert.notNull(key, "key cannot be null");
+        return this.entries.remove(key.toLowerCase());
     }
     
     public void clear() {
