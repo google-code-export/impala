@@ -26,6 +26,11 @@ public class TestContextLocationResolver extends SimpleContextLocationResolver {
             PropertySource propertySource) {
         super.addCustomLocations(configSettings, propertySource);
         
+        addBootstrapConfig(configSettings, propertySource);
+    }
+
+    public static void addBootstrapConfig(ConfigurationSettings configSettings,
+            PropertySource propertySource) {
         StringPropertyValue testClassDirectory = new StringPropertyValue(propertySource, TestBootstrapProperties.MODULE_TEST_DIRECTORY, "bin");
         configSettings.addProperty(TestBootstrapProperties.MODULE_TEST_DIRECTORY, testClassDirectory);
         

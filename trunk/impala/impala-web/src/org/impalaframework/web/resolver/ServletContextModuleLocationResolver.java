@@ -44,6 +44,9 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
     private String relativeModuleRootLocation = "/WEB-INF/modules";
 
     private ServletContext servletContext;
+    
+    public ServletContextModuleLocationResolver() {
+    }
 
     public void afterPropertiesSet() throws Exception {
         Assert.notNull(relativeModuleRootLocation);

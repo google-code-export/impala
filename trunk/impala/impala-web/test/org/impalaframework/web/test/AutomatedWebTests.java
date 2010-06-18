@@ -21,6 +21,7 @@ import org.impalaframework.web.bootstrap.ServletContextLocationsRetrieverTest;
 import org.impalaframework.web.bootstrap.WebContextLocationResolverTest;
 import org.impalaframework.web.config.ContextPathAwareSystemPropertySourceTest;
 import org.impalaframework.web.config.ServletContextPropertySourceTest;
+import org.impalaframework.web.facade.WebOperationsFacadeTest;
 import org.impalaframework.web.integration.CompositeRequestModuleMapperTest;
 import org.impalaframework.web.integration.IntegrationFilterConfigTest;
 import org.impalaframework.web.integration.ModuleIntegrationUtilsTest;
@@ -158,6 +159,7 @@ public class AutomatedWebTests {
         suite.addTestSuite(WebModuleLoaderTest.class);
         suite.addTestSuite(WebModuleReloaderTest.class);
         suite.addTestSuite(WebModuleUtilsTest.class);
+        suite.addTestSuite(WebOperationsFacadeTest.class);
         suite.addTestSuite(WebScheduledModuleChangeMonitorTest.class);
         return suite;
     }

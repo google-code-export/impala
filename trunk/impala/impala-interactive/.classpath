@@ -6,5 +6,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/impala-command"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-web"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
