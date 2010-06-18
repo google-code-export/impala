@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<project name="Shared Web Build" basedir=".">
+
+    <fail unless = "project.list" message = "'project.list' property not set"/>
+    <fail unless = "impala.home" message = "'impala.home' property not set"/>
+    <fail unless = "web.project.list" message = "'web.project.list' property not set"/>
+    <import file = "${impala.home}/properties-build.xml"/>
+    
+    <target name = "shared-web:war">
+        <antforeach antfile="build.xml" dir = "${workspace.root}" projects = "${web.project.list}" target = "web:war" inheritall = "false"/>
+    </target>
+        
+</project>
