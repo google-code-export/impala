@@ -23,6 +23,9 @@ public class WebOperationsFacade extends BootstrappingOperationFacade {
 
     @Override
     protected void init() {
+        if (System.getProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST) == null) {
+            System.setProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, "true");
+        }
         System.setProperty(CoreBootstrapProperties.EMBEDDED_MODE, "true");
         super.init();
     }
