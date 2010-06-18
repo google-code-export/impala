@@ -21,7 +21,7 @@ import java.util.Enumeration;
 import junit.framework.TestCase;
 
 import org.impalaframework.util.CollectionStringUtils;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 
 public class WebAttributeQualifierTest extends TestCase {
 

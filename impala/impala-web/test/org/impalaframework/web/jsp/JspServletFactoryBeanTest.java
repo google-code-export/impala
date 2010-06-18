@@ -34,7 +34,7 @@ import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.springframework.web.context.support.GenericWebApplicationContext;
 

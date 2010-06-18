@@ -25,7 +25,7 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.exception.ConfigurationException;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.integration.IntegrationServletConfig;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.WebApplicationContext;

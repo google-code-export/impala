@@ -25,9 +25,8 @@ import javax.servlet.ServletContext;
 import junit.framework.TestCase;
 
 import org.impalaframework.util.CollectionStringUtils;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.servlet.qualifier.DefaultWebAttributeQualifier;
-import org.impalaframework.web.servlet.wrapper.context.PartitionedServletContext;
 import org.springframework.util.ClassUtils;
 
 public class PartitionedServletContextTest extends TestCase {

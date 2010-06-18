@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 
 import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.util.ReflectionUtils;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServlet;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationServletFactoryBean;
 import org.impalaframework.web.spring.integration.ServletFactoryBean;

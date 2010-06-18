@@ -29,7 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.springframework.util.ReflectionUtils;
 
 public class ModuleJspServletTest extends TestCase {
