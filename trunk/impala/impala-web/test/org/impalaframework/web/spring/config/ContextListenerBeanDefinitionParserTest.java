@@ -17,12 +17,12 @@ package org.impalaframework.web.spring.config;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-import org.impalaframework.web.AttributeServletContext;
+import junit.framework.TestCase;
+
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.context.support.GenericWebApplicationContext;
-
-import junit.framework.TestCase;
 
 public class ContextListenerBeanDefinitionParserTest extends TestCase {
 

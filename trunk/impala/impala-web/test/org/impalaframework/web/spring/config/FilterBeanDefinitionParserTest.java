@@ -27,7 +27,7 @@ import javax.servlet.ServletResponse;
 import junit.framework.TestCase;
 
 import org.impalaframework.util.ObjectMapUtils;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.spring.integration.FilterFactoryBean;
 import org.impalaframework.web.spring.integration.InternalFrameworkIntegrationFilterFactoryBean;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;

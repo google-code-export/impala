@@ -16,9 +16,9 @@ package org.impalaframework.web.module;
 
 import java.util.Collections;
 
-import org.impalaframework.web.AttributeServletContext;
-
 import junit.framework.TestCase;
+
+import org.impalaframework.web.facade.AttributeServletContext;
 
 public class WebModuleUtilsTest extends TestCase {
     

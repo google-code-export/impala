@@ -20,7 +20,7 @@ import junit.framework.TestCase;
 
 import org.apache.jasper.servlet.JspServlet;
 import org.impalaframework.util.ObjectMapUtils;
-import org.impalaframework.web.AttributeServletContext;
+import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.jsp.JspServletFactoryBean;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.core.io.ClassPathResource;

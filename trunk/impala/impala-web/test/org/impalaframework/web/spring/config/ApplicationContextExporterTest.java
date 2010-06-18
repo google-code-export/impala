@@ -20,9 +20,9 @@ import static org.easymock.EasyMock.verify;
 
 import javax.servlet.ServletContext;
 
-import org.springframework.context.support.GenericApplicationContext;
-
 import junit.framework.TestCase;
+
+import org.springframework.context.support.GenericApplicationContext;
 
 public class ApplicationContextExporterTest extends TestCase {
 
