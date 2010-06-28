@@ -15,6 +15,7 @@
 package org.impalaframework.spring.config;
 
 import java.io.IOException;
+import java.util.Properties;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,13 +38,13 @@ public class ExternalPropertiesFactoryBean extends
     private String propertyFolderSystemProperty;
     
     @Override
-    protected Object createInstance() throws IOException {
+    protected Properties mergeProperties() throws IOException {
         
         Assert.notNull(fileName, "fileName cannot be null");
         
         final Resource[] locations = getLocations();
         super.setLocations(locations);
-        return super.createInstance();
+        return super.mergeProperties();
     }
 
     Resource[] getLocations() {
