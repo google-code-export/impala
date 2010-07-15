@@ -23,6 +23,7 @@ import org.impalaframework.classloader.ClassLoaderUtilsTest;
 import org.impalaframework.classloader.ModuleClassLoaderFactoryTest;
 import org.impalaframework.classloader.ParentClassLoaderFactoryTest;
 import org.impalaframework.classloader.SharedClassLoaderFactoryTest;
+import org.impalaframework.classloader.ThreadContextClassLoaderHelperTest;
 import org.impalaframework.classloader.URLClassRetrieverTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderFactoryTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderTest;
@@ -378,6 +379,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SystemPropertiesPropertySourceTest.class);
         suite.addTestSuite(SystemPropertyFactoryBeanTest.class);
         suite.addTestSuite(SystemPropertiesFactoryBeanTest.class);
+        suite.addTestSuite(ThreadContextClassLoaderHelperTest.class);
         suite.addTestSuite(TransitionsLoggerTest.class);
         suite.addTestSuite(TransitionProcessorRegistryTest.class);
         suite.addTestSuite(TransitionResultSetTest.class);
