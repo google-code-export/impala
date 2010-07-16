@@ -30,6 +30,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.impalaframework.util.ObjectMapUtils;
+import org.impalaframework.web.servlet.WrapperHttpServletRequest;
 import org.impalaframework.web.servlet.invoker.HttpServiceInvoker;
 import org.impalaframework.web.utils.WebPathUtils;
 
@@ -116,7 +117,13 @@ public class ModuleHttpServiceInvoker implements HttpServiceInvoker {
         
         if (filterChain != null) {
             if (!chain.isComplete()) {
-                filterChain.doFilter(request, response);
+                final HttpServletRequest requestToInvoke;
+                if (request instanceof WrapperHttpServletRequest) {
+                    requestToInvoke = ((WrapperHttpServletRequest)request).getWrappedHttpServletRequest();
+                } else {
+                    requestToInvoke = request;
+                }
+                filterChain.doFilter(requestToInvoke, response);
             }
         }
     }
