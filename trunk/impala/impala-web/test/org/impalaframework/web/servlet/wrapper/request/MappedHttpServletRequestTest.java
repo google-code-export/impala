@@ -54,6 +54,14 @@ public class MappedHttpServletRequestTest extends TestCase {
         assertTrue(wrapper.isReuse());
     }
     
+    public void testGetWrappedRequest() throws Exception {
+        MappedHttpServletRequest wrapper1 = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);
+        assertSame(request, wrapper1.getWrappedHttpServletRequest());
+
+        MappedHttpServletRequest wrapper2 = new MappedHttpServletRequest(servletContext, wrapper1, httpSessionWrapper, null, applicationId);
+        assertSame(request, wrapper2.getWrappedHttpServletRequest());
+    }
+    
     public void testIsForwardOrIncludeIsForward() throws Exception {
         
         MappedHttpServletRequest wrapper = new MappedHttpServletRequest(servletContext, request, httpSessionWrapper, null, applicationId);

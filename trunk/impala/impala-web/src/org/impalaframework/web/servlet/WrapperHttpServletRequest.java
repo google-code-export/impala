@@ -21,14 +21,8 @@ import javax.servlet.http.HttpServletRequest;
  * internal request wrapper implementations
  * @author Phil Zoio
  */
-public interface ModuleHttpServletRequest extends WrapperHttpServletRequest {
+public interface WrapperHttpServletRequest extends HttpServletRequest {
 
-    public String getModulePathInfo();
-    
-    public String getModuleName();
-    
-    public boolean setReuse();
-    
-    public boolean isReuse();
+    public HttpServletRequest getWrappedHttpServletRequest();
     
 }

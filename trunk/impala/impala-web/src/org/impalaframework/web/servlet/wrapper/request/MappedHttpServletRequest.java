@@ -10,7 +10,9 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.impalaframework.util.ObjectUtils;
 import org.impalaframework.web.servlet.ModuleHttpServletRequest;
+import org.impalaframework.web.servlet.WrapperHttpServletRequest;
 import org.impalaframework.web.servlet.wrapper.CacheableHttpSession;
 import org.impalaframework.web.servlet.wrapper.HttpSessionWrapper;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
@@ -198,6 +200,14 @@ public class MappedHttpServletRequest extends HttpServletRequestWrapper implemen
     
     public boolean isReuse() {
         return this.reuse;
+    }
+    
+    public HttpServletRequest getWrappedHttpServletRequest() {
+        HttpServletRequest request = ObjectUtils.cast(getRequest(), HttpServletRequest.class);
+        while (request instanceof WrapperHttpServletRequest) {
+            request = ((WrapperHttpServletRequest)request).getWrappedHttpServletRequest();
+        }
+        return request;
     }
     
     public RequestModuleMapping getModuleMapping() {
