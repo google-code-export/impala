@@ -87,6 +87,29 @@ public class ObjectMapUtils {
         }
     }
     
+    public static Long readLong(Map<String, Object> map, String attributeName) {
+        Object object = map.get(attributeName);
+    
+        if (object == null) {
+            return null;
+        }
+
+        String toString = object.toString();
+        
+        if (toString.trim().length() == 0) {
+            return null;
+        }
+        
+        try {
+            Long intValue = Long.parseLong(toString);
+            return intValue;
+        }
+        catch (NumberFormatException e) {
+            throw new InvalidStateException("Attribute with name '" + attributeName + "', and value '"
+                    + object + "' is not a valid Long value");
+        }
+    }
+    
     public static Integer readInteger(Map<String, Object> map, String attributeName) {
         Object object = map.get(attributeName);
     

@@ -79,6 +79,28 @@ public class ObjectMapUtilsTest extends TestCase {
         }
     }
     
+    public void testGetLongValue() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("longvalue1", 1);
+        map.put("longvalue2", "1");
+        map.put("longvalue3", null);
+        map.put("longvalue4", " ");
+        map.put("longvalue5", "invalid");
+        
+        assertEquals(new Long(1), ObjectMapUtils.readLong(map, "longvalue1"));
+        assertEquals(new Long(1), ObjectMapUtils.readLong(map, "longvalue2"));
+        assertNull(ObjectMapUtils.readLong(map, "longvalue3"));
+        assertNull(ObjectMapUtils.readLong(map, "longvalue4"));
+        
+        try {
+            ObjectMapUtils.readLong(map, "longvalue5");
+            fail();
+        }
+        catch (InvalidStateException e) {
+            assertEquals("Attribute with name 'longvalue5', and value 'invalid' is not a valid Long value", e.getMessage());
+        }
+    }
+    
     public void testGetStringValue() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("stringvalue1", 1);
