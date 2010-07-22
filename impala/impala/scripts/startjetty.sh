@@ -16,4 +16,10 @@ else
   SYSPROP="-Dsysprop-resource=$3"
 fi
 
-java $JPDA $SYSPROP -jar launcher.jar StartJetty --addclasspath config --addjardir jetty $1 war $2
+if [ -z $4 ]; then
+  CONFIGDIR=""
+else
+  CONFIGDIR="$4"
+fi
+
+java $JPDA $SYSPROP -jar launcher.jar StartJetty --addclasspath $CONFIGDIR --addjardir jetty $1 war $2
