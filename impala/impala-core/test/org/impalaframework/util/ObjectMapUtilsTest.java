@@ -70,6 +70,11 @@ public class ObjectMapUtilsTest extends TestCase {
         assertNull(ObjectMapUtils.readInteger(map, "intvalue3"));
         assertNull(ObjectMapUtils.readInteger(map, "intvalue4"));
         
+        assertEquals(new Integer(1), ObjectMapUtils.readInteger(map, "intvalue1", 2));
+        assertEquals(new Integer(1), ObjectMapUtils.readInteger(map, "intvalue2", 2));
+        assertEquals(new Integer(2), ObjectMapUtils.readInteger(map, "intvalue3", 2));
+        assertEquals(new Integer(2), ObjectMapUtils.readInteger(map, "intvalue4", 2));
+        
         try {
             ObjectMapUtils.readInteger(map, "intvalue5");
             fail();
@@ -92,6 +97,11 @@ public class ObjectMapUtilsTest extends TestCase {
         assertNull(ObjectMapUtils.readLong(map, "longvalue3"));
         assertNull(ObjectMapUtils.readLong(map, "longvalue4"));
         
+        assertEquals(new Long(1), ObjectMapUtils.readLong(map, "longvalue1", 2L));
+        assertEquals(new Long(1), ObjectMapUtils.readLong(map, "longvalue2", 2L));
+        assertEquals(new Long(2), ObjectMapUtils.readLong(map, "longvalue3", 2L));
+        assertEquals(new Long(2), ObjectMapUtils.readLong(map, "longvalue4", 2L));
+        
         try {
             ObjectMapUtils.readLong(map, "longvalue5");
             fail();
@@ -110,6 +120,25 @@ public class ObjectMapUtilsTest extends TestCase {
         assertEquals("1", ObjectMapUtils.readString(map, "stringvalue1"));
         assertEquals("1", ObjectMapUtils.readString(map, "stringvalue2"));
         assertEquals(null, ObjectMapUtils.readString(map, "stringvalue3"));
+        
+        assertEquals("1", ObjectMapUtils.readString(map, "stringvalue1", "def"));
+        assertEquals("1", ObjectMapUtils.readString(map, "stringvalue2", "def"));
+        assertEquals("def", ObjectMapUtils.readString(map, "stringvalue3", "def"));
+    }
+    
+    public void testGetBooleanValue() {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("booleanvalue1", true);
+        map.put("booleanvalue2", "1");
+        map.put("booleanvalue3", null);
+        
+        assertEquals(Boolean.TRUE, ObjectMapUtils.readBoolean(map, "booleanvalue1"));
+        assertEquals(Boolean.FALSE, ObjectMapUtils.readBoolean(map, "booleanvalue2"));
+        assertEquals(null, ObjectMapUtils.readBoolean(map, "booleanvalue3"));
+        
+        assertEquals(Boolean.TRUE, ObjectMapUtils.readBoolean(map, "booleanvalue1", Boolean.TRUE));
+        assertEquals(Boolean.FALSE, ObjectMapUtils.readBoolean(map, "booleanvalue2", Boolean.TRUE));
+        assertEquals(Boolean.TRUE, ObjectMapUtils.readBoolean(map, "booleanvalue3", Boolean.TRUE));
     }
     
     public void testGetDoubleValue() {
@@ -124,6 +153,11 @@ public class ObjectMapUtilsTest extends TestCase {
         assertEquals(new Double(1), ObjectMapUtils.readDouble(map, "doublevalue2"));
         assertNull(ObjectMapUtils.readDouble(map, "doublevalue3"));
         assertNull(ObjectMapUtils.readDouble(map, "doublevalue4"));
+
+        assertEquals(new Double(1), ObjectMapUtils.readDouble(map, "doublevalue1", 2.0));
+        assertEquals(new Double(1), ObjectMapUtils.readDouble(map, "doublevalue2", 2.0));
+        assertEquals(new Double(2), ObjectMapUtils.readDouble(map, "doublevalue3", 2.0));
+        assertEquals(new Double(2), ObjectMapUtils.readDouble(map, "doublevalue4", 2.0));
         
         try {
             ObjectMapUtils.readDouble(map, "doublevalue5");

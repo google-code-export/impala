@@ -86,18 +86,22 @@ public class ObjectMapUtils {
             }
         }
     }
-    
+
     public static Long readLong(Map<String, Object> map, String attributeName) {
+        return readLong(map, attributeName, null);
+    }
+    
+    public static Long readLong(Map<String, Object> map, String attributeName, Long defaultValue) {
         Object object = map.get(attributeName);
     
         if (object == null) {
-            return null;
+            return defaultValue;
         }
 
         String toString = object.toString();
         
         if (toString.trim().length() == 0) {
-            return null;
+            return defaultValue;
         }
         
         try {
@@ -111,16 +115,20 @@ public class ObjectMapUtils {
     }
     
     public static Integer readInteger(Map<String, Object> map, String attributeName) {
+        return readInteger(map, attributeName, null);
+    }
+    
+    public static Integer readInteger(Map<String, Object> map, String attributeName, Integer defaultValue) {
         Object object = map.get(attributeName);
     
         if (object == null) {
-            return null;
+            return defaultValue;
         }
 
         String toString = object.toString();
         
         if (toString.trim().length() == 0) {
-            return null;
+            return defaultValue;
         }
         
         try {
@@ -132,18 +140,22 @@ public class ObjectMapUtils {
                     + object + "' is not an integer");
         }
     }
-    
+
     public static Double readDouble(Map<String, Object> map, String attributeName) {
+        return readDouble(map, attributeName, null);
+    }
+    
+    public static Double readDouble(Map<String, Object> map, String attributeName, Double defaultValue) {
         Object object = map.get(attributeName);
     
         if (object == null) {
-            return null;
+            return defaultValue;
         }
 
         String toString = object.toString();
         
         if (toString.trim().length() == 0) {
-            return null;
+            return defaultValue;
         }
         
         try {
@@ -193,13 +205,31 @@ public class ObjectMapUtils {
     }
     
     public static String readString(Map<String, Object> map, String attributeName) {
+        return readString(map, attributeName, null);
+    }
+    
+    public static String readString(Map<String, Object> map, String attributeName, String defaultValue) {
         Object object = map.get(attributeName);
     
         if (object == null) {
-            return null;
+            return defaultValue;
         }
         
         return object.toString();
+    }
+    
+    public static Boolean readBoolean(Map<String, Object> map, String attributeName) {
+        return readBoolean(map, attributeName, null);
+    }
+    
+    public static Boolean readBoolean(Map<String, Object> map, String attributeName, Boolean defaultValue) {
+        Object object = map.get(attributeName);
+    
+        if (object == null) {
+            return defaultValue;
+        }
+        
+        return Boolean.valueOf(object.toString());
     }
 
     /**
