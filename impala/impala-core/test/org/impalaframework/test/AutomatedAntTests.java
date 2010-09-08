@@ -114,6 +114,7 @@ import org.impalaframework.registry.RegistrySupportTest;
 import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
 import org.impalaframework.resolver.CascadingModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
+import org.impalaframework.service.StaticServiceBeanReferenceTest;
 import org.impalaframework.service.contribution.BaseServiceRegistryListTest;
 import org.impalaframework.service.contribution.BaseServiceRegistryMapTest;
 import org.impalaframework.service.contribution.BaseServiceRegistrySetTest;
@@ -370,6 +371,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(SpringServiceBeanUtilsTest.class);
         suite.addTestSuite(StandaloneModuleLocationResolverTest.class);
         suite.addTestSuite(StaticPropertiesPropertySourceTest.class);
+        suite.addTestSuite(StaticServiceBeanReferenceTest.class);
         suite.addTestSuite(StaticServiceRegistryTargetSourceTest.class);
         suite.addTestSuite(StickyModificationExtractorTest.class);
         suite.addTestSuite(StickyGraphModificationExtractorTest.class);
