@@ -15,6 +15,7 @@
 package org.impalaframework.service;
 
 import org.springframework.util.Assert;
+import org.springframework.util.ObjectUtils;
 
 /**
  * Represents a service bean instance which is static, that is, will not change over the lifetime
@@ -38,6 +39,11 @@ public class StaticServiceBeanReference implements ServiceBeanReference {
     
     public boolean isStatic() {
         return true;
+    }
+    
+    @Override
+    public String toString() {
+        return "Static instance of " + service.getClass().getName() + ", object reference: " + ObjectUtils.identityToString(service);
     }
     
 }
