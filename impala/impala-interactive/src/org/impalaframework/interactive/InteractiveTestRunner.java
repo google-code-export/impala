@@ -36,7 +36,7 @@ import org.impalaframework.interactive.command.RunTestCommand;
 import org.impalaframework.interactive.command.ShowModulesCommand;
 import org.impalaframework.interactive.command.UsageCommand;
 import org.impalaframework.interactive.command.listener.StopCheckerListener;
-import org.impalaframework.interactive.facade.InteractiveOperationsFacade;
+import org.impalaframework.interactive.web.facade.InteractiveWebOperationsFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
 
 public class InteractiveTestRunner {
@@ -70,7 +70,7 @@ public class InteractiveTestRunner {
         String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
         if (facadeClassName == null) {
             //set the InteractiveOperationsFacade to apply by default
-            System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveOperationsFacade.class.getName());
+            System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveWebOperationsFacade.class.getName());
         }
 
         CommandState commandState = new CommandState();

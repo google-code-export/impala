@@ -56,11 +56,17 @@ public class Impala {
         String facadeClassName = System.getProperty(FacadeConstants.FACADE_CLASS_NAME);
 
         if (facadeClassName == null) {
-            facadeClassName = BootstrappingOperationFacade.class.getName();
+            facadeClassName = "org.impalaframework.web.facade.WebOperationsFacade";
         }
 
         if (facade == null) {
-            facade = InstantiationUtils.instantiate(facadeClassName);
+            try {
+                facade = InstantiationUtils.instantiate(facadeClassName);
+            }
+            catch (Exception e) {
+                logger.warn(facadeClassName + " not found. Using " + BootstrappingOperationFacade.class.getName());
+                facade = InstantiationUtils.instantiate(BootstrappingOperationFacade.class.getName());
+            }
         }
         
         if (logger.isDebugEnabled()) {

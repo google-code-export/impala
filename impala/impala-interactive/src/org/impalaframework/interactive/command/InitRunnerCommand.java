@@ -19,14 +19,14 @@ import org.impalaframework.command.framework.CommandDefinition;
 import org.impalaframework.command.framework.CommandState;
 import org.impalaframework.facade.FacadeConstants;
 import org.impalaframework.facade.Impala;
-import org.impalaframework.interactive.facade.InteractiveOperationsFacade;
+import org.impalaframework.interactive.web.facade.InteractiveWebOperationsFacade;
 
 public class InitRunnerCommand implements Command {
 
     public boolean execute(CommandState commandState) {
         // only set this if not set
         if (System.getProperty(FacadeConstants.FACADE_CLASS_NAME) == null) {
-            System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveOperationsFacade.class.getName());
+            System.setProperty(FacadeConstants.FACADE_CLASS_NAME, InteractiveWebOperationsFacade.class.getName());
         } 
         System.out.println("Using facade class: " + System.getProperty(FacadeConstants.FACADE_CLASS_NAME));
         Impala.init();
