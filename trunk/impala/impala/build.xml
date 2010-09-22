@@ -21,8 +21,12 @@
     <target name = "build"
         description="Bootstrap build command, used to create other tasks used in build process">
         <ant antfile="build.xml" dir = "../impala-build" target = "project:clean" inheritall = "false"/>
-        <ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false"/>
-        <ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false"/>
+        <ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false">
+        	<property name = "no.javadoc" value = "true"/>
+        </ant>
+        <ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false">
+        	<property name = "no.javadoc" value = "true"/>
+        </ant>
     </target>
     
     <target name = "clean"
