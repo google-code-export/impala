@@ -87,7 +87,7 @@
     </target>
 
     <target 
-        name="project:javadoc">
+        name="project:javadoc" unless="no.javadoc">
         
         <catcherror>
         <javadoc
@@ -107,7 +107,7 @@
     </target>  
     
     <target 
-        name="project:jar-javadoc" depends="project:javadoc">
+        name="project:jar-javadoc" depends="project:javadoc" unless="no.javadoc">
         
         <property name = "jar.location" location = "${jar.javadoc.output.file}"/>
         <catcherror>
