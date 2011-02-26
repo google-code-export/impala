@@ -13,7 +13,7 @@
             </manifest>
         </jar>
         <jar destfile="${deploy.dir}/startjetty.jar">
-            <zipfileset dir="${bin.dir}" includes="StartJetty*.class"/>
+            <zipfileset dir="${bin.dir}" includes="StartJetty*.class RunJetty*.class"/>
             <manifest>
                 <attribute name="Main-Class" value="StartJetty"/>               
             </manifest>
