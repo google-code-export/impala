@@ -38,7 +38,7 @@ public class GetTaskManualTest extends TestCase {
         downloadDir.mkdir();
 
         task = new GetTask();
-        task.setBaseSourceUrls("http://ibiblio.org/pub/packages/maven2/");
+        task.setBaseSourceUrls("http://ibiblio.org/pub/packages/maven2/,http://repository.jboss.com/maven2/");
         task.setToDir(downloadDir);
         task.setDependencies(new File("resources/test-dependencies.txt"));
         task.setProject(new Project());

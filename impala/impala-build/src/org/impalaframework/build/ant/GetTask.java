@@ -181,8 +181,9 @@ public class GetTask extends Task {
         toFile.getParentFile().mkdirs();
 
         Boolean downloaded = null;
+        boolean succeeded = false;
         
-        for (int i = 0; i < sourceUrls.length; i++) {
+        for (int i = 0; i < sourceUrls.length && succeeded == false; i++) {
             try {
                 URL srcUrl = new URL(sourceUrls[i] + url);
 
@@ -195,6 +196,7 @@ public class GetTask extends Task {
                     copy.execute();
 
                     results.add(new Result(url, Result.SUCCEEDED, srcUrl));
+                    succeeded = true;
                 }
                 else {
                     get.init();
@@ -215,7 +217,7 @@ public class GetTask extends Task {
 
                     final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
                     results.add(new Result(url, result, srcUrl));
-                
+                    succeeded = true;
                 }
             }
             catch (MalformedURLException e) {
@@ -226,7 +228,9 @@ public class GetTask extends Task {
             }
         }               
 
-        results.add(new Result(url, Result.FAILED, null));
+        if (!succeeded) {
+            results.add(new Result(url, Result.FAILED, null));
+        }
     }
 
     private List<String> getFileList() {

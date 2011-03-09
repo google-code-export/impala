@@ -17,6 +17,7 @@ package org.impalaframework.build.ant;
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Arrays;
 
 /**
  * @author Phil Zoio
@@ -31,17 +32,26 @@ public class DownloadTaskManualTest extends BaseDownloadTaskTest {
     public void testExecute() {
         task.execute();
         File[] listFiles = downloadDir.listFiles();
-        assertEquals(1, listFiles.length);
+        assertEquals(2, listFiles.length);
     }
     
     public void testExecuteWithSource() {
         task.setDownloadSources(true);
         task.execute();
         File[] listFiles = downloadDir.listFiles();
-        assertEquals(2, listFiles.length);
+        assertEquals(4, listFiles.length);
     }
     
-
+    public void testMoreDependencies() {
+        task.setDownloadSources(true);
+        task.setBaseSourceUrls("http://repository.jboss.com/maven2/,http://ibiblio.org/pub/packages/maven2/");
+        task.setDependencies(new File("resources/more-dependencies.txt"));
+        task.execute();
+        File[] listFiles = downloadDir.listFiles();
+        System.out.println(Arrays.toString(listFiles));
+        assertEquals(4, listFiles.length);
+    }
+    
     public void testExecuteWithMultipeRepos() throws MalformedURLException {
         File file = new File("C:\\Documents and Settings\\phil\\.m2\\repository");
         URL url = file.toURI().toURL();
