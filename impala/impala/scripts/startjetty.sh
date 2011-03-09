@@ -22,4 +22,10 @@ else
   CONFIGDIR="$4"
 fi
 
-java $JPDA $SYSPROP -jar launcher.jar StartJetty --addclasspath $CONFIGDIR --addjardir jetty $1 war $2
+if [ -z $5 ]; then
+  SCHEME="http"
+else
+  SCHEME="$5"
+fi
+
+java $JPDA $SYSPROP -jar launcher.jar RunJetty --addclasspath $CONFIGDIR --addjardir jetty $1 war $2 $SCHEME
