@@ -355,7 +355,8 @@
     
     <target name="scaffold:newmodule" depends="
         scaffold:newmodule-confirm, 
-        scaffold:locations, 
+        scaffold:locations,  
+        scaffold:filterset,
         scaffold:copymodule">
     </target>
 
