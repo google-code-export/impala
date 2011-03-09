@@ -138,6 +138,8 @@ public class GetTask extends Task {
         List<DownloadInfo> di = getDownloadInfos(file);
 
         for (DownloadInfo info : di) {
+
+            log("Downloading: " + info.getUrlString());
             doDownload(sourceUrls, info.getUrlString(), info.getFile());
         }
     }
@@ -177,17 +179,25 @@ public class GetTask extends Task {
 
     private void doDownload(String[] sourceUrls, String url, File toFile) {
 
-        log("Retrieving new resource if available for " + url);
+        log("Retrieving new resource if available for " + url + " to file " + toFile);
         toFile.getParentFile().mkdirs();
 
         Boolean downloaded = null;
         boolean succeeded = false;
         
         for (int i = 0; i < sourceUrls.length && succeeded == false; i++) {
+            
+            final String urlString = sourceUrls[i] + url;
             try {
-                URL srcUrl = new URL(sourceUrls[i] + url);
+                
+                setupHelperTasks();
+                URL srcUrl = new URL(urlString);
 
                 if ("file".equals(srcUrl.getProtocol())) {
+
+                    log("COPYING FROM " + srcUrl + 
+                            " TO FILE: " + toFile, Project.MSG_DEBUG);                    
+                    
                     copy.init();
                     copy.setFile(new File(srcUrl.getFile()));
                     copy.setTofile(toFile);
@@ -199,6 +209,9 @@ public class GetTask extends Task {
                     succeeded = true;
                 }
                 else {
+                    
+                    log("DOWNLOADING FROM " + srcUrl + 
+                    		" TO FILE: " + toFile, Project.MSG_DEBUG);               
                     get.init();
                     get.setSrc(srcUrl);
                     get.setUseTimestamp(true);
@@ -224,7 +237,7 @@ public class GetTask extends Task {
                 log("Unable to form valid url using " + url, Project.MSG_ERR);
             }
             catch (Exception e) {
-                log("Unable to download " + url, Project.MSG_DEBUG);
+                log("Unable to download " + url + " from url '" + urlString + "': " + e.getMessage(), Project.MSG_DEBUG);
             }
         }               
 
@@ -338,6 +351,7 @@ class DownloadGetTask extends Get {
         this.succeeded = null;
     }
 
+    /*
     @Override
     public void log(Throwable t, int msgLevel) {
     }
@@ -352,7 +366,7 @@ class DownloadGetTask extends Get {
 
     @Override
     public void log(String msg) {
-    }
+    }*/
 
     @Override
     public boolean doGet(int logLevel, DownloadProgress progress)
@@ -362,6 +376,7 @@ class DownloadGetTask extends Get {
             download = super.doGet(logLevel, progress);
             this.succeeded = true;
         } catch (Exception e) {
+            super.log(e, Project.MSG_DEBUG);
             return false;
         }
         this.downloaded = download;
