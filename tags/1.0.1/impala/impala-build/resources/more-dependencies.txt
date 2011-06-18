@@ -1,0 +1,2 @@
+downloads from javax.mail:mail:1.4
+downloads from javax.activation:activation:1.1.1

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.impalaframework.org/schema/web 
+http://impala.googlecode.com/svn/schema/web.xsd">
+
+    <import resource="classpath:urlmapping-web-common.xml"/>
+
+    <web:mapping>
+        <web:to-module prefix = "/webadmin" setContextPath="true"/> 
+        <web:to-handler extension = "htm" servletName="urlmapping-webadmin"/>
+        <web:to-handler extension = "css" servletName="urlmapping-resources"/>
+    </web:mapping>    
+    
+    <web:servlet id = "urlmapping-webadmin"/>
+            
+    <web:servlet id = "urlmapping-resources" 
+        servletClass = "org.impalaframework.web.servlet.ResourceServlet"
+        initParameters = "cacheTimeout=10"/>
+        
+    <!-- add your controllers etc. here -->
+    
+    <bean class="org.impalaframework.urlmapping.webadmin.MessageAdminController">
+        <property name = "messageService" ref = "messageService"/>
+    </bean>
+    
+</beans>

@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<project name="Impala Main Build">
+
+    <property name = "workspace.root" location = ".."/>
+    <property name = "impala.home" location = "${workspace.root}/impala"/>
+    
+    <echo level="debug">Using impala home: ${impala.home}</echo>
+    
+    <import file = "${impala.home}/properties-build.xml"/>
+    <import file = "${impala.home}/classpath-build.xml"/>
+    <import file = "${impala.home}/tasks-build.xml"/>
+    <import file = "${impala.home}/osgi-build.xml"/>
+    
+    <target name="project:clean">
+        <delete failonerror="false" dir="${bin.dir}" />
+        <delete failonerror="false" dir="${test.bin.dir}" />
+        <delete failonerror="false" dir="${output.dir}" />
+        <delete failonerror="false" dir="${jar.repository.file}" />
+    </target>
+
+    <target name = "project:prepare">
+        <mkdir dir="${output.dir}"/>
+        <mkdir dir="${bin.dir}"/>
+        <mkdir dir="${test.bin.dir}"/>
+    </target>
+    
+    <target name = "project:fixcrlf">
+        <property name = "fixcrlf.tab" value = "remove"/>
+        <property name = "fixcrlf.tablength" value = "4"/>
+        <property name = "fixcrlf.encoding" value = "UTF8"/>
+        <property name = "fixcrlf.eol" value = "lf"/>
+        <property name = "fixcrlf.eof" value = "remove"/>
+        
+        <fixcrlf srcdir="${project.dir}" includes="**/*.txt,**/*.xml,**/*.properties"
+                 tab="${fixcrlf.tab}" tablength = "${fixcrlf.tablength}" encoding = "${fixcrlf.encoding}"
+                 eol="${fixcrlf.eol}" eof="${fixcrlf.eof}" />
+        <fixcrlf srcdir="${project.dir}" includes="**/*.java"
+             tab="${fixcrlf.tab}" tablength = "${fixcrlf.tablength}" encoding = "${fixcrlf.encoding}" javafiles="yes"
+             eol="${fixcrlf.eol}" eof="${fixcrlf.eof}" />
+    </target>
+
+    <target 
+        name="project:compile" 
+        depends="project:prepare">
+        
+        <javac 
+            verbose="false" 
+            srcdir="${src.dir}" 
+            debug="on" 
+            includes="**/*.java" 
+            destdir="${bin.dir}" 
+            fork="true"
+            source="${javac.source.version}"
+            target="${javac.target.version}">
+            <classpath>
+                <path refid="full.classpath"/>
+            </classpath>
+        </javac>
+        
+        <copy todir="${bin.dir}">
+            <fileset dir="${src.dir}" 
+                excludes=
+                "**/*.java"/>
+        </copy>
+        <copy todir="${bin.dir}" failonerror="false">
+            <fileset dir="${resources.dir}"/>
+        </copy>
+    </target>
+
+    <target 
+        name="project:jar" 
+        depends="project:compile">
+        
+        <property name = "jar.location" location = "${jar.output.file}"/>
+        <jar destfile="${jar.output.file}">
+            <zipfileset dir="${bin.dir}" includes="**/*"/>
+        </jar>
+    </target>
+    
+    <target 
+        name="project:jar-src">
+        
+        <property name = "jar.location" location = "${jar.output.file}"/>
+        <jar destfile="${jar.src.output.file}">
+            <zipfileset dir="${src.dir}" includes="**/*"/>
+        </jar>
+    </target>
+
+    <target 
+        name="project:javadoc" unless="no.javadoc">
+        
+        <catcherror>
+        <javadoc
+            sourcepath="${src.dir}"
+            destdir="${javadoc.dir}"
+            author="true"
+            version="true"
+            package="true"
+            failonerror="false"
+            windowtitle="${project.name}"
+            doctitle="&lt;h1&gt;${project.name}&lt;/h1&gt;">
+            <classpath>
+                <path refid="full.classpath"/>
+            </classpath>
+        </javadoc>
+        </catcherror>
+    </target>  
+    
+    <target 
+        name="project:jar-javadoc" depends="project:javadoc" unless="no.javadoc">
+        
+        <property name = "jar.location" location = "${jar.javadoc.output.file}"/>
+        <catcherror>
+        <jar destfile="${jar.javadoc.output.file}">
+            <zipfileset dir="${javadoc.dir}" includes="**/*"/>
+        </jar>
+        </catcherror>
+    </target>
+    
+    <target 
+        name="project:repo" 
+        depends="project:jar, project:jar-src, osgi:wrap, project:jar-javadoc">
+        
+        <mkdir dir = "${repository.project.dir}"/>
+        <copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
+        <copy file="${jar.src.output.file}" tofile = "${jar.src.repository.file}"/>
+        <copy file="${jar.javadoc.output.file}" tofile = "${jar.javadoc.repository.file}" failonerror="false"/>
+    </target>   
+    
+    <target name = "project:prepare-test">
+        <delete failonerror="false" dir="${test.results.dir}" />
+        <mkdir dir="${test.results.dir}"/>
+        <mkdir dir="${test.bin.dir}"/>
+    </target>
+    
+    <target name="project:test-compile"
+        depends = "project:prepare-test">
+        
+        <javac verbose="false" 
+            srcdir="${test.dir}" 
+            debug="on" 
+            includes="**/*.java" 
+            destdir="${test.bin.dir}" 
+            fork="true"
+            source="${javac.source.version}"
+            target="${javac.target.version}">
+            <classpath>
+                <path location="${bin.dir}" />
+                <path refid="test.classpath"/>
+            </classpath>
+        </javac>
+        
+        <copy todir="${test.bin.dir}">
+            <fileset dir="${test.dir}" 
+                excludes=
+                "**/*.java"/>
+        </copy>
+        <copy todir="${test.bin.dir}" failonerror="false">
+            <fileset dir="${test.resources.dir}"/>
+        </copy>
+    </target>
+    
+    <target name="project:unless-max-memory" unless = "max-memory">
+        <property name = "max.memory" value = "128M"/>
+    </target>   
+    
+    <target 
+        name="project:jar-test"
+        depends = "project:test-compile">
+        
+        <property name = "jar.location" location = "${test.jar.output.file}"/>
+        <jar destfile="${test.jar.output.file}">
+            <zipfileset dir="${test.bin.dir}" includes="**/*"/>
+        </jar>
+    </target>   
+    
+    <target name="project:test" 
+        depends="project:unless-max-memory">
+        
+        <property name = "test.includes" value = "**/Automated*Tests.class"/>
+        <property name = "test.excludes" value = "NONE"/>
+        <echo>Includes: ${test.includes}</echo>
+        <echo>Excludes: ${test.excludes}</echo>
+                
+        <junit
+            maxmemory="${max.memory}"
+            haltonfailure="false"
+            printsummary="true" 
+            fork="true" 
+            dir="${project.dir}"
+            errorproperty="test.failed"
+            failureproperty="test.failed">
+            <jvmarg line="${test.jvm.args}"/>
+            
+            <classpath>
+                <path location="${test.bin.dir}" />
+                <path location="${bin.dir}" />
+                <path location="${resources.dir}" />
+                <path location="${test.resources.dir}" />
+                <path refid="test.classpath"/>
+            </classpath>
+            <formatter type="xml"/>
+            <formatter type="brief" usefile="false"/>
+            
+            <batchtest todir="${test.results.dir}">
+                <fileset dir="${test.bin.dir}" 
+                    includes="${test.includes}" 
+                    excludes="${test.excludes}"/>
+            </batchtest>
+        </junit>
+        
+        <junitreport todir="${test.results.dir}">
+              <fileset dir="${test.results.dir}"
+                      includes="TEST-*.xml"/>
+              <report todir="${test.results.dir}"
+              format="frames"/>
+        </junitreport>
+
+        <property name = "test.location" location = "${test.results.dir}/index.html"/>
+        <fail message="Tests failed in project ${project.name}. Tests results available in ${test.location}" if="test.failed" />
+        
+    </target>
+    
+    <target name = "project:main" depends = "project:clean, project:repo, project:test"/>
+
+</project>

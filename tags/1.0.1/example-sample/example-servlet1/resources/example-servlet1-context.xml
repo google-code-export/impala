@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"       
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:service="http://www.impalaframework.org/schema/service"
+       xmlns:dynaprop="http://www.impalaframework.org/schema/dynamicproperties"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd
+http://www.impalaframework.org/schema/dynamicproperties http://impala.googlecode.com/svn/schema/dynamic-properties.xsd">
+
+    <web:servlet id = "servletId" 
+        servletClass = "org.impalaframework.web.spring.servlet.InternalModuleServlet" 
+        servletName = "myServlet"
+        initParameters = "name2=value2,name3=value3">
+        <web:init-parameters>
+            <web:param name="name" value="value"/>
+        </web:init-parameters>
+    </web:servlet>
+        
+    <service:import id="missingService" 
+        proxyTypes="interfaces.MessageService"
+        proxyOptions="log.warning.no.service=true,allow.no.service=true"/>
+    
+    <!-- Sets up ParentFactoryBean -->
+    <service:parent id="entryService"/> 
+    
+    <!-- Example of using ParentFactoryBean with alternative bean name -->
+    <service:parent id="parentEntryService" parentBeanName="entryService"/> 
+    
+    <!-- Use url: http://localhost:8080/example/servlet1/test.do1 -->
+	<bean name="/servlet1/test.do1" class="TestController1">
+	    <property name = "entryService" ref = "entryService"/>
+	    <property name = "concreteService" ref = "concreteService"/>
+	    <property name = "missingService" ref = "missingService"/>
+	    <property name = "mainModuleService" ref = "mainModuleService"/>
+	    <property name = "magicNumber">
+	        <dynaprop:float name="magic.number" propertySource="dynamicProperties" />
+	    </property>
+	</bean>
+    
+    <bean id="dynamicProperties" class="org.impalaframework.spring.config.ExternalDynamicPropertySource">
+        <property name="fileName" value="dynamic.properties"/>
+    </bean>
+    
+    <bean id="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+        
+    <bean id="jspViewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+          <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+          <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>
