@@ -146,6 +146,12 @@ Upload _dist/impala-${project.version}.zip_ to [http://code.google.com/p/impala/
 
 Download the release. Check that the SHA1 checksum matches that of the pre-upload distribution file, and that published on the download metadata page.
 
+For example, run the command 
+
+{{{
+openssl sha1 impala-1.0.zip
+}}}
+
 See http://www.bresink.de/osx/sha1.html for an example on how to do this.
 
 Go through scaffold steps as defined in FirstSteps.
