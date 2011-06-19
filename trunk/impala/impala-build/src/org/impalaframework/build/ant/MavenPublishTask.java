@@ -238,6 +238,8 @@ public class MavenPublishTask extends Task {
             if (javadocFile.exists()) {
                 artifactDescription.setHasJavaDoc(true);
                 artifactDescription.setJavadocSrcFile(javadocFile);
+            } else {
+                artifactDescription.setHasJavaDoc(false);
             }
             
             ads[i] = artifactDescription;

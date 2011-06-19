@@ -21,7 +21,6 @@ package org.impalaframework.build.ant;
 public class DownloadTaskIndividualTest extends BaseDownloadTaskTest {
 
     public void testExecute() {
-        task.setupHelperTasks();
         //task.doDownload("web from javax.servlet.jsp:jsp-api:2.1", new String[]{"http://repo1.maven.org/maven2/"});        
         //task.doDownload("web from javax.servlet.jsp:jsp-api:2.0", new String[]{"http://repo1.maven.org/maven2/"});    
         //task.setupHelperTasks();

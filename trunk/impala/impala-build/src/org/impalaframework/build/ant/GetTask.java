@@ -31,6 +31,7 @@ import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
 import org.apache.tools.ant.taskdefs.Copy;
 import org.apache.tools.ant.taskdefs.Get;
+import org.apache.tools.ant.taskdefs.Get.VerboseProgress;
 
 /**
  * Used to perform downloads of individually identified files
@@ -47,10 +48,8 @@ public class GetTask extends Task {
     private boolean downloadSources;
 
     private boolean failOnError;
-
-    private DownloadGetTask get;
     
-    private Copy copy;
+    private boolean verbose;
 
     private List<Result> results = new ArrayList<Result>();
 
@@ -99,8 +98,6 @@ public class GetTask extends Task {
             throw new BuildException("The location refered to by 'toDir' is not a directory", getLocation());
         }
 
-        setupHelperTasks();
-
         List<String> fileList = getFileList();
 
         String[] sourceUrls = baseSourceUrls.split(",");
@@ -124,16 +121,7 @@ public class GetTask extends Task {
         printResults();
 
     }
-
-    protected void setupHelperTasks() {
-        get = new DownloadGetTask();
-        get.setProject(getProject());
-        get.setIgnoreErrors(false);
-
-        copy = new Copy();
-        copy.setProject(getProject());
-    }
-
+    
     protected void doDownload(String file, String[] sourceUrls) {
         List<DownloadInfo> di = getDownloadInfos(file);
 
@@ -179,10 +167,9 @@ public class GetTask extends Task {
 
     private void doDownload(String[] sourceUrls, String url, File toFile) {
 
-        log("Retrieving new resource if available for " + url + " to file " + toFile);
+        log("Retrieving new resource if available for " + url);
         toFile.getParentFile().mkdirs();
 
-        Boolean downloaded = null;
         boolean succeeded = false;
         
         for (int i = 0; i < sourceUrls.length && succeeded == false; i++) {
@@ -190,13 +177,14 @@ public class GetTask extends Task {
             final String urlString = sourceUrls[i] + url;
             try {
                 
-                setupHelperTasks();
                 URL srcUrl = new URL(urlString);
 
                 if ("file".equals(srcUrl.getProtocol())) {
 
-                    log("COPYING FROM " + srcUrl + 
-                            " TO FILE: " + toFile, Project.MSG_DEBUG);                    
+                    //log("Copying if applicable " + srcUrl + " to file: " + toFile, Project.MSG_DEBUG);                    
+
+                    Copy copy = new Copy();
+                    copy.setProject(getProject());
                     
                     copy.init();
                     copy.setFile(new File(srcUrl.getFile()));
@@ -205,13 +193,16 @@ public class GetTask extends Task {
                     copy.setTaskName("copy");
                     copy.execute();
 
-                    results.add(new Result(url, Result.SUCCEEDED, srcUrl));
+                    results.add(new Result(url, Result.COPIED, srcUrl));
                     succeeded = true;
                 }
                 else {
                     
-                    log("DOWNLOADING FROM " + srcUrl + 
-                    		" TO FILE: " + toFile, Project.MSG_DEBUG);               
+                    Get get = new Get();
+                    get.setProject(getProject());
+                    get.setIgnoreErrors(false);
+                    
+                    //log("Downloading if applicable from " + srcUrl + " to file: " + toFile);               
                     get.init();
                     get.setSrc(srcUrl);
                     get.setUseTimestamp(true);
@@ -219,19 +210,26 @@ public class GetTask extends Task {
                     get.setDescription(getDescription());
                     get.setLocation(getLocation());
                     get.setOwningTarget(getOwningTarget());
+                    get.setVerbose(this.verbose);
                     get.setTaskName("get");
-                    get.execute();
-                    
-                    downloaded = get.getDownloaded();
-                }
-                //result is interpreted as succeeded if null. Otherwise SUCCEEDED if downloaded = true otherwise NOT modified
-                
-                if (get.getSucceeded()) {
+                    try {
+                        final boolean got = get.doGet(Project.MSG_INFO, new VerboseProgress(System.out));
 
-                    final int result = downloaded == null ? Result.SUCCEEDED : (downloaded ? Result.SUCCEEDED : Result.NOT_MODIFIED);
-                    results.add(new Result(url, result, srcUrl));
-                    succeeded = true;
+                        final int result = got 
+                                          ? Result.DOWNLOADED : 
+                                          Result.NOT_MODIFIED;
+                        
+                        results.add(new Result(url, result, srcUrl));
+                        succeeded = true;
+                        
+                        //log("Resolved from " + srcUrl + ". Actual download performed: " + got);        
+                    }
+                    catch (Exception e) {
+                        //log("", Project.MSG_ERR);
+                    }
+                    
                 }
+                
             }
             catch (MalformedURLException e) {
                 log("Unable to form valid url using " + url, Project.MSG_ERR);
@@ -239,7 +237,7 @@ public class GetTask extends Task {
             catch (Exception e) {
                 log("Unable to download " + url + " from url '" + urlString + "': " + e.getMessage(), Project.MSG_DEBUG);
             }
-        }               
+        }
 
         if (!succeeded) {
             results.add(new Result(url, Result.FAILED, null));
@@ -284,7 +282,7 @@ public class GetTask extends Task {
 
         if (results.size() > 0) {
             for (Result result : results) {
-                buffer.append(result.toString()).append(lineSeparator);
+                buffer.append(result.toString()).append(lineSeparator).append(lineSeparator);
             }
         }
         else {
@@ -315,6 +313,10 @@ public class GetTask extends Task {
     public void setFailOnError(boolean failOnError) {
         this.failOnError = failOnError;
     }
+    
+    public void setVerbose(boolean verbose) {
+        this.verbose = verbose;
+    }
 
     /* ************************ protected getters *********************** */
 
@@ -340,74 +342,23 @@ public class GetTask extends Task {
 
 }
 
-class DownloadGetTask extends Get {
-    private Boolean downloaded;
-    private Boolean succeeded;
-
-    @Override
-    public void init() throws BuildException {
-        super.init();
-        this.downloaded = null;
-        this.succeeded = null;
-    }
-
-    /*
-    @Override
-    public void log(Throwable t, int msgLevel) {
-    }
-
-    @Override
-    public void log(String msg, int msgLevel) {
-    }
-
-    @Override
-    public void log(String msg, Throwable t, int msgLevel) {
-    }
-
-    @Override
-    public void log(String msg) {
-    }*/
-
-    @Override
-    public boolean doGet(int logLevel, DownloadProgress progress)
-            throws IOException {
-        boolean download = false;
-        try {
-            download = super.doGet(logLevel, progress);
-            this.succeeded = true;
-        } catch (Exception e) {
-            super.log(e, Project.MSG_DEBUG);
-            return false;
-        }
-        this.downloaded = download;
-        return download;
-    }
-
-    public Boolean getDownloaded() {
-        return this.downloaded;
-    }
-
-    public Boolean getSucceeded() {
-        return succeeded;
-    }
-
-}
-
 class Result {
 
     static final int NOT_MODIFIED = 0;
 
     static final int FAILED = 1;
 
-    static final int SUCCEEDED = 2;
+    static final int COPIED = 2;
+
+    static final int DOWNLOADED = 3;
 
     public Result(String archive, int result, URL srcUrl) {
         super();
         if (archive == null)
             throw new IllegalArgumentException("archive cannot be null");
-        if (NOT_MODIFIED > result || SUCCEEDED < result)
-            throw new IllegalArgumentException("result must be between 0 and 2 (inclusive)");
-        if (SUCCEEDED == result && srcUrl == null)
+        if (NOT_MODIFIED > result || DOWNLOADED < result)
+            throw new IllegalArgumentException("result must be between 0 and 3 (inclusive)");
+        if (COPIED <= result && srcUrl == null)
             throw new IllegalArgumentException("success location required for successful result");
 
         this.archive = archive;
@@ -429,8 +380,11 @@ class Result {
         case FAILED:
             return archive + " could not be downloaded from any location";
 
-        case SUCCEEDED:
-            return archive + "\nresolved from\n" + successLocation;
+        case COPIED:
+            return archive + " COPIED from \n" + successLocation;
+            
+        case DOWNLOADED:
+            return archive + " DOWNLOADED from \n" + successLocation;
         default:
             throw new IllegalStateException("Should not get here");
         }
