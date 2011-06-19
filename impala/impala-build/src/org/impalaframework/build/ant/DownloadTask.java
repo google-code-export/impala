@@ -33,7 +33,7 @@ public class DownloadTask extends GetTask {
 
 	@Override
 	protected List<DownloadInfo> getDownloadInfos(String urlString) {
-
+	    
 		ArtifactInfo ai = parseArtifactInfo(urlString);
 
 		List<DownloadInfo> dis = new LinkedList<DownloadInfo>();

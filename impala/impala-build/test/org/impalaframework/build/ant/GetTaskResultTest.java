@@ -31,15 +31,16 @@ public class GetTaskResultTest extends TestCase {
         construct(false, 1, null, "");
         construct(false, 2, new URL("http://location"), "");
 
-        construct(true, -1, null, "result must be between 0 and 2 (inclusive)");
-        construct(true, 3, null, "result must be between 0 and 2 (inclusive)");
-        construct(true, 2, null, "success location required for successful result");
+        construct(true, -1, null, "result must be between 0 and 3 (inclusive)");
+        construct(true, 4, null, "result must be between 0 and 3 (inclusive)");
+        construct(true, 3, null, "success location required for successful result");
     }
 
     public void testToString() throws MalformedURLException {
         toString(0, null, "archive not modified");
         toString(1, null, "archive could not be downloaded from any location");
-        toString(2, new URL("http://location"), "archive\nresolved from\nhttp://location");
+        toString(2, new URL("http://location"), "archive COPIED from \nhttp://location");
+        toString(3, new URL("http://location"), "archive DOWNLOADED from \nhttp://location");
     }
 
     private void construct(boolean fail, int result, URL successLocation, String expected) {
