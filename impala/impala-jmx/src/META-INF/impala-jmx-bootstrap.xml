@@ -14,6 +14,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         <property name="applicationManager" ref="applicationManager"/>
     </bean> 
     
+   <bean id="memoryOperations" 
+        class="org.impalaframework.jmx.spring.MemoryOperations">
+    </bean>
+    
     <!-- Instrumented beans -->
     
     <bean id="jmxAttributeSource"
@@ -47,6 +51,8 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             <map>
                 <entry key="impala:service=moduleManagementOperations"
                     value-ref="moduleManagementOperations"/>
+                <entry key="impala:service=memoryOperations"
+                    value-ref="memoryOperations"/>
             </map>
         </property>
     </bean>
