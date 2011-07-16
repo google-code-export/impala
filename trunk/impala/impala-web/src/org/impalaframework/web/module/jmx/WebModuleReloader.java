@@ -47,6 +47,38 @@ public class WebModuleReloader implements ServletContextAware {
         
         Assert.notNull(servletContext);
 
+        ModuleManagementFacade facade = getFacade();
+        ModuleDefinitionSource source = getSource();
+        Application application = getApplication(facade);
+
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+        
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+        operation.execute(application, moduleOperationInput);
+    }
+    
+    @ManagedOperation(description = "Simply unloads all the modules")
+    public void unloadModules() {
+        
+        Assert.notNull(servletContext);
+
+        ModuleManagementFacade facade = getFacade();
+        ModuleDefinitionSource source = getSource();
+        Application application = getApplication(facade);
+
+        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+        
+        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+        operation.execute(application, moduleOperationInput);
+    }
+
+    private Application getApplication(ModuleManagementFacade facade) {
+        ApplicationManager applicationManager = facade.getApplicationManager();
+        Application application = applicationManager.getCurrentApplication();
+        return application;
+    }
+    
+    private ModuleManagementFacade getFacade() {
         ModuleManagementFacade facade = (ModuleManagementFacade) servletContext
                 .getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE);
         if (facade == null) {
@@ -55,7 +87,10 @@ public class WebModuleReloader implements ServletContextAware {
                             + ModuleManagementFacade.class.getName()
                             + " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.IMPALA_FACTORY_ATTRIBUTE");
         }
+        return facade;
+    }
 
+    private ModuleDefinitionSource getSource() {
         ModuleDefinitionSource source = (ModuleDefinitionSource) servletContext
                 .getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE);
         if (source == null) {
@@ -65,14 +100,7 @@ public class WebModuleReloader implements ServletContextAware {
                             + " found. Your context loader needs to be configured to create an instance of this class and attach it to the ServletContext using the attribue WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE");
 
         }
-        
-        ApplicationManager applicationManager = facade.getApplicationManager();
-        Application application = applicationManager.getCurrentApplication();
-
-        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
-        
-        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
-        operation.execute(application, moduleOperationInput);
+        return source;
     }
 
     public void setServletContext(ServletContext servletContext) {
