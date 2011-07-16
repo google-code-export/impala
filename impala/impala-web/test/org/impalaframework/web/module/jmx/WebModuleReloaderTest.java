@@ -83,6 +83,20 @@ public class WebModuleReloaderTest extends TestCase {
         verifyMocks();
     }
 
+    public final void testUnloadModules() {
+        expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(impalaBootstrapFactory);
+        expect(servletContext.getAttribute(WebConstants.MODULE_DEFINITION_SOURCE_ATTRIBUTE)).andReturn(moduleDefinitionSource);
+
+        expect(impalaBootstrapFactory.getApplicationManager()).andReturn(applicationManager);
+        expect(impalaBootstrapFactory.getModuleOperationRegistry()).andReturn(moduleOperationRegistry);
+        expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.CloseRootModuleOperation)).andReturn(moduleOperation);
+        expect(moduleOperation.execute(eq(applicationManager.getCurrentApplication()), isA(ModuleOperationInput.class))).andReturn(ModuleOperationResult.EMPTY);
+    
+        replayMocks();
+        reloader.unloadModules();
+        verifyMocks();
+    }
+
     public final void testNoFactory() {
         expect(servletContext.getAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE)).andReturn(null);
 
