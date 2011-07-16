@@ -23,6 +23,7 @@ import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ClassLoaderRegistry;
 import org.impalaframework.module.spi.ModuleRuntime;
 import org.impalaframework.module.spi.ModuleRuntimeMonitor;
+import org.springframework.beans.CachedIntrospectionResults;
 import org.springframework.util.Assert;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.ObjectUtils;
@@ -85,7 +86,11 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         final ClassLoaderRegistry classLoaderRegistry = application.getClassLoaderRegistry();
         
         final ModuleDefinition moduleDefinition = runtimeModule.getModuleDefinition();
-        classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
+        final ClassLoader classLoader = classLoaderRegistry.removeClassLoader(moduleDefinition.getName());
+        
+        if (classLoader != null) {
+            CachedIntrospectionResults.clearClassLoader(classLoader);
+        }
         doCloseModule(application.getId(), runtimeModule);
     }
     
@@ -128,6 +133,7 @@ public abstract class BaseModuleRuntime implements ModuleRuntime {
         }
         
         final ClassLoader classLoader = classLoaderFactory.newClassLoader(application, parentClassLoader, definition);
+        CachedIntrospectionResults.acceptClassLoader(classLoader);
         return doLoadModule(application, classLoader, definition);
     }
     
