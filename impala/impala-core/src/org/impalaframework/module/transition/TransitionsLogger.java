@@ -22,6 +22,7 @@ import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.util.ExceptionUtils;
+import org.impalaframework.util.MemoryUtils;
 
 /**
  * Class which can be set to log transitions more or less verbosely
@@ -48,6 +49,7 @@ public class TransitionsLogger {
         List<TransitionResult> results = resultSet.getResults();
         
         StringBuffer buffer = new StringBuffer();
+        buffer.append("\n---------------------------------------------\n");
         buffer.append("Module operations succeeded: ").append(resultSet.isSuccess()).append("\n");
         buffer.append("Number of operations: ").append(results.size()).append("\n");
         
@@ -67,6 +69,9 @@ public class TransitionsLogger {
                 }
             }
         }
+        
+        buffer.append(MemoryUtils.getMemoryInfo());
+        buffer.append("---------------------------------------------");
         return buffer.toString();
     }
 
