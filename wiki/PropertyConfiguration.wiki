@@ -175,6 +175,8 @@ in particular, when running Impala in an application server which hosts a JMX en
 only one Impala application which uses JMX can be configured in this way on a single application server instance. The reason is that
 each of Impala application will attempt to use the same JMX bean name for the respective expored JMX beans. Defaults to `false`.
 
+*jmx.prefer.platform.mbean.server*: (1.0.2 onwards). Applies if `jmx.locate.existing.server` is true. If true, then attempts to reuse platform MBean server, rather than locating an MBean server which might have been created by the application or perhaps the application server, by calling `ManagementFactory.getPlatformMBeanServer()`.
+
 *expose.mx4j.adaptor*: Set this property to true to use the MX4J console. The MX4J classes must be present on the class path. If you are
 using the application server's native JMX console via the `jmx.locate.existing.server` property, then you probably won't want to set this
 property. Defaults to `false`. 
