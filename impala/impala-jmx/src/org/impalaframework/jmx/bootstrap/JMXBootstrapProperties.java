@@ -28,4 +28,7 @@ public interface JMXBootstrapProperties {
     String JMX_LOCATE_EXISTING_SERVER = "jmx.locate.existing.server";
     boolean JMX_LOCATE_EXISTING_SERVER_DEFAULT = false;
 
+    String JMX_PREFER_PLATFORM_MBEAN_SERVER = "jmx.prefer.platform.mbean.server";
+    boolean JMX_PREFER_PLATFORM_MBEAN_SERVER_DEFAULT = false;
+
 }

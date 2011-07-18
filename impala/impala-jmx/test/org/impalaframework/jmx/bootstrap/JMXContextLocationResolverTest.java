@@ -31,6 +31,12 @@ public class JMXContextLocationResolverTest extends TestCase {
         assertLocations("impala-jmx-boot");
     }
 
+    public void testPreferPlaformMbeanServer() {
+        properties.setProperty("jmx.prefer.platform.mbean.server", "true");
+        resolver.addJmxOperations(configSettings, propertySource);
+        assertEquals("true", configSettings.getPropertyValues().get("jmx.prefer.platform.mbean.server").getRawValue());
+    }
+
     public void testExposeJmxOperations() {
         properties.setProperty("expose.jmx.operations", "false");
         resolver.addJmxOperations(configSettings, propertySource);
