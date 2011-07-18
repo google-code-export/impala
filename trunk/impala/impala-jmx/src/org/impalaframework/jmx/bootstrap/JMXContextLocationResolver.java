@@ -72,6 +72,9 @@ public class JMXContextLocationResolver implements ContextLocationResolver {
         BooleanPropertyValue locateExistingMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT);
         configSettings.addProperty(JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER, locateExistingMbeanServer);
         
+        BooleanPropertyValue preferPlatformMbeanServer = new BooleanPropertyValue(propertySource, JMXBootstrapProperties.JMX_PREFER_PLATFORM_MBEAN_SERVER, JMXBootstrapProperties.JMX_PREFER_PLATFORM_MBEAN_SERVER_DEFAULT);
+        configSettings.addProperty(JMXBootstrapProperties.JMX_PREFER_PLATFORM_MBEAN_SERVER, preferPlatformMbeanServer);
+        
         if (exposeJmx.getValue()) {
             configSettings.add("META-INF/impala-jmx-bootstrap.xml");
         }

@@ -37,10 +37,16 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
          <property name="name" value="jmx.locate.existing.server"/>
          <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT]"/>
     </bean> 
+
+    <bean id="preferPlatformMbeanServer" parent = "propertyParent">
+         <property name="name" value="jmx.prefer.platform.mbean.server"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_PREFER_PLATFORM_MBEAN_SERVER_DEFAULT]"/>
+    </bean> 
     
     <bean id="mbeanServer"
-          class="org.springframework.jmx.support.MBeanServerFactoryBean">
+          class="org.impalaframework.jmx.bootstrap.MBeanServerFactoryBean">
           <property name="locateExistingServerIfPossible" ref="locateExistingServerIfPossible"/>
+          <property name="preferPlatformMbeanServer" ref="preferPlatformMbeanServer"/>
     </bean> 
     
     <bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">
