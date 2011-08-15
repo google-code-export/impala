@@ -515,15 +515,25 @@ public class DependencyManager implements Freezable {
         
         final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
         
-        final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames(false);
+        populateDependencies(vertex, moduleDefinition, false);
+        populateDependencies(vertex, moduleDefinition, true);
+    }
+
+    /**
+     * Populates either optional or mandatory dependencies, depending on whether optional or not
+     */
+    private void populateDependencies(Vertex vertex, ModuleDefinition moduleDefinition, boolean optional) {
+        
+        final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames(optional);
         for (String dependent : dependentModuleNames) {
             
             final Vertex dependentVertex = vertexMap.get(dependent);
             
             if (dependentVertex == null) {
-                throw new InvalidStateException("Unable to dependency named named '" + dependent 
-                        + "' for module definition '" + moduleDefinition.getName() + "'");
-                
+                if (!optional) {
+                    throw new InvalidStateException("Unable to dependency named named '" + dependent 
+                            + "' for module definition '" + moduleDefinition.getName() + "'");
+                }                
             } else {
                 //register the vertex dependency
                 populateVertexDependency(vertex, dependentVertex);

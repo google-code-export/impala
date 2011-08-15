@@ -1,0 +1,22 @@
+<root xmlns="http://www.impalaframework.org/schema/moduledefinition"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation=
+      	"http://www.impalaframework.org/schema/moduledefinition http://impala.googlecode.com/svn/schema/moduledefinition.xsd">
+    <names>
+    example-hibernate
+    example-dao
+    example-service
+    example-optional
+    example-web
+    example-servlet1
+    example-servlet4
+    </names>
+    <modules>
+        <module>
+            <name>example-web</name>
+            <config-locations>
+                <config-location>example-web.xml</config-location>
+            </config-locations>
+        </module>
+    </modules>
+</root>

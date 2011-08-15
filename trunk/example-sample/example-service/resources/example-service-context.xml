@@ -19,6 +19,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     -->
     <service:export-array beanNames="entryService,concreteService" exportNames="entryService,concreteService"/>
     
+    <bean id="optionalLookup" class="classes.OptionalLookup"/>
+    
     <bean id="entryService" class="classes.EntryServiceImpl">
         <property name="entryDAO" ref="entryDAO"/>
     </bean>
