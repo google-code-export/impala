@@ -515,7 +515,7 @@ public class DependencyManager implements Freezable {
         
         final ModuleDefinition moduleDefinition = vertex.getModuleDefinition();
         
-        final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames();
+        final List<String> dependentModuleNames = moduleDefinition.getDependentModuleNames(false);
         for (String dependent : dependentModuleNames) {
             
             final Vertex dependentVertex = vertexMap.get(dependent);

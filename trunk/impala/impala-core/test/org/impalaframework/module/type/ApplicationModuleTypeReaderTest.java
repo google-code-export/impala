@@ -52,6 +52,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         Properties properties = new Properties();
         properties.put(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
         properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
+        properties.put(ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT, "module7,module8");
         properties.put("prop1", "value1");
         properties.put("prop2", "value2");
         properties.put("runtime", "myruntime");
@@ -60,7 +61,8 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         assertEquals("mymodule", moduleDefinition.getName());
         assertEquals(ModuleTypes.APPLICATION, moduleDefinition.getType());
         assertEquals(Arrays.asList(new String[]{ "loc1", "loc2", "loc3"}), moduleDefinition.getConfigLocations());
-        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames(false));
+        assertEquals(Arrays.asList(new String[]{ "module7", "module8"}), moduleDefinition.getDependentModuleNames(true));
         
         Map<String,String> expectedAttributes = new HashMap<String,String>();
         expectedAttributes.put("prop1", "value1");
@@ -118,7 +120,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         
         ModuleDefinition moduleDefinition = reader.readModuleDefinition(new SimpleModuleDefinition("parent"), "mymodule", root);
         assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
-        assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+        assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames(false));
         
         Map<String,String> expectedAttributes = new HashMap<String,String>();
         expectedAttributes.put("prop1", "value1");

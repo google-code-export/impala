@@ -37,11 +37,12 @@ public class ApplicationModuleTypeReader implements TypeReader {
         
         String[] locationsArray = TypeReaderUtils.readContextLocations(properties);
         String[] dependencyNames = TypeReaderUtils.readDependencyNames(properties);
+        String[] optionalDependencyNames = TypeReaderUtils.readOptionalDependencyNames(properties);
         Map<String,String> attributes = TypeReaderUtils.readAttributes(properties);
         String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
         String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
         
-        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
+        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime);
     }
 
     /**
@@ -53,6 +54,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
         
         List<String> configLocations = TypeReaderUtils.readContextLocations(definitionElement);
         List<String> dependencyNames = TypeReaderUtils.readDependencyNames(definitionElement);
+        List<String> optionalDependencyNames = TypeReaderUtils.readOptionalDependencyNames(definitionElement);
         Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
         String runtime = TypeReaderUtils.readRuntime(definitionElement);
         String type = TypeReaderUtils.readType(definitionElement);
@@ -61,6 +63,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
                 type, 
                 configLocations.toArray(new String[0]), 
                 dependencyNames.toArray(new String[0]), 
+                optionalDependencyNames.toArray(new String[0]), 
                 attributes, runtime);
     }
 
@@ -82,8 +85,10 @@ public class ApplicationModuleTypeReader implements TypeReader {
             String type, 
             String[] locationsArray, 
             String[] dependencyNames, 
-            Map<String, String> attributes, String runtime) {
-        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, attributes, runtime);
+            String[] optionalDependencyNames, 
+            Map<String, String> attributes, 
+            String runtime) {
+        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime);
     }
 
 }

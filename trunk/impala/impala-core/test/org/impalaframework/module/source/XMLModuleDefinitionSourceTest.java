@@ -68,7 +68,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
         definition3 = new SimpleModuleDefinition(definition2, module3);
         definition4 = new SimpleModuleDefinition(root, module4);
         definition5 = new SimpleModuleDefinition(null, module5);
-        definition6 = new SimpleModuleDefinition(definition5, module6, ModuleTypes.APPLICATION, null, new String[] {"sample-module3","sample-module4","sample-module5"}, null, null);
+        definition6 = new SimpleModuleDefinition(definition5, module6, ModuleTypes.APPLICATION, null, new String[] {"sample-module3","sample-module4","sample-module5"}, null, null, null);
         
     }
     
@@ -105,7 +105,7 @@ public class XMLModuleDefinitionSourceTest extends TestCase {
         assertEquals(definition6, actual.findChildDefinition(module6, true));
         assertEquals(definition5, actual.findChildDefinition(module6, true).getParentDefinition());
         
-        assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition6.getDependentModuleNames());
+        assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition6.getDependentModuleNames(false));
 
     }
 

@@ -6,6 +6,7 @@ public interface ModuleElementNames {
     String CONFIG_LOCATIONS_ELEMENT = "config-locations";
     String CONFIG_LOCATION_ELEMENT = "config-location";
     String DEPENDENCIES_ELEMENT = "depends-on";
+    String OPTIONAL_DEPENDENCIES_ELEMENT = "optional-depends-on";
     String ATTRIBUTES_ELEMENT = "attributes";
     String ATTRIBUTE_ELEMENT = "attribute";
     String TYPE_ELEMENT = "type";
