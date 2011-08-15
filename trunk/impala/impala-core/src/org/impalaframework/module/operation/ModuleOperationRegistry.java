@@ -43,7 +43,6 @@ public class ModuleOperationRegistry extends RegistrySupport implements Registry
         return super.getEntry(name, ModuleOperation.class);
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String, ModuleOperation> getOperations() {
         final Map entries = super.getEntries();
         return entries;

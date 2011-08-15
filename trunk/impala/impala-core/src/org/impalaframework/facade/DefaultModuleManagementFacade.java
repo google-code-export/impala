@@ -187,7 +187,6 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         return this.applicationContext.getBean(name);
     }
 
-    @SuppressWarnings("unchecked")
     public Object getBean(String name, Class requiredType) throws BeansException {
         return this.applicationContext.getBean(name, requiredType);
     }
