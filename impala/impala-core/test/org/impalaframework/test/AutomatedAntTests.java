@@ -133,6 +133,7 @@ import org.impalaframework.spring.MissingBeanTest;
 import org.impalaframework.spring.SystemPropertyBasedPlaceholderConfigurerTest;
 import org.impalaframework.spring.bean.BooleanFactoryBeanTest;
 import org.impalaframework.spring.bean.NamedFactoryBeanTest;
+import org.impalaframework.spring.bean.OptionalFactoryBeanTest;
 import org.impalaframework.spring.bean.OptionalPropertiesFactoryBeanTest;
 import org.impalaframework.spring.bean.SystemPropertiesFactoryBeanTest;
 import org.impalaframework.spring.bean.SystemPropertyFactoryBeanTest;
@@ -308,6 +309,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(NamedServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(ObjectUtilsTest.class);
         suite.addTestSuite(ObjectMapUtilsTest.class);
+        suite.addTestSuite(OptionalFactoryBeanTest.class);
         suite.addTestSuite(OptionalPropertiesFactoryBeanTest.class);
         suite.addTestSuite(ParentClassLoaderFactoryTest.class);
         suite.addTestSuite(ParentFactoryBeanTest.class);
