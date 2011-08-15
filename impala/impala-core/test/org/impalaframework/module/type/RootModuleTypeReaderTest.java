@@ -51,7 +51,7 @@ public class RootModuleTypeReaderTest extends TestCase {
         ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "rootModule", properties);
         SimpleRootModuleDefinition definition = (SimpleRootModuleDefinition) moduleDefinition;
         assertEquals(Arrays.asList(new String[]{"loc1", "loc2"}), definition.getConfigLocations());
-        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames(false));
     }
     
     public void testReadModuleDefinitionProperties() throws Exception {
@@ -82,7 +82,7 @@ public class RootModuleTypeReaderTest extends TestCase {
         
         ModuleDefinition moduleDefinition = reader.readModuleDefinition(null, "mymodule", root);
         assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
-        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames());
+        assertEquals(Arrays.asList(new String[]{ "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames(false));
     }
     
     

@@ -93,7 +93,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
         return state;
     }
     
-    public List<String> getDependentModuleNames() {
+    public List<String> getDependentModuleNames(boolean optional) {
         return Collections.emptyList();
     }
     

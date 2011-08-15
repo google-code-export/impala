@@ -53,7 +53,7 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
         assertNotNull(definition5);
         
         ModuleDefinition definition = getDefinition(definition5, "sample-module6");
-        assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition.getDependentModuleNames());
+        assertEquals(Arrays.asList("sample-module3,sample-module4,sample-module5".split(",")), definition.getDependentModuleNames(false));
     }
     
     public void testGetModuleDefinition() {

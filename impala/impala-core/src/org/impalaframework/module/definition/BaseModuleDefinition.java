@@ -53,7 +53,9 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
     private List<String> configLocations;
 
-    private List<String> dependencies;
+    private List<String> mandatoryDependencies;
+    
+    private List<String> optionalDependencies;
     
     private boolean frozen;
 
@@ -62,9 +64,11 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
     public BaseModuleDefinition(ModuleDefinition parent, 
             String name, 
             String type, 
-            String[] dependencies, 
             String[] configLocations, 
-            Map<String, String> attributes, String runtime) {
+            String[] mandatoryDependencies, 
+            String[] optionalDependencies, 
+            Map<String, String> attributes, 
+            String runtime) {
         
         Assert.notNull(name);
 
@@ -73,9 +77,14 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
             configLocations = new String[0];
         }
         
-        //if dependencies null just use empty array
-        if (dependencies == null) {
-            dependencies = new String[0];
+        //if mandatoryDependencies null just use empty array
+        if (mandatoryDependencies == null) {
+            mandatoryDependencies = new String[0];
+        }
+        
+        //if mandatoryDependencies null just use empty array
+        if (optionalDependencies == null) {
+            optionalDependencies = new String[0];
         }
         
         if (attributes == null) {
@@ -94,7 +103,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         this.type = type;
         this.configLocations = Arrays.asList(configLocations);
         this.childContainer = new ModuleContainerImpl();
-        this.dependencies = ArrayUtils.toList(dependencies);
+        this.mandatoryDependencies = ArrayUtils.toList(mandatoryDependencies);
+        this.optionalDependencies = ArrayUtils.toList(optionalDependencies);
         this.parentDefinition = parent;
         this.attributes = attributes;
         this.runtime = runtime;
@@ -146,10 +156,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         return state;
     }
     
-    public List<String> getDependentModuleNames() { 
+    public List<String> getDependentModuleNames(boolean optional) { 
         
-        List<String> dependencies = new ArrayList<String>(this.dependencies);
-        if (this.parentDefinition != null) {
+        List<String> dependencies = new ArrayList<String>(optional ? this.optionalDependencies : this.mandatoryDependencies);
+        if (this.parentDefinition != null && !optional) {
             
             //add parent as dependency if not already in list
             final String parentName = parentDefinition.getName();
@@ -163,10 +173,6 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
     public Map<String, String> getAttributes() {
         return Collections.unmodifiableMap(attributes);
-    }
-
-    public List<String> getDependencies() {
-        return dependencies;
     }
 
     public boolean isFrozen() {
@@ -221,7 +227,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
                 * result
                 + ((configLocations == null) ? 0 : configLocations.hashCode());
         result = prime * result
-                + ((dependencies == null) ? 0 : dependencies.hashCode());
+                + ((mandatoryDependencies == null) ? 0 : mandatoryDependencies.hashCode());
         result = prime * result + ((name == null) ? 0 : name.hashCode());
         return result;
     }
@@ -240,10 +246,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
                 return false;
         } else if (!configLocations.equals(other.configLocations))
             return false;
-        if (dependencies == null) {
+        if (mandatoryDependencies == null) {
             if (other.dependencies != null)
                 return false;
-        } else if (!dependencies.equals(other.dependencies))
+        } else if (!mandatoryDependencies.equals(other.dependencies))
             return false;
         if (name == null) {
             if (other.name != null)
@@ -284,10 +290,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
                 return false;
         } else if (!attributes.equals(other.attributes))
             return false;
-        if (dependencies == null) {
-            if (other.dependencies != null)
+        if (mandatoryDependencies == null) {
+            if (other.mandatoryDependencies != null)
                 return false;
-        } else if (!dependencies.equals(other.dependencies))
+        } else if (!mandatoryDependencies.equals(other.mandatoryDependencies))
             return false;
         if (configLocations == null) {
             if (other.configLocations != null)
@@ -323,9 +329,14 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         buffer.append("name=" + getName());
         buffer.append(", configLocations=" + getConfigLocations());
         buffer.append(", type=" + getType());
-        buffer.append(", dependencies=" + getDependentModuleNames());
+        buffer.append(", dependencies=" + getDependentModuleNames(false));
+        
+        List<String> optionalDeps = getDependentModuleNames(true);
+        if (!optionalDeps.isEmpty()) {
+            buffer.append(", dependencies (optional) =" + optionalDeps);
+        }
         if (!attributes.isEmpty()) {
-            buffer.append(", attributes=" + getDependentModuleNames());
+            buffer.append(", attributes=" + getAttributes());
         }
         buffer.append(", runtime=" + getRuntimeFramework());
         if (getState() != null) {

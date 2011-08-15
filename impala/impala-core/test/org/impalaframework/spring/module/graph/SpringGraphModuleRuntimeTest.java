@@ -224,6 +224,6 @@ class ModuleDefinitionWithParent implements ModuleDefinitionSource {
                 new String[]{"sample-module6-context.xml", "sample-module6-parent.xml"},
                 new String[]{"sample-module4"},
                 null,
-                "spring");
+                null, "spring");
         return moduleDefinition;
     }}

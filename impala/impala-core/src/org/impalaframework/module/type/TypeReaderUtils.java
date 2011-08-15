@@ -58,10 +58,17 @@ public class TypeReaderUtils {
     }
     
     /**
-     * Reads the dependencies from the XML {@link Element} instance using the <code>dependencies</code> subelement.
+     * Reads the dependencies from the XML {@link Element} instance using the <code>depends-on</code> subelement.
      */
     static List<String> readDependencyNames(Element root) {
         return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.DEPENDENCIES_ELEMENT);
+    }
+    
+    /**
+     * Reads the dependencies from the XML {@link Element} instance using the <code>optional-depends-on</code> subelement.
+     */
+    static List<String> readOptionalDependencyNames(Element root) {
+        return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
     }
     
     /**
@@ -94,11 +101,19 @@ public class TypeReaderUtils {
     }
 
     /**
-     * Reads the dependencies from the {@link Properties} instance using the <code>dependencies</code> property.
+     * Reads the dependencies from the {@link Properties} instance using the <code>depends-on</code> property.
      */
     static String[] readDependencyNames(Properties properties) {
         return readPropertyValues(properties, ModuleElementNames.DEPENDENCIES_ELEMENT);
     }
+
+    /**
+     * Reads the dependencies from the {@link Properties} instance using the <code>optional-depends-on</code> property.
+     */
+    static String[] readOptionalDependencyNames(Properties properties) {
+        return readPropertyValues(properties, ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
+    }
+
 
     /**
      * Reads attributes from {@link Properties} instance. Removes from map 
@@ -113,6 +128,7 @@ public class TypeReaderUtils {
         }
         map.remove(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT);
         map.remove(ModuleElementNames.DEPENDENCIES_ELEMENT);
+        map.remove(ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
         map.remove(ModuleElementNames.NAME_ELEMENT);
         map.remove(ModuleElementNames.RUNTIME_ELEMENT);
         return map;

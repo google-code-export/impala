@@ -75,13 +75,17 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
     ModuleDefinition findChildDefinition(String moduleName, boolean exactMatch);
 
     /**
-     * Returns a list of modules on which the current module depends. If the
-     * name of the parent module is not specified, then it will automatically be
-     * added to the head of this list. If it is specified, then it will remain
-     * in the specified position in this list. By default, classes contained in
-     * dependent modules will be visible to the current module.
+     * Returns a list of modules on which the current module depends. For
+     * mandatory dependencies, that is, those for which the optional value is
+     * true, if the name of the parent module is not specified, then it will
+     * automatically be added to the head of this list. If it is specified, then
+     * it will remain in the specified position in this list. By default,
+     * classes contained in dependent modules will be visible to the current
+     * module.
+     * @param optional if true, then list optional dependencies, otherwise, list
+     * mandatory dependencies
      */
-    List<String> getDependentModuleNames();
+    List<String> getDependentModuleNames(boolean optional);
 
     /**
      * Used to modify the parent module. This method is not designed for

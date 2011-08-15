@@ -86,7 +86,7 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
         ModuleDefinition definition6 = root.findChildDefinition("sample-module6", true);
         assertNotNull(definition6);
         assertNotNull(definition5.findChildDefinition("sample-module6", true));
-        List<String> asList = definition6.getDependentModuleNames();
+        List<String> asList = definition6.getDependentModuleNames(false);
         assertEquals(Arrays.asList("sample-module5", "sample-module4"), asList);
         
         List<String> modulesToLoad = moduleDefinitionSource.getModulesToLoad();
@@ -123,7 +123,7 @@ public class IncrementalModuleDefinitionSourceTest extends TestCase {
         assertEquals(1, modulesToLoad.size());
         assertTrue(modulesToLoad.contains("sample-module6"));
 
-        List<String> asList = definition6.getDependentModuleNames();
+        List<String> asList = definition6.getDependentModuleNames(false);
         assertEquals(Arrays.asList("sample-module5", "sample-module4"), asList);
     }
     
