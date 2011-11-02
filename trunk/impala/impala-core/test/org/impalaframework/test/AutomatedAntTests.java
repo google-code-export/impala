@@ -67,6 +67,7 @@ import org.impalaframework.module.factory.SimpleServiceRegistryFactoryTest;
 import org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBeanTest;
 import org.impalaframework.module.loader.ModuleUtilsTest;
 import org.impalaframework.module.lock.DefaultFrameworkLockHolderTest;
+import org.impalaframework.module.metadata.ModuleMetadataHelperIntegrationTest;
 import org.impalaframework.module.modification.ModificationExtractorRegistryTest;
 import org.impalaframework.module.modification.ModificationExtractorTest;
 import org.impalaframework.module.modification.RepairModificationExtractorTest;
@@ -296,6 +297,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ModuleDefinitionToStringTest.class);
         suite.addTestSuite(ModuleDefinitionUtilsTest.class);
         suite.addTestSuite(ModuleLoaderRegistryTest.class);
+        suite.addTestSuite(ModuleMetadataHelperIntegrationTest.class);
         suite.addTestSuite(ModuleOperationResultTest.class);
         suite.addTestSuite(ModuleOperationRegistryTest.class);
         suite.addTestSuite(ModuleStateChangeNotifierTest.class);
