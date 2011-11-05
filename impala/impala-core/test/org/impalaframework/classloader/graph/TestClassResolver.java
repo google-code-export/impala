@@ -23,6 +23,11 @@ class TestClassResolver implements ModuleLocationResolver {
         
         return Collections.singletonList(resource);
     }
+    
+    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+        //FIXME implement if necessary
+        return null;
+    }
 
     public List<Resource> getModuleTestClassLocations(String moduleName) {
         throw new UnsupportedOperationException();

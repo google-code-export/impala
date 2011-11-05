@@ -68,24 +68,31 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
     public GraphClassLoader newClassLoader(GraphClassLoaderRegistry classLoaderRegistry, DependencyManager dependencyManager, ModuleDefinition moduleDefinition) {
         
         String moduleName = moduleDefinition.getName();
+        
+        //use registered class loader if it already exists
         GraphClassLoader classLoader = classLoaderRegistry.getClassLoader(moduleName);
         if (classLoader != null) {
             return classLoader;
         }
         
-        ClassRetriever resourceLoader = newResourceLoader(moduleDefinition);
+        //create new resource loader for current module definition
+        ClassRetriever moduleResourceRetriever = newResourceLoader(moduleDefinition);
         List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
         
+        //add list of dependent class loaders
         List<GraphClassLoader> classLoaders = new ArrayList<GraphClassLoader>();
         for (ModuleDefinition dependency : dependencies) {
             if (dependency.getName().equals(moduleDefinition.getName())) continue;
             classLoaders.add(newClassLoader(classLoaderRegistry, dependencyManager, dependency));
         }
         
+        //set up parent class loader
         ClassLoader parentClassLoader = classLoaderRegistry.getApplicationClassLoader();
         ClassLoader parentClassLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
         
-        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, resourceLoader, classLoaders, parentClassLoaderToUse);
+        //get third party package to resource mapping. Question: do we need to restrict to packages
+        
+        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, moduleResourceRetriever, classLoaders, parentClassLoaderToUse);
         classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
         return gcl;
     }

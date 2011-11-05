@@ -67,6 +67,10 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
         return getResources(moduleName, classDir);
     }
     
+    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+        //TODO implement
+        return null;
+    }
 
     /**
      * Returns the file representing the workspace root as as a {@link FileSystemResource}
