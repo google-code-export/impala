@@ -116,8 +116,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
     ClassRetriever newModuleClassResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
         final File[] files = ResourceUtils.getFiles(classLocations);
-        URLClassRetriever classLoader = new URLClassRetriever(files);
-        return classLoader;
+        return new URLClassRetriever(files);
     }
     
     /**
