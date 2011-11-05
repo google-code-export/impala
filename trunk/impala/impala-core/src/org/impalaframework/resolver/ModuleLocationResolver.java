@@ -43,5 +43,10 @@ public interface ModuleLocationResolver {
      * Returns the directory locations for module classes
      */
     public List<Resource> getApplicationModuleClassLocations(String moduleName);
+    
+    /**
+     * Returns the resource locations for module-specific third party jars
+     */
+    public List<Resource> getModuleSpecificJarLocations(String moduleName);
 
 }

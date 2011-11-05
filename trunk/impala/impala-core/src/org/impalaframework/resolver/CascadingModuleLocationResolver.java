@@ -56,6 +56,11 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
     public List<Resource> getModuleTestClassLocations(String moduleName) {
         throw new UnsupportedOperationException();
     }
+    
+    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+        //FIXME implement
+        return null;
+    }
 
     /* ********************* Spring setters ********************* */
     
