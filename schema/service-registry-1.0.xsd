@@ -21,6 +21,20 @@
 		</xsd:complexType>
 	</xsd:element>
 	
+	<xsd:element name="optional">
+		<xsd:annotation>
+			<xsd:documentation>
+	The named bean element is used to inject a named delegate bean which may or may not be present in the current application context.
+	If not present, then falls back to the fallback bean, which must be present in the application context.
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:attribute name="id" type="xsd:ID"/>
+			<xsd:attribute name="beanName" type="xsd:string" use="required"/>
+			<xsd:attribute name="fallback" type="xsd:string" use="required"/>
+		</xsd:complexType>
+	</xsd:element>
+	
 	<xsd:element name="named-bean">
 		<xsd:annotation>
 			<xsd:documentation>
