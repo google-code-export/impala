@@ -62,6 +62,10 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
         Resource servletContextResource = new ServletContextResource(servletContext, fullResourceName);
         return Collections.singletonList(servletContextResource);
     }
+    
+    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+        return null;
+    }
 
     public List<Resource> getModuleTestClassLocations(String moduleName) {
         throw new UnsupportedOperationException();
