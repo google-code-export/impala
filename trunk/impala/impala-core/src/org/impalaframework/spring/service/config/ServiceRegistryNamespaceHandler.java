@@ -50,8 +50,6 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
             logger.debug("Setting up " + ServiceRegistryNamespaceHandler.class.getName());
         }
 
-        registerBeanDefinitionParser("named-bean", new NamedBeanDefinitionParser());
-        registerBeanDefinitionParser("parent", new ParentBeanDefinitionParser());
         registerBeanDefinitionParser("export", new ExportBeanDefinitionParser());
         registerBeanDefinitionParser("import", new ImportBeanDefinitionParser());
         registerBeanDefinitionParser("list", new ListBeanDefinitionParser());
@@ -59,6 +57,10 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
         registerBeanDefinitionParser("map", new MapBeanDefinitionParser());
         registerBeanDefinitionParser("export-array", new ArrayExportDefinitionParser());
         registerBeanDefinitionParser("auto-export", new AutoExportBeanDefinitionParser());
+
+        registerBeanDefinitionParser("parent", new ParentBeanDefinitionParser());
+        registerBeanDefinitionParser("optional", new OptionalBeanDefinitionParser());
+        registerBeanDefinitionParser("named-bean", new NamedBeanDefinitionParser());
     }
     
     private static class ParentBeanDefinitionParser extends AbstractSimpleBeanDefinitionParser {
