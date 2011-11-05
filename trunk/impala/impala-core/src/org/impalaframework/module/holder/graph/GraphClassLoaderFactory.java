@@ -22,6 +22,7 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
+import org.impalaframework.classloader.graph.EnhancedGraphClassLoader;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.DependencyManager;
@@ -76,7 +77,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         }
         
         //create new resource loader for current module definition
-        ClassRetriever moduleResourceRetriever = newModuleResourceRetriever(moduleDefinition);
+        ClassRetriever moduleResourceRetriever = newModuleClassResourceRetriever(moduleDefinition);
         List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
         
         //add list of dependent class loaders
@@ -103,16 +104,16 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
      */
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 
-            ClassRetriever moduleResourceRetriever,
+            ClassRetriever moduleClassResourceRetriever,
             ClassRetriever moduleJarResourceRetriever, 
             List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
-        return new GraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleResourceRetriever, moduleDefinition, parentClassLoaderFirst);
+        return new EnhancedGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleJarResourceRetriever, moduleDefinition, parentClassLoaderFirst);
     }
     
     /**
      * Gets class retriever for module classes and resources
      */
-    ClassRetriever newModuleResourceRetriever(ModuleDefinition moduleDefinition) {
+    ClassRetriever newModuleClassResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
         final File[] files = ResourceUtils.getFiles(classLocations);
         URLClassRetriever classLoader = new URLClassRetriever(files);
