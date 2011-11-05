@@ -32,8 +32,8 @@ public class WeavingGraphClassLoaderFactory extends GraphClassLoaderFactory {
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 
             ClassRetriever resourceLoader,
-            List<GraphClassLoader> classLoaders, 
-            ClassLoader parentClassLoader) {
+            ClassRetriever moduleJarResourceRetriever, 
+            List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
         return new WeavableGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, isParentClassLoaderFirst());
     }
 }
