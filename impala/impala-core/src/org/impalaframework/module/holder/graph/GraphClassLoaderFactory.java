@@ -91,25 +91,39 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         ClassLoader parentClassLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
         
         //get third party package to resource mapping. Question: do we need to restrict to packages
+        ClassRetriever moduleJarResourceRetriever = newModuleJarResourceRetriever(moduleDefinition);
         
-        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, moduleResourceRetriever, classLoaders, parentClassLoaderToUse);
+        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, moduleResourceRetriever, moduleJarResourceRetriever, classLoaders, parentClassLoaderToUse);
         classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
         return gcl;
     }
 
+    /**
+     * Creates {@link GraphClassLoader} instance
+     */
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 
             ClassRetriever moduleResourceRetriever,
-            List<GraphClassLoader> classLoaders, 
-            ClassLoader parentClassLoader) {
+            ClassRetriever moduleJarResourceRetriever, 
+            List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
         return new GraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleResourceRetriever, moduleDefinition, parentClassLoaderFirst);
     }
     
+    /**
+     * Gets class retriever for module classes and resources
+     */
     ClassRetriever newModuleResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
         final File[] files = ResourceUtils.getFiles(classLocations);
         URLClassRetriever classLoader = new URLClassRetriever(files);
         return classLoader;
+    }
+    
+    /**
+     * Gets class retriever for internal jars
+     */
+    ClassRetriever newModuleJarResourceRetriever(ModuleDefinition moduleDefinition) {
+        return null;
     }
     
     protected final boolean isParentClassLoaderFirst() {
