@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.holder.graph;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,15 +114,19 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
      */
     ClassRetriever newModuleClassResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-        final File[] files = ResourceUtils.getFiles(classLocations);
-        return new URLClassRetriever(files);
+        return resourcesRetriever(classLocations);
     }
     
     /**
      * Gets class retriever for internal jars
      */
     ClassRetriever newModuleJarResourceRetriever(ModuleDefinition moduleDefinition) {
-        return null;
+        final List<Resource> classLocations = moduleLocationResolver.getModuleSpecificJarLocations(moduleDefinition.getName());
+        return resourcesRetriever(classLocations);
+    }
+
+    private ClassRetriever resourcesRetriever(List<Resource> classLocations) {
+        return new URLClassRetriever(ResourceUtils.getFiles(classLocations));
     }
     
     protected final boolean isParentClassLoaderFirst() {
