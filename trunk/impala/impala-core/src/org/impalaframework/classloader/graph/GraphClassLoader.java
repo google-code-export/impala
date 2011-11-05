@@ -104,6 +104,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (loadClass == null) {
+            loadClass = maybeLoadExternalClass(className);
+        }
+        
+        if (loadClass == null) {
             try {
                 if (logger.isDebugEnabled()) {
                     logger.debug("Delegating to parent class loader to load " + className);
@@ -132,6 +136,15 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         throw new ClassNotFoundException("Unable to find class " + className);
+    }
+
+    /**
+     * Hook which subclasses can use to attempt to load class which is not a
+     * module custom class, but without delegating to the parent class loader.
+     * Useful for subclasses to implement
+     */
+    protected Class<?> maybeLoadExternalClass(String className) {
+        return null;
     }
 
     /**
@@ -170,21 +183,31 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (clazz == null) {
-            byte[] bytes = classRetriever.getClassBytes(className);
-            if (bytes != null) {
-                
-                if (logger.isDebugEnabled()) {
-                    logger.debug("Found bytes for '" + className + "' from " + this);
-                }
-                
-                //bytes found - define class
-                clazz = defineClass(className, bytes, 0, bytes.length, null);
-                loadedClasses.put(className, clazz);
-
-                logger.info("Class '" + className + "' found using class loader for " + this.getModuleName());
-            }
+            ClassRetriever retriever = this.classRetriever;
+            clazz = attemptToLoadUsingRetriever(retriever, className);
         }
         
+        return clazz;
+    }
+
+    protected Class<?> attemptToLoadUsingRetriever(
+            ClassRetriever retriever,
+            String className) throws ClassFormatError {
+        
+        Class<?> clazz = null;
+        byte[] bytes = retriever.getClassBytes(className);
+        if (bytes != null) {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found bytes for '" + className + "' from " + this);
+            }
+            
+            //bytes found - define class
+            clazz = defineClass(className, bytes, 0, bytes.length, null);
+            loadedClasses.put(className, clazz);
+
+            logger.info("Class '" + className + "' found using class loader for " + this.getModuleName());
+        }
         return clazz;
     }
 
