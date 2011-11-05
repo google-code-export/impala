@@ -44,6 +44,10 @@ on this list. However, this can be overridden by explicitly including the parent
 In this case, module classes will have visibility of public classes visible to dependencies. 
 See [ImpalaConfiguration Impala configuration] for more information.
 
+*_optional-depends-on_*: A comma-separated list of modules on which the current module will depend _if they are present_. In other words, if the optional dependency is present, it can be used as the source for classes, resources and beans used by the current module. However, if not, the application will still start without error.
+
+If using this property, care should be taken to ensure that there are not any _hard_ references to the optional dependency.
+
 *_runtime_*: Specifies the runtime which backs the module type. By default, the runtime type is `spring`.
 
 *_attributes_*: Any property not included in the above listing is will be picked up from _module.properties_ and is 
