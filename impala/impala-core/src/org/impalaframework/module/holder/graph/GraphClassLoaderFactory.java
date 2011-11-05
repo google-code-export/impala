@@ -76,7 +76,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         }
         
         //create new resource loader for current module definition
-        ClassRetriever moduleResourceRetriever = newResourceLoader(moduleDefinition);
+        ClassRetriever moduleResourceRetriever = newModuleResourceRetriever(moduleDefinition);
         List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
         
         //add list of dependent class loaders
@@ -99,13 +99,13 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 
-            ClassRetriever resourceLoader,
+            ClassRetriever moduleResourceRetriever,
             List<GraphClassLoader> classLoaders, 
             ClassLoader parentClassLoader) {
-        return new GraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), resourceLoader, moduleDefinition, parentClassLoaderFirst);
+        return new GraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleResourceRetriever, moduleDefinition, parentClassLoaderFirst);
     }
     
-    ClassRetriever newResourceLoader(ModuleDefinition moduleDefinition) {
+    ClassRetriever newModuleResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
         final File[] files = ResourceUtils.getFiles(classLocations);
         URLClassRetriever classLoader = new URLClassRetriever(files);
