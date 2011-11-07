@@ -14,17 +14,6 @@
 
 package org.impalaframework.resolver;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.impalaframework.util.PathUtils;
-import org.impalaframework.util.ResourceUtils;
-import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
 /**
@@ -35,46 +24,13 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ExpandedModuleLibraryResourceFinder implements
-        ModuleResourceFinder {
-    
-    private static final Log logger = LogFactory.getLog(ExpandedModuleLibraryResourceFinder.class);
+public class ExpandedModuleLibraryResourceFinder extends BaseModuleLibraryResourceFinder {
 
     private String libDirectory = "lib";
 
-    public List<Resource> findResources(String workspaceRootPath, String moduleName, String moduleVersion) {
-        
-        //FIXME test
-        
-        String path = PathUtils.getPath(workspaceRootPath, moduleName);
-        path = PathUtils.getPath(path, libDirectory);
-        File internalModulesDirectory = new File(path);
-        if (internalModulesDirectory.exists()) {
-            
-            final File[] listFiles = internalModulesDirectory.listFiles(new FileFilter() {
-                
-                public boolean accept(File file) {
-                    if (file.getName().endsWith(".jar")) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("Found internal lib directories for module '" + moduleName + "'");
-                for (File file : listFiles) {
-                    logger.debug("\t"+file.getAbsolutePath());
-                }
-            }
-            
-            final Resource[] resources = ResourceUtils.getResources(listFiles);
-            return Arrays.asList(resources);
-        } else {
-            logger.debug("Found no internal lib directories for module '" + moduleName + "'");
-        }
-        
-        return Collections.emptyList();
+    @Override
+    protected String getLibraryDirectory() {
+        return libDirectory;
     }
     
     public void setLibDirectory(String libDirectory) {
