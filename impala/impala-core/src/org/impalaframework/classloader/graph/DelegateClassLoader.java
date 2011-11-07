@@ -50,7 +50,7 @@ public class DelegateClassLoader implements ModularClassLoader {
      * a class. If so, then return this. Otherwise loop through to the next one.
      * Return null if looping is completed and no class is found.
      */
-    public Class<?> loadClass(String name) throws ClassNotFoundException {
+    public Class<?> loadApplicationClass(String name) throws ClassNotFoundException {
         
         for (GraphClassLoader graphClassLoader : this.classLoaders) {
             Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);

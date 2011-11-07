@@ -31,7 +31,7 @@ public class DelegateClassLoaderTest extends TestCase {
         
         replayMocks();
         
-        assertNull(dcl.loadClass("myclass"));
+        assertNull(dcl.loadApplicationClass("myclass"));
         
         verifyMocks();
     }
