@@ -183,8 +183,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (clazz == null) {
-            ClassRetriever retriever = this.classRetriever;
-            clazz = attemptToLoadUsingRetriever(retriever, className);
+            clazz = attemptToLoadUsingRetriever(this.classRetriever, className);
         }
         
         return clazz;
