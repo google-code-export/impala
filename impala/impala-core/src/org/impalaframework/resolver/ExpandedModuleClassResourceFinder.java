@@ -22,6 +22,10 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * Finds module resources in class or resource directory
+ * @author Phil Zoio
+ */
 public class ExpandedModuleClassResourceFinder implements ModuleResourceFinder {
 
     private String classDirectory;
