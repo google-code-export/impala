@@ -38,6 +38,8 @@ public class LibraryExpandedModuleResourceFinder implements
     public List<Resource> findResources(String workspaceRootPath, String moduleName, String moduleVersion) {
         System.out.println(workspaceRootPath);
         
+        //FIXME test
+        
         String path = PathUtils.getPath(workspaceRootPath, moduleName);
         path = PathUtils.getPath(path, "lib");
         File internalModulesDirectory = new File(path);

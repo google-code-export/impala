@@ -24,7 +24,7 @@ import org.springframework.instrument.classloading.WeavingTransformer;
  * 
  * @author Phil Zoio
  */
-public class WeavableGraphClassLoader extends EnhancedGraphClassLoader {
+public class WeavableGraphClassLoader extends LibraryAwareGraphClassLoader {
 
     private final WeavingTransformer weavingTransformer;
     

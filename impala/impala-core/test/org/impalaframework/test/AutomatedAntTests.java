@@ -28,6 +28,8 @@ import org.impalaframework.classloader.URLClassRetrieverTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderFactoryTest;
 import org.impalaframework.classloader.graph.DelegateClassLoaderTest;
 import org.impalaframework.classloader.graph.GraphBasedClassLoaderTest;
+import org.impalaframework.classloader.graph.GraphClassLoaderTest;
+import org.impalaframework.classloader.graph.LibraryAwareGraphClassLoaderTest;
 import org.impalaframework.config.CompositePropertySourceTest;
 import org.impalaframework.config.DateValueTest;
 import org.impalaframework.config.LocationModificationStateHolderTest;
@@ -268,6 +270,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(FilteredServiceProxyFactoryBeanTest.class);
         suite.addTestSuite(FilterParserTest.class);
         suite.addTestSuite(FilterTest.class);
+        suite.addTestSuite(GraphClassLoaderTest.class);
         suite.addTestSuite(GraphBasedClassLoaderTest.class);
         suite.addTestSuite(GraphClassLoaderFactoryBeanTest.class);
         suite.addTestSuite(GraphHelperTest.class);
@@ -284,6 +287,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(InternalXmlModuleDefinitionSourceTest.class);
         suite.addTestSuite(InstantiationUtilsTest.class);
         suite.addTestSuite(LdapServiceReferenceFilterTest.class);
+        suite.addTestSuite(LibraryAwareGraphClassLoaderTest.class);
         suite.addTestSuite(LoadTransitionProcessorTest.class);
         suite.addTestSuite(LocationModificationStateHolderTest.class);
         suite.addTestSuite(LockingModuleOperationTest.class);

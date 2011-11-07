@@ -18,27 +18,32 @@ import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.module.ModuleDefinition;
 
 /**
- * Extension of {@link GraphClassLoader} which is aware of resources on file system
+ * Extension of {@link GraphClassLoader} which is aware of module-specific libraries
  * @author Phil Zoio
  */
-public class EnhancedGraphClassLoader extends GraphClassLoader {
+public class LibraryAwareGraphClassLoader extends GraphClassLoader {
     
-    private ClassRetriever retriever = null;
+    /**
+     * Used to retrieve module-specific libraries. 
+     * If no module-specific libraries are present, then will be null
+     */
+    private ClassRetriever libraryRetriever = null;
 
-    public EnhancedGraphClassLoader(
+    public LibraryAwareGraphClassLoader(
             ClassLoader parentClassLoader,
             DelegateClassLoader delegateClassLoader,
             ClassRetriever moduleResourceRetriever, 
             ClassRetriever internalJarRetriever,
-            ModuleDefinition definition, boolean loadParentFirst) {
+            ModuleDefinition definition, 
+            boolean loadParentFirst) {
         super(parentClassLoader, delegateClassLoader, moduleResourceRetriever, definition, loadParentFirst);
-        retriever = internalJarRetriever;
+        libraryRetriever = internalJarRetriever;
     }
 
     @Override
     protected Class<?> maybeLoadExternalClass(String className) {
-        if (retriever != null) {
-            return attemptToLoadUsingRetriever(retriever, className);
+        if (libraryRetriever != null) {
+            return attemptToLoadUsingRetriever(libraryRetriever, className);
         }
         return null;
     }

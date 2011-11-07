@@ -21,7 +21,7 @@ import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
-import org.impalaframework.classloader.graph.EnhancedGraphClassLoader;
+import org.impalaframework.classloader.graph.LibraryAwareGraphClassLoader;
 import org.impalaframework.classloader.graph.GraphClassLoader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.DependencyManager;
@@ -106,7 +106,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
             ClassRetriever moduleClassResourceRetriever,
             ClassRetriever moduleJarResourceRetriever, 
             List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
-        return new EnhancedGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleJarResourceRetriever, moduleDefinition, parentClassLoaderFirst);
+        return new LibraryAwareGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleJarResourceRetriever, moduleDefinition, parentClassLoaderFirst);
     }
     
     /**
