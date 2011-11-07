@@ -9,8 +9,7 @@
     
     <path id = "compile.classpath">     
         <fileset dir = "${repository.dir}" includes="**/*.jar" excludes = "
-        	**/*-sources.jar
-        	dist/lib/**/*.jar"/>      
+        	**/*-sources.jar"/>      
         <path refid="lib.classpath"/>
     </path> 
     
