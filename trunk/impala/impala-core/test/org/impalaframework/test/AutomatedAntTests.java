@@ -115,6 +115,7 @@ import org.impalaframework.radixtree.RadixTreeImplTest;
 import org.impalaframework.radixtree.RadixTreeSupplementaryTest;
 import org.impalaframework.registry.RegistrySupportTest;
 import org.impalaframework.resolver.AbstractModuleLocationResolverTest;
+import org.impalaframework.resolver.BaseModuleLibraryResourceFinderTest;
 import org.impalaframework.resolver.CascadingModuleLocationResolverTest;
 import org.impalaframework.resolver.StandaloneModuleLocationResolverTest;
 import org.impalaframework.service.StaticServiceBeanReferenceTest;
@@ -222,6 +223,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ArrayUtilsTest.class);
         suite.addTestSuite(AutoRegisteringModuleContributionExporterTest.class);
         suite.addTestSuite(BaseApplicationContextLoaderTest.class);
+        suite.addTestSuite(BaseModuleLibraryResourceFinderTest.class);
         suite.addTestSuite(BaseModuleClassLoaderFactoryTest.class);
         suite.addTestSuite(BaseServiceRegistryListTest.class);
         suite.addTestSuite(BaseServiceRegistryMapTest.class);
