@@ -21,6 +21,11 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
+/**
+ * {@link ModuleResourceFinder} implementation for module jar, under the assumption that the jar will be present
+ * in the directory denoted [workspace_root_path/moduleName-version.jar]
+ * @author Phil Zoio
+ */
 class JarModuleResourceFinder implements ModuleResourceFinder {
     
     public List<Resource> findResources(
