@@ -52,7 +52,7 @@ public class DelegateClassLoader implements ModularClassLoader {
         for (int i = loaders.size()-1; i >=0; i--) {
             GraphClassLoader graphClassLoader = loaders.get(i);
             Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
-                    false, 
+                    false, //don't try delegate
                     true //this is a library class
                     );
 
@@ -72,7 +72,7 @@ public class DelegateClassLoader implements ModularClassLoader {
         
         for (GraphClassLoader graphClassLoader : this.classLoaders) {
             Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
-                    false, 
+                    false, //don't try delegate
                     false //this is an application class
                     );
             
