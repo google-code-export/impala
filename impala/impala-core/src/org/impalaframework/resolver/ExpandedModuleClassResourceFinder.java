@@ -22,7 +22,7 @@ import org.impalaframework.util.PathUtils;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 
-public class FileModuleResourceFinder implements ModuleResourceFinder {
+public class ExpandedModuleClassResourceFinder implements ModuleResourceFinder {
 
     private String classDirectory;
     
