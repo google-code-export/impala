@@ -29,7 +29,7 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
     public void testMaybeLoadExternalClassNull() {
         ClassRetriever moduleResourceRetriever = null;
         LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
-        cl.maybeLoadModuleLibraryClass("myclass");
+        cl.maybeFindLibraryClassLocally("myclass");
     }
     
     public void testMaybeLoadExternalClassNonEmpty() {
@@ -38,7 +38,7 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
         
         replay(moduleResourceRetriever);
         LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
-        cl.maybeLoadModuleLibraryClass("myclass");
+        cl.maybeFindLibraryClassLocally("myclass");
         verify(moduleResourceRetriever);
     }
 

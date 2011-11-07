@@ -46,11 +46,15 @@ public class DelegateClassLoader implements ModularClassLoader {
     }
     
     public Class<?> loadLibraryClass(String name) {
+        
+        //FIXME test
         List<GraphClassLoader> loaders = this.classLoaders;
         for (int i = loaders.size()-1; i >=0; i--) {
             GraphClassLoader graphClassLoader = loaders.get(i);
-            Class<?> loadClass = null; 
-                //graphClassLoader.loadLibraryClass(name, false);
+            Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
+                    false, 
+                    true //this is a library class
+                    );
 
             if (loadClass != null) {
                 return loadClass;
@@ -67,7 +71,10 @@ public class DelegateClassLoader implements ModularClassLoader {
     public Class<?> loadApplicationClass(String name) {
         
         for (GraphClassLoader graphClassLoader : this.classLoaders) {
-            Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
+            Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
+                    false, 
+                    false //this is an application class
+                    );
             
             if (logger.isDebugEnabled()) {
                 logger.debug("Attempting to load class " + name + " from classloader " + graphClassLoader + " on behalf of delegate " + this);
