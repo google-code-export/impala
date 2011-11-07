@@ -65,6 +65,9 @@
         <copy todir="${bin.dir}" failonerror="false">
             <fileset dir="${resources.dir}"/>
         </copy>
+        <copy todir="${lib.output.dir}" failonerror="false">
+       		<fileset dir="${lib.source.dir}"/>
+        </copy>
     </target>
 
     <target 
@@ -125,6 +128,11 @@
         <copy file="${jar.output.file}" tofile = "${jar.repository.file}"/>
         <copy file="${jar.src.output.file}" tofile = "${jar.src.repository.file}"/>
         <copy file="${jar.javadoc.output.file}" tofile = "${jar.javadoc.repository.file}" failonerror="false"/>
+    	
+    	<echo>Copying ${repository.module.project.lib.dir} from ${lib.source.dir}</echo>
+    	<copy todir="${repository.module.project.lib.dir}" failonerror="false">
+    		<fileset dir="${lib.source.dir}" includes="*.jar" excludes="*-sources.jar"/>
+    	</copy>
     </target>   
     
     <target name = "project:prepare-test">
