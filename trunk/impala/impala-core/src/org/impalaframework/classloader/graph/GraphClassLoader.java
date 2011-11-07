@@ -66,13 +66,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     /* ****************************** class loader methods ******************************** */
     
     /**
-     * {@link ModularClassLoader} implementation
-     */
-    public Class<?> loadApplicationClass(String name) throws ClassNotFoundException {
-        return loadClass(name);
-    }
-    
-    /**
      * Calls {@link #loadClass(String, boolean)} with resolve set to false
      */
     @Override
@@ -221,8 +214,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * Finally, if the class is not found, then attempts to load it locally within the current module.
      * If the class is still not found, a {@link ClassNotFoundException} is thrown.
      */
-    public Class<?> loadCustomClass(String className, boolean tryDelegate) throws ClassNotFoundException,
-            ClassFormatError {
+    public Class<?> loadCustomClass(String className, boolean tryDelegate) {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Loading class '" + className + "' from " + this);
@@ -288,6 +280,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
     /* **************************** protected methods ***************************** */
 
+    protected DelegateClassLoader getDelegateClassLoader() {
+        return delegateClassLoader;
+    }
+    
     /**
      * Hook which subclasses can use to attempt to load class which is not a
      * module custom class, but without delegating to the parent class loader.

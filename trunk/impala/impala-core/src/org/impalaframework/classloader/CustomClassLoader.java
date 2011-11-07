@@ -51,13 +51,6 @@ public abstract class CustomClassLoader extends BaseURLClassLoader implements Mo
     protected abstract boolean loadCustomClassFirst();
     
     /**
-     * {@link ModularClassLoader} implementation
-     */
-    public Class<?> loadApplicationClass(String name) throws ClassNotFoundException {
-        return loadClass(name);
-    }
-    
-    /**
      * Calls {@link #loadClass(String, boolean)} with resolve set to false
      */
     @Override
