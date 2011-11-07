@@ -41,7 +41,7 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
     }
 
     @Override
-    protected Class<?> maybeLoadExternalClass(String className) {
+    protected Class<?> maybeLoadModuleLibraryClass(String className) {
         if (libraryRetriever != null) {
             return attemptToLoadUsingRetriever(libraryRetriever, className);
         }

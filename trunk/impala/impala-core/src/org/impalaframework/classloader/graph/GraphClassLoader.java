@@ -104,7 +104,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (loadClass == null) {
-            loadClass = maybeLoadExternalClass(className);
+            loadClass = maybeLoadModuleLibraryClass(className);
         }
         
         if (loadClass == null) {
@@ -143,7 +143,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * module custom class, but without delegating to the parent class loader.
      * Useful for subclasses to implement
      */
-    protected Class<?> maybeLoadExternalClass(String className) {
+    protected Class<?> maybeLoadModuleLibraryClass(String className) {
         return null;
     }
 
