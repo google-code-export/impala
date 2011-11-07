@@ -12,7 +12,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <!-- added to impala-bootstrap.xml -->
- <bean id="testModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
+ <bean id="testModuleResourceFinder" class="org.impalaframework.resolver.ExpandedModuleClassResourceFinder">
      <property name="classDirectory" ref="moduleTestDirectory"/>
  </bean> 
 
@@ -32,6 +32,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="workspaceRoot" ref="workspaceRoot"/>
      <property name="applicationVersion" ref = "applicationVersion"/>
      <property name="classResourceFinders" ref="classResourceFinders"/>
+     <property name="libraryResourceFinders" ref="libraryResourceFinders"/>
      <property name="testResourceFinders" ref="testResourceFinders"/>
  </bean>
     

@@ -26,7 +26,7 @@ import org.springframework.core.io.Resource;
  * in the directory denoted [workspace_root_path/moduleName-version.jar]
  * @author Phil Zoio
  */
-class JarModuleResourceFinder implements ModuleResourceFinder {
+public class JarModuleClassResourceFinder implements ModuleResourceFinder {
     
     public List<Resource> findResources(
             String workspaceRootPath,

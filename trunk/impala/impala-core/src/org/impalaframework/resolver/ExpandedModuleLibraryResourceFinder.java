@@ -20,9 +20,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.util.PathUtils;
 import org.impalaframework.util.ResourceUtils;
 import org.springframework.core.io.Resource;
+import org.springframework.util.Assert;
 
 /**
  * Searches for jar in expanded module directory, under the assumption that the
@@ -32,16 +35,19 @@ import org.springframework.core.io.Resource;
  * 
  * @author Phil Zoio
  */
-public class LibraryExpandedModuleResourceFinder implements
+public class ExpandedModuleLibraryResourceFinder implements
         ModuleResourceFinder {
+    
+    private static final Log logger = LogFactory.getLog(ExpandedModuleLibraryResourceFinder.class);
+
+    private String libDirectory = "lib";
 
     public List<Resource> findResources(String workspaceRootPath, String moduleName, String moduleVersion) {
-        System.out.println(workspaceRootPath);
         
         //FIXME test
         
         String path = PathUtils.getPath(workspaceRootPath, moduleName);
-        path = PathUtils.getPath(path, "lib");
+        path = PathUtils.getPath(path, libDirectory);
         File internalModulesDirectory = new File(path);
         if (internalModulesDirectory.exists()) {
             
@@ -55,11 +61,25 @@ public class LibraryExpandedModuleResourceFinder implements
                 }
             });
             
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found internal lib directories for module '" + moduleName + "'");
+                for (File file : listFiles) {
+                    logger.debug("\t"+file.getAbsolutePath());
+                }
+            }
+            
             final Resource[] resources = ResourceUtils.getResources(listFiles);
             return Arrays.asList(resources);
+        } else {
+            logger.debug("Found no internal lib directories for module '" + moduleName + "'");
         }
         
         return Collections.emptyList();
+    }
+    
+    public void setLibDirectory(String libDirectory) {
+        Assert.notNull(libDirectory, "libDirectory cannot be null");
+        this.libDirectory = libDirectory;
     }
 
 }

@@ -25,7 +25,7 @@ import org.springframework.core.io.Resource;
 public class CascadingModuleLocationResolverTest extends TestCase {
     
     private CascadingModuleLocationResolver resolver;
-    private FileModuleResourceFinder fileFinder;
+    private ExpandedModuleClassResourceFinder fileFinder;
 
     @Override
     protected void setUp() throws Exception {
@@ -33,9 +33,9 @@ public class CascadingModuleLocationResolverTest extends TestCase {
         resolver = new CascadingModuleLocationResolver();
         resolver.setWorkspaceRoot("../impala-core/files/impala-classloader");
         
-        fileFinder = new FileModuleResourceFinder();
+        fileFinder = new ExpandedModuleClassResourceFinder();
         fileFinder.setClassDirectory("bin");
-        JarModuleResourceFinder jarFinder = new JarModuleResourceFinder();
+        JarModuleClassResourceFinder jarFinder = new JarModuleClassResourceFinder();
         
         List<ModuleResourceFinder> resourceFinders = new ArrayList<ModuleResourceFinder>();
         resourceFinders.add(fileFinder);

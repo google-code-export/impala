@@ -124,21 +124,21 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="name" value="application.version"/>
  </bean>
  
- <bean id="classModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
+ <bean id="expandedModuleClassResourceFinder" class="org.impalaframework.resolver.ExpandedModuleClassResourceFinder">
      <property name="classDirectory" ref="moduleClassDirectory"/>
      <property name="resourceDirectory" ref="moduleResourceDirectory"/>
  </bean>
  
- <bean id="expandedModuleLibraryResourceFinder" class="org.impalaframework.resolver.LibraryExpandedModuleResourceFinder">
+ <bean id="expandedModuleLibraryResourceFinder" class="org.impalaframework.resolver.ExpandedModuleLibraryResourceFinder">
  </bean> 
  
- <bean id="jarModuleResourceFinder" class="org.impalaframework.resolver.JarModuleResourceFinder"/>
+ <bean id="jarModuleClassResourceFinder" class="org.impalaframework.resolver.JarModuleClassResourceFinder"/>
  
  <bean id="classResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
     <property name="sourceList">  
         <list> 
-            <ref local = "classModuleResourceFinder"/>
-            <ref local = "jarModuleResourceFinder"/>
+            <ref local = "expandedModuleClassResourceFinder"/>
+            <ref local = "jarModuleClassResourceFinder"/>
         </list>  
     </property> 
  </bean>
