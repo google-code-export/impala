@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/ehcache-0.6.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/example-main"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

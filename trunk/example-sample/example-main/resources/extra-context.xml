@@ -10,4 +10,7 @@ http://www.springframework.org/schema/tx http://www.springframework.org/schema/t
      <property name = "proxyTypes" value = "interfaces.EntryService"/>
  </bean>
     
+ <bean id="sharedJarLoadingBean" class="classes.SharedJarLoadingBean">
+ </bean>
+    
 </beans>

@@ -11,5 +11,8 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
     <bean id="optionalBean" class="org.impalaframework.spring.bean.StringFactoryBean">
     	<property name="value" value="string value"/>
     </bean>
+    
+    <bean id="localJarLoadingBean" class="optional.LocalJarLoadingBean">
+    </bean>
 
 </beans>
