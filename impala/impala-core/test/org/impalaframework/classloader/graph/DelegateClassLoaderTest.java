@@ -26,8 +26,8 @@ public class DelegateClassLoaderTest extends TestCase {
     }
     
     public void testLoadClassNull() throws Exception {
-        expect(gcl1.loadCustomClass("myclass", false)).andReturn(null);
-        expect(gcl2.loadCustomClass("myclass", false)).andReturn(null);
+        expect(gcl1.loadCustomClass("myclass", false, false)).andReturn(null);
+        expect(gcl2.loadCustomClass("myclass", false, false)).andReturn(null);
         
         replayMocks();
         

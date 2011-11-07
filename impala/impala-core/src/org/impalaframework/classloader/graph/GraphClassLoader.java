@@ -99,14 +99,15 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             logger.trace("For class loader, load parent first " + loadParentFirst);
         }
         
-        if (!loadParentFirst) {
-            if (loadClass == null) {
-                loadClass = loadCustomClass(className, true);
-            }
+        if (loadClass == null) {
+            //attempt to load internal library class
+            loadClass = loadCustomClass(className, true, true);
         }
         
-        if (loadClass == null) {
-            loadClass = maybeLoadModuleLibraryClass(className);
+        if (!loadParentFirst) {
+            if (loadClass == null) {
+                loadClass = loadCustomClass(className, true, false);
+            }
         }
         
         if (loadClass == null) {
@@ -121,7 +122,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
         if (loadParentFirst) {
             if (loadClass == null) {
-                loadClass = loadCustomClass(className, true);
+                loadClass = loadCustomClass(className, true, false);
             }
         }
         
@@ -213,8 +214,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * 
      * Finally, if the class is not found, then attempts to load it locally within the current module.
      * If the class is still not found, a {@link ClassNotFoundException} is thrown.
+     * 
+     * @param libraryClass if true, then assume we are trying to load class from library location
      */
-    public Class<?> loadCustomClass(String className, boolean tryDelegate) {
+    public Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Loading class '" + className + "' from " + this);
@@ -233,12 +236,20 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         //first try the delegate, so that the class loaders for modules higher in the dependency
         //chain can be tried first.
         Class<?> clazz = null;
-        
-        if (tryDelegate) {
-            clazz = delegateClassLoader.loadApplicationClass(className);
+
+        if (clazz == null && libraryClass) {
+            clazz = maybeFindLibraryClassLocally(className);
         }
         
-        if (clazz == null) {
+        if (clazz == null && tryDelegate) {
+            if (libraryClass) {
+                clazz = delegateClassLoader.loadLibraryClass(className);
+            } else {
+                clazz = delegateClassLoader.loadApplicationClass(className);
+            }
+        }
+        
+        if (clazz == null && !libraryClass) {
             clazz = attemptToLoadUsingRetriever(this.classRetriever, className);
         }
         
@@ -289,7 +300,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * module custom class, but without delegating to the parent class loader.
      * Useful for subclasses to implement
      */
-    protected Class<?> maybeLoadModuleLibraryClass(String className) {
+    protected Class<?> maybeFindLibraryClassLocally(String className) {
         return null;
     }
 
