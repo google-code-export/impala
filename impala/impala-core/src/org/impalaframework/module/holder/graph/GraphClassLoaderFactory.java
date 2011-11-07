@@ -122,7 +122,10 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
      */
     ClassRetriever newModuleJarResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getModuleSpecificJarLocations(moduleDefinition.getName());
-        return resourcesRetriever(classLocations);
+        if (classLocations != null && !classLocations.isEmpty()) {
+            return resourcesRetriever(classLocations);
+        }
+        return null;
     }
 
     private ClassRetriever resourcesRetriever(List<Resource> classLocations) {
