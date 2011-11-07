@@ -66,6 +66,13 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     /* ****************************** class loader methods ******************************** */
     
     /**
+     * {@link ModularClassLoader} implementation
+     */
+    public Class<?> loadApplicationClass(String name) throws ClassNotFoundException {
+        return loadClass(name);
+    }
+    
+    /**
      * Calls {@link #loadClass(String, boolean)} with resolve set to false
      */
     @Override
@@ -236,7 +243,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         Class<?> clazz = null;
         
         if (tryDelegate) {
-            clazz = delegateClassLoader.loadClass(className);
+            clazz = delegateClassLoader.loadApplicationClass(className);
         }
         
         if (clazz == null) {

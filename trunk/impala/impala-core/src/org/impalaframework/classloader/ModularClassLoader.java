@@ -28,7 +28,7 @@ public interface ModularClassLoader {
      * throw {@link ClassNotFoundException} if class is not found, although
      * this does not necessarily apply.
      */
-    public Class<?> loadClass(String className) throws ClassNotFoundException;
+    public Class<?> loadApplicationClass(String className) throws ClassNotFoundException;
     
     /**
      * Returns true if <code>parentClassLoader</code> is visible from
