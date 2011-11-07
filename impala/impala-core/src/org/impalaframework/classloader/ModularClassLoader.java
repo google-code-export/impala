@@ -24,13 +24,6 @@ package org.impalaframework.classloader;
 public interface ModularClassLoader {
     
     /**
-     * Defines functionality for loading a named class. Implementations may 
-     * throw {@link ClassNotFoundException} if class is not found, although
-     * this does not necessarily apply.
-     */
-    public Class<?> loadApplicationClass(String className) throws ClassNotFoundException;
-    
-    /**
      * Returns true if <code>parentClassLoader</code> is visible from
      * the current {@link ModularClassLoader} instance.
      */

@@ -44,13 +44,27 @@ public class DelegateClassLoader implements ModularClassLoader {
     public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
         this.classLoaders = Collections.unmodifiableList(classLoaders);
     }
+    
+    public Class<?> loadLibraryClass(String name) {
+        List<GraphClassLoader> loaders = this.classLoaders;
+        for (int i = loaders.size()-1; i >=0; i--) {
+            GraphClassLoader graphClassLoader = loaders.get(i);
+            Class<?> loadClass = null; 
+                //graphClassLoader.loadLibraryClass(name, false);
+
+            if (loadClass != null) {
+                return loadClass;
+            }
+        }
+        return null;
+    }
 
     /**
      * Loops through the wired in class loaders. For each, check whether this returns
      * a class. If so, then return this. Otherwise loop through to the next one.
      * Return null if looping is completed and no class is found.
      */
-    public Class<?> loadApplicationClass(String name) throws ClassNotFoundException {
+    public Class<?> loadApplicationClass(String name) {
         
         for (GraphClassLoader graphClassLoader : this.classLoaders) {
             Class<?> loadClass = graphClassLoader.loadCustomClass(name, false);
@@ -66,6 +80,8 @@ public class DelegateClassLoader implements ModularClassLoader {
         
         return null;
     }
+    
+    
 
     /**
      * Seaches for named resource using wired in class loaders.
