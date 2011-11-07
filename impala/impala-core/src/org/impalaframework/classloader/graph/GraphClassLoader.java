@@ -63,6 +63,8 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         this.loadParentFirst = loadParentFirst;     
     }
     
+    /* ****************************** class loader methods ******************************** */
+    
     /**
      * Calls {@link #loadClass(String, boolean)} with resolve set to false
      */
@@ -137,14 +139,69 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         
         throw new ClassNotFoundException("Unable to find class " + className);
     }
+    
+    /* ****************************** public methods ******************************** */
 
     /**
-     * Hook which subclasses can use to attempt to load class which is not a
-     * module custom class, but without delegating to the parent class loader.
-     * Useful for subclasses to implement
+     * Attempt to load a resource, first by calling
+     * <code>getLocalResource</code>. If the resource is not found, the
+     * {@link #delegateClassLoader} is asked to locate the resource.
+     * 
+     * If neither the local class loader nor the delegates can find the
+     * resource, this means it is not within the module class path. At this
+     * point, the rest of the class path is searched via a
+     * <code>super.getResource(name)</code> class.
+     * 
+     * Note that while class loading first delegates the class loading request,
+     * resource loading effectively works in reverse. When delegating the
+     * resource loading request, modules nearest to the current module are
+     * checked first. The check for the resource is only delegated to the system
+     * or web application class loader if the resource is not found within the
+     * module hierarchy.
      */
-    protected Class<?> maybeLoadModuleLibraryClass(String className) {
-        return null;
+    @Override
+    public URL getResource(String name) {
+        
+        URL url = getLocalResource(name);
+        if (url != null) {
+            return url;
+        }
+        
+        url = delegateClassLoader.getResource(name);
+        if (url != null) {
+            return url;
+        }
+        
+        return super.getResource(name);
+    }
+
+    /**
+     * Returns enumeration of local resources, combined with those of parent
+     * class loader.
+     * 
+     * The implementation of {@link #getResources(String)} is pretty
+     * conservative. For a given resource name, only one resource URL will ever
+     * be found from within the module hierarchy. Also, only the current module
+     * is searched. It's ancestor and dependent modules are not searched for the
+     * resource.
+     * 
+     * The module resource, if found, is returned as an {@link Enumeration}
+     * which also includes the resources obtained from the standard or
+     * application class loader via the super{@link #getResources(String)} call.
+     */
+    @Override
+    public Enumeration<URL> getResources(String name) throws IOException {
+        Enumeration<URL> resources = super.getResources(name);
+        
+        Enumeration<URL> localResources = getLocalResources(name);
+        if (localResources != null) {
+            List<URL> combined = new ArrayList<URL>();
+            combined.addAll(Collections.list(localResources));
+            combined.addAll(Collections.list(resources));
+            return Collections.enumeration(combined);
+        }
+        
+        return resources;
     }
 
     /**
@@ -189,6 +246,50 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return clazz;
     }
 
+    /**
+     * Returns true if classes loaded by the specified class loader are visible to the current class loader.
+     */
+    public boolean hasVisibilityOf(ClassLoader classLoader){
+        if (classLoader == this) {
+            return true;
+        }
+        boolean hasVisibilityOf = delegateClassLoader.hasVisibilityOf(classLoader);
+        
+        if (hasVisibilityOf)
+            return hasVisibilityOf;
+        
+        ClassLoader child = this;
+        ClassLoader parent = null;
+    
+        while ((parent = child.getParent()) != null) {
+            if (parent == classLoader) {
+                return true;
+            }
+            child = parent;
+        }
+        
+        return false;
+    }
+
+    public ClassRetriever getClassRetriever() {
+        return classRetriever;
+    }
+
+    public void addTransformer(ClassFileTransformer transformer) {
+        logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
+    }
+
+    /* **************************** protected methods ***************************** */
+
+    /**
+     * Hook which subclasses can use to attempt to load class which is not a
+     * module custom class, but without delegating to the parent class loader.
+     * Useful for subclasses to implement
+     */
+    protected Class<?> maybeLoadModuleLibraryClass(String className) {
+        return null;
+    }
+
     protected Class<?> attemptToLoadUsingRetriever(
             ClassRetriever retriever,
             String className) throws ClassFormatError {
@@ -208,94 +309,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             logger.info("Class '" + className + "' found using class loader for " + this.getModuleName());
         }
         return clazz;
-    }
-
-    /**
-     * Returns true if classes loaded by the specified class loader are visible to the current class loader.
-     */
-    public boolean hasVisibilityOf(ClassLoader classLoader){
-        if (classLoader == this) {
-            return true;
-        }
-        boolean hasVisibilityOf = delegateClassLoader.hasVisibilityOf(classLoader);
-        
-        if (hasVisibilityOf)
-            return hasVisibilityOf;
-        
-        ClassLoader child = this;
-        ClassLoader parent = null;
-
-        while ((parent = child.getParent()) != null) {
-            if (parent == classLoader) {
-                return true;
-            }
-            child = parent;
-        }
-        
-        return false;
-    }
-
-    
-    /**
-     * Attempt to load a resource, first by calling
-     * <code>getLocalResource</code>. If the resource is not found, the
-     * {@link #delegateClassLoader} is asked to locate the resource.
-     * 
-     * If neither the local class loader nor the delegates can find the
-     * resource, this means it is not within the module class path. At this
-     * point, the rest of the class path is searched via a
-     * <code>super.getResource(name)</code> class.
-     * 
-     * Note that while class loading first delegates the class loading request,
-     * resource loading effectively works in reverse. When delegating the
-     * resource loading request, modules nearest to the current module are
-     * checked first. The check for the resource is only delegated to the system
-     * or web application class loader if the resource is not found within the
-     * module hierarchy.
-     */
-    @Override
-    public URL getResource(String name) {
-        
-        URL url = getLocalResource(name);
-        if (url != null) {
-            return url;
-        }
-        
-        url = delegateClassLoader.getResource(name);
-        if (url != null) {
-            return url;
-        }
-        
-        return super.getResource(name);
-    }
-    
-    /**
-     * Returns enumeration of local resources, combined with those of parent
-     * class loader.
-     * 
-     * The implementation of {@link #getResources(String)} is pretty
-     * conservative. For a given resource name, only one resource URL will ever
-     * be found from within the module hierarchy. Also, only the current module
-     * is searched. It's ancestor and dependent modules are not searched for the
-     * resource.
-     * 
-     * The module resource, if found, is returned as an {@link Enumeration}
-     * which also includes the resources obtained from the standard or
-     * application class loader via the super{@link #getResources(String)} call.
-     */
-    @Override
-    public Enumeration<URL> getResources(String name) throws IOException {
-        Enumeration<URL> resources = super.getResources(name);
-        
-        Enumeration<URL> localResources = getLocalResources(name);
-        if (localResources != null) {
-            List<URL> combined = new ArrayList<URL>();
-            combined.addAll(Collections.list(localResources));
-            combined.addAll(Collections.list(resources));
-            return Collections.enumeration(combined);
-        }
-        
-        return resources;
     }
 
     /**
@@ -320,14 +333,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
     protected final String getModuleName() {
         return moduleDefinition.getName();
-    }
-    
-    public ClassRetriever getClassRetriever() {
-        return classRetriever;
-    }
-    
-    public void addTransformer(ClassFileTransformer transformer) {
-        logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
     }
     
     @Override
