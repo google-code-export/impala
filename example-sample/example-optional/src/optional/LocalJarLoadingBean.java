@@ -12,6 +12,7 @@ public class LocalJarLoadingBean implements InitializingBean {
         Cache cache = new Cache("name", 100, true, true, 1000L, 1000L);
         System.out.println(cache);
         
+        //this should fall over, as it is not present in local jar api
         System.out.println(ReflectionUtils.invokeMethod(cache, "getCacheEventNotificationService", new Object[]{}));
     }
 }
