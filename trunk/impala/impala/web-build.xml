@@ -50,7 +50,7 @@
     	
     	<copy todir="${web.module.lib.target}"
             flatten="false" failonerror="false">
-            <fileset dir="${repository.module.lib.dir}" 
+            <fileset dir="${lib.output.dir}" 
                 includes="**/*.jar" excludes="**/*-sources.jar"/>
     	</copy>
         
