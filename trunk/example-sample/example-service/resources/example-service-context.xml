@@ -25,6 +25,9 @@ http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/s
         <property name="entryDAO" ref="entryDAO"/>
     </bean>
     
+    <bean id="serviceJarLoadingBean" class="classes.ServiceJarLoadingBean">
+    </bean>
+    
     <bean id="concreteService" class="classes.ConcreteService">
     </bean>
     
