@@ -48,7 +48,7 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
     public void testGetModuleSpecificJarLocations() throws Exception {
         expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn(null);
         replay(servletContext);
-        List<Resource> locations = resolver.getModuleSpecificJarLocations("mymodule");
+        List<Resource> locations = resolver.getApplicationModuleLibraryLocations("mymodule");
         assertNull(locations);
         verify(servletContext);
     }
@@ -56,7 +56,7 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
     public void testGetPresentModuleSpecificJarLocations() throws Exception {
         expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn("../sample-module3/lib");
         replay(servletContext);
-        List<Resource> locations = resolver.getModuleSpecificJarLocations("mymodule");
+        List<Resource> locations = resolver.getApplicationModuleLibraryLocations("mymodule");
         assertNotNull(locations);
         assertEquals(2, locations.size());
         verify(servletContext);

@@ -47,6 +47,6 @@ public interface ModuleLocationResolver {
     /**
      * Returns the resource locations for module-specific third party jars
      */
-    public List<Resource> getModuleSpecificJarLocations(String moduleName);
+    public List<Resource> getApplicationModuleLibraryLocations(String moduleName);
 
 }

@@ -65,6 +65,10 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
         return new ServletContextResource(servletContext, relativeModuleRootLocation);
     }
     
+    /**
+     * Returns the single resource corresponding with the supplied module name. Expects resource to be in the directory
+     * WEB-INF/modules, with the name 'module_name-application_version.jar'
+     */
     public List<Resource> getApplicationModuleClassLocations(String moduleName) {
         String applicationVersionString = StringUtils.hasText(applicationVersion) ? "-" + applicationVersion : "";
         String fullResourceName = relativeModuleRootLocation + "/" + moduleName + applicationVersionString + ".jar";
@@ -72,9 +76,12 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
         return Collections.singletonList(servletContextResource);
     }
     
-    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
-        
-        //FIXME add test
+    /**
+     * Returns the module-specific libraries corresponding with the supplied
+     * module name. Expects libraries to be in the directory
+     * WEB-INF/modules/lib/module_name
+     */
+    public List<Resource> getApplicationModuleLibraryLocations(String moduleName) {
         String parent = relativeModuleRootLocation + "/lib/" + moduleName;
         Resource parentResource = new ServletContextResource(servletContext, parent);
         try {
