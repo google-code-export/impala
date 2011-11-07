@@ -44,6 +44,7 @@ import org.impalaframework.facade.BeanFactoryModuleManagementSourceTest;
 import org.impalaframework.facade.BootstrapContextTest;
 import org.impalaframework.facade.ImpalaInitClearTest;
 import org.impalaframework.facade.SimpleOperationsFacadeTest;
+import org.impalaframework.file.ExtensionFileFilterTest;
 import org.impalaframework.file.handler.DefaultClassFilterTest;
 import org.impalaframework.file.monitor.FileMonitorImplTest;
 import org.impalaframework.file.monitor.MonitorFileFilterTest;
@@ -265,6 +266,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(DefaultServiceProxyFactoryCreatorTest.class);
         suite.addTestSuite(EmptyExportTypeDeriverTest.class);
         suite.addTestSuite(ExceptionUtilsTest.class);
+        suite.addTestSuite(ExtensionFileFilterTest.class);
         suite.addTestSuite(ExternalDynamicPropertySourceTest.class);
         suite.addTestSuite(ExternalPropertiesFactoryBeanTest.class);
         suite.addTestSuite(FileMonitorImplTest.class);
