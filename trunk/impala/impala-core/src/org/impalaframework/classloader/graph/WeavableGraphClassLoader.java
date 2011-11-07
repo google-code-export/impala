@@ -24,7 +24,7 @@ import org.springframework.instrument.classloading.WeavingTransformer;
  * 
  * @author Phil Zoio
  */
-public class WeavableGraphClassLoader extends GraphClassLoader {
+public class WeavableGraphClassLoader extends EnhancedGraphClassLoader {
 
     private final WeavingTransformer weavingTransformer;
     
@@ -32,9 +32,10 @@ public class WeavableGraphClassLoader extends GraphClassLoader {
             ClassLoader parentClassLoader,
             DelegateClassLoader delegateClassLoader,
             ClassRetriever classRetriever, 
+            ClassRetriever internalJarRetriever,
             ModuleDefinition definition,
             boolean loadParentFirst) {
-        super(parentClassLoader, delegateClassLoader, classRetriever, definition, loadParentFirst);
+        super(parentClassLoader, delegateClassLoader, classRetriever, internalJarRetriever, definition, loadParentFirst);
         
         weavingTransformer = new WeavingTransformer(this);
     }

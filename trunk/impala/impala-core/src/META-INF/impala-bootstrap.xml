@@ -127,6 +127,9 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="classModuleResourceFinder" class="org.impalaframework.resolver.FileModuleResourceFinder">
      <property name="classDirectory" ref="moduleClassDirectory"/>
      <property name="resourceDirectory" ref="moduleResourceDirectory"/>
+ </bean>
+ 
+ <bean id="expandedModuleLibraryResourceFinder" class="org.impalaframework.resolver.LibraryExpandedModuleResourceFinder">
  </bean> 
  
  <bean id="jarModuleResourceFinder" class="org.impalaframework.resolver.JarModuleResourceFinder"/>
@@ -138,13 +141,22 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
             <ref local = "jarModuleResourceFinder"/>
         </list>  
     </property> 
- </bean> 
+ </bean>
+ 
+ <bean id="libraryResourceFinders" class="org.springframework.beans.factory.config.ListFactoryBean">
+    <property name="sourceList">  
+        <list> 
+            <ref local = "expandedModuleLibraryResourceFinder"/>
+        </list>  
+    </property> 
+ </bean>  
     
  <bean id="moduleLocationResolver" class="org.impalaframework.resolver.CascadingModuleLocationResolver"
     init-method="init">
      <property name="workspaceRoot" ref="workspaceRoot"/>
      <property name="applicationVersion" ref = "applicationVersion"/>
      <property name="classResourceFinders" ref="classResourceFinders"/>
+     <property name="libraryResourceFinders" ref="libraryResourceFinders"/>
  </bean>
  
  <bean id="embeddedMode" parent = "propertyParent">

@@ -22,21 +22,39 @@ import org.springframework.util.Assert;
 
 /**
  * Extension of {@link SimpleBaseModuleLocationResolver} whose class and test directories 
- * are wired in through depedency injection.
+ * are wired in through dependency injection.
  * @author Phil Zoio
  */
 public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationResolver {
 
+    /**
+     * Finds module-specific classes and resources
+     */
     private List<ModuleResourceFinder> classResourceFinders;
+    
+    /**
+     * Finds third party module-specific libraries
+     */
+    private List<ModuleResourceFinder> libraryResourceFinders;
     
     private String applicationVersion;
 
     public List<Resource> getApplicationModuleClassLocations(String moduleName) {
-        return getResources(moduleName, this.classResourceFinders);
+        return getResources(moduleName, this.classResourceFinders, true);
+    }
+    
+    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+        return getResources(moduleName, this.libraryResourceFinders, false);
     }
 
-    protected List<Resource> getResources(String moduleName,
-            List<ModuleResourceFinder> resourceFinders) {
+    /**
+     * Invoke {@link ModuleResourceFinder} instances to find {@link Resource} instances
+     * @param moduleName the name of the current module
+     * @param resourceFinders the list of resource finders to use
+     * @param check whether to invoke {@link #checkResources(List, String, String, String, String)}
+     * @return the list of resources, which may be empty
+     */
+    protected List<Resource> getResources(String moduleName, List<ModuleResourceFinder> resourceFinders, boolean check) {
         Assert.notNull(resourceFinders);
 
         String[] rootPaths = getWorkspaceRoots();   
@@ -49,17 +67,16 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
                 if (!resources.isEmpty()) break;
             }
         }
-        checkResources(resources, moduleName, applicationVersion, Arrays.toString(rootPaths), "application class");
+        
+        if (check) {
+            //FIXME test
+            checkResources(resources, moduleName, applicationVersion, Arrays.toString(rootPaths), "application class");
+        }
         return resources;
     }
     
     public List<Resource> getModuleTestClassLocations(String moduleName) {
         throw new UnsupportedOperationException();
-    }
-    
-    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
-        //FIXME implement
-        return null;
     }
 
     /* ********************* Spring setters ********************* */
@@ -70,6 +87,10 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
 
     public void setClassResourceFinders(List<ModuleResourceFinder> moduleResourceFinders) {
         this.classResourceFinders = moduleResourceFinders;
+    }
+    
+    public void setLibraryResourceFinders(List<ModuleResourceFinder> libraryResourceFinders) {
+        this.libraryResourceFinders = libraryResourceFinders;
     }
 
 }

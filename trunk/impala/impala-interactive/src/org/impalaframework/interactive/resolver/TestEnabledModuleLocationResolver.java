@@ -26,7 +26,7 @@ public class TestEnabledModuleLocationResolver extends CascadingModuleLocationRe
     
     @Override
     public List<Resource> getModuleTestClassLocations(String moduleName) {
-        return super.getResources(moduleName, testResourceFinders);
+        return super.getResources(moduleName, testResourceFinders, true);
     }
 
     public void setTestResourceFinders(List<ModuleResourceFinder> testResourceFinders) {
