@@ -44,5 +44,22 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
         assertEquals(1, locations.size());
         assertTrue(locations.get(0) instanceof ServletContextResource);
     }
+    
+    public void testGetModuleSpecificJarLocations() throws Exception {
+        expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn(null);
+        replay(servletContext);
+        List<Resource> locations = resolver.getModuleSpecificJarLocations("mymodule");
+        assertNull(locations);
+        verify(servletContext);
+    }
+    
+    public void testGetPresentModuleSpecificJarLocations() throws Exception {
+        expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn("../sample-module3/lib");
+        replay(servletContext);
+        List<Resource> locations = resolver.getModuleSpecificJarLocations("mymodule");
+        assertNotNull(locations);
+        assertEquals(2, locations.size());
+        verify(servletContext);
+    }
 
 }
