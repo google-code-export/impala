@@ -43,7 +43,7 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
         return getResources(moduleName, this.classResourceFinders, true);
     }
     
-    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+    public List<Resource> getApplicationModuleLibraryLocations(String moduleName) {
         return getResources(moduleName, this.libraryResourceFinders, false);
     }
 

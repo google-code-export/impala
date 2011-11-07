@@ -76,7 +76,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         }
         
         //create new resource loader for current module definition
-        ClassRetriever moduleResourceRetriever = newModuleClassResourceRetriever(moduleDefinition);
+        ClassRetriever moduleClassResourceRetriever = newModuleClassResourceRetriever(moduleDefinition);
         List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(moduleDefinition.getName());
         
         //add list of dependent class loaders
@@ -91,9 +91,9 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         ClassLoader parentClassLoaderToUse = parentClassLoader != null ? parentClassLoader : GraphClassLoaderFactory.class.getClassLoader();
         
         //get third party package to resource mapping. Question: do we need to restrict to packages
-        ClassRetriever moduleJarResourceRetriever = newModuleJarResourceRetriever(moduleDefinition);
+        ClassRetriever moduleLibraryResourceRetriever = newModuleLibraryResourceRetriever(moduleDefinition);
         
-        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, moduleResourceRetriever, moduleJarResourceRetriever, classLoaders, parentClassLoaderToUse);
+        GraphClassLoader gcl = newGraphClassLoader(moduleDefinition, moduleClassResourceRetriever, moduleLibraryResourceRetriever, classLoaders, parentClassLoaderToUse);
         classLoaderRegistry.addClassLoader(moduleDefinition.getName(), gcl);
         return gcl;
     }
@@ -104,9 +104,9 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
     protected GraphClassLoader newGraphClassLoader(
             ModuleDefinition moduleDefinition, 
             ClassRetriever moduleClassResourceRetriever,
-            ClassRetriever moduleJarResourceRetriever, 
+            ClassRetriever moduleLibraryResourceRetriever, 
             List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
-        return new LibraryAwareGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleJarResourceRetriever, moduleDefinition, parentClassLoaderFirst);
+        return new LibraryAwareGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleLibraryResourceRetriever, moduleDefinition, parentClassLoaderFirst);
     }
     
     /**
@@ -114,21 +114,21 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
      */
     ClassRetriever newModuleClassResourceRetriever(ModuleDefinition moduleDefinition) {
         final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleDefinition.getName());
-        return resourcesRetriever(classLocations);
+        return newResourcesRetriever(classLocations);
     }
     
     /**
      * Gets class retriever for internal jars
      */
-    ClassRetriever newModuleJarResourceRetriever(ModuleDefinition moduleDefinition) {
-        final List<Resource> classLocations = moduleLocationResolver.getModuleSpecificJarLocations(moduleDefinition.getName());
+    ClassRetriever newModuleLibraryResourceRetriever(ModuleDefinition moduleDefinition) {
+        final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleLibraryLocations(moduleDefinition.getName());
         if (classLocations != null && !classLocations.isEmpty()) {
-            return resourcesRetriever(classLocations);
+            return newResourcesRetriever(classLocations);
         }
         return null;
     }
 
-    private ClassRetriever resourcesRetriever(List<Resource> classLocations) {
+    private ClassRetriever newResourcesRetriever(List<Resource> classLocations) {
         return new URLClassRetriever(ResourceUtils.getFiles(classLocations));
     }
     

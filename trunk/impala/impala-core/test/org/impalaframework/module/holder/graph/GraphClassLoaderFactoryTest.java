@@ -43,11 +43,11 @@ public class GraphClassLoaderFactoryTest extends TestCase {
 
     public void testModuleJarRetriever() {
         List<Resource> resources = Arrays.asList((Resource)new FileSystemResource(new File("f1")));
-        expect(moduleLocationResolver.getModuleSpecificJarLocations("m1")).andReturn(resources);
+        expect(moduleLocationResolver.getApplicationModuleLibraryLocations("m1")).andReturn(resources);
         
         replay(moduleLocationResolver);
         
-        final ClassRetriever retriever = factory.newModuleJarResourceRetriever(new SimpleModuleDefinition("m1"));
+        final ClassRetriever retriever = factory.newModuleLibraryResourceRetriever(new SimpleModuleDefinition("m1"));
         assertNotNull(retriever);
         
         verify(moduleLocationResolver);

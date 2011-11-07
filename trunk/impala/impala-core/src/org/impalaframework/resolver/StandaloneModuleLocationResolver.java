@@ -67,7 +67,7 @@ public class StandaloneModuleLocationResolver extends BaseModuleLocationResolver
         return getResources(moduleName, classDir);
     }
     
-    public List<Resource> getModuleSpecificJarLocations(String moduleName) {
+    public List<Resource> getApplicationModuleLibraryLocations(String moduleName) {
         //TODO implement
         return null;
     }
