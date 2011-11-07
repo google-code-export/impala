@@ -5,6 +5,7 @@
     <names>
     example-hibernate
     example-dao
+    example-optional
     example-service
     example-web
     example-servlet1
