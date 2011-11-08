@@ -27,6 +27,18 @@ import java.util.List;
 public class TransitionResultSet {
     
     private final List<TransitionResult> list = new ArrayList<TransitionResult>();
+    
+    private long creationTime;
+    
+    private long completionTime;
+    
+    public TransitionResultSet() {
+        this.creationTime = System.currentTimeMillis();
+    }
+    
+    public void complete() {
+        this.completionTime = System.currentTimeMillis();
+    }
         
     public void addResult(TransitionResult result) {
         list.add(result);
@@ -62,6 +74,14 @@ public class TransitionResultSet {
 
     public List<TransitionResult> getResults() {
         return Collections.unmodifiableList(list);
+    }
+    
+    public long getCompletionTime() {
+        return completionTime;
+    }
+    
+    public long getCreationTime() {
+        return creationTime;
     }
     
     @Override

@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.transition;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -46,12 +47,17 @@ public class TransitionsLogger {
 
     String getTransitionString(TransitionResultSet resultSet, boolean verbose) {
 
+        //difference in milliseconds
+        double diff = resultSet.getCompletionTime() - resultSet.getCreationTime();
+        String seconds = new DecimalFormat("#,##0.00").format(diff/1000);
+        
         List<TransitionResult> results = resultSet.getResults();
         
         StringBuffer buffer = new StringBuffer();
         buffer.append("\n---------------------------------------------\n");
         buffer.append("Module operations succeeded: ").append(resultSet.isSuccess()).append("\n");
         buffer.append("Number of operations: ").append(results.size()).append("\n");
+        buffer.append("Operation time (seconds): ").append(seconds).append("\n");
         
         for (TransitionResult transitionResult : results) {
             ModuleStateChange moduleStateChange = transitionResult.getModuleStateChange();
