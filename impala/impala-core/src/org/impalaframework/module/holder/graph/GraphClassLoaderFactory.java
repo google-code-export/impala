@@ -106,7 +106,14 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
             ClassRetriever moduleClassResourceRetriever,
             ClassRetriever moduleLibraryResourceRetriever, 
             List<GraphClassLoader> classLoaders, ClassLoader parentClassLoader) {
-        return new LibraryAwareGraphClassLoader(parentClassLoader, new DelegateClassLoader(classLoaders), moduleClassResourceRetriever, moduleLibraryResourceRetriever, moduleDefinition, parentClassLoaderFirst);
+        
+        return new LibraryAwareGraphClassLoader(
+                parentClassLoader, 
+                new DelegateClassLoader(classLoaders), 
+                moduleClassResourceRetriever, 
+                moduleLibraryResourceRetriever, 
+                moduleDefinition, 
+                parentClassLoaderFirst);
     }
     
     /**
