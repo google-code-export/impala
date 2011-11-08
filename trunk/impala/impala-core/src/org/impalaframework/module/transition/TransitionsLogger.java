@@ -57,7 +57,6 @@ public class TransitionsLogger {
         buffer.append("\n---------------------------------------------\n");
         buffer.append("Module operations succeeded: ").append(resultSet.isSuccess()).append("\n");
         buffer.append("Number of operations: ").append(results.size()).append("\n");
-        buffer.append("Operation time (seconds): ").append(seconds).append("\n");
         
         for (TransitionResult transitionResult : results) {
             ModuleStateChange moduleStateChange = transitionResult.getModuleStateChange();
@@ -77,6 +76,7 @@ public class TransitionsLogger {
         }
         
         buffer.append(MemoryUtils.getMemoryInfo());
+        buffer.append("Operation time (seconds): ").append(seconds).append("\n");
         buffer.append("---------------------------------------------");
         return buffer.toString();
     }
