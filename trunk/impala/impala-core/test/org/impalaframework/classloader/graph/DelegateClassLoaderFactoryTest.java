@@ -45,7 +45,7 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
         classLoaderRegistry = new GraphClassLoaderRegistry();
         factory = new GraphClassLoaderFactory();
         factory.setModuleLocationResolver(new TestClassResolver());
-        factory.setOptions(new ClassLoaderOptions(true, true , true));
+        factory.setOptions(new ClassLoaderOptions(true, true , true, true));
         factory.init();
         List<ModuleDefinition> definitions = new ArrayList<ModuleDefinition>();
         
