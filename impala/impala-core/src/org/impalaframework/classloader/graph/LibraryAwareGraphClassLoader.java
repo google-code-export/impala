@@ -57,7 +57,7 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
     protected URL getLocalResource(String name) {
         URL localResource = super.getLocalResource(name);
         if (localResource == null) {
-            if (libraryRetriever != null) {
+            if (libraryRetriever != null && super.getOptions().isLoadsModuleLibraryResources()) {
                 return libraryRetriever.findResource(name);
             }
         }

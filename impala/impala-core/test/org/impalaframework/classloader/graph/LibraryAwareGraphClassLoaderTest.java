@@ -34,7 +34,7 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
     
     public void testMaybeLoadExternalClassNull() {
         ClassRetriever moduleResourceRetriever = null;
-        LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
+        LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever, true);
         cl.maybeFindLibraryClassLocally("myclass", internalLoad);
     }
     
@@ -43,13 +43,14 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
         expect(moduleResourceRetriever.getClassBytes("myclass")).andReturn(null);
         
         replay(moduleResourceRetriever);
-        LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
+        LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever, true);
         cl.maybeFindLibraryClassLocally("myclass", internalLoad);
         verify(moduleResourceRetriever);
     }
 
     private LibraryAwareGraphClassLoader newClassLoader(
-            ClassRetriever moduleLibraryRetriever) {
+            ClassRetriever moduleLibraryRetriever, 
+            boolean loadLibraryResources) {
         ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
         ModuleDefinition definition = null;
         ClassLoaderOptions loadParentFirst = new ClassLoaderOptions(true, true, true, true);
@@ -59,9 +60,15 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
         return cl;
     }
     
-    public void testFindResources() throws Exception {
+    public void testFindLibraryResources() throws Exception {
         ClassRetriever libraryRetriever = new URLClassRetriever(new File[]{new File("../sample-module3/lib/ant-launcher-1.7.0.jar")});
-        LibraryAwareGraphClassLoader cl = newClassLoader(libraryRetriever);
+        LibraryAwareGraphClassLoader cl = newClassLoader(libraryRetriever, true);
+        assertNotNull(cl.getLocalResource("org/apache/tools/ant/launch/Locator.class"));
+    }
+    
+    public void testNotFindResources() throws Exception {
+        ClassRetriever libraryRetriever = new URLClassRetriever(new File[]{new File("../sample-module3/lib/ant-launcher-1.7.0.jar")});
+        LibraryAwareGraphClassLoader cl = newClassLoader(libraryRetriever, false);
         assertNotNull(cl.getLocalResource("org/apache/tools/ant/launch/Locator.class"));
     }
 
