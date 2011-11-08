@@ -51,9 +51,8 @@ public class DelegateClassLoader implements ModularClassLoader {
         List<GraphClassLoader> loaders = this.classLoaders;
         for (int i = loaders.size()-1; i >=0; i--) {
             GraphClassLoader graphClassLoader = loaders.get(i);
-            Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
-                    false, //don't try delegate
-                    true //this is a library class
+            Class<?> loadClass = graphClassLoader.loadLibraryClass(name, 
+                    false //don't try delegate
                     );
 
             if (loadClass != null) {
@@ -71,9 +70,8 @@ public class DelegateClassLoader implements ModularClassLoader {
     public Class<?> loadApplicationClass(String name) {
         
         for (GraphClassLoader graphClassLoader : this.classLoaders) {
-            Class<?> loadClass = graphClassLoader.loadCustomClass(name, 
-                    false, //don't try delegate
-                    false //this is an application class
+            Class<?> loadClass = graphClassLoader.loadApplicationClass(name, 
+                    false //don't try delegate
                     );
             
             if (logger.isDebugEnabled()) {
