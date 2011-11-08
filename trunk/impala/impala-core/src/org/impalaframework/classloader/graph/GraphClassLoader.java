@@ -42,7 +42,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
     private static final Log logger = LogFactory.getLog(GraphClassLoader.class);
 
-    private Map<String, Class<?>> loadedClasses = new ConcurrentHashMap<String, Class<?>>();
+    private Map<String, Class<?>> loadedApplicationClasses = new ConcurrentHashMap<String, Class<?>>();
     
     private ModuleDefinition moduleDefinition;
     private ClassRetriever classRetriever;
@@ -272,7 +272,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             logger.debug("Loading class '" + className + "' from " + this);
         }
         
-        final Class<?> alreadyLoaded = loadedClasses.get(className);
+        final Class<?> alreadyLoaded = getLoadedClass(className);
         
         if (alreadyLoaded != null) {
             
@@ -332,7 +332,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             
             //bytes found - define class
             clazz = defineClass(className, bytes, 0, bytes.length, null);
-            loadedClasses.put(className, clazz);
+            putLoadedClass(className, clazz);
 
             logger.info("Class '" + className + "' found using class loader for " + this.getModuleName());
         }
@@ -374,8 +374,17 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
     }
 
-    Map<String, Class<?>> getLoadedClasses() {
-        return Collections.unmodifiableMap(loadedClasses);
+    private void putLoadedClass(String className, Class<?> clazz) {
+        loadedApplicationClasses.put(className, clazz);
+    }
+
+    private Class<?> getLoadedClass(String className) {
+        final Class<?> alreadyLoaded = loadedApplicationClasses.get(className);
+        return alreadyLoaded;
+    }
+
+    Map<String, Class<?>> getLoadedApplicationClasses() {
+        return Collections.unmodifiableMap(loadedApplicationClasses);
     }
 
     @Override
