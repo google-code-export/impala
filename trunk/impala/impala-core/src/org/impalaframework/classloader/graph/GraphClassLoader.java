@@ -370,6 +370,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return moduleDefinition.getName();
     }
     
+    protected ClassLoaderOptions getOptions() {
+        return options;
+    }
+    
     /**
      * Returns the {@link DelegateClassLoader} used to find classes and resources in other modules within the application
      */
