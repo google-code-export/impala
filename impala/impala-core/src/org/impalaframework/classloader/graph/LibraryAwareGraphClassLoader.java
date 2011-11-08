@@ -35,8 +35,8 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
             ClassRetriever moduleResourceRetriever, 
             ClassRetriever internalJarRetriever,
             ModuleDefinition definition, 
-            boolean loadParentFirst) {
-        super(parentClassLoader, delegateClassLoader, moduleResourceRetriever, definition, loadParentFirst);
+            ClassLoaderOptions options) {
+        super(parentClassLoader, delegateClassLoader, moduleResourceRetriever, definition, options);
         libraryRetriever = internalJarRetriever;
     }
 

@@ -34,8 +34,8 @@ public class WeavableGraphClassLoader extends LibraryAwareGraphClassLoader {
             ClassRetriever classRetriever, 
             ClassRetriever internalJarRetriever,
             ModuleDefinition definition,
-            boolean loadParentFirst) {
-        super(parentClassLoader, delegateClassLoader, classRetriever, internalJarRetriever, definition, loadParentFirst);
+            ClassLoaderOptions options) {
+        super(parentClassLoader, delegateClassLoader, classRetriever, internalJarRetriever, definition, options);
         
         weavingTransformer = new WeavingTransformer(this);
     }
