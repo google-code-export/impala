@@ -101,12 +101,12 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         
         if (loadClass == null) {
             //attempt to load internal library class
-            loadClass = loadCustomClass(className, true, true);
+            loadClass = loadLibraryClass(className, true);
         }
         
         if (!loadParentFirst) {
             if (loadClass == null) {
-                loadClass = loadCustomClass(className, true, false);
+                loadClass = loadApplicationClass(className, true);
             }
         }
         
@@ -122,7 +122,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
         if (loadParentFirst) {
             if (loadClass == null) {
-                loadClass = loadCustomClass(className, true, false);
+                loadClass = loadApplicationClass(className, true);
             }
         }
         
@@ -237,6 +237,22 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     public void addTransformer(ClassFileTransformer transformer) {
         logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
     }
+    
+    /**
+     * Invokes {@link #loadCustomClass(String, boolean, boolean)} with the library class parameter set to true
+     */
+    public Class<?> loadLibraryClass(String className, boolean tryDelegate) {
+        return loadCustomClass(className, tryDelegate, true);
+    }
+
+    /**
+     * Invokes {@link #loadCustomClass(String, boolean, boolean)} with the library class parameter set to false
+     */
+    public Class<?> loadApplicationClass(String className, boolean tryDelegate) {
+        return loadCustomClass(className, tryDelegate, false);
+    }
+    
+    /* **************************** protected methods ***************************** */
 
     /**
      * Implements the mechanism for loading a class within the module.
@@ -250,7 +266,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * 
      * @param libraryClass if true, then assume we are trying to load class from library location
      */
-    public Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
+    protected Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Loading class '" + className + "' from " + this);
@@ -288,8 +304,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         
         return clazz;
     }
-
-    /* **************************** protected methods ***************************** */
 
     protected DelegateClassLoader getDelegateClassLoader() {
         return delegateClassLoader;
@@ -341,10 +355,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return classRetriever.findResources(name);
     }
     
-    Map<String, Class<?>> getLoadedClasses() {
-        return Collections.unmodifiableMap(loadedClasses);
-    }
-
     protected final String getModuleName() {
         return moduleDefinition.getName();
     }
@@ -362,6 +372,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         finally {
             super.finalize();
         }
+    }
+
+    Map<String, Class<?>> getLoadedClasses() {
+        return Collections.unmodifiableMap(loadedClasses);
     }
 
     @Override
