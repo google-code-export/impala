@@ -26,10 +26,12 @@ import org.springframework.util.ClassUtils;
 
 public class LibraryAwareGraphClassLoaderTest extends TestCase {
     
+    private boolean internalLoad = false;
+    
     public void testMaybeLoadExternalClassNull() {
         ClassRetriever moduleResourceRetriever = null;
         LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
-        cl.maybeFindLibraryClassLocally("myclass");
+        cl.maybeFindLibraryClassLocally("myclass", internalLoad);
     }
     
     public void testMaybeLoadExternalClassNonEmpty() {
@@ -38,7 +40,7 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
         
         replay(moduleResourceRetriever);
         LibraryAwareGraphClassLoader cl = newClassLoader(moduleResourceRetriever);
-        cl.maybeFindLibraryClassLocally("myclass");
+        cl.maybeFindLibraryClassLocally("myclass", internalLoad);
         verify(moduleResourceRetriever);
     }
 
