@@ -45,7 +45,7 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
         
         Class<?> clazz = null;
         if (libraryRetriever != null) {
-            clazz = attemptToLoadUsingRetriever(libraryRetriever, className);
+            clazz = attemptToLoadUsingRetriever(libraryRetriever, className, true);
         }
         return clazz;
     }
