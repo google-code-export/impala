@@ -46,7 +46,7 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
             ClassRetriever internalJarRetriever) {
         ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
         ModuleDefinition definition = null;
-        boolean loadParentFirst = true;
+        ClassLoaderOptions loadParentFirst = new ClassLoaderOptions(true, true, true);
         DelegateClassLoader delegateClassLoader = null;
         ClassRetriever moduleResourceRetriever = null;
         LibraryAwareGraphClassLoader cl = new LibraryAwareGraphClassLoader(defaultClassLoader, delegateClassLoader, moduleResourceRetriever, internalJarRetriever, definition, loadParentFirst);

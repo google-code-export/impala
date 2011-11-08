@@ -20,9 +20,10 @@ import java.util.List;
 import org.impalaframework.classloader.ClassLoaderFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.URLClassRetriever;
+import org.impalaframework.classloader.graph.ClassLoaderOptions;
 import org.impalaframework.classloader.graph.DelegateClassLoader;
-import org.impalaframework.classloader.graph.LibraryAwareGraphClassLoader;
 import org.impalaframework.classloader.graph.GraphClassLoader;
+import org.impalaframework.classloader.graph.LibraryAwareGraphClassLoader;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.spi.Application;
@@ -44,8 +45,11 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
     
     private boolean parentClassLoaderFirst;
     
+    private ClassLoaderOptions options;
+    
     public void init() {
         Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
+        options = new ClassLoaderOptions(parentClassLoaderFirst, true, true);
     }
     
     public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
@@ -113,7 +117,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
                 moduleClassResourceRetriever, 
                 moduleLibraryResourceRetriever, 
                 moduleDefinition, 
-                parentClassLoaderFirst);
+                getOptions());
     }
     
     /**
@@ -139,8 +143,11 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         return new URLClassRetriever(ResourceUtils.getFiles(classLocations));
     }
     
-    protected final boolean isParentClassLoaderFirst() {
-        return parentClassLoaderFirst;
+    protected final ClassLoaderOptions getOptions() {
+        if (options == null) {
+            this.options = new ClassLoaderOptions(true, true, true);
+        }
+        return options;
     }
 
     public void setModuleLocationResolver(ModuleLocationResolver moduleLocationResolver) {

@@ -49,20 +49,20 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     private ModuleDefinition moduleDefinition;
     private ClassRetriever classRetriever;
     private DelegateClassLoader delegateClassLoader;
-    private boolean loadParentFirst;
+    private ClassLoaderOptions options;
     
     public GraphClassLoader(
             ClassLoader parentClassLoader,
             DelegateClassLoader delegateClassLoader,
             ClassRetriever classRetriever, 
             ModuleDefinition definition, 
-            boolean loadParentFirst) {
+            ClassLoaderOptions options) {
         
         super(parentClassLoader);
         this.moduleDefinition = definition;
         this.classRetriever = classRetriever;
         this.delegateClassLoader = delegateClassLoader;
-        this.loadParentFirst = loadParentFirst;     
+        this.options = options;     
     }
     
     /* ****************************** class loader methods ******************************** */
@@ -98,7 +98,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         Class<?> loadClass = null; 
         
         if (logger.isTraceEnabled()) {
-            logger.trace("For class loader, load parent first " + loadParentFirst);
+            logger.trace("For class loader with options: " + options);
         }
         
         if (loadClass == null) {
@@ -106,7 +106,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             loadClass = loadLibraryClass(className, true);
         }
         
-        if (!loadParentFirst) {
+        if (!options.isParentLoaderFirst()) {
             if (loadClass == null) {
                 loadClass = loadApplicationClass(className, true);
             }
@@ -122,7 +122,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             }
         }
 
-        if (loadParentFirst) {
+        if (options.isParentLoaderFirst()) {
             if (loadClass == null) {
                 loadClass = loadApplicationClass(className, true);
             }
@@ -406,7 +406,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         
         StringBuffer stringBuffer = new StringBuffer();
         stringBuffer.append("Class loader for " + moduleDefinition.getName()).append(lineSeparator);
-        stringBuffer.append("Loading first from parent: " + loadParentFirst).append(lineSeparator);
+        stringBuffer.append("Options: " + options).append(lineSeparator);
         stringBuffer.append(delegateClassLoader);
         
         return stringBuffer.toString();
