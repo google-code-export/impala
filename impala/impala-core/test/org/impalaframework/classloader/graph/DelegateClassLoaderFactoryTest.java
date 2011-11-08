@@ -106,7 +106,7 @@ public class DelegateClassLoaderFactoryTest extends TestCase {
         
         assertSame(bImpl.getClass(), newBImpl.getClass());
         
-        Map<String, Class<?>> loadedClasses = bClassLoader.getLoadedClasses();
+        Map<String, Class<?>> loadedClasses = bClassLoader.getLoadedApplicationClasses();
         assertEquals(2, loadedClasses.size());
         assertTrue(loadedClasses.containsKey("BImpl"));
         assertTrue(loadedClasses.containsKey("B"));
