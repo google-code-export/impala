@@ -244,7 +244,11 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * Invokes {@link #loadCustomClass(String, boolean, boolean)} with the library class parameter set to true
      */
     public Class<?> loadLibraryClass(String className, boolean tryDelegate) {
-        return loadCustomClass(className, tryDelegate, true);
+        
+        //FIXME test
+        if (options.isSupportsModuleLibraries()) {
+            return loadCustomClass(className, tryDelegate, true);
+        } return null;
     }
 
     /**
@@ -268,13 +272,13 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * 
      * @param libraryClass if true, then assume we are trying to load class from library location
      */
-    protected Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
+    protected Class<?> loadCustomClass(String className, boolean internalLoad, boolean libraryClass) {
         
         if (logger.isDebugEnabled()) {
             logger.debug("Loading class '" + className + "' from " + this);
         }
         
-        final Class<?> alreadyLoaded = getLoadedClass(className);
+        final Class<?> alreadyLoaded = getLoadedClass(className, internalLoad);
         
         if (alreadyLoaded != null) {
             
@@ -289,10 +293,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         Class<?> clazz = null;
     
         if (clazz == null && libraryClass) {
-            clazz = maybeFindLibraryClassLocally(className);
+            clazz = maybeFindLibraryClassLocally(className, internalLoad);
         }
         
-        if (clazz == null && tryDelegate) {
+        if (clazz == null && internalLoad) {
             if (libraryClass) {
                 clazz = delegateClassLoader.loadLibraryClass(className);
             } else {
@@ -301,7 +305,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (clazz == null && !libraryClass) {
-            clazz = attemptToLoadUsingRetriever(this.classRetriever, className, false);
+            clazz = attemptToLoadUsingRetriever(this.classRetriever, className, internalLoad, false);
         }
         
         return clazz;
@@ -315,15 +319,22 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      * Hook which subclasses can use to attempt to load class which is not a
      * module custom class, but without delegating to the parent class loader.
      * Useful for subclasses to implement
+     * @param internalLoad whether this is an internal load
      */
-    protected Class<?> maybeFindLibraryClassLocally(String className) {
+    protected Class<?> maybeFindLibraryClassLocally(String className, boolean internalLoad) {
         return null;
     }
 
+    /**
+     * Attempts to load class using retriever
+     */
     protected Class<?> attemptToLoadUsingRetriever(
             ClassRetriever retriever,
             String className, 
+            boolean internalLoad, 
             boolean libraryClass) throws ClassFormatError {
+        
+        //FIXME if libraryClass but not internalLoad, then check to see whether options.exportsModuleLibraries is set 
         
         Class<?> clazz = null;
         byte[] bytes = retriever.getClassBytes(className);
@@ -385,12 +396,18 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
     }
 
-    private Class<?> getLoadedClass(String className) {
+    private Class<?> getLoadedClass(String className, boolean internalLoad) {
+        
         Class<?> alreadyLoaded = loadedApplicationClasses.get(className);
         if (alreadyLoaded == null) {
+            
+            //FIXME if internal load, then check to see whether exportModuleLibraries is set
+            
             alreadyLoaded = loadedLibraryClasses.get(className);
             if (alreadyLoaded != null) {
-                System.err.println("Retrieved already loaded library class " + className + " from module " + moduleDefinition.getName());
+                if (logger.isDebugEnabled()) {
+                    logger.debug("Retrieved already loaded library class " + className + " from module " + moduleDefinition.getName());
+                }
             }
         }
         return alreadyLoaded;

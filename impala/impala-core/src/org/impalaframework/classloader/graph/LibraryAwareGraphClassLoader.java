@@ -41,11 +41,11 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
     }
 
     @Override
-    protected Class<?> maybeFindLibraryClassLocally(String className) {
+    protected Class<?> maybeFindLibraryClassLocally(String className, boolean internalLoad) {
         
         Class<?> clazz = null;
         if (libraryRetriever != null) {
-            clazz = attemptToLoadUsingRetriever(libraryRetriever, className, true);
+            clazz = attemptToLoadUsingRetriever(libraryRetriever, className, internalLoad, true);
         }
         return clazz;
     }
