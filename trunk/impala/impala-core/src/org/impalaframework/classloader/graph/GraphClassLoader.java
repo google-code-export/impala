@@ -206,57 +206,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
 
     /**
-     * Implements the mechanism for loading a class within the module.
-     * 
-     * First checks to see whether the class is present in the local class loader cache.
-     * If not, and <code>tryDelegate</code> is true, then will pass the request to the {@link #delegateClassLoader}
-     * instance, which will attempts to load the class from dependent modules.
-     * 
-     * Finally, if the class is not found, then attempts to load it locally within the current module.
-     * If the class is still not found, a {@link ClassNotFoundException} is thrown.
-     * 
-     * @param libraryClass if true, then assume we are trying to load class from library location
-     */
-    public Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
-        
-        if (logger.isDebugEnabled()) {
-            logger.debug("Loading class '" + className + "' from " + this);
-        }
-        
-        final Class<?> alreadyLoaded = loadedClasses.get(className);
-        
-        if (alreadyLoaded != null) {
-            
-            if (logger.isDebugEnabled()) {
-                logger.debug("Returning already loaded class for '" + className + "' from " + this);
-            }
-            return alreadyLoaded;
-        }
-        
-        //first try the delegate, so that the class loaders for modules higher in the dependency
-        //chain can be tried first.
-        Class<?> clazz = null;
-
-        if (clazz == null && libraryClass) {
-            clazz = maybeFindLibraryClassLocally(className);
-        }
-        
-        if (clazz == null && tryDelegate) {
-            if (libraryClass) {
-                clazz = delegateClassLoader.loadLibraryClass(className);
-            } else {
-                clazz = delegateClassLoader.loadApplicationClass(className);
-            }
-        }
-        
-        if (clazz == null && !libraryClass) {
-            clazz = attemptToLoadUsingRetriever(this.classRetriever, className);
-        }
-        
-        return clazz;
-    }
-
-    /**
      * Returns true if classes loaded by the specified class loader are visible to the current class loader.
      */
     public boolean hasVisibilityOf(ClassLoader classLoader){
@@ -287,6 +236,57 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
     public void addTransformer(ClassFileTransformer transformer) {
         logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
+    }
+
+    /**
+     * Implements the mechanism for loading a class within the module.
+     * 
+     * First checks to see whether the class is present in the local class loader cache.
+     * If not, and <code>tryDelegate</code> is true, then will pass the request to the {@link #delegateClassLoader}
+     * instance, which will attempts to load the class from dependent modules.
+     * 
+     * Finally, if the class is not found, then attempts to load it locally within the current module.
+     * If the class is still not found, a {@link ClassNotFoundException} is thrown.
+     * 
+     * @param libraryClass if true, then assume we are trying to load class from library location
+     */
+    public Class<?> loadCustomClass(String className, boolean tryDelegate, boolean libraryClass) {
+        
+        if (logger.isDebugEnabled()) {
+            logger.debug("Loading class '" + className + "' from " + this);
+        }
+        
+        final Class<?> alreadyLoaded = loadedClasses.get(className);
+        
+        if (alreadyLoaded != null) {
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Returning already loaded class for '" + className + "' from " + this);
+            }
+            return alreadyLoaded;
+        }
+        
+        //first try the delegate, so that the class loaders for modules higher in the dependency
+        //chain can be tried first.
+        Class<?> clazz = null;
+    
+        if (clazz == null && libraryClass) {
+            clazz = maybeFindLibraryClassLocally(className);
+        }
+        
+        if (clazz == null && tryDelegate) {
+            if (libraryClass) {
+                clazz = delegateClassLoader.loadLibraryClass(className);
+            } else {
+                clazz = delegateClassLoader.loadApplicationClass(className);
+            }
+        }
+        
+        if (clazz == null && !libraryClass) {
+            clazz = attemptToLoadUsingRetriever(this.classRetriever, className);
+        }
+        
+        return clazz;
     }
 
     /* **************************** protected methods ***************************** */
