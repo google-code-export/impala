@@ -14,6 +14,9 @@
 
 package org.impalaframework.classloader.graph;
 
+import java.net.URL;
+import java.util.Enumeration;
+
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.module.ModuleDefinition;
 
@@ -33,11 +36,11 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
             ClassLoader parentClassLoader,
             DelegateClassLoader delegateClassLoader,
             ClassRetriever moduleResourceRetriever, 
-            ClassRetriever internalJarRetriever,
+            ClassRetriever moduleLibraryRetriever,
             ModuleDefinition definition, 
             ClassLoaderOptions options) {
         super(parentClassLoader, delegateClassLoader, moduleResourceRetriever, definition, options);
-        libraryRetriever = internalJarRetriever;
+        this.libraryRetriever = moduleLibraryRetriever;
     }
 
     @Override
@@ -48,6 +51,22 @@ public class LibraryAwareGraphClassLoader extends GraphClassLoader {
             clazz = attemptToLoadUsingRetriever(libraryRetriever, className, internalLoad, true);
         }
         return clazz;
+    }
+    
+    @Override
+    protected URL getLocalResource(String name) {
+        URL localResource = super.getLocalResource(name);
+        if (localResource == null) {
+            if (libraryRetriever != null) {
+                return libraryRetriever.findResource(name);
+            }
+        }
+        return localResource;
+    }
+    
+    @Override
+    protected Enumeration<URL> getLocalResources(String name) {
+        return super.getLocalResources(name);
     }
     
 }

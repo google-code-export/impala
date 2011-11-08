@@ -18,9 +18,13 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+
+import java.io.File;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ClassRetriever;
+import org.impalaframework.classloader.URLClassRetriever;
 import org.impalaframework.module.ModuleDefinition;
 import org.springframework.util.ClassUtils;
 
@@ -45,14 +49,20 @@ public class LibraryAwareGraphClassLoaderTest extends TestCase {
     }
 
     private LibraryAwareGraphClassLoader newClassLoader(
-            ClassRetriever internalJarRetriever) {
+            ClassRetriever moduleLibraryRetriever) {
         ClassLoader defaultClassLoader = ClassUtils.getDefaultClassLoader();
         ModuleDefinition definition = null;
         ClassLoaderOptions loadParentFirst = new ClassLoaderOptions(true, true, true, true);
         DelegateClassLoader delegateClassLoader = null;
-        ClassRetriever moduleResourceRetriever = null;
-        LibraryAwareGraphClassLoader cl = new LibraryAwareGraphClassLoader(defaultClassLoader, delegateClassLoader, moduleResourceRetriever, internalJarRetriever, definition, loadParentFirst);
+        ClassRetriever moduleResourceRetriever = new URLClassRetriever(new File[0]);
+        LibraryAwareGraphClassLoader cl = new LibraryAwareGraphClassLoader(defaultClassLoader, delegateClassLoader, moduleResourceRetriever, moduleLibraryRetriever, definition, loadParentFirst);
         return cl;
+    }
+    
+    public void testFindResources() throws Exception {
+        ClassRetriever libraryRetriever = new URLClassRetriever(new File[]{new File("../sample-module3/lib/ant-launcher-1.7.0.jar")});
+        LibraryAwareGraphClassLoader cl = newClassLoader(libraryRetriever);
+        assertNotNull(cl.getLocalResource("org/apache/tools/ant/launch/Locator.class"));
     }
 
 }
