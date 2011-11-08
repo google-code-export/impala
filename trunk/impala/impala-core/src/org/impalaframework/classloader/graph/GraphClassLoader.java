@@ -43,6 +43,8 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     private static final Log logger = LogFactory.getLog(GraphClassLoader.class);
 
     private Map<String, Class<?>> loadedApplicationClasses = new ConcurrentHashMap<String, Class<?>>();
+
+    private Map<String, Class<?>> loadedLibraryClasses = new ConcurrentHashMap<String, Class<?>>();
     
     private ModuleDefinition moduleDefinition;
     private ClassRetriever classRetriever;
@@ -299,7 +301,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
         
         if (clazz == null && !libraryClass) {
-            clazz = attemptToLoadUsingRetriever(this.classRetriever, className);
+            clazz = attemptToLoadUsingRetriever(this.classRetriever, className, false);
         }
         
         return clazz;
@@ -320,7 +322,8 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
 
     protected Class<?> attemptToLoadUsingRetriever(
             ClassRetriever retriever,
-            String className) throws ClassFormatError {
+            String className, 
+            boolean libraryClass) throws ClassFormatError {
         
         Class<?> clazz = null;
         byte[] bytes = retriever.getClassBytes(className);
@@ -332,7 +335,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             
             //bytes found - define class
             clazz = defineClass(className, bytes, 0, bytes.length, null);
-            putLoadedClass(className, clazz);
+            putLoadedClass(className, clazz, libraryClass);
 
             logger.info("Class '" + className + "' found using class loader for " + this.getModuleName());
         }
@@ -374,12 +377,22 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         }
     }
 
-    private void putLoadedClass(String className, Class<?> clazz) {
-        loadedApplicationClasses.put(className, clazz);
+    private void putLoadedClass(String className, Class<?> clazz, boolean libraryClass) {
+        if (libraryClass) {
+            loadedLibraryClasses.put(className, clazz);
+        } else {
+            loadedApplicationClasses.put(className, clazz);
+        }
     }
 
     private Class<?> getLoadedClass(String className) {
-        final Class<?> alreadyLoaded = loadedApplicationClasses.get(className);
+        Class<?> alreadyLoaded = loadedApplicationClasses.get(className);
+        if (alreadyLoaded == null) {
+            alreadyLoaded = loadedLibraryClasses.get(className);
+            if (alreadyLoaded != null) {
+                System.err.println("Retrieved already loaded library class " + className + " from module " + moduleDefinition.getName());
+            }
+        }
         return alreadyLoaded;
     }
 

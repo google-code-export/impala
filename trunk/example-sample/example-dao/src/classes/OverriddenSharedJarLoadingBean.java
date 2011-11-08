@@ -9,10 +9,10 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.util.Assert;
 
 /**
- * Demonstrates the inheritance of ehcahe-0.6 from the module 'example-optional'
+ * Demonstrates overriding the ehcache lib in the module example-optional, with the original ehcache-1.3.0.jar
  * @author Phil Zoio
  */
-public class ServiceJarLoadingBean implements InitializingBean {
+public class OverriddenSharedJarLoadingBean implements InitializingBean {
 
     public void afterPropertiesSet() throws Exception {
     
@@ -21,7 +21,9 @@ public class ServiceJarLoadingBean implements InitializingBean {
         
         //this should fall over, as it is not present in local jar api
         final Method findMethod = ReflectionUtils.findMethod(cache.getClass(), "getCacheEventNotificationService", new Class[]{});
-        Assert.isNull(findMethod, "Did not expect to find method 'getCacheEventNotificationService'");
-    }
-}
+        Assert.notNull(findMethod, "Did expect to find method 'getCacheEventNotificationService'");
 
+        System.out.println(cache.getCacheEventNotificationService());
+    }
+    
+}

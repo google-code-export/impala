@@ -7,6 +7,9 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
 
     <service:auto-export/>
+    
+	<bean id="overrriddenSharedJarLoadingBean" class="classes.OverriddenSharedJarLoadingBean">
+	</bean>
      
     <bean id="entryDAO"
         class="classes.EntryDAOImpl">
