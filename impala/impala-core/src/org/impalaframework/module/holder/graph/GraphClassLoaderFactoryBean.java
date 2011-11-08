@@ -14,6 +14,8 @@
 
 package org.impalaframework.module.holder.graph;
 
+import org.impalaframework.bootstrap.CoreBootstrapProperties;
+import org.impalaframework.classloader.graph.ClassLoaderOptions;
 import org.impalaframework.resolver.ModuleLocationResolver;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -24,11 +26,24 @@ import org.springframework.beans.factory.InitializingBean;
  */
 public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBean {
 
-    private boolean aspectjAwareClassLoader;
-    
     private ModuleLocationResolver moduleLocationResolver;
     
+    private boolean aspectjAwareClassLoader;
+    
+    /**
+     * @see CoreBootstrapProperties#PARENT_CLASS_LOADER_FIRST
+     */
     private boolean parentClassLoaderFirst;
+    
+    /**
+     * @see CoreBootstrapProperties#SUPPORTS_MODULE_LIBRARIES
+     */
+    private boolean supportsModuleLibraries;
+    
+    /**
+     * @see CoreBootstrapProperties#EXPORTS_MODULE_LIBRARIES
+     */
+    private boolean exportsModuleLibraries;
     
     private GraphClassLoaderFactory classLoaderFactory;
     
@@ -40,7 +55,7 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
         }
     
         this.classLoaderFactory.setModuleLocationResolver(moduleLocationResolver);
-        this.classLoaderFactory.setParentClassLoaderFirst(parentClassLoaderFirst);
+        this.classLoaderFactory.setOptions(new ClassLoaderOptions(parentClassLoaderFirst, supportsModuleLibraries, exportsModuleLibraries));
         this.classLoaderFactory.init();
     }
 
@@ -66,6 +81,14 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
     
     public void setParentClassLoaderFirst(boolean parentClassLoaderFirst) {
         this.parentClassLoaderFirst = parentClassLoaderFirst;
+    }
+    
+    public void setSupportsModuleLibraries(boolean supportsModuleLibraries) {
+        this.supportsModuleLibraries = supportsModuleLibraries;
+    }
+    
+    public void setExportsModuleLibraries(boolean exportsModuleLibraries) {
+        this.exportsModuleLibraries = exportsModuleLibraries;
     }
 
 }

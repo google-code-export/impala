@@ -8,12 +8,24 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  <bean id="aspectjAwareClassLoader" parent = "propertyParent">
      <property name="name" value="load.time.weaving.enabled"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="supportsModuleLibraries" parent = "propertyParent">
+     <property name="name" value="supports.module.libraries"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.SUPPORTS_MODULE_LIBRARIES_DEFAULT]"/>
+ </bean>
+ 
+ <bean id="exportsModuleLibraries" parent = "propertyParent">
+     <property name="name" value="exports.module.libraries"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES_DEFAULT]"/>
  </bean> 
 
  <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBean">
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
      <property name = "parentClassLoaderFirst" ref = "parentClassLoaderFirst"/>
      <property name = "aspectjAwareClassLoader" ref = "aspectjAwareClassLoader"/>
+     <property name = "supportsModuleLibraries" ref = "supportsModuleLibraries"/>
+     <property name = "exportsModuleLibraries" ref = "exportsModuleLibraries"/>
  </bean>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
