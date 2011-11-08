@@ -60,6 +60,8 @@ public interface CoreBootstrapProperties {
      */
     String EXTRA_LOCATIONS = "extra.locations";
     
+    /* ******************************** Classloader properties ****************************** */
+    
     /**
      * The module management type to be used. Permissible values are <i>shared</i>, <i>hierarchical</i> and <i>graph</i>. 
      * The default value is <i>graph</i>.
@@ -92,7 +94,33 @@ public interface CoreBootstrapProperties {
     /**
      * Default value for {@link #LOAD_TIME_WEAVING_ENABLED} property
      */
-    boolean LOAD_TIME_WEAVING_ENABLED_DEFAULT = false;    
+    boolean LOAD_TIME_WEAVING_ENABLED_DEFAULT = false;
+
+    /* ******************************** Graph classloader properties ****************************** */
+    
+    /**
+     * Whether module-specific libraries are supported. Module libraries can be loaded from a module-specific location, 
+     * such as WEB-INF/modules/lib/module_name. They can be used to address situations where a particular (perhaps old)
+     * version of the library must be used for a particular purpose, but this causes conflicts with the default 
+     * shared libraries held at the application level.
+     */
+    String SUPPORTS_MODULE_LIBRARIES = "supports.module.libraries";
+    
+    /**
+     * Default value for {@link #SUPPORTS_MODULE_LIBRARIES} property.
+     */
+    boolean SUPPORTS_MODULE_LIBRARIES_DEFAULT = false;
+    
+    /**
+     * Only applies if {@link #SUPPORTS_MODULE_LIBRARIES} is true. If this property is true, then classes loaded from module
+     * libraries will be visible to dependent modules
+     */
+    String EXPORTS_MODULE_LIBRARIES = "exports.module.libraries";
+    
+    /**
+     * Default value for {@link #EXPORTS_MODULE_LIBRARIES} property.
+     */
+    boolean EXPORTS_MODULE_LIBRARIES_DEFAULT = true;
     
     /**
      * The module root directory, used as the base location when looking for module jars or directories

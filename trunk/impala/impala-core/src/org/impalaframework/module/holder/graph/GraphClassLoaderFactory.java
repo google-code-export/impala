@@ -43,13 +43,11 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
 
     private ModuleLocationResolver moduleLocationResolver;
     
-    private boolean parentClassLoaderFirst;
-    
     private ClassLoaderOptions options;
     
     public void init() {
         Assert.notNull(moduleLocationResolver, "moduleLocationResolver cannot be null");
-        options = new ClassLoaderOptions(parentClassLoaderFirst, true, true);
+        Assert.notNull(options, "options cannot be null");
     }
     
     public ClassLoader newClassLoader(Application application, ClassLoader parent, ModuleDefinition moduleDefinition) {
@@ -154,7 +152,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
         this.moduleLocationResolver = moduleLocationResolver;
     }
     
-    public void setParentClassLoaderFirst(boolean parentClassLoaderFirst) {
-        this.parentClassLoaderFirst = parentClassLoaderFirst;
+    public void setOptions(ClassLoaderOptions options) {
+        this.options = options;
     }
 }
