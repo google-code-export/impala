@@ -143,7 +143,7 @@ public class GraphClassLoaderFactory implements ClassLoaderFactory {
     
     protected final ClassLoaderOptions getOptions() {
         if (options == null) {
-            this.options = new ClassLoaderOptions(true, true, true);
+            this.options = new ClassLoaderOptions(true, true, true, true);
         }
         return options;
     }

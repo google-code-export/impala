@@ -20,15 +20,21 @@ public class ClassLoaderOptions {
      * If true, then will allow module-internal library classes to be visible to dependent modules
      */
     private final boolean exportsModuleLibraries;
+    
+    /**
+     * If true, then will also load resources from module-internal libraries if they are present
+     */
+    private final boolean loadsModuleLibraryResources;
 
     public ClassLoaderOptions(
             boolean parentLoaderFirst,
             boolean supportsModuleLibraries, 
-            boolean exportsModuleLibraries) {
+            boolean exportsModuleLibraries, boolean loadsModuleLibraryResources) {
         super();
         this.parentLoaderFirst = parentLoaderFirst;
         this.supportsModuleLibraries = supportsModuleLibraries;
         this.exportsModuleLibraries = exportsModuleLibraries;
+        this.loadsModuleLibraryResources = loadsModuleLibraryResources;
     }
 
     public boolean isParentLoaderFirst() {
@@ -42,12 +48,17 @@ public class ClassLoaderOptions {
     public boolean isExportsModuleLibraries() {
         return exportsModuleLibraries;
     }
+    
+    public boolean isLoadsModuleLibraryResources() {
+        return loadsModuleLibraryResources;
+    }
 
     @Override
     public String toString() {
         return "ClassLoaderOptions [parentLoaderFirst=" + parentLoaderFirst
                 + ", supportsModuleLibraries=" + supportsModuleLibraries
-                + ", exportsModuleLibraries=" + exportsModuleLibraries + "]";
+                + ", exportsModuleLibraries=" + exportsModuleLibraries
+                + ", loadsModuleLibraryResources="
+                + loadsModuleLibraryResources + "]";
     }
-
 }

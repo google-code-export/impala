@@ -55,7 +55,7 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
         }
     
         this.classLoaderFactory.setModuleLocationResolver(moduleLocationResolver);
-        this.classLoaderFactory.setOptions(new ClassLoaderOptions(parentClassLoaderFirst, supportsModuleLibraries, exportsModuleLibraries));
+        this.classLoaderFactory.setOptions(new ClassLoaderOptions(parentClassLoaderFirst, supportsModuleLibraries, exportsModuleLibraries, true));
         this.classLoaderFactory.init();
     }
 
