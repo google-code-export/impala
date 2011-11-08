@@ -89,6 +89,7 @@ public class DefaultTransitionManager implements TransitionManager {
                 }
             }
             
+            resultSet.complete();
             transitionsLogger.logTransitions(resultSet);
             
         } finally {
