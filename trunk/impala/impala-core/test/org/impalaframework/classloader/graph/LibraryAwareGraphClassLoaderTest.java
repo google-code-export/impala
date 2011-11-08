@@ -18,6 +18,10 @@ import static org.easymock.EasyMock.createMock;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import junit.framework.TestCase;
 
 import org.impalaframework.classloader.ClassRetriever;
@@ -25,6 +29,15 @@ import org.impalaframework.module.ModuleDefinition;
 import org.springframework.util.ClassUtils;
 
 public class LibraryAwareGraphClassLoaderTest extends TestCase {
+    
+    public void testClassLoaderOptions() throws Exception {
+        Map<String,Boolean> options = new HashMap<String,Boolean>();
+        
+        LibraryAwareGraphClassLoader cl = newClassLoader(null);
+        assertFalse(cl.classLoaderOption(options, "option"));
+        options.put("option", true);
+        assertTrue(cl.classLoaderOption(options, "option"));
+    }
     
     public void testMaybeLoadExternalClassNull() {
         ClassRetriever moduleResourceRetriever = null;
