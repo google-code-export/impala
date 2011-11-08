@@ -29,7 +29,6 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.classloader.ClassRetriever;
 import org.impalaframework.classloader.ModularClassLoader;
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.util.ObjectMapUtils;
 
 /**
  * Class loader backed by a graph of dependent class loaders. Each module will
@@ -64,11 +63,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         this.classRetriever = classRetriever;
         this.delegateClassLoader = delegateClassLoader;
         this.loadParentFirst = loadParentFirst;     
-    }
-    
-    boolean classLoaderOption(Map<String,Boolean> options, String name) {
-        final Boolean value = options.get(name);
-        return (value != null ? value : false);
     }
     
     /* ****************************** class loader methods ******************************** */
