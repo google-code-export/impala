@@ -20,6 +20,12 @@ import org.impalaframework.module.definition.SimpleModuleDefinition;
 
 public class TransitionResultSetTest extends TestCase {
     
+    public void testComplete() throws Exception {
+
+        TransitionResultSet successSet = newSuccessTransitionResultSet();
+        assertNotNull(successSet.getCompletionTime());
+    }
+    
     public void testSuccess() {
         TransitionResultSet successSet = newSuccessTransitionResultSet();
         assertTrue(successSet.hasResults());

@@ -28,9 +28,9 @@ public class TransitionResultSet {
     
     private final List<TransitionResult> list = new ArrayList<TransitionResult>();
     
-    private long creationTime;
+    private Long creationTime;
     
-    private long completionTime;
+    private Long completionTime;
     
     public TransitionResultSet() {
         this.creationTime = System.currentTimeMillis();
@@ -77,6 +77,10 @@ public class TransitionResultSet {
     }
     
     public long getCompletionTime() {
+        //just incase you forget
+        if (completionTime == null) {
+            complete();
+        }
         return completionTime;
     }
     
