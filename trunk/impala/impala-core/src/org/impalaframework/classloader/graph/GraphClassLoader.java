@@ -232,10 +232,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return false;
     }
 
-    public ClassRetriever getClassRetriever() {
-        return classRetriever;
-    }
-
     public void addTransformer(ClassFileTransformer transformer) {
         logger.warn("No-op implementation of 'addTransformer()' invoked. Use 'load.time.weaving.enabled=true' and start JVM with '-javaagent:/path_to_aspectj_weaver/aspectjweaver.jar' switch to enable load time weaving of aspects.");
     }
@@ -245,7 +241,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
      */
     public Class<?> loadLibraryClass(String className, boolean tryDelegate) {
         
-        //FIXME test
+        //FIXME issue 361 test
         if (options.isSupportsModuleLibraries()) {
             return loadCustomClass(className, tryDelegate, true);
         } return null;
@@ -259,6 +255,10 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /* **************************** protected methods ***************************** */
+
+    public ClassRetriever getClassRetriever() {
+        return classRetriever;
+    }
 
     /**
      * Implements the mechanism for loading a class within the module.
@@ -311,10 +311,6 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return clazz;
     }
 
-    protected DelegateClassLoader getDelegateClassLoader() {
-        return delegateClassLoader;
-    }
-    
     /**
      * Hook which subclasses can use to attempt to load class which is not a
      * module custom class, but without delegating to the parent class loader.
@@ -334,6 +330,7 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
             boolean internalLoad, 
             boolean libraryClass) throws ClassFormatError {
         
+        //FIXME issue 361 test
         //FIXME if libraryClass but not internalLoad, then check to see whether options.exportsModuleLibraries is set 
         
         Class<?> clazz = null;
@@ -373,6 +370,13 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
         return moduleDefinition.getName();
     }
     
+    /**
+     * Returns the {@link DelegateClassLoader} used to find classes and resources in other modules within the application
+     */
+    protected DelegateClassLoader getDelegateClassLoader() {
+        return delegateClassLoader;
+    }
+
     @Override
     protected void finalize() throws Throwable {
         try {
