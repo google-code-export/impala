@@ -21,6 +21,7 @@ import org.mortbay.jetty.handler.ContextHandlerCollection;
 import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.jetty.handler.HandlerCollection;
 import org.mortbay.jetty.handler.RequestLogHandler;
+import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.security.SslSocketConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
@@ -45,6 +46,7 @@ public class RunJetty {
             File configLocation = getContextLocation(args[1]);
             String contextPath = getContextPath(args[2]);
             String scheme = args[3];
+            String resourceBase = args(args, 4, "html");
 
             Server server = new Server();
             
@@ -92,13 +94,16 @@ public class RunJetty {
             server.setConnectors(connectors);
 
             HandlerCollection handlers = new HandlerCollection();
+            ResourceHandler resourceHandler = new ResourceHandler();
+            resourceHandler.setResourceBase(resourceBase);
+            
             ContextHandlerCollection contexts = new ContextHandlerCollection();
 
             WebAppContext webAppContext = new WebAppContext(configLocation.getAbsolutePath(), contextPath);
             contexts.addHandler(webAppContext);
 
             RequestLogHandler requestLogHandler = new RequestLogHandler();
-            handlers.setHandlers(new Handler[] { contexts, new DefaultHandler(), requestLogHandler });
+            handlers.setHandlers(new Handler[] { contexts, resourceHandler, new DefaultHandler(), requestLogHandler });
             server.setHandler(handlers);
 
             server.setStopAtShutdown(true);
@@ -117,6 +122,13 @@ public class RunJetty {
             usage();
             System.exit(-1);
         }
+    }
+
+    static String args(String[] args, int index, String defaultValue) {
+        if (args.length < index+1) {
+            return defaultValue;
+        }
+        return null;
     }
 
     static String getContextPath(String arg) {

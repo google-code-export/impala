@@ -15,7 +15,6 @@
 import java.io.File;
 
 import org.impalaframework.constants.LocationConstants;
-import org.impalaframework.web.StartJetty;
 import org.impalaframework.web.WebConstants;
 
 public class StartServer {
@@ -28,6 +27,7 @@ public class StartServer {
         //an example of a context path-specific system property
         System.setProperty("example-host.auto.reload.check.delay", "15");
         System.setProperty(LocationConstants.WORKSPACE_ROOT_PROPERTY, new File("../").getAbsolutePath());
+        //RunJetty.main(new String[]{"8080", "../example-host/context", "/example-host", "http"});
         StartJetty.main(new String[]{"8080", "../example-host/context", "/example-host"});
     }
 }
