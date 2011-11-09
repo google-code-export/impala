@@ -128,7 +128,7 @@ public class RunJetty {
         if (args.length < index+1) {
             return defaultValue;
         }
-        return null;
+        return args[index];
     }
 
     static String getContextPath(String arg) {

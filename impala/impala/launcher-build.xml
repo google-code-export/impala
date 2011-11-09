@@ -29,7 +29,7 @@
             <zipfileset dir="${src.dir}" includes="Launcher*.java, **/launcher/*.java"/>
         </jar>
         <jar destfile="${deploy.dir}/startjetty-sources.jar">
-            <zipfileset dir="${src.dir}" includes="StartJetty*.java"/>
+            <zipfileset dir="${src.dir}" includes="StartJetty*.java, RunJetty*.java"/>
         </jar>
     </target>   
     
