@@ -21,6 +21,7 @@ import org.mortbay.jetty.handler.ContextHandlerCollection;
 import org.mortbay.jetty.handler.DefaultHandler;
 import org.mortbay.jetty.handler.HandlerCollection;
 import org.mortbay.jetty.handler.RequestLogHandler;
+import org.mortbay.jetty.handler.ResourceHandler;
 import org.mortbay.jetty.nio.SelectChannelConnector;
 import org.mortbay.jetty.webapp.WebAppContext;
 
@@ -43,6 +44,7 @@ public class StartJetty {
 			int port = getPort(args[0]);
 			File configLocation = getContextLocation(args[1]);
 			String contextPath = getContextPath(args[2]);
+            String resourceBase = RunJetty.args(args, 4, "html");
 
 			Server server = new Server();
 
@@ -56,8 +58,11 @@ public class StartJetty {
 			WebAppContext webAppContext = new WebAppContext(configLocation.getAbsolutePath(), contextPath);
 			contexts.addHandler(webAppContext);
 
+            ResourceHandler resourceHandler = new ResourceHandler();
+            resourceHandler.setResourceBase(resourceBase);
+            
 			RequestLogHandler requestLogHandler = new RequestLogHandler();
-			handlers.setHandlers(new Handler[] { contexts, new DefaultHandler(), requestLogHandler });
+			handlers.setHandlers(new Handler[] { contexts, resourceHandler, new DefaultHandler(), requestLogHandler });
 			server.setHandler(handlers);
 
 			server.setStopAtShutdown(true);

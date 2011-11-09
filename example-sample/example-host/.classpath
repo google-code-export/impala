@@ -45,5 +45,6 @@
 	<classpathentry kind="lib" path="/example-repository/web/jsp-api-2.0.jar"/>
 	<classpathentry kind="lib" path="/example-repository/jetty/jstl-1.1.2.jar"/>
 	<classpathentry kind="lib" path="/example-repository/jetty/standard-1.1.2.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-launcher"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
