@@ -84,8 +84,15 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
         BooleanPropertyValue parentClassloaderFirst = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, !embeddedMode.getValue());
         BooleanPropertyValue loadTimeWeavingEnabled = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED, CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED_DEFAULT);
         BooleanPropertyValue supportsModuleLibraries = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.SUPPORTS_MODULE_LIBRARIES, CoreBootstrapProperties.SUPPORTS_MODULE_LIBRARIES_DEFAULT);
-        BooleanPropertyValue exportsModuleLibraries = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES, CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES_DEFAULT);
+        
+        if (supportsModuleLibraries.getValue()) {
+            BooleanPropertyValue exportsModuleLibraries = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES, CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES_DEFAULT);
+            configSettings.addProperty(CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES, exportsModuleLibraries);
 
+            BooleanPropertyValue loadsModuleLibraryResources = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.LOADS_MODULE_LIBRARY_RESOURCES, CoreBootstrapProperties.LOADS_MODULE_LIBRARY_RESOURCES_DEFAULT);
+            configSettings.addProperty(CoreBootstrapProperties.LOADS_MODULE_LIBRARY_RESOURCES, loadsModuleLibraryResources);
+        }
+        
         StringPropertyValue workspaceRoot = new StringPropertyValue(propertySource, CoreBootstrapProperties.WORKSPACE_ROOT, LocationConstants.WORKSPACE_ROOT_DEFAULT);
         StringPropertyValue moduleClassDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, LocationConstants.MODULE_CLASS_DIR_DEFAULT);
         StringPropertyValue moduleResourceDirectory = new StringPropertyValue(propertySource, CoreBootstrapProperties.MODULE_RESOURCE_DIRECTORY, LocationConstants.MODULE_RESOURCE_DIR_DEFAULT);
@@ -94,7 +101,6 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
         
         configSettings.addProperty(CoreBootstrapProperties.PARENT_CLASS_LOADER_FIRST, parentClassloaderFirst);
         configSettings.addProperty(CoreBootstrapProperties.SUPPORTS_MODULE_LIBRARIES, supportsModuleLibraries);
-        configSettings.addProperty(CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES, exportsModuleLibraries);
         configSettings.addProperty(CoreBootstrapProperties.LOAD_TIME_WEAVING_ENABLED, loadTimeWeavingEnabled);
         configSettings.addProperty(CoreBootstrapProperties.WORKSPACE_ROOT, workspaceRoot);
         configSettings.addProperty(CoreBootstrapProperties.MODULE_CLASS_DIRECTORY, moduleClassDirectory);

@@ -19,6 +19,11 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name="name" value="exports.module.libraries"/>
      <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.EXPORTS_MODULE_LIBRARIES_DEFAULT]"/>
  </bean> 
+ 
+ <bean id="loadsModuleLibraryResources" parent = "propertyParent">
+     <property name="name" value="loads.module.library.resources"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.LOADS_MODULE_LIBRARY_RESOURCES_DEFAULT]"/>
+ </bean>
 
  <bean id="classLoaderFactory" class="org.impalaframework.module.holder.graph.GraphClassLoaderFactoryBean">
      <property name = "moduleLocationResolver" ref = "moduleLocationResolver"/>
@@ -26,6 +31,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
      <property name = "aspectjAwareClassLoader" ref = "aspectjAwareClassLoader"/>
      <property name = "supportsModuleLibraries" ref = "supportsModuleLibraries"/>
      <property name = "exportsModuleLibraries" ref = "exportsModuleLibraries"/>
+     <property name = "loadsModuleLibraryResources" ref = "loadsModuleLibraryResources"/>
  </bean>
  
  <bean id="strictModificationExtractor" class="org.impalaframework.module.modification.graph.GraphModificationExtractor">
