@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 
@@ -57,6 +58,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
     
     private List<String> optionalDependencies;
     
+    private Collection<String> capabilities;
+    
     private boolean frozen;
 
     /* ********************* constructor ******************** */
@@ -68,7 +71,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
             String[] mandatoryDependencies, 
             String[] optionalDependencies, 
             Map<String, String> attributes, 
-            String runtime) {
+            String runtime, 
+            Collection<String> capabilities) {
         
         Assert.notNull(name);
 
@@ -112,6 +116,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         if (this.parentDefinition != null) {
             this.parentDefinition.addChildModuleDefinition(this);
         }
+        
+        this.capabilities = (capabilities != null ? new LinkedHashSet<String>(): Collections.<String>emptySet());
     }
 
     /* ********************* modification methods ******************** */   
@@ -214,6 +220,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
 
     public void unfreeze() {
         this.frozen = false;
+    }
+    
+    public Collection<String> getCapabilities() {
+        return capabilities;
     }
     
     /* ********************* object override methods ******************** */    

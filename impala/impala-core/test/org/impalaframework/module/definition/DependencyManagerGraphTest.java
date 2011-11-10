@@ -59,7 +59,7 @@ public class DependencyManagerGraphTest extends TestCase {
                 null, 
                 null, 
                 null, 
-                null);
+                null, null);
         
         //b is child of root
         ModuleDefinition b = newDefinition(definitions, root, "b", null);

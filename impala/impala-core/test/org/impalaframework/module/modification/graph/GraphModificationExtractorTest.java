@@ -173,7 +173,7 @@ public class GraphModificationExtractorTest extends TestCase {
                 new String[] {"root.xml"}, 
                 new String[] {"a", "b"}, 
                 null,
-                new ModuleDefinition[] {a, b, c, d}, null);
+                new ModuleDefinition[] {a, b, c, d}, null, null);
         
         //e has parent root, and depends on b an d
         ModuleDefinition e = newDefinition(definitions, root, "e", "b,d");
@@ -200,7 +200,7 @@ public class GraphModificationExtractorTest extends TestCase {
                 new String[] {"root.xml"}, 
                 new String[] {"a"}, 
                 null,
-                new ModuleDefinition[] {a, c}, null);
+                new ModuleDefinition[] {a, c}, null, null);
         
         //e has parent root, and depends on a and c
         ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");
@@ -227,7 +227,7 @@ public class GraphModificationExtractorTest extends TestCase {
                 new String[] {"root.xml"}, 
                 new String[] {"a"}, 
                 null,
-                new ModuleDefinition[] {a, c, d}, null);
+                new ModuleDefinition[] {a, c, d}, null, null);
         
         //e has parent root, and depends on a and c
         ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");
@@ -258,7 +258,7 @@ public class GraphModificationExtractorTest extends TestCase {
                 new String[] {"root.xml"}, 
                 new String[] {"a"}, 
                 null,
-                new ModuleDefinition[] {a, c, d}, null);
+                new ModuleDefinition[] {a, c, d}, null, null);
         
         //e has parent root, and depends on a and c
         ModuleDefinition e = newDefinition(definitions, root, "e", "a,c");

@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.definition;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
@@ -36,7 +37,7 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
     }
 
     public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
-        this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null, null);
+        this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null, null, null);
     }
     
     public SimpleModuleDefinition(
@@ -46,8 +47,10 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
             String[] configLocations, 
             String[] mandatoryDependencies, 
             String[] optionalDependencies, 
-            Map<String, String> attributes, String runtime) {
-        super(parent, name, type, configLocations, mandatoryDependencies, optionalDependencies, attributes, runtime);
+            Map<String, String> attributes, 
+            String runtime, 
+            Collection<String> capabilities) {
+        super(parent, name, type, configLocations, mandatoryDependencies, optionalDependencies, attributes, runtime, capabilities);
     }
 
     /* ********************* read-only methods ******************** */
