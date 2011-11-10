@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.type;
 
+import java.util.Collection;
 import java.util.Map;
 
 import org.impalaframework.module.ModuleDefinition;
@@ -22,9 +23,18 @@ import org.impalaframework.module.definition.SimpleRootModuleDefinition;
 public class RootModuleTypeReader extends ApplicationModuleTypeReader {
 
     @Override
-    protected ModuleDefinition newDefinition(ModuleDefinition parent,
-            String moduleName, String type, String[] locationsArray, String[] dependencyNames, String[] optionalDependencyNames, Map<String, String> attributes, String runtime) {
-        return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0], null);
+    protected ModuleDefinition newDefinition(
+            ModuleDefinition parent,
+            String moduleName, 
+            String type, 
+            String[] locationsArray, 
+            String[] dependencyNames, 
+            String[] optionalDependencyNames, 
+            Map<String, String> attributes, 
+            String runtime, 
+            Collection<String> capabilities) {
+        
+        return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0], null, capabilities);
     }
     
 }

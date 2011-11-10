@@ -14,6 +14,7 @@
 
 package org.impalaframework.module;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,12 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
      * ${modulename}-context.xml.
      */
     List<String> getConfigLocations();
+    
+    /**
+     * Return 'capabilities', or tags which indicate the capability of a module.
+     * Examples might be 'persistence', 'cacheing', 'clustering', etc.
+     */
+    Collection<String> getCapabilities();
 
     /**
      * Returns the module definition of the parent module.

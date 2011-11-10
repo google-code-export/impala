@@ -73,18 +73,18 @@ public class SimpleModuleDefinitionTest extends TestCase {
         assertFalse(definition1a.equals(definition1c));
         
         //different types
-        SimpleModuleDefinition definition1d = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, null, null);
-        SimpleModuleDefinition definition1e = new SimpleModuleDefinition(null, "p1", "webroot", new String[] { "loc1", }, null, null, null, null);
+        SimpleModuleDefinition definition1d = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, null, null, null);
+        SimpleModuleDefinition definition1e = new SimpleModuleDefinition(null, "p1", "webroot", new String[] { "loc1", }, null, null, null, null, null);
         assertFalse(definition1d.equals(definition1e));
 
         //different attributes
-        SimpleModuleDefinition definition1f = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, Collections.singletonMap("name", "value1"), null);
-        SimpleModuleDefinition definition1g = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, Collections.singletonMap("name", "value2"), null);
+        SimpleModuleDefinition definition1f = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, Collections.singletonMap("name", "value1"), null, null);
+        SimpleModuleDefinition definition1g = new SimpleModuleDefinition(null, "p1", "servlet", new String[] { "loc1", }, null, null, Collections.singletonMap("name", "value2"), null, null);
         assertFalse(definition1f.equals(definition1g));
     }
     
     public void testAttributes() throws Exception {
-        SimpleModuleDefinition definition = new SimpleModuleDefinition(null, "p1", ModuleTypes.APPLICATION, null, null, null, Collections.singletonMap("name", "value"), null);
+        SimpleModuleDefinition definition = new SimpleModuleDefinition(null, "p1", ModuleTypes.APPLICATION, null, null, null, Collections.singletonMap("name", "value"), null, null);
         final Map<String, String> attributes = definition.getAttributes();
         assertEquals(1, attributes.size());
     }

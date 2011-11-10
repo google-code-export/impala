@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.type;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -42,7 +43,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
         String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
         String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
         
-        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime);
+        //FIXME add capabilities
+        
+        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, null);
     }
 
     /**
@@ -59,12 +62,16 @@ public class ApplicationModuleTypeReader implements TypeReader {
         String runtime = TypeReaderUtils.readRuntime(definitionElement);
         String type = TypeReaderUtils.readType(definitionElement);
         
+        //FIXME add capabilities
+        
         return newDefinition(parent, moduleName, 
                 type, 
                 configLocations.toArray(new String[0]), 
                 dependencyNames.toArray(new String[0]), 
                 optionalDependencyNames.toArray(new String[0]), 
-                attributes, runtime);
+                attributes, 
+                runtime, 
+                null);
     }
 
     /**
@@ -87,8 +94,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
             String[] dependencyNames, 
             String[] optionalDependencyNames, 
             Map<String, String> attributes, 
-            String runtime) {
-        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime);
+            String runtime, 
+            Collection<String> capabilities) {
+        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, capabilities);
     }
 
 }

@@ -16,6 +16,7 @@ package org.impalaframework.module.definition;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,7 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
     }
     
     public SimpleRootModuleDefinition(String name, String[] configLocations) {
-        this(name, configLocations, new String[0], null, new ModuleDefinition[0], null);
+        this(name, configLocations, new String[0], null, new ModuleDefinition[0], null, null);
     }
     
     public SimpleRootModuleDefinition(
@@ -48,9 +49,10 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
             String[] dependencies,
             Map<String, String> attributes, 
             ModuleDefinition[] siblings, 
-            String runtime) {
+            String runtime, 
+            Collection<String> capabilities) {
         
-        super(null, name, ModuleTypes.ROOT, configLocations, dependencies, null, attributes, runtime);
+        super(null, name, ModuleTypes.ROOT, configLocations, dependencies, null, attributes, runtime, capabilities);
         
         if (siblings == null) {
             siblings = new ModuleDefinition[0];

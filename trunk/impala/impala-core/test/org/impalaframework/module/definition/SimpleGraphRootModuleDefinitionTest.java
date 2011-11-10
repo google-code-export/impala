@@ -80,7 +80,7 @@ public class SimpleGraphRootModuleDefinitionTest extends TestCase {
                     locations, 
                     dependencies.toArray(new String[0]), 
                     null, 
-                    siblings.toArray(new ModuleDefinition[0]), null);
+                    siblings.toArray(new ModuleDefinition[0]), null, null);
         
         return root;
     }

@@ -33,7 +33,7 @@ public class GraphTestUtils {
 
     public static ModuleDefinition newDefinition(List<ModuleDefinition> list, ModuleDefinition parent, final String name, final String dependencies) {
         final String[] split = dependencies != null ? dependencies.split(",") : new String[0];
-        ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, split, null, null, null);
+        ModuleDefinition definition = new SimpleModuleDefinition(parent, name, ModuleTypes.APPLICATION, null, split, null, null, null, null);
         list.add(definition);
         return definition;
     }
