@@ -123,6 +123,19 @@ public interface CoreBootstrapProperties {
     boolean EXPORTS_MODULE_LIBRARIES_DEFAULT = true;
     
     /**
+     * Only applies if {@link #SUPPORTS_MODULE_LIBRARIES} is true. If this property is true, module libraries will
+     * also be added to the resource path when looking up specific resources using {@link ClassLoader#getResource(String)}
+     */
+    String LOADS_MODULE_LIBRARY_RESOURCES = "loads.module.library.resources";
+    
+    /**
+     * Default value for {@link #LOADS_MODULE_LIBRARY_RESOURCES}
+     */
+    boolean LOADS_MODULE_LIBRARY_RESOURCES_DEFAULT = true;
+
+    /* ******************************** Resource and project structure properties ****************************** */
+    
+    /**
      * The module root directory, used as the base location when looking for module jars or directories
      */
     String WORKSPACE_ROOT = LocationConstants.WORKSPACE_ROOT_PROPERTY;

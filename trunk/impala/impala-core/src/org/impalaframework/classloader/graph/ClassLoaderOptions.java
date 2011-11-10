@@ -29,7 +29,8 @@ public class ClassLoaderOptions {
     public ClassLoaderOptions(
             boolean parentLoaderFirst,
             boolean supportsModuleLibraries, 
-            boolean exportsModuleLibraries, boolean loadsModuleLibraryResources) {
+            boolean exportsModuleLibraries, 
+            boolean loadsModuleLibraryResources) {
         super();
         this.parentLoaderFirst = parentLoaderFirst;
         this.supportsModuleLibraries = supportsModuleLibraries;

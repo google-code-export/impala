@@ -45,6 +45,11 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
      */
     private boolean exportsModuleLibraries;
     
+    /**
+     * @see CoreBootstrapProperties#LOADS_MODULE_LIBRARY_RESOURCES
+     */
+    private boolean loadsModuleLibraryResources;
+    
     private GraphClassLoaderFactory classLoaderFactory;
     
     public void afterPropertiesSet() throws Exception {
@@ -55,7 +60,7 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
         }
     
         this.classLoaderFactory.setModuleLocationResolver(moduleLocationResolver);
-        this.classLoaderFactory.setOptions(new ClassLoaderOptions(parentClassLoaderFirst, supportsModuleLibraries, exportsModuleLibraries, true));
+        this.classLoaderFactory.setOptions(new ClassLoaderOptions(parentClassLoaderFirst, supportsModuleLibraries, exportsModuleLibraries, loadsModuleLibraryResources));
         this.classLoaderFactory.init();
     }
 
@@ -89,6 +94,10 @@ public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBea
     
     public void setExportsModuleLibraries(boolean exportsModuleLibraries) {
         this.exportsModuleLibraries = exportsModuleLibraries;
+    }
+    
+    public void setLoadsModuleLibraryResources(boolean loadsModuleLibraryResources) {
+        this.loadsModuleLibraryResources = loadsModuleLibraryResources;
     }
 
 }
