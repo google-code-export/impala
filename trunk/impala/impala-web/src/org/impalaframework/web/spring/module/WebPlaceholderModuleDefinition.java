@@ -97,6 +97,10 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
         return Collections.emptyList();
     }
     
+    public Collection<String> getCapabilities() {
+        return Collections.emptyList();
+    }
+    
     public boolean isFrozen() {
         return this.frozen;
     }
