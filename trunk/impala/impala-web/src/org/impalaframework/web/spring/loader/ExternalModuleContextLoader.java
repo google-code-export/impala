@@ -43,15 +43,7 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
     @Override
     public ModuleDefinitionSource getModuleDefinitionSource(ServletContext servletContext, ModuleManagementFacade factory) {
 
-        String locationsResourceName = WebModuleUtils.getParamValue(servletContext,
-                LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
-
-        if (locationsResourceName == null) {
-            locationsResourceName = defaultModuleResourceName;
-        }
-
-        ResourceLoader resourceLoader = getResourceLoader();
-        Resource resource = resourceLoader.getResource(locationsResourceName);
+        Resource resource = getModulesResource(servletContext, factory);
 
         if (!resource.exists()) {
             throw new ConfigurationException("Module definition XML resource '" + resource.getDescription()
@@ -61,7 +53,27 @@ public class ExternalModuleContextLoader extends BaseImpalaContextLoader {
         return newModuleDefinitionSource(resource, factory);
     }
 
+    /**
+     * Returns the {@link Resource} instance which contains the module defintions. Subclasses can override
+     */
+    protected Resource getModulesResource(ServletContext servletContext, ModuleManagementFacade factory) {
+        
+        String locationsResourceName = WebModuleUtils.getParamValue(servletContext, LocationConstants.BOOTSTRAP_MODULES_RESOURCE_PARAM);
+
+        if (locationsResourceName == null) {
+            locationsResourceName = defaultModuleResourceName;
+        }
+
+        ResourceLoader resourceLoader = getResourceLoader();
+        Resource resource = resourceLoader.getResource(locationsResourceName);
+        return resource;
+    }
+
+    /**
+     * Creates a new {@link ModuleDefinitionSource} from the supplied {@link Resource}, which contains the module definitions
+     */
     protected ModuleDefinitionSource newModuleDefinitionSource(Resource resource, ModuleManagementFacade factory) {
+        
         InternalWebXmlModuleDefinitionSource moduleDefinitionSource = new InternalWebXmlModuleDefinitionSource(
                 factory.getModuleLocationResolver(), 
                 factory.getTypeReaderRegistry());
