@@ -35,7 +35,7 @@ public class ModuleArrayContributionExporter extends BaseModuleContributionExpor
     /**
      * Processes the named contributions
      */
-    public void afterPropertiesSet()  {
+    public void init()  {
         Assert.notNull(contributions, "contributions cannot be null");
 
         processContributions(Arrays.asList(contributions));
