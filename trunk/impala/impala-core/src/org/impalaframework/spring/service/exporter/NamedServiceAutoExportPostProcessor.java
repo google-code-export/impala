@@ -30,12 +30,17 @@ import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
+import org.impalaframework.util.ObjectUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.beans.factory.config.DestructionAwareBeanPostProcessor;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * {@link BeanPostProcessor} which attempts to register the created bean
@@ -44,9 +49,14 @@ import org.springframework.beans.factory.config.DestructionAwareBeanPostProcesso
  * 
  * @author Phil Zoio
  */
-public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAware, ServiceRegistryAware, BeanPostProcessor, BeanFactoryAware,
-        DestructionAwareBeanPostProcessor, 
-        BeanClassLoaderAware {
+public class NamedServiceAutoExportPostProcessor implements 
+        ModuleDefinitionAware, 
+        ServiceRegistryAware, 
+        //BeanPostProcessor, 
+        //DestructionAwareBeanPostProcessor, 
+        BeanFactoryAware,
+        BeanClassLoaderAware, 
+        ApplicationListener {
 
     private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
@@ -61,6 +71,41 @@ public class NamedServiceAutoExportPostProcessor implements ModuleDefinitionAwar
     private Map<String, ServiceRegistryEntry> referenceMap = new IdentityHashMap<String, ServiceRegistryEntry>();
     
     private Set<String> beansEncountered = new HashSet<String>();
+    
+    /* *************** Application Event ************** */
+    
+    public void onApplicationEvent(ApplicationEvent event) {
+        final String name = moduleDefinitionName();
+        if (event instanceof ContextRefreshedEvent) {
+           logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + name + " ####################");
+
+           ListableBeanFactory listableBeanFactory = ObjectUtils.cast(beanFactory, ListableBeanFactory.class);
+           
+           //gets list of all bean definitions in this context
+           final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
+           for (String beanName : beanNames) {
+               final Object bean = beanFactory.getBean(beanName);
+               postProcessAfterInitialization(bean, beanName);
+           }
+           
+        } else if (event instanceof ContextClosedEvent) {
+            logger.info("################################ " + this.getClass().getName() + " - context closed for " + name + " ####################");
+        
+            ListableBeanFactory listableBeanFactory = ObjectUtils.cast(beanFactory, ListableBeanFactory.class);
+            
+            //gets list of all bean definitions in this context
+            final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
+            for (String beanName : beanNames) {
+                final Object bean = beanFactory.getBean(beanName);
+                postProcessBeforeDestruction(bean, beanName);
+            }
+        }
+    }
+
+    private String moduleDefinitionName() {
+        final String name = moduleDefinition != null ? moduleDefinition.getName() : "[Module definition not wired in]";
+        return name;
+    }
 
     /* *************** BeanPostProcessor methods ************** */
     

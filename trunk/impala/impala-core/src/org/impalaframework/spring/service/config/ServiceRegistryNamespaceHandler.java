@@ -191,6 +191,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
 
         @Override
         protected Class<?> getBeanClass(Element element) {
+            //TODO - use application listener
             return ServiceArrayRegistryExporter.class;
         }
 
@@ -204,6 +205,7 @@ public class ServiceRegistryNamespaceHandler extends NamespaceHandlerSupport {
 
         @Override
         protected Class<?> getBeanClass(Element element) {
+            //TODO - use application listener
             return NamedServiceAutoExportPostProcessor.class;
         }
 
