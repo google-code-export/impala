@@ -25,8 +25,10 @@ import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.internal.DelegatingServiceRegistry;
+import org.impalaframework.spring.service.exporter.NamedServiceAutoExportPostProcessor.BeanFactoryCallback;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
 import org.springframework.beans.factory.FactoryBean;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.beans.factory.support.GenericBeanDefinition;
 import org.springframework.util.ClassUtils;
@@ -166,6 +168,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         verify(endPoint);
         verify(factoryBean);
     }
+    
     public void testPostProcessAfterInitializationNonSingletonFactoryBean() throws Exception {
         
         expectIsFactoryBean();
@@ -189,6 +192,40 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         verify(factoryBean);
     }
 
+    public void testProcessBeanFactory() throws Exception {
+        final BeanFactoryCallback callback = createMock(BeanFactoryCallback.class);
+        final BeanDefinition beanDefinition1 = createMock(BeanDefinition.class);
+        final BeanDefinition beanDefinition2 = createMock(BeanDefinition.class);
+        final Object bean1 = new Object();
+        
+        expect(beanFactory.getBeanDefinitionNames()).andReturn(new String[]{"bean1","bean2"});
+        expect(beanFactory.getBeanDefinition("bean1")).andReturn(beanDefinition1);
+        expect(beanDefinition1.isAbstract()).andReturn(false);
+        expect(beanFactory.getBean("bean1")).andReturn(bean1);
+        callback.doWithBean("bean1", bean1);
+        
+        expect(beanFactory.getBeanDefinition("bean2")).andReturn(beanDefinition2);
+        expect(beanDefinition2.isAbstract()).andReturn(true);
+        
+        replay(beanDefinition1);
+        replay(beanDefinition2);
+        replay(beanFactory);
+        replay(parentBeanFactory);
+        replay(endPoint);
+        replay(factoryBean);
+        replay(callback);
+        
+        p.processBeanFactory(callback);
+
+        verify(beanDefinition1);
+        verify(beanDefinition2);
+        verify(beanFactory);
+        verify(parentBeanFactory);
+        verify(endPoint);
+        verify(factoryBean);
+        verify(callback);
+    }
+    
     private void expectIsFactoryBean() {
         expect(beanFactory.containsBean("&mybean")).andReturn(true);
         expect(beanFactory.getBean("&mybean")).andReturn(factoryBean);
