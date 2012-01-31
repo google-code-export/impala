@@ -73,7 +73,9 @@ public class NamedServiceAutoExportPostProcessor implements
     /* *************** Application Event ************** */
     
     public void onApplicationEvent(ApplicationEvent event) {
+        
         final String name = moduleDefinitionName();
+        
         if (event instanceof ContextRefreshedEvent) {
            logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + name + " ####################");
 
