@@ -46,14 +46,14 @@ import org.springframework.util.ClassUtils;
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
         BeanClassLoaderAware {
     
-    private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
+    private static final Log logger = LogFactory.getLog(AutoRegisteringModuleContributionExporter.class);
 
     private Map<String, String> contributions;
 
     /**
      * Exports the contributions as described above
      */
-    public void afterPropertiesSet() {
+    public void init() {
         Assert.notNull(contributions, "contributions cannot be null");
 
         Set<String> beanNames = contributions.keySet();

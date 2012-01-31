@@ -69,12 +69,12 @@ public abstract class BaseModuleContributionExporter implements
     public final void onApplicationEvent(ApplicationEvent event) {
         
         if (event instanceof ContextRefreshedEvent) {
-           logger.info("Exporting contributions from " + this.getClass().getName());
-
-           afterPropertiesSet();
-        } else if (event instanceof ContextClosedEvent) {
-            logger.info("Unexporting contributions from " + this.getClass().getName());
             
+            logger.info("Exporting contributions from " + this.getClass().getName());
+            init();
+        } else if (event instanceof ContextClosedEvent) {
+            
+            logger.info("Unexporting contributions from " + this.getClass().getName());
             destroy();
         }
     }
@@ -83,7 +83,7 @@ public abstract class BaseModuleContributionExporter implements
     /**
      * Init method to be implemented by subclasses to peform 
      */
-    public abstract void afterPropertiesSet();
+    public abstract void init();
 
     public void destroy() {
         Set<ServiceRegistryEntry> contributionKeys = contributionMap.keySet();

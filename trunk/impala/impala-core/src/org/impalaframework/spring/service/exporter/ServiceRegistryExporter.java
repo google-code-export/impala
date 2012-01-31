@@ -18,6 +18,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
 import org.impalaframework.service.ServiceBeanReference;
@@ -34,6 +36,10 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.Assert;
 
 /**
@@ -50,8 +56,15 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
+public class ServiceRegistryExporter implements 
+    ServiceRegistryAware, 
+    BeanFactoryAware,
+    ApplicationListener,
+    ModuleDefinitionAware, 
+    BeanClassLoaderAware {
 
+    private static final Log logger = LogFactory.getLog(ServiceRegistryExporter.class);
+    
     private String beanName;
     
     private String exportName;
@@ -72,11 +85,24 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
     
     private ServiceRegistryEntry serviceReference;
     
+    public final void onApplicationEvent(ApplicationEvent event) {
+        
+        if (event instanceof ContextRefreshedEvent) {
+            
+            logger.info("Exporting contributions from " + this.getClass().getName());
+            afterPropertiesSet();
+        } else if (event instanceof ContextClosedEvent) {
+            
+            logger.info("Unexporting contributions from " + this.getClass().getName());
+            destroy();
+        }
+    }
+    
     /**
      * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 
      * supplied export name, attributes and tags, if these are provided. By default, simply uses the bean name.
      */
-    public void afterPropertiesSet() throws Exception {
+    public void afterPropertiesSet() {
         
         Assert.notNull(beanName, "beanName cannot be null");
         //Assert.isTrue(exportName != null || !ArrayUtils.isNullOrEmpty(exportTypes), "either beanName must be non-null or exportTypes must be non-empty");
@@ -96,6 +122,13 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
 
         final ServiceBeanReference beanReference = SpringServiceBeanUtils.newServiceBeanReference(beanFactory, beanName);
         this.serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), beanReference, exportTypesToUse, attributeMap, beanClassLoader);
+    }
+    
+    /**
+     * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
+     */
+    public void destroy() {
+        serviceRegistry.remove(serviceReference);
     }
 
     /**
@@ -117,13 +150,6 @@ public class ServiceRegistryExporter implements ServiceRegistryAware, BeanFactor
      */
     public void setModuleDefinition(ModuleDefinition moduleDefinition) {
         this.moduleDefinition = moduleDefinition;
-    }
-    
-    /**
-     * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
-     */
-    public void destroy() throws Exception {
-        serviceRegistry.remove(serviceReference);
     }
 
     /**
