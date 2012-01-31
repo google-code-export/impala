@@ -35,8 +35,9 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.ListableBeanFactory;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
@@ -77,34 +78,24 @@ public class NamedServiceAutoExportPostProcessor implements
         final String name = moduleDefinitionName();
         
         if (event instanceof ContextRefreshedEvent) {
-           logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + name + " ####################");
+            
+            logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + name + " ####################");
 
-           ListableBeanFactory listableBeanFactory = ObjectUtils.cast(beanFactory, ListableBeanFactory.class);
-           
-           //gets list of all bean definitions in this context
-           final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
-           for (String beanName : beanNames) {
-               final Object bean = beanFactory.getBean(beanName);
-               maybeExportBean(bean, beanName);
-           }
+            processBeanFactory(new BeanFactoryCallback() {
+                public void doWithBean(String beanName, Object bean) {
+                    maybeExportBean(bean, beanName);
+                }
+            });
            
         } else if (event instanceof ContextClosedEvent) {
             logger.info("################################ " + this.getClass().getName() + " - context closed for " + name + " ####################");
         
-            ListableBeanFactory listableBeanFactory = ObjectUtils.cast(beanFactory, ListableBeanFactory.class);
-            
-            //gets list of all bean definitions in this context
-            final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
-            for (String beanName : beanNames) {
-                final Object bean = beanFactory.getBean(beanName);
-                maybeUnexportBean(bean, beanName);
-            }
+            processBeanFactory(new BeanFactoryCallback() {
+                public void doWithBean(String beanName, Object bean) {
+                    maybeUnexportBean(bean, beanName);
+                }
+            });
         }
-    }
-
-    private String moduleDefinitionName() {
-        final String name = moduleDefinition != null ? moduleDefinition.getName() : "[Module definition not wired in]";
-        return name;
     }
 
     /* *************** BeanPostProcessor methods ************** */
@@ -165,6 +156,30 @@ public class NamedServiceAutoExportPostProcessor implements
         }
     }
     
+    /* *************** package level methods ************** */
+
+    void processBeanFactory(final BeanFactoryCallback callback) {
+        
+        ConfigurableListableBeanFactory listableBeanFactory = ObjectUtils.cast(beanFactory, ConfigurableListableBeanFactory.class);
+           
+        // gets list of all bean definitions in this context
+        final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
+        for (String beanName : beanNames) {
+
+            final BeanDefinition beanDefinition = listableBeanFactory.getBeanDefinition(beanName);
+            if (!beanDefinition.isAbstract()) {
+
+                final Object bean = beanFactory.getBean(beanName);
+                callback.doWithBean(beanName, bean);
+            }
+        }
+    }
+
+    private String moduleDefinitionName() {
+        final String name = moduleDefinition != null ? moduleDefinition.getName() : "[Module definition not wired in]";
+        return name;
+    }
+    
     /* *************** private methods ************** */
 
     private boolean hasRegisterableEndpoint(String beanName,
@@ -195,6 +210,11 @@ public class NamedServiceAutoExportPostProcessor implements
 
     public void setBeanClassLoader(ClassLoader beanClassLoader) {
         this.beanClassLoader = beanClassLoader;
+    }
+    
+    interface BeanFactoryCallback {
+        
+        void doWithBean(String name, Object bean);
     }
 
 }
