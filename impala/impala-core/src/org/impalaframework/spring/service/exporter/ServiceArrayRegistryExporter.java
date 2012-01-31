@@ -3,6 +3,8 @@
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.ModuleDefinitionAware;
@@ -17,6 +19,10 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.Assert;
 
 /**
@@ -30,7 +36,15 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class ServiceArrayRegistryExporter 
-    implements ServiceRegistryAware, BeanFactoryAware, InitializingBean, DisposableBean, ModuleDefinitionAware, BeanClassLoaderAware {
+    implements ServiceRegistryAware, 
+                BeanFactoryAware, 
+                //InitializingBean, 
+                //DisposableBean, 
+                ModuleDefinitionAware, 
+                BeanClassLoaderAware,
+                ApplicationListener {
+    
+    private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
     private String[] beanNames;
     
@@ -46,7 +60,19 @@ public class ServiceArrayRegistryExporter
 
     private ClassLoader beanClassLoader;
     
-    public void afterPropertiesSet() throws Exception {
+    /* *************** Application Event ************** */
+    
+    public void onApplicationEvent(ApplicationEvent event) {
+        if (event instanceof ContextRefreshedEvent) {
+           logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + moduleDefinition.getName() + " ####################");
+           this.afterPropertiesSet();
+        } else if (event instanceof ContextClosedEvent) {
+           logger.info("################################ " + this.getClass().getName() + " - context closed for " + moduleDefinition.getName() + " ####################");
+           this.destroy(); 
+        }
+    }
+    
+    public void afterPropertiesSet() {
         Assert.notNull(beanNames, "beanNames cannot be null");
         Assert.notNull(serviceRegistry);
         Assert.notNull(beanFactory);
@@ -68,7 +94,7 @@ public class ServiceArrayRegistryExporter
         }
     }
     
-    public void destroy() throws Exception {
+    public void destroy() {
         for (ServiceRegistryEntry service : services) {
             serviceRegistry.remove(service);
         }
