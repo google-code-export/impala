@@ -64,7 +64,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         expectBeanFactoryWhenGettingReference();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
 
         assertNull(registry.getService("myBean", classes, false));
@@ -82,7 +82,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         try {
             expectBeanFactoryWhenGettingReference();
             replay(beanFactory);
-            exporter.afterPropertiesSet();
+            exporter.init();
             fail();
         } catch (InvalidStateException e) {
         }
@@ -95,7 +95,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         expectBeanFactoryWhenGettingReference();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
         
         ServiceRegistryEntry serviceReference = registry.getService("exportName", classes, false);
@@ -112,7 +112,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         expectBeanFactoryWhenGettingReference();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
         
         ServiceRegistryEntry serviceReference = registry.getService("myBean", classes, false);
@@ -130,7 +130,7 @@ public class ServiceRegistryExporterTest extends TestCase {
         expectBeanFactoryWhenGettingReference();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
         
         ServiceRegistryEntry s = registry.getService(null, classes, true);

@@ -90,7 +90,7 @@ public class ServiceRegistryExporter implements
         if (event instanceof ContextRefreshedEvent) {
             
             logger.info("Exporting contributions from " + this.getClass().getName());
-            afterPropertiesSet();
+            init();
         } else if (event instanceof ContextClosedEvent) {
             
             logger.info("Unexporting contributions from " + this.getClass().getName());
@@ -102,7 +102,7 @@ public class ServiceRegistryExporter implements
      * {@link InitializingBean} implementation. Retrieves bean by name from bean factory. Then exports it using the 
      * supplied export name, attributes and tags, if these are provided. By default, simply uses the bean name.
      */
-    public void afterPropertiesSet() {
+    public void init() {
         
         Assert.notNull(beanName, "beanName cannot be null");
         //Assert.isTrue(exportName != null || !ArrayUtils.isNullOrEmpty(exportTypes), "either beanName must be non-null or exportTypes must be non-empty");
