@@ -34,8 +34,10 @@ import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
-import org.springframework.beans.factory.DisposableBean;
-import org.springframework.beans.factory.InitializingBean;
+import org.springframework.context.ApplicationEvent;
+import org.springframework.context.ApplicationListener;
+import org.springframework.context.event.ContextClosedEvent;
+import org.springframework.context.event.ContextRefreshedEvent;
 
 /**
  * Implements base functionality to register a set of named contributions with
@@ -46,10 +48,9 @@ import org.springframework.beans.factory.InitializingBean;
 public abstract class BaseModuleContributionExporter implements 
         ModuleDefinitionAware, 
         BeanFactoryAware,
-        InitializingBean, 
-        DisposableBean, 
         ServiceRegistryAware, 
-        BeanClassLoaderAware {
+        BeanClassLoaderAware,
+        ApplicationListener {
 
     private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
@@ -63,6 +64,40 @@ public abstract class BaseModuleContributionExporter implements
 
     private Map<ServiceRegistryEntry, ServiceEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryEntry, ServiceEndpoint>();
 
+    /* *************************** Life cycle methods ********************* */
+    
+    public final void onApplicationEvent(ApplicationEvent event) {
+        
+        if (event instanceof ContextRefreshedEvent) {
+           logger.info("Exporting contributions from " + this.getClass().getName());
+
+           afterPropertiesSet();
+        } else if (event instanceof ContextClosedEvent) {
+            logger.info("Unexporting contributions from " + this.getClass().getName());
+            
+            destroy();
+        }
+    }
+
+    
+    /**
+     * Init method to be implemented by subclasses to peform 
+     */
+    public abstract void afterPropertiesSet();
+
+    public void destroy() {
+        Set<ServiceRegistryEntry> contributionKeys = contributionMap.keySet();
+        
+        //go through the contributions and remove
+        for (ServiceRegistryEntry reference : contributionKeys) {           
+            if (serviceRegistry != null) {
+                serviceRegistry.remove(reference);
+            }
+        }
+    }
+
+    /* *************************** Helper methods ********************* */
+    
     /**
      * This implementation will only add an entry to the {@link ServiceRegistry}
      * if it can find a {@link NamedServiceEndpoint} in a super-
@@ -88,17 +123,6 @@ public abstract class BaseModuleContributionExporter implements
                     contributionMap.put(serviceReference, endPoint);
                 }   
             }       
-        }
-    }
-
-    public void destroy() throws Exception {
-        Set<ServiceRegistryEntry> contributionKeys = contributionMap.keySet();
-        
-        //go through the contributions and remove
-        for (ServiceRegistryEntry reference : contributionKeys) {           
-            if (serviceRegistry != null) {
-                serviceRegistry.remove(reference);
-            }
         }
     }
 

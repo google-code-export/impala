@@ -19,6 +19,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.service.NamedServiceEndpoint;
 import org.impalaframework.spring.service.proxy.NamedServiceProxyFactoryBean;
@@ -43,10 +45,15 @@ import org.springframework.util.ClassUtils;
  */
 public class AutoRegisteringModuleContributionExporter extends BaseModuleContributionExporter implements
         BeanClassLoaderAware {
+    
+    private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
     private Map<String, String> contributions;
 
-    public void afterPropertiesSet() throws Exception {
+    /**
+     * Exports the contributions as described above
+     */
+    public void afterPropertiesSet() {
         Assert.notNull(contributions, "contributions cannot be null");
 
         Set<String> beanNames = contributions.keySet();
@@ -69,6 +76,10 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
             registry.registerBeanDefinition(beanName, beanDefinition);
 
             endPoint = (NamedServiceEndpoint) rootBeanFactory.getBean("&" + beanName, NamedServiceEndpoint.class);
+            
+            if (logger.isDebugEnabled()) {
+                logger.debug("Found endpoint for bean '&" + beanName + "': " + endPoint);
+            }
         }
 
         return endPoint;
