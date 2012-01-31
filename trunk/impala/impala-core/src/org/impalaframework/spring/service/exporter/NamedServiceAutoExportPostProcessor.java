@@ -153,19 +153,19 @@ public class NamedServiceAutoExportPostProcessor implements
 
     public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
 
+        final String moduleName = moduleName();
         final ServiceRegistryEntry serviceRegistryReference = referenceMap.get(beanName);
         
         //if we have reference for this bean
         if (serviceRegistryReference != null) {
 
-            String moduleName = moduleName();
             logger.info("Removing bean " + beanName + " contributed from module " + moduleName);
             
             if (serviceRegistryReference != null) {
                 serviceRegistry.remove(serviceRegistryReference);
-            } else {
-                logger.warn("Unable to find reference to bean " + beanName + " contributed from module " + moduleName);
-            }
+            } 
+        }else {
+            logger.warn("Unable to find reference to bean " + beanName + " contributed from module " + moduleName);
         }
     }
     
