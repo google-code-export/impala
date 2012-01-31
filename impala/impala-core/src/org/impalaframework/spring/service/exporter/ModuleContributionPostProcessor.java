@@ -31,7 +31,7 @@ public class ModuleContributionPostProcessor extends NamedServiceAutoExportPostP
     Log logger = LogFactory.getLog(ModuleContributionPostProcessor.class);
     
     @Override
-    public Object postProcessAfterInitialization(Object bean, String beanName)
+    public Object maybeExportBean(Object bean, String beanName)
             throws BeansException {
 
         System.out.println("*************** WARNING ***************");
@@ -43,7 +43,7 @@ public class ModuleContributionPostProcessor extends NamedServiceAutoExportPostP
         logger.warn(message);
         System.out.println("*************** WARNING ***************");
         
-        return super.postProcessAfterInitialization(bean, beanName);
+        return super.maybeExportBean(bean, beanName);
     }
     
     

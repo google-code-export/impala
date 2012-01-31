@@ -55,7 +55,7 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         expectService2();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
         
         assertSame(service1, registry.getService("myBean1", classes, false).getServiceBeanReference().getService());
@@ -74,7 +74,7 @@ public class ServiceArrayRegistryExporterTest extends TestCase {
         expectService2();
         
         replay(beanFactory);
-        exporter.afterPropertiesSet();
+        exporter.init();
         verify(beanFactory);
         
         assertSame(service1, registry.getService("myExport1", classes, false).getServiceBeanReference().getService());

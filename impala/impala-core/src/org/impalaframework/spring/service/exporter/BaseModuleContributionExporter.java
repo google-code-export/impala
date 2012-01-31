@@ -43,8 +43,13 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public abstract class BaseModuleContributionExporter implements ModuleDefinitionAware, BeanFactoryAware,
-        InitializingBean, DisposableBean, ServiceRegistryAware, BeanClassLoaderAware {
+public abstract class BaseModuleContributionExporter implements 
+        ModuleDefinitionAware, 
+        BeanFactoryAware,
+        InitializingBean, 
+        DisposableBean, 
+        ServiceRegistryAware, 
+        BeanClassLoaderAware {
 
     private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 

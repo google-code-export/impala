@@ -37,9 +37,7 @@ import org.springframework.util.Assert;
  */
 public class ServiceArrayRegistryExporter 
     implements ServiceRegistryAware, 
-                BeanFactoryAware, 
-                //InitializingBean, 
-                //DisposableBean, 
+                BeanFactoryAware,
                 ModuleDefinitionAware, 
                 BeanClassLoaderAware,
                 ApplicationListener {
@@ -65,14 +63,14 @@ public class ServiceArrayRegistryExporter
     public void onApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
            logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + moduleDefinition.getName() + " ####################");
-           this.afterPropertiesSet();
+           this.init();
         } else if (event instanceof ContextClosedEvent) {
            logger.info("################################ " + this.getClass().getName() + " - context closed for " + moduleDefinition.getName() + " ####################");
            this.destroy(); 
         }
     }
     
-    public void afterPropertiesSet() {
+    public void init() {
         Assert.notNull(beanNames, "beanNames cannot be null");
         Assert.notNull(serviceRegistry);
         Assert.notNull(beanFactory);
