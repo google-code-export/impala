@@ -51,9 +51,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
  */
 public class NamedServiceAutoExportPostProcessor implements 
         ModuleDefinitionAware, 
-        ServiceRegistryAware, 
-        //BeanPostProcessor, 
-        //DestructionAwareBeanPostProcessor, 
+        ServiceRegistryAware,
         BeanFactoryAware,
         BeanClassLoaderAware, 
         ApplicationListener {
@@ -85,7 +83,7 @@ public class NamedServiceAutoExportPostProcessor implements
            final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
            for (String beanName : beanNames) {
                final Object bean = beanFactory.getBean(beanName);
-               postProcessAfterInitialization(bean, beanName);
+               maybeExportBean(bean, beanName);
            }
            
         } else if (event instanceof ContextClosedEvent) {
@@ -97,7 +95,7 @@ public class NamedServiceAutoExportPostProcessor implements
             final String[] beanNames = listableBeanFactory.getBeanDefinitionNames();
             for (String beanName : beanNames) {
                 final Object bean = beanFactory.getBean(beanName);
-                postProcessBeforeDestruction(bean, beanName);
+                maybeUnexportBean(bean, beanName);
             }
         }
     }
@@ -109,11 +107,7 @@ public class NamedServiceAutoExportPostProcessor implements
 
     /* *************** BeanPostProcessor methods ************** */
     
-    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        return bean;
-    }
-    
-    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {  
+    public Object maybeExportBean(Object bean, String beanName) throws BeansException {  
         
         String moduleName = moduleName();
         
@@ -151,7 +145,7 @@ public class NamedServiceAutoExportPostProcessor implements
     
     /* *************** DestructionAwareBeanPostProcessor methods ************** */
 
-    public void postProcessBeforeDestruction(Object bean, String beanName) throws BeansException {
+    public void maybeUnexportBean(Object bean, String beanName) throws BeansException {
 
         final String moduleName = moduleName();
         final ServiceRegistryEntry serviceRegistryReference = referenceMap.get(beanName);

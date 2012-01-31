@@ -70,7 +70,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(beanFactory);
         replay(parentBeanFactory);
         replay(endPoint);
-        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        assertEquals(object, p.maybeExportBean(object, "mybean"));
         verify(beanFactory);
         verify(parentBeanFactory);
         verify(endPoint);
@@ -90,8 +90,8 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(beanFactory);
         replay(parentBeanFactory);
         replay(endPoint);
-        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
-        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        assertEquals(object, p.maybeExportBean(object, "mybean"));
+        assertEquals(object, p.maybeExportBean(object, "mybean"));
         verify(beanFactory);
         verify(parentBeanFactory);
         verify(endPoint);
@@ -111,7 +111,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(beanFactory);
         replay(parentBeanFactory);
         replay(endPoint);
-        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        assertEquals(object, p.maybeExportBean(object, "mybean"));
         verify(beanFactory);
         verify(parentBeanFactory);
         verify(endPoint);
@@ -130,7 +130,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(beanFactory);
         replay(parentBeanFactory);
         replay(endPoint);
-        assertEquals(object, p.postProcessAfterInitialization(object, "mybean"));
+        assertEquals(object, p.maybeExportBean(object, "mybean"));
         verify(beanFactory);
         verify(parentBeanFactory);
         verify(endPoint);
@@ -156,7 +156,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(parentBeanFactory);
         replay(endPoint);
         replay(factoryBean);
-        assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
+        assertEquals(factoryBean, p.maybeExportBean(factoryBean, "mybean"));
 
         ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
         assertNotNull(service.getServiceBeanReference().getService());
@@ -178,7 +178,7 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
         replay(parentBeanFactory);
         replay(endPoint);
         replay(factoryBean);
-        assertEquals(factoryBean, p.postProcessAfterInitialization(factoryBean, "mybean"));
+        assertEquals(factoryBean, p.maybeExportBean(factoryBean, "mybean"));
 
         ServiceRegistryEntry service = serviceRegistry.getService("mybean", classes, false);
         assertNull(service);

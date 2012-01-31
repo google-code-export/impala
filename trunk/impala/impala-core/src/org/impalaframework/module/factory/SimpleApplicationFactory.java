@@ -42,7 +42,7 @@ public class SimpleApplicationFactory implements ApplicationFactory {
     private ServiceRegistryFactory serviceRegistryFactory;
     
     /**
-     * Returns the {@link Application} instance set up in {@link #afterPropertiesSet()}.
+     * Returns the {@link Application} instance set up in {@link #init()}.
      */
     public Application newApplication(String id) { 
             
