@@ -32,7 +32,10 @@ public class ModuleArrayContributionExporter extends BaseModuleContributionExpor
     
     private String[] contributions;
 
-    public void afterPropertiesSet() throws Exception {
+    /**
+     * Processes the named contributions
+     */
+    public void afterPropertiesSet()  {
         Assert.notNull(contributions, "contributions cannot be null");
 
         processContributions(Arrays.asList(contributions));
