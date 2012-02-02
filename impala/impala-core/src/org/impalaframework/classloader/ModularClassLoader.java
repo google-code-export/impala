@@ -14,6 +14,8 @@
 
 package org.impalaframework.classloader;
 
+import org.springframework.core.SmartClassLoader;
+
 /**
  * Interface encapsulating public methods shared by module class loader
  * implementations. Note that implementations of this interface will typically
@@ -21,7 +23,7 @@ package org.impalaframework.classloader;
  * 
  * @author Phil Zoio
  */
-public interface ModularClassLoader {
+public interface ModularClassLoader extends SmartClassLoader {
     
     /**
      * Returns true if <code>parentClassLoader</code> is visible from

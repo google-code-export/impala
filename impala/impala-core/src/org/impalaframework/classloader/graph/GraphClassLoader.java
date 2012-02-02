@@ -66,6 +66,14 @@ public class GraphClassLoader extends ClassLoader implements ModularClassLoader 
     }
     
     /* ****************************** class loader methods ******************************** */
+
+    /**
+     * Classes are always considered to be reloadable
+     */
+    @SuppressWarnings("rawtypes") 
+    public boolean isClassReloadable(Class clazz) {
+        return true;
+    }
     
     /**
      * Calls {@link #loadClass(String, boolean)} with resolve set to false
