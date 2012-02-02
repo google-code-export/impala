@@ -43,11 +43,18 @@ public class DelegateClassLoader implements ModularClassLoader {
      */
     public DelegateClassLoader(List<GraphClassLoader> classLoaders) {
         this.classLoaders = Collections.unmodifiableList(classLoaders);
+    }    
+    
+    /**
+     * Classes are always considered to be reloadable
+     */
+    @SuppressWarnings("rawtypes") 
+    public boolean isClassReloadable(Class clazz) {
+        return true;
     }
     
     public Class<?> loadLibraryClass(String name) {
         
-        //FIXME test
         List<GraphClassLoader> loaders = this.classLoaders;
         for (int i = loaders.size()-1; i >=0; i--) {
             GraphClassLoader graphClassLoader = loaders.get(i);

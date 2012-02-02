@@ -59,6 +59,14 @@ public abstract class CustomClassLoader extends BaseURLClassLoader implements Mo
     }
     
     /**
+     * Classes are always considered to be reloadable
+     */
+    @SuppressWarnings("rawtypes") 
+    public boolean isClassReloadable(Class clazz) {
+        return true;
+    }
+    
+    /**
      * Attempts to load the class by calling the following superclass methods,
      * in order:
      * <ul>

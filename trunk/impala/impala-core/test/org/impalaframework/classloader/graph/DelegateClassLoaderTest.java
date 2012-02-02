@@ -25,7 +25,18 @@ public class DelegateClassLoaderTest extends TestCase {
         dcl = new DelegateClassLoader(classLoaders);
     }
     
-    public void testLoadClassNull() throws Exception {
+    public void testLoadLibraryClassNull() throws Exception {
+        expect(gcl1.loadLibraryClass("myclass", false)).andReturn(null);
+        expect(gcl2.loadLibraryClass("myclass", false)).andReturn(null);
+        
+        replayMocks();
+        
+        assertNull(dcl.loadLibraryClass("myclass"));
+        
+        verifyMocks();
+    }
+    
+    public void testLoadApplicationClassNull() throws Exception {
         expect(gcl1.loadApplicationClass("myclass", false)).andReturn(null);
         expect(gcl2.loadApplicationClass("myclass", false)).andReturn(null);
         
