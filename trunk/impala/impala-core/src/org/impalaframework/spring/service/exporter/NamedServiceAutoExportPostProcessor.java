@@ -151,8 +151,6 @@ public class NamedServiceAutoExportPostProcessor implements
             if (serviceRegistryReference != null) {
                 serviceRegistry.remove(serviceRegistryReference);
             } 
-        }else {
-            logger.warn("Unable to find reference to bean " + beanName + " contributed from module " + moduleName);
         }
     }
     
