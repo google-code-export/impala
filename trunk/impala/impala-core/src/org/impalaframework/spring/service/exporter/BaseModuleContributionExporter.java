@@ -64,6 +64,11 @@ public abstract class BaseModuleContributionExporter implements
 
     private Map<ServiceRegistryEntry, ServiceEndpoint> contributionMap = new IdentityHashMap<ServiceRegistryEntry, ServiceEndpoint>();
 
+    /**
+     * Init method to be implemented by subclasses to peform 
+     */
+    public abstract void init();
+    
     /* *************************** Life cycle methods ********************* */
     
     public final void onApplicationEvent(ApplicationEvent event) {
@@ -78,12 +83,6 @@ public abstract class BaseModuleContributionExporter implements
             destroy();
         }
     }
-
-    
-    /**
-     * Init method to be implemented by subclasses to peform 
-     */
-    public abstract void init();
 
     public void destroy() {
         Set<ServiceRegistryEntry> contributionKeys = contributionMap.keySet();
