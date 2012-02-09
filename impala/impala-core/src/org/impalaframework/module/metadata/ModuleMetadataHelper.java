@@ -38,7 +38,7 @@ public class ModuleMetadataHelper implements ApplicationAware {
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
         RootModuleDefinition rootModuleDefinition = moduleStateHolder.getModuleDefinition();
-        boolean isPresent = rootModuleDefinition.hasChildModuleDefinition(moduleName);
+        boolean isPresent = (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
         if (!isPresent) {
             isPresent = rootModuleDefinition.getName().equals(moduleName);
         }
