@@ -1,6 +1,7 @@
 package org.impalaframework.spring.module.graph;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.TestCase;
@@ -148,6 +149,19 @@ public class SpringGraphModuleRuntimeTest extends TestCase implements ModuleDefi
         checkExpected(moduleStateHolder, strategy, "impala-core", 0);
         
         executeBean("sample-module6", "bean4");
+        
+        //check that the ordering can be swapped
+
+        ModuleDefinition definition = moduleStateHolder.getModuleDefinition().findChildDefinition("sample-module4", true);
+        final List<ModuleDefinition> dList = strategy.getDependencyList(definition, (GraphModuleStateHolder)moduleStateHolder);
+        assertTrue(dList.size() > 0);
+        
+        final List<ModuleDefinition> dependencyList = new ArrayList<ModuleDefinition>(dList);
+        assertEquals(0, strategy.getRootModuleDefinitionIndex(dependencyList));
+        
+        final ModuleDefinition remove = dependencyList.remove(0);
+        dependencyList.add(remove);
+        assertEquals(1, strategy.getRootModuleDefinitionIndex(dependencyList));
     }
 
     private void executeNoBean(final String moduleName, final String beanName) {

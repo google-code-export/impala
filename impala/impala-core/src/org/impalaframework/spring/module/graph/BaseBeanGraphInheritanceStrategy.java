@@ -18,12 +18,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.impalaframework.module.ModuleDefinition;
+import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.RuntimeModule;
 import org.impalaframework.module.definition.DependencyManager;
 import org.impalaframework.module.holder.graph.GraphModuleStateHolder;
 import org.impalaframework.spring.module.SpringRuntimeModule;
 import org.springframework.context.ApplicationContext;
 
+/**
+ * Base implementation of functionality for handling graph-based bean inheritance
+ * @author Phil Zoio
+ */
 public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInheritanceStrategy {
 
     public ApplicationContext getParentApplicationContext(
@@ -46,18 +51,14 @@ public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInher
             ModuleDefinition definition,
             GraphModuleStateHolder graphModuleStateHolder) {
         
-        DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
-        
-        //get the dependencies in correct order
-        final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());   
-        
-        //remove the current definition from this list
-        dependencies.remove(definition);
+        final List<ModuleDefinition> dependencies = getDependencyList(
+                definition, graphModuleStateHolder);
         
         final List<ApplicationContext> applicationContexts = new ArrayList<ApplicationContext>();
         
-        for (ModuleDefinition moduleDefinition : dependencies) {
+        for (int i = 0; i < dependencies.size(); i++) {
             
+            final ModuleDefinition moduleDefinition = dependencies.get(i);
             final String currentName = moduleDefinition.getName();
             final RuntimeModule runtimeModule = graphModuleStateHolder.getModule(currentName);
             if (runtimeModule instanceof SpringRuntimeModule) {
@@ -65,16 +66,40 @@ public abstract class BaseBeanGraphInheritanceStrategy implements BeanGraphInher
                 applicationContexts.add(spr.getApplicationContext());
             }
         }
+
+        int rootModuleDefinitionIndex = getRootModuleDefinitionIndex(dependencies);
         
-        maybeAddRootParent(applicationContexts);
+        maybeAddRootParent(applicationContexts, rootModuleDefinitionIndex);
         return applicationContexts;
     }
 
-    void maybeAddRootParent(final List<ApplicationContext> applicationContexts) {
+    List<ModuleDefinition> getDependencyList(ModuleDefinition definition, GraphModuleStateHolder graphModuleStateHolder) {
+        DependencyManager dependencyManager = graphModuleStateHolder.getDependencyManager();
+        
+        //get the dependencies in correct order
+        final List<ModuleDefinition> dependencies = dependencyManager.getOrderedModuleDependencies(definition.getName());   
+        
+        //remove the current definition from this list
+        dependencies.remove(definition);
+        return dependencies;
+    }
+
+    int getRootModuleDefinitionIndex(final List<ModuleDefinition> dependencies) {
+        int rootModuleDefinitionIndex = 0;
+        for (int i = 0; i < dependencies.size(); i++) {
+            final ModuleDefinition moduleDefinition = dependencies.get(i);
+            if (moduleDefinition instanceof RootModuleDefinition) {
+                rootModuleDefinitionIndex = i;
+            }
+        }
+        return rootModuleDefinitionIndex;
+    }
+
+    void maybeAddRootParent(final List<ApplicationContext> applicationContexts, int rootModuleDefinitionIndex) {
         if (applicationContexts.size() > 0) {
             
             //try get parent of first, which will have been published in Spring's root application context.            
-            final ApplicationContext applicationContext = applicationContexts.get(0);
+            final ApplicationContext applicationContext = applicationContexts.get(rootModuleDefinitionIndex);
             final ApplicationContext parent = applicationContext.getParent();
             if (parent != null) {
                 applicationContexts.add(0, parent);
