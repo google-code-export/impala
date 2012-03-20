@@ -11,7 +11,7 @@
         <delete dir = "${deploy.dir}" failonerror="false"/>
         <mkdir dir = "${deploy.dir}"/>
         <delete failonerror = "false">
-            <fileset  dir = "${repository.dir}" includes="dist/*.jar"/>
+            <fileset  dir = "${repository.dir}" includes="dist/*.jar" excludes="dist/*build.jar"/>
         </delete>
         <mkdir dir="${repository.dir}/dist"/>
     </target>
