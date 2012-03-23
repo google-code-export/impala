@@ -93,7 +93,9 @@ public class ServiceEntryRegistryDelegate implements ServiceEntryRegistry {
         }
         
         if (classes.isEmpty() && beanName == null) {
-            logger.warn("Registering service with no explicit name or service classes. One of these is recommended");
+            if (logger.isDebugEnabled()) {
+                logger.debug("Registering service " + service.getClass().getName() + " with no explicit name or service classes. One of these is recommended");
+            }
         }
 
         //Note: null checks performed by BasicServiceRegistryReference constructor
