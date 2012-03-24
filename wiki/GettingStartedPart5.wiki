@@ -224,7 +224,7 @@ From the web project:
 ant jetty:zip
 }}}
 
-This results in a zip file to be copied to the location _../deploy/[webprojectname]-jetty.zip_.
+This results in a zip file to be copied to the location _../deploy/%hostprojectname%-jetty.zip_.
 
 You can then unzip this file. CD to the folder containing _startjetty.sh_ and _startjetty.bat_. Run the relevant script. For example.
 
