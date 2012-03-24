@@ -140,7 +140,7 @@ ant release
 }}}
  
 This will tag the SVN repository with the release name, and create a distribution file.
-Upload _dist/impala-${project.version}.zip_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
+Upload _dist/impala-%RELEASE_VERSION%.zip_ to [http://code.google.com/p/impala/downloads/list Google Code downloads].
 
 == Sanity Check ==
 
@@ -149,7 +149,7 @@ Download the release. Check that the SHA1 checksum matches that of the pre-uploa
 For example, run the command 
 
 {{{
-openssl sha1 impala-1.0.zip
+openssl sha1 impala-%RELEASE_VERSION%.zip
 }}}
 
 See http://www.bresink.de/osx/sha1.html for an example on how to do this.
@@ -161,7 +161,7 @@ Go through scaffold steps as defined in FirstSteps.
 From Impala home, run 
 
 {{{
-ant -Dmaven.release=true -Dproject.version=1.0 mvnsigndeploy
+ant -Dmaven.release=true -Dproject.version=%RELEASE_VERSION% mvnsigndeploy
 }}}
 
 This will upload the release files to the maven staging repository from the local maven repository, as per _mvn-build.properties_:
