@@ -7,11 +7,11 @@ http://www.springframework.org/schema/beans http://www.springframework.org/schem
 http://www.impalaframework.org/schema/service http://impala.googlecode.com/svn/schema/service-registry.xsd">
     
     <bean id = "fallback" class = "org.impalaframework.spring.bean.StringFactoryBean">
-    	<property name="value" value="fallback"/>
+        <property name="value" value="fallback"/>
     </bean>
     
     <bean id = "target" class = "org.impalaframework.spring.bean.StringFactoryBean">
-    	<property name="value" value="target"/>
+        <property name="value" value="target"/>
     </bean>
     
     <service:optional id ="optionalTarget" beanName = "target" fallback="fallback"/>

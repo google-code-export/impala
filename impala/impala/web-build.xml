@@ -47,12 +47,12 @@
                 includes="${web.module.includes}"
                 excludes="${web.module.excludes}"/>
         </copy>
-    	
-    	<copy todir="${web.module.lib.target}"
+        
+        <copy todir="${web.module.lib.target}"
             flatten="false" failonerror="false">
             <fileset dir="${lib.output.dir}" 
                 includes="**/*.jar" excludes="**/*-sources.jar"/>
-    	</copy>
+        </copy>
         
         <copy todir="${war.staging.dir}/WEB-INF/classes"
             overwrite="true">

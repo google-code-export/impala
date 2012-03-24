@@ -9,12 +9,12 @@
     
     <path id = "compile.classpath">     
         <fileset dir = "${repository.dir}" includes="**/*.jar" excludes = "
-        	**/*-sources.jar"/>      
+            **/*-sources.jar"/>      
         <path refid="lib.classpath"/>
     </path> 
     
     <path id = "full.classpath">
-    	<fileset dir = "${project.dir}" includes="lib/*.jar" excludes = "lib/*-sources.jar"/>    
+        <fileset dir = "${project.dir}" includes="lib/*.jar" excludes = "lib/*-sources.jar"/>    
         <path refid="compile.classpath"/>
         <fileset dir = "${deploy.dir}" includes="*.jar"/>
     </path>

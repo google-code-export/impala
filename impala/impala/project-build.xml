@@ -66,9 +66,9 @@
         <copy todir="${bin.dir}" failonerror="false">
             <fileset dir="${resources.dir}"/>
         </copy>
-    	
+        
         <copy todir="${project.lib.output.dir}" failonerror="false">
-       		<fileset dir="${lib.source.dir}"/>
+            <fileset dir="${lib.source.dir}"/>
         </copy>
     </target>
 
