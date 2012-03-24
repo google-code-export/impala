@@ -21,16 +21,16 @@
     
     <target name = "nojavadoc">
         <property name = "no.javadoc" value = "true"/>
-    </target>	
-	
+    </target>   
+    
     <target name = "build"
         description="Bootstrap build command, used to create other tasks used in build process">
         <ant antfile="build.xml" dir = "../impala-build" target = "project:clean" inheritall = "false"/>
         <ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false">
-        	<property name = "no.javadoc" value = "true"/>
+            <property name = "no.javadoc" value = "true"/>
         </ant>
         <ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false">
-        	<property name = "no.javadoc" value = "true"/>
+            <property name = "no.javadoc" value = "true"/>
         </ant>
     </target>
     
@@ -112,11 +112,11 @@
     
     <target name = "tohome"
         description="Builds Impala directly into the IMPALA_HOME location">
-    	<ant target="clean"/>
-    	<ant target="build"/>
-    	<ant target="alltohome">
-    		<property name="no.javadoc" value="true"/>
-    	</ant>
+        <ant target="clean"/>
+        <ant target="build"/>
+        <ant target="alltohome">
+            <property name="no.javadoc" value="true"/>
+        </ant>
     </target>
     
     <target name = "release"
@@ -132,9 +132,12 @@
     <target name = "allnoinit" 
         depends = "make, launcher, dist"/>
     
-    <target name = "all" 
-        depends = "build, clean, allnoinit"
-        description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
+    <target name = "all"
+        description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)">
+        <ant target="clean"/>
+        <ant target="build"/>
+        <ant target="allnoinit"/>
+    </target>
     
     <!-- ######################## Helper targets #######################--> 
     
