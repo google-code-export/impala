@@ -13,8 +13,8 @@ The ability to deal with these kinds of problems is often cited as one of the ma
 Impala provides a simple, more limited solution to this problem.
 The new mechanism simply involves the following:
 
-    add any module-specific library in the module's _lib_ directory. For example, this might involve adding axis-1.4.jar and a couple of its dependencies to the module's _lib_ directory
-    add the setting `supports.module.libraries=true` to _impala.properties_
+  * add any module-specific library in the module's _lib_ directory. For example, this might involve adding axis-1.4.jar and a couple of its dependencies to the module's _lib_ directory
+  * add the setting `supports.module.libraries=true` to _impala.properties_
 
 == How does it work? ==
 
@@ -32,6 +32,4 @@ The main requirement is that the class Foo should never be 'published' from modu
 for example as the return type in a method which might be called from another module, otherwise `ClassCastExceptions` or `LinkageErrors` can result. 
 Instead, the interfaces to module A should ensure that appropriate abstractions are in place to ensure that this does not occur. 
 In our Axis example, we need to ensure that instances of classes which hold references to Axis libraries are not passed around between modules.
-
-
 
