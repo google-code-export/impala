@@ -26,10 +26,19 @@ For any module which has module-specific libraries, the module-specific library 
 Suppose we are loading module A, and we need to load the class `Foo` is in both the shared library area _(WEB-INF/lib)_ 
 and in a module-specific location for module A. In this case, the class `Foo` will be found in and loaded from the module-specific location.
 
+== Library Resources ==
+
+In some cases, resources (files which are not classes) may need to be loaded from module-specific libraries. For example, in our Axis 1.4 example above, the Axis 1.4 runtime relies on the loading of resources which are contained in the Axis 1.4 jars and its dependents.
+
+By default, if module library loading is supported, then this option will be available. In order to disable it, the following entry in _impala.properties_ is required:
+
+{{{
+loads.module.library.resources=false
+}}}
+
 == Caveats ==
 
 The main requirement is that the class Foo should never be 'published' from module A, 
 for example as the return type in a method which might be called from another module, otherwise `ClassCastExceptions` or `LinkageErrors` can result. 
 Instead, the interfaces to module A should ensure that appropriate abstractions are in place to ensure that this does not occur. 
 In our Axis example, we need to ensure that instances of classes which hold references to Axis libraries are not passed around between modules.
-
