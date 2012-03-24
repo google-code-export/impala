@@ -30,7 +30,14 @@ and in a module-specific location for module A. In this case, the class `Foo` wi
 
 In some cases, resources (files which are not classes) may need to be loaded from module-specific libraries. For example, in our Axis 1.4 example above, the Axis 1.4 runtime relies on the loading of resources which are contained in the Axis 1.4 jars and its dependents.
 
-By default, if module library loading is supported, then this option will be available. In order to disable it, the following entry in _impala.properties_ is required:
+By default, if module library loading is supported, then this option will be available. When looking for a resource, the Impala class loader will look in the following order:
+  * within the module itself
+  * within a module-specific library jar
+  * from dependent module jars
+  * from the web application class loader
+  * from the system class laoder
+
+In order to disable module-specific library resource loading, the following entry in _impala.properties_ is required:
 
 {{{
 loads.module.library.resources=false
