@@ -72,6 +72,7 @@
   * [InternalInterfaces Impala internal interfaces]
   * [BootstrapContexts Setting Impala's bootstrap Spring context locations]
   * [ExtendingImpala Extending Impala]
+  * [ModuleInternalLibraries Module internal libraries (jars)]
     
 ==== General Pages ==== 
   * [BestPractices Best practices]
