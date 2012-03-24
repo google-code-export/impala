@@ -1,0 +1,9 @@
+#summary 1.0.2 Release Announcement
+
+I am pleased to announce the 1.0.2 release of Impala.
+  
+See the full list of [http://code.google.com/p/impala/issues/list?can=7&q=label%3AMilestone-Release1.0.2 issues covered in this release].
+
+With Impala 1.0.2 released artifacts are also available in the Maven central repository. See http://repo1.maven.org/maven2/org/impalaframework/.
+
+If you like Impala and would like to support the project, please take a look at this page: http://code.google.com/p/impala/wiki/GetInvolved.
