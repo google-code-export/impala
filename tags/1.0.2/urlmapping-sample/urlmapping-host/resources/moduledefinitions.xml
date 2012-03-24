@@ -1,0 +1,9 @@
+<parent>
+    <names>
+    urlmapping-root
+    urlmapping-web
+    urlmapping-webview
+    urlmapping-webadmin
+    urlmapping-webremote
+    </names>
+</parent>

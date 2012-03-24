@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+ 
+    <!-- Instrumented beans -->
+    
+    <bean id="moduleManagementOperations" 
+        class="org.impalaframework.jmx.spring.ModuleManagementOperations"
+        init-method="init">
+        <property name="moduleOperationRegistry" ref="moduleOperationRegistry"/>
+        <property name="applicationManager" ref="applicationManager"/>
+    </bean> 
+    
+   <bean id="memoryOperations" 
+        class="org.impalaframework.jmx.spring.MemoryOperations">
+    </bean>
+    
+    <!-- Instrumented beans -->
+    
+    <bean id="jmxAttributeSource"
+          class="org.springframework.jmx.export.annotation.AnnotationJmxAttributeSource"/>  
+    
+    <bean id="assembler"
+          class="org.springframework.jmx.export.assembler.MetadataMBeanInfoAssembler">
+        <property name="attributeSource" ref="jmxAttributeSource"/>
+    </bean>
+
+    <bean id="namingStrategy"
+          class="org.springframework.jmx.export.naming.MetadataNamingStrategy">
+        <property name="attributeSource" ref="jmxAttributeSource"/>
+    </bean> 
+
+    <bean id="locateExistingServerIfPossible" parent = "propertyParent">
+         <property name="name" value="jmx.locate.existing.server"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_LOCATE_EXISTING_SERVER_DEFAULT]"/>
+    </bean> 
+
+    <bean id="preferPlatformMbeanServer" parent = "propertyParent">
+         <property name="name" value="jmx.prefer.platform.mbean.server"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.jmx.bootstrap.JMXBootstrapProperties.JMX_PREFER_PLATFORM_MBEAN_SERVER_DEFAULT]"/>
+    </bean> 
+    
+    <bean id="mbeanServer"
+          class="org.impalaframework.jmx.bootstrap.MBeanServerFactoryBean">
+          <property name="locateExistingServerIfPossible" ref="locateExistingServerIfPossible"/>
+          <property name="preferPlatformMbeanServer" ref="preferPlatformMbeanServer"/>
+    </bean> 
+    
+    <bean id="jmxExporter" class="org.springframework.jmx.export.MBeanExporter">
+        <property name="server" ref="mbeanServer"/>
+        <property name="assembler" ref="assembler"/>
+        <property name="namingStrategy" ref="namingStrategy"/>
+        <property name="beans">
+            <map>
+                <entry key="impala:service=moduleManagementOperations"
+                    value-ref="moduleManagementOperations"/>
+                <entry key="impala:service=memoryOperations"
+                    value-ref="memoryOperations"/>
+            </map>
+        </property>
+    </bean>
+    
+</beans>
