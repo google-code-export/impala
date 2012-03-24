@@ -310,12 +310,68 @@ In the example above, the value for the sender attribute is used as the key for 
 
 == Miscellaneous elements ==
 
+The service namespace also contains a number of elements which are used to facilitate access to beans, 
+without necessarily involving the service registry directly.
+
 === 'parent' element ===
+
+Used to refer to a bean already parent application context.
+
+The simplest creates a local application bean definition which points to a bean already defined with the same name in a parent context.
+
+{{{
+<service:parent id="entryService"/> 
+}}}
+
+The `parent` element can also be used to 'rename' the parent bean, by referring to the parent context bean using a different name, 
+as shown in the example below.
+
+{{{
+<service:parent id="parentEntryService" parentBeanName="entryService"/> 
+}}}
 
 ----
 
-TO ADD
-
 === 'named-bean' element ===
 
-TO ADD
+The `named` bean is used to create a bean entry which points to a different bean in the application context (or parent), identified using 
+a specified name.
+
+{{{
+<bean id = "target" class = "org.impalaframework.spring.service.config.IntegerHolder" scope = "singleton"/>
+<service:named-bean id ="namedBean" beanName = "target"/>
+}}}
+
+The `named-bean` element usually refers to a singleton bean target. However, it may also need to cope with the possibility that the bean to which it refers 
+may not be a singleton (for example, if it uses _prototype_ scope).
+
+In this case, the _singletonAware_ attribute can be used:
+
+{{{
+<bean id = "prototypeTarget" class = "org.impalaframework.spring.service.config.IntegerHolder" scope = "prototype"/>
+<service:named-bean id ="prototypeNamedBean" beanName = "prototypeTarget" singletonAware = "true"/>
+}}}
+
+In the above example, the bean `prototypeNamedBean` is automatically treated as a prototype, since the target bean is a prototype.
+
+Impala also supports the ability to treat a prototype bean as a singleton, allowing it to be safely injected into another bean with 
+singleton scope. This is done through the `proxied` attribute.
+
+{{{ 
+<service:named-bean id ="proxyingBean" beanName = "prototypeTarget" proxied = "true"/>
+}}}
+
+In the above the example, the bean created is always a singleton, wrapping access to the prototype target bean using a proxy.
+
+----
+
+=== 'optional' element ===
+
+The `optional` bean is used to declare a bean definition which points to a named target bean if it is present. However, it also allows
+for the possibility that the target bean will not be present, in which case the `fallback` bean definition is used.
+The named target bean is hence optional; if it is not present the fallback is used. The fallback bean is not optional - 
+it must be present in the application context (or parent).
+
+{{{
+<service:optional id ="optionalTarget" beanName = "target" fallback="fallback"/>
+}}}
