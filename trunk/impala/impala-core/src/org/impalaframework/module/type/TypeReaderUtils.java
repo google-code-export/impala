@@ -72,6 +72,13 @@ public class TypeReaderUtils {
     }
     
     /**
+     * Reads the capabilities from the XML {@link Element} instance using the <code>capabilities</code> subelement.
+     */
+    static List<String> readCapabilities(Element root) {
+        return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CAPABILITIES_ELEMENT);
+    }
+    
+    /**
      * Reads attributes from {@link Properties} instance. Removes from map 
      * properties which are represent by existing fields.
      */

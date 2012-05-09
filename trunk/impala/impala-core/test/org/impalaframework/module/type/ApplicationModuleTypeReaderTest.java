@@ -27,6 +27,7 @@ import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.util.XMLDomUtils;
+import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
@@ -108,6 +109,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         runtime.setTextContent("myruntime");
         root.appendChild(runtime);
         
+        Element capabilities = document.createElement("capabilities");
+        capabilities.setTextContent("persistence, clustering  ");
+        root.appendChild(capabilities);
+        
         final StringWriter writer = new StringWriter();
         XMLDomUtils.output(writer, document);
         System.out.println(writer);
@@ -127,6 +132,8 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         expectedAttributes.put("prop2", "value2");
         assertEquals(expectedAttributes, moduleDefinition.getAttributes());
         assertEquals("myruntime", moduleDefinition.getRuntimeFramework());
+        
+        assertEquals("persistence,clustering", StringUtils.collectionToCommaDelimitedString(moduleDefinition.getCapabilities()));
     }
     
 }

@@ -61,8 +61,8 @@ public class ApplicationModuleTypeReader implements TypeReader {
         Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
         String runtime = TypeReaderUtils.readRuntime(definitionElement);
         String type = TypeReaderUtils.readType(definitionElement);
-        
-        //FIXME add capabilities
+
+        List<String> capabilities = TypeReaderUtils.readCapabilities(definitionElement);
         
         return newDefinition(parent, moduleName, 
                 type, 
@@ -71,7 +71,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
                 optionalDependencyNames.toArray(new String[0]), 
                 attributes, 
                 runtime, 
-                null);
+                capabilities);
     }
 
     /**
