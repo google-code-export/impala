@@ -28,12 +28,26 @@ public class ModuleMetadataHelper implements ApplicationAware {
 
     private ModuleStateHolder moduleStateHolder;
     
+    /**
+     * Returns the {@link RootModuleDefinition} associated with this application instance
+     */
+    public RootModuleDefinition getRootModuleDefiniton() {
+        return moduleStateHolder.getRootModuleDefinition();
+    }
+    
+    /**
+     * Returns true if the named module is loaded
+     */
     public boolean isModulePresent(String moduleName) {
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
         return moduleStateHolder.hasModule(moduleName);
     }
     
+    /**
+     * Returns true if the named module has an associated {@link ModuleDefinition)} instance.
+     * Will differ from result of {@link #isModulePresent(String)} if module failed to load
+     */
     public boolean isModuleDefinitionPresent(String moduleName) {
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
