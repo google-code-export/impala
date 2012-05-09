@@ -117,7 +117,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
             this.parentDefinition.addChildModuleDefinition(this);
         }
         
-        this.capabilities = (capabilities != null ? new LinkedHashSet<String>(): Collections.<String>emptySet());
+        this.capabilities = (capabilities != null ? new LinkedHashSet<String>(capabilities): Collections.<String>emptySet());
     }
 
     /* ********************* modification methods ******************** */   
