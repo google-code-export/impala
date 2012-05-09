@@ -34,6 +34,11 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
     
     private RootModuleDefinition rootModuleDefinition;
     
+    /**
+     * Holds the target root module definition. Applies during module load operations only
+     */
+    private RootModuleDefinition targetRootModuleDefinition;
+    
     private Map<String, RuntimeModule> runtimeModules = new HashMap<String, RuntimeModule>();
     
     public DefaultModuleStateHolder() {
@@ -91,6 +96,14 @@ public class DefaultModuleStateHolder implements ModuleStateHolder {
 
     public void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition) {
         this.rootModuleDefinition = rootModuleDefinition;
+    }
+    
+    public RootModuleDefinition getTargetRootModuleDefinition() {
+        return targetRootModuleDefinition;
+    }
+
+    public void setTargetRootModuleDefinition(RootModuleDefinition targetRootModuleDefinition) {
+        this.targetRootModuleDefinition = targetRootModuleDefinition;
     }
 
     /* ******************** injected setters ******************** */

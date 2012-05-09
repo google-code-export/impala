@@ -40,6 +40,8 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
 
     RootModuleDefinition getRootModuleDefinition();
 
+    RootModuleDefinition getTargetRootModuleDefinition();
+    
     RootModuleDefinition cloneRootModuleDefinition();
 
     boolean hasModule(String name);
@@ -53,5 +55,7 @@ public interface ModuleStateHolder extends ModuleDefinitionSource {
     RuntimeModule removeModule(String name);
     
     void setRootModuleDefinition(RootModuleDefinition rootModuleDefinition);
+    
+    void setTargetRootModuleDefinition(RootModuleDefinition rootModuleDefinition);
     
 }

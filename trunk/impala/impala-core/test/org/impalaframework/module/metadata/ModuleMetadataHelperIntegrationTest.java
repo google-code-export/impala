@@ -102,9 +102,7 @@ public class ModuleMetadataHelperIntegrationTest extends TestCase {
         
         assertEquals("impala-core,sample-module1,sample-module2,sample-module3,sample-module4", StringUtils.collectionToCommaDelimitedString(helper.getLoadedModuleNames()));
     }
-
-
-
+    
     class Test1 implements ModuleDefinitionSource {
         ModuleDefinitionSource source = new SimpleModuleDefinitionSource("impala-core", new String[] { "parentTestContext.xml" }, new String[] { plugin1 });
 

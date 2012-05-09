@@ -56,6 +56,9 @@ public class DefaultTransitionManager implements TransitionManager {
 
         TransitionResultSet resultSet = new TransitionResultSet();
         
+        final RootModuleDefinition newRootModuleDefinition = transitions.getNewRootModuleDefinition();
+        moduleStateHolder.setTargetRootModuleDefinition(newRootModuleDefinition);
+        
         try {
             Assert.notNull(transitionProcessorRegistry, TransitionProcessorRegistry.class.getSimpleName() + " cannot be null");
 
@@ -75,7 +78,7 @@ public class DefaultTransitionManager implements TransitionManager {
                 TransitionResult result;
       
                 try {
-                    transitionProcessor.process(application, transitions.getNewRootModuleDefinition(), currentModuleDefinition);
+                    transitionProcessor.process(application, newRootModuleDefinition, currentModuleDefinition);
                     result = new TransitionResult(change);
                 }
                 catch (Throwable error) {
@@ -93,8 +96,11 @@ public class DefaultTransitionManager implements TransitionManager {
             transitionsLogger.logTransitions(resultSet);
             
         } finally {
-            RootModuleDefinition rootModuleDefinition = transitions.getNewRootModuleDefinition();
+            RootModuleDefinition rootModuleDefinition = newRootModuleDefinition;
             moduleStateHolder.setRootModuleDefinition(rootModuleDefinition);
+            
+            //no longer applies
+            moduleStateHolder.setTargetRootModuleDefinition(null);
         }
         
         return resultSet;
