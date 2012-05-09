@@ -38,7 +38,7 @@ public class ModuleMetadataHelper implements ApplicationAware {
      * Returns the {@link RootModuleDefinition} associated with this application instance
      */
     public RootModuleDefinition getRootModuleDefiniton() {
-        return moduleStateHolder.getRootModuleDefinition();
+        return rootModuleDefinition();
     }
     
     /**
