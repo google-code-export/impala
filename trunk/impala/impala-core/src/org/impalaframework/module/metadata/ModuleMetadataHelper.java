@@ -14,7 +14,13 @@
 
 package org.impalaframework.module.metadata;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Set;
+
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionWalker;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.spring.module.application.ApplicationAware;
@@ -33,6 +39,30 @@ public class ModuleMetadataHelper implements ApplicationAware {
      */
     public RootModuleDefinition getRootModuleDefiniton() {
         return moduleStateHolder.getRootModuleDefinition();
+    }
+    
+    /**
+     * Returns sorted list of 'capabilities' from module definition
+     */
+    public Collection<String> getCapabilities() {
+        final RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
+        if (rootModuleDefinition == null) {
+            return Collections.emptyList();
+        }
+        CapabilitiesCallback callback = new CapabilitiesCallback();
+        ModuleDefinitionWalker.walkRootDefinition(rootModuleDefinition, callback);
+        return callback.getSortedCapabilities();
+    }
+    
+    /**
+     * Returns the names of loaded modules, sorted in alphabetical order
+     */
+    public Collection<String> getLoadedModuleNames() {
+        Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
+        final Set<String> runtimeModules = moduleStateHolder.getRuntimeModules().keySet();
+        ArrayList<String> list = new ArrayList<String>(runtimeModules);
+        Collections.sort(list);
+        return list;
     }
     
     /**
