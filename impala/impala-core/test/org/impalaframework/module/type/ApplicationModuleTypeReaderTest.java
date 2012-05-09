@@ -54,9 +54,11 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         properties.put(ModuleElementNames.CONFIG_LOCATIONS_ELEMENT, "loc1, loc2,loc3");
         properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
         properties.put(ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT, "module7,module8");
+        properties.put(ModuleElementNames.CAPABILITIES_ELEMENT, "persistence, clustering ");
         properties.put("prop1", "value1");
         properties.put("prop2", "value2");
         properties.put("runtime", "myruntime");
+        
         ModuleDefinition definition = reader.readModuleDefinition(null, "mymodule", properties);
         SimpleModuleDefinition moduleDefinition = (SimpleModuleDefinition) definition;
         assertEquals("mymodule", moduleDefinition.getName());
@@ -70,6 +72,8 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         expectedAttributes.put("prop2", "value2");
         assertEquals(expectedAttributes, moduleDefinition.getAttributes());
         assertEquals("myruntime", moduleDefinition.getRuntimeFramework());
+
+        assertEquals("persistence,clustering", StringUtils.collectionToCommaDelimitedString(moduleDefinition.getCapabilities()));
     }
 
     public void testReadModuleDefinitionProperties() throws Exception {

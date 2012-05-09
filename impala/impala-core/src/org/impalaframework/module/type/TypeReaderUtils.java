@@ -121,6 +121,12 @@ public class TypeReaderUtils {
         return readPropertyValues(properties, ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
     }
 
+    /**
+     * Reads the capabilities from the {@link Properties} instance using the <code>capabilities</code> property.
+     */
+    static String[] readCapabilities(Properties properties) {
+        return readPropertyValues(properties, ModuleElementNames.CAPABILITIES_ELEMENT);
+    }
 
     /**
      * Reads attributes from {@link Properties} instance. Removes from map 
@@ -138,6 +144,7 @@ public class TypeReaderUtils {
         map.remove(ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
         map.remove(ModuleElementNames.NAME_ELEMENT);
         map.remove(ModuleElementNames.RUNTIME_ELEMENT);
+        map.remove(ModuleElementNames.CAPABILITIES_ELEMENT);
         return map;
     }
     
