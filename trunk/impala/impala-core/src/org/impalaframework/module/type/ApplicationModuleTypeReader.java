@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.type;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -42,10 +43,9 @@ public class ApplicationModuleTypeReader implements TypeReader {
         Map<String,String> attributes = TypeReaderUtils.readAttributes(properties);
         String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
         String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
+        String[] capabilities = TypeReaderUtils.readCapabilities(properties);
         
-        //FIXME add capabilities
-        
-        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, null);
+        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, Arrays.asList(capabilities));
     }
 
     /**
