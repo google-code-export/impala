@@ -45,7 +45,7 @@ public class ModuleMetadataHelper implements ApplicationAware {
      * Returns sorted list of 'capabilities' from module definition
      */
     public Collection<String> getCapabilities() {
-        final RootModuleDefinition rootModuleDefinition = moduleStateHolder.getRootModuleDefinition();
+        final RootModuleDefinition rootModuleDefinition = rootModuleDefinition();
         if (rootModuleDefinition == null) {
             return Collections.emptyList();
         }
@@ -81,13 +81,23 @@ public class ModuleMetadataHelper implements ApplicationAware {
     public boolean isModuleDefinitionPresent(String moduleName) {
         Assert.notNull(moduleName, "moduleName cannot be null");
         Assert.notNull(moduleStateHolder, "moduleStateHolder cannot be null");
-        RootModuleDefinition rootModuleDefinition = moduleStateHolder.getModuleDefinition();
+        RootModuleDefinition rootModuleDefinition = rootModuleDefinition();
         boolean isPresent = (rootModuleDefinition.findChildDefinition(moduleName, true) != null);
         if (!isPresent) {
             isPresent = rootModuleDefinition.getName().equals(moduleName);
         }
         return isPresent;
     }
+
+    private RootModuleDefinition rootModuleDefinition() {
+        final RootModuleDefinition rootModuleDefinition = 
+            (moduleStateHolder.getTargetRootModuleDefinition() != null ? 
+                    moduleStateHolder.getTargetRootModuleDefinition() : 
+                        moduleStateHolder.getRootModuleDefinition());
+                    
+        return rootModuleDefinition;
+    }
+    
 
     public void setApplication(Application application) {
         moduleStateHolder = application.getModuleStateHolder();
