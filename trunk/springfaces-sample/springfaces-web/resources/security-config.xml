@@ -13,6 +13,10 @@
         <security:logout logout-url="/spring/logout" logout-success-url="/spring/logoutSuccess" />
     </security:http>
     
+    <!-- 
+    <security:custom-filter/>
+    -->
+    
     <!--
         Define local authentication provider, a real app would use an external provider (JDBC, LDAP, CAS, etc)
         
