@@ -28,6 +28,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.SelfAwareApplicationListenerAdapter;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.impalaframework.spring.service.StaticSpringServiceBeanReference;
 import org.impalaframework.util.ObjectUtils;
@@ -39,7 +40,6 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 
@@ -50,12 +50,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 
  * @author Phil Zoio
  */
-public class NamedServiceAutoExportPostProcessor implements 
+public class NamedServiceAutoExportPostProcessor extends SelfAwareApplicationListenerAdapter implements 
         ModuleDefinitionAware, 
         ServiceRegistryAware,
         BeanFactoryAware,
-        BeanClassLoaderAware, 
-        ApplicationListener {
+        BeanClassLoaderAware {
 
     private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
@@ -73,7 +72,7 @@ public class NamedServiceAutoExportPostProcessor implements
     
     /* *************** Application Event ************** */
     
-    public void onApplicationEvent(ApplicationEvent event) {
+    public void inApplicationEvent(ApplicationEvent event) {
         
         final String name = moduleDefinitionName();
         

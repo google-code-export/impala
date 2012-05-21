@@ -29,13 +29,13 @@ import org.impalaframework.service.ServiceEndpoint;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.SelfAwareApplicationListenerAdapter;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 
@@ -45,12 +45,11 @@ import org.springframework.context.event.ContextRefreshedEvent;
  * 
  * @author Phil Zoio
  */
-public abstract class BaseModuleContributionExporter implements 
+public abstract class BaseModuleContributionExporter extends SelfAwareApplicationListenerAdapter implements 
         ModuleDefinitionAware, 
         BeanFactoryAware,
         ServiceRegistryAware, 
-        BeanClassLoaderAware,
-        ApplicationListener {
+        BeanClassLoaderAware {
 
     private static final Log logger = LogFactory.getLog(BaseModuleContributionExporter.class);
 
@@ -71,7 +70,7 @@ public abstract class BaseModuleContributionExporter implements
     
     /* *************************** Life cycle methods ********************* */
     
-    public final void onApplicationEvent(ApplicationEvent event) {
+    public final void inApplicationEvent(ApplicationEvent event) {
         
         if (event instanceof ContextRefreshedEvent) {
             
