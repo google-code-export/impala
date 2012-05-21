@@ -26,6 +26,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.SelfAwareApplicationListenerAdapter;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.impalaframework.util.ArrayUtils;
 import org.impalaframework.util.CollectionStringUtils;
@@ -37,7 +38,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.Assert;
@@ -56,10 +56,9 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryExporter implements 
+public class ServiceRegistryExporter extends SelfAwareApplicationListenerAdapter implements 
     ServiceRegistryAware, 
     BeanFactoryAware,
-    ApplicationListener,
     ModuleDefinitionAware, 
     BeanClassLoaderAware {
 
@@ -85,7 +84,7 @@ public class ServiceRegistryExporter implements
     
     private ServiceRegistryEntry serviceReference;
     
-    public final void onApplicationEvent(ApplicationEvent event) {
+    public final void inApplicationEvent(ApplicationEvent event) {
         
         if (event instanceof ContextRefreshedEvent) {
             

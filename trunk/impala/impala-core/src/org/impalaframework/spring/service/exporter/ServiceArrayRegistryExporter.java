@@ -12,6 +12,7 @@ import org.impalaframework.service.ServiceBeanReference;
 import org.impalaframework.service.ServiceRegistry;
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.registry.ServiceRegistryAware;
+import org.impalaframework.spring.SelfAwareApplicationListenerAdapter;
 import org.impalaframework.spring.service.SpringServiceBeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanClassLoaderAware;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.BeanFactoryAware;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationEvent;
-import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextClosedEvent;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.util.Assert;
@@ -35,12 +35,11 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ServiceArrayRegistryExporter 
+public class ServiceArrayRegistryExporter extends SelfAwareApplicationListenerAdapter 
     implements ServiceRegistryAware, 
                 BeanFactoryAware,
                 ModuleDefinitionAware, 
-                BeanClassLoaderAware,
-                ApplicationListener {
+                BeanClassLoaderAware {
     
     private static final Log logger = LogFactory.getLog(NamedServiceAutoExportPostProcessor.class);
 
@@ -60,7 +59,7 @@ public class ServiceArrayRegistryExporter
     
     /* *************** Application Event ************** */
     
-    public void onApplicationEvent(ApplicationEvent event) {
+    public void inApplicationEvent(ApplicationEvent event) {
         if (event instanceof ContextRefreshedEvent) {
            logger.info("################################ " + this.getClass().getName() + " - context refreshed for " + moduleDefinition.getName() + " ####################");
            this.init();
