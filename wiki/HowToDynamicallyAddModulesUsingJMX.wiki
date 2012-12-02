@@ -1,0 +1,7 @@
+#summary How to dynamically add modules using JMX
+
+This page describes how to dynamically add modules at runtime.
+
+You will need to familiarize yourself with the mechanism for [HowToReloadModulesUsingJMX dynamically reloading modules using JMX].
+
+Also note how the module definitions file can be used to define 
