@@ -35,6 +35,7 @@
     * [HowToSetUpDevelopmentAutoReloading Set up auto-reloading of modules during development]
     * [HowToSetUpProductionAutoReloading Set up auto-reloading of modules in production]
     * [HowToReloadModulesUsingJMX Reload modules using JMX]
+    * [HowToDynamicallyAddModulesUsingJMX Dynamically add modules using JMX]
     * [HowToSliceWebApplication How to divide you web application into multiple 'slices' or modules]
     * [HowToConfigureLoadTimeWeaving Configure load time weaving (AOP)]
     * [HowToConfigureJSPs Configure set up within-module JSPs]
