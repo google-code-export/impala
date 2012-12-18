@@ -79,7 +79,6 @@ public class ModuleMetadataHelperIntegrationTest extends TestCase {
     
     public void testCapabilities() {
         
-
         TypeReaderRegistry typeReaderRegistry = TypeReaderRegistryFactory.getTypeReaderRegistry();
         StandaloneModuleLocationResolver resolver = new StandaloneModuleLocationResolver();
         String[] moduleNames = new String[] { 
