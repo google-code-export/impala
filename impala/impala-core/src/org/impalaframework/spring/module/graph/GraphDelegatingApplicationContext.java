@@ -15,6 +15,9 @@
 package org.impalaframework.spring.module.graph;
 
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -33,6 +36,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.MessageSourceResolvable;
 import org.springframework.context.NoSuchMessageException;
+import org.springframework.core.env.Environment;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 import org.springframework.util.ObjectUtils;
@@ -47,12 +51,12 @@ import org.springframework.util.ObjectUtils;
 public class GraphDelegatingApplicationContext implements ApplicationContext, BeanDefinitionExposing {
 
     private static Log logger = LogFactory.getLog(GraphDelegatingApplicationContext.class);
-    
+
+    private String id = ObjectUtils.identityToString(this);
     private final ApplicationContext parent;
     private final long startupDate;
-    private String id = ObjectUtils.identityToString(this);
-    private String displayName;
     private final List<ApplicationContext> nonAncestorDependentContexts;
+    private String displayName;
     private boolean parentGetBean;
 
     public GraphDelegatingApplicationContext(ApplicationContext parent, List<ApplicationContext> nonAncestorDependentContexts, boolean parentGetBean) {
@@ -64,6 +68,8 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         this.nonAncestorDependentContexts = nonAncestorDependentContexts;
         this.parentGetBean = parentGetBean;
     }
+    
+    
 
     /* ***************** Methods with non-trivial separate implementation ***************** */  
     
@@ -116,7 +122,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         throw new NoSuchBeanDefinitionException(name);
     }
     
-    public Object getBean(String name, Object[] args) throws BeansException {
+    public Object getBean(String name, Object... args) throws BeansException {
         
         if (parentGetBean && parent.containsBean(name)) {
             maybeLogGetParentBean(name);
@@ -188,13 +194,39 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         }
     }
     
+    @Override
+    public <A extends Annotation> A findAnnotationOnBean(String beanName, Class<A> annotationType) {
+    	return null;
+    }
+    
+    @Override
+    public Map<String, Object> getBeansWithAnnotation(Class<? extends Annotation> annotationType) throws BeansException {
+    	return Collections.emptyMap();
+    }
+    
+    @Override
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
+    	return null;
+    }
+    
     /* ***************** Methods simply delegating to parent ***************** */
+
+    @Override
+	public Environment getEnvironment() {
+		return parent.getEnvironment();
+	}
+    
+    @Override
+    public String getApplicationName() {
+    	return parent.getApplicationName();
+    }
     
     public boolean containsBean(String name) {
         return parent.containsBean(name);
     }
-    
-    public ApplicationContext getParent() {
+
+
+	public ApplicationContext getParent() {
         return parent;
     }
 

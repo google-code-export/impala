@@ -32,7 +32,6 @@ public class DynamicBeanFactory extends DefaultListableBeanFactory {
 		super();
 	}
 
-	@Override
 	protected Class<?> resolveBeanClass(RootBeanDefinition mbd, String beanName) throws CannotLoadBeanClassException {
 		if (!"dynamic".equals(mbd.getScope())) {
 			return super.resolveBeanClass(mbd, beanName);

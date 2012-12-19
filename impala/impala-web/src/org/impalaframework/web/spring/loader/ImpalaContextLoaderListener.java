@@ -48,7 +48,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
     protected ContextLoader createContextLoader(ServletContext servletContext) {
         String contextLoaderClassName = servletContext.getInitParameter(WebConstants.CONTEXT_LOADER_CLASS_NAME);
         
-        Class<? extends ContextLoader> contextLoaderClass = defaultContextLoaderClass;
+        Class contextLoaderClass = defaultContextLoaderClass;
         
         if (contextLoaderClassName != null) {
             try {
@@ -61,7 +61,7 @@ public class ImpalaContextLoaderListener extends ContextLoaderListener {
         
         ContextLoader contextLoader = null;
         try {
-            contextLoader = contextLoaderClass.newInstance();
+            contextLoader = (ContextLoader) contextLoaderClass.newInstance();
         }
         catch (Exception e) {
             throw new ExecutionException("Error instantiating context loader class " + contextLoaderClassName + ": " + e.getMessage(), e);

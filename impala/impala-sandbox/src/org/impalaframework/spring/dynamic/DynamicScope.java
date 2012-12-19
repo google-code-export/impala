@@ -50,6 +50,11 @@ public class DynamicScope implements Scope {
 	public String getConversationId() {
 		return null;
 	}
+	
+	@Override
+	public Object resolveContextualObject(String key) {
+		return null;
+	}
 
 	public void registerDestructionCallback(String name, Runnable callback) {
 	}

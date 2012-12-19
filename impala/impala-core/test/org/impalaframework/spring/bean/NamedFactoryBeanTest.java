@@ -53,14 +53,5 @@ public class NamedFactoryBeanTest extends TestCase {
         assertEquals(new Integer(1), factoryBean.getObject());
         verify(beanFactory);
     }
-    
-    
-    public void testInvalidType() throws Exception {
-        
-        expect(beanFactory.getBean("mybean", Integer.class)).andReturn("a string");
-        replay(beanFactory);
-        factoryBean.getObject();
-        verify(beanFactory);
-    }
 
 }
