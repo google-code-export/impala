@@ -38,8 +38,6 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  * @author Phil Zoio
  */
 public class ModuleProxyFilter extends BaseModuleProxyFilter {
-
-    private static final long serialVersionUID = 1L;
     
     private static final Log logger = LogFactory.getLog(ModuleProxyFilter.class);  
 

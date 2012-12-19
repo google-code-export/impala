@@ -60,8 +60,7 @@ public class AttributeServletContext implements ServletContext {
         return attributes.get(name);
     }
 
-    @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
+    public Enumeration<?> getAttributeNames() {
         return Collections.enumeration(attributes.keySet());
     }
 
@@ -78,8 +77,7 @@ public class AttributeServletContext implements ServletContext {
         return (initParams != null ? initParams.get(name) : null);
     }
 
-    @SuppressWarnings("unchecked")
-    public Enumeration getInitParameterNames() {
+    public Enumeration<?> getInitParameterNames() {
         return Collections.enumeration(initParams.keySet());
     }
 
@@ -116,8 +114,7 @@ public class AttributeServletContext implements ServletContext {
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public Set getResourcePaths(String path) {
+    public Set<?> getResourcePaths(String path) {
         return null;
     }
 

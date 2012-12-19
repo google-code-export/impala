@@ -37,6 +37,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
+@SuppressWarnings({"unchecked","rawtypes"})
 public class DelegatingServletContext implements ServletContext {
 
     private static final Log logger = LogFactory.getLog(DelegatingServletContext.class);
@@ -63,8 +64,7 @@ public class DelegatingServletContext implements ServletContext {
         return realContext.getInitParameter(name);
     }
 
-    @SuppressWarnings("unchecked")
-    public Enumeration getInitParameterNames() {
+    public Enumeration<String> getInitParameterNames() {
         return realContext.getInitParameterNames();
     }
 
@@ -100,7 +100,6 @@ public class DelegatingServletContext implements ServletContext {
         return realContext.getResourceAsStream(path);
     }
 
-    @SuppressWarnings("unchecked")
     public Set getResourcePaths(String path) {
         return realContext.getResourcePaths(path);
     }
@@ -118,12 +117,12 @@ public class DelegatingServletContext implements ServletContext {
         return realContext.getServletContextName();
     }
 
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings("deprecation")
     public Enumeration getServletNames() {
         return realContext.getServletNames();
     }
 
-    @SuppressWarnings({ "deprecation", "unchecked" })
+    @SuppressWarnings("deprecation")
     public Enumeration getServlets() {
         return realContext.getServlets();
     }
@@ -141,8 +140,7 @@ public class DelegatingServletContext implements ServletContext {
         realContext.log(message, throwable);
     }
 
-    @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return realContext.getAttributeNames();
     }
     

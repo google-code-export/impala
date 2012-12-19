@@ -27,8 +27,6 @@ import org.impalaframework.module.spi.FrameworkLockHolder;
  * @author Phil Zoio
  */
 public class ReadWriteLockingInvoker implements HttpServiceInvoker {
-
-    private static final long serialVersionUID = 1L;
     
     private Object target;
     private FrameworkLockHolder frameworkLockHolder;
