@@ -22,7 +22,6 @@
     * [SamplesURLMapping URL mapping sample]: demonstrates Impala's web multi-module support.
     * [SamplesExample Examples sample]: a testbed for Impala features, designed more for Impala developers rather than users.
     * [SamplesMaven Maven sample]: a sample which uses Maven as the build tool, and uses Maven project structure conventions.
-    * [SamplesOSGi OSGi sample]: a testbed for Impala's OSGi support.
   * [FirstSteps First steps]
   * Getting Started
     * [GettingStartedPart1 Part one - setting up an Impala project]
