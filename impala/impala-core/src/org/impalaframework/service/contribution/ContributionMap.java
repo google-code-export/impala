@@ -33,11 +33,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * <code>remove</code> is called, and the key is present only in the external
  * contributions map, the key will <b>not</b> be removed!
  */ 
-@SuppressWarnings("unchecked")
-public class ContributionMap implements Map {
+public class ContributionMap<V extends Object> implements Map<String,V> {
     
-    private Map localContributions = new ConcurrentHashMap();
-    private BaseServiceRegistryMap externalContributions;
+    private Map<String,V> localContributions = new ConcurrentHashMap<String,V>();
+    private BaseServiceRegistryMap<V> externalContributions;
     
     public void clear() {
         this.localContributions.clear();
@@ -55,17 +54,17 @@ public class ContributionMap implements Map {
         return hasValue;
     }
 
-    public Set entrySet() {
-        Set localSet = this.localContributions.entrySet();
-        Set externalSet = this.externalContributions.entrySet();
-        Set allSet = new LinkedHashSet();
+    public Set<Map.Entry<String,V>> entrySet() {
+        Set<Map.Entry<String,V>> localSet = this.localContributions.entrySet();
+        Set<Map.Entry<String,V>> externalSet = this.externalContributions.entrySet();
+        Set<Map.Entry<String,V>> allSet = new LinkedHashSet<Map.Entry<String,V>>();
         allSet.addAll(localSet);
         allSet.addAll(externalSet);
         return allSet;
     }
 
-    public Object get(Object key) {
-        Object value = this.localContributions.get(key);
+    public V get(Object key) {
+        V value = this.localContributions.get(key);
         if (value == null) {
             value = this.externalContributions.get(key);
         }
@@ -89,15 +88,15 @@ public class ContributionMap implements Map {
         return allSet;
     }
 
-    public Object put(Object key, Object value) {
+    public V put(String key, V value) {
         return this.localContributions.put(key, value);
     }
 
-    public void putAll(Map map) {
+    public void putAll(Map<? extends String,? extends V> map) {
         this.localContributions.putAll(map);
     }
 
-    public Object remove(Object key) {
+    public V remove(Object key) {
         return this.localContributions.remove(key);
     }
 
@@ -107,20 +106,20 @@ public class ContributionMap implements Map {
         return localSize + externalSize;
     }
 
-    public Collection values() {
-        Collection localValues = this.localContributions.values();
-        Collection externalValues = this.externalContributions.values();
-        Collection allValues = new ArrayList();
+    public Collection<V> values() {
+        Collection<V> localValues = this.localContributions.values();
+        Collection<V> externalValues = this.externalContributions.values();
+        Collection<V> allValues = new ArrayList<V>();
         allValues.addAll(localValues);
         allValues.addAll(externalValues);
         return allValues;
     }
     
-    public void setExternalContributions(BaseServiceRegistryMap externalContributions) {
+    public void setExternalContributions(BaseServiceRegistryMap<V> externalContributions) {
         this.externalContributions = externalContributions;
     }
 
-    public void setLocalContributions(Map localContributions) {
+    public void setLocalContributions(Map<String,V> localContributions) {
         this.localContributions = localContributions;
     }
     
