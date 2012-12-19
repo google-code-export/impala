@@ -28,7 +28,6 @@ public class RegistryContributionProcessor implements InitializingBean, Applicat
 
     private ApplicationContext applicationContext;
     
-    @SuppressWarnings("unchecked")
     public void afterPropertiesSet() throws Exception {
         final Map<String,RegistryContributor> beansOfType = applicationContext.getBeansOfType(RegistryContributor.class);
         final List<RegistryContributor> values = new ArrayList<RegistryContributor>(beansOfType.values());
@@ -39,7 +38,6 @@ public class RegistryContributionProcessor implements InitializingBean, Applicat
         }
     }
 
-    @SuppressWarnings("unchecked")
     void sort(final List<RegistryContributor> values) {
         OrderComparator comparator = new OrderComparator();
         Collections.sort(values, comparator);
