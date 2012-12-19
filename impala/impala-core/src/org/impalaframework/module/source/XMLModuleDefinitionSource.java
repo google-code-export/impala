@@ -57,7 +57,6 @@ public class XMLModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
         }
     }
 
-    @SuppressWarnings("unchecked")
     private void readDefinitions(ModuleDefinition parentDefinition, Element definitionsElement) {
         List<Element> definitionElementList = DomUtils.getChildElementsByTagName(definitionsElement, ModuleElementNames.MODULE_ELEMENT);
 
