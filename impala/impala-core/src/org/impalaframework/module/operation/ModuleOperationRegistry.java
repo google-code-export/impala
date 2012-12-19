@@ -44,7 +44,7 @@ public class ModuleOperationRegistry extends RegistrySupport implements Registry
     }
 
     public Map<String, ModuleOperation> getOperations() {
-        final Map entries = super.getEntries();
+        final Map<String, ModuleOperation> entries = super.getEntries();
         return entries;
     }
 
