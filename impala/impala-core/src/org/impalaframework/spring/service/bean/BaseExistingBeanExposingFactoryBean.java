@@ -30,7 +30,7 @@ import org.springframework.context.ConfigurableApplicationContext;
  * Base class for exposing an existing bean
  * @author Phil Zoio
  */
-public abstract class BaseExistingBeanExposingFactoryBean implements InitializingBean, FactoryBean, ApplicationContextAware {
+public abstract class BaseExistingBeanExposingFactoryBean implements InitializingBean, FactoryBean<Object>, ApplicationContextAware {
     
     private static final Log logger = LogFactory.getLog(BaseExistingBeanExposingFactoryBean.class);
     

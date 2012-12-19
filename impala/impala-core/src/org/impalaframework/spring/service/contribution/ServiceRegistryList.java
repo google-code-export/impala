@@ -22,7 +22,7 @@ import org.springframework.beans.factory.InitializingBean;
  * @see ServiceRegistryMap
  * @author Phil Zoio
  */
-public class ServiceRegistryList extends BaseServiceRegistryList
+public class ServiceRegistryList<T extends Object> extends BaseServiceRegistryList<T>
         implements InitializingBean, DisposableBean, BeanNameAware, ProxyFactoryCreatorAware, SpringServiceEndpoint {
 
     private ProxyFactoryCreator proxyFactoryCreator;
