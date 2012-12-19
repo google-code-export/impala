@@ -39,7 +39,7 @@ import org.springframework.util.ObjectUtils;
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget implements Set {
+public abstract class BaseServiceRegistrySet<T extends Object> extends BaseServiceRegistryTarget implements Set<T> {
     
     private static Log logger = LogFactory.getLog(BaseServiceRegistrySet.class);
     
@@ -49,7 +49,7 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
     /**
      * Holds contributions, typically proxied objects
      */
-    private Set contributions = new LinkedHashSet();
+    private Set<T> contributions = new LinkedHashSet<T>();
     
     /**
      * Holds mapping of {@link ServiceRegistryEntry}
@@ -140,7 +140,7 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
                 proxyMap.put(bean, proxyObject);
             }
             
-            this.contributions.add(proxyObject);
+            this.contributions.add((T)proxyObject);
         }
     }
 
@@ -148,7 +148,7 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
         return contributions.contains(object);
     }
 
-    public boolean containsAll(Collection collections) {
+    public boolean containsAll(Collection<?> collections) {
         return contributions.containsAll(collections);
     }
 
@@ -156,7 +156,7 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
         return contributions.isEmpty();
     }
 
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return contributions.iterator();
     }
 
@@ -178,7 +178,7 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
         throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(Collection collection) {
+    public boolean addAll(Collection<? extends T> collection) {
         throw new UnsupportedOperationException();
     }
 
@@ -190,11 +190,11 @@ public abstract class BaseServiceRegistrySet extends BaseServiceRegistryTarget i
         throw new UnsupportedOperationException();
     }
 
-    public boolean removeAll(Collection collection) {
+    public boolean removeAll(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(Collection collection) {
+    public boolean retainAll(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
