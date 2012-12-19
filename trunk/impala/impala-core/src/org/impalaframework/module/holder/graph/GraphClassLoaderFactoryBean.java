@@ -24,7 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
  * {@link FactoryBean} implementation returns instanceof {@link WeavingGraphClassLoaderFactory} or {@link GraphClassLoaderFactory},
  * depending on whether {@link #aspectjAwareClassLoader} is set to true or not
  */
-public class GraphClassLoaderFactoryBean implements FactoryBean, InitializingBean {
+public class GraphClassLoaderFactoryBean implements FactoryBean<Object>, InitializingBean {
 
     private ModuleLocationResolver moduleLocationResolver;
     
