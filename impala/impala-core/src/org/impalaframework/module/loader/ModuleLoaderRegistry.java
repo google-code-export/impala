@@ -28,7 +28,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class ModuleLoaderRegistry extends RegistrySupport implements Registry<ModuleLoader> {
+public class ModuleLoaderRegistry extends RegistrySupport<ModuleLoader> implements Registry<ModuleLoader> {
 
     public ModuleLoader getModuleLoader(String key) {
         return getModuleLoader(key, true);
