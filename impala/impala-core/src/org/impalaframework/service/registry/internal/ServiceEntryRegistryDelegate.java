@@ -580,9 +580,9 @@ public class ServiceEntryRegistryDelegate implements ServiceEntryRegistry {
         }
     }
     
-    @SuppressWarnings("unchecked")
-    private void addReferenceToMap(Map map,
-            Object key,
+    private void addReferenceToMap(
+    		Map<String, List<ServiceRegistryEntry>> map,
+            String key,
             ServiceRegistryEntry serviceReference, boolean sort) {
         
         List<ServiceRegistryEntry> list = (List<ServiceRegistryEntry>) map.get(key);
