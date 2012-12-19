@@ -35,7 +35,6 @@ public abstract class CollectionStringUtils {
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
      */
-    @SuppressWarnings("unchecked")
     public static List<String> parseStringList(String listString) {
 
         String delimiters = ",\n";
@@ -51,7 +50,6 @@ public abstract class CollectionStringUtils {
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
      */
-    @SuppressWarnings("unchecked")
     public static List<Long> parseLongList(String listString) {
 
         String delimiters = ",\n";
@@ -67,7 +65,6 @@ public abstract class CollectionStringUtils {
      * @param listString the input String
      * @return a list of Strings, values trimmed, in the input order
      */
-    @SuppressWarnings("unchecked")
     public static List<Object> parseObjectList(String listString) {
 
         String delimiters = ",\n";
@@ -96,7 +93,6 @@ public abstract class CollectionStringUtils {
      * (in the case of the the pair separator), or keys (in the case of the name
      * to value separator).
      */
-    @SuppressWarnings("unchecked")
     public static Map<String, String> parsePropertiesFromString(String mapString, String delimiters) {
         return parseMap(mapString, delimiters, stringConverter);
     }
@@ -125,20 +121,18 @@ public abstract class CollectionStringUtils {
      * (in the case of the the pair separator), or keys (in the case of the name
      * to value separator).
      */
-    @SuppressWarnings("unchecked")
     public static Map<String, Object> parseMapFromString(String mapString, String delimiters) {
         return parseMap(mapString, delimiters, objectConverter);
     }
 
     
-    @SuppressWarnings("unchecked")
-    private static Map parseMap(String mapString,
-            String delimiters, ValueConverter valueConverter) {
+    private static <T extends Object> Map<String,T> parseMap(String mapString,
+            String delimiters, ValueConverter<T> valueConverter) {
         Assert.notNull(mapString, "map string cannot be null");
         Assert.notNull(delimiters, "delimiters cannot be null");
         
         String[] pairings = tokenize(mapString, delimiters);
-        Map map = new LinkedHashMap();
+        Map<String,T> map = new LinkedHashMap<String,T>();
         for (String pair : pairings) {
             
             StringBuffer keyBuffer = new StringBuffer();
@@ -163,7 +157,7 @@ public abstract class CollectionStringUtils {
             int equalsIndex = i;
             
             if (equalsIndex > 0) {
-                Object value = foundEquals ? valueConverter.convertValue(pair.substring(equalsIndex+1).trim()) : null;
+                T value = foundEquals ? valueConverter.convertValue(pair.substring(equalsIndex+1).trim()) : null;
                 map.put(keyBuffer.toString().trim(), value);
             } else {
                 if (StringUtils.hasText(pair)) {
@@ -175,15 +169,14 @@ public abstract class CollectionStringUtils {
         return map;
     }
 
-    @SuppressWarnings("unchecked")
-    private static List parseList(String listString, 
-            String delimiters, ValueConverter valueConverter) {
+    private static <T extends Object> List<T> parseList(String listString, 
+            String delimiters, ValueConverter<T> valueConverter) {
 
         Assert.notNull(listString, "listString string cannot be null");
         Assert.notNull(delimiters, "delimiters cannot be null");
         
         String[] pairings = tokenize(listString, delimiters); 
-        List list = new ArrayList(pairings.length);  
+        List<T> list = new ArrayList<T>(pairings.length);  
         for (String string : pairings) {
             if (StringUtils.hasText(string)) {
                 list.add(valueConverter.convertValue(string.trim()));
@@ -248,21 +241,21 @@ public abstract class CollectionStringUtils {
         return pairings;
     }
     
-    private static interface ValueConverter {
-        Object convertValue(String text);
+    private static interface ValueConverter<T extends Object> {
+        T convertValue(String text);
     }
     
-    private static ValueConverter stringConverter = new ValueConverter() {
+    private static ValueConverter<String> stringConverter = new ValueConverter<String>() {
 
-        public Object convertValue(String text) {
+        public String convertValue(String text) {
             return text;
         }
         
     };
     
-    private static ValueConverter longConverter = new ValueConverter() {
+    private static ValueConverter<Long> longConverter = new ValueConverter<Long>() {
 
-        public Object convertValue(String text) {
+        public Long convertValue(String text) {
             Long value;
             try {
                 value = Long.valueOf(text);
@@ -275,7 +268,7 @@ public abstract class CollectionStringUtils {
         
     };
     
-    private static ValueConverter objectConverter = new ValueConverter() {
+    private static ValueConverter<Object> objectConverter = new ValueConverter<Object>() {
 
         public Object convertValue(String text) {
             return ParseUtils.parseObject(text);

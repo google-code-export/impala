@@ -43,8 +43,7 @@ public abstract class BaseServiceRegistryTargetSource implements ServiceEndpoint
         return null;
     }
 
-    @SuppressWarnings("unchecked")
-    public Class getTargetClass() {
+    public Class<?> getTargetClass() {
         return null;
     }
 
