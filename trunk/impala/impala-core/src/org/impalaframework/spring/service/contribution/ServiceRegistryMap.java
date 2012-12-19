@@ -20,7 +20,7 @@ import org.springframework.beans.factory.InitializingBean;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryMap extends BaseServiceRegistryMap
+public class ServiceRegistryMap<V extends Object> extends BaseServiceRegistryMap<V>
         implements InitializingBean, DisposableBean, BeanNameAware, ProxyFactoryCreatorAware, SpringServiceEndpoint {
 
     private ProxyFactoryCreator proxyFactoryCreator;
@@ -40,10 +40,11 @@ public class ServiceRegistryMap extends BaseServiceRegistryMap
         super.init();
     }
 
-    protected Object maybeGetProxy(ServiceRegistryEntry reference) {
+    @SuppressWarnings("unchecked")
+	protected V maybeGetProxy(ServiceRegistryEntry reference) {
         final StaticServiceReferenceProxyFactorySource proxyFactorySource = new StaticServiceReferenceProxyFactorySource(getProxyTypes(), reference);
         final ProxyFactory proxyFactory = this.proxyFactoryCreator.createProxyFactory(proxyFactorySource, beanName, null);
-        return proxyFactory.getProxy();
+        return (V)proxyFactory.getProxy();
     }
 
     /* ******************** ServiceProxyFactoryCreatorAware implementation ******************** */
