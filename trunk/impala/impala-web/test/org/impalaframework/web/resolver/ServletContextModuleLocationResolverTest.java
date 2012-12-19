@@ -46,6 +46,7 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
     }
     
     public void testGetModuleSpecificJarLocations() throws Exception {
+        expect(servletContext.getResource("/WEB-INF/modules/lib/mymodule")).andReturn(null);
         expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn(null);
         replay(servletContext);
         List<Resource> locations = resolver.getApplicationModuleLibraryLocations("mymodule");
@@ -54,6 +55,7 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
     }
     
     public void testGetPresentModuleSpecificJarLocations() throws Exception {
+        expect(servletContext.getResource("/WEB-INF/modules/lib/mymodule")).andReturn(null);
         expect(servletContext.getRealPath("/WEB-INF/modules/lib/mymodule")).andReturn("../sample-module3/lib");
         replay(servletContext);
         List<Resource> locations = resolver.getApplicationModuleLibraryLocations("mymodule");

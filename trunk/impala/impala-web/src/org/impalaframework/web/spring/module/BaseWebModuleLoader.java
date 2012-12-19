@@ -16,6 +16,8 @@ package org.impalaframework.web.spring.module;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
@@ -50,6 +52,8 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
     private ServletContextWrapper servletContextWrapper;
     
     private WebAttributeQualifier webAttributeQualifier;
+    
+    private static final Log logger = LogFactory.getLog(BaseWebModuleLoader.class);
 
     private static final String SERVLET_CONTEXT_ATTRIBUTE_NAME = "wrapped_servlet_context";
 
@@ -119,6 +123,7 @@ public class BaseWebModuleLoader extends BaseSpringModuleLoader implements Servl
             doHandleRefresh(applicationId, context, moduleDefinition);
         }
         catch (RuntimeException e) {
+        	logger.error(e.getMessage(), e);
             servletContext.removeAttribute(applicationContextAttributeName);
             servletContext.removeAttribute(servletContextAttributeName);
             throw e;

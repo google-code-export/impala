@@ -28,7 +28,6 @@ import java.util.Locale;
 
 import junit.framework.TestCase;
 
-import org.impalaframework.spring.module.graph.GraphDelegatingApplicationContext;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationEvent;
@@ -92,27 +91,43 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         verify(delegate, dependencyOne, dependencyTwo);
     }
     
-    public void testWithDependencies() throws Exception {
-        
-        expect(delegate.containsBean("bean")).andReturn(false);
-        expect(dependencyOne.containsBeanDefinition("bean")).andReturn(true);
-        expect(dependencyOne.getBean("bean")).andReturn("value");
-        
+    public void testWithDependencies1() throws Exception {
+	    
+	    expect(delegate.containsBean("bean")).andReturn(false);
+	    expect(dependencyOne.containsBeanDefinition("bean")).andReturn(true);
+	    expect(dependencyOne.getBean("bean")).andReturn("value");
+	    
+	    replay(delegate, dependencyOne, dependencyTwo);
+	    
+	    parent.getBean("bean");
+	
+	    verify(delegate, dependencyOne, dependencyTwo);
+	}
+
+	public void testWithDependencies2() throws Exception {
+	    
+	    expect(delegate.containsBean("bean")).andReturn(false);
+	    expect(dependencyOne.containsBeanDefinition("bean")).andReturn(false);
+	    expect(dependencyTwo.containsBeanDefinition("bean")).andReturn(true);
+	    expect(dependencyTwo.getBean("bean", String.class)).andReturn("value");
+	
+	    replay(delegate, dependencyOne, dependencyTwo);
+	    
+	    parent.getBean("bean", String.class);
+	
+	    verify(delegate, dependencyOne, dependencyTwo);
+	}
+
+	public void testWithDependencies3() throws Exception {
+
+        String[] args = new String[] {"arg"};
         expect(delegate.containsBean("bean")).andReturn(false);
         expect(dependencyOne.containsBeanDefinition("bean")).andReturn(false);
         expect(dependencyTwo.containsBeanDefinition("bean")).andReturn(true);
-        expect(dependencyTwo.getBean("bean", String.class)).andReturn("value");
-        
-        expect(delegate.containsBean("bean")).andReturn(false);
-        expect(dependencyOne.containsBeanDefinition("bean")).andReturn(false);
-        expect(dependencyTwo.containsBeanDefinition("bean")).andReturn(true);
-        expect(dependencyTwo.getBean(eq("bean"), aryEq(new String[0]))).andReturn("value");
+        expect(dependencyTwo.getBean("bean", args)).andReturn("value");
 
         replay(delegate, dependencyOne, dependencyTwo);
-        
-        parent.getBean("bean");
-        parent.getBean("bean", String.class);
-        parent.getBean("bean", new String[0]);
+		parent.getBean("bean", args);
 
         verify(delegate, dependencyOne, dependencyTwo);
     }
@@ -156,21 +171,72 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         verify(delegate, dependencyOne, dependencyTwo);
     }
     
-    public void testDelegatingMethods() throws Exception {
-        
+    public void testDelegatingGetBean1() throws Exception {
+
         expect(delegate.containsBean("bean")).andReturn(true);
         expect(delegate.getBean("bean")).andReturn("value");
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+
+        parent.getBean("bean");
+        
+        verify(delegate, dependencyOne, dependencyTwo);
+	}
+    
+    public void testDelegatingGetBean2() throws Exception {
         
         expect(delegate.containsBean("bean")).andReturn(true);
         expect(delegate.getBean("bean", String.class)).andReturn("value");
         
-        expect(delegate.containsBean("bean")).andReturn(true);
-        expect(delegate.getBean(eq("bean"), aryEq(new String[0]))).andReturn("value");
+        replay(delegate, dependencyOne, dependencyTwo);
+
+        parent.getBean("bean", String.class);
         
+        verify(delegate, dependencyOne, dependencyTwo);
+	}
+    
+    public void testDelegatingGetBean3() throws Exception {
+
+        String[] args = new String[0];
+        expect(delegate.containsBean("bean")).andReturn(true);
+        expect(delegate.getBean("bean", args)).andReturn("value");
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+
+        parent.getBean("bean", args);
+        
+        verify(delegate, dependencyOne, dependencyTwo);
+	}
+    
+    public void testDelegatingContainsBean() throws Exception {
+
+        expect(delegate.containsBean("bean")).andReturn(true);
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+
+        parent.containsBean("bean");
+        
+        verify(delegate, dependencyOne, dependencyTwo);
+	}
+    
+    public void testDelegating4() throws Exception {
+
         expect(delegate.containsBean("bean")).andReturn(true);
         expect(delegate.containsBeanDefinition("bean")).andReturn(true);
+        
+        replay(delegate, dependencyOne, dependencyTwo);
+
+        parent.containsBean("bean");
+        parent.containsBeanDefinition("bean");
+        
+        verify(delegate, dependencyOne, dependencyTwo);
+	}
+    
+    public void testDelegatingMethods() throws Exception {
+        String[] args = new String[0];
+        
         expect(delegate.containsLocalBean("bean")).andReturn(true);
-        expect(delegate.getAliases("bean")).andReturn(new String[0]);
+        expect(delegate.getAliases("bean")).andReturn(args);
         expect(delegate.getAutowireCapableBeanFactory()).andReturn(null);
         expect(delegate.getBeanDefinitionCount()).andReturn(0);
         expect(delegate.getBeanDefinitionNames()).andReturn(null);
@@ -178,8 +244,8 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         expect(delegate.getBeanNamesForType(String.class, true, false)).andReturn(null);
         expect(delegate.getClassLoader()).andReturn(null);
         expect(delegate.getMessage(isA(MessageSourceResolvable.class), eq(Locale.getDefault()))).andReturn(null);
-        expect(delegate.getMessage(eq("code"), aryEq(new String[0]), eq(Locale.getDefault()))).andReturn(null);
-        expect(delegate.getMessage(eq("code"), aryEq(new String[0]), eq("default"), eq(Locale.getDefault()))).andReturn(null);
+        expect(delegate.getMessage(eq("code"), aryEq(args), eq(Locale.getDefault()))).andReturn(null);
+        expect(delegate.getMessage(eq("code"), aryEq(args), eq("default"), eq(Locale.getDefault()))).andReturn(null);
         expect(delegate.getParentBeanFactory()).andReturn(null);
         expect(delegate.getResource("location")).andReturn(null);
         expect(delegate.getResources("locationPattern")).andReturn(null);
@@ -190,13 +256,7 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         delegate.publishEvent(isA(ApplicationEvent.class));
         
         replay(delegate, dependencyOne, dependencyTwo);
-
-        parent.getBean("bean");
-        parent.getBean("bean", String.class);
-        parent.getBean("bean", new String[0]);
         
-        parent.containsBean("bean");
-        parent.containsBeanDefinition("bean");
         parent.containsLocalBean("bean");
         parent.getAliases("bean");
         parent.getAutowireCapableBeanFactory();
@@ -207,8 +267,8 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         parent.getClassLoader();
         parent.getDisplayName();
         parent.getMessage(createMock(MessageSourceResolvable.class), Locale.getDefault());
-        parent.getMessage("code", new String[0], Locale.getDefault());
-        parent.getMessage("code", new String[0], "default", Locale.getDefault());
+        parent.getMessage("code", args, Locale.getDefault());
+        parent.getMessage("code", args, "default", Locale.getDefault());
         assertSame(delegate, parent.getParent());
         parent.getParentBeanFactory();
         parent.getResource("location");

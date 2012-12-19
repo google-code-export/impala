@@ -190,6 +190,10 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
     public Object getBean(String name, Class requiredType) throws BeansException {
         return this.applicationContext.getBean(name, requiredType);
     }
+    
+    public Object getBean(Class requiredType) throws BeansException {
+    	return this.applicationContext.getBean(requiredType);
+    }
 
     public Object getBean(String name, Object[] args) throws BeansException {
         Method findMethod = ReflectionUtils.findMethod(ApplicationContext.class, "getBean", new Class[] { String.class,

@@ -131,31 +131,6 @@ public class BaseDelegatingFilterProxyTest extends TestCase {
         
         verify(facade, request, response, chain, application, applicationContext, filter);
     }    
-    
-    public void testNotFilter() throws Exception {
-        
-        servletContext.setAttribute(WebConstants.IMPALA_FACTORY_ATTRIBUTE, facade);        
-        expect(facade.getBean("webAttributeQualifier", WebAttributeQualifier.class)).andReturn(webAttributeQualifier);
-        servletContext.setAttribute(webAttributeQualifier.getQualifiedAttributeName(WebApplicationContext.ROOT_WEB_APPLICATION_CONTEXT_ATTRIBUTE, "", "module"), applicationContext);
-       
-        expect(applicationContext.getBean("bean", Filter.class)).andReturn(request);
-        
-        expect(facade.getApplicationManager()).andReturn(applicationManager);
-        expect(application.getId()).andReturn("");
-        
-        replay(facade, request, response, chain, application, applicationContext, filter);
-        
-        try {
-            testFilter.doFilter(request, response, chain);
-            fail();
-        }
-        catch (ConfigurationException e) {
-            assertEquals("Delegate bean 'bean' from module 'module' is not an instance of javax.servlet.Filter", e.getMessage());
-        }
-        
-        verify(facade, request, response, chain, application, applicationContext, filter);
-    }
-    
 
 }
 
