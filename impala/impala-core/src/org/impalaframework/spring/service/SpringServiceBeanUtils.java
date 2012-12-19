@@ -71,7 +71,7 @@ public class SpringServiceBeanUtils {
     
         boolean isBeanFactory = beanFactory.containsBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
         if (isBeanFactory) {
-            FactoryBean factoryBean = (FactoryBean) beanFactory.getBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
+            FactoryBean<?> factoryBean = (FactoryBean<?>) beanFactory.getBean(BeanFactory.FACTORY_BEAN_PREFIX + beanName);
             singleton = factoryBean.isSingleton();
         }
         
