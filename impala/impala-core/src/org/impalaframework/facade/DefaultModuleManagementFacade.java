@@ -187,15 +187,15 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         return this.applicationContext.getBean(name);
     }
 
-    public Object getBean(String name, Class requiredType) throws BeansException {
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         return this.applicationContext.getBean(name, requiredType);
     }
     
-    public Object getBean(Class requiredType) throws BeansException {
+    public <T> T getBean(Class<T> requiredType) throws BeansException {
     	return this.applicationContext.getBean(requiredType);
     }
 
-    public Object getBean(String name, Object[] args) throws BeansException {
+    public Object getBean(String name, Object... args) throws BeansException {
         Method findMethod = ReflectionUtils.findMethod(ApplicationContext.class, "getBean", new Class[] { String.class,
                 Object[].class });
         if (findMethod != null)
@@ -217,8 +217,7 @@ public class DefaultModuleManagementFacade implements BeanFactory, ModuleManagem
         return this.applicationContext.isSingleton(name);
     }
 
-    @SuppressWarnings("unchecked")
-    public boolean isTypeMatch(String name, Class targetType) throws NoSuchBeanDefinitionException {
+    public boolean isTypeMatch(String name, Class<?> targetType) throws NoSuchBeanDefinitionException {
         return this.applicationContext.isTypeMatch(name, targetType);
     }
 
