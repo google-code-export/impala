@@ -37,14 +37,12 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean implements DisposableBean {
-
-    private static final long serialVersionUID = 1L;
     
     private Class<?>[] exportTypes;
 
     private String filterExpression;
 
-    private ServiceRegistryList list;
+    private ServiceRegistryList<?> list;
     
     /* *************** Abstract superclass method implementation ************** */
 
@@ -54,7 +52,7 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
         
         final Class<?>[] proxyTypesToUse = getProxyTypesToUse(false);
         
-        list = new ServiceRegistryList();
+        list = new ServiceRegistryList<Object>();
         list.setServiceRegistry(getServiceRegistry());
         list.setFilterExpression(filterExpression);
         list.setExportTypes(exportTypes);
@@ -72,7 +70,7 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
 
     /* *************** Package level methods ************** */
     
-    ServiceRegistryList getList() {
+    ServiceRegistryList<?> getList() {
         return list;
     }
     
@@ -105,11 +103,11 @@ public class FilteredServiceProxyFactoryBean extends BaseServiceProxyFactoryBean
 
 class ListBackedProxySource extends BaseProxyFactorySource {
 
-    private ServiceRegistryList list;
+    private ServiceRegistryList<?> list;
 
     private Class<?>[] proxyTypes;
 
-    public ListBackedProxySource(ServiceRegistryList list,
+    public ListBackedProxySource(ServiceRegistryList<?> list,
             Class<?>[] proxyTypes) {
         super();
         this.list = list;
@@ -149,7 +147,7 @@ class ListBackedProxySource extends BaseProxyFactorySource {
 
 }
 
-class ServiceRegistryList extends BaseServiceRegistryList {
+class ServiceRegistryList<T extends Object> extends BaseServiceRegistryList<T> {
 
     @Override
     protected Object maybeGetProxy(ServiceRegistryEntry ref) {
@@ -165,14 +163,14 @@ class ServiceRegistryList extends BaseServiceRegistryList {
 
 class ListBackedRegistryTargetSource extends BaseServiceRegistryTargetSource {
 
-    private ServiceRegistryList list;
+    private ServiceRegistryList<?> list;
     
     /**
      * Note that targetClass will only be set to non-null if it is a non-final concrete class
      */
     private Class<?> targetClass;
 
-    public ListBackedRegistryTargetSource(ServiceRegistryList serviceRegistryList, Class<?> targetClass) {
+    public ListBackedRegistryTargetSource(ServiceRegistryList<?> serviceRegistryList, Class<?> targetClass) {
         super();
         this.list = serviceRegistryList;
         this.targetClass = targetClass;

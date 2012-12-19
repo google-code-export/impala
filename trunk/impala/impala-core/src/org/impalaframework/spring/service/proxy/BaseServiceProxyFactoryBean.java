@@ -41,15 +41,13 @@ import org.springframework.util.ClassUtils;
  * @author Phil Zoio
  */
 public abstract class BaseServiceProxyFactoryBean 
-    implements FactoryBean, 
+    implements FactoryBean<Object>, 
     BeanNameAware, 
     InitializingBean,
     ServiceRegistryAware,
     ProxyFactoryCreatorAware,
     BeanClassLoaderAware,
     SpringServiceEndpoint {
-
-    private static final long serialVersionUID = 1L;
     
     private ProxyFactoryCreator proxyFactoryCreator;
 
@@ -128,8 +126,7 @@ public abstract class BaseServiceProxyFactoryBean
         return proxyFactory.getProxy(beanClassLoader != null ? beanClassLoader : ClassUtils.getDefaultClassLoader());
     }
 
-    @SuppressWarnings("unchecked")
-    public Class getObjectType() {
+    public Class<?> getObjectType() {
         final Class<?>[] proxyTypesToUse = getProxyTypesToUse(true);
         if (proxyTypesToUse != null && proxyTypesToUse.length > 0)
             return proxyTypesToUse[0];

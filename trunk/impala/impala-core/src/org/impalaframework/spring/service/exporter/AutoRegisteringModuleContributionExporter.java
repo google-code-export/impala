@@ -93,13 +93,12 @@ public class AutoRegisteringModuleContributionExporter extends BaseModuleContrib
         return registry;
     }
 
-    @SuppressWarnings("unchecked")
     void checkContributionClasses(Object bean, String beanName, String typeList) {
         String[] interfaces = typeList.split(",");
 
-        List<Class> interfaceClasses = new ArrayList<Class>();
+        List<Class<?>> interfaceClasses = new ArrayList<Class<?>>();
         for (String interfaceClass : interfaces) {
-            Class resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), getBeanClassLoader());
+            Class<?> resolvedClassName = ClassUtils.resolveClassName(interfaceClass.trim(), getBeanClassLoader());
 
             if (!resolvedClassName.isAssignableFrom(bean.getClass())) {
                 throw new ExecutionException("Bean '" + beanName + "' is not instance of type " + resolvedClassName.getName() + ", declared in type list '" + typeList + "'");
