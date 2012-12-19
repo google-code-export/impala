@@ -42,9 +42,8 @@ public class TypeReaderRegistry extends RegistrySupport implements Registry<Type
         super.addRegistryItem(type, typeReader);
     }
 
-    @SuppressWarnings("unchecked")
     public Map<String, TypeReader> getTypeReaders() {
-        final Map entries = super.getEntries();
+        final Map<String, TypeReader> entries = super.getEntries();
         return entries;
     }
 

@@ -82,7 +82,6 @@ public class TypeReaderUtils {
      * Reads attributes from {@link Properties} instance. Removes from map 
      * properties which are represent by existing fields.
      */
-    @SuppressWarnings("unchecked")
     static Map<String,String> readAttributes(Element element) {
         Map<String,String> map = new HashMap<String, String>();
         
@@ -181,7 +180,6 @@ public class TypeReaderUtils {
      * @param containerElement the name of element which contains the subelements. e.g. <code>config-locations</code>.
      * @param subelement the name of the element whose text represent an individual value. e.g. <code>config-location</code>
      */
-    @SuppressWarnings("unchecked")
     static List<String> readXmlElementValues(Element root, String containerElement, String subelement) {
         Element children = DomUtils.getChildElementByTagName(root, containerElement);
         List<String> values = new ArrayList<String>();
