@@ -32,7 +32,7 @@ import org.springframework.core.io.support.PropertiesLoaderSupport;
  * @author Phil Zoio
  */
 public class DynamicPropertiesFactoryBean extends PropertiesLoaderSupport
-  implements FactoryBean {
+  implements FactoryBean<Object> {
 
     private Log log = LogFactory.getLog(DynamicPropertiesFactoryBean.class);
     

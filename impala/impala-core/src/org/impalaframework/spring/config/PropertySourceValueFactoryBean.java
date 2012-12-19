@@ -26,7 +26,7 @@ import org.springframework.util.Assert;
  * 
  * @author Phil Zoio
  */
-public class PropertySourceValueFactoryBean implements FactoryBean {
+public class PropertySourceValueFactoryBean implements FactoryBean<String> {
 
     private String name;
     private String defaultValue;
@@ -38,7 +38,7 @@ public class PropertySourceValueFactoryBean implements FactoryBean {
      * Returns {@link Properties} instance held by {@link Properties} holder.
      * Otherwise, returns empty {@link Properties} instance.
      */
-    public Object getObject() throws Exception {
+    public String getObject() throws Exception {
         Assert.notNull(propertySource, "propertySource cannot be null");
         Assert.notNull(name, "name cannot be null");
         
@@ -50,7 +50,7 @@ public class PropertySourceValueFactoryBean implements FactoryBean {
         return value;
     }
 
-    public Class<?> getObjectType() {
+    public Class<String> getObjectType() {
         return String.class;
     }
 

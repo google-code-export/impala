@@ -28,7 +28,7 @@ import org.springframework.beans.factory.FactoryBean;
  * {@link FactoryBean} which exposes {@link Properties} held by {@link PropertiesHolder} instance.
  * @author Phil Zoio
  */
-public class PropertySourceHolderFactoryBean implements FactoryBean {
+public class PropertySourceHolderFactoryBean implements FactoryBean<PropertySource> {
     
     private static Log logger = LogFactory.getLog(PropertySourceHolderFactoryBean.class);
 
@@ -36,7 +36,7 @@ public class PropertySourceHolderFactoryBean implements FactoryBean {
      * Returns {@link Properties} instance held by {@link Properties} holder.
      * Otherwise, returns empty {@link Properties} instance.
      */
-    public Object getObject() throws Exception {
+    public PropertySource getObject() throws Exception {
         PropertySource source = PropertySourceHolder.getInstance().getPropertySource();
         
         if (source != null) {   
@@ -53,7 +53,7 @@ public class PropertySourceHolderFactoryBean implements FactoryBean {
         return new StaticPropertiesPropertySource(new Properties());
     }
 
-    public Class<?> getObjectType() {
+    public Class<PropertySource> getObjectType() {
         return PropertySource.class;
     }
 
