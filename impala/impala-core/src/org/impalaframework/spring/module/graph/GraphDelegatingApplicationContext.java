@@ -101,8 +101,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         throw new NoSuchBeanDefinitionException(name);
     }
     
-    @SuppressWarnings("unchecked")
-    public Object getBean(String name, Class requiredType) throws BeansException {
+    public <T> T getBean(String name, Class<T> requiredType) throws BeansException {
         
         if (parentGetBean && parent.containsBean(name)) {
             maybeLogGetParentBean(name);
@@ -245,23 +244,19 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         return parent.getBeanDefinitionNames();
     }
 
-    @SuppressWarnings("unchecked")
-    public String[] getBeanNamesForType(Class type) {
+    public String[] getBeanNamesForType(Class<?> type) {
         return parent.getBeanNamesForType(type);
     }
 
-    @SuppressWarnings("unchecked")
-    public String[] getBeanNamesForType(Class type, boolean includeNonSingletons, boolean allowEagerInit) {
+    public String[] getBeanNamesForType(Class<?> type, boolean includeNonSingletons, boolean allowEagerInit) {
         return parent.getBeanNamesForType(type, includeNonSingletons, allowEagerInit);
     }
 
-    @SuppressWarnings("unchecked")
-    public Map getBeansOfType(Class type) throws BeansException {
+    public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
         return parent.getBeansOfType(type);
     }
 
-    @SuppressWarnings("unchecked")
-    public Map getBeansOfType(Class type, boolean includeNonSingletons, boolean allowEagerInit) throws BeansException {
+    public <T> Map<String, T> getBeansOfType(Class<T> type, boolean includeNonSingletons, boolean allowEagerInit) throws BeansException {
         return parent.getBeansOfType(type);
     }
 
@@ -269,8 +264,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         return parent.getAliases(name);
     }
 
-    @SuppressWarnings("unchecked")
-    public Class getType(String name) throws NoSuchBeanDefinitionException {
+    public Class<?> getType(String name) throws NoSuchBeanDefinitionException {
         return parent.getType(name);
     }
 
@@ -284,8 +278,7 @@ public class GraphDelegatingApplicationContext implements ApplicationContext, Be
         return parent.isSingleton(name);
     }
 
-    @SuppressWarnings("unchecked")
-    public boolean isTypeMatch(String name, Class targetType)
+    public boolean isTypeMatch(String name, Class<?> targetType)
             throws NoSuchBeanDefinitionException {
         return parent.isTypeMatch(name, targetType);
     }
