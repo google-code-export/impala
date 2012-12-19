@@ -32,9 +32,8 @@ public class ObjectMapUtils {
     /**
      * Creates map from array where keys and values are alternate values
      */
-    @SuppressWarnings("unchecked")
-    public static Map newMap(Object... keysAndValues) {
-        Map map = new LinkedHashMap();
+    public static Map<?,?> newMap(Object... keysAndValues) {
+        Map<Object,Object> map = new LinkedHashMap<Object,Object>();
         for (int i = 0; i < keysAndValues.length; i++) {
             Object key = keysAndValues[i];
             i++;

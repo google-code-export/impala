@@ -24,7 +24,7 @@ public class StaticServiceRegistryTargetSource extends BaseServiceRegistryTarget
     public Object getTarget() throws Exception {
         Object bean = reference.getServiceBeanReference().getService();
         if (bean instanceof FactoryBean) {
-            FactoryBean fb = (FactoryBean) bean;
+            FactoryBean<?> fb = (FactoryBean<?>) bean;
             return fb.getObject();
         }
         return bean;

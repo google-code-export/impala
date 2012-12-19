@@ -26,8 +26,6 @@ import org.springframework.util.Assert;
  * @author Phil Zoio
  */
 public class TypedServiceProxyFactoryBean extends BaseServiceProxyFactoryBean {
-
-    private static final long serialVersionUID = 1L;
     
     private Class<?>[] exportTypes;
     
