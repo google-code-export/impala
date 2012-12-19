@@ -45,7 +45,7 @@ public class NamedBeanRegistryContributor implements RegistryContributor, BeanFa
         
         Object registryBean = beanFactory.getBean(registryBeanName);
     
-        final Registry registry = ObjectUtils.cast(registryBean, Registry.class);
+        final Registry<Object> registry = ObjectUtils.cast(registryBean, Registry.class);
         final Set<String> keys = contributions.keySet();
         
         for (String key : keys) {
