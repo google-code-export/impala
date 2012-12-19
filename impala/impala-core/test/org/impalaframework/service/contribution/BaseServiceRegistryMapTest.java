@@ -16,21 +16,21 @@ package org.impalaframework.service.contribution;
 
 import java.util.Collections;
 
+import junit.framework.TestCase;
+
 import org.impalaframework.service.ServiceRegistryEntry;
 import org.impalaframework.service.reference.BasicServiceRegistryEntry;
 import org.impalaframework.service.reference.StaticServiceRegistryEntry;
 import org.springframework.util.ClassUtils;
 
-import junit.framework.TestCase;
-
 public class BaseServiceRegistryMapTest extends TestCase {
     
-    private BaseServiceRegistryMap map;
+    private BaseServiceRegistryMap<Object> map;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();        
-        map = new BaseServiceRegistryMap() {
+        map = new BaseServiceRegistryMap<Object>() {
 
             @Override
             protected Object maybeGetProxy(ServiceRegistryEntry entry) {

@@ -49,15 +49,14 @@ import org.impalaframework.service.filter.ldap.LdapServiceReferenceFilter;
  * @see BaseServiceRegistryList
  * @author Phil Zoio
  */
-@SuppressWarnings("unchecked")
-public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget implements Map {
+public abstract class BaseServiceRegistryMap<V extends Object> extends BaseServiceRegistryTarget implements Map<String,V> {
     
     private static Log logger = LogFactory.getLog(BaseServiceRegistryMap.class);
     
     /**
      * Holds external contributions to this map, obtained from the service registry
      */
-    private Map<String,Object> contributions = new ConcurrentHashMap<String,Object>();
+    private Map<String,V> contributions = new ConcurrentHashMap<String,V>();
     
     /**
      * The {@link ServiceRegistryEntry} attribute which is used 
@@ -72,7 +71,8 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
     
     /* ******************* Implementation of ServiceRegistryNotifiable ******************** */
     
-    public boolean add(ServiceRegistryEntry entry) {
+    @SuppressWarnings("unchecked")
+	public boolean add(ServiceRegistryEntry entry) {
         
         final Map<String, ?> attributes = entry.getAttributes();
         final Object contributionKeyName = attributes.get(mapKey);
@@ -82,7 +82,7 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
             
             final Object proxyObject = maybeGetProxy(entry);
     
-            this.contributions.put(contributionKeyName.toString(), proxyObject);
+            this.contributions.put(contributionKeyName.toString(), (V)proxyObject);
             if (logger.isDebugEnabled()) {
                 logger.debug("Service " + beanObject + " added for contribution key " + contributionKeyName + " for filter " + getFilter());
             }
@@ -125,13 +125,13 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         return hasValue;
     }
     
-    public Set entrySet() {
-        Set externalSet = this.contributions.entrySet();
+    public Set<Map.Entry<String,V>> entrySet() {
+        Set<Map.Entry<String,V>> externalSet = this.contributions.entrySet();
         return externalSet;
     }
     
-    public Object get(Object key) {
-        Object value = this.contributions.get(key);
+    public V get(Object key) {
+        V value = this.contributions.get(key);
         return value;
     }
     
@@ -140,8 +140,8 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         return isEmpty;
     }
     
-    public Set keySet() {
-        Set externalSet = this.contributions.keySet();
+    public Set<String> keySet() {
+        Set<String> externalSet = this.contributions.keySet();
         return externalSet;
     }
     
@@ -150,8 +150,8 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         return externalSize;
     }
     
-    public Collection values() {
-        Collection externalValues = this.contributions.values();
+    public Collection<V> values() {
+        Collection<V> externalValues = this.contributions.values();
         return externalValues;
     }
     
@@ -161,23 +161,23 @@ public abstract class BaseServiceRegistryMap extends BaseServiceRegistryTarget i
         throw new UnsupportedOperationException();
     }
     
-    public Object put(Object key, Object value) {
+    public V put(String key, V value) {
         throw new UnsupportedOperationException();
     }
     
-    public void putAll(Map t) {
+    public void putAll(Map<? extends String,? extends V> t) {
         throw new UnsupportedOperationException();
     }
     
-    public Object remove(Object key) {
+    public V remove(Object key) {
         throw new UnsupportedOperationException();
     }
 
     /* ******************* Protected and package level methods ******************** */
     
-    protected abstract Object maybeGetProxy(ServiceRegistryEntry entry);
+    protected abstract V maybeGetProxy(ServiceRegistryEntry entry);
     
-    Map<String, Object> getContributions() {
+    Map<String, V> getContributions() {
         return contributions;
     }
     
