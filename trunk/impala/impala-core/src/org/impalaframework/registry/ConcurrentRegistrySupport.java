@@ -22,11 +22,10 @@ import java.util.concurrent.ConcurrentHashMap;
  * 
  * @author Phil Zoio
  */
-public class ConcurrentRegistrySupport extends RegistrySupport {
+public class ConcurrentRegistrySupport<T extends Object> extends RegistrySupport<T> {
     
-    @SuppressWarnings("unchecked")
     public ConcurrentRegistrySupport() {
-        super(new ConcurrentHashMap());
+        super(new ConcurrentHashMap<String,T>());
     }
     
 }

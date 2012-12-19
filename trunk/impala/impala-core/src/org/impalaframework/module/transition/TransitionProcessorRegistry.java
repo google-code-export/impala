@@ -20,7 +20,7 @@ import org.impalaframework.module.spi.TransitionProcessor;
 import org.impalaframework.registry.Registry;
 import org.impalaframework.registry.RegistrySupport;
 
-public class TransitionProcessorRegistry extends RegistrySupport implements Registry<TransitionProcessor> {
+public class TransitionProcessorRegistry extends RegistrySupport<TransitionProcessor> implements Registry<TransitionProcessor> {
 
     public TransitionProcessor getTransitionProcessor(String transition) {
         return super.getEntry(transition, TransitionProcessor.class);

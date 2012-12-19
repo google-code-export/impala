@@ -36,7 +36,7 @@ import org.impalaframework.service.ServiceRegistry;
  * 
  * @author Phil Zoio
  */
-public class DefaultModuleRuntimeManager extends RegistrySupport implements ModuleRuntimeManager, Registry<ModuleRuntime> {
+public class DefaultModuleRuntimeManager extends RegistrySupport<ModuleRuntime> implements ModuleRuntimeManager, Registry<ModuleRuntime> {
 
     private static final Log logger = LogFactory.getLog(DefaultModuleRuntimeManager.class);
     

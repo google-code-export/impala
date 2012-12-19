@@ -21,7 +21,7 @@ import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.registry.Registry;
 import org.impalaframework.registry.RegistrySupport;
 
-public class TypeReaderRegistry extends RegistrySupport implements Registry<TypeReader> {
+public class TypeReaderRegistry extends RegistrySupport<TypeReader> implements Registry<TypeReader> {
 
     private TypeReader defaultTypeReader;
 

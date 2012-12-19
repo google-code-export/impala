@@ -28,28 +28,27 @@ import org.springframework.util.Assert;
  * uses case-insensitive keys, storing these in lower case.
  * @author Phil Zoio
  */
-@SuppressWarnings("unchecked")
-public class RegistrySupport {
+public class RegistrySupport<T extends Object> {
 
-    private final Map entries;
+    private final Map<String,T> entries;
 
     public RegistrySupport() {
         super();
-        this.entries = new HashMap();
+        this.entries = new HashMap<String,T>();
     }
 
-    public RegistrySupport(Map entries) {
+    public RegistrySupport(Map<String,T> entries) {
         super();
         Assert.notNull(entries, "entries cannot be null");
         this.entries = entries;
     }
 
-    public <T extends Object> T getEntry(String key, Class<T> type) {
+    public T getEntry(String key, Class<T> type) {
         
         return getEntry(key, type, true);
     }   
     
-    public <T extends Object> T getEntry(String key, Class<T> type, boolean mandatory) {
+    public T getEntry(String key, Class<T> type, boolean mandatory) {
         
         Assert.notNull(key, "key cannot be null");
         Assert.notNull(type, "type cannot be null");
@@ -65,7 +64,7 @@ public class RegistrySupport {
         return ObjectUtils.cast(value, type);
     }
     
-    public void addRegistryItem(String key, Object value) {
+    public void addRegistryItem(String key, T value) {
         
         Assert.notNull(key, "key cannot be null");
         Assert.notNull(value, "value cannot be null");
@@ -73,7 +72,7 @@ public class RegistrySupport {
         this.entries.put(key.toLowerCase(), value);
     }
     
-    public void setEntries(Map entries) {
+    public void setEntries(Map<String,T> entries) {
         
         Assert.notNull(entries, "entries cannot be null");
         
@@ -83,11 +82,11 @@ public class RegistrySupport {
         }
     }
     
-    public <T extends Object> Map<String, T> getEntries() {
+    public Map<String, T> getEntries() {
         return Collections.unmodifiableMap(entries);
     }
     
-    public <T extends Object> Object removeEntry(String key) {
+    public T removeEntry(String key) {
         
         Assert.notNull(key, "key cannot be null");
         return this.entries.remove(key.toLowerCase());

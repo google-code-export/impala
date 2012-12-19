@@ -25,7 +25,7 @@ import org.impalaframework.registry.RegistrySupport;
  *
  * @author Phil Zoio
  */
-public class ModuleOperationRegistry extends RegistrySupport implements Registry<ModuleOperation> {
+public class ModuleOperationRegistry extends RegistrySupport<ModuleOperation> implements Registry<ModuleOperation> {
 
     protected ModuleOperationRegistry() {
         super();
