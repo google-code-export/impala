@@ -14,7 +14,7 @@ import org.springframework.util.Assert;
  * Factory bean which will attempt to use a named bean, if present. If not, will use the fallback bean
  * @author Phil Zoio
  */
-public class OptionalFactoryBean implements FactoryBean, InitializingBean, ApplicationContextAware {
+public class OptionalFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
     
     private static final Log logger = LogFactory.getLog(OptionalFactoryBean.class);
     
@@ -59,7 +59,7 @@ public class OptionalFactoryBean implements FactoryBean, InitializingBean, Appli
         return bean;
     }
     
-    public Class getObjectType() {
+    public Class<Object> getObjectType() {
         return Object.class;
     }
     

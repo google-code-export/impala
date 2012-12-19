@@ -23,7 +23,7 @@ import org.springframework.util.Assert;
  * falling back to an optional default value if no system property is specified.
  * @author philzoio
  */
-public class SystemPropertyFactoryBean implements FactoryBean, InitializingBean {
+public class SystemPropertyFactoryBean implements FactoryBean<String>, InitializingBean {
 
     private String defaultValue;
     
@@ -45,7 +45,7 @@ public class SystemPropertyFactoryBean implements FactoryBean, InitializingBean 
         return defaultValue;
     }
     
-    public Object getObject() throws Exception {
+    public String getObject() throws Exception {
         return value;
     }
 
