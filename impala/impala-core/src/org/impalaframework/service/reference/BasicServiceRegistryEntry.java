@@ -46,11 +46,11 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
     }
 
     @SuppressWarnings("unchecked")
-    public BasicServiceRegistryEntry(ServiceBeanReference bean, 
+    public <T extends Object> BasicServiceRegistryEntry(ServiceBeanReference bean, 
             String beanName,
             String contributingModule, 
             List<Class<?>> exportTypes,
-            Map<String, ?> attributes, 
+            Map<String,T> attributes, 
             ClassLoader classLoader) {
         super();
         Assert.notNull(bean, "service instance cannot be null");
@@ -60,7 +60,7 @@ public class BasicServiceRegistryEntry implements ServiceRegistryEntry {
         this.beanName = beanName;
         this.contributingModule = contributingModule;
         this.exportTypes = (exportTypes != null ? Collections.unmodifiableList(new LinkedList<Class<?>>(exportTypes)) : Collections.EMPTY_LIST);
-        this.attributes = (attributes != null ? Collections.unmodifiableMap(new HashMap(attributes)) : Collections.EMPTY_MAP);
+        this.attributes = (attributes != null ? Collections.unmodifiableMap(new HashMap<String,T>(attributes)) : Collections.EMPTY_MAP);
         this.beanClassLoader = classLoader;
     }
 
