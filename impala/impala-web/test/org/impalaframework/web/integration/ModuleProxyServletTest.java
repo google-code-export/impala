@@ -20,10 +20,13 @@ import static org.easymock.classextension.EasyMock.replay;
 import static org.easymock.classextension.EasyMock.verify;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -34,7 +37,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.FrameworkLockHolder;
-import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
@@ -99,13 +101,17 @@ public class ModuleProxyServletTest extends TestCase {
         verifyMocks();
     }
     
-    @SuppressWarnings("unchecked")
     public void testDoServiceWithModule() throws Exception {
         
         expectInit();
         
         expect(request.getRequestURI()).andStubReturn("/app/mymodule/resource.htm");
-        expectGetInvoker("mymodule", new ModuleHttpServiceInvoker(new HashMap<String, List<Filter>>(), ObjectMapUtils.newMap("*", delegateServlet)));
+
+		Map<String, Servlet> servletMap = Collections.<String,Servlet>singletonMap("*", delegateServlet);
+        
+        expectGetInvoker("mymodule", new ModuleHttpServiceInvoker(
+        		new HashMap<String, List<Filter>>(), 
+        		servletMap));
         delegateServlet.service(request, response);
         
         replayMocks();

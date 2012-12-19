@@ -24,9 +24,12 @@ import static org.easymock.classextension.EasyMock.replay;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -36,7 +39,6 @@ import junit.framework.TestCase;
 
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.spi.FrameworkLockHolder;
-import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.WebConstants;
 import org.impalaframework.web.facade.AttributeServletContext;
 import org.impalaframework.web.servlet.invocation.InvocationChain;
@@ -154,15 +156,18 @@ public class ModuleProxyFilterTest extends TestCase {
         verifyMocks();
     }
     
-    @SuppressWarnings("unchecked")
     public void testDoWithMatchingModule() throws Exception {
         
         expectInit();
 
-        servletContext.setAttribute(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule", 
+        List<Filter> singletonList = Collections.singletonList(delegateFilter);
+		Map<String, List<Filter>> filterMap = Collections.singletonMap("*", singletonList);
+		Map<String, Servlet> servletMap = Collections.emptyMap();
+		
+		servletContext.setAttribute(ModuleHttpServiceInvoker.class.getName()+"."+"mymodule", 
             new ModuleHttpServiceInvoker(
-                    ObjectMapUtils.newMap("*", Collections.singletonList(delegateFilter)),
-                    ObjectMapUtils.newMap()));
+                    filterMap,
+                    servletMap));
         
         expect(request.getRequestURI()).andStubReturn("/app/mymodule/path");
         delegateFilter.doFilter(eq(request), eq(response), isA(InvocationChain.class));

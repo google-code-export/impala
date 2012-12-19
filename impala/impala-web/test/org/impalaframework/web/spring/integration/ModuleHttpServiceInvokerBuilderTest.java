@@ -32,11 +32,9 @@ import org.impalaframework.util.ObjectMapUtils;
 import org.impalaframework.web.listener.ServletContextListenerFactoryBean;
 import org.impalaframework.web.servlet.invocation.ModuleHttpServiceInvoker;
 import org.impalaframework.web.servlet.invocation.ModuleInvokerContributor;
-import org.impalaframework.web.spring.integration.FilterFactoryBean;
-import org.impalaframework.web.spring.integration.ModuleHttpServiceInvokerBuilder;
-import org.impalaframework.web.spring.integration.ServletFactoryBean;
 import org.springframework.beans.factory.ListableBeanFactory;
 
+@SuppressWarnings("unchecked")
 public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
     
     private ModuleHttpServiceInvokerBuilder builder;
@@ -59,7 +57,7 @@ public class ModuleHttpServiceInvokerBuilderTest extends TestCase {
         expect(beanFactory.getBeansOfType(ServletContextListenerFactoryBean.class)).andReturn(null);
     }
 
-    public void testBuilder() throws Exception {
+	public void testBuilder() throws Exception {
         moduleInvokerContributor.setFilterNames(new String[]{"myfilter"});
         moduleInvokerContributor.setServletName("myservlet");
         
