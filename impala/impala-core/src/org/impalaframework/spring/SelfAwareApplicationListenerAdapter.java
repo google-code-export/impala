@@ -24,7 +24,7 @@ import org.springframework.context.ApplicationListener;
  * Base implementation of {@link ApplicationListener} which only propagats event if the source of the event is itself
  * @author Phil Zoio
  */
-public abstract class SelfAwareApplicationListenerAdapter implements ApplicationListener, ApplicationContextAware {
+public abstract class SelfAwareApplicationListenerAdapter implements ApplicationListener<ApplicationEvent>, ApplicationContextAware {
     
     private ApplicationContext applicationContext;
     
