@@ -103,27 +103,22 @@ abstract class ItemNode extends BaseNode implements FilterNode {
         if (constructor == null) {
             return false;
         }
-        if (constructor != null) {      
-            Object constructed = ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
-            return value.equals(constructed);
-        }
-        return false;
+    
+        Object constructed = ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
+        return value.equals(constructed);
     }
 
-    private boolean matchComparable(Comparable<?> value) {
+    private <T extends Object> boolean matchComparable(Comparable<T> value) {
         Constructor<?> constructor = ReflectionUtils.findConstructor(value.getClass(), new Class[]{ String.class });
         if (constructor == null) {
             return false;
         }
         
-        if (constructor != null) {      
-            Comparable<?> constructed = (Comparable<?>) ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
-            return matchComparable(constructed, value);
-        }
-        return false;
+        Comparable<T> constructed = (Comparable<T>) ReflectionUtils.invokeConstructor(constructor, new Object[]{ getValue() }, true);
+        return matchComparable(constructed, value);
     }
 
-    protected abstract boolean matchComparable(Comparable<?> internal, Comparable<?> external);
+    protected abstract <T extends Object> boolean matchComparable(Comparable<T> internal, Comparable<T> external);
 
     private boolean matchPrimitiveArray(Object value, Class<?> type) {
         
