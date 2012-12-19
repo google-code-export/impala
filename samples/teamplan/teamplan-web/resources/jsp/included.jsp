@@ -1,1 +1,0 @@
-Included fragment, also with message: ${message}
