@@ -31,7 +31,7 @@ public class StaticSpringServiceBeanReference implements ServiceBeanReference {
         super();
         Assert.notNull(service);
         if (service instanceof FactoryBean) {
-            FactoryBean factoryBean = (FactoryBean)service;
+            FactoryBean<?> factoryBean = (FactoryBean<?>)service;
             try {
                 this.service = factoryBean.getObject();
             }
