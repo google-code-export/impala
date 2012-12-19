@@ -171,15 +171,14 @@ public class InvocationChainTest extends TestCase {
         verify(request, response, filter1, filter2);
     }
 
-    @SuppressWarnings("unchecked")
     public void testInvokeGlobalOnly() throws Exception {
         
         filters.add(filter1);
         filters.add(filter2);
         
         ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("*", filters), 
-                ObjectMapUtils.newMap("*", servlet));
+                Collections.<String,List<Filter>>singletonMap("*", filters), 
+                Collections.<String,Servlet>singletonMap("*", servlet));
         assertTrue(invoker.isGlobalMappingOnly());
         
         //note the absense of any calls to figure out the suffix
@@ -194,15 +193,14 @@ public class InvocationChainTest extends TestCase {
         verify(request, response, filter1, filter2);
     }
     
-    @SuppressWarnings("unchecked")
     public void testInvokeNone() throws Exception {
         
         filters.add(filter1);
         filters.add(filter2);
         
         ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("*", filters), 
-                ObjectMapUtils.newMap("[none]", servlet));
+        		Collections.<String,List<Filter>>singletonMap("*", filters), 
+                Collections.<String,Servlet>singletonMap("[none]", servlet));
         assertFalse(invoker.isGlobalMappingOnly());
         
         //note the absense of any calls to figure out the suffix
@@ -223,46 +221,46 @@ public class InvocationChainTest extends TestCase {
         
         filters.add(filter1);
         ModuleHttpServiceInvoker invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("*", filter1), 
-                ObjectMapUtils.newMap("*", servlet));
+        		Collections.<String,List<Filter>>singletonMap("*", filters), 
+        		Collections.<String,Servlet>singletonMap("*", servlet));
         assertTrue(invoker.isGlobalMappingOnly());
 
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap(), 
-                ObjectMapUtils.newMap("*", servlet));
+        		Collections.<String,List<Filter>>emptyMap(), 
+                Collections.<String,Servlet>singletonMap("*", servlet));
         assertTrue(invoker.isGlobalMappingOnly());
 
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("*", filter1), 
-                ObjectMapUtils.newMap());
+                Collections.<String,List<Filter>>singletonMap("*", filters), 
+                Collections.<String,Servlet>emptyMap());
         assertTrue(invoker.isGlobalMappingOnly());
 
         //no mappings - must be false
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap(), 
-                ObjectMapUtils.newMap());
+                Collections.<String,List<Filter>>emptyMap(), 
+                Collections.<String,Servlet>emptyMap());
         assertFalse(invoker.isGlobalMappingOnly());
 
         //more than one mapping
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("*", filter1, "another", filter1), 
-                ObjectMapUtils.newMap());
+                (Map<String,List<Filter>>)ObjectMapUtils.newMap("*", filter1, "another", filters), 
+                Collections.<String,Servlet>emptyMap());
         assertFalse(invoker.isGlobalMappingOnly());
         
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap(), 
-                ObjectMapUtils.newMap("*", servlet, "another", servlet));
+                Collections.<String,List<Filter>>emptyMap(), 
+                (Map<String,Servlet>)ObjectMapUtils.newMap("*", servlet, "another", servlet));
         assertFalse(invoker.isGlobalMappingOnly());
         
         //mapping to different extension
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap(), 
-                ObjectMapUtils.newMap("exe", servlet));
+                Collections.<String,List<Filter>>emptyMap(), 
+                Collections.<String,Servlet>singletonMap("exe", servlet));
         assertFalse(invoker.isGlobalMappingOnly());
 
         invoker = new ModuleHttpServiceInvoker(
-                ObjectMapUtils.newMap("exe", filter1), 
-                ObjectMapUtils.newMap());
+                Collections.<String,List<Filter>>singletonMap("exe", filters), 
+                Collections.<String,Servlet>emptyMap());
         assertFalse(invoker.isGlobalMappingOnly());
     }
     
