@@ -23,13 +23,13 @@ import org.springframework.beans.factory.FactoryBean;
  * {@link FactoryBean} which exposes {@link Properties} held by {@link PropertiesHolder} instance.
  * @author Phil Zoio
  */
-public class PropertiesHolderFactoryBean implements FactoryBean {
+public class PropertiesHolderFactoryBean implements FactoryBean<Properties> {
 
     /**
      * Returns {@link Properties} instance held by {@link Properties} holder.
      * Otherwise, returns empty {@link Properties} instance.
      */
-    public Object getObject() throws Exception {
+    public Properties getObject() throws Exception {
         Properties properties = PropertiesHolder.getInstance().getProperties();
         
         if (properties != null)         
@@ -38,7 +38,7 @@ public class PropertiesHolderFactoryBean implements FactoryBean {
         return new Properties();
     }
 
-    public Class<?> getObjectType() {
+    public Class<Properties> getObjectType() {
         return Properties.class;
     }
 
