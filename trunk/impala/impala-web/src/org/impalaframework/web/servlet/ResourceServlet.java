@@ -51,7 +51,6 @@ import org.springframework.web.servlet.HttpServletBean;
  * @author Scott Andrews
  * @author Phil Zoio
  */
-@SuppressWarnings("unchecked")
 public class ResourceServlet extends HttpServletBean {
 
     private static final long serialVersionUID = 1L;
@@ -72,7 +71,7 @@ public class ResourceServlet extends HttpServletBean {
 
     private boolean gzipEnabled = true;
 
-    private Set allowedResourcePaths = new HashSet();
+    private Set<String> allowedResourcePaths = new HashSet<String>();
     {
         allowedResourcePaths.add("/**/*.css");
         allowedResourcePaths.add("/**/*.gif");
@@ -90,7 +89,7 @@ public class ResourceServlet extends HttpServletBean {
         allowedResourcePaths.add("META-INF/**/*.png");
     };
 
-    private Map defaultMimeTypes = new HashMap();
+    private Map<String,String> defaultMimeTypes = new HashMap<String,String>();
     {
         defaultMimeTypes.put(".css", "text/css");
         defaultMimeTypes.put(".gif", "image/gif");
@@ -101,7 +100,7 @@ public class ResourceServlet extends HttpServletBean {
         defaultMimeTypes.put(".png", "image/png");
     }
 
-    private Set compressedMimeTypes = new HashSet();
+    private Set<String> compressedMimeTypes = new HashSet<String>();
     {
         compressedMimeTypes.add("text/*");
     }
@@ -167,9 +166,9 @@ public class ResourceServlet extends HttpServletBean {
 
     private boolean matchesCompressedMimeTypes(String mimeType) {
         PathMatcher pathMatcher = new AntPathMatcher();
-        Iterator compressedMimeTypesIt = compressedMimeTypes.iterator();
+        Iterator<String> compressedMimeTypesIt = compressedMimeTypes.iterator();
         while (compressedMimeTypesIt.hasNext()) {
-            String compressedMimeType = (String) compressedMimeTypesIt.next();
+            String compressedMimeType = compressedMimeTypesIt.next();
             if (pathMatcher.match(compressedMimeType, mimeType)) {
                 return true;
             }
@@ -306,9 +305,9 @@ public class ResourceServlet extends HttpServletBean {
             return false;
         }
         PathMatcher pathMatcher = new AntPathMatcher();
-        Iterator allowedResourcePathsIt = allowedResourcePaths.iterator();
+        Iterator<String> allowedResourcePathsIt = allowedResourcePaths.iterator();
         while (allowedResourcePathsIt.hasNext()) {
-            String pattern = (String) allowedResourcePathsIt.next();
+            String pattern = allowedResourcePathsIt.next();
             if (pathMatcher.match(pattern, resourcePath)) {
                 return true;
             }
@@ -414,7 +413,7 @@ public class ResourceServlet extends HttpServletBean {
      * @see AntPathMatcher
      */
     public void setAllowedResourcePaths(String allowedResourcePaths) {
-        this.allowedResourcePaths = new HashSet(Arrays.asList(StringUtils.tokenizeToStringArray(allowedResourcePaths,
+        this.allowedResourcePaths = new HashSet<String>(Arrays.asList(StringUtils.tokenizeToStringArray(allowedResourcePaths,
                 ",", true, true)));
     }
 
@@ -425,7 +424,7 @@ public class ResourceServlet extends HttpServletBean {
 	 * @see AntPathMatcher
 	 */
 	public void setCompressedMimeTypes(String compressedMimeTypes) {
-		this.compressedMimeTypes = new HashSet(Arrays.asList(StringUtils.tokenizeToStringArray(compressedMimeTypes,
+		this.compressedMimeTypes = new HashSet<String>(Arrays.asList(StringUtils.tokenizeToStringArray(compressedMimeTypes,
 				",", true, true)));
 	}
 

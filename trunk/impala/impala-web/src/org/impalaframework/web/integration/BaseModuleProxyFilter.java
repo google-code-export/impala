@@ -37,9 +37,7 @@ import org.impalaframework.web.servlet.wrapper.RequestModuleMapping;
  */
 public abstract class BaseModuleProxyFilter extends BaseLockingProxyFilter {
     
-    private static final Log logger = LogFactory.getLog(BaseModuleProxyFilter.class);   
-    
-    private static final long serialVersionUID = 1L;
+    private static final Log logger = LogFactory.getLog(BaseModuleProxyFilter.class);
     
     private RequestModuleMapper requestModuleMapper;
     

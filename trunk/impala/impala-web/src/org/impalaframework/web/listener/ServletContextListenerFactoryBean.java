@@ -40,7 +40,7 @@ import org.springframework.web.context.ServletContextAware;
  * {@link #destroy()}.
  * @author Phil Zoio
  */
-public class ServletContextListenerFactoryBean implements ApplicationContextAware, ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean, FactoryBean {
+public class ServletContextListenerFactoryBean implements ApplicationContextAware, ServletContextAware, BeanClassLoaderAware, InitializingBean, DisposableBean, FactoryBean<Object> {
 
     private ServletContext servletContext;
     

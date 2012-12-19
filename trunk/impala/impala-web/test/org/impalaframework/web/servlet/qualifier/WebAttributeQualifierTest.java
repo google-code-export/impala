@@ -48,7 +48,8 @@ public class WebAttributeQualifierTest extends TestCase {
         realContext.setAttribute("application__module_mymodule:anotherkey", "value3");
         realContext.setAttribute("anotherkey", "value2");
         
-        Enumeration<String> attributeNames = qualifier.filterAttributeNames(realContext.getAttributeNames(), "", "mymodule");
+        Enumeration<String> names = (Enumeration<String>) realContext.getAttributeNames();
+		Enumeration<String> attributeNames = qualifier.filterAttributeNames(names, "", "mymodule");
         ArrayList<String> list = Collections.list(attributeNames);
         assertEquals(CollectionStringUtils.parseStringList("application__module_mymodule:mykey,application__module_mymodule:anotherkey"), list);
     }
