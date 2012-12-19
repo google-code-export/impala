@@ -37,7 +37,7 @@ import org.springframework.util.ObjectUtils;
  * @author Phil Zoio
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget implements List {
+public abstract class BaseServiceRegistryList<T extends Object> extends BaseServiceRegistryTarget implements List<T> {
     
     private static Log logger = LogFactory.getLog(BaseServiceRegistryList.class);
     
@@ -47,7 +47,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
     /**
      * Holds contributions, typically proxied objects
      */
-    private List contributions = new ArrayList();
+    private List<T> contributions = new ArrayList<T>();
     
     /**
      * Holds list of {@link ServiceRegistryEntry}
@@ -144,7 +144,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
                 proxyMap.put(bean, proxyObject);
             }
             
-            this.contributions.add(proxyObject);
+            this.contributions.add((T)proxyObject);
         }
     }
 
@@ -152,11 +152,11 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.contains(object);
     }
 
-    public boolean containsAll(Collection collections) {
+    public boolean containsAll(Collection<?> collections) {
         return contributions.containsAll(collections);
     }
 
-    public Object get(int index) {
+    public T get(int index) {
         return contributions.get(index);
     }
 
@@ -168,7 +168,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.isEmpty();
     }
 
-    public Iterator iterator() {
+    public Iterator<T> iterator() {
         return contributions.iterator();
     }
 
@@ -176,11 +176,11 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.lastIndexOf(object);
     }
 
-    public ListIterator listIterator() {
+    public ListIterator<T> listIterator() {
         return contributions.listIterator();
     }
 
-    public ListIterator listIterator(int index) {
+    public ListIterator<T> listIterator(int index) {
         return contributions.listIterator(index);
     }
 
@@ -188,7 +188,7 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         return contributions.size();
     }
 
-    public List subList(int fromIndex, int toIndex) {
+    public List<T> subList(int fromIndex, int toIndex) {
         return contributions.subList(fromIndex, toIndex);
     }
 
@@ -210,11 +210,11 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(Collection collection) {
+    public boolean addAll(Collection<? extends T> collection) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean addAll(int index, Collection collection) {
+    public boolean addAll(int index, Collection<? extends T> collection) {
         throw new UnsupportedOperationException();
     }
 
@@ -226,15 +226,15 @@ public abstract class BaseServiceRegistryList extends BaseServiceRegistryTarget 
         throw new UnsupportedOperationException();
     }
 
-    public Object remove(int index) {
+    public T remove(int index) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean removeAll(Collection collection) {
+    public boolean removeAll(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
-    public boolean retainAll(Collection collection) {
+    public boolean retainAll(Collection<?> collection) {
         throw new UnsupportedOperationException();
     }
 
