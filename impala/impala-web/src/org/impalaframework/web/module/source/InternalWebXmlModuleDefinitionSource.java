@@ -23,7 +23,7 @@ public class InternalWebXmlModuleDefinitionSource extends InternalXmlModuleDefin
 
     public InternalWebXmlModuleDefinitionSource() {
         super(Impala.getFacade().getModuleManagementFacade().getModuleLocationResolver(), 
-                Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
+              Impala.getFacade().getModuleManagementFacade().getTypeReaderRegistry());
     }
 
     public InternalWebXmlModuleDefinitionSource(ModuleLocationResolver moduleLocationResolver, TypeReaderRegistry typeReaderRegistry) {
