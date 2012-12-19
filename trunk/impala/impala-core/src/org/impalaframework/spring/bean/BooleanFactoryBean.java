@@ -22,13 +22,13 @@ import org.springframework.beans.factory.FactoryBean;
  * wired in value.
  * @author Phil Zoio
  */
-public class BooleanFactoryBean implements FactoryBean {
+public class BooleanFactoryBean implements FactoryBean<Boolean> {
 
     private boolean reverse;
     
     private boolean value;
 
-    public Object getObject() throws Exception {
+    public Boolean getObject() throws Exception {
         return (reverse ? !value : value);
     }
 

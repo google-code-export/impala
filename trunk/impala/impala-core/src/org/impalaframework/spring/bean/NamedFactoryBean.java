@@ -32,7 +32,7 @@ import org.springframework.util.Assert;
  * 
  * @see org.impalaframework.spring.service.bean.SingletonAwareNamedFactoryBean
  */
-public class NamedFactoryBean implements FactoryBean, BeanFactoryAware, InitializingBean {
+public class NamedFactoryBean implements FactoryBean<Object>, BeanFactoryAware, InitializingBean {
 
     private BeanFactory beanFactory;
 

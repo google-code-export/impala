@@ -21,11 +21,11 @@ import org.springframework.beans.factory.FactoryBean;
  * <code>String</code>.
  * @author Phil Zoio
  */
-public class StringFactoryBean implements FactoryBean {
+public class StringFactoryBean implements FactoryBean<String> {
 
     private String value;
 
-    public Object getObject() throws Exception {
+    public String getObject() throws Exception {
         return value;
     }
 
