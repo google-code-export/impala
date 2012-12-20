@@ -10,9 +10,8 @@ import org.springframework.context.ConfigurableApplicationContext;
 
 public class ModuleTestUtils {
 
-    @SuppressWarnings("unchecked")
     public static void checkHasPostProcessor(boolean expectPostProcessor,
-            ConfigurableApplicationContext context, Class processorClass) {
+            ConfigurableApplicationContext context, Class<?> processorClass) {
         DefaultListableBeanFactory beanFactory = (DefaultListableBeanFactory) context.getBeanFactory();
         List<BeanPostProcessor> beanPostProcessors = beanFactory.getBeanPostProcessors();
         

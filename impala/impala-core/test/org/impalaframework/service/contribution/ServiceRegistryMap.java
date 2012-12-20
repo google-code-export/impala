@@ -21,13 +21,14 @@ import org.impalaframework.service.ServiceRegistryEntry;
  * 
  * @author Phil Zoio
  */
-public class ServiceRegistryMap extends BaseServiceRegistryMap {
+public class ServiceRegistryMap<T extends Object> extends BaseServiceRegistryMap<T> {
     
     public ServiceRegistryMap() {
         super();
     }
     
-    protected Object maybeGetProxy(ServiceRegistryEntry entry) {
-        return entry.getServiceBeanReference().getService();
+    @SuppressWarnings("unchecked")
+	protected T maybeGetProxy(ServiceRegistryEntry entry) {
+        return (T)entry.getServiceBeanReference().getService();
     }
 }

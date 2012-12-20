@@ -29,12 +29,12 @@ import org.springframework.util.ClassUtils;
 
 public class BaseServiceRegistrySetTest extends TestCase {
     
-    private BaseServiceRegistrySet set;
+    private BaseServiceRegistrySet<Object> set;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();        
-        set = new BaseServiceRegistrySet() {
+        set = new BaseServiceRegistrySet<Object>() {
 
             @Override
             protected Object maybeGetProxy(ServiceRegistryEntry entry) {

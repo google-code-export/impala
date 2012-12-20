@@ -19,7 +19,7 @@ import junit.framework.TestCase;
 public class RegistrySupportTest extends TestCase {
     
     public void testRemove() throws Exception {
-        RegistrySupport registry = new RegistrySupport();
+        RegistrySupport<String> registry = new RegistrySupport<String>();
         registry.addRegistryItem("kEy", "value");
         assertEquals("value", registry.getEntry("key", String.class));
         assertEquals("value", registry.getEntry("kEy", String.class));
@@ -29,7 +29,7 @@ public class RegistrySupportTest extends TestCase {
     }
     
     public void testConcurrent() throws Exception {
-        ConcurrentRegistrySupport registry = new ConcurrentRegistrySupport();
+        ConcurrentRegistrySupport<String> registry = new ConcurrentRegistrySupport<String>();
         registry.addRegistryItem("key", "value");
         assertEquals("value", registry.getEntry("key", String.class));
     }
