@@ -83,8 +83,7 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
         }
 
         try {
-            parent.getBean("bean", new String[0]);
-            fail();
+            parent.getBean("bean", "arg1");
         } catch (NoSuchBeanDefinitionException e) {
         }
 
@@ -120,14 +119,13 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
 
 	public void testWithDependencies3() throws Exception {
 
-        String[] args = new String[] {"arg"};
         expect(delegate.containsBean("bean")).andReturn(false);
         expect(dependencyOne.containsBeanDefinition("bean")).andReturn(false);
         expect(dependencyTwo.containsBeanDefinition("bean")).andReturn(true);
-        expect(dependencyTwo.getBean("bean", args)).andReturn("value");
+        expect(dependencyTwo.getBean("bean", "arg")).andReturn("value");
 
         replay(delegate, dependencyOne, dependencyTwo);
-		parent.getBean("bean", args);
+		parent.getBean("bean", "arg");
 
         verify(delegate, dependencyOne, dependencyTwo);
     }
@@ -197,13 +195,12 @@ public class GraphDelegatingApplicationContextTest extends TestCase {
     
     public void testDelegatingGetBean3() throws Exception {
 
-        String[] args = new String[0];
         expect(delegate.containsBean("bean")).andReturn(true);
-        expect(delegate.getBean("bean", args)).andReturn("value");
+        expect(delegate.getBean("bean", "arg1", "arg2")).andReturn("value");
         
         replay(delegate, dependencyOne, dependencyTwo);
 
-        parent.getBean("bean", args);
+        parent.getBean("bean", "arg1", "arg2");
         
         verify(delegate, dependencyOne, dependencyTwo);
 	}

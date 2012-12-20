@@ -18,7 +18,7 @@ import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.springframework.beans.factory.FactoryBean;
 
-public class ModuleDefinitionFactoryBean implements FactoryBean {
+public class ModuleDefinitionFactoryBean implements FactoryBean<Object> {
 
     public Object getObject() throws Exception {
         return new SimpleModuleDefinition("mybean");

@@ -36,7 +36,7 @@ import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryListTest extends TestCase {
 
-    private ServiceRegistryList list;
+    private ServiceRegistryList<Object> list;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] supportedTypes;
     private LdapServiceReferenceFilter filter;
@@ -45,7 +45,7 @@ public class ServiceRegistryListTest extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        list = new ServiceRegistryList();
+        list = new ServiceRegistryList<Object>();
         
         serviceRegistry = new DelegatingServiceRegistry();
         list.setServiceRegistry(serviceRegistry);
@@ -58,7 +58,6 @@ public class ServiceRegistryListTest extends TestCase {
         classLoader = ClassUtils.getDefaultClassLoader();
     }
     
-    @SuppressWarnings("unchecked")
     public void testWithList() throws Exception {
 
         serviceRegistry = createMock(ServiceRegistry.class);

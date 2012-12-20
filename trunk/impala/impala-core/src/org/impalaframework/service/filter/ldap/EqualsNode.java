@@ -76,7 +76,7 @@ class EqualsNode extends ItemNode {
     }
 
     @Override
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({"unchecked","rawtypes"})
     protected boolean matchComparable(Comparable internal, Comparable external) {
         return (internal.compareTo(external) == 0);
     }

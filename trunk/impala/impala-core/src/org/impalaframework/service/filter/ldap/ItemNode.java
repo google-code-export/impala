@@ -108,6 +108,7 @@ abstract class ItemNode extends BaseNode implements FilterNode {
         return value.equals(constructed);
     }
 
+    @SuppressWarnings("unchecked")
     private <T extends Object> boolean matchComparable(Comparable<T> value) {
         Constructor<?> constructor = ReflectionUtils.findConstructor(value.getClass(), new Class[]{ String.class });
         if (constructor == null) {
