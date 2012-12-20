@@ -41,7 +41,10 @@ public abstract class BaseModuleLibraryResourceFinder implements
     
     private static final Log logger = LogFactory.getLog(BaseModuleLibraryResourceFinder.class);
 
-    protected abstract String getLibraryDirectory() ;
+    protected abstract String getLibraryDirectory();
+    
+    public BaseModuleLibraryResourceFinder() {
+	}
 
     public List<Resource> findResources(String workspaceRootPath, String moduleName, String moduleVersion) {
 
