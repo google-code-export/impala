@@ -27,6 +27,9 @@ import org.springframework.util.Assert;
 public class ExpandedModuleLibraryResourceFinder extends BaseModuleLibraryResourceFinder {
 
     private String libDirectory = "lib";
+    
+    public ExpandedModuleLibraryResourceFinder() {
+	}
 
     @Override
     protected String getLibraryDirectory() {

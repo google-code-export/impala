@@ -27,6 +27,9 @@ import org.springframework.core.io.Resource;
  * @author Phil Zoio
  */
 public class JarModuleClassResourceFinder implements ModuleResourceFinder {
+	
+	public JarModuleClassResourceFinder() {
+	}
     
     public List<Resource> findResources(
             String workspaceRootPath,
