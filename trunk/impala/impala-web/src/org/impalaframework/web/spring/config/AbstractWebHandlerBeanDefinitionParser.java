@@ -58,7 +58,7 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         if (StringUtils.hasText(factoryClass)) {
             
             try {
-                return ClassUtils.forName(factoryClass);
+                return ClassUtils.forName(factoryClass, ClassUtils.getDefaultClassLoader());
             }
             catch (Throwable e) {
                 throw new ExecutionException("Unable to load class: " + factoryClass + ": " + e.getMessage(), e);
@@ -147,7 +147,6 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         return getIntegrationHandlerClass().getName();
     }
     
-    @SuppressWarnings("unchecked")
     void handlePropertyElements(
             Element element,
             ParserContext parserContext, 
@@ -168,7 +167,6 @@ public abstract class AbstractWebHandlerBeanDefinitionParser extends AbstractSim
         }
     }
 
-    @SuppressWarnings("unchecked")
     void handleInitParametersElement(Element element, Map<String, String> initParameters) {
         
         Element initParams = DomUtils.getChildElementByTagName(element, INIT_PARAMS_ELEMENT);

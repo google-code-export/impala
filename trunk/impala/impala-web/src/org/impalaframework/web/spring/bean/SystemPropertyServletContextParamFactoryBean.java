@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 import org.springframework.web.context.ServletContextAware;
 
 public class SystemPropertyServletContextParamFactoryBean implements
-        FactoryBean, ServletContextAware, InitializingBean {
+        FactoryBean<Object>, ServletContextAware, InitializingBean {
     
     private static final Log logger = LogFactory.getLog(SystemPropertyServletContextParamFactoryBean.class);
 

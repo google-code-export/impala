@@ -43,7 +43,6 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         MyServlet1.reset();
     }
 
-    @SuppressWarnings("unchecked")
     public void testDefault() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
@@ -54,13 +53,12 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         
         context.refresh();
         
-        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        Map<String,ServletFactoryBean> factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
         assertEquals(1, factoryBeans.size());
         ServletFactoryBean firstValue = (ServletFactoryBean) ObjectMapUtils.getFirstValue(factoryBeans);
         assertTrue(firstValue.getObject() instanceof InternalModuleServlet);
     }
     
-    @SuppressWarnings("unchecked")
     public void testDispatcherServlet() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
@@ -71,7 +69,7 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         
         context.refresh();
         
-        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        Map<String,ServletFactoryBean> factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
         assertEquals(1, factoryBeans.size());
         ServletFactoryBean firstValue = (ServletFactoryBean) ObjectMapUtils.getFirstValue(factoryBeans);
         final Object frameworkServlet = firstValue.getObject();
@@ -83,8 +81,6 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         assertNotNull(dispatcherServlet);
     }
     
-
-    @SuppressWarnings("unchecked")
     public void testServlet() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
@@ -98,13 +94,13 @@ public class ServletBeanDefinitionParserTest extends TestCase {
         assertEquals("injectedValue", MyServlet1.getMyAttribute());
         assertEquals("initValue", MyServlet2.getConfigParam());
         
-        Map factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
+        Map<String,ServletFactoryBean> factoryBeans = context.getBeansOfType(ServletFactoryBean.class);
         assertEquals(3, factoryBeans.size());
         
-        Map s = context.getBeansOfType(HttpServlet.class);
+        Map<String,HttpServlet> s = context.getBeansOfType(HttpServlet.class);
         assertEquals(1, s.size());
         
-        Map beans = context.getBeansOfType(InternalFrameworkIntegrationServletFactoryBean.class);
+        Map<String,? extends ServletFactoryBean> beans = context.getBeansOfType(InternalFrameworkIntegrationServletFactoryBean.class);
         assertEquals(1, beans.size());
         
         InternalFrameworkIntegrationServletFactoryBean firstValue = (InternalFrameworkIntegrationServletFactoryBean) ObjectMapUtils.getFirstValue(beans);

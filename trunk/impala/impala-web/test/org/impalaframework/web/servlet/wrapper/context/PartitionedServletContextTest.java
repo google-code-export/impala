@@ -41,7 +41,6 @@ public class PartitionedServletContextTest extends TestCase {
         wrapperContext = new PartitionedServletContext(servletContext, "", "mymodule", new DefaultWebAttributeQualifier(), ClassUtils.getDefaultClassLoader());
     }
     
-    @SuppressWarnings("unchecked")
     public void testGetAttributeNames() throws Exception {
         AttributeServletContext realContext = new AttributeServletContext();
         realContext.setAttribute("application__module_mymodule:mykey", "value1");

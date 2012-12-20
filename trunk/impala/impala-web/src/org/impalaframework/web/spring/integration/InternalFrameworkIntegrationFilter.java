@@ -44,8 +44,6 @@ import org.springframework.web.context.WebApplicationContext;
  * @author Phil Zoio
  */
 public class InternalFrameworkIntegrationFilter implements javax.servlet.Filter, ApplicationContextAware {
-    
-    private static final long serialVersionUID = 1L;
 
     private WebApplicationContext applicationContext;
     

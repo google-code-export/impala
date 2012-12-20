@@ -116,7 +116,6 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
     
     /* ******************* methods to support prefix mappings ****************** */
 
-    @SuppressWarnings("unchecked")
     private void handlePrefixes(Element element, ParserContext parserContext) {
         List<Element> toModules = DomUtils.getChildElementsByTagName(element, TO_MDOULE_ELEMENT);
         
@@ -183,7 +182,6 @@ public class WebMappingBeanDefinitionParser implements BeanDefinitionParser {
 
     /* ******************* methods to support suffix mappings ****************** */
     
-    @SuppressWarnings("unchecked")
     private void handleSuffixes(Element element, ParserContext parserContext) {
         
         List<Element> suffixes = DomUtils.getChildElementsByTagName(element, TO_RESOURCE_ELEMENT);

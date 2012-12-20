@@ -53,8 +53,6 @@ public class FrameworkServletContextCreator  {
 
 	private static final Log logger = LogFactory.getLog(FrameworkServletContextCreator.class);
 	
-	private static final long serialVersionUID = 1L;
-	
 	private boolean initialized;
 	
 	private FrameworkServlet servlet;

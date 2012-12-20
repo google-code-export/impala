@@ -42,7 +42,7 @@ import org.springframework.web.context.ServletContextAware;
  * <i>Init Parameters</i> are passed in via a <code>Map</code>.
  * @author Phil Zoio
  */
-public class ServletFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
+public class ServletFactoryBean implements FactoryBean<Servlet>, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
     private ServletContext servletContext;
     private Map<String,String> initParameters;
@@ -52,7 +52,7 @@ public class ServletFactoryBean implements FactoryBean, ServletContextAware, Ini
     private ApplicationContext applicationContext;
     private ModuleDefinition moduleDefintion;
 
-    public Object getObject() throws Exception {
+    public Servlet getObject() throws Exception {
         return getServlet();
     }
 

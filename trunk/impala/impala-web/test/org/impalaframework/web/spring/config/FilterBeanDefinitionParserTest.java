@@ -36,7 +36,6 @@ import org.springframework.web.context.support.GenericWebApplicationContext;
 
 public class FilterBeanDefinitionParserTest extends TestCase {
 
-    @SuppressWarnings("unchecked")
     public void testFilter() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
@@ -49,13 +48,13 @@ public class FilterBeanDefinitionParserTest extends TestCase {
         
         assertEquals("initValue", MyFilter2.getConfigParam());
         
-        Map factoryBeans = context.getBeansOfType(FilterFactoryBean.class);
+        Map<String, FilterFactoryBean> factoryBeans = context.getBeansOfType(FilterFactoryBean.class);
         assertEquals(3, factoryBeans.size());
         
-        Map s = context.getBeansOfType(Filter.class);
+        Map<String, Filter> s = context.getBeansOfType(Filter.class);
         assertEquals(3, s.size());
         
-        Map beans = context.getBeansOfType(InternalFrameworkIntegrationFilterFactoryBean.class);
+        Map<String, ? extends FilterFactoryBean> beans = context.getBeansOfType(InternalFrameworkIntegrationFilterFactoryBean.class);
         assertEquals(1, beans.size());
         
         InternalFrameworkIntegrationFilterFactoryBean firstValue = (InternalFrameworkIntegrationFilterFactoryBean) ObjectMapUtils.getFirstValue(beans);
@@ -90,8 +89,6 @@ class MyFilter1 implements Filter {
 class MyFilter2 implements Filter {
     
     private static String configParam;
-
-    private static final long serialVersionUID = 1L;
     
     public void init(FilterConfig config) throws ServletException {
         configParam = config.getInitParameter("initParam");

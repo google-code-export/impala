@@ -42,7 +42,7 @@ public class DelegatingHttpSession implements HttpSession {
     }
 
     @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
         return realSession.getAttributeNames();
     }
 
