@@ -134,7 +134,6 @@ public class DelegatingServiceRegistryTest extends TestCase {
         assertNull(registry.getService("bean1", new Class<?>[]{FactoryBean.class}, false));
     }
     
-    @SuppressWarnings("unchecked")
     public void testGetServiceByExportTypes() throws Exception {
         
         classes = new Class[]{String.class};
@@ -183,7 +182,7 @@ public class DelegatingServiceRegistryTest extends TestCase {
         assertTrue(registry.getServices((String)null, classes, true).isEmpty());
         
         //now register bean with export types
-        List list = Collections.singletonList(String.class);
+        List<Class<?>> list = Collections.<Class<?>>singletonList(String.class);
         registryaddService(null, "module1", factoryBean.getObject(), list, null, classLoader);
         
         assertNotNull(registry.getService(null, classes, true));
@@ -248,11 +247,11 @@ public class DelegatingServiceRegistryTest extends TestCase {
 
         assertTrue(registry.getServices("bean1", new Class<?>[]{String.class}, false).isEmpty());
         
-        final ServiceRegistryEntry ref1 = registryaddService("bean1", "module1", "some service 1", null, Collections.singletonMap("service.ranking", 100), classLoader);
+        final ServiceRegistryEntry ref1 = registryaddService("bean1", "module1", "some service 1", null, Collections.<String,Object>singletonMap("service.ranking", 100), classLoader);
         assertEquals(1, registry.getServices("bean1", new Class<?>[]{String.class}, false).size());
         assertEquals(0, registry.getServices("bean1", new Class<?>[]{Integer.class}, false).size());
 
-        final ServiceRegistryEntry ref2 = registryaddService("bean1", "module2", "some service 2", null, Collections.singletonMap("service.ranking", 400), classLoader);
+        final ServiceRegistryEntry ref2 = registryaddService("bean1", "module2", "some service 2", null, Collections.<String,Object>singletonMap("service.ranking", 400), classLoader);
         List<ServiceRegistryEntry> services = registry.getServices("bean1", new Class<?>[]{ String.class }, false);
         assertEquals(2, services.size());
         assertEquals(ref2, services.get(0));
@@ -326,19 +325,18 @@ public class DelegatingServiceRegistryTest extends TestCase {
             }}, null, false).size());
     }
     
-    @SuppressWarnings("unchecked")
     public void testUsingExportTypesFilter() {
         List<String> service1 = new ArrayList<String>();
         List<String> service2 = new ArrayList<String>();
         
-        List service1Classes = Collections.singletonList(ArrayList.class);
-        List service2Classes = Collections.singletonList(List.class);
+        List<Class<?>> service1Classes = Collections.<Class<?>>singletonList(ArrayList.class);
+        List<Class<?>> service2Classes = Collections.<Class<?>>singletonList(List.class);
         
         registryaddService("bean1", "module1", service1, service1Classes, null, classLoader);
         registryaddService("bean2", "module2", service2, service2Classes, null, classLoader);
         
-        Class[] arrayListMatch = new Class[] { ArrayList.class };
-        Class[] listMatch = new Class[] { List.class };
+        Class<?>[] arrayListMatch = new Class[] { ArrayList.class };
+        Class<?>[] listMatch = new Class[] { List.class };
 
         assertEquals(2, registry.getServices(ServiceEntryRegistryDelegate.IDENTIFY_FILTER, null, false).size());
         assertEquals(2, registry.getServices(ServiceEntryRegistryDelegate.IDENTIFY_FILTER, listMatch, false).size());
@@ -349,21 +347,20 @@ public class DelegatingServiceRegistryTest extends TestCase {
         assertEquals(1, registry.getServices(ServiceEntryRegistryDelegate.IDENTIFY_FILTER, listMatch, true).size());
     }
     
-    @SuppressWarnings("unchecked")
     public void testUsingMultiFilters() {
         List<String> service1 = new ArrayList<String>();
         
-        List service1Classes = new ArrayList();
+        List<Class<?>> service1Classes = new ArrayList<Class<?>>();
         service1Classes.add(ArrayList.class);
         service1Classes.add(List.class);
         
         registryaddService("bean1", "module1", service1, service1Classes, null, classLoader);
         
-        Class[] arrayListMatch = new Class[] { ArrayList.class };
-        Class[] listMatch = new Class[] { List.class };
-        Class[] allMatch = new Class[] { List.class, ArrayList.class };
-        Class[] allMatchReverse = new Class[] { ArrayList.class, List.class };
-        Class[] falseMatch = new Class[] { List.class, LinkedList.class };
+        Class<?>[] arrayListMatch = new Class[] { ArrayList.class };
+        Class<?>[] listMatch = new Class[] { List.class };
+        Class<?>[] allMatch = new Class[] { List.class, ArrayList.class };
+        Class<?>[] allMatchReverse = new Class[] { ArrayList.class, List.class };
+        Class<?>[] falseMatch = new Class[] { List.class, LinkedList.class };
 
         assertEquals(1, registry.getServices(ServiceEntryRegistryDelegate.IDENTIFY_FILTER, null, false).size());
         assertEquals(1, registry.getServices(ServiceEntryRegistryDelegate.IDENTIFY_FILTER, listMatch, false).size());
@@ -449,9 +446,8 @@ public class DelegatingServiceRegistryTest extends TestCase {
         return registry.addService(beanName, moduleName, new StaticServiceBeanReference(service), classLoader);
     }
     
-    @SuppressWarnings("unchecked")
     private ServiceRegistryEntry registryaddService(String beanName,
-            String moduleName, Object service, List<Class<?>> exportTypes, Map attributes, ClassLoader classLoader) {
+            String moduleName, Object service, List<Class<?>> exportTypes, Map<String,Object> attributes, ClassLoader classLoader) {
         return registry.addService(beanName, moduleName, new StaticServiceBeanReference(service), exportTypes, attributes, classLoader);
     }
     

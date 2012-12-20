@@ -20,15 +20,14 @@ import java.util.Map;
 
 import junit.framework.TestCase;
 
-@SuppressWarnings("unchecked")
 public class FilterTest extends TestCase {
     
-    private Map data;
+    private Map<String,Object> data;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        data = new HashMap();
+        data = new HashMap<String,Object>();
     }
 
     public void testEqualsAndOrNot() throws Exception {
