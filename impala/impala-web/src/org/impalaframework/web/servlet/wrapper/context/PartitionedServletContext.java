@@ -50,10 +50,9 @@ public class PartitionedServletContext extends
      * will also get shared values, but it cannot set or remove them, 
      * or iterate through them.
      */
-    @SuppressWarnings("unchecked")
-    public Enumeration getAttributeNames() {
+    public Enumeration<String> getAttributeNames() {
 
-        Enumeration attributeNames = super.getAttributeNames();
+        Enumeration<String> attributeNames = super.getAttributeNames();
         
         final String applicationId = getApplicationId();
         final String moduleName = getModuleName();

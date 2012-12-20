@@ -92,7 +92,7 @@ public class FrameworkIntegrationServletFactoryBean extends ServletFactoryBean {
     }
     
     @Override
-    public Object getObject() throws Exception {
+    public InternalFrameworkIntegrationServlet getObject() throws Exception {
         return integrationServlet;
     }
     

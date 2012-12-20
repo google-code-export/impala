@@ -33,7 +33,6 @@ public class JspServletBeanDefinitionParserTest extends TestCase {
         super.setUp();
     }
 
-    @SuppressWarnings("unchecked")
     public void testServlet() throws Exception {
         
         GenericWebApplicationContext context = new GenericWebApplicationContext();
@@ -52,7 +51,7 @@ public class JspServletBeanDefinitionParserTest extends TestCase {
         JspServlet servlet = (JspServlet) bean;
         assertEquals("jspServlet", servlet.getServletName());
         
-        Map beans = context.getBeansOfType(ExtendedServletFactoryBean.class);
+        Map<String, ExtendedServletFactoryBean> beans = context.getBeansOfType(ExtendedServletFactoryBean.class);
         assertEquals(1, beans.size());
         
         ExtendedServletFactoryBean extendedFactoryBean = (ExtendedServletFactoryBean) ObjectMapUtils.getFirstValue(beans);

@@ -62,7 +62,6 @@ public class PartitionedHttpSession extends DelegatingHttpSession {
     }
     
     @Override
-    @SuppressWarnings("unchecked")
     public Enumeration<String> getAttributeNames() {
         Enumeration<String> attributeNames = super.getAttributeNames();
         

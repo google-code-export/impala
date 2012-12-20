@@ -84,8 +84,7 @@ public class ModuleHttpServiceInvokerBuilder implements BeanFactoryAware, Initia
     }
 
     /* ***************** package level methods **************** */
-
-    @SuppressWarnings("unchecked")
+    
     ModuleHttpServiceInvoker buildInvoker() throws Exception {
         
         ListableBeanFactory beanFactory = ObjectUtils.cast(this.beanFactory, ListableBeanFactory.class);

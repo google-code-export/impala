@@ -66,7 +66,7 @@ public class ServletBeanDefinitionParser extends AbstractWebHandlerBeanDefinitio
                 // if servlet is FrameworkServlet subclass, but is not Impala-specific, 
                 // then use FrameworkIntegrationServletFactoryBean by default
                 
-                final Class<?> handlerClass = ClassUtils.forName(attribute);
+                final Class<?> handlerClass = ClassUtils.forName(attribute, ClassUtils.getDefaultClassLoader());
                 if (ReflectionUtils.isSubclass(handlerClass, "org.springframework.web.servlet.FrameworkServlet")) {
                     if (!ReflectionUtils.implementsInterface(handlerClass, ImpalaFrameworkServlet.class.getName())) {
                         return FrameworkIntegrationServletFactoryBean.class;

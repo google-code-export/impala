@@ -39,7 +39,7 @@ import org.springframework.web.context.ServletContextAware;
  * <i>Init Parameters</i> are passed in via a <code>Map</code>.
  * @author Phil Zoio
  */
-public class FilterFactoryBean implements FactoryBean, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
+public class FilterFactoryBean implements FactoryBean<Filter>, ServletContextAware, InitializingBean, DisposableBean, ModuleDefinitionAware, ApplicationContextAware {
 
     private ServletContext servletContext;
     private Map<String,String> initParameters;
@@ -49,7 +49,7 @@ public class FilterFactoryBean implements FactoryBean, ServletContextAware, Init
     private ApplicationContext applicationContext;
     private ModuleDefinition moduleDefintion;
 
-    public Object getObject() throws Exception {
+    public Filter getObject() throws Exception {
         return filter;
     }
 
