@@ -30,7 +30,7 @@ public class DynamicScope implements Scope {
 
 	private Map<String, Object> beans = new ConcurrentHashMap<String, Object>();
 
-	public synchronized Object get(String name, ObjectFactory objectFactory) {
+	public synchronized Object get(String name, ObjectFactory<?> objectFactory) {
 
 		long currentTime = System.currentTimeMillis();
 		if (currentTime - lastRefreshTime > delay) {
