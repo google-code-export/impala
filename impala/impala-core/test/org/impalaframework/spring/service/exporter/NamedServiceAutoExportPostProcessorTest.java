@@ -42,11 +42,12 @@ public class NamedServiceAutoExportPostProcessorTest extends TestCase {
     private DefaultListableBeanFactory beanFactory;
     private DefaultListableBeanFactory parentBeanFactory;
     private NamedServiceEndpoint endPoint;
-    private FactoryBean factoryBean;
+    private FactoryBean<Object> factoryBean;
     private ServiceRegistry serviceRegistry;
     private Class<?>[] classes;
 
-    public void setUp()
+    @SuppressWarnings("unchecked")
+	public void setUp()
     {
         classes = new Class[]{Object.class};
         p = new NamedServiceAutoExportPostProcessor();

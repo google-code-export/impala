@@ -36,14 +36,14 @@ import org.springframework.util.ClassUtils;
 
 public class ServiceRegistryMapTest extends TestCase {
 
-    private ServiceRegistryMap map;
+    private ServiceRegistryMap<Object> map;
     private ServiceRegistry serviceRegistry;    
     private Class<?>[] supportedTypes;
 
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-        map = new ServiceRegistryMap();
+        map = new ServiceRegistryMap<Object>();
         serviceRegistry = createMock(ServiceRegistry.class);
         map.setServiceRegistry(serviceRegistry);
         supportedTypes = new Class[]{ List.class };
@@ -67,7 +67,6 @@ public class ServiceRegistryMapTest extends TestCase {
         verify(serviceRegistry);
     }
 
-    @SuppressWarnings("unchecked")
     public void testWithMapKey() throws Exception {
         List<String> service = new ArrayList<String>();
         

@@ -23,9 +23,8 @@ import junit.framework.TestCase;
 
 public class ObjectMapUtilsTest extends TestCase {
     
-    @SuppressWarnings("unchecked")
     public void testNewMap() throws Exception {
-        Map map = ObjectMapUtils.newMap("k1", "v1", "k2", 2);
+        Map<?,?> map = ObjectMapUtils.newMap("k1", "v1", "k2", 2);
         assertEquals(2, map.size());
         assertEquals("v1", map.get("k1"));
         assertEquals(2, map.get("k2"));
@@ -39,18 +38,16 @@ public class ObjectMapUtilsTest extends TestCase {
         assertTrue(map.isEmpty());
     }
     
-    @SuppressWarnings("unchecked")
     public void testGetFirstValue() throws Exception {
-        Map map = ObjectMapUtils.newMap("k1", "v1");
+        Map<?,?> map = ObjectMapUtils.newMap("k1", "v1");
         assertEquals("v1", ObjectMapUtils.getFirstValue(map));
         
         map = ObjectMapUtils.newMap();
         assertEquals(null, ObjectMapUtils.getFirstValue(map));
     }
     
-    @SuppressWarnings("unchecked")
     public void testGetFirstKey() throws Exception {
-        Map map = ObjectMapUtils.newMap("k1", "v1");
+        Map<?,?> map = ObjectMapUtils.newMap("k1", "v1");
         assertEquals("k1", ObjectMapUtils.getFirstKey(map));
         
         map = ObjectMapUtils.newMap();

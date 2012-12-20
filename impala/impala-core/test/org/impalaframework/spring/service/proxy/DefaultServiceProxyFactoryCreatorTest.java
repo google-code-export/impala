@@ -45,7 +45,6 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         serviceRegistry = createMock(ServiceRegistry.class);
     }    
     
-    @SuppressWarnings("unchecked")
     public void testInfrastructure() throws Exception {
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
@@ -63,7 +62,6 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         assertTrue(wrappedObject instanceof ArrayList);
     }    
     
-    @SuppressWarnings("unchecked")
     public void testInfrastructureClassOnly() throws Exception {
         final List<String> list = new ArrayList<String>();
         ServiceRegistryEntry ref = new StaticServiceRegistryEntry(list, "mybean", "mymod", ClassUtils.getDefaultClassLoader());
@@ -84,7 +82,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(serviceRegistry, classes, null, "mykey"), null, null);
         
-        final List proxy = (List) proxyFactory.getProxy();
+        final List<String> proxy = (List<String>) proxyFactory.getProxy();
         proxy.add("obj");
         
         verify(serviceRegistry);
@@ -104,7 +102,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new BeanRetrievingProxyFactorySource(serviceRegistry, classes, null, "mykey"), null, null);
         
-        final List proxy = (List) proxyFactory.getProxy();
+        final List<String> proxy = (List<String>) proxyFactory.getProxy();
         proxy.add("obj");
         
         verify(serviceRegistry);
@@ -120,7 +118,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(new Class<?>[]{List.class}, ref), null, null);
         
-        final List proxy = (List) proxyFactory.getProxy();
+        final List<String> proxy = (List<String>) proxyFactory.getProxy();
         proxy.add("obj");
         
         verify(serviceRegistry);
@@ -134,7 +132,7 @@ public class DefaultServiceProxyFactoryCreatorTest extends TestCase {
         replay(serviceRegistry);
         final ProxyFactory proxyFactory = creator.createProxyFactory(new StaticServiceReferenceProxyFactorySource(null, ref), null, null);
         
-        final List proxy = (List) proxyFactory.getProxy();
+        final List<String> proxy = (List<String>) proxyFactory.getProxy();
         assertTrue(proxy instanceof ArrayList);
         proxy.add("obj");
         

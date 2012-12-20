@@ -29,9 +29,8 @@ public class BeanMap {
         Assert.notNull(name);
         return beanMap.get(name);
     }
-
-    @SuppressWarnings("unchecked")
-    public Object getBean(String name, Class requiredType) throws BeansException {
+    
+    public Object getBean(String name, Class<?> requiredType) throws BeansException {
         Object bean = getBean(name);
         Assert.isTrue(requiredType.isAssignableFrom(bean.getClass()), "bean must be an instance of "
                 + requiredType.getClass().getName());
