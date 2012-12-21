@@ -161,7 +161,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
         if (resource == null) {
             final List<Resource> classLocations = moduleLocationResolver.getApplicationModuleClassLocations(moduleName);
             
-            logger.error("Problem location resources for module: " + moduleName + ". Locations being searched are " + (classLocations.isEmpty() ? "empty": "listed next:"));
+            logger.error("Problem locating resources for module: " + moduleName + ". Locations being searched are " + (classLocations.isEmpty() ? "empty": "listed next:"));
             for (Resource classLocation : classLocations) {
                 logger.error(classLocation.getDescription() + (classLocation.exists() ? ": is present on file system": " cannot be found"));
             }

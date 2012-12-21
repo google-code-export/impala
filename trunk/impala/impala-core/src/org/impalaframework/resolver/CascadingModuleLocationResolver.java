@@ -38,6 +38,9 @@ public class CascadingModuleLocationResolver extends SimpleBaseModuleLocationRes
     private List<ModuleResourceFinder> libraryResourceFinders;
     
     private String applicationVersion;
+    
+    public CascadingModuleLocationResolver() {
+	}
 
     public List<Resource> getApplicationModuleClassLocations(String moduleName) {
         return getResources(moduleName, this.classResourceFinders, true);

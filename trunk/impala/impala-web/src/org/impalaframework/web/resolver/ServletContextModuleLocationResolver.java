@@ -17,7 +17,6 @@ package org.impalaframework.web.resolver;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletContext;
@@ -71,9 +70,12 @@ public class ServletContextModuleLocationResolver implements ModuleLocationResol
      */
     public List<Resource> getApplicationModuleClassLocations(String moduleName) {
         String applicationVersionString = StringUtils.hasText(applicationVersion) ? "-" + applicationVersion : "";
-        String fullResourceName = relativeModuleRootLocation + "/" + moduleName + applicationVersionString + ".jar";
-        Resource servletContextResource = new ServletContextResource(servletContext, fullResourceName);
-        return Collections.singletonList(servletContextResource);
+        String folderResourceName = relativeModuleRootLocation + "/" + moduleName;
+		String fullJarResourceName = folderResourceName + applicationVersionString + ".jar";
+        Resource folderResource = new ServletContextResource(servletContext, folderResourceName);
+        Resource jarResource = new ServletContextResource(servletContext, fullJarResourceName);
+        return Arrays.asList(folderResource, 
+        		jarResource);
     }
     
     /**
