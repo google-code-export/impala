@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="test"/>
 	<classpathentry kind="src" path="resources"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-core"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-interactive"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-jmx"/>
@@ -48,12 +48,12 @@
 	<classpathentry exported="true" kind="lib" path="/example-repository/main/slf4j-log4j12-1.6.2.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/aspectj/aspectjrt-1.5.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="/example-repository/aspectj/aspectjweaver-1.5.4.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/example-extension"/>
-	<classpathentry kind="lib" path="/example-repository/web/servlet-api-2.4.jar"/>
-	<classpathentry kind="lib" path="/example-repository/web/jsp-api-2.0.jar"/>
-	<classpathentry kind="lib" path="/example-repository/jetty/jstl-1.1.2.jar"/>
-	<classpathentry kind="lib" path="/example-repository/jetty/standard-1.1.2.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/impala-launcher"/>
-	<classpathentry kind="lib" path="/example-repository/main/jcl-over-slf4j-1.6.2.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/example-extension"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/web/servlet-api-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/web/jsp-api-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/jetty/jstl-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/jetty/standard-1.1.2.jar"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/impala-launcher"/>
+	<classpathentry exported="true" kind="lib" path="/example-repository/main/jcl-over-slf4j-1.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
