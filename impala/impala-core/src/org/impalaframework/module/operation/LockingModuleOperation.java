@@ -34,6 +34,14 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     
     private FrameworkLockHolder frameworkLockHolder;
 
+    /**
+     * If true then allows module operation to perform
+     */
+    protected boolean isPermitted(ModuleOperationInput moduleOperationInput) {
+    	//TODO 374 implement
+		return true;
+	}
+    
     public ModuleOperationResult execute(
             Application application, ModuleOperationInput moduleOperationInput) {
        
@@ -42,14 +50,20 @@ public abstract class LockingModuleOperation implements ModuleOperation {
         ModuleOperationResult execute = null;
         try {
             frameworkLockHolder.writeLock();
-            execute = doExecute(application, moduleOperationInput);
+            
+            boolean permitted = isPermitted(moduleOperationInput);
+            if (permitted) {
+            	execute = doExecute(application, moduleOperationInput);
+            } else {
+            	//374 - TODO throw exception if cannot perform
+            }
         } finally {
             frameworkLockHolder.writeUnlock();
         }
         return execute;
     }
 
-    protected abstract ModuleOperationResult doExecute(
+	protected abstract ModuleOperationResult doExecute(
             Application application, ModuleOperationInput moduleOperationInput);
 
     public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
