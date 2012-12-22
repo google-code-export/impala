@@ -37,6 +37,8 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
 
     private boolean frozen;
     
+    private boolean reloadable;
+    
     /* ********************* constructor ******************** */
 
     public WebPlaceholderModuleDefinition(ModuleDefinition parent, String name) {
@@ -45,6 +47,7 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
         this.parent = parent;
         this.name = name;
         this.parent.addChildModuleDefinition(this);
+        this.reloadable = true;
     }
 
     /* ********************* read-only methods ******************** */
@@ -106,8 +109,12 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
     }
     
     public boolean isReloadable() {
-    	//no reason to restrict reloading capability of this module
-    	return true;
+    	return reloadable;
+    }
+    
+    @Override
+    public void setNonReloadable() {
+    	this.reloadable = false;
     }
 
     /* ********************* mutation methods ******************** */

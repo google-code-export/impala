@@ -37,12 +37,12 @@ public class ModuleDefinitionToStringTest extends TestCase {
         
         String lineSeparator = System.getProperty("line.separator");
         String expected = 
-        "name=project1, configLocations=[location1.xml, location2.xml], type=ROOT, dependencies=[], runtime=spring" + lineSeparator +
-        "  name=module1, configLocations=[], type=APPLICATION, dependencies=[project1], runtime=spring" +   lineSeparator+
-        "    name=module4, configLocations=[], type=APPLICATION, dependencies=[module1], runtime=spring" + lineSeparator+
-        "    name=module5, configLocations=[], type=APPLICATION, dependencies=[module1], runtime=spring" + lineSeparator+
-        "  name=module2, configLocations=[module2-1.xml, module1-2.xml], type=APPLICATION, dependencies=[project1], runtime=spring" + lineSeparator+
-        "  name=module3, configLocations=[module3-1.xml, module3-2.xml], type=APPLICATION, dependencies=[project1], runtime=spring";
+        "name=project1, configLocations=[location1.xml, location2.xml], type=ROOT, reloadable=true, dependencies=[], runtime=spring" + lineSeparator +
+        "  name=module1, configLocations=[], type=APPLICATION, reloadable=true, dependencies=[project1], runtime=spring" +   lineSeparator+
+        "    name=module4, configLocations=[], type=APPLICATION, reloadable=true, dependencies=[module1], runtime=spring" + lineSeparator+
+        "    name=module5, configLocations=[], type=APPLICATION, reloadable=true, dependencies=[module1], runtime=spring" + lineSeparator+
+        "  name=module2, configLocations=[module2-1.xml, module1-2.xml], type=APPLICATION, reloadable=true, dependencies=[project1], runtime=spring" + lineSeparator+
+        "  name=module3, configLocations=[module3-1.xml, module3-2.xml], type=APPLICATION, reloadable=true, dependencies=[project1], runtime=spring";
         
         assertEquals(expected, output);
     }
