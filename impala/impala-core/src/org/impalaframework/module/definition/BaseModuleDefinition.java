@@ -74,7 +74,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
             String[] optionalDependencies, 
             Map<String, String> attributes, 
             String runtime, 
-            Collection<String> capabilities) {
+            Collection<String> capabilities, 
+            boolean reloadable) {
         
         Assert.notNull(name);
 
@@ -114,7 +115,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         this.parentDefinition = parent;
         this.attributes = attributes;
         this.runtime = runtime;
-        this.reloadable = true;
+        this.reloadable = reloadable;
         
         if (this.parentDefinition != null) {
             this.parentDefinition.addChildModuleDefinition(this);

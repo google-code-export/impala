@@ -71,12 +71,6 @@ public class TypeReaderUtils {
         return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT);
     }
     
-    /**
-     * Reads the capabilities from the XML {@link Element} instance using the <code>capabilities</code> subelement.
-     */
-    static List<String> readCapabilities(Element root) {
-        return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CAPABILITIES_ELEMENT);
-    }
     
     /**
      * Reads attributes from {@link Properties} instance. Removes from map 
@@ -121,11 +115,42 @@ public class TypeReaderUtils {
     }
 
     /**
+     * Reads the capabilities from the XML {@link Element} instance using the <code>capabilities</code> subelement.
+     */
+    static List<String> readCapabilities(Element root) {
+        return TypeReaderUtils.readXmlElementValues(root, ModuleElementNames.CAPABILITIES_ELEMENT);
+    }
+    /**
      * Reads the capabilities from the {@link Properties} instance using the <code>capabilities</code> property.
      */
     static String[] readCapabilities(Properties properties) {
         return readPropertyValues(properties, ModuleElementNames.CAPABILITIES_ELEMENT);
     }
+
+    /**
+     * Reloads the reloadable attribute. If not present, then defaults to true
+     */
+	static boolean isReloadable(Element element) {
+
+        String reloadable = element.getTextContent();
+        return isReloadable(reloadable);
+	}
+
+    /**
+     * Reloads the reloadable attribute. If not present, then defaults to true
+     */
+	static boolean isReloadable(Properties properties) {
+
+        String reloadable = properties.getProperty(ModuleElementNames.RELOADABLE_ELEMENT);
+        return isReloadable(reloadable);
+	}
+
+	private static boolean isReloadable(String reloadable) {
+		if (!StringUtils.hasText(reloadable)) {
+        	return true;
+        }
+		return Boolean.valueOf(reloadable);
+	}
 
     /**
      * Reads attributes from {@link Properties} instance. Removes from map 
@@ -144,6 +169,7 @@ public class TypeReaderUtils {
         map.remove(ModuleElementNames.NAME_ELEMENT);
         map.remove(ModuleElementNames.RUNTIME_ELEMENT);
         map.remove(ModuleElementNames.CAPABILITIES_ELEMENT);
+        map.remove(ModuleElementNames.RELOADABLE_ELEMENT);
         return map;
     }
     

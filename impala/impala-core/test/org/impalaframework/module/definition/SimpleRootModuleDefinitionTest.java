@@ -43,7 +43,7 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
     }
     
     public void testAttributes() throws Exception {
-        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, Collections.singletonMap("name", "value"), null, null, null);
+        SimpleRootModuleDefinition definition = new SimpleRootModuleDefinition("p1", null, null, Collections.singletonMap("name", "value"), null, null, null, true);
         final Map<String, String> attributes = definition.getAttributes();
         assertEquals(1, attributes.size());
     }
@@ -61,11 +61,11 @@ public class SimpleRootModuleDefinitionTest extends TestCase {
         assertFalse(spec1.equals(spec3));
         assertFalse(spec1.equals(spec4));
         
-        SimpleRootModuleDefinition spec5 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null, null);
-        SimpleRootModuleDefinition spec6 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null, null);
+        SimpleRootModuleDefinition spec5 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null, null, true);
+        SimpleRootModuleDefinition spec6 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p2"}, new String[]{"dep1", "dep2"}, null, null, null, null, true);
         assertEquals(spec5, spec6);
-        SimpleRootModuleDefinition spec7 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"}, new String[]{"dep1"}, null, null, null, null);
-        SimpleRootModuleDefinition spec8 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"}, new String[]{"dep2"}, null, null, null, null);
+        SimpleRootModuleDefinition spec7 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1"}, new String[]{"dep1"}, null, null, null, null, true);
+        SimpleRootModuleDefinition spec8 = new SimpleRootModuleDefinition(rootModuleName, new String[]{"p1", "p3"}, new String[]{"dep2"}, null, null, null, null, true);
         assertFalse(spec5.equals(spec7));
         assertFalse(spec5.equals(spec8));
     }
