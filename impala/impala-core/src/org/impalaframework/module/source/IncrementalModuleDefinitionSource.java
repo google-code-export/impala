@@ -30,7 +30,7 @@ import org.springframework.util.Assert;
  * Implementation of <code>ModuleDefinitionSource</code> which adds module to an existing <code>RootModuleDefinition</code>
  * @author Phil Zoio
  */
-public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinitionSource implements ModuleDefinitionSource {
+public class IncrementalModuleDefinitionSource extends BaseInternalModuleDefinitionSource {
     
     private String moduleName;
     private RootModuleDefinition existingDefinition;
