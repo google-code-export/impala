@@ -61,6 +61,8 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
     private Collection<String> capabilities;
     
     private boolean frozen;
+    
+    private boolean reloadable;
 
     /* ********************* constructor ******************** */
     
@@ -112,6 +114,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         this.parentDefinition = parent;
         this.attributes = attributes;
         this.runtime = runtime;
+        this.reloadable = true;
         
         if (this.parentDefinition != null) {
             this.parentDefinition.addChildModuleDefinition(this);
@@ -125,6 +128,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
     public List<String> getConfigLocations() {
         return Collections.unmodifiableList(configLocations);
     }
+    
+    public boolean isReloadable() {
+		return reloadable;
+	}
 
     public String getName() {
         return name;

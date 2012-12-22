@@ -104,6 +104,11 @@ public class WebPlaceholderModuleDefinition implements ModuleDefinition {
     public boolean isFrozen() {
         return this.frozen;
     }
+    
+    public boolean isReloadable() {
+    	//no reason to restrict reloading capability of this module
+    	return true;
+    }
 
     /* ********************* mutation methods ******************** */
 

@@ -64,7 +64,11 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
 
     protected RootModuleDefinition buildModules() {
         ModuleDefinitionSource internalModuleBuilder = getModuleBuilder();
-        return internalModuleBuilder.getModuleDefinition();
+        RootModuleDefinition moduleDefinition = internalModuleBuilder.getModuleDefinition();
+        
+        //Issue 374 - now look to determine whether any of the modules are not reloadable and apply it in reverse
+        
+		return moduleDefinition;
     }
 
     protected ModuleDefinitionSource getModuleBuilder() {

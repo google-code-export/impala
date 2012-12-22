@@ -120,5 +120,12 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
      * a configuration hook for custom module types.
      */
     Map<String, String> getAttributes();
+    
+    /**
+     * Returns true if module is reloadable. Note that if a module
+     * is marked as non-reloadable, then any of its dependent 
+     * will be automatically be reloadable
+     */
+    boolean isReloadable();
 
 }
