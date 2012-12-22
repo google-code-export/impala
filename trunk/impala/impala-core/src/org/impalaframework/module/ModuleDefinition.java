@@ -122,6 +122,11 @@ public interface ModuleDefinition extends Freezable, ModuleContainer {
     Map<String, String> getAttributes();
     
     /**
+     * Sets the module as non-reloadable
+     */
+    void setNonReloadable();
+    
+    /**
      * Returns true if module is reloadable. Note that if a module
      * is marked as non-reloadable, then any of its dependent 
      * will be automatically be reloadable

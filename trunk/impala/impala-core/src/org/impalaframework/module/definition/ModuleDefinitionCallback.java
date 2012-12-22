@@ -19,8 +19,8 @@ import org.impalaframework.module.ModuleDefinition;
 /**
  * Represents contract for handling {@link ModuleDefinition} specific operation
  * with {@link ModuleDefinitionWalker} methods. If
- * {@link #matches(ModuleDefinition)}, this interrupts the walking process,
- * resulting in {@link ModuleDefinitionWalker} returning the matching
+ * {@link #matches(ModuleDefinition)} returns true, this interrupts the walking
+ * process, resulting in {@link ModuleDefinitionWalker} returning the matching
  * {@link ModuleDefinition}. This allows {@link ModuleDefinitionWalker} to be
  * used for searching.
  * 
