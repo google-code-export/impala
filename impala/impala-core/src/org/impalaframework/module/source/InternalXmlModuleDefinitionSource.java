@@ -30,6 +30,12 @@ import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
 import org.w3c.dom.Element;
 
+/**
+ * Internal module definition source used for building module definitions using
+ * a combination of web XML and internally defined module properties
+ * 
+ * @author Phil Zoio
+ */
 public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSource {
     
     private ModuleLocationResolver moduleLocationResolver;
