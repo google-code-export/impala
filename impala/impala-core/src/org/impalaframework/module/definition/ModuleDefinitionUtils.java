@@ -27,7 +27,11 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.util.SerializationUtils;
 import org.springframework.util.Assert;
 
-public class ModuleDefinitionUtils {
+/**
+ * Class with static module definition related utility methods
+ * @author Phil Zoio
+ */
+public abstract class ModuleDefinitionUtils {
     
     public static ModuleDefinition getModuleFromCollection(Collection<ModuleDefinition> moduleDefinitions, String name) {
         
@@ -38,6 +42,44 @@ public class ModuleDefinitionUtils {
             if (name.equals(moduleDefinition.getName())) return moduleDefinition;
         }
         return null;
+    }
+    
+    /**
+     * Returns a collection of module names for all the modules explicitly
+     * marked as non-reloadable. Does not implicitly mark modules as reloadable
+     */
+    public static Collection<String> getModulesMarkedNonReloadable(RootModuleDefinition root) {
+    	
+    	final Collection<String> nonReloadableModules = new ArrayList<String>();
+    	
+        ModuleDefinitionCallback callback = new ModuleDefinitionCallback() {
+			
+			@Override
+			public boolean matches(ModuleDefinition moduleDefinition) {
+				if (!moduleDefinition.isReloadable()) {
+					nonReloadableModules.add(moduleDefinition.getName());
+				}
+				return false;
+			}
+		};
+		ModuleDefinitionWalker.walkRootDefinition(root, callback);
+		return nonReloadableModules;
+    }
+    
+    /**
+     * Implicitly marks non-reloadable all modules which are dependents of the name modules
+     */
+    public static int implicitlyMarkNonReloadable(RootModuleDefinition root, String name) {
+    	int marked = 0;
+        DependencyManager manager  = new DependencyManager(root);
+        Collection<ModuleDefinition> dependentModules = manager.getOrderedModuleDependencies(name);
+    	for (ModuleDefinition moduleDefinition : dependentModules) {
+    		if (moduleDefinition.isReloadable()) {
+			moduleDefinition.setNonReloadable();
+			marked++;
+    		}
+		}
+    	return marked;
     }
     
     public static Collection<ModuleDefinition> getDependentModules(RootModuleDefinition root, String name) {

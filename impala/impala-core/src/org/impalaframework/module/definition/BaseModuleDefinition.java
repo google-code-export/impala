@@ -221,6 +221,10 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         }
         this.state = state;
     }
+    
+    public void setNonReloadable() {
+    	this.reloadable = false;
+    }
 
     public void freeze() {
         this.frozen = true;
@@ -347,6 +351,7 @@ public abstract class BaseModuleDefinition implements ModuleDefinition, ToString
         buffer.append("name=" + getName());
         buffer.append(", configLocations=" + getConfigLocations());
         buffer.append(", type=" + getType());
+        buffer.append(", reloadable=" + isReloadable());
         buffer.append(", dependencies=" + getDependentModuleNames(false));
         
         List<String> optionalDeps = getDependentModuleNames(true);

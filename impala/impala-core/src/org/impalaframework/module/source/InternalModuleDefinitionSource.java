@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.source;
 
+import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Properties;
@@ -24,6 +25,7 @@ import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
+import org.impalaframework.module.definition.ModuleDefinitionUtils;
 import org.impalaframework.module.definition.ModuleTypes;
 import org.impalaframework.module.spi.ModuleElementNames;
 import org.impalaframework.module.type.TypeReaderRegistry;
@@ -67,6 +69,10 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
         RootModuleDefinition moduleDefinition = internalModuleBuilder.getModuleDefinition();
         
         //Issue 374 - now look to determine whether any of the modules are not reloadable and apply it in reverse
+        Collection<String> nonReloadable = ModuleDefinitionUtils.getModulesMarkedNonReloadable(moduleDefinition);
+        if (!nonReloadable.isEmpty()) {
+        	System.out.println(nonReloadable);
+        }
         
 		return moduleDefinition;
     }

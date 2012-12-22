@@ -64,7 +64,7 @@ public class ModuleDefinitionUtilsTest extends TestCase {
         
         ModuleDefinition c1 = newDefinition(null, "c1", "a3");
         ModuleDefinition c2 = newDefinition(c1, "c2", null);
-        newDefinition(c2, "c3", null);
+        ModuleDefinition c3 = newDefinition(c2, "c3", null);
         a.addSibling(c1);
 
         doGetDependentModules(a, "a2", "a3,a4,a5,c1,c2,c3");
@@ -72,6 +72,34 @@ public class ModuleDefinitionUtilsTest extends TestCase {
         doGetDependentModules(a, "a3", "a5,c1,c2,c3");
         doGetDependentModules(a, "c3", null);
         doGetDependentModules(a, "a5", null);
+        
+        assertTrue(ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).isEmpty());
+        
+        a3.setNonReloadable();
+        assertEquals(1, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+        assertEquals(3, ModuleDefinitionUtils.implicitlyMarkNonReloadable(a, a3.getName()));
+        
+        //now 4 in total are marked non-reloadable
+        assertEquals(4, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+        
+        System.out.println("-------------");
+        System.out.println(a);
+        
+        c1.setNonReloadable();
+        assertEquals(5, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+        assertEquals(0, ModuleDefinitionUtils.implicitlyMarkNonReloadable(a, c1.getName()));
+        assertEquals(5, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+
+        System.out.println("-------------");
+        System.out.println(a);
+        
+        c3.setNonReloadable();
+        assertEquals(6, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+        assertEquals(1, ModuleDefinitionUtils.implicitlyMarkNonReloadable(a, c3.getName()));
+        assertEquals(7, ModuleDefinitionUtils.getModulesMarkedNonReloadable(a).size());
+
+        System.out.println("-------------");
+        System.out.println(a);
     }
 
     private void doGetDependentModules(RootModuleDefinition root, String name, String expected) {
