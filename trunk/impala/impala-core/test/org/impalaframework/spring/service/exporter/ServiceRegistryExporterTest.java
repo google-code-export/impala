@@ -143,6 +143,26 @@ public class ServiceRegistryExporterTest extends TestCase {
         exporter.destroy();
         assertNull(registry.getService("myBean", classes, false));
     }
+    
+    public void testTagsNoExportType() throws Exception {
+        exporter.setBeanName("myBean");
+        exporter.setExportTypes(null);
+        
+        Map<String, ? extends Object> attributes = Collections.singletonMap("attribute1", "value1");
+        exporter.setAttributeMap(attributes);
+
+        expectBeanFactoryWhenGettingReference();
+        
+        replay(beanFactory);
+        exporter.init();
+        verify(beanFactory);
+        
+        ServiceRegistryEntry s = registry.getService("myBean", classes, false);
+        assertNotNull(s);
+        
+        exporter.destroy();
+        assertNull(registry.getService("myBean", classes, false));
+    }
 
     private void expectBeanFactoryWhenGettingReference() {
         expect(beanFactory.containsBean("&myBean")).andReturn(false);
