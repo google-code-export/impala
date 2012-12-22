@@ -19,6 +19,10 @@ import org.impalaframework.module.source.InternalXmlModuleDefinitionSource;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.resolver.ModuleLocationResolver;
 
+/**
+ * Internal module definition source designed for use within web application
+ * @author Phil Zoio
+ */
 public class InternalWebXmlModuleDefinitionSource extends InternalXmlModuleDefinitionSource {
 
     public InternalWebXmlModuleDefinitionSource() {
