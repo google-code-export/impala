@@ -58,20 +58,24 @@ public class LoadTransitionProcessor implements TransitionProcessor {
             logger.error("Failed to load module " + definitionName, e);
         }
         
-        if (!success) {
+		if (!success) {
 
-            currentDefinition.setState(ModuleState.ERROR);
-            
-            final Collection<ModuleDefinition> dependents = ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
-            
-                for (ModuleDefinition moduleDefinition : dependents) {              if (logger.isDebugEnabled()) {
-                    logger.debug("Marking '" + moduleDefinition.getName() + "' to state " + ModuleState.DEPENDENCY_FAILED);
-                }
-                moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
-            }
-        } else {
-            currentDefinition.setState(ModuleState.LOADED);
-        }
+			currentDefinition.setState(ModuleState.ERROR);
+
+			final Collection<ModuleDefinition> dependents = 
+					ModuleDefinitionUtils.getDependentModules(rootDefinition, currentDefinition.getName());
+
+			for (ModuleDefinition moduleDefinition : dependents) {
+				
+				if (logger.isDebugEnabled()) {
+					logger.debug("Marking '" + moduleDefinition.getName() + "' to state " + ModuleState.DEPENDENCY_FAILED);
+				}
+				moduleDefinition.setState(ModuleState.DEPENDENCY_FAILED);
+			}
+			
+		} else {
+			currentDefinition.setState(ModuleState.LOADED);
+		}
         
         if (logger.isDebugEnabled()) {
             logger.debug("Marked '" + currentDefinition.getName() + "' to state " + currentDefinition.getState());
