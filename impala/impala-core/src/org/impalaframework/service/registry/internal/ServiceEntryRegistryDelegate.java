@@ -264,6 +264,8 @@ public class ServiceEntryRegistryDelegate implements ServiceEntryRegistry {
         
         //more than one result returned
         if (exportTypesOnly) {
+        	
+        	Assert.notNull(supportedTypes, "Supported types cannot be empty");
             
             //only one supported type - we've done all the type checking we need to do
             if (supportedTypes.length <  2) {

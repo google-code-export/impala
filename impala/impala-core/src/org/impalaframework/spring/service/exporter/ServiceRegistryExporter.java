@@ -111,9 +111,7 @@ public class ServiceRegistryExporter extends SelfAwareApplicationListenerAdapter
         
         List<Class<?>> exportTypesToUse = ArrayUtils.isNullOrEmpty(exportTypes) ? null : Arrays.asList(exportTypes);
         
-        if (exportName == null && exportTypes == null && attributes == null && attributeMap == null) {
-            this.exportName = beanName;
-        }
+        implicitExportName();
         
         if (attributes != null && attributeMap == null) {
             attributeMap = CollectionStringUtils.parseMapFromString(attributes);
@@ -122,6 +120,12 @@ public class ServiceRegistryExporter extends SelfAwareApplicationListenerAdapter
         final ServiceBeanReference beanReference = SpringServiceBeanUtils.newServiceBeanReference(beanFactory, beanName);
         this.serviceReference = serviceRegistry.addService(exportName, moduleDefinition.getName(), beanReference, exportTypesToUse, attributeMap, beanClassLoader);
     }
+
+	void implicitExportName() {
+		if (exportName == null && exportTypes == null) {
+            this.exportName = beanName;
+        }
+	}
     
     /**
      * {@link DisposableBean} implementation. Removes the entry previously added to the service registry
