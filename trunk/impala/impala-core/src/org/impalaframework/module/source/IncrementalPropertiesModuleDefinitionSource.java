@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.impalaframework.module.ModuleDefinition;
-import org.impalaframework.module.ModuleDefinitionSource;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.springframework.util.Assert;
@@ -28,7 +27,7 @@ import org.springframework.util.Assert;
  * Responsible for adding to existing <code>RootModuleDefinition</code> from information provided in the form of properties
  * @author Phil Zoio
  */
-public class IncrementalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource implements ModuleDefinitionSource {
+public class IncrementalPropertiesModuleDefinitionSource extends BasePropertiesModuleDefinitionSource {
     
     private RootModuleDefinition rootModuleDefinition;
     private ModuleDefinition parentDefinition;
