@@ -41,7 +41,7 @@ public class ServletContextModuleLocationResolverTest extends TestCase {
     
     public final void testGetApplicationModuleClassLocations() {
         List<Resource> locations = resolver.getApplicationModuleClassLocations("mymodule");
-        assertEquals(1, locations.size());
+        assertEquals(2, locations.size());
         assertTrue(locations.get(0) instanceof ServletContextResource);
     }
     
