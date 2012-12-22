@@ -50,6 +50,15 @@ If using this property, care should be taken to ensure that there are not any _h
 
 *_runtime_*: Specifies the runtime which backs the module type. By default, the runtime type is `spring`.
 
+*_capabilities_*: A simple mechanism to tag modules as implementing a particular set of capabilities. For example, if a module adds cacheing support, an entry such as the following may be present:
+
+{{{
+capabilities=cacheing
+}}}
+
+The capabilities for a particular module configuration can be retrieved using 
+`ModuleDefinition.getCapabilities()`. Also `org.impalaframework.module.metadata.ModuleMetadataHelper` has a method `getCapabilities()` which can retrieve the capabilities of a full set of modules.
+
 *_attributes_*: Any property not included in the above listing is will be picked up from _module.properties_ and is 
 accessible using `ModuleDefinition.getAttributes()`. This allows custom module types to pick up custom configuration in arbitrary ways.
 
