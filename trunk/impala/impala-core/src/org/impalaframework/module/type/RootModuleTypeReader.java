@@ -32,9 +32,9 @@ public class RootModuleTypeReader extends ApplicationModuleTypeReader {
             String[] optionalDependencyNames, 
             Map<String, String> attributes, 
             String runtime, 
-            Collection<String> capabilities) {
+            Collection<String> capabilities, boolean reloadable) {
         
-        return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0], null, capabilities);
+        return new SimpleRootModuleDefinition(moduleName, locationsArray, dependencyNames, attributes, new ModuleDefinition[0], null, capabilities, reloadable);
     }
     
 }

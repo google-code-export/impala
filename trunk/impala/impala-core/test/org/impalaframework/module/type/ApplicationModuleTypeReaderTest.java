@@ -55,6 +55,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         properties.put(ModuleElementNames.DEPENDENCIES_ELEMENT, "module1,module2, module3 , module4 module5");
         properties.put(ModuleElementNames.OPTIONAL_DEPENDENCIES_ELEMENT, "module7,module8");
         properties.put(ModuleElementNames.CAPABILITIES_ELEMENT, "persistence, clustering ");
+        properties.put(ModuleElementNames.RELOADABLE_ELEMENT, "false");
         properties.put("prop1", "value1");
         properties.put("prop2", "value2");
         properties.put("runtime", "myruntime");
@@ -72,6 +73,7 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         expectedAttributes.put("prop2", "value2");
         assertEquals(expectedAttributes, moduleDefinition.getAttributes());
         assertEquals("myruntime", moduleDefinition.getRuntimeFramework());
+        assertFalse(moduleDefinition.isReloadable());
 
         assertEquals("persistence,clustering", StringUtils.collectionToCommaDelimitedString(moduleDefinition.getCapabilities()));
     }
@@ -117,6 +119,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         capabilities.setTextContent("persistence, clustering  ");
         root.appendChild(capabilities);
         
+        Element reloadable = document.createElement("reloadable");
+        reloadable.setTextContent("false");
+        root.appendChild(reloadable);
+        
         final StringWriter writer = new StringWriter();
         XMLDomUtils.output(writer, document);
         System.out.println(writer);
@@ -128,8 +134,10 @@ public class ApplicationModuleTypeReaderTest extends TestCase {
         assertEquals("module1,module2,module3,module4,module5", properties.get("depends-on"));
         
         ModuleDefinition moduleDefinition = reader.readModuleDefinition(new SimpleModuleDefinition("parent"), "mymodule", root);
+        assertFalse(moduleDefinition.isReloadable());
         assertEquals(Arrays.asList(new String[]{ "location1", "location2"}), moduleDefinition.getConfigLocations());
         assertEquals(Arrays.asList(new String[]{ "parent", "module1", "module2", "module3", "module4", "module5"}), moduleDefinition.getDependentModuleNames(false));
+        
         
         Map<String,String> expectedAttributes = new HashMap<String,String>();
         expectedAttributes.put("prop1", "value1");

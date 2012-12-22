@@ -18,5 +18,6 @@ public interface ModuleElementNames {
     String NAME_ELEMENT = "name";
     String PARENT_ELEMENT = "parent";
     String RUNTIME_ELEMENT = "runtime";
+    String RELOADABLE_ELEMENT = "reloadable";
 
 }

@@ -44,8 +44,18 @@ public class ApplicationModuleTypeReader implements TypeReader {
         String runtime = properties.getProperty(ModuleElementNames.RUNTIME_ELEMENT);
         String type = properties.getProperty(ModuleElementNames.TYPE_ELEMENT);
         String[] capabilities = TypeReaderUtils.readCapabilities(properties);
+        boolean reloadable = TypeReaderUtils.isReloadable(properties);
         
-        return newDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, Arrays.asList(capabilities));
+        return newDefinition(parent, 
+        		moduleName, 
+        		type, 
+        		locationsArray, 
+        		dependencyNames, 
+        		optionalDependencyNames, 
+        		attributes, 
+        		runtime, 
+        		Arrays.asList(capabilities), 
+        		reloadable);
     }
 
     /**
@@ -61,6 +71,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
         Map<String,String> attributes = TypeReaderUtils.readAttributes(definitionElement);
         String runtime = TypeReaderUtils.readRuntime(definitionElement);
         String type = TypeReaderUtils.readType(definitionElement);
+        boolean reloadable = TypeReaderUtils.isReloadable(definitionElement);
 
         List<String> capabilities = TypeReaderUtils.readCapabilities(definitionElement);
         
@@ -71,7 +82,8 @@ public class ApplicationModuleTypeReader implements TypeReader {
                 optionalDependencyNames.toArray(new String[0]), 
                 attributes, 
                 runtime, 
-                capabilities);
+                capabilities, 
+                reloadable);
     }
 
     /**
@@ -95,8 +107,8 @@ public class ApplicationModuleTypeReader implements TypeReader {
             String[] optionalDependencyNames, 
             Map<String, String> attributes, 
             String runtime, 
-            Collection<String> capabilities) {
-        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, capabilities);
+            Collection<String> capabilities, boolean reloadable) {
+        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, capabilities, reloadable);
     }
 
 }

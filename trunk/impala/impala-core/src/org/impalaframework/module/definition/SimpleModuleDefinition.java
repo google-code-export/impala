@@ -37,7 +37,7 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
     }
 
     public SimpleModuleDefinition(ModuleDefinition parent, String name, String[] configLocations) {
-        this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null, null, null);
+        this(parent, name, ModuleTypes.APPLICATION, configLocations, null, null, null, null, null, true);
     }
     
     public SimpleModuleDefinition(
@@ -49,8 +49,9 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
             String[] optionalDependencies, 
             Map<String, String> attributes, 
             String runtime, 
-            Collection<String> capabilities) {
-        super(parent, name, type, configLocations, mandatoryDependencies, optionalDependencies, attributes, runtime, capabilities);
+            Collection<String> capabilities, 
+            boolean reloadable) {
+        super(parent, name, type, configLocations, mandatoryDependencies, optionalDependencies, attributes, runtime, capabilities, reloadable);
     }
 
     /* ********************* read-only methods ******************** */

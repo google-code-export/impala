@@ -40,7 +40,7 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
     }
     
     public SimpleRootModuleDefinition(String name, String[] configLocations) {
-        this(name, configLocations, new String[0], null, new ModuleDefinition[0], null, null);
+        this(name, configLocations, new String[0], null, new ModuleDefinition[0], null, null, true);
     }
     
     public SimpleRootModuleDefinition(
@@ -50,9 +50,10 @@ public class SimpleRootModuleDefinition extends BaseModuleDefinition implements 
             Map<String, String> attributes, 
             ModuleDefinition[] siblings, 
             String runtime, 
-            Collection<String> capabilities) {
+            Collection<String> capabilities, 
+            boolean reloadable) {
         
-        super(null, name, ModuleTypes.ROOT, configLocations, dependencies, null, attributes, runtime, capabilities);
+        super(null, name, ModuleTypes.ROOT, configLocations, dependencies, null, attributes, runtime, capabilities, reloadable);
         
         if (siblings == null) {
             siblings = new ModuleDefinition[0];
