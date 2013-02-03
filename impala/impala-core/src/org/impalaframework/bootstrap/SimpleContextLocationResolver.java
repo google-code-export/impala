@@ -40,6 +40,7 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
     public final boolean addContextLocations(ConfigurationSettings configSettings, PropertySource propertySource) {
         
         logStandaloneProperties(configSettings, propertySource);
+        addReloadability(configSettings, propertySource);
 
         if (!explicitlySetLocations(configSettings, propertySource)) {
             
@@ -67,6 +68,11 @@ public class SimpleContextLocationResolver implements ContextLocationResolver {
         configSettings.addProperty(CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_COUNT, proxyRetryCount);
         configSettings.addProperty(CoreBootstrapProperties.PROXY_MISSING_SERVICE_RETRY_INTERVAL, proxyRetryInterval);
     }
+
+    protected void addReloadability(ConfigurationSettings configSettings, PropertySource propertySource) {
+		BooleanPropertyValue enforceReloadability = new BooleanPropertyValue(propertySource, CoreBootstrapProperties.ENFORCE_RELOADABILITY, CoreBootstrapProperties.ENFORCE_RELOADABILITY_DEFAULT);
+        configSettings.addProperty(CoreBootstrapProperties.ENFORCE_RELOADABILITY, enforceReloadability);
+	}
 
     protected void addCustomLocations(ConfigurationSettings configSettings,
             PropertySource propertySource) {

@@ -218,6 +218,6 @@ public interface CoreBootstrapProperties {
     /**
      * Default value for {@link #ENFORCE_RELOADABILITY}
      */
-    boolean ENFORCE_RELOADABILITY_DEFAULT = true;    
+    boolean ENFORCE_RELOADABILITY_DEFAULT = true;
 
 }

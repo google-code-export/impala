@@ -38,7 +38,11 @@ public class SimpleContextLocationResolverTest extends TestCase {
         propertySource.setProperties(properties);
         configSettings = new ConfigurationSettings();
     }
-
+    
+    public void testAddReloadability() throws Exception {
+		resolver.addReloadability(configSettings, propertySource);
+	}
+    
     public void testAddNoProxyProperties() {
         resolver.addProxyProperties(configSettings, propertySource);
         assertLocations();
