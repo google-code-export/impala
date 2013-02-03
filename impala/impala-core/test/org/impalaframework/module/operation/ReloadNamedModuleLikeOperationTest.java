@@ -56,6 +56,7 @@ public class ReloadNamedModuleLikeOperationTest extends AbstractModuleOperationT
         expect(moduleStateHolder.cloneRootModuleDefinition()).andReturn(newDefinition);
         
         expect(newDefinition.findChildDefinition("mymodule", false)).andReturn(newDefinition);
+        expect(newDefinition.isReloadable()).andReturn(true);
 
         expect(moduleOperationRegistry.getOperation(ModuleOperationConstants.ReloadNamedModuleOperation)).andReturn(moduleOperation);
         

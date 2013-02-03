@@ -57,6 +57,7 @@ public class ReloadNamedModuleOperation  extends BaseModuleOperation {
                 .getModificationExtractor(ModificationExtractorType.STRICT);
 
         ModuleDefinition childDefinition = newRootDefinition.findChildDefinition(moduleToReload, true);
+        super.isReloadPermitted(childDefinition);
 
         if (childDefinition != null) {
             childDefinition.setState(ModuleState.STALE);

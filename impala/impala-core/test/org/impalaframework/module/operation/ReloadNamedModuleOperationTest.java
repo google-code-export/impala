@@ -47,6 +47,7 @@ public class ReloadNamedModuleOperationTest extends AbstractModuleOperationTest 
         
         expect(newDefinition.findChildDefinition("mymodule", true)).andReturn(newDefinition);
         newDefinition.setState(ModuleState.STALE);
+        expect(newDefinition.isReloadable()).andReturn(true);
         
         expect(strictModificationExtractor.getTransitions(application, originalDefinition, newDefinition)).andReturn(transitionSet);
         expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(new TransitionResultSet());

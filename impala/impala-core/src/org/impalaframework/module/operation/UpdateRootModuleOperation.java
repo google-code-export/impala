@@ -60,6 +60,8 @@ public class UpdateRootModuleOperation  extends BaseModuleOperation {
         if (oldModuleDefinition == null && newModuleDefinition == null) {
             return ModuleOperationResult.EMPTY;
         }
+
+        super.isReloadPermitted(oldModuleDefinition);
         
         TransitionSet transitions = calculator.getTransitions(application, oldModuleDefinition, newModuleDefinition);
         TransitionResultSet transitionResultSet = getTransitionManager().processTransitions(moduleStateHolder, application, transitions);

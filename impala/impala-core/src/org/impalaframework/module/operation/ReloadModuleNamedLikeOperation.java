@@ -53,6 +53,7 @@ public class ReloadModuleNamedLikeOperation extends BaseModuleOperation {
         RootModuleDefinition newDefinition = moduleStateHolder.cloneRootModuleDefinition();
 
         ModuleDefinition found = newDefinition.findChildDefinition(moduleToReload, false);
+        super.isReloadPermitted(found);
 
         if (found != null) {
 

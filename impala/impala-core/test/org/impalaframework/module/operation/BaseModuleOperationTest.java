@@ -50,7 +50,7 @@ public class BaseModuleOperationTest extends TestCase {
 		expect(definition.isReloadable()).andReturn(true);
 		replay(definition);
 		
-	operation.isPermitted(definition);
+	operation.isReloadPermitted(definition);
 		
 		verify(definition);
 	}
@@ -61,7 +61,7 @@ public class BaseModuleOperationTest extends TestCase {
 		expect(definition.isReloadable()).andReturn(false);
 		replay(definition);
 		
-		operation.isPermitted(definition);
+		operation.isReloadPermitted(definition);
 		
 		verify(definition);
 	}
@@ -73,7 +73,7 @@ public class BaseModuleOperationTest extends TestCase {
 		replay(definition);
 		
 		try {
-			operation.isPermitted(definition);
+			operation.isReloadPermitted(definition);
 			fail();
 		} catch (Exception e) {
 		}
