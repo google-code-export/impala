@@ -29,6 +29,10 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  </bean>
  
  <!-- ############## Module operations definitions ############### -->
+ 
+ <bean id="enforceReloadability" parent = "propertyParent">
+     <property name="name" value="enforce.reloadability"/>
+ </bean>
     
  <bean id="baseModuleOperation" abstract="true">
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>

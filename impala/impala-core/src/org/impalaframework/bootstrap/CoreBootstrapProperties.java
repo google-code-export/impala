@@ -209,4 +209,15 @@ public interface CoreBootstrapProperties {
      * Default value for {@link #PROXY_SERVICE_MISSING_RETRY_INTERVAL}
      */
     int PROXY_MISSING_SERVICE_RETRY_INTERVAL_DEFAULT = 1000;
+    
+    /**
+     * Whether to enforce the reloadable module constraint
+     */
+    String ENFORCE_RELOADABILITY = "enforce.reloadability";
+    
+    /**
+     * Default value for {@link #ENFORCE_RELOADABILITY}
+     */
+    boolean ENFORCE_RELOADABILITY_DEFAULT = true;    
+
 }
