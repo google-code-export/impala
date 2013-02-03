@@ -33,6 +33,8 @@ import org.springframework.util.Assert;
 public abstract class LockingModuleOperation implements ModuleOperation {
     
     private FrameworkLockHolder frameworkLockHolder;
+    
+    private boolean enforceReloadability;
 
     /**
      * If true then allows module operation to perform
@@ -69,5 +71,9 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
         this.frameworkLockHolder = frameworkLockHolder;
     }
+    
+    public void setEnforceReloadability(boolean enforceReloadability) {
+		this.enforceReloadability = enforceReloadability;
+	}
 
 }
