@@ -22,7 +22,7 @@ import static org.easymock.classextension.EasyMock.verify;
 import org.impalaframework.module.spi.TransitionResultSet;
 import org.impalaframework.module.spi.TransitionResultSetTest;
 
-public class ReloadNamedModuleLikeOperationTest extends BaseModuleOperationTest {
+public class ReloadNamedModuleLikeOperationTest extends AbstractModuleOperationTest {
 
     private ModuleOperationRegistry moduleOperationRegistry;
     

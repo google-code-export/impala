@@ -14,7 +14,6 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -35,8 +34,9 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     
     private FrameworkLockHolder frameworkLockHolder;
     
-    private boolean enforceReloadability;
-    
+    /**
+     * Executes module operation in the context of a lock provided by {@link FrameworkLockHolder}
+     */
     public ModuleOperationResult execute(
             Application application, ModuleOperationInput moduleOperationInput) {
        
@@ -46,45 +46,12 @@ public abstract class LockingModuleOperation implements ModuleOperation {
         try {
             frameworkLockHolder.writeLock();
             
-            boolean permitted = isPermitted(moduleOperationInput);
-            if (permitted) {
-            	execute = doExecute(application, moduleOperationInput);
-            } else {
-            	//374 - TODO throw exception if cannot perform
-            }
+            execute = doExecute(application, moduleOperationInput);
         } finally {
             frameworkLockHolder.writeUnlock();
         }
         return execute;
     }
-
-    /**
-     * If true then allows module operation to perform
-     */
-    protected final boolean isPermitted(ModuleOperationInput moduleOperationInput) {
-    	
-    	if (moduleOperationInput == null) {
-    		return true;
-    	}
-    	
-    	ModuleDefinition definition = moduleOperationInput.getModuleDefinition();
-    	
-    	if (definition == null) {
-    		return true;
-    	}
-    	
-    	return isPermitted(definition);
-	}
-
-	final boolean isPermitted(ModuleDefinition definition) {
-		Assert.notNull(definition, "definition cannot be null");
-		
-		if (!definition.isReloadable() && enforceReloadability) {
-    		return false;
-    	}
-		
-		return true;
-	}
 
 	protected abstract ModuleOperationResult doExecute(
             Application application, ModuleOperationInput moduleOperationInput);
@@ -92,9 +59,5 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     public void setFrameworkLockHolder(FrameworkLockHolder frameworkLockHolder) {
         this.frameworkLockHolder = frameworkLockHolder;
     }
-    
-    public void setEnforceReloadability(boolean enforceReloadability) {
-		this.enforceReloadability = enforceReloadability;
-	}
 
 }

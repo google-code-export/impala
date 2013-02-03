@@ -32,7 +32,7 @@ import org.impalaframework.module.spi.TestApplicationManager;
 import org.impalaframework.module.spi.TransitionManager;
 import org.impalaframework.module.spi.TransitionSet;
 
-public abstract class BaseModuleOperationTest extends TestCase {
+public abstract class AbstractModuleOperationTest extends TestCase {
 
     private ModuleManagementFacade moduleManagementFacade;
 

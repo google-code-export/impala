@@ -18,7 +18,7 @@ import static org.easymock.EasyMock.expect;
 
 import org.impalaframework.module.spi.TransitionResultSet;
 
-public class CloseRootModuleOperationTest extends BaseModuleOperationTest {
+public class CloseRootModuleOperationTest extends AbstractModuleOperationTest {
 
     @Override
     protected LockingModuleOperation getOperation() {

@@ -24,7 +24,7 @@ import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.TransitionResultSet;
 
-public class UpdateRootModuleOperationTest extends BaseModuleOperationTest {
+public class UpdateRootModuleOperationTest extends AbstractModuleOperationTest {
 
     protected LockingModuleOperation getOperation() {
         UpdateRootModuleOperation operation = new UpdateRootModuleOperation();

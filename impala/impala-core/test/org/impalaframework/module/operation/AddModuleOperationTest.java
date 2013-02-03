@@ -19,7 +19,7 @@ import static org.easymock.EasyMock.expect;
 import org.impalaframework.module.definition.SimpleModuleDefinition;
 import org.impalaframework.module.spi.TransitionResultSet;
 
-public class AddModuleOperationTest extends BaseModuleOperationTest {
+public class AddModuleOperationTest extends AbstractModuleOperationTest {
 
     protected LockingModuleOperation getOperation() {
         AddModuleOperation operation = new AddModuleOperation();
