@@ -30,7 +30,7 @@ import org.impalaframework.module.spi.ModificationExtractor;
 import org.impalaframework.module.spi.ModuleStateChange;
 import org.impalaframework.module.spi.TransitionSet;
 
-public class RepairModuleOperationTest extends BaseModuleOperationTest {
+public class RepairModuleOperationTest extends AbstractModuleOperationTest {
 
     protected LockingModuleOperation getOperation() {
         RepairModulesOperation operation = new RepairModulesOperation();

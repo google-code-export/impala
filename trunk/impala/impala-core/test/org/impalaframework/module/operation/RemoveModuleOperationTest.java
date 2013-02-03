@@ -26,7 +26,7 @@ import org.impalaframework.module.spi.Transition;
 import org.impalaframework.module.spi.TransitionResult;
 import org.impalaframework.module.spi.TransitionResultSet;
 
-public class RemoveModuleOperationTest extends BaseModuleOperationTest {
+public class RemoveModuleOperationTest extends AbstractModuleOperationTest {
 
     protected LockingModuleOperation getOperation() {
         RemoveModuleOperation operation = new RemoveModuleOperation();

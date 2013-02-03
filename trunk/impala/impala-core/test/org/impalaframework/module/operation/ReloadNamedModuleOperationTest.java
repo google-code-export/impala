@@ -21,7 +21,7 @@ import java.util.Collections;
 import org.impalaframework.module.ModuleState;
 import org.impalaframework.module.spi.TransitionResultSet;
 
-public class ReloadNamedModuleOperationTest extends BaseModuleOperationTest {
+public class ReloadNamedModuleOperationTest extends AbstractModuleOperationTest {
 
     protected LockingModuleOperation getOperation() {
         ReloadNamedModuleOperation operation = new ReloadNamedModuleOperation();
