@@ -15,23 +15,24 @@
 package org.impalaframework.module.operation;
 
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
-import org.impalaframework.module.spi.FrameworkLockHolder;
-import org.impalaframework.module.spi.ModuleStateHolder;
-import org.impalaframework.module.spi.TestApplicationManager;
 
-public class LockingModuleOperationTest extends TestCase {
+public class BaseModuleOperationTest extends TestCase {
 	
-	private LockingModuleOperation operation;
+	private BaseModuleOperation operation;
+	private ModuleDefinition definition;
+
 	@Override
 	protected void setUp() throws Exception {
 		super.setUp();
 		
-		operation = new LockingModuleOperation(){
+		operation = new BaseModuleOperation(){
 
             @Override
             protected ModuleOperationResult doExecute(
@@ -40,23 +41,44 @@ public class LockingModuleOperationTest extends TestCase {
                 return null;
             }
         };
+		
+		definition = createMock(ModuleDefinition.class);
 	}
 	
-    public void testExecute() {
-        
-        FrameworkLockHolder frameworkLockHolder = createMock(FrameworkLockHolder.class);
-        operation.setFrameworkLockHolder(frameworkLockHolder);
-        
-        frameworkLockHolder.writeLock();
-        frameworkLockHolder.writeUnlock();
-        
-        replay(frameworkLockHolder);
-        
-        ModuleStateHolder moduleStateHolder = createMock(ModuleStateHolder.class);
-        Application application = TestApplicationManager.newApplicationManager(null, moduleStateHolder, null).getCurrentApplication();
-        operation.execute(application, null);
-        
-        verify(frameworkLockHolder);
-    }
+	public void testIsReloadable() throws Exception {
+		
+		expect(definition.isReloadable()).andReturn(true);
+		replay(definition);
+		
+	operation.isPermitted(definition);
+		
+		verify(definition);
+	}
+	
+	public void testNotReloadableNotEnforced() throws Exception {
+		
+		operation.setEnforceReloadability(false);
+		expect(definition.isReloadable()).andReturn(false);
+		replay(definition);
+		
+		operation.isPermitted(definition);
+		
+		verify(definition);
+	}
+	
+	public void testNotReloadableIsEnforced() throws Exception {
+		
+		operation.setEnforceReloadability(true);
+		expect(definition.isReloadable()).andReturn(false);
+		replay(definition);
+		
+		try {
+			operation.isPermitted(definition);
+			fail();
+		} catch (Exception e) {
+		}
+		
+		verify(definition);
+	}
 
 }
