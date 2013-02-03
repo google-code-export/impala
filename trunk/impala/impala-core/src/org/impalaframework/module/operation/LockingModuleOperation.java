@@ -14,6 +14,7 @@
 
 package org.impalaframework.module.operation;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
@@ -35,14 +36,6 @@ public abstract class LockingModuleOperation implements ModuleOperation {
     private FrameworkLockHolder frameworkLockHolder;
     
     private boolean enforceReloadability;
-
-    /**
-     * If true then allows module operation to perform
-     */
-    protected boolean isPermitted(ModuleOperationInput moduleOperationInput) {
-    	//TODO 374 implement
-		return true;
-	}
     
     public ModuleOperationResult execute(
             Application application, ModuleOperationInput moduleOperationInput) {
@@ -64,6 +57,34 @@ public abstract class LockingModuleOperation implements ModuleOperation {
         }
         return execute;
     }
+
+    /**
+     * If true then allows module operation to perform
+     */
+    protected final boolean isPermitted(ModuleOperationInput moduleOperationInput) {
+    	
+    	if (moduleOperationInput == null) {
+    		return true;
+    	}
+    	
+    	ModuleDefinition definition = moduleOperationInput.getModuleDefinition();
+    	
+    	if (definition == null) {
+    		return true;
+    	}
+    	
+    	return isPermitted(definition);
+	}
+
+	final boolean isPermitted(ModuleDefinition definition) {
+		Assert.notNull(definition, "definition cannot be null");
+		
+		if (!definition.isReloadable() && enforceReloadability) {
+    		return false;
+    	}
+		
+		return true;
+	}
 
 	protected abstract ModuleOperationResult doExecute(
             Application application, ModuleOperationInput moduleOperationInput);

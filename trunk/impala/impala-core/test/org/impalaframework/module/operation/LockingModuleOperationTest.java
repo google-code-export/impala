@@ -15,20 +15,27 @@
 package org.impalaframework.module.operation;
 
 import static org.easymock.EasyMock.createMock;
+import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.replay;
 import static org.easymock.EasyMock.verify;
 import junit.framework.TestCase;
 
+import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.FrameworkLockHolder;
 import org.impalaframework.module.spi.ModuleStateHolder;
 import org.impalaframework.module.spi.TestApplicationManager;
 
 public class LockingModuleOperationTest extends TestCase {
+	
+	private LockingModuleOperation operation;
+	private ModuleDefinition definition;
 
-    public void testExecute() {
-        
-        LockingModuleOperation operation = new LockingModuleOperation(){
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+		
+		operation = new LockingModuleOperation(){
 
             @Override
             protected ModuleOperationResult doExecute(
@@ -36,8 +43,45 @@ public class LockingModuleOperationTest extends TestCase {
                 System.out.println("After locking, before unlocking");
                 return null;
             }
-            
         };
+		
+		definition = createMock(ModuleDefinition.class);
+	}
+	
+	public void testIsReloadable() throws Exception {
+		
+		expect(definition.isReloadable()).andReturn(true);
+		replay(definition);
+		
+		assertTrue(operation.isPermitted(definition));
+		
+		verify(definition);
+	}
+	
+	public void testNotReloadableNotEnforced() throws Exception {
+		
+		operation.setEnforceReloadability(false);
+		expect(definition.isReloadable()).andReturn(false);
+		replay(definition);
+		
+		assertTrue(operation.isPermitted(definition));
+		
+		verify(definition);
+	}
+	
+	public void testNotReloadableIsEnforced() throws Exception {
+		
+		operation.setEnforceReloadability(true);
+		expect(definition.isReloadable()).andReturn(false);
+		replay(definition);
+		
+		assertFalse(operation.isPermitted(definition));
+		
+		verify(definition);
+	}
+
+
+    public void testExecute() {
         
         FrameworkLockHolder frameworkLockHolder = createMock(FrameworkLockHolder.class);
         operation.setFrameworkLockHolder(frameworkLockHolder);
