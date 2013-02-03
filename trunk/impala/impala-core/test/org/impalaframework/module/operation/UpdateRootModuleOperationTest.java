@@ -61,6 +61,10 @@ public class UpdateRootModuleOperationTest extends AbstractModuleOperationTest {
         expect(modificationExtractor.getTransitions(application, null, newDefinition)).andReturn(transitionSet);
         
         RootModuleDefinition existingDefinition = getExistingDefinition();
+        if (existingDefinition != null) {
+        	expect(existingDefinition.isReloadable()).andReturn(true);
+        }
+        
         expect(strictModificationExtractor.getTransitions(application, existingDefinition, newDefinition)).andReturn(transitionSet);
         expect(transitionManager.processTransitions(moduleStateHolder, application, transitionSet)).andReturn(new TransitionResultSet());
         

@@ -18,7 +18,6 @@ import org.impalaframework.exception.ExecutionException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.spi.TransitionManager;
-import org.springframework.util.Assert;
 
 /**
  * Shared base class of {@link ModuleOperation} implementation. Simply exposes getter and setter
@@ -49,12 +48,13 @@ public abstract class BaseModuleOperation extends LockingModuleOperation {
     /**
      * Checks whether the module definition operation is permitted
      */
-	protected final void isPermitted(ModuleDefinition definition) {
-		Assert.notNull(definition, "definition cannot be null");
+	protected final void isReloadPermitted(ModuleDefinition definition) {
+		if (definition != null) {
 		
-		if (!definition.isReloadable() && enforceReloadability) {
-    		throw new ExecutionException("XXXXX reloadability check failed");
-    	}
+			if (!definition.isReloadable() && enforceReloadability) {
+	    		throw new ExecutionException("XXXXX reloadability check failed");
+	    	}
+		}
 	}
     
     /* **************** Wired in setters **************** */
