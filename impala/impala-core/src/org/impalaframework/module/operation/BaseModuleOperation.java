@@ -14,7 +14,7 @@
 
 package org.impalaframework.module.operation;
 
-import org.impalaframework.exception.ExecutionException;
+import org.impalaframework.exception.OperationNotPermittedException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.modification.ModificationExtractorRegistry;
 import org.impalaframework.module.spi.TransitionManager;
@@ -52,7 +52,7 @@ public abstract class BaseModuleOperation extends LockingModuleOperation {
 		if (definition != null) {
 		
 			if (!definition.isReloadable() && enforceReloadability) {
-	    		throw new ExecutionException("XXXXX reloadability check failed");
+	    		throw new OperationNotPermittedException("Cannot reload module as module is marked as non-reloadable");
 	    	}
 		}
 	}
