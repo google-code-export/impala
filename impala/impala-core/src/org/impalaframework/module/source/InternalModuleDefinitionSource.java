@@ -71,7 +71,9 @@ public class InternalModuleDefinitionSource extends BaseInternalModuleDefinition
         //Issue 374 - now look to determine whether any of the modules are not reloadable and apply it in reverse
         Collection<String> nonReloadable = ModuleDefinitionUtils.getModulesMarkedNonReloadable(moduleDefinition);
         if (!nonReloadable.isEmpty()) {
-        	System.out.println(nonReloadable);
+        	for (String module : nonReloadable) {
+				ModuleDefinitionUtils.implicitlyMarkNonReloadable(moduleDefinition, module);
+			}
         }
         
 		return moduleDefinition;

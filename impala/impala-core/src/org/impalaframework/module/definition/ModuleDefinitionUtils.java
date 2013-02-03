@@ -67,7 +67,7 @@ public abstract class ModuleDefinitionUtils {
     }
     
     /**
-     * Implicitly marks non-reloadable all modules which are dependents of the name modules
+     * Implicitly marks non-reloadable all modules which are dependents of the named modules
      */
     public static int implicitlyMarkNonReloadable(RootModuleDefinition root, String name) {
     	int marked = 0;
@@ -75,8 +75,8 @@ public abstract class ModuleDefinitionUtils {
         Collection<ModuleDefinition> dependentModules = manager.getOrderedModuleDependencies(name);
     	for (ModuleDefinition moduleDefinition : dependentModules) {
     		if (moduleDefinition.isReloadable()) {
-			moduleDefinition.setNonReloadable();
-			marked++;
+				moduleDefinition.setNonReloadable();
+				marked++;
     		}
 		}
     	return marked;
