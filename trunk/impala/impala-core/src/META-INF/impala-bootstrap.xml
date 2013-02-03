@@ -32,12 +32,14 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
  
  <bean id="enforceReloadability" parent = "propertyParent">
      <property name="name" value="enforce.reloadability"/>
+     <property name="defaultValue" value="constant:[org.impalaframework.bootstrap.CoreBootstrapProperties.ENFORCE_RELOADABILITY_DEFAULT]"/>
  </bean>
     
  <bean id="baseModuleOperation" abstract="true">
      <property name="modificationExtractorRegistry" ref="modificationExtractorRegistry"/>
      <property name="transitionManager" ref="transitionManager"/>
      <property name="frameworkLockHolder" ref="frameworkLockHolder"/>
+     <property name="enforceReloadability" ref="enforceReloadability"/>
  </bean>
      
  <bean id="addModuleOperation" 
