@@ -44,16 +44,7 @@ public class ReflectionUtils {
         
         try {
             Class<? extends Object> objectClass = object.getClass();
-            Field declaredField = null;
-            
-            while (objectClass != null && declaredField == null) {
-                try {
-                    declaredField = objectClass.getDeclaredField(fieldName);
-                }
-                catch (NoSuchFieldException e) {
-                }
-                objectClass = objectClass.getSuperclass();
-            }
+            Field declaredField = getField(objectClass, fieldName);
             
             if (declaredField != null) {
                 return getFieldValue(object, declaredField, clazz);
@@ -69,6 +60,23 @@ public class ReflectionUtils {
             throw new ExecutionException(e.getMessage(), e);
         }
     }
+    
+    /**
+     * Gets the specified field, finding from the superclass, if necessary
+     */
+	public static Field getField(Class<? extends Object> objectClass, String fieldName) {
+		Field declaredField = null;
+		
+		while (objectClass != null && declaredField == null) {
+		    try {
+		        declaredField = objectClass.getDeclaredField(fieldName);
+		    }
+		    catch (NoSuchFieldException e) {
+		    }
+		    objectClass = objectClass.getSuperclass();
+		}
+		return declaredField;
+	}
 
     /**
      * Gets the field value for a particular object using reflection
