@@ -30,6 +30,9 @@ public class ReflectionUtilsTest extends TestCase {
         object.setMyField("myValue");
         object.setSuperField("superField");
         
+        assertNotNull(ReflectionUtils.getField(TestExample.class, "myField"));
+        assertNotNull(ReflectionUtils.getField(TestExample.class, "superField"));
+        
         //working case
         assertEquals("myValue", ReflectionUtils.getFieldValue(object, "myField", String.class));
         //superclass
