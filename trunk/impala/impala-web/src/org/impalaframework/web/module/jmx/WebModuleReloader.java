@@ -16,6 +16,8 @@ package org.impalaframework.web.module.jmx;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.facade.ModuleManagementFacade;
 import org.impalaframework.module.ModuleDefinitionSource;
@@ -24,6 +26,7 @@ import org.impalaframework.module.operation.ModuleOperationConstants;
 import org.impalaframework.module.operation.ModuleOperationInput;
 import org.impalaframework.module.spi.Application;
 import org.impalaframework.module.spi.ApplicationManager;
+import org.impalaframework.util.ExceptionUtils;
 import org.impalaframework.web.WebConstants;
 import org.springframework.jmx.export.annotation.ManagedOperation;
 import org.springframework.jmx.export.annotation.ManagedResource;
@@ -41,35 +44,53 @@ import org.springframework.web.context.ServletContextAware;
 public class WebModuleReloader implements ServletContextAware {
 
     private ServletContext servletContext;
+    
+    private static final Log logger = LogFactory.getLog(WebModuleReloader.class);
 
     @ManagedOperation(description = "Uses the current ModuleDefintitionSource to perform a full reload of the module hierarchy")
-    public void reloadModules() {
+    public String reloadModules() {
         
-        Assert.notNull(servletContext);
+        try {
+			Assert.notNull(servletContext);
 
-        ModuleManagementFacade facade = getFacade();
-        ModuleDefinitionSource source = getSource();
-        Application application = getApplication(facade);
+			ModuleManagementFacade facade = getFacade();
+			ModuleDefinitionSource source = getSource();
+			Application application = getApplication(facade);
 
-        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
-        
-        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
-        operation.execute(application, moduleOperationInput);
+			ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+			
+			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+			operation.execute(application, moduleOperationInput);
+			
+			return "Successfully reloaded module definition";
+        }
+        catch (Throwable e) {
+        	logger.error(e);
+            return ExceptionUtils.getStackTrace(e);
+        }
     }
     
     @ManagedOperation(description = "Simply unloads all the modules")
-    public void unloadModules() {
+    public String unloadModules() {
         
-        Assert.notNull(servletContext);
+        try {
+			Assert.notNull(servletContext);
 
-        ModuleManagementFacade facade = getFacade();
-        ModuleDefinitionSource source = getSource();
-        Application application = getApplication(facade);
+			ModuleManagementFacade facade = getFacade();
+			ModuleDefinitionSource source = getSource();
+			Application application = getApplication(facade);
 
-        ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
-        
-        ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
-        operation.execute(application, moduleOperationInput);
+			ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+			
+			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.CloseRootModuleOperation);
+			operation.execute(application, moduleOperationInput);
+			
+			return "Successfully unloaded modules";
+        }
+        catch (Throwable e) {
+        	logger.error(e);
+            return ExceptionUtils.getStackTrace(e);
+        }
     }
 
     private Application getApplication(ModuleManagementFacade facade) {
