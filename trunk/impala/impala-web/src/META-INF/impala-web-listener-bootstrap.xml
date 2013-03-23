@@ -60,6 +60,7 @@ http://www.springframework.org/schema/beans/spring-beans.xsd">
         class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
         <property name="moduleLocationResolver" ref="moduleLocationResolver" />
         <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+        <property name="enforceReloadability" ref="enforceReloadability" />
     </bean>
     
     <bean id="tmpfileModuleRuntimeMonitor" 
