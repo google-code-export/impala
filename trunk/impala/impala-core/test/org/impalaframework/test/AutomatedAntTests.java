@@ -79,6 +79,7 @@ import org.impalaframework.module.modification.graph.GraphModificationExtractorD
 import org.impalaframework.module.modification.graph.GraphModificationExtractorTest;
 import org.impalaframework.module.modification.graph.StickyGraphModificationExtractorTest;
 import org.impalaframework.module.monitor.BaseModuleChangeListenerTest;
+import org.impalaframework.module.monitor.DefaultModuleRuntimeMonitorTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorBeanTest;
 import org.impalaframework.module.monitor.ScheduledModuleChangeMonitorTest;
 import org.impalaframework.module.operation.AddModuleOperationTest;
@@ -252,6 +253,7 @@ public class AutomatedAntTests {
         suite.addTestSuite(ContributionMapTest.class);
         suite.addTestSuite(DateValueTest.class);
         suite.addTestSuite(DefaultClassFilterTest.class);
+        suite.addTestSuite(DefaultModuleRuntimeMonitorTest.class); 
         suite.addTestSuite(DefaultFrameworkLockHolderTest.class);
         suite.addTestSuite(DefaultModuleRuntimeManagerTest.class);
         suite.addTestSuite(DelegateClassLoaderFactoryTest.class);
