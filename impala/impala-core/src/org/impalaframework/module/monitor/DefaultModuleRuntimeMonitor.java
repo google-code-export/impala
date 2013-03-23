@@ -43,6 +43,8 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
     private ModuleLocationResolver moduleLocationResolver;
     
     private ModuleChangeMonitor moduleChangeMonitor;
+    
+    private Boolean enforceReloadability;
 
     /**
      * Nothing to do, as monitored module resources are already in correct location.
@@ -58,18 +60,39 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
      */
     public final void afterModuleLoaded(ModuleDefinition definition) {
         if (moduleChangeMonitor != null) {
+        	
+        	boolean reloadable = moduleIsReloadable(definition);
+        	
+        	if (reloadable) {
+        		
+        		if (logger.isInfoEnabled()) {
+        			logger.info("Setting up auto-reloading for module " + definition.getName());
+        		}
 
-            final String moduleName = definition.getName();
-            final List<Resource> locations = getLocations(moduleName);
-            final List<Resource> monitorableLocations = getMonitorableLocations(definition, locations);
+	            final String moduleName = definition.getName();
+	            final List<Resource> locations = getLocations(moduleName);
+	            final List<Resource> monitorableLocations = getMonitorableLocations(definition, locations);
+	            
+	            if (logger.isDebugEnabled()) {
+	                logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
+	            }
+	            
+	            moduleChangeMonitor.setResourcesToMonitor(moduleName, monitorableLocations.toArray(new Resource[0]));
             
-            if (logger.isDebugEnabled()) {
-                logger.debug("Monitoring resources " + monitorableLocations + " using ModuleChangeMonitor " + moduleChangeMonitor);
-            }
-            
-            moduleChangeMonitor.setResourcesToMonitor(moduleName, monitorableLocations.toArray(new Resource[0]));
+        	} else {
+        		
+        		if (logger.isInfoEnabled()) {
+        			logger.info("No reloading to be set up for module " + definition.getName() + 
+        					". Reloadable: " + definition.isReloadable() + ". Enforced " + enforceReloadability);
+        		}
+        		
+        	}
         }
     }
+
+	boolean moduleIsReloadable(ModuleDefinition definition) {
+		return (!Boolean.TRUE.equals(enforceReloadability) || definition.isReloadable());
+	}
     
     protected List<Resource> getMonitorableLocations(ModuleDefinition definition, List<Resource> classLocations) {
         return classLocations;
@@ -87,4 +110,8 @@ public class DefaultModuleRuntimeMonitor implements ModuleRuntimeMonitor {
     public void setModuleChangeMonitor(ModuleChangeMonitor moduleChangeMonitor) {
         this.moduleChangeMonitor = moduleChangeMonitor;
     }
+    
+    public void setEnforceReloadability(Boolean enforceReloadability) {
+		this.enforceReloadability = enforceReloadability;
+	}
 }
