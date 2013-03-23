@@ -17,6 +17,13 @@ package org.impalaframework.module.monitor;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 
+/**
+ * Extends {@link ScheduledModuleChangeMonitor}, adding implementations of the
+ * Spring-specific life cycle methods {@link InitializingBean} and
+ * {@link DisposableBean}
+ * 
+ * @author Phil Zoio
+ */
 public class ScheduledModuleChangeMonitorBean extends ScheduledModuleChangeMonitor implements InitializingBean, DisposableBean {
 
     public void afterPropertiesSet() throws Exception {
