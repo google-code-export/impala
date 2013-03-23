@@ -146,8 +146,9 @@ public class XMLDomUtils {
         if (!xsdResource.exists()) {
             throw new ExecutionException("Cannot validate document as xsdResource '" + xsdResource + "' does not exist");
         } else {
-            System.out.println("Validating using schema resource " + xsdResource.getDescription());
-            logger.debug("Validating using schema resource " + xsdResource.getDescription());
+        	if (logger.isDebugEnabled()) {
+        		logger.debug("Validating using schema resource " + xsdResource.getDescription());
+        	}
         }
         
         SchemaFactory factory = 
