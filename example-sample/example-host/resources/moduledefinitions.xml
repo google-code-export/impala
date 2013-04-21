@@ -3,6 +3,7 @@
       xsi:schemaLocation=
       	"http://www.impalaframework.org/schema/moduledefinition http://impala.googlecode.com/svn/schema/moduledefinition.xsd">
     <names>
+    #### This is a comment
     example-hibernate
     example-dao
     example-optional
