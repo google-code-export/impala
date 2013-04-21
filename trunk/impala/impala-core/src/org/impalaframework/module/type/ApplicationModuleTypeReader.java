@@ -108,7 +108,7 @@ public class ApplicationModuleTypeReader implements TypeReader {
             Map<String, String> attributes, 
             String runtime, 
             Collection<String> capabilities, boolean reloadable) {
-        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, runtime, capabilities, reloadable);
+        return new SimpleModuleDefinition(parent, moduleName, type, locationsArray, dependencyNames, optionalDependencyNames, attributes, capabilities, runtime, reloadable);
     }
 
 }
