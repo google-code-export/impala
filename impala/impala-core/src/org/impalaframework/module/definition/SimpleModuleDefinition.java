@@ -48,8 +48,8 @@ public class SimpleModuleDefinition extends BaseModuleDefinition {
             String[] mandatoryDependencies, 
             String[] optionalDependencies, 
             Map<String, String> attributes, 
-            String runtime, 
             Collection<String> capabilities, 
+            String runtime, 
             boolean reloadable) {
         super(parent, name, type, configLocations, mandatoryDependencies, optionalDependencies, attributes, runtime, capabilities, reloadable);
     }
