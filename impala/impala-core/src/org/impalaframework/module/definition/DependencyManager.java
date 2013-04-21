@@ -169,8 +169,9 @@ public class DependencyManager implements Freezable {
         
         final Collection<Vertex> vertices = dependents.get(name);
         
-        if (vertices == null) 
+        if (vertices == null) {
             return Collections.emptySet();
+        }
         
         List<ModuleDefinition> moduleDefinitions = getVerticesForModuleDefinitions(vertices);   
         
