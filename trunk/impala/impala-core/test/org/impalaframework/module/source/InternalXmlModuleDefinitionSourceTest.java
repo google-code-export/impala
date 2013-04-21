@@ -15,6 +15,7 @@
 package org.impalaframework.module.source;
 
 import java.util.Arrays;
+import java.util.List;
 
 import junit.framework.TestCase;
 
@@ -22,7 +23,6 @@ import org.impalaframework.exception.ConfigurationException;
 import org.impalaframework.module.ModuleDefinition;
 import org.impalaframework.module.RootModuleDefinition;
 import org.impalaframework.module.definition.ModuleTypes;
-import org.impalaframework.module.source.InternalXmlModuleDefinitionSource;
 import org.impalaframework.resolver.StandaloneModuleLocationResolver;
 import org.springframework.core.io.ClassPathResource;
 
@@ -35,6 +35,26 @@ public class InternalXmlModuleDefinitionSourceTest extends TestCase {
         super.setUp();
         moduleDefinitionSource = new InternalXmlModuleDefinitionSource(new StandaloneModuleLocationResolver());
     }
+    
+    public void testGetModuleNames() throws Exception {
+		String[] moduleNames = moduleDefinitionSource.getModuleNames(" name1, name2\tname3\n #commented name4\r\nname5, name6 ");
+		System.out.println(Arrays.asList(moduleNames));
+		assertEquals(5, moduleNames.length);
+		
+		assertEquals("name1", moduleNames[0]);
+		assertEquals("name2", moduleNames[1]);
+		assertEquals("name3", moduleNames[2]);
+		assertEquals("name5", moduleNames[3]);
+		assertEquals("name6", moduleNames[4]);
+	}
+    
+    public void testUncommentedNames() throws Exception {
+		List<String> uncommentedNames = moduleDefinitionSource.uncommentedLines(Arrays.asList("name1", "#commented 1", "name2", " #commented 2"));
+		assertEquals(2, uncommentedNames.size());
+		
+		assertEquals("name1", uncommentedNames.get(0));
+		assertEquals("name2", uncommentedNames.get(1));
+	}
     
     public void testGetModuleDefinitionGraph() {
         moduleDefinitionSource.setResource(new ClassPathResource("xmlinternal/modulegraph.xml"));

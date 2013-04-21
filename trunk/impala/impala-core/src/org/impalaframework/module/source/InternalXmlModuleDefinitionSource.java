@@ -14,6 +14,9 @@
 
 package org.impalaframework.module.source;
 
+import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -25,6 +28,7 @@ import org.impalaframework.module.spi.TypeReader;
 import org.impalaframework.module.type.TypeReaderRegistry;
 import org.impalaframework.module.type.TypeReaderRegistryFactory;
 import org.impalaframework.resolver.ModuleLocationResolver;
+import org.impalaframework.util.FileUtils;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 import org.springframework.util.xml.DomUtils;
@@ -76,9 +80,31 @@ public class InternalXmlModuleDefinitionSource extends BaseXmlModuleDefinitionSo
         }
         
         String value = namesElement.getTextContent();
-        String[] moduleNames = StringUtils.tokenizeToStringArray(value, " ,\n\r", true, true);
-        return moduleNames;
+        return getModuleNames(value);
     }
+
+	String[] getModuleNames(String value) {
+		List<String> lines = FileUtils.readLines(new StringReader(value));
+        List<String> uncommentedLines = uncommentedLines(lines);
+        StringBuffer text = new StringBuffer();
+        for (String string : uncommentedLines) {
+			text.append(string).append("\n");
+		}
+        
+        String[] moduleNames = StringUtils.tokenizeToStringArray(text.toString(), " ,\n\r\t", true, true);
+        return moduleNames;
+	}
+
+	List<String> uncommentedLines(Collection<String> moduleNames) {
+		List<String> list = new ArrayList<String>();
+        for (String name : moduleNames) {
+			name = name.trim();
+			if (!name.startsWith("#")) {
+				list.add(name);
+			}
+		}
+        return list;
+	}
     
     
     private void readChildDefinitions(Element element, Map<String, Properties> moduleProperties) {
