@@ -51,18 +51,7 @@ public class WebModuleReloader implements ServletContextAware {
     public String reloadModules() {
         
         try {
-			Assert.notNull(servletContext);
-
-			ModuleManagementFacade facade = getFacade();
-			ModuleDefinitionSource source = getSource();
-			Application application = getApplication(facade);
-
-			ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
-			
-			ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
-			operation.execute(application, moduleOperationInput);
-			
-			return "Successfully reloaded module definition";
+			return doReloadModules();
         }
         catch (Throwable e) {
         	logger.error(e);
@@ -92,6 +81,21 @@ public class WebModuleReloader implements ServletContextAware {
             return ExceptionUtils.getStackTrace(e);
         }
     }
+
+	String doReloadModules() {
+		Assert.notNull(servletContext);
+
+		ModuleManagementFacade facade = getFacade();
+		ModuleDefinitionSource source = getSource();
+		Application application = getApplication(facade);
+
+		ModuleOperationInput moduleOperationInput = new ModuleOperationInput(source, null, null);
+		
+		ModuleOperation operation = facade.getModuleOperationRegistry().getOperation(ModuleOperationConstants.ReloadRootModuleOperation);
+		operation.execute(application, moduleOperationInput);
+		
+		return "Successfully reloaded module definition";
+	}
 
     private Application getApplication(ModuleManagementFacade facade) {
         ApplicationManager applicationManager = facade.getApplicationManager();

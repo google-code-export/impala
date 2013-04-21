@@ -102,7 +102,7 @@ public class WebModuleReloaderTest extends TestCase {
 
         replayMocks();
         try {
-            reloader.reloadModules();
+            reloader.doReloadModules();
             fail();
         }
         catch (ConfigurationException e) {
@@ -117,7 +117,7 @@ public class WebModuleReloaderTest extends TestCase {
 
         replayMocks();
         try {
-            reloader.reloadModules();
+            reloader.doReloadModules();
             fail();
         }
         catch (ConfigurationException e) {
