@@ -54,9 +54,9 @@ public class ModuleProxyFilter extends BaseModuleProxyFilter {
         
         HttpServiceInvoker invoker = ObjectUtils.cast(attribute, HttpServiceInvoker.class);
         
-        if (logger.isInfoEnabled()) {
+        if (logger.isDebugEnabled()) {
             if (invoker != null) {
-                logger.info("Invoker for attribute '" + attributeName + "': " + invoker);
+                logger.debug("Invoker for attribute '" + attributeName + "': " + invoker);
             }
             else {
                 if (logger.isDebugEnabled()) logger.debug("No invoker found for attribute '" + attributeName);
