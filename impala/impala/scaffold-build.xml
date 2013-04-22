@@ -40,7 +40,7 @@
     </target>
     
     <target name="scaffold:input-spring-version" unless="spring.version">
-        <input message="Please enter Spring version (e.g. 2.5.6, 3.0.1.RELEASE):" addproperty="spring.version" defaultvalue="2.5.6"/>
+        <input message="Please enter Spring version (e.g. 3.2.2.RELEASE):" addproperty="spring.version" defaultvalue="3.2.2.RELEASE"/>
     </target>  
     
     <target name="scaffold:input-test-project" unless="test.project.name">
