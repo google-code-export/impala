@@ -88,7 +88,7 @@ An example is the module configuration for the [[SamplesWebframework web framewo
 The snippet above shows an example of the contents of the _moduledefintions.xml_ file, which used for 
 setting up the module hierarchy in a web application.
 
-*_reloadable_*: By default a module is reloadable, provide a mechanism is provide through the runtime environment to support this
+*_reloadable_* (from 1.0.3): By default a module is reloadable, provide a mechanism is provide through the runtime environment to support this
 (normally via auto-reloading or via JMX).
 
 For some environments, its useful to be able to turn off reloading for specific modules.

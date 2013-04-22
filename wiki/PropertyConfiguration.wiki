@@ -98,7 +98,7 @@ to reload partially modified module jar files.
 Together with the use of the touch file, the temp file mechanism allows for a robust auto-reload
 mechanism.
 
-*impala-embedded.properties*: if set to `true`, then any module for with the _module.property_ entry 
+*enforce.reloadability* (from 1.0.3): if set to `true`, then any module for with the _module.property_ entry 
 `reloadable=false`, and any of its ancestors/dependencies, is not subject to auto-reloading (nor can it it 
 be explicitly reloaded via JMX).
 ----
