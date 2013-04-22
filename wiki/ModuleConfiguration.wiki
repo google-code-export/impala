@@ -75,15 +75,20 @@ An example is the module configuration for the [[SamplesWebframework web framewo
 {{{
 <parent>
 	<names>
+	#The root module
 	webframeworks
 	webframeworks-service
+	
+	#Web modules
 	webframeworks-web
 	webframeworks-struts
 	webframeworks-wicket
 	webframeworks-tapestry5
 	</names>
 </parent>
-}}} 
+}}}
+
+Note that from 1.0.3 the `#This is a comment` syntax can be used for comments as shown in the example above.
 
 The snippet above shows an example of the contents of the _moduledefintions.xml_ file, which used for 
 setting up the module hierarchy in a web application.
