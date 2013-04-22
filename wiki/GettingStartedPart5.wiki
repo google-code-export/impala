@@ -8,7 +8,8 @@ Impala comes with some built-in support for build automation. Controversially to
 
 == Build setup ==
 
-If you're happy to live without Impala's build support, you can simply add the Impala jars into your project's jar repository and forget about any of the other files that come with the Impala distribution. In order to use the Impala build system, you will need to download the Impala distribution. The current snapshot can be found at [http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip here]. As we recall from [GettingStartedPart1 part one], you will need to download and unzip this distribution, and set your `IMPALA_HOME` environment variable to point to the unzipped contents folder. 
+If you're happy to live without Impala's build support, you can simply add the Impala jars into your project's jar repository and forget about any of the other files that come with the Impala distribution. In order to use the Impala build system, you will need to download the Impala distribution. 
+The latest release can be downloaded [http://code.google.com/p/impala/downloads/list from the project site]. As we recall from [GettingStartedPart1 part one], you will need to download and unzip this distribution, and set your `IMPALA_HOME` environment variable to point to the unzipped contents folder. 
 
 == Getting library dependencies ==
 
@@ -24,28 +25,38 @@ Obtaining third party dependencies is a three step process:
 In the generated sample application, the _dependencies.txt_ in the _main_ project looks as follows:
 
 {{{
-main from commons-logging:commons-logging:1.1
-main from log4j:log4j:1.2.13
-main from org.springframework:spring:2.5.5
-main from cglib:cglib-nodep:2.1_3
-test from junit:junit:3.8.1
-test from org.easymock:easymock:2.2 
-test from org.easymock:easymockclassextension:2.2
+compile from org.slf4j:jcl-over-slf4j:1.5.8
+compile from log4j:log4j:1.2.15
+compile from org.springframework:spring-core:3.2.2.RELEASE
+compile from org.springframework:spring-beans:3.2.2.RELEASE
+compile from org.springframework:spring-context:3.2.2.RELEASE
+compile from org.springframework:spring-context-support:3.2.2.RELEASE
+compile from org.springframework:spring-aop:3.2.2.RELEASE
+compile from org.springframework:spring-expression:3.2.2.RELEASE
+compile from org.springframework:spring-web:3.2.2.RELEASE
+compile from aopalliance:aopalliance:1.0
+runtime from cglib:cglib-nodep:2.2
+runtime from org.slf4j:slf4j-api:1.5.8
+runtime from org.slf4j:slf4j-log4j12:1.5.8
+test from junit:junit:3.8.2
+test from org.easymock:easymock:2.4 
+test from org.easymock:easymockclassextension:2.4
 }}}
 
 The  _dependencies.txt_ in the _web_ project contains the following entries:
 
 {{{
-web from org.springframework:spring-webmvc:2.5.5
-web from servletapi:servletapi:2.4 source = "false"
-web from jspapi:jsp-api:2.0 source = "false"
-jetty from org.mortbay.jetty:jetty:6.1.1
-jetty from org.mortbay.jetty:jetty-util:6.1.1
-jetty from tomcat:jasper-runtime:5.5.15 source = "false"
-jetty from tomcat:jasper-compiler:5.5.15 source = "false"
-jetty from tomcat:jasper-compiler-jdt:5.5.15 source = "false"
-jetty from xerces:xercesImpl:2.8.1
-jetty from commons-el:commons-el:1.0
+compile from org.springframework:spring-webmvc:3.2.2.RELEASE
+provided from javax.servlet:servlet-api:2.5
+provided from javax.servlet.jsp:jsp-api:2.1
+provided from org.mortbay.jetty:jetty:6.1.21
+provided from org.mortbay.jetty:jetty-util:6.1.21
+provided from org.apache.tomcat:jasper:6.0.20
+provided from org.apache.tomcat:jasper-el:6.0.20
+provided from org.apache.tomcat:jasper-jdt:6.0.20
+provided from org.apache.tomcat:juli:6.0.20
+provided from xerces:xercesImpl:2.9.1
+provided from commons-el:commons-el:1.0
 }}}
 
 Consider the entry 
@@ -64,13 +75,13 @@ If you've gone to the trouble of downloading the Impala distribution and setting
 ant fetch
 }}}
 
-== Main project build file ==
+== Build project build file ==
 
-Let's take a look at the _main_ project build file which you get with the generated quickstart application:
+Let's take a look at the _build_ project build file which you get with the generated quickstart application:
 
 {{{
 <?xml version="1.0"?>
-<project name="Build build" basedir=".">    
+<project name="Build build" basedir="."> 
     
     <property environment="env"/>
     <property name = "workspace.root" location = ".."/>
@@ -78,9 +89,10 @@ Let's take a look at the _main_ project build file which you get with the genera
 
     <echo>Project using workspace.root: ${workspace.root}</echo>
     <echo>Project using impala home: ${impala.home}</echo>
-    
+
     <property file = "build.properties"/>
     <property file = "web.properties"/>
+    <property file = "shared.properties"/>
     
     <import file = "${impala.home}/project-build.xml"/>
     <import file = "${impala.home}/shared-build.xml"/>
@@ -104,33 +116,39 @@ Let's take a look at the _main_ project build file which you get with the genera
 
 As you can see, there is not much to it. Most of the entries are to define environment properties and to import helper build scripts from the Impala home directory. There are also a few convenience targets towards the end of the script.
 
-In addition, there are two property files which locally define properties used for the build. Lets look at _build.properties_ first:
+In addition, there are three property files which locally define properties used for the build. 
 
+The first two are _build.properties_ and _shared.properties_ first:
+
+build.properties:
 {{{
-base.repository.urls=file://${user.home}/.m2/repository,http://ibiblio.org/pub/packages/maven2/
-project.name=main
-repository.dir=${workspace.root}/repository
+project.name=build
 project.list=main,module1,web
-web.project.list=web
-project.version=1.0
+web.project.list=host
 #uncomment to run in debug mode
 #run.jvm.args=-Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=y
 #test.jvm.args=-Xrunjdwp:transport=dt_socket,server=y,address=8000,suspend=y
-test.jvm.args=
+}}}
+
+shared:properties
+{{{
+base.repository.urls=file://${user.home}/.m2/repository,http://repo1.maven.org/maven2/,http://ibiblio.org/pub/packages/maven2/
+project.version=1.0
+repository.dir=${workspace.root}/repository
 }}}
 
 These properties are useful, because they control aspects of the build. For example:
   * `base.repository.urls`: controls the maven repository locations used in the `get` target described earlier. Note that we have specified locations for both the remote as well as the local Maven repositories.
   * `project.list`: denotes the projects which are controlled by the main build file.
 
-The second locally defined properties file is _web.properties_, shown below:
+The third locally defined properties file is _web.properties_, shown below:
 
 {{{
-webapp.project.name=web
+webapp.project.name=host
 context.path=/${webapp.project.name}
 context.dir=../${webapp.project.name}/context
 webapp.port=8080
-tomcat.home=${env.TOMCAT_HOME}/webapps
+tomcat.home=${env.TOMCAT_HOME}
 }}}
 
 A recommended approach is to set the `TOMCAT_HOME` environment variable to your Tomcat installation directory.
@@ -181,22 +199,28 @@ WEB-INF/classes:
     moduledefinitions.xml
 
 WEB-INF/lib:
-    cglib-nodep-2.1_3.jar        
-    easymockclassextension-2.2.jar    
-    impala-interactive-1.0-SNAPSHOT.jar    
-    junit-3.8.1.jar            
-    servletapi-2.4.jar        
-    startjetty.jar
-    commons-logging-1.1.jar        
-    impala-build-1.0-SNAPSHOT.jar    
-    impala-web-1.0-SNAPSHOT.jar        
-    launcher.jar            
-    spring-2.5.5.jar
-    easymock-2.2.jar        
-    impala-core-1.0-SNAPSHOT.jar    
-    jsp-api-2.0.jar            
-    log4j-1.2.13.jar        
-    spring-webmvc-2.5.5.jar
+	spring-core-3.2.2.RELEASE.jar
+	spring-context-3.2.2.RELEASE.jar
+	spring-webmvc-3.2.2.RELEASE.jar
+	spring-web-3.2.2.RELEASE.jar
+	spring-beans-3.2.2.RELEASE.jar
+	impala-core-1.0.3.jar
+	log4j-1.2.15.jar
+	spring-aop-3.2.2.RELEASE.jar
+	cglib-nodep-2.2.jar
+	spring-expression-3.2.2.RELEASE.jar
+	impala-web-1.0.3.jar
+	spring-context-support-3.2.2.RELEASE.jar
+	impala-interactive-1.0.3.jar
+	impala-build-1.0.3.jar
+	impala-command-1.0.3.jar
+	slf4j-api-1.5.8.jar
+	jcl-over-slf4j-1.5.8.jar
+	impala-jmx-1.0.3.jar
+	slf4j-log4j12-1.5.8.jar
+	launcher.jar
+	startjetty.jar
+	aopalliance-1.0.jar
 
 WEB-INF/modules:
     main-1.0.jar        

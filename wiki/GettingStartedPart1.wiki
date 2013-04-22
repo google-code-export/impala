@@ -6,23 +6,23 @@ This page tells you how to build your first Impala project, creating an Impala w
 
 == Downloading the Distribution ==
 
-First, start by downloading the latest snapshot distribution of Impala from the subversion repository.
+First, start by downloading the latest Impala distribution release from the project site.
 
 {{{
-http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
+http://code.google.com/p/impala/downloads/list
 }}}
 
 You can do this via the web browser. From Linux or Mac OSX you may find it more convenient to use curl.
 
 {{{
 cd ~
-curl -o impala-1.0-SNAPSHOT.zip http://impala.googlecode.com/svn/trunk/impala/impala/dist/impala-1.0-SNAPSHOT.zip
+curl -o impala-1.0.3.zip http://impala.googlecode.com/files/impala-1.0.3.zip
 }}}
 
 You can then unzip the Impala distribution:
 
 {{{
-unzip impala-1.0-SNAPSHOT.zip
+unzip impala-1.0.3.zip
 }}}
 
 == Generating New Project Artifacts ==
@@ -30,7 +30,7 @@ unzip impala-1.0-SNAPSHOT.zip
 Once you've unzipped Impala, set the IMPALA_HOME environment property.
 
 {{{
-IMPALA_HOME=~/impala-1.0-SNAPSHOT
+IMPALA_HOME=~/impala-1.0.3
 export IMPALA_HOME
 }}}
 
@@ -86,7 +86,7 @@ scaffold:input-web-project:
 
 
 scaffold:input-spring-version:
-    [input] Please enter Spring version (e.g. 2.5.6, 3.0.1.RELEASE): [2.5.6]
+    [input] Please enter Spring version (e.g. 3.2.2.RELEASE): [3.2.2.RELEASE]
 
 
 scaffold:input-test-project:
@@ -112,7 +112,7 @@ scaffold:newproject-confirm:
      [echo] Main (root) project name: main
      [echo] First application module project name: module1
      [echo] Web project name: web
-     [echo] Spring version: 2.5.6
+     [echo] Spring version: 3.2.2.RELEASE
      [echo] Tests project name: test
      [echo] Repository project name: repository
      [echo] Servlet API version: 2.5 (Please consult http://code.google.com/p/impala/wiki/WebServlet24 if you need to work with the Servlet 2.4 API)
@@ -152,7 +152,7 @@ The fetch target will copy the Impala libraries into the repository project of t
 ant fetch
 Buildfile: build.xml
      [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-     [echo] Project using impala home: /Users/philzoio/impala-1.0-SNAPSHOT
+     [echo] Project using impala home: /Users/philzoio/impala-1.0.3
 
 repository:fetch-impala-from-lib:
      [copy] Copying 22 files to /Users/philzoio/workspaces/newproject/repository/main
@@ -173,7 +173,7 @@ The get command downloads the necessary third party libraries, as defined using 
 ant get
 Buildfile: build.xml
      [echo] Project using workspace.root: /Users/philzoio/workspaces/newproject
-     [echo] Project using impala home: /Users/philzoio/impala-1.0-SNAPSHOT
+     [echo] Project using impala home: /Users/philzoio/impala-1.0.3
 
 shared:get:
 
