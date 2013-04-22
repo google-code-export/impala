@@ -88,6 +88,32 @@ An example is the module configuration for the [[SamplesWebframework web framewo
 The snippet above shows an example of the contents of the _moduledefintions.xml_ file, which used for 
 setting up the module hierarchy in a web application.
 
+*_reloadable_*: By default a module is reloadable, provide a mechanism is provide through the runtime environment to support this
+(normally via auto-reloading or via JMX).
+
+For some environments, its useful to be able to turn off reloading for specific modules.
+For example, for a large application, we probably don't want to support reloading of the entire module 
+tree on a live server. However, it might be useful to support reloading specific modules.
+
+To turn off reloading for a module, use the following entry in _module.properties_.
+
+{{{
+reloadable=false
+}}}
+
+Note that if a module is not-reloadable, then any ancestors or dependency modules are not reloadable. 
+This rule, enforced implicitly and automatically, is in place because any module which reloads needs to be able to reload its descendents. 
+
+There is one configuration setting that needs to apply to turn on selective reloading of modules:
+the Impala configuration property `enforce.reloadability` needs to be set to true. This occurs by default, but can be turned off.
+
+Typical for development enviroments, selective reloadability of modules would not need to apply - it is a feature that would typically
+be more useful in a production environment. For this reason, a typical configuration might have `enforce.reloadability`
+set to true only for production.
+
+Note that if any module is not reloadable, then it auto-reloading for that module will automatically be disabled.
+Also, attempting to reload the module explicitly via JMX will result in an error being reported to the user.
+
 == External Configuration ==
 
 While the internal configuration is generally pretty convenient, there are times 
