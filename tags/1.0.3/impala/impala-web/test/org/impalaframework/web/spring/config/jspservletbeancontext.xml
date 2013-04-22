@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.impalaframework.org/schema/web http://impala.googlecode.com/svn/schema/web.xsd">
+    
+    <web:jsp-servlet id = "jspServlet"/>
+    
+    <!-- Show that jsp-servlet can be used to set up regular servlet too - not that you would want to -->
+    <web:jsp-servlet id = "myServlet2"
+        servletClass = "org.impalaframework.web.spring.config.MyServlet2" 
+        factoryClass = "org.impalaframework.web.spring.config.ExtendedServletFactoryBean" 
+        initParameters = "initParam=initValue">
+        <property name = "extraAttribute" value = "extraValue"/>
+    </web:jsp-servlet> 
+
+</beans>

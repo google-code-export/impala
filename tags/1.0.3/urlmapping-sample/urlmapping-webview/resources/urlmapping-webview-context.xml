@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:web="http://www.impalaframework.org/schema/web"
+       xmlns:service="http://www.impalaframework.org/schema/service"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+http://www.impalaframework.org/schema/web 
+http://impala.googlecode.com/svn/schema/web.xsd
+http://www.impalaframework.org/schema/service 
+http://impala.googlecode.com/svn/schema/service-registry.xsd">
+    
+    <import resource="urlmapping-web-common.xml"/>
+
+    <web:mapping>
+        <web:to-module prefix = "/webview" setContextPath="true"/> 
+        <web:to-handler extension = "htm" servletName="urlmapping-webview" filterNames = "characterEncodingFilter,sysoutLoggingFilter"/>
+        <web:to-handler extension = "css" servletName="urlmapping-resources"/>
+    </web:mapping>    
+       
+    <web:servlet id = "urlmapping-webview"/>
+        
+    <web:servlet id = "urlmapping-resources" 
+        servletClass = "org.impalaframework.web.servlet.ResourceServlet"
+        initParameters = "cacheTimeout=10"/>
+        
+    <web:filter id = "characterEncodingFilter" 
+        filterClass = "org.springframework.web.filter.CharacterEncodingFilter" 
+        initParameters = "forceEncoding=true,encoding=utf8">
+    </web:filter>
+    
+    <web:filter id = "sysoutLoggingFilter" 
+        filterClass = "org.impalaframework.urlmapping.webview.SysoutLoggingFilter">
+    </web:filter>
+        
+    <!-- This optional declaration simply makes the parent bean relationship explicit -->
+    <service:parent id="messageService"/> 
+    
+    <!-- add your controllers etc. here -->
+    
+    <bean class="org.impalaframework.urlmapping.webview.MessageViewController">
+        <property name = "messageService" ref = "messageService"/>
+    </bean>
+
+</beans>

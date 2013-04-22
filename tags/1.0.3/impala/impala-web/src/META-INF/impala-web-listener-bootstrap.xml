@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="useTouchFile" parent = "propertyParent">
+         <property name="name" value="use.touch.file"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.USE_TOUCH_FILE_DEFAULT]"/>
+    </bean>
+
+    <bean id="touchFile" parent = "propertyParent">
+         <property name="name" value="touch.file"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.TOUCH_FILE_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployCheckInterval" parent = "propertyParent">
+         <property name="name" value="auto.reload.check.interval"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_INTERVAL_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployCheckDelay" parent = "propertyParent">
+         <property name="name" value="auto.reload.check.delay"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_CHECK_DELAY_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployMonitoringType" parent = "propertyParent">
+         <property name="name" value="auto.reload.monitoring.type"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_MONITORING_TYPE_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployFileIncludes" parent = "propertyParent">
+         <property name="name" value="auto.reload.extension.includes"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_INCLUDES_DEFAULT]"/>
+    </bean>
+
+    <bean id="autoDeployFileExcludes" parent = "propertyParent">
+         <property name="name" value="auto.reload.extension.excludes"/>
+         <property name="defaultValue" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_FILE_EXCLUDES_DEFAULT]"/>
+    </bean>
+        
+    <bean id="scheduledModuleChangeMonitor"
+        class="org.impalaframework.web.module.listener.WebScheduledModuleChangeMonitorBean">
+        <property name="modificationListeners">
+            <list>
+                <bean
+                    class="org.impalaframework.web.module.listener.WebModuleChangeListener" />
+            </list>
+        </property>
+        <property name="useTouchFile" ref="useTouchFile" />
+        <property name="touchFile" ref="touchFile" />
+        <property name="checkInterval" ref="autoDeployCheckInterval" />
+        <property name="initialDelay" ref="autoDeployCheckDelay" />
+        <property name="autoReloadFileIncludes" ref="autoDeployFileIncludes" />
+        <property name="autoReloadFileExcludes" ref="autoDeployFileExcludes" />
+    </bean>
+    
+    <bean id="defaultModuleRuntimeMonitor" 
+        class="org.impalaframework.module.monitor.DefaultModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+        <property name="enforceReloadability" ref="enforceReloadability" />
+    </bean>
+    
+    <bean id="tmpfileModuleRuntimeMonitor" 
+        class="org.impalaframework.web.module.monitor.TempFileModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+    </bean>    
+    
+    <bean id="stagingDirectoryModuleRuntimeMonitor" 
+        class="org.impalaframework.web.module.monitor.StagingDirectoryFileModuleRuntimeMonitor">
+        <property name="moduleLocationResolver" ref="moduleLocationResolver" />
+        <property name="moduleChangeMonitor" ref="scheduledModuleChangeMonitor" />
+        <property name="stagingDirectory" value="constant:[org.impalaframework.web.bootstrap.WebBootstrapProperties.AUTO_RELOAD_STAGING_DIRECTORY_DEFAULT]"/>
+    </bean>
+    
+    <bean id="moduleRuntimeMonitor" 
+        class="org.impalaframework.spring.bean.NamedFactoryBean">
+        <property name="beanName" ref="autoDeployMonitoringType" />
+        <property name="suffix" value="ModuleRuntimeMonitor" />
+    </bean> 
+    
+    <bean id="baseModuleRuntime" abstract="true">
+        <property name="moduleRuntimeMonitor" ref="moduleRuntimeMonitor" />
+    </bean>
+
+</beans>

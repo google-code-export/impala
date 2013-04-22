@@ -1,0 +1,153 @@
+<?xml version="1.0"?>
+<project name="Main Impala build file" basedir="." default="all">
+        
+    <property name = "workspace.root" location = ".."/>
+    <property name = "impala.home" location = "${workspace.root}/impala"/>
+    
+    <!-- this is needed for some of the imported targets -->
+    <mkdir dir = "${impala.home}/lib"/>
+
+    <property name = "project.list" value = "impala-build,impala-core,impala-command,impala-jmx,impala-web,impala-interactive"/>
+    <property name = "maven.artifacts" value = "${project.list}"/>
+    <property name = "deployable.project.list" value = "${maven.artifacts},impala-osgi,impala-osgi-extender,impala-osgi-test"/>   
+    <property name = "all.project.list" value = "${deployable.project.list},sample-module1,sample-module2,sample-module3,sample-module4"/>
+    <property name = "maven.organisation" value = "org.impalaframework"/>
+    <import file="shared-build.xml" />
+    <import file="tasks-build.xml" />
+    <import file="dist-build.xml" />
+    <import file="target-build.xml" />
+    
+    <!-- ######################## Main Targets #######################-->
+    
+    <target name = "nojavadoc">
+        <property name = "no.javadoc" value = "true"/>
+    </target>   
+    
+    <target name = "build"
+        description="Bootstrap build command, used to create other tasks used in build process">
+        <ant antfile="build.xml" dir = "../impala-build" target = "project:clean" inheritall = "false"/>
+        <ant antfile="build.xml" dir = "../impala-build" target = "project:jar" inheritall = "false">
+            <property name = "no.javadoc" value = "true"/>
+        </ant>
+        <ant antfile="build.xml" dir = "../impala-build" target = "project:repo" inheritall = "false">
+            <property name = "no.javadoc" value = "true"/>
+        </ant>
+    </target>
+    
+    <target name = "clean"
+        depends = "shared:init-deploy"
+        description="Removes Impala jars from ${impala.home}/lib and to local Impala repository ${repository.dir}">
+        <delete failonerror = "false" dir = "${impala.home}/lib"/>
+        <mkdir dir = "${impala.home}/lib"/>
+    </target>
+    
+    <target name = "test" 
+        depends = "shared:test"
+        description="Runs tests for all Impala projects"/>
+    
+    <target name = "get" 
+        depends = "shared:get"
+        description="Downloads dependencies for all Impala projects"/>
+        
+    <target name = "launcher" 
+        description="Runs the launcher">
+        <ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:jar" inheritall = "false"/>
+        <ant antfile="build.xml" dir = "../impala-launcher" target = "launcher:repo" inheritall = "false"/>
+    </target>
+    
+    <target name = "make" 
+        depends = "shared:all-no-test, launcher, copy"
+        description="Builds Impala jars and adds them to ${impala.home}/lib and to local Impala repository ${repository.dir}"/>
+    
+    <target name = "dist" 
+        description="Builds the releasable distribution"
+        depends = "dist:dist">
+    </target>
+    
+    <target name = "copytohome"
+        description="Builds Impala directly into the IMPALA_HOME location, but without compiling individual projects"
+        depends = "dist">
+        <ant antfile="dist-build.xml" dir = "./" target = "dist:dist-to-home" inheritall = "false">
+            <property name = "impala.home" value = "./"/>
+        </ant>
+    </target>
+    
+    <target name = "fixcrlf" 
+        depends = "shared:fixcrlf"
+        description="Fixes carriage returns and line feeds, using Unix line endings">
+        <ant antfile = "project-build.xml" target="project:fixcrlf">
+            <property name = "project.dir" value="./"/>
+        </ant>      
+    </target>
+    
+    <target name = "mvnpublish"
+        description="Publishes artifacts to local maven repository">
+        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-local" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+        </ant>
+    </target>
+    
+    <target name = "mvnpublishsign"
+        description="Publishes artifacts to local maven repository, and signs these">
+        <ant antfile="mvn-build.xml" dir = "./" target = "mvn:publish-sign-local" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+        </ant>
+    </target>
+    
+    <target name = "mvndeploy" 
+        depends = "shared:mvn-deploy"
+        description="Deploys published artifacts to Maven repository. Use -Dmaven.release=true to deploy releases">
+    </target>
+    
+    <target name = "mvnsigndeploy" 
+        depends = "shared:mvn-sign-deploy"
+        description="Deploys published artifacts to Maven repository. Will need to be signed, with .asc files for jar, sources jar and pom">
+    </target>
+    
+    <target name = "alltohome" 
+        depends = "allnoinit,copytohome,mvnpublish"
+        description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)"/>
+    
+    <target name = "tohome"
+        description="Builds Impala directly into the IMPALA_HOME location">
+        <ant target="clean"/>
+        <ant target="build"/>
+        <ant target="alltohome">
+            <property name="no.javadoc" value="true"/>
+        </ant>
+    </target>
+    
+    <target name = "release"
+        description="Builds and tags project using the property 'next.release.version' in release-build.properties"
+        depends="clean, build">
+        <ant antfile="release-build.xml" dir = "./" target = "release" inheritall = "false">
+            <property name = "maven.artifacts" value = "${maven.artifacts}"/>
+            <property name = "deployable.project.list" value = "${maven.artifacts}"/>
+            <property name = "maven.organisation" value = "${maven.organisation}"/>
+        </ant>
+    </target>
+    
+    <target name = "allnoinit" 
+        depends = "make, launcher, dist"/>
+    
+    <target name = "all"
+        description="Bootstraps, cleans and builds jars (build, clean, make, launcher, dist)">
+        <ant target="clean"/>
+        <ant target="build"/>
+        <ant target="allnoinit"/>
+    </target>
+    
+    <!-- ######################## Helper targets #######################--> 
+    
+    <target name = "copy">
+        <mkdir dir="${impala.home}/lib"/>
+        <copy todir="${impala.home}/lib" flatten="true">
+            <fileset dir="${repository.dir}/dist" 
+                includes=
+                "**/*.jar"/>
+        </copy>
+    </target>
+    
+</project>

@@ -1,0 +1,13 @@
+main from org.springframework:spring-webmvc:3.2.0.RELEASE
+
+main from aopalliance:aopalliance:1.0
+jetty from javax.servlet:servlet-api:2.5
+jetty from javax.servlet.jsp:jsp-api:2.1
+jetty from org.mortbay.jetty:jetty:6.1.21
+jetty from org.mortbay.jetty:jetty-util:6.1.21
+jetty from org.apache.tomcat:jasper:6.0.20
+jetty from org.apache.tomcat:jasper-el:6.0.20
+jetty from org.apache.tomcat:jasper-jdt:6.0.20
+jetty from org.apache.tomcat:juli:6.0.20
+jetty from xerces:xercesImpl:2.9.1
+jetty from commons-el:commons-el:1.0

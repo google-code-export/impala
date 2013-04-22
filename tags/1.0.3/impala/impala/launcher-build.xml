@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project name="Impala Launcher Build">
+        
+    <target 
+        name="launcher:bin-jar">
+        <delete failonerror="false" file="${deploy.dir}/launcher.jar"/>
+        <delete failonerror="false" file="${deploy.dir}/startjetty.jar"/>
+            
+        <jar destfile="${deploy.dir}/launcher.jar">
+            <zipfileset dir="${bin.dir}" includes="Launcher*.class, **/launcher/*.class"/>
+            <manifest>
+                <attribute name="Main-Class" value="Launcher"/>             
+            </manifest>
+        </jar>
+        <jar destfile="${deploy.dir}/startjetty.jar">
+            <zipfileset dir="${bin.dir}" includes="StartJetty*.class RunJetty*.class"/>
+            <manifest>
+                <attribute name="Main-Class" value="StartJetty"/>               
+            </manifest>
+        </jar>
+    </target>
+    
+    <target 
+        name="launcher:src-jar">
+        <delete failonerror="false" file="${deploy.dir}/launcher-sources.jar"/>
+        <delete failonerror="false" file="${deploy.dir}/startjetty-sources.jar"/>
+            
+        <jar destfile="${deploy.dir}/launcher-sources.jar">
+            <zipfileset dir="${src.dir}" includes="Launcher*.java, **/launcher/*.java"/>
+        </jar>
+        <jar destfile="${deploy.dir}/startjetty-sources.jar">
+            <zipfileset dir="${src.dir}" includes="StartJetty*.java, RunJetty*.java"/>
+        </jar>
+    </target>   
+    
+    <target 
+        name="launcher:jar"
+        depends="project:clean, project:compile, launcher:bin-jar, launcher:src-jar"/>  
+    
+    <target 
+        name="launcher:repo">
+        <copy todir="${repository.project.dir}">
+            <fileset dir="${deploy.dir}" includes = 
+                "launcher.jar, 
+                startjetty.jar, 
+                launcher-sources.jar, 
+                startjetty-sources.jar"/>
+        </copy>
+    </target>       
+    
+</project>

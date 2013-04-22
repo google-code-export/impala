@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-core"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-interactive"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-sample-dynamic"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-web"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-launcher"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-jmx"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-command"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/impala-build"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

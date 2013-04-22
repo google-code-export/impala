@@ -1,0 +1,7 @@
+<parent>
+    <names>
+    maven-main
+    maven-module
+    maven-web
+    </names>
+</parent>

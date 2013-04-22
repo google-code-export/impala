@@ -1,0 +1,6 @@
+web from org.springframework:spring-webmvc:3.2.0.RELEASE
+
+web from javax.servlet:servlet-api:2.4
+web from javax.servlet.jsp:jsp-api:2.0
+jetty from jstl:jstl:1.1.2 source=false
+jetty from taglibs:standard:1.1.2 source=false
