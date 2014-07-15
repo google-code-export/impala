@@ -532,7 +532,7 @@ public class DependencyManager implements Freezable {
             
             if (dependentVertex == null) {
                 if (!optional) {
-                    throw new InvalidStateException("Unable to dependency named named '" + dependent 
+                    throw new InvalidStateException("Unable to find entry for dependency named named '" + dependent 
                             + "' for module definition '" + moduleDefinition.getName() + "'");
                 }                
             } else {

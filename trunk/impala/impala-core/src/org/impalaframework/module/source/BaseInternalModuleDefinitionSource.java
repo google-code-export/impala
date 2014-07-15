@@ -125,6 +125,7 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
     }
     
     String[] addDependentModuleProperties(String[] moduleNames) {
+    	
         List<String> added = new ArrayList<String>();
         for (String moduleName : moduleNames) {
             final Properties properties = moduleProperties.get(moduleName);
@@ -135,8 +136,15 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
     }
 
 
-    private void addDependentModuleProperties(String moduleName,
-            Properties properties, List<String> added) {
+    private void addDependentModuleProperties(
+    		String moduleName,
+            Properties properties, 
+            List<String> added) {
+        
+        if (logger.isDebugEnabled()) {
+        	logger.debug("Checking dependencies for module " + moduleName);
+        }
+    	
         String dependsOnString = properties.getProperty(DEPENDS_ON_PROPERTY);
         if (StringUtils.hasText(dependsOnString)) {
             String[] dependents = StringUtils.tokenizeToStringArray(dependsOnString, " ,");
@@ -145,6 +153,14 @@ public abstract class BaseInternalModuleDefinitionSource implements ModuleDefini
                     Properties dependentProperties = getPropertiesForModule(dependent);
                     moduleProperties.put(dependent, dependentProperties);
                     added.add(dependent);
+                    
+                    //recursively add dependent properties
+                    
+                    if (logger.isDebugEnabled()) {
+                    	logger.debug("Adding dependent modules for " + dependent);
+                    }
+                    
+                    addDependentModuleProperties(dependent, dependentProperties, added);
                 }
             }
         }
