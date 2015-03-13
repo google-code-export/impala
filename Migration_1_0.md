@@ -1,0 +1,1 @@
+Impala 1.0 RC4 does not contain any changes which are not backwardly incompatible.
